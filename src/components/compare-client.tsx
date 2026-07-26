@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { HarnessLogo } from "@/components/harness-logo";
 import { harnesses } from "@/data/harnesses";
 import type { FeatureKey } from "@/lib/types";
 
@@ -53,7 +54,8 @@ export function CompareClient() {
                 onChange={() => toggle(harness.id)}
                 disabled={!selected.includes(harness.id) && selected.length >= 4}
               />
-              <span>
+              <HarnessLogo logo={harness.logo} name={harness.name} size="small" />
+              <span className="picker-copy">
                 <strong>{harness.name}</strong>
                 <small>{harness.category}</small>
               </span>
@@ -67,7 +69,14 @@ export function CompareClient() {
           <thead>
             <tr>
               <th>Dimension</th>
-              {chosen.map((harness) => <th key={harness!.id}>{harness!.name}</th>)}
+              {chosen.map((harness) => (
+                <th key={harness!.id}>
+                  <div className="comparison-brand">
+                    <HarnessLogo logo={harness!.logo} name={harness!.name} />
+                    <span>{harness!.name}</span>
+                  </div>
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>

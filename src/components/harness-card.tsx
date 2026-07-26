@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Harness } from "@/lib/types";
+import { HarnessLogo } from "@/components/harness-logo";
 
 export function HarnessCard({ harness, compact = false }: { harness: Harness; compact?: boolean }) {
   return (
@@ -8,8 +9,13 @@ export function HarnessCard({ harness, compact = false }: { harness: Harness; co
         <span className="pill">{harness.category}</span>
         <span className="status active">{harness.status}</span>
       </div>
-      <h3>{harness.name}</h3>
-      <p className="card-tagline">{harness.tagline}</p>
+      <div className="harness-title-row">
+        <HarnessLogo logo={harness.logo} name={harness.name} />
+        <div>
+          <h3>{harness.name}</h3>
+          <p className="card-tagline">{harness.tagline}</p>
+        </div>
+      </div>
       {!compact && <p>{harness.summary}</p>}
       {!compact && (
         <div className="tag-row">

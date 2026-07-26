@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import type { FeatureKey, InterfaceType } from "@/lib/types";
+import { HarnessLogo } from "@/components/harness-logo";
+import type { FeatureKey, HarnessLogo as HarnessLogoData, InterfaceType } from "@/lib/types";
 
 type LensKey = "all" | FeatureKey;
 
@@ -10,6 +11,7 @@ export type LensHarness = {
   id: string;
   slug: string;
   name: string;
+  logo: HarnessLogoData;
   tagline: string;
   category: string;
   interfaces: InterfaceType[];
@@ -68,7 +70,10 @@ export function HarnessLensExplorer({ harnesses }: { harnesses: LensHarness[] })
               <span>{harness.category}</span>
               <span>{harness.evidenceCount} first-party sources</span>
             </div>
-            <h3><Link href={`/harnesses/${harness.slug}`}>{harness.name}</Link></h3>
+            <div className="lens-card-title">
+              <HarnessLogo logo={harness.logo} name={harness.name} />
+              <h3><Link href={`/harnesses/${harness.slug}`}>{harness.name}</Link></h3>
+            </div>
             <p>{harness.tagline}</p>
             <dl>
               <div>

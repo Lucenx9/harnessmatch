@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { harnessBySlug, harnesses } from "@/data/harnesses";
 import { ScoreBar } from "@/components/score-bar";
+import { HarnessLogo } from "@/components/harness-logo";
 
 export const dynamicParams = false;
 
@@ -53,7 +54,10 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
               <span className="pill">{harness.category}</span>
               <span className="status active">{harness.status}</span>
             </div>
-            <h1>{harness.name}</h1>
+            <div className="profile-brand-row">
+              <HarnessLogo logo={harness.logo} name={harness.name} size="large" priority />
+              <h1>{harness.name}</h1>
+            </div>
             <p className="profile-tagline">{harness.tagline}</p>
             <p className="profile-summary">{harness.summary}</p>
             <div className="tag-row">

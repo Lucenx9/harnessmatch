@@ -30,12 +30,19 @@ export type EvidenceSource = {
   verifiedAt: string;
 };
 
+export type HarnessLogo = {
+  src: string;
+  sourceUrl: string;
+  verifiedAt: string;
+};
+
 export type Harness = {
   id: string;
   slug: string;
   name: string;
   tagline: string;
   summary: string;
+  logo: HarnessLogo;
   status: "active" | "archived";
   license: string;
   category: string;

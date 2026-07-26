@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { HarnessLogo } from "@/components/harness-logo";
 import { harnesses } from "@/data/harnesses";
 
 export const metadata: Metadata = {
@@ -27,8 +28,14 @@ export default function DataPage() {
                   <span className="status active">{harness.status}</span>
                   <span className="mono-label">{harness.verifiedAt}</span>
                 </div>
-                <h2>{harness.name}</h2>
+                <div className="evidence-product-title">
+                  <HarnessLogo logo={harness.logo} name={harness.name} />
+                  <h2>{harness.name}</h2>
+                </div>
                 <p>{harness.providerStyle}<br />{harness.license}</p>
+                <a className="logo-source-link" href={harness.logo.sourceUrl} target="_blank" rel="noreferrer">
+                  Official logo source
+                </a>
               </div>
               <div className="evidence-list">
                 {harness.evidence.map((source) => (

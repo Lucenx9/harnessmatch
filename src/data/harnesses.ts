@@ -10,6 +10,11 @@ export const harnesses: Harness[] = [
     tagline: "Polished Claude-first agent across terminal, IDE, desktop, and web.",
     summary:
       "A Claude-centric coding agent with interactive and non-interactive workflows, explicit permissions, native sandboxing, MCP, hooks, subagents, and subscription or API authentication.",
+    logo: {
+      src: "/harnesses/claude-code.png",
+      sourceUrl: "https://code.claude.com/docs/_mintlify/favicons/claude-code/pLsy-mRpNksna2sx/_generated/favicon/android-chrome-192x192.png",
+      verifiedAt,
+    },
     status: "active",
     license: "Proprietary",
     category: "Coding agent",
@@ -85,6 +90,11 @@ export const harnesses: Harness[] = [
     tagline: "Agentic coding across app, terminal, IDE, cloud, and automation.",
     summary:
       "OpenAI's coding agent with interactive and headless execution, native sandbox policies, approval controls, MCP, subagents, browser tools, and optional local open-source models through Ollama or LM Studio.",
+    logo: {
+      src: "/harnesses/codex.png",
+      sourceUrl: "https://developers.openai.com/favicon.png",
+      verifiedAt,
+    },
     status: "active",
     license: "Apache-2.0 client",
     category: "Coding agent",
@@ -160,6 +170,11 @@ export const harnesses: Harness[] = [
     tagline: "Model-agnostic coding agent with a broad, configurable surface.",
     summary:
       "An open-source coding agent available in the terminal, desktop, IDE, web, and headless modes, with many providers, local models, granular permissions, MCP, subagents, and Git-backed undo and redo.",
+    logo: {
+      src: "/harnesses/opencode.svg",
+      sourceUrl: "https://github.com/anomalyco/opencode/blob/dev/packages/ui/src/assets/favicon/favicon-v3.svg",
+      verifiedAt,
+    },
     status: "active",
     license: "MIT",
     category: "Multi-surface agent",
@@ -235,6 +250,11 @@ export const harnesses: Harness[] = [
     tagline: "Focused pair programming built around Git, diffs, and explicit control.",
     summary:
       "A mature terminal pair-programming tool with broad model support, local endpoints, Git-backed undo, a repository map, scripting, and automatic lint, test, and commit workflows.",
+    logo: {
+      src: "/harnesses/aider.png",
+      sourceUrl: "https://aider.chat/assets/icons/favicon-32x32.png",
+      verifiedAt,
+    },
     status: "active",
     license: "Apache-2.0",
     category: "Pair-programming CLI",
@@ -310,6 +330,11 @@ export const harnesses: Harness[] = [
     tagline: "Full development-agent platform with isolated workspaces.",
     summary:
       "An open platform with CLI, web, IDE, SDK, and headless surfaces; provider and local-model flexibility; MCP tools; browser use; and local, Docker, or remote execution environments.",
+    logo: {
+      src: "/harnesses/openhands.svg",
+      sourceUrl: "https://github.com/All-Hands-AI/OpenHands/blob/main/frontend/src/assets/branding/openhands-logo.svg",
+      verifiedAt,
+    },
     status: "active",
     license: "MIT core; separate enterprise terms",
     category: "Agent platform",
@@ -385,6 +410,11 @@ export const harnesses: Harness[] = [
     tagline: "Open standards, native apps, and broad workflow automation.",
     summary:
       "A native open-source agent with desktop, CLI, and API surfaces, many providers and subscriptions, MCP extensions, recipes, subagents, browser integrations, and built-in security controls including sandbox mode.",
+    logo: {
+      src: "/harnesses/goose.svg",
+      sourceUrl: "https://github.com/aaif-goose/goose/blob/main/ui/desktop/src/images/icon.svg",
+      verifiedAt,
+    },
     status: "active",
     license: "Apache-2.0",
     category: "General agent",
@@ -446,6 +476,11 @@ export const harnesses: Harness[] = [
     tagline: "Human-in-the-loop agent across IDE, terminal, and teams.",
     summary:
       "An open-source agent for IDEs and the CLI with broad provider and local-model support, MCP, browser use, checkpoints, read-only research subagents, persistent agent teams, and configurable approval workflows.",
+    logo: {
+      src: "/harnesses/cline.svg",
+      sourceUrl: "https://github.com/cline/cline/blob/main/apps/vscode/assets/icons/icon.svg",
+      verifiedAt,
+    },
     status: "active",
     license: "Apache-2.0",
     category: "IDE and CLI agent",

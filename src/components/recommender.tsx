@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { HarnessLogo } from "@/components/harness-logo";
 import { recommendHarnesses } from "@/lib/recommendation";
 import type {
   ControlStyle,
@@ -170,9 +171,12 @@ export function Recommender() {
             <div className="result-rank">#{index + 1}</div>
             <div className="result-main">
               <div className="result-title-row">
-                <div>
-                  <h3>{result.harness.name}</h3>
-                  <p>{result.harness.tagline}</p>
+                <div className="result-brand">
+                  <HarnessLogo logo={result.harness.logo} name={result.harness.name} />
+                  <div>
+                    <h3>{result.harness.name}</h3>
+                    <p>{result.harness.tagline}</p>
+                  </div>
                 </div>
                 <div className="fit-score">
                   <strong>{result.score}%</strong>

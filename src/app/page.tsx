@@ -55,6 +55,7 @@ export default function HomePage() {
             id: harness.id,
             slug: harness.slug,
             name: harness.name,
+            logo: harness.logo,
             tagline: harness.tagline,
             category: harness.category,
             interfaces: harness.interfaces,

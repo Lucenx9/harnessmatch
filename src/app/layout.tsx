@@ -25,7 +25,7 @@ const themeInit = `
 `;
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://harnessmatch.simonelucentini.chatgpt.site"),
+  metadataBase: new URL("https://harnessmatch.vercel.app"),
   title: {
     default: "HarnessMatch - Match the harness to the work",
     template: "%s | HarnessMatch",
@@ -33,6 +33,10 @@ export const metadata: Metadata = {
   description:
     "Compare AI coding harnesses by workflow fit, model access, security, autonomy, and verified capabilities.",
   applicationName: "HarnessMatch",
+  icons: {
+    icon: "/brand/harnessmatch-mark-64.png",
+    apple: "/brand/harnessmatch-mark-180.png",
+  },
   keywords: ["AI coding agents", "coding harnesses", "developer tools", "agent comparison"],
   openGraph: {
     title: "HarnessMatch - Match the harness to the work",

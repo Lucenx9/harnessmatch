@@ -17,6 +17,15 @@ This file is the visual source of truth for HarnessMatch. Page files in `pages/`
 - Theme: dark-first with a complete light theme and system-preference default
 - Visual material: flat graphite surfaces, quiet borders, one muted violet accent, real editorial imagery
 
+## Identity and product marks
+
+- HarnessMatch mark: two precision connectors interlock into an H-shaped silhouette, expressing both a wiring harness and a successful match
+- Primary asset: `/public/brand/harnessmatch-mark.png`; favicon and compact derivatives live beside it
+- Wordmark: Geist, 720 weight, with the mark always preceding the name
+- Product logos: downloaded from each vendor's official site or first-party repository and recorded in `src/data/harnesses.ts`
+- Product marks keep their original colors and sit on the same neutral light tile in both themes, avoiding trademark recoloring and dark-mode contrast failures
+- When a product name and logo appear together, the image is decorative and the adjacent text provides the accessible name
+
 ## Core tokens
 
 | Role | Dark | Light |
