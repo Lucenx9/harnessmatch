@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { harnesses } from "@/data/harnesses";
 import { HarnessLensExplorer } from "@/components/harness-lens-explorer";
 
@@ -22,17 +21,6 @@ export default function HomePage() {
               <Link className="button secondary" href="/compare">Compare harnesses</Link>
             </div>
           </div>
-          <figure className="hero-media">
-            <Image
-              src="/harness-hero.webp"
-              alt="A precision modular wiring harness with braided cables and machined connectors."
-              width={1536}
-              height={1024}
-              priority
-              fetchPriority="high"
-              sizes="(max-width: 1040px) 100vw, 48vw"
-            />
-          </figure>
         </div>
       </section>
 

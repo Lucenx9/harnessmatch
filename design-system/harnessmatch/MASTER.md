@@ -15,7 +15,7 @@ This file is the visual source of truth for HarnessMatch. Page files in `pages/`
 - Stack: Next.js App Router, React, Tailwind CSS v4, project-level CSS tokens
 - Type: Geist for interface and display, Geist Mono for metadata and numeric values
 - Theme: dark-first with a complete light theme and system-preference default
-- Visual material: flat graphite surfaces, quiet borders, one muted violet accent, real editorial imagery
+- Visual material: flat graphite surfaces, quiet borders, one muted violet accent, and first-party product marks
 
 ## Identity and product marks
 
@@ -60,7 +60,7 @@ Semantic success, warning, and danger colors are reserved for actual state. They
 
 ## Layout rules
 
-- Homepage hero uses an asymmetric text and editorial-image split
+- Homepage hero uses a left-aligned editorial manifesto layout without decorative media
 - Hero contains one eyebrow, one headline, one short description, and two distinct actions
 - Facts sit in a dedicated strip below the hero
 - The homepage directory uses capability lenses, visible result counts, and methodology copy next to the data
@@ -80,9 +80,8 @@ Semantic success, warning, and danger colors are reserved for actual state. They
 
 ## Imagery
 
-- Hero asset: `/public/harness-hero.webp`
-- Style: editorial product photography, graphite materials, restrained violet detail
-- No text, logos, screens, fake terminals, interface mockups, neon, or cyberpunk effects
+- The homepage hero is deliberately type-led and uses no media asset
+- Product identity comes from the HarnessMatch mark and first-party product logos
 - Social asset: `/public/og.png`
 
 ## Avoid
