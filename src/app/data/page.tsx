@@ -1,0 +1,50 @@
+import type { Metadata } from "next";
+import { harnesses } from "@/data/harnesses";
+
+export const metadata: Metadata = {
+  title: "Data and sources",
+};
+
+export default function DataPage() {
+  return (
+    <section className="section page-section">
+      <div className="shell wide-shell">
+        <div className="page-intro">
+          <span className="eyebrow">Evidence ledger</span>
+          <h1>Every claim needs a first-party trail.</h1>
+          <p>Sources are grouped by the product claim they support. Dates record when HarnessMatch last checked the page—not when the vendor first published it.</p>
+        </div>
+        <div className="ledger-summary">
+          <span><strong>{harnesses.length}</strong> active products</span>
+          <span><strong>{harnesses.reduce((total, harness) => total + harness.evidence.length, 0)}</strong> primary sources</span>
+          <span><strong>0</strong> affiliate sources</span>
+        </div>
+        <div className="evidence-ledger">
+          {harnesses.map((harness) => (
+            <article className="evidence-row" id={harness.id} key={harness.id}>
+              <div className="evidence-product">
+                <div className="card-topline">
+                  <span className="status active">{harness.status}</span>
+                  <span className="mono-label">{harness.verifiedAt}</span>
+                </div>
+                <h2>{harness.name}</h2>
+                <p>{harness.providerStyle} · {harness.license}</p>
+              </div>
+              <div className="evidence-list">
+                {harness.evidence.map((source) => (
+                  <a href={source.url} target="_blank" rel="noreferrer" key={source.url}>
+                    <span>
+                      <strong>{source.title}</strong>
+                      <small>{source.covers}</small>
+                    </span>
+                    <span className="evidence-kind">{source.kind.replace("official-", "")} ↗</span>
+                  </a>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
