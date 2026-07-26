@@ -1,12 +1,13 @@
 import Link from "next/link";
 import type { Harness } from "@/lib/types";
 import { HarnessLogo } from "@/components/harness-logo";
+import { harnessRoleLabels } from "@/lib/harness-classification";
 
 export function HarnessCard({ harness, compact = false }: { harness: Harness; compact?: boolean }) {
   return (
     <article className={`harness-card ${compact ? "harness-card-compact" : "card"}`}>
       <div className="card-topline">
-        <span className="pill">{harness.category}</span>
+        <span className="pill">{harnessRoleLabels[harness.classification.role]}</span>
         <span className="status active">{harness.status}</span>
       </div>
       <div className="harness-title-row">

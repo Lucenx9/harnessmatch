@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import { HarnessLogo } from "@/components/harness-logo";
 import { harnesses } from "@/data/harnesses";
+import {
+  executionBoundaryLabels,
+  harnessRoleLabels,
+  orchestrationLabels,
+} from "@/lib/harness-classification";
 
 export const metadata: Metadata = {
   title: "Data and sources",
@@ -32,7 +37,12 @@ export default function DataPage() {
                   <HarnessLogo logo={harness.logo} name={harness.name} />
                   <h2>{harness.name}</h2>
                 </div>
-                <p>{harness.providerStyle}<br />{harness.license}</p>
+                <p>
+                  {harnessRoleLabels[harness.classification.role]}<br />
+                  {orchestrationLabels[harness.classification.orchestration]}<br />
+                  {executionBoundaryLabels[harness.classification.execution]}<br />
+                  {harness.license}
+                </p>
                 <a className="logo-source-link" href={harness.logo.sourceUrl} target="_blank" rel="noreferrer">
                   Official logo source
                 </a>

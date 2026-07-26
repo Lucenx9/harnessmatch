@@ -11,7 +11,7 @@ const firstPartyHosts: Record<string, string[]> = {
   omp: ["github.com"],
   "grok-build": ["docs.x.ai", "github.com", "x.ai"],
   aider: ["aider.chat"],
-  openhands: ["docs.openhands.dev"],
+  openhands: ["docs.openhands.dev", "github.com"],
   goose: ["goose-docs.ai", "github.com"],
   cline: ["docs.cline.bot"],
   "gemini-cli": ["github.com"],

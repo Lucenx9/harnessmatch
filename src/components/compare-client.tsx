@@ -3,6 +3,11 @@
 import { useMemo, useState } from "react";
 import { HarnessLogo } from "@/components/harness-logo";
 import { harnesses } from "@/data/harnesses";
+import {
+  executionBoundaryLabels,
+  harnessRoleLabels,
+  orchestrationLabels,
+} from "@/lib/harness-classification";
 import type { FeatureKey } from "@/lib/types";
 
 const featureRows: Array<[FeatureKey, string]> = [
@@ -83,6 +88,24 @@ export function CompareClient() {
             <tr>
               <th>Best fit</th>
               {chosen.map((harness) => <td key={harness!.id}>{harness!.bestFor[0]}</td>)}
+            </tr>
+            <tr>
+              <th>Product role</th>
+              {chosen.map((harness) => (
+                <td key={harness!.id}>{harnessRoleLabels[harness!.classification.role]}</td>
+              ))}
+            </tr>
+            <tr>
+              <th>Agent organization</th>
+              {chosen.map((harness) => (
+                <td key={harness!.id}>{orchestrationLabels[harness!.classification.orchestration]}</td>
+              ))}
+            </tr>
+            <tr>
+              <th>Execution boundary</th>
+              {chosen.map((harness) => (
+                <td key={harness!.id}>{executionBoundaryLabels[harness!.classification.execution]}</td>
+              ))}
             </tr>
             <tr>
               <th>Interfaces</th>

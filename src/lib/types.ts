@@ -3,6 +3,20 @@ export type Priority = "simplicity" | "flexibility" | "security" | "autonomy";
 export type ModelAccess = "subscription" | "model-agnostic" | "local" | "enterprise";
 export type ControlStyle = "approval-heavy" | "balanced" | "hands-off";
 export type RepoContext = "small" | "large" | "ci" | "multi-agent";
+export type HarnessRole =
+  | "pair-programmer"
+  | "coding-agent"
+  | "general-agent"
+  | "agent-platform"
+  | "extensible-harness";
+export type OrchestrationModel =
+  | "single-agent"
+  | "delegated-subagents"
+  | "multi-agent-runtime";
+export type ExecutionBoundary =
+  | "host-process"
+  | "native-sandbox"
+  | "managed-runtime";
 export type FeatureKey =
   | "mcp"
   | "localModels"
@@ -46,6 +60,11 @@ export type Harness = {
   status: "active" | "archived";
   license: string;
   category: string;
+  classification: {
+    role: HarnessRole;
+    orchestration: OrchestrationModel;
+    execution: ExecutionBoundary;
+  };
   interfaces: InterfaceType[];
   providerStyle: "single-vendor" | "multi-provider" | "enterprise-routing";
   supportsSubscription: boolean;

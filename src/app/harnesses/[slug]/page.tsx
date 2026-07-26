@@ -3,6 +3,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { HarnessLogo } from "@/components/harness-logo";
 import { harnessBySlug, harnesses } from "@/data/harnesses";
+import {
+  executionBoundaryLabels,
+  harnessRoleLabels,
+  orchestrationLabels,
+} from "@/lib/harness-classification";
 import type { CapabilityScores, FeatureKey } from "@/lib/types";
 
 export const dynamicParams = false;
@@ -170,6 +175,18 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
           <aside className="profile-spec-panel" aria-labelledby="technical-profile-heading">
             <h2 id="technical-profile-heading">Technical profile</h2>
             <dl className="profile-spec-list">
+              <div>
+                <dt>Product role</dt>
+                <dd>{harnessRoleLabels[harness.classification.role]}</dd>
+              </div>
+              <div>
+                <dt>Agent organization</dt>
+                <dd>{orchestrationLabels[harness.classification.orchestration]}</dd>
+              </div>
+              <div>
+                <dt>Execution boundary</dt>
+                <dd>{executionBoundaryLabels[harness.classification.execution]}</dd>
+              </div>
               <div>
                 <dt>Interfaces</dt>
                 <dd>{harness.interfaces.map((item) => interfaceLabels[item]).join(", ")}</dd>

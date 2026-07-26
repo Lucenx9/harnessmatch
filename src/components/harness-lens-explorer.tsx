@@ -3,7 +3,19 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { HarnessLogo } from "@/components/harness-logo";
-import type { FeatureKey, HarnessLogo as HarnessLogoData, InterfaceType } from "@/lib/types";
+import {
+  executionBoundaryLabels,
+  harnessRoleLabels,
+  orchestrationLabels,
+} from "@/lib/harness-classification";
+import type {
+  ExecutionBoundary,
+  FeatureKey,
+  HarnessLogo as HarnessLogoData,
+  HarnessRole,
+  InterfaceType,
+  OrchestrationModel,
+} from "@/lib/types";
 
 type LensKey = "all" | FeatureKey;
 
@@ -13,7 +25,9 @@ export type LensHarness = {
   name: string;
   logo: HarnessLogoData;
   tagline: string;
-  category: string;
+  role: HarnessRole;
+  orchestration: OrchestrationModel;
+  execution: ExecutionBoundary;
   interfaces: InterfaceType[];
   providerStyle: "single-vendor" | "multi-provider" | "enterprise-routing";
   features: Record<FeatureKey, boolean>;
@@ -67,7 +81,7 @@ export function HarnessLensExplorer({ harnesses }: { harnesses: LensHarness[] })
         {filtered.map((harness) => (
           <article className="lens-card" key={harness.id}>
             <div className="lens-card-head">
-              <span>{harness.category}</span>
+              <span>{harnessRoleLabels[harness.role]}</span>
               <span>{harness.evidenceCount} first-party sources</span>
             </div>
             <div className="lens-card-title">
@@ -76,6 +90,14 @@ export function HarnessLensExplorer({ harnesses }: { harnesses: LensHarness[] })
             </div>
             <p>{harness.tagline}</p>
             <dl>
+              <div>
+                <dt>Agents</dt>
+                <dd>{orchestrationLabels[harness.orchestration]}</dd>
+              </div>
+              <div>
+                <dt>Runtime</dt>
+                <dd>{executionBoundaryLabels[harness.execution]}</dd>
+              </div>
               <div>
                 <dt>Provider</dt>
                 <dd>{providerLabels[harness.providerStyle]}</dd>
