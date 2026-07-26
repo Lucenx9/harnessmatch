@@ -7,6 +7,9 @@ const firstPartyHosts: Record<string, string[]> = {
   "claude-code": ["code.claude.com", "claude.com"],
   codex: ["developers.openai.com", "github.com"],
   opencode: ["opencode.ai"],
+  pi: ["github.com", "pi.dev"],
+  omp: ["github.com"],
+  "grok-build": ["docs.x.ai", "github.com", "x.ai"],
   aider: ["aider.chat"],
   openhands: ["docs.openhands.dev"],
   goose: ["goose-docs.ai", "github.com"],
@@ -17,6 +20,9 @@ const firstPartyLogoHosts: Record<string, string> = {
   "claude-code": "code.claude.com",
   codex: "developers.openai.com",
   opencode: "github.com",
+  pi: "pi.dev",
+  omp: "omp.sh",
+  "grok-build": "media.x.ai",
   aider: "aider.chat",
   openhands: "github.com",
   goose: "github.com",
@@ -43,6 +49,13 @@ describe("harness evidence ledger", () => {
     expect(byId.get("claude-code")?.features.sandbox).toBe(true);
     expect(byId.get("codex")?.localModels).toBe(true);
     expect(byId.get("opencode")?.features.checkpoints).toBe(true);
+    expect(byId.get("pi")?.features.sandbox).toBe(false);
+    expect(byId.get("pi")?.features.subagents).toBe(false);
+    expect(byId.get("omp")?.features.browser).toBe(true);
+    expect(byId.get("omp")?.features.sandbox).toBe(false);
+    expect(byId.get("omp")?.features.checkpoints).toBe(false);
+    expect(byId.get("grok-build")?.features.sandbox).toBe(true);
+    expect(byId.get("grok-build")?.features.checkpoints).toBe(true);
     expect(byId.get("aider")?.supportsSubscription).toBe(true);
     expect(byId.get("openhands")?.supportsSubscription).toBe(true);
   });

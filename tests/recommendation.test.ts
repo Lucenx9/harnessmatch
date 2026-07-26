@@ -51,6 +51,35 @@ describe("recommendHarnesses", () => {
     expect(result[0].blockers).toHaveLength(0);
   });
 
+  it("surfaces Grok Build for controlled IDE work that requires isolation and rewind", () => {
+    const result = recommendHarnesses({
+      ...base,
+      interface: "ide",
+      priority: "security",
+      modelAccess: "model-agnostic",
+      control: "approval-heavy",
+      requiredFeatures: ["sandbox", "checkpoints"],
+    });
+
+    expect(result[0].harness.id).toBe("grok-build");
+    expect(result[0].blockers).toHaveLength(0);
+  });
+
+  it("surfaces Oh My Pi for editor-integrated browser and subagent workflows", () => {
+    const result = recommendHarnesses({
+      ...base,
+      interface: "ide",
+      priority: "flexibility",
+      modelAccess: "model-agnostic",
+      control: "hands-off",
+      repoContext: "multi-agent",
+      requiredFeatures: ["browser", "subagents", "headless", "mcp"],
+    });
+
+    expect(result[0].harness.id).toBe("omp");
+    expect(result[0].blockers).toHaveLength(0);
+  });
+
   it("returns scores in descending order", () => {
     const result = recommendHarnesses(base);
     const scores = result.map((item) => item.score);
