@@ -4,6 +4,7 @@ import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://harnessmatch.simonelucentini.chatgpt.site"),
   title: {
     default: "HarnessMatch — Match the harness to the work",
     template: "%s — HarnessMatch",
