@@ -146,6 +146,34 @@ p { color: var(--muted); }
 .proof-strip strong { font: 600 1.05rem/1.2 var(--font-mono); letter-spacing: -.04em; }
 .proof-strip span { margin-top: 5px; color: var(--muted); font-size: .75rem; }
 
+.decision-section { padding-bottom: 112px; }
+.decision-heading { margin-bottom: 34px; }
+.lens-explorer { border-top: 1px solid var(--line-strong); }
+.lens-toolbar { min-height: 82px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border-bottom: 1px solid var(--line); }
+.lens-tabs { display: flex; flex-wrap: wrap; gap: 6px; padding: 14px 0; }
+.lens-tabs button { min-height: 44px; padding: 0 13px; border: 1px solid transparent; border-radius: var(--radius-small); background: transparent; color: var(--muted); font-size: .79rem; cursor: pointer; transition: color .16s ease, border-color .16s ease, background .16s ease, transform .16s ease; }
+.lens-tabs button:hover { color: var(--text); background: var(--surface); }
+.lens-tabs button:active { transform: translateY(1px) scale(.98); }
+.lens-tabs button[aria-pressed="true"] { color: var(--text); border-color: var(--line-strong); background: var(--surface-strong); }
+.lens-count { flex: 0 0 auto; margin: 0; color: var(--muted); font: 500 .68rem/1.4 var(--font-mono); }
+.lens-count strong { color: var(--text); font-weight: 650; }
+.lens-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.lens-card { min-width: 0; padding: 30px 32px 28px 0; border-bottom: 1px solid var(--line); }
+.lens-card:nth-child(even) { padding-right: 0; padding-left: 32px; border-left: 1px solid var(--line); }
+.lens-card-head, .lens-card-foot { display: flex; align-items: center; justify-content: space-between; gap: 18px; color: var(--muted); font: 500 .63rem/1.4 var(--font-mono); }
+.lens-card-head { margin-bottom: 24px; }
+.lens-card h3 { margin-bottom: 9px; font-size: 1.45rem; }
+.lens-card h3 a:hover { color: var(--accent-strong); }
+.lens-card > p { max-width: 500px; min-height: 52px; margin-bottom: 23px; font-size: .87rem; }
+.lens-card dl { display: grid; grid-template-columns: .85fr 1.15fr; gap: 22px; margin: 0 0 25px; }
+.lens-card dl div { min-width: 0; }
+.lens-card dt { margin-bottom: 5px; color: var(--muted); font: 500 .61rem/1.3 var(--font-mono); text-transform: uppercase; letter-spacing: .055em; }
+.lens-card dd { margin: 0; overflow-wrap: anywhere; color: var(--text); font-size: .78rem; text-transform: capitalize; }
+.lens-card-foot { padding-top: 18px; border-top: 1px solid var(--line); }
+.lens-card-foot .text-link { min-height: 44px; font-family: var(--font-sans); }
+.lens-method-note { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 22px 0; }
+.lens-method-note p { max-width: 740px; margin: 0; font-size: .78rem; }
+
 .section-heading { margin-bottom: 42px; }
 .stacked-heading { max-width: 790px; }
 .stacked-heading p { max-width: 620px; margin-bottom: 0; }
@@ -343,7 +371,15 @@ p { color: var(--muted); }
   .proof-strip div:nth-child(2) { border-right: 0; }
   .proof-strip div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
   .proof-strip div { min-height: 88px; padding: 18px; }
-  .three-grid, .card-grid, .two-grid, .catalog-list, .option-grid, .result-grid, .capability-grid { grid-template-columns: 1fr; }
+  .three-grid, .card-grid, .two-grid, .catalog-list, .lens-grid, .option-grid, .result-grid, .capability-grid { grid-template-columns: 1fr; }
+  .lens-toolbar, .lens-method-note { align-items: start; flex-direction: column; }
+  .lens-toolbar { gap: 0; padding-bottom: 16px; }
+  .lens-tabs { width: 100%; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 8px; scrollbar-width: none; }
+  .lens-tabs::-webkit-scrollbar { display: none; }
+  .lens-tabs button { flex: 0 0 auto; }
+  .lens-card, .lens-card:nth-child(even) { padding: 28px 0; border-left: 0; }
+  .lens-card > p { min-height: 0; }
+  .lens-method-note { gap: 8px; }
   .principle-card { grid-template-columns: 1fr; gap: 10px; }
   .harness-card-compact, .harness-card-compact:nth-child(even) { min-height: 235px; padding: 28px 0; border-left: 0; }
   .split-heading, .cta-box, .results-header, .result-title-row, .footer-inner { align-items: start; flex-direction: column; }

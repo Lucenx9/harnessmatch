@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { harnesses } from "@/data/harnesses";
-import { HarnessCard } from "@/components/harness-card";
+import { HarnessLensExplorer } from "@/components/harness-lens-explorer";
 
 export default function HomePage() {
   return (
@@ -45,6 +45,27 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="section decision-section">
+        <div className="shell">
+          <div className="section-heading stacked-heading decision-heading">
+            <h2>Choose the constraint that changes the answer.</h2>
+            <p>Filter the directory by verified harness capabilities, then open the evidence or compare products side by side.</p>
+          </div>
+          <HarnessLensExplorer harnesses={harnesses.map((harness) => ({
+            id: harness.id,
+            slug: harness.slug,
+            name: harness.name,
+            tagline: harness.tagline,
+            category: harness.category,
+            interfaces: harness.interfaces,
+            providerStyle: harness.providerStyle,
+            features: harness.features,
+            evidenceCount: harness.evidence.length,
+            verifiedAt: harness.verifiedAt,
+          }))} />
+        </div>
+      </section>
+
       <section className="section muted-section">
         <div className="shell">
           <div className="section-heading stacked-heading">
@@ -64,19 +85,6 @@ export default function HomePage() {
               <h3>Trade-offs stay visible</h3>
               <p>Every result explains why it fits, what is missing, and which alternative is close behind.</p>
             </article>
-          </div>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="shell">
-          <div className="section-heading stacked-heading catalog-heading">
-            <h2>Seven harnesses. One evidence standard.</h2>
-            <p>Every profile uses the same capability schema, first-party evidence, and verification date.</p>
-            <Link className="text-link" href="/harnesses">Browse all profiles</Link>
-          </div>
-          <div className="catalog-list">
-            {harnesses.map((harness) => <HarnessCard compact key={harness.id} harness={harness} />)}
           </div>
         </div>
       </section>

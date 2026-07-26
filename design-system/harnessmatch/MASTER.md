@@ -6,9 +6,9 @@ This file is the visual source of truth for HarnessMatch. Page files in `pages/`
 
 - Product: evidence-backed coding harness recommendation tool
 - Audience: developers and technical buyers
-- Direction: restrained developer-tool minimalism inspired by Vercel, Linear, and Cursor
+- Direction: restrained developer-tool minimalism with research-product density inspired by Vercel, Linear, Cursor, Artificial Analysis, and Vellum
 - Redesign mode: targeted evolution with routes, information architecture, and scoring behavior preserved
-- Dials: variance 6, motion 3, density 4
+- Dials: variance 6, motion 3, density 5
 
 ## Foundation
 
@@ -54,8 +54,10 @@ Semantic success, warning, and danger colors are reserved for actual state. They
 - Homepage hero uses an asymmetric text and editorial-image split
 - Hero contains one eyebrow, one headline, one short description, and two distinct actions
 - Facts sit in a dedicated strip below the hero
+- The homepage directory uses capability lenses, visible result counts, and methodology copy next to the data
+- Research-product patterns may increase information density, but must never imply a generic model or harness leaderboard
 - Principle content uses editorial rows, not three equal feature cards
-- Catalog previews use a two-column directory layout without implying a ranking
+- Catalog previews use a two-column, filterable directory layout without implying a ranking
 - Mobile layouts collapse explicitly below 768px and must never scroll horizontally
 
 ## Interaction and accessibility
