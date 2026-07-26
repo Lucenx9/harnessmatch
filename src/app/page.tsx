@@ -1,45 +1,59 @@
-import Link from "next/link";
 import { harnesses } from "@/data/harnesses";
+import { workflowScenarios } from "@/data/workflow-scenarios";
 import { HarnessLensExplorer } from "@/components/harness-lens-explorer";
+import { WorkflowFitExplorer } from "@/components/workflow-fit-explorer";
+import { recommendHarnesses } from "@/lib/recommendation";
 
 export default function HomePage() {
+  const activeHarnesses = harnesses.filter((harness) => harness.status === "active");
+  const sourceCount = activeHarnesses.reduce((total, harness) => total + harness.evidence.length, 0);
+  const latestVerification = activeHarnesses.reduce(
+    (latest, harness) => harness.verifiedAt > latest ? harness.verifiedAt : latest,
+    "",
+  );
+  const scenarioViews = workflowScenarios.map((scenario) => ({
+    ...scenario,
+    results: recommendHarnesses(scenario.answers, activeHarnesses).map((result) => ({
+      id: result.harness.id,
+      slug: result.harness.slug,
+      name: result.harness.name,
+      logo: result.harness.logo,
+      score: result.score,
+      blockers: result.blockers,
+      verifiedAt: result.harness.verifiedAt,
+    })),
+  }));
+
   return (
     <>
-      <section className="hero section">
-        <div className="shell hero-grid">
-          <div className="hero-copy">
-            <span className="eyebrow">Independent, source-backed guidance</span>
-            <h1>
-              <span className="hero-line">Match the harness</span>
-              <span className="hero-line">to <span className="accent-word">the work.</span></span>
-            </h1>
-            <p className="hero-lede">
-              Compare coding harnesses by workflow, model access, control, runtime, and verified capabilities.
-            </p>
-            <div className="button-row">
-              <Link className="button primary" href="/recommend">Find my match</Link>
-              <Link className="button secondary" href="/compare">Compare harnesses</Link>
-            </div>
+      <section className="tool-intro">
+        <div className="shell tool-intro-grid">
+          <div className="tool-intro-copy">
+            <h1>Compare coding harnesses by workflow fit.</h1>
+            <p>Select a scenario, inspect the fit points, then trace every capability claim to a first-party source.</p>
           </div>
+          <dl className="dataset-summary" aria-label="Dataset status">
+            <div><dt>Active harnesses</dt><dd>{activeHarnesses.length}</dd></div>
+            <div><dt>First-party sources</dt><dd>{sourceCount}</dd></div>
+            <div><dt>Workflow scenarios</dt><dd>{workflowScenarios.length}</dd></div>
+            <div><dt>Latest verification</dt><dd>{latestVerification}</dd></div>
+          </dl>
         </div>
       </section>
 
-      <section className="proof-section" aria-label="Catalog facts">
-        <div className="shell proof-strip" aria-label="Catalog facts">
-          <div><strong>7</strong><span>active harnesses</span></div>
-          <div><strong>26</strong><span>primary sources</span></div>
-          <div><strong>2026-07-26</strong><span>latest verification</span></div>
-          <div><strong>0</strong><span>affiliate rankings</span></div>
+      <section className="analysis-section" aria-label="Workflow fit analysis">
+        <div className="wide-shell shell">
+          <WorkflowFitExplorer scenarios={scenarioViews} />
         </div>
       </section>
 
-      <section className="section decision-section">
+      <section className="section catalog-explorer-section">
         <div className="shell">
-          <div className="section-heading stacked-heading decision-heading">
-            <h2>Choose the constraint that changes the answer.</h2>
-            <p>Filter the directory by verified harness capabilities, then open the evidence or compare products side by side.</p>
+          <div className="section-heading stacked-heading catalog-explorer-heading">
+            <h2>Filter the source-backed catalog.</h2>
+            <p>Apply a verified capability filter or open a profile to inspect its evidence ledger.</p>
           </div>
-          <HarnessLensExplorer harnesses={harnesses.map((harness) => ({
+          <HarnessLensExplorer harnesses={activeHarnesses.map((harness) => ({
             id: harness.id,
             slug: harness.slug,
             name: harness.name,
@@ -52,40 +66,6 @@ export default function HomePage() {
             evidenceCount: harness.evidence.length,
             verifiedAt: harness.verifiedAt,
           }))} />
-        </div>
-      </section>
-
-      <section className="section muted-section">
-        <div className="shell">
-          <div className="section-heading stacked-heading">
-            <h2>“Best” is a workflow question.</h2>
-            <p>A model, a harness, a permission policy, and a runtime all affect the outcome. HarnessMatch evaluates those layers separately.</p>
-          </div>
-          <div className="principle-list">
-            <article className="principle-card">
-              <h3>Fit before rank</h3>
-              <p>A local-model requirement can eliminate a polished cloud-only tool before benchmark scores matter.</p>
-            </article>
-            <article className="principle-card">
-              <h3>Evidence before hype</h3>
-              <p>Capability claims include a source and verification date. Uncontrolled benchmark claims stay out.</p>
-            </article>
-            <article className="principle-card">
-              <h3>Trade-offs stay visible</h3>
-              <p>Every result explains why it fits, what is missing, and which alternative is close behind.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section className="section cta-section">
-        <div className="shell cta-box">
-          <div>
-            <span className="eyebrow">Two minutes, no signup</span>
-            <h2>Turn your constraints into a shortlist.</h2>
-            <p>Six questions turn your workflow, model access, control preferences, and required capabilities into a transparent shortlist.</p>
-          </div>
-          <Link className="button primary" href="/recommend">Find my match</Link>
         </div>
       </section>
     </>

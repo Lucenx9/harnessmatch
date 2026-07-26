@@ -6,9 +6,9 @@ This file is the visual source of truth for HarnessMatch. Page files in `pages/`
 
 - Product: evidence-backed coding harness recommendation tool
 - Audience: developers and technical buyers
-- Direction: restrained developer-tool minimalism with research-product density inspired by Vercel, Linear, Cursor, Artificial Analysis, and Vellum
+- Direction: restrained developer research tool with analysis-first density inspired by Vercel, Linear, Cursor, Artificial Analysis, and Vellum
 - Redesign mode: targeted evolution with routes, information architecture, and scoring behavior preserved
-- Dials: variance 6, motion 3, density 5
+- Dials: variance 4, motion 2, density 7
 
 ## Foundation
 
@@ -51,7 +51,7 @@ Semantic success, warning, and danger colors are reserved for actual state. They
 
 ## Typography
 
-- Hero: 3.8rem to 5.2rem, maximum two lines on desktop
+- Homepage analysis intro: 3.25rem to 4.7rem, maximum two lines on desktop
 - Page title: 3.1rem to 5.8rem
 - Section title: 2.1rem to 3.75rem
 - Body: 16px minimum, 1.55 to 1.65 line height
@@ -60,12 +60,13 @@ Semantic success, warning, and danger colors are reserved for actual state. They
 
 ## Layout rules
 
-- Homepage hero uses a left-aligned editorial manifesto layout without decorative media
-- Hero contains one eyebrow, one headline, one short description, and two distinct actions
-- Facts sit in a dedicated strip below the hero
+- Homepage opens with a compact analysis intro and live dataset status, not a promotional hero
+- The first interactive surface is a workflow-fit chart with explicit assumptions, direct labels, and published weights
+- Workflow-fit bars visualize deterministic recommendation points, never model intelligence or benchmark performance
+- Every chart has a readable table alternative and downloadable CSV data
 - The homepage directory uses capability lenses, visible result counts, and methodology copy next to the data
 - Research-product patterns may increase information density, but must never imply a generic model or harness leaderboard
-- Principle content uses editorial rows, not three equal feature cards
+- Marketing proof, principle, and repeated CTA sections do not belong on the homepage
 - Catalog previews use a two-column, filterable directory layout without implying a ranking
 - Mobile layouts collapse explicitly below 768px and must never scroll horizontally
 
@@ -77,6 +78,8 @@ Semantic success, warning, and danger colors are reserved for actual state. They
 - Motion respects `prefers-reduced-motion`
 - Buttons and muted text meet WCAG AA in both themes
 - The recommender exposes progress semantics and selected requirements with `aria-pressed`
+- Scenario tabs use tab semantics, arrow-key navigation, visible focus, and 44px minimum targets
+- Chart values are printed directly and required capability gaps include text and pattern, not color alone
 
 ## Imagery
 
@@ -90,6 +93,6 @@ Semantic success, warning, and danger colors are reserved for actual state. They
 - Cyan as a second accent, outer glow, mesh gradients, and crosshair grids
 - Decorative status dots and section numbering
 - Repeated split headers and three-equal-card feature sections
-- Progress bars as editorial comparison visuals
+- Generic progress tracks or unlabeled score bars
 - Wrapped desktop calls to action
 - Symbol-only controls, decorative arrows, emoji icons, and typographic dash flourishes

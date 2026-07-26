@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { recommendHarnesses } from "../src/lib/recommendation";
+import { workflowScenarios } from "../src/data/workflow-scenarios";
 import type { RecommendationAnswers } from "../src/lib/types";
 
 const base: RecommendationAnswers = {
@@ -54,5 +55,23 @@ describe("recommendHarnesses", () => {
     const result = recommendHarnesses(base);
     const scores = result.map((item) => item.score);
     expect(scores).toEqual([...scores].sort((a, b) => b - a));
+  });
+
+  it("keeps homepage scenario results tied to the selected workflow", () => {
+    const byId = new Map(workflowScenarios.map((scenario) => [scenario.id, scenario]));
+    const local = recommendHarnesses(byId.get("local-flexibility")!.answers)[0];
+    const ide = recommendHarnesses(byId.get("ide-review")!.answers)[0];
+    const autonomous = recommendHarnesses(byId.get("autonomous-ci")!.answers)[0];
+    const enterprise = recommendHarnesses(byId.get("enterprise-controls")!.answers)[0];
+    const browser = recommendHarnesses(byId.get("browser-work")!.answers)[0];
+
+    expect(local.harness.localModels).toBe(true);
+    expect(local.harness.features.mcp).toBe(true);
+    expect(ide.harness.id).toBe("cline");
+    expect(autonomous.harness.features.headless).toBe(true);
+    expect(autonomous.harness.features.sandbox).toBe(true);
+    expect(enterprise.harness.features.sandbox).toBe(true);
+    expect(browser.harness.features.browser).toBe(true);
+    expect(new Set([local.harness.id, ide.harness.id, autonomous.harness.id, enterprise.harness.id, browser.harness.id]).size).toBeGreaterThan(2);
   });
 });

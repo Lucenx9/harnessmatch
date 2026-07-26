@@ -27,11 +27,11 @@ const themeInit = `
 export const metadata: Metadata = {
   metadataBase: new URL("https://harnessmatch.vercel.app"),
   title: {
-    default: "HarnessMatch - Match the harness to the work",
+    default: "HarnessMatch - Coding harness workflow fit",
     template: "%s | HarnessMatch",
   },
   description:
-    "Compare AI coding harnesses by workflow fit, model access, security, autonomy, and verified capabilities.",
+    "Explore source-backed workflow fit across AI coding harnesses with transparent scoring and verified capabilities.",
   applicationName: "HarnessMatch",
   icons: {
     icon: "/brand/harnessmatch-mark-64.png",
@@ -39,22 +39,22 @@ export const metadata: Metadata = {
   },
   keywords: ["AI coding agents", "coding harnesses", "developer tools", "agent comparison"],
   openGraph: {
-    title: "HarnessMatch - Match the harness to the work",
-    description: "A source-backed, workflow-aware guide to AI coding harnesses.",
+    title: "HarnessMatch - Coding harness workflow fit",
+    description: "An interactive, source-backed comparison of AI coding harnesses by workflow fit.",
     type: "website",
     images: [
       {
         url: "/og.png",
         width: 1731,
         height: 909,
-        alt: "HarnessMatch - Match the harness to the work.",
+        alt: "HarnessMatch coding harness workflow fit explorer.",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "HarnessMatch - Match the harness to the work",
-    description: "A source-backed, workflow-aware guide to AI coding harnesses.",
+    title: "HarnessMatch - Coding harness workflow fit",
+    description: "An interactive, source-backed comparison of AI coding harnesses by workflow fit.",
     images: ["/og.png"],
   },
 };
