@@ -106,7 +106,7 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
                       <strong>{source.title}</strong>
                       <small>{source.covers}</small>
                     </span>
-                    <span aria-hidden="true">↗</span>
+                    <span className="evidence-kind">Source</span>
                   </a>
                 ))}
               </div>
@@ -119,7 +119,7 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
 
           <aside className="profile-sidebar card">
             <h2>Editorial fit profile</h2>
-            <p>These 1–5 ratings describe product posture and are used by the recommender.</p>
+            <p>These 1-5 ratings describe product posture and are used by the recommender.</p>
             {Object.entries(harness.capabilities).map(([key, value]) => (
               <ScoreBar key={key} label={scoreLabels[key as keyof typeof scoreLabels]} value={value} />
             ))}

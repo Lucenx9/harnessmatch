@@ -12,7 +12,7 @@ export default function DataPage() {
         <div className="page-intro">
           <span className="eyebrow">Evidence ledger</span>
           <h1>Every claim needs a first-party trail.</h1>
-          <p>Sources are grouped by the product claim they support. Dates record when HarnessMatch last checked the page—not when the vendor first published it.</p>
+          <p>Sources are grouped by the product claim they support. Dates show when HarnessMatch checked the page, not when the vendor published it.</p>
         </div>
         <div className="ledger-summary">
           <span><strong>{harnesses.length}</strong> active products</span>
@@ -28,7 +28,7 @@ export default function DataPage() {
                   <span className="mono-label">{harness.verifiedAt}</span>
                 </div>
                 <h2>{harness.name}</h2>
-                <p>{harness.providerStyle} · {harness.license}</p>
+                <p>{harness.providerStyle}<br />{harness.license}</p>
               </div>
               <div className="evidence-list">
                 {harness.evidence.map((source) => (
@@ -37,7 +37,7 @@ export default function DataPage() {
                       <strong>{source.title}</strong>
                       <small>{source.covers}</small>
                     </span>
-                    <span className="evidence-kind">{source.kind.replace("official-", "")} ↗</span>
+                    <span className="evidence-kind">{source.kind.replace("official-", "")}</span>
                   </a>
                 ))}
               </div>

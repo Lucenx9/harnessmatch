@@ -193,7 +193,7 @@ export function Recommender() {
                   </ul>
                 </div>
               </div>
-              <a className="text-link" href={`/harnesses/${result.harness.slug}`}>Read the full profile →</a>
+              <a className="text-link" href={`/harnesses/${result.harness.slug}`}>Read the full profile</a>
             </div>
           </article>
         ))}
@@ -209,7 +209,14 @@ export function Recommender() {
 
   return (
     <div className="quiz-shell">
-      <div className="quiz-progress" aria-label={`Question ${Math.min(step + 1, 6)} of 6`}>
+      <div
+        className="quiz-progress"
+        role="progressbar"
+        aria-label={`Question ${Math.min(step + 1, 6)} of 6`}
+        aria-valuemin={1}
+        aria-valuemax={6}
+        aria-valuenow={Math.min(step + 1, 6)}
+      >
         <span style={{ width: `${(step / 6) * 100}%` }} />
       </div>
 
@@ -231,7 +238,7 @@ export function Recommender() {
               </button>
             ))}
           </div>
-          {step > 0 && <button className="back-button" onClick={() => setStep((currentStep) => currentStep - 1)}>← Back</button>}
+          {step > 0 && <button className="back-button" onClick={() => setStep((currentStep) => currentStep - 1)}>Back</button>}
         </div>
       ) : (
         <div className="quiz-panel">
@@ -244,14 +251,15 @@ export function Recommender() {
                 key={feature}
                 type="button"
                 className={answers.requiredFeatures.includes(feature) ? "feature-chip selected" : "feature-chip"}
+                aria-pressed={answers.requiredFeatures.includes(feature)}
                 onClick={() => toggleFeature(feature)}
               >
-                {answers.requiredFeatures.includes(feature) ? "✓ " : "+ "}{label}
+                {label}
               </button>
             ))}
           </div>
           <div className="button-row quiz-actions">
-            <button className="back-button" onClick={() => setStep(questions.length - 1)}>← Back</button>
+            <button className="back-button" onClick={() => setStep(questions.length - 1)}>Back</button>
             <button className="button primary" onClick={() => setShowResults(true)}>Show my matches</button>
           </div>
         </div>

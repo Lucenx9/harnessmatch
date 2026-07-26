@@ -15,7 +15,7 @@ export default function HarnessesPage() {
           <h1>AI coding harness profiles.</h1>
           <p>Each profile uses the same capability schema and links back to a first-party source.</p>
         </div>
-        <div className="card-grid">
+        <div className="catalog-list catalog-page-list">
           {harnesses.map((harness) => <HarnessCard key={harness.id} harness={harness} />)}
         </div>
       </div>

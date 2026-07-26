@@ -1,25 +1,27 @@
 import Link from "next/link";
 import type { Harness } from "@/lib/types";
 
-export function HarnessCard({ harness }: { harness: Harness }) {
+export function HarnessCard({ harness, compact = false }: { harness: Harness; compact?: boolean }) {
   return (
-    <article className="card harness-card">
+    <article className={`harness-card ${compact ? "harness-card-compact" : "card"}`}>
       <div className="card-topline">
         <span className="pill">{harness.category}</span>
         <span className="status active">{harness.status}</span>
       </div>
       <h3>{harness.name}</h3>
       <p className="card-tagline">{harness.tagline}</p>
-      <p>{harness.summary}</p>
-      <div className="tag-row">
-        {harness.interfaces.map((item) => (
-          <span key={item} className="tag">{item}</span>
-        ))}
-      </div>
+      {!compact && <p>{harness.summary}</p>}
+      {!compact && (
+        <div className="tag-row">
+          {harness.interfaces.map((item) => (
+            <span key={item} className="tag">{item}</span>
+          ))}
+        </div>
+      )}
       <div className="card-footer-row">
-        <span>{harness.evidence.length} primary sources · {harness.verifiedAt}</span>
+        <span>{harness.evidence.length} primary sources<br />Checked {harness.verifiedAt}</span>
         <Link className="text-link" href={`/harnesses/${harness.slug}`}>
-          View profile <span aria-hidden="true">→</span>
+          View profile
         </Link>
       </div>
     </article>

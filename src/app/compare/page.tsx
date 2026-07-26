@@ -13,7 +13,7 @@ export default function ComparePage() {
         <div className="page-intro">
           <span className="eyebrow">Capability matrix</span>
           <h1>Compare architecture, not just branding.</h1>
-          <p>Editorial fit ratings are shown on a 1–5 scale. They describe product posture, not model intelligence.</p>
+          <p>Editorial fit ratings use a 1-5 scale. They describe product posture, not model intelligence.</p>
         </div>
         <CompareClient />
       </div>

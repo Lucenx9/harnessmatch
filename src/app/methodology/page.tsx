@@ -41,12 +41,12 @@ export default function MethodologyPage() {
 
         <section className="prose-section">
           <h2>Editorial ratings</h2>
-          <p>Ratings such as simplicity, autonomy, and security use a 1–5 scale. Every profile shows these values openly so disagreements can be reviewed as data changes rather than hidden inside prose.</p>
+          <p>Ratings such as simplicity, autonomy, and security use a 1-5 scale. Every profile shows these values openly so disagreements can be reviewed as data changes rather than hidden inside prose.</p>
         </section>
 
         <section className="prose-section">
           <h2>Source quality</h2>
-          <p>Capability existence is checked against first-party documentation, repositories, or product announcements. Each profile links claim groups—such as model access, runtime isolation, and automation—to the source that supports them and records the verification date.</p>
+          <p>Capability existence is checked against first-party documentation, repositories, or product announcements. Each profile links claim groups such as model access, runtime isolation, and automation to supporting sources and records the verification date.</p>
           <p>A missing first-class capability is not inferred from marketing silence alone. The product documentation and command reference are checked before the profile is marked unsupported.</p>
         </section>
       </div>

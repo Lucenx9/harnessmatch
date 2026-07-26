@@ -1,36 +1,23 @@
 import Link from "next/link";
+import { NavLinks } from "@/components/nav-links";
 import { ThemeToggle } from "@/components/theme-toggle";
-
-const nav = [
-  ["Recommend", "/recommend"],
-  ["Compare", "/compare"],
-  ["Harnesses", "/harnesses"],
-  ["Sources", "/data"],
-  ["Methodology", "/methodology"],
-];
 
 export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="shell header-inner">
-        <Link href="/" className="brand" aria-label="HarnessMatch home">
+        <Link href="/" className="brand">
           <span className="brand-mark" aria-hidden="true">H/</span>
           <span>HarnessMatch</span>
         </Link>
         <nav className="desktop-nav" aria-label="Primary navigation">
-          {nav.map(([label, href]) => (
-            <Link key={href} href={href}>
-              {label}
-            </Link>
-          ))}
+          <NavLinks />
         </nav>
-        <Link className="header-cta" href="/recommend">Find your fit</Link>
+        <Link className="header-cta" href="/recommend">Find my match</Link>
         <details className="mobile-menu">
-          <summary aria-label="Open navigation">Menu</summary>
+          <summary>Menu</summary>
           <nav aria-label="Mobile navigation">
-            {nav.map(([label, href]) => (
-              <Link key={href} href={href}>{label}</Link>
-            ))}
+            <NavLinks />
             <Link href="/benchmarks">Benchmark policy</Link>
           </nav>
         </details>

@@ -7,7 +7,8 @@ export function ThemeToggle() {
 
   useEffect(() => {
     const stored = window.localStorage.getItem("harnessmatch-theme");
-    const initial = stored === "light" ? "light" : "dark";
+    const preferred = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    const initial = stored === "light" || stored === "dark" ? stored : preferred;
     setTheme(initial);
     document.documentElement.dataset.theme = initial;
   }, []);
@@ -21,13 +22,13 @@ export function ThemeToggle() {
 
   return (
     <button
-      className="icon-button"
+      className="theme-toggle"
       type="button"
       onClick={toggle}
       aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
       title={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
     >
-      <span aria-hidden="true">{theme === "dark" ? "◒" : "◓"}</span>
+      <span aria-hidden="true">{theme === "dark" ? "Light" : "Dark"}</span>
     </button>
   );
 }
