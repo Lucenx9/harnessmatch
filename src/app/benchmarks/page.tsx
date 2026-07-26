@@ -14,6 +14,33 @@ const requiredFields = [
   "Cost, duration, date, and reproducible source",
 ];
 
+const researchReferences = [
+  {
+    title: "Terminal-Bench 2.0",
+    venue: "ICLR 2026",
+    url: "https://arxiv.org/abs/2601.11868",
+    note: "Hard terminal tasks with isolated environments, reference solutions, and execution-based tests.",
+  },
+  {
+    title: "Harness-Bench",
+    venue: "arXiv 2026",
+    url: "https://arxiv.org/abs/2605.27922",
+    note: "Treats the harness as an experimental variable and records trajectories, budgets, and validator outputs.",
+  },
+  {
+    title: "Configuring Agentic AI Coding Tools",
+    venue: "arXiv 2026",
+    url: "https://arxiv.org/abs/2602.14690",
+    note: "Studies configuration mechanisms across major coding agents instead of reducing them to one model score.",
+  },
+  {
+    title: "Adoption and Impact of Command-Line AI Coding Agents",
+    venue: "arXiv 2026",
+    url: "https://arxiv.org/abs/2607.01418",
+    note: "Separates adoption and merged-PR output from the harder question of delivered engineering value.",
+  },
+];
+
 export default function BenchmarksPage() {
   return (
     <section className="section page-section">
@@ -42,6 +69,23 @@ export default function BenchmarksPage() {
             <p>Changing any one variable can reverse a ranking.</p>
           </article>
         </div>
+
+        <section className="prose-section benchmark-research">
+          <span className="eyebrow">Research context</span>
+          <h2>Papers inform the policy, not the product claims.</h2>
+          <p>Research helps define a defensible evaluation protocol. Product capabilities such as sandboxing, local models, or rollback still require current first-party documentation.</p>
+          <div className="evidence-list">
+            {researchReferences.map((source) => (
+              <a href={source.url} target="_blank" rel="noreferrer" key={source.url}>
+                <span>
+                  <strong>{source.title}</strong>
+                  <small>{source.note}</small>
+                </span>
+                <span className="evidence-kind">{source.venue}</span>
+              </a>
+            ))}
+          </div>
+        </section>
       </div>
     </section>
   );

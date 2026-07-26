@@ -14,6 +14,11 @@ const firstPartyHosts: Record<string, string[]> = {
   openhands: ["docs.openhands.dev"],
   goose: ["goose-docs.ai", "github.com"],
   cline: ["docs.cline.bot"],
+  "gemini-cli": ["github.com"],
+  "copilot-cli": ["docs.github.com", "github.com"],
+  "cursor-cli": ["docs.cursor.com", "cursor.com"],
+  "junie-cli": ["junie.jetbrains.com"],
+  "factory-droid": ["docs.factory.ai", "factory.ai"],
 };
 
 const firstPartyLogoHosts: Record<string, string> = {
@@ -27,6 +32,11 @@ const firstPartyLogoHosts: Record<string, string> = {
   openhands: "github.com",
   goose: "github.com",
   cline: "github.com",
+  "gemini-cli": "github.com",
+  "copilot-cli": "github.com",
+  "cursor-cli": "cursor.com",
+  "junie-cli": "junie.jetbrains.com",
+  "factory-droid": "docs.factory.ai",
 };
 
 describe("harness evidence ledger", () => {
@@ -58,6 +68,16 @@ describe("harness evidence ledger", () => {
     expect(byId.get("grok-build")?.features.checkpoints).toBe(true);
     expect(byId.get("aider")?.supportsSubscription).toBe(true);
     expect(byId.get("openhands")?.supportsSubscription).toBe(true);
+    expect(byId.get("gemini-cli")?.features.sandbox).toBe(true);
+    expect(byId.get("gemini-cli")?.features.checkpoints).toBe(true);
+    expect(byId.get("copilot-cli")?.features.subagents).toBe(true);
+    expect(byId.get("copilot-cli")?.localModels).toBe(true);
+    expect(byId.get("cursor-cli")?.features.sandbox).toBe(false);
+    expect(byId.get("cursor-cli")?.features.checkpoints).toBe(false);
+    expect(byId.get("junie-cli")?.localModels).toBe(true);
+    expect(byId.get("junie-cli")?.features.sandbox).toBe(false);
+    expect(byId.get("factory-droid")?.features.sandbox).toBe(false);
+    expect(byId.get("factory-droid")?.features.checkpoints).toBe(false);
   });
 
   it("keeps every product logo local and traceable to a first-party asset", () => {

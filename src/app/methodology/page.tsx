@@ -48,6 +48,7 @@ export default function MethodologyPage() {
           <h2>Source quality</h2>
           <p>Capability existence is checked against first-party documentation, repositories, or product announcements. Each profile links claim groups such as model access, runtime isolation, and automation to supporting sources and records the verification date.</p>
           <p>A missing first-class capability is not inferred from marketing silence alone. The product documentation and command reference are checked before the profile is marked unsupported.</p>
+          <p>Peer-reviewed papers and technical reports guide benchmark design and interpretation. They do not override newer product documentation or turn a model-and-harness result into a permanent capability score.</p>
         </section>
       </div>
     </section>
