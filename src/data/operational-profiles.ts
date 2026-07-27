@@ -26,11 +26,14 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
     [
       "https://code.claude.com/docs/en/memory",
       "https://code.claude.com/docs/en/permissions",
+      "https://code.claude.com/docs/en/permission-modes",
+      "https://code.claude.com/docs/en/security",
+      "https://code.claude.com/docs/en/sandbox-environments",
       "https://code.claude.com/docs/en/hooks",
       "https://code.claude.com/docs/en/monitoring-usage",
       "https://code.claude.com/docs/en/checkpointing",
     ],
-    "Auto memory persists local project knowledge, JSONL transcripts and optional OpenTelemetry improve traceability, and policy plus hooks can gate tools. The local sandbox remains opt-in and fail-open by default; checkpoint recovery excludes Bash-created changes and remote side effects.",
+    "Auto memory persists local project knowledge, JSONL transcripts and optional OpenTelemetry improve traceability, and policy plus permission modes and hooks can gate tools. The local Bash sandbox remains opt-in and fail-open by default and does not isolate file tools, MCP, or hooks unless a broader runtime, container, or web VM is used; checkpoint recovery excludes Bash-created changes and remote side effects.",
   ),
   codex: record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },
@@ -112,6 +115,18 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "checkpoint" },
     ["https://geminicli.com/docs/cli/auto-memory/", "https://geminicli.com/docs/cli/sandbox/", "https://geminicli.com/docs/cli/checkpointing/", "https://geminicli.com/docs/cli/telemetry/"],
     "Persistent memory and Auto Memory are reviewable but Auto Memory is experimental and off by default. Policy, optional OS/container isolation, project eval tools, OpenTelemetry, and shadow-Git checkpoints support inspection and recovery; external side effects remain outside rewind.",
+  ),
+  "antigravity-cli": record(
+    { context: "managed", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "session-resume" },
+    [
+      "https://antigravity.google/docs/cli/overview",
+      "https://antigravity.google/docs/cli/permissions",
+      "https://antigravity.google/docs/cli/sandbox",
+      "https://antigravity.google/docs/cli/subagents",
+      "https://antigravity.google/docs/cli/conversations",
+      "https://antigravity.google/docs/cli/reference",
+    ],
+    "Workspace-scoped history, visible agent and task logs, artifact review, and policy rules support inspection and session resume. Native sandboxing is off by default, workspace file access is auto-allowed by default, and rewind or fork changes conversation state rather than restoring the filesystem.",
   ),
   "copilot-cli": record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "checkpoint" },

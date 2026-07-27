@@ -14,7 +14,8 @@ const firstPartyHosts: Record<string, string[]> = {
   openhands: ["docs.openhands.dev", "github.com"],
   goose: ["goose-docs.ai", "github.com"],
   cline: ["docs.cline.bot", "github.com"],
-  "gemini-cli": ["github.com", "geminicli.com"],
+  "gemini-cli": ["developers.googleblog.com", "github.com", "geminicli.com"],
+  "antigravity-cli": ["antigravity.google", "developers.googleblog.com", "github.com"],
   "copilot-cli": ["docs.github.com", "github.com"],
   "cursor-cli": ["docs.cursor.com", "cursor.com", "github.com"],
   "junie-cli": ["junie.jetbrains.com", "github.com"],
@@ -54,6 +55,7 @@ const firstPartyLogoHosts: Record<string, string> = {
   goose: "github.com",
   cline: "github.com",
   "gemini-cli": "github.com",
+  "antigravity-cli": "github.com",
   "copilot-cli": "github.com",
   "cursor-cli": "cursor.com",
   "junie-cli": "junie.jetbrains.com",
@@ -138,6 +140,19 @@ describe("harness evidence ledger", () => {
     expect(byId.get("gemini-cli")?.features.browser).toBe(true);
     expect(byId.get("gemini-cli")?.classification.state).toBe("persistent-memory");
     expect(byId.get("gemini-cli")?.capabilities.security).toBe(4);
+    expect(byId.get("gemini-cli")?.supportsSubscription).toBe(false);
+    expect(byId.get("gemini-cli")?.supportsEnterpriseAccess).toBe(true);
+    expect(byId.get("antigravity-cli")?.providerStyle).toBe("multi-provider");
+    expect(byId.get("antigravity-cli")?.supportsSubscription).toBe(true);
+    expect(byId.get("antigravity-cli")?.supportsEnterpriseAccess).toBe(true);
+    expect(byId.get("antigravity-cli")?.features).toMatchObject({
+      mcp: true,
+      subagents: true,
+      headless: true,
+      browser: true,
+      sandbox: true,
+      checkpoints: false,
+    });
     expect(byId.get("copilot-cli")?.features.subagents).toBe(true);
     expect(byId.get("copilot-cli")?.localModels).toBe(true);
     expect(byId.get("copilot-cli")?.classification.state).toBe("persistent-memory");
@@ -211,23 +226,99 @@ describe("harness evidence ledger", () => {
     expect(byId.get("hermes-agent")?.features.checkpoints).toBe(true);
   });
 
+  it("separates Gemini CLI enterprise continuity from the Antigravity consumer successor", () => {
+    const gemini = harnesses.find((harness) => harness.id === "gemini-cli")!;
+    const antigravity = harnesses.find((harness) => harness.id === "antigravity-cli")!;
+    const antigravityUrls = antigravity.evidence.map((source) => source.url);
+    const caveats = antigravity.tradeoffs.join(" ");
+
+    expect(gemini.status).toBe("active");
+    expect(gemini.tradeoffs.join(" ")).toContain("June 18, 2026");
+    expect(gemini.evidence.map((source) => source.url)).toContain(
+      "https://developers.googleblog.com/an-important-update-transitioning-gemini-cli-to-antigravity-cli/",
+    );
+    expect(antigravity.verifiedAt).toBe("2026-07-27");
+    expect(antigravity.evidence.length).toBeGreaterThanOrEqual(12);
+    expect(antigravity.classification).toMatchObject({
+      orchestration: "multi-agent-runtime",
+      runtime: "host-first",
+      isolation: ["os-sandbox"],
+      state: "session-based",
+    });
+    expect(antigravityUrls).toEqual(expect.arrayContaining([
+      "https://antigravity.google/docs/models?app=cli",
+      "https://antigravity.google/docs/cli/permissions",
+      "https://antigravity.google/docs/cli/sandbox",
+      "https://antigravity.google/docs/cli/subagents",
+      "https://antigravity.google/docs/cli/conversations",
+      "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.7",
+    ]));
+    expect(caveats).toContain("sandboxing is available but off by default");
+    expect(caveats).toContain("not the local Git checkout");
+    expect(caveats).toContain("Telemetry is enabled by default");
+    expect(caveats).toContain("does not expose the core harness source");
+  });
+
   it("qualifies Claude Code's broad automation surface against its local defaults", () => {
     const claude = harnesses.find((harness) => harness.id === "claude-code")!;
     const urls = claude.evidence.map((source) => source.url);
     const caveats = claude.tradeoffs.join(" ");
 
     expect(claude.verifiedAt).toBe("2026-07-27");
-    expect(claude.evidence.length).toBeGreaterThanOrEqual(20);
+    expect(claude.evidence.length).toBeGreaterThanOrEqual(40);
     expect(claude.evidence.every((source) => source.verifiedAt === claude.verifiedAt)).toBe(true);
+    expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([
+      "https://code.claude.com/docs/en/overview",
+      "https://code.claude.com/docs/en/how-claude-code-works",
+      "https://code.claude.com/docs/en/platforms",
+      "https://claude.com/product/claude-code",
+      "https://code.claude.com/docs/en/cli-reference",
+      "https://code.claude.com/docs/en/headless",
+      "https://code.claude.com/docs/en/tools-reference",
+      "https://code.claude.com/docs/en/security",
       "https://code.claude.com/docs/en/sandboxing",
-      "https://code.claude.com/docs/en/worktrees",
+      "https://code.claude.com/docs/en/sandbox-environments",
+      "https://code.claude.com/docs/en/devcontainer",
+      "https://code.claude.com/docs/en/permissions",
+      "https://code.claude.com/docs/en/permission-modes",
+      "https://code.claude.com/docs/en/auto-mode-config",
+      "https://claude.com/blog/auto-mode",
+      "https://code.claude.com/docs/en/agents",
+      "https://code.claude.com/docs/en/sub-agents",
       "https://code.claude.com/docs/en/agent-teams",
+      "https://code.claude.com/docs/en/workflows",
+      "https://code.claude.com/docs/en/worktrees",
+      "https://code.claude.com/docs/en/checkpointing",
+      "https://code.claude.com/docs/en/sessions",
       "https://code.claude.com/docs/en/memory",
+      "https://code.claude.com/docs/en/hooks",
+      "https://code.claude.com/docs/en/mcp",
+      "https://code.claude.com/docs/en/managed-mcp",
+      "https://code.claude.com/docs/en/chrome",
+      "https://code.claude.com/docs/en/computer-use",
       "https://code.claude.com/docs/en/claude-code-on-the-web",
+      "https://code.claude.com/docs/en/desktop",
+      "https://code.claude.com/docs/en/vs-code",
+      "https://code.claude.com/docs/en/jetbrains",
       "https://code.claude.com/docs/en/routines",
+      "https://code.claude.com/docs/en/github-actions",
+      "https://code.claude.com/docs/en/gitlab-ci-cd",
+      "https://code.claude.com/docs/en/settings",
       "https://code.claude.com/docs/en/server-managed-settings",
+      "https://code.claude.com/docs/en/admin-setup",
+      "https://code.claude.com/docs/en/authentication",
+      "https://code.claude.com/docs/en/feature-availability",
+      "https://code.claude.com/docs/en/network-config",
+      "https://code.claude.com/docs/en/large-codebases",
+      "https://code.claude.com/docs/en/monitoring-usage",
+      "https://code.claude.com/docs/en/data-usage",
+      "https://code.claude.com/docs/en/agent-sdk/overview",
+      "https://code.claude.com/docs/en/agent-sdk/secure-deployment",
+      "https://code.claude.com/docs/en/changelog",
+      "https://github.com/anthropics/claude-code/releases/tag/v2.1.220",
       "https://github.com/anthropics/claude-code/tree/7ef6eec9d9ba84ea6f233f26c45f1df5c5991843",
+      "https://github.com/anthropic-experimental/sandbox-runtime",
     ]));
     expect(caveats).toContain("OS sandboxing is disabled by default");
     expect(caveats).toContain("Worktrees isolate file edits rather than processes");

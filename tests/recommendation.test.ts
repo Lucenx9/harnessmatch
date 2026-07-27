@@ -114,6 +114,19 @@ describe("recommendHarnesses", () => {
     expect(result.every((item) => item.harness.interfaces.includes("ide") && item.harness.localModels)).toBe(true);
   });
 
+  it("keeps consumer subscriptions, enterprise access, and provider posture as separate gates", () => {
+    const consumerIds = recommendHarnesses(base).map((item) => item.harness.id);
+    const enterpriseIds = recommendHarnesses({ ...base, modelAccess: "enterprise" })
+      .map((item) => item.harness.id);
+
+    expect(consumerIds).toContain("antigravity-cli");
+    expect(consumerIds).not.toContain("gemini-cli");
+    expect(enterpriseIds).toContain("antigravity-cli");
+    expect(enterpriseIds).toContain("gemini-cli");
+    expect(harnesses.find((item) => item.id === "gemini-cli")?.providerStyle).toBe("single-vendor");
+    expect(harnesses.find((item) => item.id === "antigravity-cli")?.providerStyle).toBe("multi-provider");
+  });
+
   it("explains every failed eligibility gate", () => {
     const answers: RecommendationAnswers = {
       ...base,

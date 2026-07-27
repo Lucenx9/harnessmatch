@@ -49,9 +49,9 @@ const questions = [
     description: "Choose how you expect to run most tasks. You can add strict requirements at the end.",
     options: [
       ["subscription", "Existing subscription", "Prefer ChatGPT, Claude, or another subscription"],
-      ["model-agnostic", "Multiple providers", "Switch models and API providers freely"],
+      ["model-agnostic", "Multiple model providers", "Choose models from more than one provider"],
       ["local", "Local models", "Ollama, LM Studio, or self-hosted endpoints"],
-      ["enterprise", "Enterprise routing", "Cloud platforms, gateways, and governance"],
+      ["enterprise", "Enterprise access", "Organization-managed cloud access and governance"],
     ],
   },
   {
@@ -121,9 +121,9 @@ const priorityLabels: Record<RecommendationAnswers["priority"], string> = {
 
 const modelAccessLabels: Record<RecommendationAnswers["modelAccess"], string> = {
   subscription: "Existing subscription",
-  "model-agnostic": "Multiple providers",
+  "model-agnostic": "Multiple model providers",
   local: "Local models",
-  enterprise: "Enterprise routing",
+  enterprise: "Enterprise access",
 };
 
 const controlLabels: Record<RecommendationAnswers["control"], string> = {

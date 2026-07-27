@@ -108,6 +108,7 @@ export type Harness = {
   interfaces: InterfaceType[];
   providerStyle: "single-vendor" | "multi-provider" | "enterprise-routing";
   supportsSubscription: boolean;
+  supportsEnterpriseAccess?: boolean;
   localModels: boolean;
   features: Record<FeatureKey, boolean>;
   capabilities: CapabilityScores;

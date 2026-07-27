@@ -81,6 +81,20 @@ describe("multi-axis evidence evaluation", () => {
     expect(evidence.states).not.toContain("code-verifiable");
   });
 
+  it("keeps Antigravity's support-only repository out of code-verifiable and benchmark evidence", () => {
+    const audit = repositoryAudits.find((item) => item.harnessId === "antigravity-cli")!;
+    const evidence = evidenceStateFor("antigravity-cli");
+
+    expect(audit.inspectedRef).toBe("2ae8126db826afb9477bb81f663294f8b5dff84e");
+    expect(audit.sourceScope).toBe("support-repository");
+    expect(Object.values(audit.signals).every((signal) => signal === false)).toBe(true);
+    expect(repositoryArtifactCount(audit)).toBeNull();
+    expect(audit.limitation).toContain("only 15");
+    expect(audit.limitation).toContain("no core harness source");
+    expect(evidence.states).toEqual(["documented"]);
+    expect(benchmarkRuns.some((run) => run.harnessId === "antigravity-cli")).toBe(false);
+  });
+
   it("pins Junie's distribution-only audit and Kimi Code's current full-source release", () => {
     const junie = repositoryAudits.find((item) => item.harnessId === "junie-cli")!;
     const kimi = repositoryAudits.find((item) => item.harnessId === "kimi-code")!;

@@ -113,7 +113,7 @@ export default function MethodologyPage() {
 
         <section className="prose-section" id="eligibility">
           <h2>2. Eligibility before preference</h2>
-          <p>Interface, model-access path, explicit required features, and mode-implied requirements are non-compensatory gates. CI requires headless execution; parallel work requires documented subagents. A high value elsewhere cannot compensate for a failed gate.</p>
+          <p>Interface, model-access path, explicit required features, and mode-implied requirements are non-compensatory gates. Consumer subscription access, enterprise access, provider breadth, and local-model support are recorded independently: one never establishes another by inference. CI requires headless execution; parallel work requires documented subagents. A high value elsewhere cannot compensate for a failed gate.</p>
           <p>Only active products are eligible: dormant and archived products remain visible for research but are excluded from recommendations and benchmark rankings. OpenRouter and GitHub are discovery sources only: they can create a research candidate, but cannot establish a capability.</p>
           <p>The current public status is deliberately conservative: “Eligible” means every declared gate has current supporting documentation. “Not eligible on current evidence” means at least one gate is not documented; it does not prove technical impossibility. Conditional and explicitly unsupported states will not be shown until the claim ledger can encode and source them directly.</p>
         </section>

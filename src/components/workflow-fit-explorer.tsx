@@ -63,9 +63,9 @@ const priorityLabels: Record<RecommendationAnswers["priority"], string> = {
 
 const modelLabels: Record<RecommendationAnswers["modelAccess"], string> = {
   subscription: "Subscription",
-  "model-agnostic": "APIs and multiple models",
+  "model-agnostic": "Multiple model providers",
   local: "Local models",
-  enterprise: "Enterprise routing",
+  enterprise: "Enterprise access",
 };
 
 const controlLabels: Record<RecommendationAnswers["control"], string> = {

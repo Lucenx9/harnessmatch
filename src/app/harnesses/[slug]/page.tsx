@@ -240,6 +240,10 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
                 <dd>{harness.supportsSubscription ? "Available" : "Not documented"}</dd>
               </div>
               <div>
+                <dt>Enterprise access</dt>
+                <dd>{harness.supportsEnterpriseAccess ? "Available" : "Not documented"}</dd>
+              </div>
+              <div>
                 <dt>Local model path</dt>
                 <dd>{harness.localModels ? "Supported" : "Not first-class"}</dd>
               </div>

@@ -47,7 +47,7 @@ const modelAccessLabels: Record<RecommendationAnswers["modelAccess"], string> = 
   subscription: "your existing subscription",
   "model-agnostic": "multiple model providers",
   local: "local models",
-  enterprise: "enterprise model routing",
+  enterprise: "an enterprise access path",
 };
 
 const priorityReason: Record<RecommendationAnswers["priority"], string> = {
@@ -231,7 +231,7 @@ function supportsRequestedModelAccess(harness: Harness, answers: RecommendationA
   if (answers.modelAccess === "subscription") return harness.supportsSubscription;
   if (answers.modelAccess === "local") return harness.localModels;
   if (answers.modelAccess === "model-agnostic") return harness.providerStyle !== "single-vendor";
-  return harness.providerStyle === "enterprise-routing";
+  return harness.supportsEnterpriseAccess === true;
 }
 
 export function eligibilityFailuresFor(
