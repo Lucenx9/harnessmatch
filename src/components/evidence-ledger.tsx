@@ -15,6 +15,13 @@ import type { Harness } from "@/lib/types";
 
 type StatusFilter = Harness["status"] | "all";
 
+const statusFilterLabels: Record<StatusFilter, string> = {
+  all: "all statuses",
+  active: "active",
+  dormant: "dormant",
+  archived: "archived",
+};
+
 function productLayerLabelFor(record: Harness) {
   const membership = getHarnessMembershipAssessment(record);
   return membership ? productLayerLabels[membership.layer] : "Not assessed";
@@ -71,7 +78,7 @@ export function EvidenceLedger({ records }: { records: Harness[] }) {
             <option value="archived">Archived</option>
           </select>
         </label>
-        <p aria-live="polite"><strong>{filtered.length}</strong> matching {filtered.length === 1 ? "product" : "products"}</p>
+        <p aria-live="polite"><strong>{filtered.length}</strong> of {records.length} {records.length === 1 ? "product" : "products"}, {statusFilterLabels[status]}</p>
       </div>
 
       <div className="evidence-ledger">
