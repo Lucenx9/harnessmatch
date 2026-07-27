@@ -35,6 +35,31 @@ describe("scientific methodology ledger", () => {
     expect(source.limitation).toContain("not a Codebuff capability or quality rating");
   });
 
+  it("adds peer-reviewed foundations for repository and adversarial agent evaluation", () => {
+    const sweBench = researchSources.find((item) => item.title.startsWith("SWE-bench: Can Language Models"))!;
+    const agentDojo = researchSources.find((item) => item.title.startsWith("AgentDojo:"))!;
+
+    expect(sweBench).toMatchObject({ maturity: "peer-reviewed", venue: "ICLR 2024" });
+    expect(sweBench.supports).toContain("executable environments");
+    expect(agentDojo).toMatchObject({ maturity: "peer-reviewed", venue: "NeurIPS 2024 Datasets and Benchmarks" });
+    expect(agentDojo.supports).toContain("task utility from adversarial security");
+  });
+
+  it("keeps production curation and overeager-action results out of permanent product scores", () => {
+    const reap = researchSources.find((item) => item.title.startsWith("REAP:"))!;
+    const overeager = researchSources.find((item) => item.title.startsWith("Overeager Coding Agents:"))!;
+    const scopeInsight = researchInsights.find((item) => item.title === "A sandbox and aligned scope solve different problems.")!;
+
+    expect(reap.supports).toContain("multi-run stability");
+    expect(reap.limitation).toContain("cannot be transferred");
+    expect(overeager.supports).toContain("distinct from prompt injection and sandbox escape");
+    expect(overeager.limitation).toContain("does not convert its product rates into permanent security scores");
+    expect(scopeInsight.sourceUrls).toEqual(expect.arrayContaining([
+      "https://proceedings.neurips.cc/paper_files/paper/2024/hash/97091a5177d8dc64b1da8bf3e1f6fb54-Abstract-Datasets_and_Benchmarks_Track.html",
+      overeager.url,
+    ]));
+  });
+
   it("grounds vibe-coding guidance in real-session and least-privilege research", () => {
     const vibe = researchSources.find((item) => item.title === "SWE-chat: Coding Agent Interactions From Real Users in the Wild")!;
     const permissions = researchSources.find((item) => item.title === "Do Coding Agents Understand Least-Privilege Authorization?")!;

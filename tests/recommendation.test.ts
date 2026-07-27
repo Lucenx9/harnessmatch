@@ -240,6 +240,30 @@ describe("recommendHarnesses", () => {
     expect(getOperationalProfile("factory-droid")).toMatchObject({ permissions: "policy", observability: "traces", recovery: "checkpoint" });
   });
 
+  it("credits Kimi Code's structured traces for parallel work without inventing stronger recovery", () => {
+    const answers: RecommendationAnswers = {
+      ...base,
+      priority: "flexibility",
+      modelAccess: "local",
+      control: "approval-heavy",
+      operatingMode: "parallel",
+      requiredFeatures: ["mcp"],
+    };
+    const result = recommendHarnesses(answers).find((item) => item.harness.id === "kimi-code");
+
+    expect(result).toBeDefined();
+    expect(getOperationalProfile("kimi-code")).toEqual({
+      context: "managed",
+      permissions: "approval",
+      verification: "tool-assisted",
+      observability: "traces",
+      recovery: "session-resume",
+    });
+    expect(result?.scoreBreakdown.operatingMode).toBeCloseTo(87.5, 2);
+    expect(result?.harness.features).toMatchObject({ subagents: true, sandbox: false, checkpoints: false });
+    expect(result?.compromises.join(" ")).toContain("host privileges");
+  });
+
   it("recognizes Letta's opt-in policy for controlled multi-agent work without hiding its permissive default", () => {
     const answers: RecommendationAnswers = {
       ...base,

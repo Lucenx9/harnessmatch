@@ -1311,12 +1311,21 @@ describe("harness evidence ledger", () => {
       "https://github.com/JetBrains/junie/releases/tag/2518.1",
     ]));
     expect(byId.get("junie-cli")!.tradeoffs.join(" ")).toContain("machine must remain awake");
+    expect(urlsFor("cline")).toEqual(expect.arrayContaining([
+      "https://docs.cline.bot/sdk/plugins",
+      "https://docs.cline.bot/customization/plugins",
+      "https://docs.cline.bot/enterprise-solutions/configuration/infrastructure-configuration/control-other-cline-features/mcp-server-controls",
+      "https://docs.cline.bot/enterprise-solutions/configuration/infrastructure-configuration/control-other-cline-features/yolo-mode",
+    ]));
     expect(urlsFor("kimi-code")).toEqual(expect.arrayContaining([
       "https://github.com/MoonshotAI/kimi-code/tree/8a45f10eddbb35c317047e82e567cdb59a220b4f",
       "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai%2Fkimi-code%400.29.2",
       "https://moonshotai.github.io/kimi-code/en/customization/skills",
       "https://moonshotai.github.io/kimi-code/en/customization/agents",
       "https://moonshotai.github.io/kimi-code/en/customization/mcp",
+      "https://moonshotai.github.io/kimi-code/en/customization/plugins.html",
+      "https://moonshotai.github.io/kimi-code/en/configuration/data-locations.html",
+      "https://moonshotai.github.io/kimi-code/en/configuration/env-vars.html",
     ]));
   });
 

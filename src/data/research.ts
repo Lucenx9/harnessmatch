@@ -197,6 +197,16 @@ export const researchSources: ResearchSource[] = [
       "HarnessMatch currently lacks raw task-level trials for a generalized linear mixed model and therefore labels its intervals descriptive.",
   },
   {
+    title: "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?",
+    venue: "ICLR 2024",
+    maturity: "peer-reviewed",
+    url: "https://proceedings.iclr.cc/paper_files/paper/2024/hash/edac78c3e300629acfe6cbe9ca88fb84-Abstract-Conference.html",
+    supports:
+      "Establishes repository-level issue resolution with real GitHub issues, complete codebases, executable environments, and fail-to-pass tests as a more realistic unit than isolated code generation.",
+    limitation:
+      "The original benchmark covers twelve Python repositories and early model systems; later results still require current task curation, exact harness configuration, repeated attempts, and contamination controls.",
+  },
+  {
     title: "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering",
     venue: "NeurIPS 2024",
     maturity: "peer-reviewed",
@@ -367,6 +377,16 @@ export const researchSources: ResearchSource[] = [
       "Fresh tasks reduce contamination risk but do not remove the need to pin model, harness, budget, environment, attempts, and run policy.",
   },
   {
+    title: "REAP: Automatic Curation of Coding Agent Benchmarks from Interactive Production Usage",
+    venue: "arXiv 2026",
+    maturity: "preprint",
+    url: "https://arxiv.org/abs/2604.01527",
+    supports:
+      "Derives executable tasks from real developer-agent sessions and audits task relevance, test alignment, and multi-run stability, showing how production evaluation can preserve fidelity without relying on one static public benchmark.",
+    limitation:
+      "REAP studies one production monorepo pipeline and uses automated, partly model-assisted curation; its solve rates cannot be transferred to unrelated repositories or treated as harness-only ratings.",
+  },
+  {
     title: "Context as a Tool: Context Management for Long-Horizon SWE-Agents",
     venue: "arXiv 2025",
     maturity: "preprint",
@@ -467,6 +487,16 @@ export const researchSources: ResearchSource[] = [
       "The workshop submission evaluates selected models and tasks inside one harness; it is methodological evidence, not a current product ranking.",
   },
   {
+    title: "AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents",
+    venue: "NeurIPS 2024 Datasets and Benchmarks",
+    maturity: "peer-reviewed",
+    url: "https://proceedings.neurips.cc/paper_files/paper/2024/hash/97091a5177d8dc64b1da8bf3e1f6fb54-Abstract-Datasets_and_Benchmarks_Track.html",
+    supports:
+      "Separates task utility from adversarial security for tool-using agents and evaluates prompt injection through untrusted tool output with realistic tasks, explicit security cases, and adaptive attacks.",
+    limitation:
+      "AgentDojo focuses on web and productivity tools rather than repository coding, so it informs HarnessMatch's security model without proving any coding harness is secure or insecure.",
+  },
+  {
     title: "Do Coding Agents Understand Least-Privilege Authorization?",
     venue: "arXiv 2026",
     maturity: "preprint",
@@ -475,6 +505,16 @@ export const researchSources: ResearchSource[] = [
       "AuthBench uses 120 realistic terminal tasks with human-reviewed file permissions and executable utility and attack validators, showing why least privilege needs harness-level policy rather than model intuition alone.",
     limitation:
       "It is a recent preprint about model-generated file policies, not an audit of Crush permissions or evidence that any approval prompt or hook is an effective security boundary.",
+  },
+  {
+    title: "Overeager Coding Agents: Measuring Out-of-Scope Actions on Benign Tasks",
+    venue: "arXiv 2026",
+    maturity: "preprint",
+    url: "https://arxiv.org/abs/2605.18583",
+    supports:
+      "Defines out-of-scope action as an authorization failure distinct from prompt injection and sandbox escape, and uses paired consent conditions, audited tool calls, repeated runs, and multiple model-harness combinations.",
+    limitation:
+      "The benchmark evaluates selected May 2026 configurations and remains a preprint; HarnessMatch does not convert its product rates into permanent security scores without complete versioned run records.",
   },
   {
     title: "How Coding Agents Fail Their Users: A Large-Scale Analysis of Developer-Agent Misalignment in 20,574 Real-World Sessions",
@@ -554,6 +594,16 @@ export const researchInsights: ResearchInsight[] = [
       "https://arxiv.org/abs/2604.20779",
       "https://arxiv.org/abs/2605.29442",
       "https://arxiv.org/abs/2605.14859",
+    ],
+  },
+  {
+    title: "A sandbox and aligned scope solve different problems.",
+    summary:
+      "Isolation limits the damage a tool can cause, while permission policy and visible consent boundaries constrain what the agent should attempt. Prompt injection, excess initiative, and sandbox escape therefore need separate evidence.",
+    sourceUrls: [
+      "https://proceedings.neurips.cc/paper_files/paper/2024/hash/97091a5177d8dc64b1da8bf3e1f6fb54-Abstract-Datasets_and_Benchmarks_Track.html",
+      "https://arxiv.org/abs/2605.14859",
+      "https://arxiv.org/abs/2605.18583",
     ],
   },
   {

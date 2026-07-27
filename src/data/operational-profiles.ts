@@ -136,8 +136,16 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
   ),
   cline: record(
     { context: "managed", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "checkpoint" },
-    ["https://docs.cline.bot/cli/cli-reference", "https://docs.cline.bot/core-workflows/checkpoints", "https://docs.cline.bot/cli/agent-teams", "https://docs.cline.bot/enterprise-solutions/monitoring/opentelemetry"],
-    "Rules, command allow/deny policy, manual Memory Bank context, session/team state, shadow-Git checkpoints, and OTLP logs support control and inspection. The CLI prompt path defaults to auto-approve, so this is policy-governed rather than approval-first overall.",
+    [
+      "https://docs.cline.bot/cli/cli-reference",
+      "https://docs.cline.bot/core-workflows/checkpoints",
+      "https://docs.cline.bot/cli/agent-teams",
+      "https://docs.cline.bot/sdk/plugins",
+      "https://docs.cline.bot/enterprise-solutions/configuration/infrastructure-configuration/control-other-cline-features/mcp-server-controls",
+      "https://docs.cline.bot/enterprise-solutions/configuration/infrastructure-configuration/control-other-cline-features/yolo-mode",
+      "https://docs.cline.bot/enterprise-solutions/monitoring/opentelemetry",
+    ],
+    "Rules, command policy, fail-open or fail-closed pre-tool hooks, enterprise YOLO and MCP restrictions, manual Memory Bank context, session/team state, shadow-Git checkpoints, and OTLP logs support control and inspection. The CLI prompt path defaults to auto-approve, so this is policy-governed rather than approval-first overall; executable plugins remain a separate trust boundary.",
   ),
   "gemini-cli": record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "checkpoint" },
@@ -237,17 +245,19 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
     "The profile records managed compaction, granular policies, optional OpenTelemetry, and message-level file rewind. OTEL is off by default; the local CLI remains a host process, and these mechanisms do not establish task success.",
   ),
   "kimi-code": record(
-    { context: "managed", permissions: "approval", verification: "tool-assisted", observability: "logs", recovery: "session-resume" },
+    { context: "managed", permissions: "approval", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },
     [
       "https://moonshotai.github.io/kimi-code/en/configuration/config-files.html",
+      "https://moonshotai.github.io/kimi-code/en/configuration/env-vars.html",
       "https://moonshotai.github.io/kimi-code/en/reference/kimi-command.html",
       "https://moonshotai.github.io/kimi-code/en/reference/tools.html",
       "https://moonshotai.github.io/kimi-code/en/guides/sessions.html",
+      "https://moonshotai.github.io/kimi-code/en/customization/plugins.html",
       "https://moonshotai.github.io/kimi-code/en/customization/hooks",
       "https://moonshotai.github.io/kimi-code/en/customization/agents",
       "https://moonshotai.github.io/kimi-code/en/customization/mcp",
     ],
-    "Interactive sessions default to manual approval and persist replayable JSONL event streams, but this is resumable session state rather than learned memory or file rollback. Print mode uses unattended auto permission, can leave background work effectively unbounded, anonymous telemetry defaults on, hooks fail open, and all local tools remain host-privileged.",
+    "Interactive sessions default to manual approval and persist structured Wire event streams with subagent histories and a session visualizer, but this is resumable state rather than learned memory or file rollback. Print mode uses unattended auto permission, can leave background work effectively unbounded, anonymous telemetry defaults on, hooks fail open, plugins and MCP servers add trust boundaries, and all local tools remain host-privileged. The web service is loopback and bearer-authenticated by default; its explicit bypass removes that boundary.",
   ),
   "letta-code": record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "managed-recovery" },
