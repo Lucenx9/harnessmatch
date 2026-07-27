@@ -100,6 +100,12 @@ function escapeCsv(value: string | number) {
   return `"${String(value).replaceAll('"', '""')}"`;
 }
 
+function eligibilityFailureLabel(failure: EligibilityFailure) {
+  if (failure.kind === "product-layer") return `Catalog scope: ${failure.label}`;
+  if (failure.kind === "membership") return `Membership evidence: ${failure.label}`;
+  return `Workflow requirement: ${failure.label}`;
+}
+
 function scenarioCsv(scenario: WorkflowFitScenario) {
   const rows = [
     ["scenario", "status", "rank", "harness", "reference_preference_index", "fit_band", "top_3_sensitivity_percent", "mean_rank", "why", "evidence_state", "evidence_sources", "verified_at", "failed_gates"],
@@ -131,7 +137,7 @@ function scenarioCsv(scenario: WorkflowFitScenario) {
       "",
       "",
       "",
-      result.failures.map((failure) => failure.label).join(", "),
+      result.failures.map(eligibilityFailureLabel).join(", "),
     ]),
   ];
 
@@ -277,7 +283,7 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
                     <strong className="workflow-score">{result.robustness.topThreeFrequency}%</strong>
                   </Link>
                   <span className="sr-only" id={`workflow-result-${selected.id}-${result.id}`}>
-                    {result.fitBand} match. Top three in {result.robustness.topThreeFrequency} percent of 512 tested priority variations, with rank range {result.robustness.bestRank} to {result.robustness.worstRank}. Every must-have has current supporting documentation. Evidence state: {result.evidenceState}. Opens the evidence profile.
+                    {result.fitBand} match. Top three in {result.robustness.topThreeFrequency} percent of 512 tested priority variations, with rank range {result.robustness.bestRank} to {result.robustness.worstRank}. Catalog membership and every must-have have current supporting documentation. Evidence state: {result.evidenceState}. Opens the evidence profile.
                   </span>
                 </li>
               );
@@ -313,10 +319,10 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
             <section className="workflow-reading-key" aria-label="How to read the ranking">
               <p><strong>Why this order</strong><span>Tools that fit your priorities appear first.</span></p>
               <p><strong>Stability</strong><span>How often a tool stays near the top when your priorities change slightly.</span></p>
-              <p><strong>Deal-breakers</strong><span>Tools without current documentation for one are left out instead of receiving a lower score.</span></p>
+              <p><strong>Deal-breakers</strong><span>Neighboring product layers and tools without current evidence for one are left out instead of receiving a lower score.</span></p>
             </section>
             <p className="workflow-method-copy">
-              We first remove tools without current documentation for a must-have. The remaining products are ordered using published reference weights: main priority {recommendationWeights.priority}, approval style {recommendationWeights.control}, change size {recommendationWeights.changeScope}, and work mode {recommendationWeights.operatingMode}. We then vary those priorities 512 ways. The percentage is a stability check, not a task success rate.
+              We first require documented coding-harness membership, then remove tools without current documentation for a must-have. The remaining products are ordered using published reference weights: main priority {recommendationWeights.priority}, approval style {recommendationWeights.control}, change size {recommendationWeights.changeScope}, and work mode {recommendationWeights.operatingMode}. We then vary those priorities 512 ways. The percentage is a stability check, not a task success rate.
             </p>
           </details>
         </div>
@@ -333,7 +339,7 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
           <summary className="complete-ranking-header">
             <div>
               <h3>See all {selected.results.length} eligible harnesses</h3>
-              <p>{selected.results.length} of {totalProducts} active harnesses have documented support for every must-have in this workflow.</p>
+              <p>{selected.results.length} of {totalProducts} active catalog entries pass coding-harness membership and every must-have in this workflow.</p>
             </div>
             <span className="ranking-disclosure-label" aria-hidden="true" />
           </summary>
@@ -358,7 +364,7 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
         {selected.excluded.length > 0 && (
           <details className="ranking-exclusions">
             <summary>Why {selected.excluded.length} harnesses do not match</summary>
-            <p>These products are not ranked because at least one must-have is not currently documented.</p>
+            <p>These products are not ranked because they are outside the default coding-harness layer or at least one required condition is not currently documented.</p>
             <ul className="exclusion-list">
               {selected.excluded.map((result) => (
                 <li key={result.id}>
@@ -367,7 +373,7 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
                       <HarnessLogo logo={result.logo} name={result.name} size="small" />
                       <strong>{result.name}</strong>
                     </span>
-                    <span>Not documented: {result.failures.map((failure) => failure.label).join(", ")}</span>
+                    <span>{result.failures.map(eligibilityFailureLabel).join("; ")}</span>
                   </Link>
                 </li>
               ))}

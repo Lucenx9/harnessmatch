@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { benchmarkRuns } from "@/data/benchmark-runs";
+import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnesses } from "@/data/harnesses";
 import { getOperationalProfileRecord } from "@/data/operational-profiles";
 import {
@@ -129,7 +130,7 @@ export default function HomePage() {
             <p>Choose a workflow. See every eligible tool, why it ranks there, and where current documentation is insufficient.</p>
           </div>
           <dl className="dataset-summary" aria-label="Dataset status">
-            <div><dt>Active harnesses</dt><dd>{activeHarnesses.length}</dd></div>
+            <div><dt>Active catalog entries</dt><dd>{activeHarnesses.length}</dd></div>
             <div><dt>First-party sources</dt><dd>{sourceCount}</dd></div>
             <div><dt>Scientific papers</dt><dd>{researchSources.length}</dd></div>
             <div><dt>Measured systems</dt><dd>{benchmarkRuns.length}</dd></div>
@@ -194,6 +195,7 @@ export default function HomePage() {
             name: harness.name,
             logo: harness.logo,
             tagline: harness.tagline,
+            layer: getHarnessMembershipAssessment(harness)!.layer,
             role: harness.classification.role,
             orchestration: harness.classification.orchestration,
             runtime: harness.classification.runtime,

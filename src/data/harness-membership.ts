@@ -1,0 +1,300 @@
+import type {
+  Harness,
+  HarnessMembershipAssessment,
+  HarnessMembershipCriterion,
+  MembershipEvidenceState,
+  ProductLayer,
+} from "../lib/types";
+
+type CriterionDefinition = {
+  state: MembershipEvidenceState;
+  sourceTitles: string[];
+};
+
+type MembershipDefinition = {
+  layer: ProductLayer;
+  criteria: Record<HarnessMembershipCriterion, CriterionDefinition>;
+  limitation: string;
+};
+
+type DocumentedCriterionTitles = Record<HarnessMembershipCriterion, string | string[]>;
+
+const categoryLimitation =
+  "Membership establishes category fit only. It does not score quality, safety, autonomy, model capability, or benchmark performance.";
+
+function documentedCodingHarness(criteria: DocumentedCriterionTitles): MembershipDefinition {
+  return {
+    layer: "coding-harness",
+    criteria: Object.fromEntries(
+      Object.entries(criteria).map(([criterion, sourceTitles]) => [
+        criterion,
+        {
+          state: "documented",
+          sourceTitles: Array.isArray(sourceTitles) ? sourceTitles : [sourceTitles],
+        },
+      ]),
+    ) as MembershipDefinition["criteria"],
+    limitation: categoryLimitation,
+  };
+}
+
+const membershipDefinitions: Record<string, MembershipDefinition> = {
+  "claude-code": documentedCodingHarness({
+    adaptiveLoop: "How Claude Code works",
+    environmentMutation: "Tools reference",
+    activeContextManagement: "How Claude Code works",
+    runtimeControl: "Permissions",
+  }),
+  codex: documentedCodingHarness({
+    adaptiveLoop: "Codex CLI",
+    environmentMutation: "Developer command reference",
+    activeContextManagement: "AGENTS.md instructions",
+    runtimeControl: "Approvals and security",
+  }),
+  opencode: documentedCodingHarness({
+    adaptiveLoop: "OpenCode introduction",
+    environmentMutation: "Built-in and custom tools",
+    activeContextManagement: "Agents and permissions",
+    runtimeControl: "Permission policy",
+  }),
+  pi: documentedCodingHarness({
+    adaptiveLoop: "Quickstart",
+    environmentMutation: "Quickstart",
+    activeContextManagement: "Compaction",
+    runtimeControl: "RPC mode",
+  }),
+  omp: documentedCodingHarness({
+    adaptiveLoop: "Product overview",
+    environmentMutation: "Task subagents",
+    activeContextManagement: "Settings reference",
+    runtimeControl: "Approval modes",
+  }),
+  "grok-build": documentedCodingHarness({
+    adaptiveLoop: "Grok Build overview",
+    environmentMutation: "CLI reference",
+    activeContextManagement: "Modes and commands",
+    runtimeControl: "Permissions",
+  }),
+  aider: documentedCodingHarness({
+    adaptiveLoop: "Aider documentation",
+    environmentMutation: "Options reference",
+    activeContextManagement: "Repository map",
+    runtimeControl: "Options reference",
+  }),
+  openhands: documentedCodingHarness({
+    adaptiveLoop: "OpenHands 1.11.0 source",
+    environmentMutation: "Sandbox overview",
+    activeContextManagement: "Conversation persistence",
+    runtimeControl: "Security and action confirmation",
+  }),
+  goose: documentedCodingHarness({
+    adaptiveLoop: "Session recipes",
+    environmentMutation: "Developer extension",
+    activeContextManagement: "Smart context management",
+    runtimeControl: "Developer extension",
+  }),
+  cline: documentedCodingHarness({
+    adaptiveLoop: "Cline overview",
+    environmentMutation: "CLI reference",
+    activeContextManagement: "Memory Bank",
+    runtimeControl: "Permission handling",
+  }),
+  "gemini-cli": documentedCodingHarness({
+    adaptiveLoop: "Gemini CLI v0.52.0 source",
+    environmentMutation: "Gemini CLI v0.52.0 source",
+    activeContextManagement: "Persistent context and memory",
+    runtimeControl: "Sandboxing",
+  }),
+  "antigravity-cli": documentedCodingHarness({
+    adaptiveLoop: "Antigravity CLI overview",
+    environmentMutation: "Antigravity CLI overview",
+    activeContextManagement: "Conversation management",
+    runtimeControl: "Fine-grained permissions",
+  }),
+  "copilot-cli": documentedCodingHarness({
+    adaptiveLoop: "About GitHub Copilot CLI",
+    environmentMutation: "Using Copilot CLI",
+    activeContextManagement: "Copilot Memory",
+    runtimeControl: "Using Copilot CLI",
+  }),
+  "cursor-cli": documentedCodingHarness({
+    adaptiveLoop: "Cursor CLI overview",
+    environmentMutation: "Headless mode",
+    activeContextManagement: "Using Agent in the CLI",
+    runtimeControl: "CLI permissions",
+  }),
+  "junie-cli": documentedCodingHarness({
+    adaptiveLoop: "Junie CLI quick start",
+    environmentMutation: "Junie CLI quick start",
+    activeContextManagement: "Guidelines and memory",
+    runtimeControl: "Action Allowlist",
+  }),
+  "factory-droid": documentedCodingHarness({
+    adaptiveLoop: "Droid Exec",
+    environmentMutation: "Droid CLI reference",
+    activeContextManagement: "Session memory management",
+    runtimeControl: "Autonomy levels",
+  }),
+  forgecode: documentedCodingHarness({
+    adaptiveLoop: "Audited ForgeCode readme",
+    environmentMutation: "Built-in implementation agent",
+    activeContextManagement: "Built-in agent roles",
+    runtimeControl: "Permission policy",
+  }),
+  "qwen-code": documentedCodingHarness({
+    adaptiveLoop: "Qwen Code overview",
+    environmentMutation: "Qwen Code 0.21.0 source snapshot",
+    activeContextManagement: "Persistent memory",
+    runtimeControl: "Approval and settings reference",
+  }),
+  "continue-cli": documentedCodingHarness({
+    adaptiveLoop: "Continue CLI quickstart",
+    environmentMutation: "Models, rules, and tools",
+    activeContextManagement: "Continue CLI quickstart",
+    runtimeControl: "Tool permissions",
+  }),
+  "mistral-vibe": documentedCodingHarness({
+    adaptiveLoop: "Vibe overview",
+    environmentMutation: "Work with the CLI",
+    activeContextManagement: "Pinned local-session architecture",
+    runtimeControl: "Safety, approvals, and permissions",
+  }),
+  "kimi-code": documentedCodingHarness({
+    adaptiveLoop: "Kimi Code documentation",
+    environmentMutation: "Built-in tools and swarms",
+    activeContextManagement: "Sessions and context",
+    runtimeControl: "Command reference",
+  }),
+  "letta-code": documentedCodingHarness({
+    adaptiveLoop: "Letta Code quickstart",
+    environmentMutation: "Client tool execution model",
+    activeContextManagement: "MemFS",
+    runtimeControl: "Permissions",
+  }),
+  "kilo-code": documentedCodingHarness({
+    adaptiveLoop: "Kilo CLI",
+    environmentMutation: "Kilo CLI",
+    activeContextManagement: "Codebase indexing",
+    runtimeControl: "Agent permissions",
+  }),
+  "command-code": documentedCodingHarness({
+    adaptiveLoop: "Goal mode",
+    environmentMutation: "CLI reference",
+    activeContextManagement: "Memory instructions",
+    runtimeControl: "Permissions",
+  }),
+  codebuff: documentedCodingHarness({
+    adaptiveLoop: "How Codebuff works",
+    environmentMutation: "How Codebuff works",
+    activeContextManagement: "Default autonomy and context management",
+    runtimeControl: "Execution modes",
+  }),
+  crush: documentedCodingHarness({
+    adaptiveLoop: "Pinned Crush overview",
+    environmentMutation: "Pinned agent tests",
+    activeContextManagement: "Pinned session store",
+    runtimeControl: "Pinned permission manager",
+  }),
+  mux: documentedCodingHarness({
+    adaptiveLoop: "Mux agents",
+    environmentMutation: "Mux agents",
+    activeContextManagement: "Instruction files",
+    runtimeControl: "Administrative policy file",
+  }),
+  "coder-agents": documentedCodingHarness({
+    adaptiveLoop: "Coder Agents overview",
+    environmentMutation: "Built-in tools",
+    activeContextManagement: "Coder Agents architecture",
+    runtimeControl: "Platform controls",
+  }),
+  "zoo-code": documentedCodingHarness({
+    adaptiveLoop: "Zoo Code documentation overview",
+    environmentMutation: "Tool workflow",
+    activeContextManagement: "Codebase indexing",
+    runtimeControl: "Auto-approval policy at inspected commit",
+  }),
+  zcode: documentedCodingHarness({
+    adaptiveLoop: "ZCode Agent workflow",
+    environmentMutation: "ADE tools",
+    activeContextManagement: "Task and file management",
+    runtimeControl: "Safety confirmation",
+  }),
+  stagewise: documentedCodingHarness({
+    adaptiveLoop: "How agents work",
+    environmentMutation: "How agents work",
+    activeContextManagement: "Agent context",
+    runtimeControl: "Tool approval modes at inspected commit",
+  }),
+  "hermes-agent": documentedCodingHarness({
+    adaptiveLoop: "Persistent goals",
+    environmentMutation: "Tools and toolsets",
+    activeContextManagement: "Persistent memory",
+    runtimeControl: "Security and trust boundaries",
+  }),
+  "mini-swe-agent": documentedCodingHarness({
+    adaptiveLoop: "Control flow",
+    environmentMutation: "Control flow",
+    activeContextManagement: "Default agent implementation",
+    runtimeControl: "CLI modes",
+  }),
+  amp: documentedCodingHarness({
+    adaptiveLoop: "Amp owner’s manual",
+    environmentMutation: "Amp owner’s manual",
+    activeContextManagement: "Scheduled agents",
+    runtimeControl: "Permissions and plugins",
+  }),
+  "kiro-cli": documentedCodingHarness({
+    adaptiveLoop: "Goal loop",
+    environmentMutation: "Built-in tools",
+    activeContextManagement: "Session management",
+    runtimeControl: "Tool permissions",
+  }),
+  "poolside-cli": documentedCodingHarness({
+    adaptiveLoop: "Poolside Agent CLI",
+    environmentMutation: "CLI reference",
+    activeContextManagement: "Interactive mode",
+    runtimeControl: "Tool and path policy reference",
+  }),
+  plandex: documentedCodingHarness({
+    adaptiveLoop: "Repository snapshot and lifecycle notice",
+    environmentMutation: "Execution and debugging",
+    activeContextManagement: "Context management",
+    runtimeControl: "Autonomy levels",
+  }),
+};
+
+export function getHarnessMembershipAssessment(
+  harness: Harness,
+): HarnessMembershipAssessment | null {
+  if (harness.membership) return harness.membership;
+  const definition = membershipDefinitions[harness.id];
+  if (!definition) return null;
+
+  const evidenceByTitle = new Map(harness.evidence.map((source) => [source.title, source.url]));
+  const criteria = Object.fromEntries(
+    Object.entries(definition.criteria).map(([criterion, assessment]) => {
+      const sourceUrls = assessment.sourceTitles.flatMap((title) => {
+        const url = evidenceByTitle.get(title);
+        return url ? [url] : [];
+      });
+      const state = assessment.state === "documented"
+        && sourceUrls.length !== assessment.sourceTitles.length
+        ? "unknown"
+        : assessment.state;
+      return [criterion, { state, sourceUrls }];
+    }),
+  ) as HarnessMembershipAssessment["criteria"];
+
+  return {
+    layer: definition.layer,
+    criteria,
+    verifiedAt: harness.verifiedAt,
+    limitation: definition.limitation,
+  };
+}
+
+export function hasDocumentedCodingHarnessMembership(harness: Harness) {
+  const assessment = getHarnessMembershipAssessment(harness);
+  return assessment?.layer === "coding-harness"
+    && Object.values(assessment.criteria).every((criterion) => criterion.state === "documented");
+}

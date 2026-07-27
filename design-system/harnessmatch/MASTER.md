@@ -66,6 +66,9 @@ Semantic success, warning, and danger colors are reserved for actual state. They
 - A second analytical surface offers separate operational-readiness, public-code-auditability, and measured-system rankings
 - Workflow-fit bars visualize deterministic recommendation points, never model intelligence or benchmark performance
 - Required workflow capabilities are eligibility gates. A compatible capability does not add a hidden score bonus
+- Catalog layer is separate from product role: coding harness, external harness orchestrator, framework/runtime, or adjacent tool
+- Default recommendation requires four source-backed coding-harness membership criteria before workflow gates are evaluated
+- Workflow fit × model portability is a categorical decision matrix; it reuses fit bands and never adds a portability score
 - Operational fit is evaluated across context management, permission posture, verification, observability, and recovery; any unknown scored posture leaves that comparison unranked
 - Evidence coverage is displayed beside fit and never blended into the fit score
 - Operational readiness uses five visible 20% weights and supports single-axis ranking

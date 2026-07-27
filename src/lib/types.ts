@@ -21,6 +21,34 @@ export type IsolationMode =
   | "managed-sandbox"
   | "worktree";
 export type StateModel = "session-based" | "persistent-memory";
+export type ProductLayer =
+  | "coding-harness"
+  | "external-harness-orchestrator"
+  | "framework-runtime"
+  | "adjacent-tool";
+export type ModelPortability =
+  | "vendor-specific"
+  | "managed-routing"
+  | "provider-choice"
+  | "provider-and-local";
+export type HarnessMembershipCriterion =
+  | "adaptiveLoop"
+  | "environmentMutation"
+  | "activeContextManagement"
+  | "runtimeControl";
+export type MembershipEvidenceState = "documented" | "contradicted" | "unknown";
+
+export type MembershipCriterionAssessment = {
+  state: MembershipEvidenceState;
+  sourceUrls: string[];
+};
+
+export type HarnessMembershipAssessment = {
+  layer: ProductLayer;
+  criteria: Record<HarnessMembershipCriterion, MembershipCriterionAssessment>;
+  verifiedAt: string;
+  limitation: string;
+};
 export type FeatureKey =
   | "mcp"
   | "localModels"
@@ -105,6 +133,7 @@ export type Harness = {
   logo: HarnessLogo;
   status: "active" | "dormant" | "archived";
   license: string;
+  membership?: HarnessMembershipAssessment;
   classification: {
     role: HarnessRole;
     orchestration: OrchestrationModel;
@@ -178,6 +207,13 @@ export type EvidenceStateSummary = {
 };
 
 export type EligibilityFailure =
+  | { kind: "product-layer"; layer: ProductLayer; label: string }
+  | {
+      kind: "membership";
+      criterion?: HarnessMembershipCriterion;
+      state?: MembershipEvidenceState;
+      label: string;
+    }
   | { kind: "interface"; label: string }
   | { kind: "model-access"; label: string }
   | { kind: "feature"; feature: FeatureKey; label: string };

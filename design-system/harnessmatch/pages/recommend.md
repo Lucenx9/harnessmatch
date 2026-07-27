@@ -11,12 +11,13 @@ The recommender is a decision-support workflow, not a marketing conversion funne
 
 ## Decision readout
 
-- Eligibility means every declared gate has current supporting documentation.
+- Eligibility means the product is in the coding-harness layer, all four membership criteria are documented, and every declared workflow gate has current supporting documentation.
 - A failed gate is labeled “not eligible on current evidence,” never “incapable” or “unsupported,” until the data model records an explicit negative claim.
 - Workflow fit uses strong, good, conditional, and weak preference bands. Internal 0-100 values remain methodology-only.
 - Evidence basis is a product-level availability summary; individual claim rows remain authoritative.
 - Measured performance reports admitted configuration count only in the readout. Benchmark outcomes stay on the benchmark and profile surfaces and never alter fit.
 - Sensitivity is shown as high, moderate, or low stability with the exact top-three frequency as supporting text.
+- The portability lens uses fit-band rows and categorical provider/local-model columns; it cannot change the recommendation order.
 
 ## Responsive behavior
 

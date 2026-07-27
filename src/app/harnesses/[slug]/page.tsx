@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { HarnessLogo } from "@/components/harness-logo";
 import { benchmarkRunsForHarness } from "@/data/benchmark-runs";
+import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnessBySlug, harnesses } from "@/data/harnesses";
 import { getOperationalProfileRecord } from "@/data/operational-profiles";
 import {
@@ -13,7 +14,12 @@ import {
 import {
   formatIsolationModes,
   harnessRoleLabels,
+  membershipCriterionDescriptions,
+  membershipCriterionLabels,
+  modelPortabilityFor,
+  modelPortabilityLabels,
   orchestrationLabels,
+  productLayerLabels,
   runtimePostureLabels,
   stateModelLabels,
 } from "@/lib/harness-classification";
@@ -159,6 +165,11 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
   const harness = harnessBySlug.get(slug);
   if (!harness) notFound();
   const operationalRecord = getOperationalProfileRecord(harness.id);
+  const membership = getHarnessMembershipAssessment(harness);
+  const documentedMembershipCriteria = membership
+    ? Object.values(membership.criteria).filter((criterion) => criterion.state === "documented").length
+    : 0;
+  const evidenceByUrl = new Map(harness.evidence.map((source) => [source.url, source]));
   const operational = operationalRecord.profile;
   const architecture = architectureProfileFor(harness);
   const documentedLayers = Object.values(architecture).filter((value) => value !== null).length;
@@ -240,6 +251,14 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
             <h2 id="technical-profile-heading">Technical details</h2>
             <dl className="profile-spec-list">
               <div>
+                <dt>Catalog layer</dt>
+                <dd>{membership ? productLayerLabels[membership.layer] : "Not assessed"}</dd>
+              </div>
+              <div>
+                <dt>Harness membership</dt>
+                <dd>{membership ? `${documentedMembershipCriteria}/4 criteria documented` : "Not assessed"}</dd>
+              </div>
+              <div>
                 <dt>Product role</dt>
                 <dd>{harnessRoleLabels[harness.classification.role]}</dd>
               </div>
@@ -288,6 +307,10 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
                 <dd>{providerLabels[harness.providerStyle]}</dd>
               </div>
               <div>
+                <dt>Model portability</dt>
+                <dd>{modelPortabilityLabels[modelPortabilityFor(harness)]}</dd>
+              </div>
+              <div>
                 <dt>Subscription access</dt>
                 <dd>{harness.supportsSubscription ? "Available" : "Not documented"}</dd>
               </div>
@@ -306,6 +329,41 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
             </dl>
           </aside>
         </div>
+
+        {membership && (
+          <section className="profile-membership" id="membership" aria-labelledby="membership-heading">
+            <div className="profile-section-heading">
+              <div>
+                <h2 id="membership-heading">Coding-harness membership</h2>
+                <p>The four category tests are admission criteria, not quality points. Every documented state links back to first-party evidence.</p>
+              </div>
+              <div className="profile-operational-summary">
+                <strong>{documentedMembershipCriteria}/4</strong>
+                <span>criteria documented</span>
+              </div>
+            </div>
+            <ul className="profile-membership-grid">
+              {Object.entries(membership.criteria).map(([criterion, assessment]) => (
+                <li key={criterion}>
+                  <span>{membershipCriterionLabels[criterion as keyof typeof membership.criteria]}</span>
+                  <strong>{assessment.state === "documented" ? "Documented" : assessment.state === "contradicted" ? "Contradicted" : "Unknown"}</strong>
+                  <p>{membershipCriterionDescriptions[criterion as keyof typeof membership.criteria]}</p>
+                  <div>
+                    {assessment.sourceUrls.map((url) => (
+                      <a href={url} target="_blank" rel="noreferrer" key={url}>
+                        {evidenceByUrl.get(url)?.title ?? "First-party source"}
+                      </a>
+                    ))}
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <footer>
+              <p>{membership.limitation} Checked {membership.verifiedAt}.</p>
+              <Link className="text-link" href="/methodology#eligibility">Membership rule</Link>
+            </footer>
+          </section>
+        )}
 
         <section className="profile-signals" aria-labelledby="operational-evidence-heading">
           <div className="profile-section-heading">

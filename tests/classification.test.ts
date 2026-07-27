@@ -1,8 +1,32 @@
 import { describe, expect, it } from "vitest";
 import { harnesses } from "../src/data/harnesses";
+import { getHarnessMembershipAssessment } from "../src/data/harness-membership";
 import { getOperationalProfile, getOperationalProfileRecord } from "../src/data/operational-profiles";
 
 describe("harness classification", () => {
+  it("keeps catalog layer and four membership criteria source-governed", () => {
+    for (const harness of harnesses) {
+      const assessment = getHarnessMembershipAssessment(harness);
+      expect(assessment, harness.name).not.toBeNull();
+      expect(assessment!.verifiedAt, harness.name).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(assessment!.limitation.length, harness.name).toBeGreaterThan(60);
+
+      const evidenceUrls = new Set(harness.evidence.map((source) => source.url));
+      for (const criterion of Object.values(assessment!.criteria)) {
+        expect(criterion.state, harness.name).toBe("documented");
+        expect(criterion.sourceUrls.length, harness.name).toBeGreaterThan(0);
+        expect(criterion.sourceUrls.every((url) => evidenceUrls.has(url)), harness.name).toBe(true);
+      }
+    }
+  });
+
+  it("classifies current catalog entries as coding harnesses without overloading product role", () => {
+    for (const harness of harnesses) {
+      expect(getHarnessMembershipAssessment(harness)?.layer, harness.name).toBe("coding-harness");
+      expect(harness.classification.role).toBeTruthy();
+    }
+  });
+
   it("keeps every active product on the operational facets", () => {
     for (const harness of harnesses.filter((item) => item.status === "active")) {
       expect(harness.classification.role).toBeTruthy();

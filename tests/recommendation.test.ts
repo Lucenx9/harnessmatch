@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { workflowScenarios } from "../src/data/workflow-scenarios";
 import { harnesses } from "../src/data/harnesses";
+import { getHarnessMembershipAssessment } from "../src/data/harness-membership";
 import { getOperationalProfile } from "../src/data/operational-profiles";
 import {
   eligibilityAssessmentFor,
@@ -21,7 +22,11 @@ import {
   operationalPostureScores,
   recommendationWeights,
 } from "../src/lib/recommendation-config";
-import type { Harness, RecommendationAnswers } from "../src/lib/types";
+import type {
+  Harness,
+  HarnessMembershipAssessment,
+  RecommendationAnswers,
+} from "../src/lib/types";
 
 const base: RecommendationAnswers = {
   interface: "terminal",
@@ -31,6 +36,13 @@ const base: RecommendationAnswers = {
   changeScope: "large-repo",
   operatingMode: "interactive",
   requiredFeatures: [],
+};
+
+const unknownMembershipCriteria: HarnessMembershipAssessment["criteria"] = {
+  adaptiveLoop: { state: "unknown", sourceUrls: [] },
+  environmentMutation: { state: "unknown", sourceUrls: [] },
+  activeContextManagement: { state: "unknown", sourceUrls: [] },
+  runtimeControl: { state: "unknown", sourceUrls: [] },
 };
 
 describe("recommendHarnesses", () => {
@@ -77,6 +89,50 @@ describe("recommendHarnesses", () => {
 
     expect(result.length).toBeGreaterThan(0);
     expect(result.every((item) => item.harness.localModels && item.harness.features.mcp)).toBe(true);
+  });
+
+  it("keeps external harness orchestrators visible to the catalog but outside the default recommender", () => {
+    const orchestrator: Harness = {
+      ...harnesses[0],
+      id: "external-orchestrator-test",
+      slug: "external-orchestrator-test",
+      membership: {
+        layer: "external-harness-orchestrator",
+        criteria: unknownMembershipCriteria,
+        verifiedAt: "2026-07-27",
+        limitation: "Synthetic test fixture for the non-compensatory catalog-layer boundary.",
+      },
+    };
+
+    expect(eligibilityFailuresFor(orchestrator, base)).toContainEqual(expect.objectContaining({
+      kind: "product-layer",
+      layer: "external-harness-orchestrator",
+    }));
+    expect(recommendHarnesses(base, [orchestrator])).toEqual([]);
+  });
+
+  it("does not rank a coding-layer product until all four membership criteria are documented", () => {
+    const incomplete: Harness = {
+      ...harnesses[0],
+      id: "incomplete-membership-test",
+      slug: "incomplete-membership-test",
+      membership: {
+        layer: "coding-harness",
+        criteria: {
+          ...unknownMembershipCriteria,
+          adaptiveLoop: {
+            state: "documented",
+            sourceUrls: [harnesses[0].evidence[0].url],
+          },
+        },
+        verifiedAt: "2026-07-27",
+        limitation: "Synthetic test fixture for incomplete source-governed membership evidence.",
+      },
+    };
+
+    const failures = eligibilityFailuresFor(incomplete, base);
+    expect(failures.filter((failure) => failure.kind === "membership")).toHaveLength(3);
+    expect(recommendHarnesses(base, [incomplete])).toEqual([]);
   });
 
   it("describes failed gates as insufficient current evidence rather than product incapability", () => {
@@ -214,7 +270,11 @@ describe("recommendHarnesses", () => {
 
   it("keeps fit separate from evidence coverage", () => {
     const cline = harnesses.find((harness) => harness.id === "cline")!;
-    const limited: Harness = { ...cline, evidence: cline.evidence.slice(0, 2) };
+    const limited: Harness = {
+      ...cline,
+      membership: getHarnessMembershipAssessment(cline)!,
+      evidence: cline.evidence.slice(0, 2),
+    };
     const fullResult = recommendHarnesses({ ...base, interface: "ide" }, [cline])[0];
     const limitedResult = recommendHarnesses({ ...base, interface: "ide" }, [limited])[0];
 

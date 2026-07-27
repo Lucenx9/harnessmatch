@@ -3,13 +3,17 @@
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { HarnessLogo } from "@/components/harness-logo";
 import { benchmarkRunsForHarness } from "@/data/benchmark-runs";
+import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnesses } from "@/data/harnesses";
 import { getOperationalProfile } from "@/data/operational-profiles";
 import { repositoryArtifactCount, repositoryAuditForHarness } from "@/data/repository-audits";
 import {
   formatIsolationModes,
   harnessRoleLabels,
+  modelPortabilityFor,
+  modelPortabilityLabels,
   orchestrationLabels,
+  productLayerLabels,
   runtimePostureLabels,
   stateModelLabels,
 } from "@/lib/harness-classification";
@@ -198,6 +202,23 @@ export function CompareClient() {
               {chosen.map((harness) => <td key={harness.id}>{harness.bestFor[0]}</td>)}
             </tr>
             <tr>
+              <th>Catalog layer</th>
+              {chosen.map((harness) => {
+                const membership = getHarnessMembershipAssessment(harness);
+                return <td key={harness.id}>{membership ? productLayerLabels[membership.layer] : "Not assessed"}</td>;
+              })}
+            </tr>
+            <tr>
+              <th>Harness membership</th>
+              {chosen.map((harness) => {
+                const membership = getHarnessMembershipAssessment(harness);
+                const documented = membership
+                  ? Object.values(membership.criteria).filter((criterion) => criterion.state === "documented").length
+                  : 0;
+                return <td key={harness.id}>{membership ? `${documented}/4 criteria documented` : "Not assessed"}</td>;
+              })}
+            </tr>
+            <tr>
               <th>Product role</th>
               {chosen.map((harness) => (
                 <td key={harness.id}>{harnessRoleLabels[harness.classification.role]}</td>
@@ -266,6 +287,10 @@ export function CompareClient() {
             <tr>
               <th>Provider posture</th>
               {chosen.map((harness) => <td key={harness.id}>{providerLabels[harness.providerStyle]}</td>)}
+            </tr>
+            <tr>
+              <th>Model portability</th>
+              {chosen.map((harness) => <td key={harness.id}>{modelPortabilityLabels[modelPortabilityFor(harness)]}</td>)}
             </tr>
             <tr>
               <th>License</th>

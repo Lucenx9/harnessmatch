@@ -7,6 +7,7 @@ import {
   formatIsolationModes,
   harnessRoleLabels,
   orchestrationLabels,
+  productLayerLabels,
   runtimePostureLabels,
   stateModelLabels,
 } from "@/lib/harness-classification";
@@ -17,6 +18,7 @@ import type {
   InterfaceType,
   IsolationMode,
   OrchestrationModel,
+  ProductLayer,
   RuntimePosture,
   StateModel,
 } from "@/lib/types";
@@ -29,6 +31,7 @@ export type LensHarness = {
   name: string;
   logo: HarnessLogoData;
   tagline: string;
+  layer: ProductLayer;
   role: HarnessRole;
   orchestration: OrchestrationModel;
   runtime: RuntimePosture;
@@ -51,6 +54,7 @@ const lenses: Array<{ key: LensKey; label: string }> = [
 ];
 
 const roleOptions = Object.entries(harnessRoleLabels) as Array<[HarnessRole, string]>;
+const layerOptions = Object.entries(productLayerLabels) as Array<[ProductLayer, string]>;
 const runtimeOptions = Object.entries(runtimePostureLabels) as Array<[RuntimePosture, string]>;
 const interfaceLabels: Record<InterfaceType, string> = {
   terminal: "Terminal",
@@ -75,6 +79,7 @@ export function HarnessLensExplorer({
 }) {
   const [query, setQuery] = useState("");
   const [lens, setLens] = useState<LensKey>("all");
+  const [catalogLayer, setCatalogLayer] = useState<ProductLayer | "all">("all");
   const [role, setRole] = useState<HarnessRole | "all">("all");
   const [surface, setSurface] = useState<InterfaceType | "all">("all");
   const [runtime, setRuntime] = useState<RuntimePosture | "all">("all");
@@ -85,18 +90,23 @@ export function HarnessLensExplorer({
       (!deferredQuery || [
         harness.name,
         harness.tagline,
+        productLayerLabels[harness.layer],
         harnessRoleLabels[harness.role],
         harness.interfaces.map((item) => interfaceLabels[item]).join(" "),
         providerLabels[harness.providerStyle],
       ].some((value) => value.toLowerCase().includes(deferredQuery))) &&
       (lens === "all" || harness.features[lens]) &&
+      (catalogLayer === "all" || harness.layer === catalogLayer) &&
       (role === "all" || harness.role === role) &&
       (surface === "all" || harness.interfaces.includes(surface)) &&
       (runtime === "all" || harness.runtime === runtime)
     )),
-    [deferredQuery, harnesses, lens, role, runtime, surface],
+    [catalogLayer, deferredQuery, harnesses, lens, role, runtime, surface],
   );
-  const hasAdvancedFilters = role !== "all" || surface !== "all" || runtime !== "all";
+  const hasAdvancedFilters = catalogLayer !== "all" || role !== "all" || surface !== "all" || runtime !== "all";
+  const availableLayerOptions = layerOptions.filter(([value]) => (
+    harnesses.some((harness) => harness.layer === value)
+  ));
   const availableRuntimeOptions = runtimeOptions.filter(([value]) => (
     harnesses.some((harness) => harness.runtime === value)
   ));
@@ -110,7 +120,7 @@ export function HarnessLensExplorer({
           <input
             type="search"
             value={query}
-            placeholder="Name, role, interface, or provider"
+            placeholder="Name, layer, role, interface, or provider"
             onChange={(event) => {
               setQuery(event.target.value);
               setShowAll(false);
@@ -142,9 +152,19 @@ export function HarnessLensExplorer({
       <details className="lens-advanced">
         <summary>
           Advanced filters
-          <span>{hasAdvancedFilters ? "Filters active" : "Role, surface, and runtime"}</span>
+          <span>{hasAdvancedFilters ? "Filters active" : "Layer, role, surface, and runtime"}</span>
         </summary>
         <div className="lens-advanced-grid">
+          <label>
+            Catalog layer
+            <select value={catalogLayer} onChange={(event) => {
+              setCatalogLayer(event.target.value as ProductLayer | "all");
+              setShowAll(false);
+            }}>
+              <option value="all">All layers</option>
+              {availableLayerOptions.map(([value, label]) => <option value={value} key={value}>{label}</option>)}
+            </select>
+          </label>
           <label>
             Product role
             <select value={role} onChange={(event) => {
@@ -180,6 +200,7 @@ export function HarnessLensExplorer({
             type="button"
             disabled={!hasAdvancedFilters}
             onClick={() => {
+              setCatalogLayer("all");
               setRole("all");
               setSurface("all");
               setRuntime("all");
@@ -195,7 +216,7 @@ export function HarnessLensExplorer({
         {visibleHarnesses.map((harness) => (
           <article className="lens-card" key={harness.id}>
             <div className="lens-card-head">
-              <span>{harnessRoleLabels[harness.role]}</span>
+              <span>{productLayerLabels[harness.layer]}</span>
               <span>{harness.evidenceCount} first-party sources</span>
             </div>
             <div className="lens-card-title">
@@ -204,6 +225,10 @@ export function HarnessLensExplorer({
             </div>
             <p>{harness.tagline}</p>
             <dl>
+              <div>
+                <dt>Product role</dt>
+                <dd>{harnessRoleLabels[harness.role]}</dd>
+              </div>
               <div>
                 <dt>Agents</dt>
                 <dd>{orchestrationLabels[harness.orchestration]}</dd>
@@ -247,6 +272,7 @@ export function HarnessLensExplorer({
             onClick={() => {
               setQuery("");
               setLens("all");
+              setCatalogLayer("all");
               setRole("all");
               setSurface("all");
               setRuntime("all");

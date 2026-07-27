@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { HarnessLensExplorer } from "@/components/harness-lens-explorer";
+import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnesses } from "@/data/harnesses";
 
 export const metadata: Metadata = {
@@ -13,7 +14,7 @@ export default function HarnessesPage() {
         <div className="page-intro">
           <span className="eyebrow">Catalog</span>
           <h1>AI coding harness profiles.</h1>
-          <p>Each profile uses the same role, orchestration, runtime, and capability schema, then links every claim group to first-party evidence.</p>
+          <p>Each profile separates catalog layer, role, orchestration, runtime, and model access, then links membership and capability claims to first-party evidence.</p>
         </div>
         <HarnessLensExplorer
           initialVisibleCount={12}
@@ -23,6 +24,7 @@ export default function HarnessesPage() {
             name: harness.name,
             logo: harness.logo,
             tagline: harness.tagline,
+            layer: getHarnessMembershipAssessment(harness)!.layer,
             role: harness.classification.role,
             orchestration: harness.classification.orchestration,
             runtime: harness.classification.runtime,

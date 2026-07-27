@@ -2,16 +2,23 @@
 
 import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { HarnessLogo } from "@/components/harness-logo";
+import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import {
   formatIsolationModes,
   harnessRoleLabels,
   orchestrationLabels,
+  productLayerLabels,
   runtimePostureLabels,
   stateModelLabels,
 } from "@/lib/harness-classification";
 import type { Harness } from "@/lib/types";
 
 type StatusFilter = Harness["status"] | "all";
+
+function productLayerLabelFor(record: Harness) {
+  const membership = getHarnessMembershipAssessment(record);
+  return membership ? productLayerLabels[membership.layer] : "Not assessed";
+}
 
 export function EvidenceLedger({ records }: { records: Harness[] }) {
   const [query, setQuery] = useState("");
@@ -22,6 +29,7 @@ export function EvidenceLedger({ records }: { records: Harness[] }) {
     const searchable = [
       record.name,
       record.summary,
+      productLayerLabelFor(record),
       harnessRoleLabels[record.classification.role],
       ...record.evidence.flatMap((source) => [source.title, source.covers]),
       ...(record.discovery?.flatMap((source) => [source.title, source.note]) ?? []),
@@ -74,7 +82,7 @@ export function EvidenceLedger({ records }: { records: Harness[] }) {
                 <HarnessLogo logo={record.logo} name={record.name} />
                 <span>
                   <strong>{record.name}</strong>
-                  <small>{harnessRoleLabels[record.classification.role]}</small>
+                  <small>{productLayerLabelFor(record)}; {harnessRoleLabels[record.classification.role]}</small>
                 </span>
               </span>
               <span className="evidence-record-meta">
@@ -86,6 +94,7 @@ export function EvidenceLedger({ records }: { records: Harness[] }) {
             <div className="evidence-record-body">
               <div className="evidence-product">
                 <p>
+                  {productLayerLabelFor(record)}<br />
                   {harnessRoleLabels[record.classification.role]}<br />
                   {orchestrationLabels[record.classification.orchestration]}<br />
                   {runtimePostureLabels[record.classification.runtime]}<br />

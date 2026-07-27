@@ -1,6 +1,11 @@
 import { harnesses } from "../data/harnesses";
+import { getHarnessMembershipAssessment } from "../data/harness-membership";
 import { getOperationalProfile } from "../data/operational-profiles";
 import { evidenceStateFor } from "./evaluation";
+import {
+  membershipCriterionLabels,
+  productLayerLabels,
+} from "./harness-classification";
 import {
   capabilityValueFunction,
   changeScopeWeights,
@@ -239,6 +244,29 @@ export function eligibilityFailuresFor(
   answers: RecommendationAnswers,
 ): EligibilityFailure[] {
   const failures: EligibilityFailure[] = [];
+  const membership = getHarnessMembershipAssessment(harness);
+  if (!membership) {
+    failures.push({
+      kind: "membership",
+      label: "documented coding-harness membership assessment",
+    });
+  } else if (membership.layer !== "coding-harness") {
+    failures.push({
+      kind: "product-layer",
+      layer: membership.layer,
+      label: `own coding-harness runtime (cataloged as ${productLayerLabels[membership.layer].toLowerCase()})`,
+    });
+  } else {
+    for (const [criterion, assessment] of Object.entries(membership.criteria)) {
+      if (assessment.state === "documented") continue;
+      failures.push({
+        kind: "membership",
+        criterion: criterion as keyof typeof membership.criteria,
+        state: assessment.state,
+        label: `documented ${membershipCriterionLabels[criterion as keyof typeof membership.criteria].toLowerCase()}`,
+      });
+    }
+  }
   if (!harness.interfaces.includes(answers.interface)) {
     failures.push({ kind: "interface", label: interfaceLabels[answers.interface] });
   }

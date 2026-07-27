@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { HarnessLogo } from "@/components/harness-logo";
+import { WorkflowPortabilityLens } from "@/components/workflow-portability-lens";
 import { benchmarkRunsForHarness } from "@/data/benchmark-runs";
 import { harnesses } from "@/data/harnesses";
 import { eligibilityFailuresFor, recommendHarnesses } from "@/lib/recommendation";
@@ -165,6 +166,12 @@ function alignmentLabel(value: number) {
   return "Weak";
 }
 
+function eligibilityFailureLabel(failure: ReturnType<typeof eligibilityFailuresFor>[number]) {
+  if (failure.kind === "product-layer") return `Catalog scope: ${failure.label}`;
+  if (failure.kind === "membership") return `Membership evidence: ${failure.label}`;
+  return `Workflow requirement: ${failure.label}`;
+}
+
 function encodeAnswers(answers: RecommendationAnswers) {
   return window.btoa(JSON.stringify(answers));
 }
@@ -281,14 +288,14 @@ export function Recommender() {
           <div className="results-header">
             <div>
               <span className="eyebrow">No eligible match on current evidence</span>
-              <h2 className="results-heading" ref={resultsHeadingRef} tabIndex={-1}>No active harness has documented support for every requirement.</h2>
-              <p>Remove one requirement or change how you want the work to run to see more options. This does not prove that excluded products are technically incapable.</p>
+              <h2 className="results-heading" ref={resultsHeadingRef} tabIndex={-1}>No active catalog entry passes every scope and workflow gate.</h2>
+              <p>Remove one requirement or change how you want the work to run to see more options. An exclusion can reflect catalog scope or missing evidence; it does not prove technical incapability.</p>
             </div>
             <button className="button secondary" onClick={reviseAnswers}>Edit my answers</button>
           </div>
           <details className="ranking-exclusions" open>
             <summary>Why {excluded.length} active harnesses do not match</summary>
-            <p>Each product lacks current documentation for at least one capability you marked as essential.</p>
+            <p>Each product is outside the default coding-harness layer or lacks current evidence for at least one required condition.</p>
             <ul className="exclusion-list">
               {excluded.map((result) => (
                 <li key={result.harness.id}>
@@ -297,7 +304,7 @@ export function Recommender() {
                       <HarnessLogo logo={result.harness.logo} name={result.harness.name} size="small" />
                       <strong>{result.harness.name}</strong>
                     </span>
-                    <span>Not documented: {result.failures.map((failure) => failure.label).join(", ")}</span>
+                    <span>{result.failures.map(eligibilityFailureLabel).join("; ")}</span>
                   </Link>
                 </li>
               ))}
@@ -316,7 +323,7 @@ export function Recommender() {
             <span className="eyebrow">Your recommendation</span>
             <h2 className="results-heading" ref={resultsHeadingRef} tabIndex={-1}>{results[0].harness.name} is the strongest match for your setup</h2>
             <p>
-              Every selected requirement has current supporting documentation. We also varied your priorities 512 ways to check whether the recommendation stays near the top.
+              Every catalog-membership and selected workflow gate has current supporting documentation. We also varied your priorities 512 ways to check whether the recommendation stays near the top.
             </p>
           </div>
           <div className="button-row">
@@ -345,6 +352,8 @@ export function Recommender() {
           </dl>
         </section>
 
+        <WorkflowPortabilityLens results={results} />
+
         {results.slice(0, 3).map((result, index) => {
           const measuredRuns = benchmarkRunsForHarness(result.harness.id);
           return (
@@ -368,7 +377,7 @@ export function Recommender() {
               <dl className="result-outcomes" aria-label={`Four-part decision readout for ${result.harness.name}`}>
                 <div>
                   <dt>Eligibility</dt>
-                  <dd>Eligible<span className="outcome-note">Every declared gate is documented.</span></dd>
+                  <dd>Eligible<span className="outcome-note">Catalog membership and every declared workflow gate are documented.</span></dd>
                 </div>
                 <div>
                   <dt>Workflow fit</dt>
@@ -453,7 +462,7 @@ export function Recommender() {
         {excluded.length > 0 && (
           <details className="ranking-exclusions">
             <summary>Why {excluded.length} harnesses do not match</summary>
-            <p>These products are not ranked because at least one must-have is not currently documented.</p>
+            <p>These products are not ranked because they are outside the default coding-harness layer or at least one required condition is not currently documented.</p>
             <ul className="exclusion-list">
               {excluded.map((result) => (
                 <li key={result.harness.id}>
@@ -462,7 +471,7 @@ export function Recommender() {
                       <HarnessLogo logo={result.harness.logo} name={result.harness.name} size="small" />
                       <strong>{result.harness.name}</strong>
                     </span>
-                    <span>Not documented: {result.failures.map((failure) => failure.label).join(", ")}</span>
+                    <span>{result.failures.map(eligibilityFailureLabel).join("; ")}</span>
                   </Link>
                 </li>
               ))}

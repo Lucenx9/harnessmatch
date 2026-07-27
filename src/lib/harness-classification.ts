@@ -1,10 +1,35 @@
 import type {
+  Harness,
+  HarnessMembershipCriterion,
   HarnessRole,
   IsolationMode,
+  ModelPortability,
   OrchestrationModel,
+  ProductLayer,
   RuntimePosture,
   StateModel,
 } from "./types";
+
+export const productLayerLabels: Record<ProductLayer, string> = {
+  "coding-harness": "Coding harness",
+  "external-harness-orchestrator": "External harness orchestrator",
+  "framework-runtime": "Framework or runtime",
+  "adjacent-tool": "Adjacent tool",
+};
+
+export const membershipCriterionLabels: Record<HarnessMembershipCriterion, string> = {
+  adaptiveLoop: "Adaptive agent loop",
+  environmentMutation: "Repository tool execution",
+  activeContextManagement: "Task-aware context management",
+  runtimeControl: "Model-independent runtime control",
+};
+
+export const membershipCriterionDescriptions: Record<HarnessMembershipCriterion, string> = {
+  adaptiveLoop: "The system repeatedly observes results and chooses the next action instead of following a fixed one-pass graph.",
+  environmentMutation: "The system can use tools to inspect and change a repository or its execution environment.",
+  activeContextManagement: "The runtime assembles, updates, compacts, retrieves, or persists task-relevant context while work proceeds.",
+  runtimeControl: "Permissions, budgets, interruption, policy, or stop controls operate outside the model's own text generation.",
+};
 
 export const harnessRoleLabels: Record<HarnessRole, string> = {
   "pair-programmer": "Pair programmer",
@@ -38,12 +63,40 @@ export const stateModelLabels: Record<StateModel, string> = {
   "persistent-memory": "Persistent memory",
 };
 
+export const modelPortabilityLabels: Record<ModelPortability, string> = {
+  "vendor-specific": "Vendor-specific",
+  "managed-routing": "Managed routing",
+  "provider-choice": "Provider choice",
+  "provider-and-local": "Provider + local",
+};
+
+export const modelPortabilityDescriptions: Record<ModelPortability, string> = {
+  "vendor-specific": "The documented product path is tied to one vendor's model access.",
+  "managed-routing": "An organization controls the documented provider or deployment routes.",
+  "provider-choice": "The harness documents more than one provider, without a current local-model claim.",
+  "provider-and-local": "The harness documents multiple providers and a local or self-hosted model path.",
+};
+
+export function modelPortabilityFor(
+  harness: Pick<Harness, "providerStyle" | "localModels">,
+): ModelPortability {
+  if (harness.providerStyle === "single-vendor") return "vendor-specific";
+  if (harness.providerStyle === "enterprise-routing") return "managed-routing";
+  if (harness.localModels) return "provider-and-local";
+  return "provider-choice";
+}
+
 export function formatIsolationModes(modes: IsolationMode[]) {
   if (modes.length === 0) return "No first-party isolation";
   return modes.map((mode) => isolationModeLabels[mode]).join(", ");
 }
 
 export const classificationAxes = [
+  {
+    label: "Catalog layer",
+    description:
+      "Whether the product owns a coding-agent loop, coordinates external harnesses, supplies a framework or runtime, or is an adjacent tool. Only the first layer enters the default recommender.",
+  },
   {
     label: "Product role",
     description:

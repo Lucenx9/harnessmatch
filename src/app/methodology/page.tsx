@@ -12,7 +12,14 @@ import {
   interRaterValidationPlan,
   userValidationPlan,
 } from "@/data/validation-plan";
-import { classificationAxes } from "@/lib/harness-classification";
+import {
+  classificationAxes,
+  membershipCriterionDescriptions,
+  membershipCriterionLabels,
+  modelPortabilityDescriptions,
+  modelPortabilityLabels,
+  productLayerLabels,
+} from "@/lib/harness-classification";
 import { architectureAxisLabels } from "@/lib/evaluation";
 import {
   capabilityAxisLabels,
@@ -29,11 +36,11 @@ import {
 
 export const metadata: Metadata = { title: "Methodology" };
 
-const methodologyVersion = "2.3 · 2026-07-27";
+const methodologyVersion = "2.4 / 2026-07-27";
 const capabilityLevels = [1, 2, 3, 4, 5] as const;
 const methodologySections = [
   ["decision-question", "Decision question"],
-  ["eligibility", "Eligibility gates"],
+  ["eligibility", "Scope and eligibility"],
   ["preference-model", "Preference model"],
   ["sensitivity", "Sensitivity"],
   ["architecture", "Architecture layers"],
@@ -112,10 +119,32 @@ export default function MethodologyPage() {
         </section>
 
         <section className="prose-section" id="eligibility">
-          <h2>2. Eligibility before preference</h2>
-          <p>Interface, model-access path, explicit required features, and mode-implied requirements are non-compensatory gates. Consumer subscription access, enterprise access, provider breadth, and local-model support are recorded independently: one never establishes another by inference. CI requires headless execution; parallel work requires documented subagents. A high value elsewhere cannot compensate for a failed gate.</p>
+          <h2>2. Scope and eligibility before preference</h2>
+          <h3>Catalog membership test</h3>
+          <p>A product enters the default coding-harness recommender only when all four conditions below have current first-party evidence. The boundary is adapted from <a href="https://arxiv.org/abs/2606.10106" target="_blank" rel="noreferrer">What makes a harness a harness</a>. That source is a single-author conceptual preprint, so HarnessMatch uses it as a conservative catalog rule rather than an accepted standard or performance model.</p>
+          <div className="taxonomy-list membership-test-list">
+            {Object.entries(membershipCriterionLabels).map(([criterion, criterionLabel]) => (
+              <div key={criterion}>
+                <strong>{criterionLabel}</strong>
+                <p>{membershipCriterionDescriptions[criterion as keyof typeof membershipCriterionDescriptions]}</p>
+              </div>
+            ))}
+          </div>
+          <p>Each criterion is recorded as documented, contradicted, or unknown. Only four documented criteria pass. Unknown evidence is never converted into a negative capability claim, but it still blocks ranking because category membership has not been established.</p>
+
+          <h3>Neighboring layers remain visible but separate</h3>
+          <div className="taxonomy-list">
+            <div><strong>{productLayerLabels["coding-harness"]}</strong><p>Owns the adaptive loop, repository tools, context handling, and runtime controls needed to perform coding work.</p></div>
+            <div><strong>{productLayerLabels["external-harness-orchestrator"]}</strong><p>Coordinates independent harnesses or user-supervised sessions but does not establish its own coding loop.</p></div>
+            <div><strong>{productLayerLabels["framework-runtime"]}</strong><p>Supplies building blocks or durable execution for constructing agents rather than a ready-to-use coding harness.</p></div>
+            <div><strong>{productLayerLabels["adjacent-tool"]}</strong><p>Covers gateways, pure editor assistance, evaluation harnesses, and other useful systems outside the coding-harness boundary.</p></div>
+          </div>
+          <p>Layer and product role are independent. A platform can still qualify as a coding harness when it owns the loop; a control plane that only supervises external harnesses does not. Orchestrators, frameworks, and adjacent tools remain available to catalog and compare, but they do not enter the default recommendation ordering.</p>
+
+          <h3>Workflow gates</h3>
+          <p>After membership, interface, model-access path, explicit required features, and mode-implied requirements are non-compensatory gates. Consumer subscription access, enterprise access, provider breadth, and local-model support are recorded independently: one never establishes another by inference. CI requires headless execution; parallel work requires documented subagents. A high value elsewhere cannot compensate for a failed gate.</p>
           <p>Only active products are eligible: dormant and archived products remain visible for research but are excluded from recommendations and benchmark rankings. OpenRouter and GitHub are discovery sources only: they can create a research candidate, but cannot establish a capability.</p>
-          <p>The current public status is deliberately conservative: “Eligible” means every declared gate has current supporting documentation. “Not eligible on current evidence” means at least one gate is not documented; it does not prove technical impossibility. Conditional and explicitly unsupported states will not be shown until the claim ledger can encode and source them directly.</p>
+          <p>The current public status is deliberately conservative: “Eligible” means catalog membership and every declared workflow gate have current supporting documentation. “Not eligible on current evidence” can mean a neighboring product layer or at least one undocumented gate; it does not prove technical impossibility.</p>
         </section>
 
         <section className="prose-section" id="preference-model">
@@ -226,12 +255,23 @@ export default function MethodologyPage() {
             ))}
           </div>
           <p>Runtime posture and available isolation remain separate. Multi-agent organization, autonomy, and a larger feature surface are not assumed to be universally better.</p>
+          <h3>Workflow fit × model portability</h3>
+          <p>The recommender result adds a two-dimensional reading aid, not another score. Rows reuse the user-specific workflow-fit bands. Columns derive a categorical model-portability posture from the separately documented provider style and local-model path:</p>
+          <div className="taxonomy-list">
+            {Object.entries(modelPortabilityLabels).map(([portability, portabilityLabel]) => (
+              <div key={portability}>
+                <strong>{portabilityLabel}</strong>
+                <p>{modelPortabilityDescriptions[portability as keyof typeof modelPortabilityDescriptions]}</p>
+              </div>
+            ))}
+          </div>
+          <p>Column placement does not add points, change the ordering, or claim that provider freedom is universally preferable. It lets a user see the trade-off between the fit calculated from their answers and the model-access posture they are willing to accept.</p>
         </section>
 
         <section className="prose-section" id="validation">
           <h2>11. Validation status</h2>
           <div className="taxonomy-list">
-            <div><strong>Implemented</strong><p>Hard gates, explicit weights, public provisional capability anchors, deterministic sensitivity analysis, missing-data non-renormalization, source dates, pinned repository commits, complete benchmark metadata, descriptive intervals, and Pareto status.</p></div>
+            <div><strong>Implemented</strong><p>Source-governed membership gates, catalog layers, workflow gates, explicit weights, public provisional capability anchors, deterministic sensitivity analysis, missing-data non-renormalization, source dates, pinned repository commits, complete benchmark metadata, descriptive intervals, and Pareto status.</p></div>
             <div><strong>Protocol published</strong><p>A fixed stratified sample, independent coding procedure, agreement statistics, uncertainty reporting, and held-out recoding rule are now defined in the repository.</p></div>
             <div><strong>Not yet established</strong><p>Inter-rater reliability, content-validity review by external experts, criterion validity against controlled harness outcomes, and predictive validity in real user adoption.</p></div>
           </div>
