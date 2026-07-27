@@ -20,6 +20,8 @@ HarnessMatch recommends AI coding harnesses by workflow fit. Do not turn it into
 4. Archived tools must not appear in recommender results.
 5. Scoring changes require tests that describe the intended workflow outcome.
 6. Avoid hidden magic constants. Keep weights visible in code and methodology copy.
+7. Every new dated record type must be registered in `verifiedRecords()` in `src/lib/evidence-freshness.ts`, otherwise it ages without any check noticing.
+8. `tests/evidence-freshness.test.ts` reads the wall clock by design. A failure there means sources are overdue for re-verification, not that the test is flaky. Re-verify the sources or archive the claims; do not raise the thresholds to make it pass.
 
 ## Commands
 

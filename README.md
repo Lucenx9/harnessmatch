@@ -68,3 +68,4 @@ The repository is connected to the existing Vercel project. Pushes to `main` cre
 - Archived tools must not appear in recommender results.
 - Scoring changes require tests describing the intended workflow outcome.
 - Keep weights and provisional value functions visible in code and methodology copy.
+- Verification dates decay: `src/lib/evidence-freshness.ts` sets the review and maximum-age windows, and the freshness test fails the build once a published claim exceeds the maximum age. Re-verify the sources rather than widening the window.
