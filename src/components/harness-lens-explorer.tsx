@@ -128,7 +128,7 @@ export function HarnessLensExplorer({
           />
         </label>
         <p className="lens-count" aria-live="polite">
-          <strong>{filtered.length}</strong> matching {filtered.length === 1 ? "profile" : "profiles"}
+          <strong>{filtered.length}</strong> active {filtered.length === 1 ? "profile" : "profiles"}
         </p>
       </div>
       <div className="lens-toolbar">

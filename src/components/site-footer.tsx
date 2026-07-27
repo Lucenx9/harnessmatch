@@ -19,7 +19,7 @@ export function SiteFooter() {
           <Link href="/data">Data</Link>
           <Link href="/methodology">Methodology</Link>
           <Link href="/compare">Compare</Link>
-          <Link href="/benchmarks">Benchmark policy</Link>
+          <Link href="/benchmarks">Benchmarks</Link>
         </div>
       </div>
       <div className="shell footer-meta">

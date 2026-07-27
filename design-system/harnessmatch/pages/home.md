@@ -10,7 +10,8 @@ The homepage is a working analysis surface. It should feel closer to a compact r
 
 ## Layout
 
-- Compact two-column intro: purpose on the left, dataset status on the right
+- Compact two-column intro: plain-language definition and utility actions on the left, dataset status on the right
+- Keep two immediate utility actions in the first viewport: open the recommender and jump to the catalog
 - Full-width workflow-fit explorer immediately below the intro
 - Include a plain-language Vibe coding preset for users who know the tools but not the evaluation vocabulary
 - Translate the selected preset into one immediate answer: starting product, main reason, and limitation to check

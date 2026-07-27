@@ -64,7 +64,7 @@ type OperationalLens = ArchitectureAxis;
 const viewLabels: Record<ViewId, string> = {
   operational: "Operational mechanisms",
   auditability: "Public artifacts",
-  benchmarks: "Measured systems",
+  benchmarks: "Measured configurations",
 };
 
 const operationalLensLabels = architectureAxisLabels;
@@ -127,6 +127,7 @@ export function EvidenceRankingExplorer({
     id: ViewId;
     label: string;
     value: string;
+    unit: string;
     headline: string;
     detail: string;
   }> = [
@@ -134,6 +135,7 @@ export function EvidenceRankingExplorer({
       id: "operational",
       label: viewLabels.operational,
       value: operationalLeaderLevel === undefined ? "N/A" : `L${operationalLeaderLevel}`,
+      unit: "of 4 levels",
       headline: operationalLeaders.length > 0
         ? `${compactLeaderNames(operationalLeaders)} ${operationalLeaders.length === 1 ? "leads" : "share the lead"}`
         : "No documented leader",
@@ -143,6 +145,7 @@ export function EvidenceRankingExplorer({
       id: "auditability",
       label: viewLabels.auditability,
       value: auditabilityLeaderCount === undefined ? "N/A" : `${auditabilityLeaderCount}/5`,
+      unit: "public artifacts",
       headline: auditabilityLeaders.length > 0
         ? `${compactLeaderNames(auditabilityLeaders)} ${auditabilityLeaders.length === 1 ? "leads" : "share the lead"}`
         : "No ranked repository",
@@ -152,6 +155,7 @@ export function EvidenceRankingExplorer({
       id: "benchmarks",
       label: viewLabels.benchmarks,
       value: topBenchmark ? `${topBenchmark.score.toFixed(1)}%` : "N/A",
+      unit: "task accuracy",
       headline: effectiveBenchmarkTopGroup.length > 0
         ? `${effectiveBenchmarkTopGroup.length} ${effectiveBenchmarkTopGroup.length === 1 ? "configuration overlaps" : "configurations overlap"} the top interval`
         : "No measured configuration",
@@ -283,8 +287,11 @@ export function EvidenceRankingExplorer({
           >
             <span className="evidence-highlight-label">{item.label}</span>
             <span className="evidence-highlight-reading">
-              <strong>{item.value}</strong>
-              <span>
+              <span className="evidence-highlight-value">
+                <strong>{item.value}</strong>
+                <small>{item.unit}</small>
+              </span>
+              <span className="evidence-highlight-copy">
                 <b>{item.headline}</b>
                 <small>{item.detail}</small>
               </span>

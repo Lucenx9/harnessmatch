@@ -127,13 +127,17 @@ export default function HomePage() {
         <div className="shell tool-intro-grid">
           <div className="tool-intro-copy">
             <h1>Choose the right coding harness.</h1>
-            <p>Start with your workflow. See the best fit, its main trade-off, and the evidence behind it.</p>
+            <p>The model reasons. The harness is the CLI, IDE extension, or agent platform that turns it into working code.</p>
+            <div className="tool-intro-actions">
+              <Link className="button primary" href="/recommend">Find your match</Link>
+              <Link className="button secondary" href="#catalog">Browse catalog</Link>
+            </div>
           </div>
           <dl className="dataset-summary" aria-label="Dataset status">
             <div><dt>Active catalog entries</dt><dd>{activeHarnesses.length}</dd></div>
             <div><dt>First-party sources</dt><dd>{sourceCount}</dd></div>
             <div><dt>Scientific papers</dt><dd>{researchSources.length}</dd></div>
-            <div><dt>Measured systems</dt><dd>{benchmarkRuns.length}</dd></div>
+            <div><dt>Measured configurations</dt><dd>{benchmarkRuns.length}</dd></div>
           </dl>
         </div>
       </section>
@@ -183,7 +187,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section catalog-explorer-section">
+      <section className="section catalog-explorer-section" id="catalog">
         <div className="shell">
           <div className="section-heading stacked-heading catalog-explorer-heading">
             <h2>Browse all harnesses.</h2>
