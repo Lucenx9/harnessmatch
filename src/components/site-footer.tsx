@@ -16,7 +16,7 @@ export function SiteFooter() {
           <p>Workflow fit, verified against first-party product evidence.</p>
         </div>
         <div className="footer-links">
-          <Link href="/data">Data & sources</Link>
+          <Link href="/data">Data</Link>
           <Link href="/methodology">Methodology</Link>
           <Link href="/compare">Compare</Link>
           <Link href="/benchmarks">Benchmark policy</Link>

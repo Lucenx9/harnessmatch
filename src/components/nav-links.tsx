@@ -7,7 +7,7 @@ const items = [
   ["Recommend", "/recommend"],
   ["Compare", "/compare"],
   ["Harnesses", "/harnesses"],
-  ["Sources", "/data"],
+  ["Data", "/data"],
   ["Benchmarks", "/benchmarks"],
   ["Methodology", "/methodology"],
 ] as const;
