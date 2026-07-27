@@ -350,23 +350,57 @@ describe("harness evidence ledger", () => {
     const caveats = codex.tradeoffs.join(" ");
 
     expect(codex.verifiedAt).toBe("2026-07-27");
-    expect(codex.evidence.length).toBeGreaterThanOrEqual(20);
+    expect(codex.evidence).toHaveLength(46);
     expect(codex.evidence.every((source) => source.verifiedAt === codex.verifiedAt)).toBe(true);
+    expect(codex.evidence.every((source) => source.topic !== undefined)).toBe(true);
+    expect(new Set(urls).size).toBe(urls.length);
     expect(codex.features).toMatchObject({ mcp: true, localModels: true, subagents: true, headless: true, browser: true, sandbox: true, checkpoints: false });
     expect(urls).toEqual(expect.arrayContaining([
       "https://developers.openai.com/codex/agent-approvals-security",
+      "https://developers.openai.com/codex/sandboxing",
+      "https://developers.openai.com/codex/sandboxing/auto-review",
       "https://developers.openai.com/codex/permissions",
+      "https://developers.openai.com/codex/permission-modes",
+      "https://developers.openai.com/codex/agent-configuration/rules",
       "https://developers.openai.com/codex/agent-configuration/subagents",
+      "https://developers.openai.com/codex/agent-configuration/agents-md",
       "https://developers.openai.com/codex/customization/memories",
+      "https://developers.openai.com/codex/environments/local-environment",
+      "https://developers.openai.com/codex/environments/cloud-environment",
       "https://developers.openai.com/codex/environments/git-worktrees",
+      "https://developers.openai.com/codex/windows/windows-sandbox",
+      "https://developers.openai.com/codex/app",
+      "https://developers.openai.com/codex/auth",
+      "https://developers.openai.com/codex/remote-connections",
       "https://developers.openai.com/codex/hooks",
+      "https://developers.openai.com/codex/skills-and-plugins",
+      "https://developers.openai.com/codex/plugins",
       "https://developers.openai.com/codex/automations",
+      "https://developers.openai.com/codex/code-review",
+      "https://developers.openai.com/codex/third-party/github",
+      "https://developers.openai.com/codex/security",
+      "https://developers.openai.com/codex/enterprise/admin-setup",
+      "https://developers.openai.com/codex/amazon-bedrock",
+      "https://developers.openai.com/codex/feature-maturity",
+      "https://developers.openai.com/codex/whats-new",
       "https://github.com/openai/codex/tree/25af12f7e61572b0bc18ddb1008be543b91519b0",
     ]));
     expect(caveats).toContain("permission profiles are beta");
+    expect(caveats).toContain("not a deterministic security guarantee");
     expect(caveats).toContain("no product-level file checkpoint");
+    expect(caveats).toContain("inherit the connected host's");
     expect(caveats).toContain("model quality and compatibility are separate from the harness");
+    expect(caveats).toContain("optional plugin or cloud vulnerability workflow");
     expect(caveats).toContain("not the proprietary IDE extension or Codex cloud service");
+    expect(codex.capabilities).toEqual({
+      simplicity: 4,
+      flexibility: 5,
+      security: 5,
+      autonomy: 5,
+      automation: 5,
+      largeRepo: 5,
+      humanControl: 4,
+    });
   });
 
   it("treats OpenCode permission policy and Git undo as controls rather than a sandbox", () => {
@@ -597,10 +631,13 @@ describe("harness evidence ledger", () => {
   it("keeps goose claims granular and qualifies its default execution posture", () => {
     const goose = harnesses.find((harness) => harness.id === "goose")!;
     const urls = goose.evidence.map((source) => source.url);
+    const caveats = goose.tradeoffs.join(" ");
 
     expect(goose.verifiedAt).toBe("2026-07-27");
-    expect(goose.evidence.length).toBeGreaterThanOrEqual(12);
+    expect(goose.evidence).toHaveLength(19);
     expect(goose.evidence.every((source) => source.verifiedAt === goose.verifiedAt)).toBe(true);
+    expect(goose.evidence.every((source) => source.topic !== undefined)).toBe(true);
+    expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([
       "https://goose-docs.ai/docs/getting-started/providers/",
       "https://goose-docs.ai/docs/guides/context-engineering/subagents/",
@@ -608,9 +645,106 @@ describe("harness evidence ledger", () => {
       "https://goose-docs.ai/docs/mcp/developer-mcp/",
       "https://goose-docs.ai/blog/2026/02/23/goose-v1-25-0/",
       "https://goose-docs.ai/docs/guides/codebase-analysis/",
+      "https://goose-docs.ai/docs/guides/security/",
+      "https://goose-docs.ai/docs/guides/security/adversary-mode/",
+      "https://goose-docs.ai/docs/guides/security/prompt-injection-detection/",
+      "https://goose-docs.ai/docs/guides/security/classification-api-spec/",
+      "https://github.com/aaif-goose/goose/blob/main/SECURITY.md",
+      "https://github.com/aaif-goose/goose/releases/tag/v1.44.0",
+      "https://github.com/aaif-goose/goose/security/advisories/GHSA-r5pp-p5r8-466r",
     ]));
-    expect(goose.tradeoffs.join(" ")).toContain("user privileges by default");
-    expect(goose.tradeoffs.join(" ")).toContain("specific to goose Desktop on macOS");
+    expect(caveats).toContain("user privileges by default");
+    expect(caveats).toContain("specific to goose Desktop on macOS");
+    expect(caveats).toContain("fails open");
+    expect(caveats).toContain("configured classifier endpoint");
+    expect(caveats).toContain("before 1.44.0");
+    expect(goose.capabilities).toEqual({
+      simplicity: 4,
+      flexibility: 5,
+      security: 4,
+      autonomy: 5,
+      automation: 5,
+      largeRepo: 3,
+      humanControl: 4,
+    });
+  });
+
+  it("separates Mux runtime availability from its default host execution", () => {
+    const mux = harnesses.find((harness) => harness.id === "mux")!;
+    const urls = mux.evidence.map((source) => source.url);
+    const caveats = mux.tradeoffs.join(" ");
+
+    expect(mux.verifiedAt).toBe("2026-07-27");
+    expect(mux.evidence).toHaveLength(26);
+    expect(mux.evidence.every((source) => source.verifiedAt === mux.verifiedAt)).toBe(true);
+    expect(mux.evidence.every((source) => source.topic !== undefined)).toBe(true);
+    expect(new Set(urls).size).toBe(urls.length);
+    expect(mux.classification).toMatchObject({
+      runtime: "host-first",
+      isolation: ["worktree", "container"],
+      state: "persistent-memory",
+    });
+    expect(urls).toEqual(expect.arrayContaining([
+      "https://mux.coder.com/runtime/local",
+      "https://mux.coder.com/runtime/docker",
+      "https://mux.coder.com/runtime/devcontainer",
+      "https://mux.coder.com/runtime/worktree",
+      "https://mux.coder.com/runtime/ssh",
+      "https://mux.coder.com/runtime/coder",
+      "https://mux.coder.com/hooks/tools",
+      "https://mux.coder.com/hooks/init",
+      "https://mux.coder.com/guides/github-actions",
+      "https://mux.coder.com/integrations/acp",
+      "https://mux.coder.com/integrations/vscode-extension",
+      "https://mux.coder.com/agents/instruction-files",
+      "https://mux.coder.com/agents/plan-mode",
+      "https://mux.coder.com/install",
+      "https://mux.coder.com/config/server-access",
+    ]));
+    expect(caveats).toContain("default local runtime has no filesystem or process isolation");
+    expect(caveats).toContain("Tool hooks");
+    expect(caveats).toContain("--no-auth");
+    expect(mux.capabilities).toEqual({
+      simplicity: 3,
+      flexibility: 5,
+      security: 4,
+      autonomy: 5,
+      automation: 5,
+      largeRepo: 5,
+      humanControl: 4,
+    });
+  });
+
+  it("expands Cursor CLI coverage without treating source volume as a score change", () => {
+    const cursor = harnesses.find((harness) => harness.id === "cursor-cli")!;
+    const urls = cursor.evidence.map((source) => source.url);
+    const caveats = cursor.tradeoffs.join(" ");
+
+    expect(cursor.verifiedAt).toBe("2026-07-27");
+    expect(cursor.evidence).toHaveLength(15);
+    expect(cursor.evidence.every((source) => source.verifiedAt === cursor.verifiedAt)).toBe(true);
+    expect(cursor.evidence.every((source) => source.topic !== undefined)).toBe(true);
+    expect(new Set(urls).size).toBe(urls.length);
+    expect(urls).toEqual(expect.arrayContaining([
+      "https://cursor.com/docs/cli/installation",
+      "https://cursor.com/docs/cli/using",
+      "https://cursor.com/docs/cli/mcp",
+      "https://cursor.com/docs/cli/shell-mode",
+      "https://cursor.com/docs/cli/reference/authentication",
+    ]));
+    expect(urls).not.toContain("https://cursor.com/docs/cli/capabilities");
+    expect(caveats).toContain("worktrees isolate files only");
+    expect(caveats).toContain("Global MCP servers are auto-approved");
+    expect(caveats).toContain("cannot undo network or other external side effects");
+    expect(cursor.capabilities).toEqual({
+      simplicity: 5,
+      flexibility: 3,
+      security: 4,
+      autonomy: 5,
+      automation: 5,
+      largeRepo: 4,
+      humanControl: 5,
+    });
   });
 
   it("keeps codebuff claims granular and separates autonomy from isolation", () => {
