@@ -20,10 +20,11 @@ export function SiteFooter() {
           <Link href="/methodology">Methodology</Link>
           <Link href="/compare">Compare</Link>
           <Link href="/benchmarks">Benchmarks</Link>
+          <Link href="/privacy">Privacy</Link>
         </div>
       </div>
       <div className="shell footer-meta">
-        <span>Independent. No affiliate ranking.</span>
+        <span>Independent. No affiliation, endorsement, or affiliate ranking.</span>
         <span>Capability data verified {verifiedAt}.</span>
       </div>
     </footer>

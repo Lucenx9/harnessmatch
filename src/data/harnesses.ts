@@ -2874,7 +2874,7 @@ export const harnesses: Harness[] = [
     summary:
       "A proprietary terminal interface to Google's shared Antigravity agent harness, with a managed multi-provider model catalog, asynchronous subagents, headless and SSH use, browser actions, MCP, plugins, skills, hooks, granular permissions, and optional native OS sandboxing.",
     logo: {
-      src: "https://github.com/google-antigravity.png",
+      src: "/harnesses/antigravity-cli.png",
       sourceUrl: "https://github.com/google-antigravity",
       verifiedAt: antigravityCliVerifiedAt,
     },
@@ -4856,7 +4856,7 @@ export const harnesses: Harness[] = [
     summary:
       "An MIT-licensed, multi-provider coding agent for VS Code, JetBrains, terminal, browser-hosted cloud, and CI, with delegated subagents, MCP, browser automation, Git snapshots, and an opt-in macOS or Linux sandbox.",
     logo: {
-      src: "https://raw.githubusercontent.com/Kilo-Org/kilocode/a19d44c3ef9fd71fb15291af9c7d87906c06f056/logo.png",
+      src: "/harnesses/kilo-code.png",
       sourceUrl: "https://github.com/Kilo-Org/kilocode/blob/a19d44c3ef9fd71fb15291af9c7d87906c06f056/logo.png",
       verifiedAt: kiloCodeVerifiedAt,
     },
@@ -5139,7 +5139,7 @@ export const harnesses: Harness[] = [
     summary:
       "A multi-model terminal harness with interactive and headless modes, parallel subagents, MCP, policy-based permissions, worktrees, session checkpoints, hooks, skills, and IDE context integration.",
     logo: {
-      src: "https://commandcode.ai/favicon.ico",
+      src: "/harnesses/command-code.ico",
       sourceUrl: "https://commandcode.ai/docs",
       verifiedAt: commandCodeVerifiedAt,
     },
@@ -5375,7 +5375,7 @@ export const harnesses: Harness[] = [
     summary:
       "An open-source coding harness that coordinates specialized agents for finding files, editing, review, tests, research, and browser work. Use it interactively in the terminal or build deterministic agent workflows with its TypeScript SDK.",
     logo: {
-      src: "https://www.codebuff.com/favicon/apple-touch-icon.png",
+      src: "/harnesses/codebuff.webp",
       sourceUrl: "https://www.codebuff.com/favicon/apple-touch-icon.png",
       verifiedAt: codebuffVerifiedAt,
     },
@@ -5547,7 +5547,7 @@ export const harnesses: Harness[] = [
     summary:
       "A source-available terminal coding agent for interactive or scripted work, with multi-provider and local-model support, a Hyper subscription option, mid-session model switching, project sessions, LSP, MCP, skills, hooks, per-tool approvals, and parallel read-only research delegation.",
     logo: {
-      src: "https://github.com/charmbracelet.png",
+      src: "/harnesses/crush.png",
       sourceUrl: "https://github.com/charmbracelet/crush",
       verifiedAt: crushVerifiedAt,
     },
@@ -5754,7 +5754,7 @@ export const harnesses: Harness[] = [
     summary:
       "An open-source agent workspace for parallel coding tasks with custom agents, nested subagents, persistent scoped memory, compaction, MCP, local or container runtimes, policy files, editor integrations, and budgeted CLI goal runs.",
     logo: {
-      src: "https://mux.coder.com/mintlify-assets/_mintlify/favicons/mux/gthKE4gBJeuKWqUw/_generated/favicon/android-chrome-192x192.png",
+      src: "/harnesses/mux.png",
       sourceUrl: "https://mux.coder.com/",
       verifiedAt: muxVerifiedAt,
     },
@@ -6031,7 +6031,7 @@ export const harnesses: Harness[] = [
     summary:
       "A beta, self-hosted coding agent for teams already using Coder. It works from a web chat or API, can create approved workspaces, delegate parallel subagents, and use the models and tools configured by an administrator.",
     logo: {
-      src: "https://github.com/coder.png",
+      src: "/harnesses/coder-agents.png",
       sourceUrl: "https://coder.com/docs/ai-coder/agents",
       verifiedAt: coderAgentsVerifiedAt,
     },
@@ -6240,7 +6240,7 @@ export const harnesses: Harness[] = [
     summary:
       "An Apache-licensed VS Code agent continuing the Roo Code lineage, with broad provider and subscription access, local models, custom modes, hierarchical subtasks, MCP, semantic indexing, worktree workflows, task history, and shadow-Git file checkpoints.",
     logo: {
-      src: "https://github.com/Zoo-Code-Org.png",
+      src: "/harnesses/zoo-code.png",
       sourceUrl: "https://github.com/Zoo-Code-Org/Zoo-Code",
       verifiedAt: zooCodeVerifiedAt,
     },
@@ -6499,7 +6499,7 @@ export const harnesses: Harness[] = [
     summary:
       "A proprietary desktop agent environment with persistent goal state, independent completion checks, parallel and background subagents, scheduled tasks, scoped approvals, MCP, hooks, remote workspaces, and an integrated browser and review flow.",
     logo: {
-      src: "https://zcode.z.ai/favicon.ico",
+      src: "/harnesses/zcode.ico",
       sourceUrl: "https://zcode.z.ai/en/docs/agents",
       verifiedAt: zcodeVerifiedAt,
     },
@@ -6679,7 +6679,7 @@ export const harnesses: Harness[] = [
     summary:
       "An open-source Electron desktop IDE that combines a full Chromium browser, multi-provider and local models, managed project context, granular diff review, and user-orchestrated parallel agent sessions.",
     logo: {
-      src: "https://stagewise.io/icon.png",
+      src: "/harnesses/stagewise.png",
       sourceUrl: "https://stagewise.io/",
       verifiedAt: stagewiseVerifiedAt,
     },
@@ -6937,7 +6937,7 @@ export const harnesses: Harness[] = [
     summary:
       "An MIT-licensed general agent with terminal, desktop, web, API, and messaging surfaces; persistent memory and goals; coding and browser tools; nested parallel delegation; scheduled jobs; MCP; checkpoints; and local, container, SSH, or managed execution backends.",
     logo: {
-      src: "https://github.com/NousResearch.png",
+      src: "/harnesses/hermes-agent.png",
       sourceUrl: "https://github.com/NousResearch/hermes-agent",
       verifiedAt: hermesAgentVerifiedAt,
     },
@@ -7180,7 +7180,7 @@ export const harnesses: Harness[] = [
     summary:
       "A deliberately small open-source software-engineering agent with one linear bash-only loop, confirm, yolo, and human control modes, versioned trajectories, local-model routing, optional isolated environments, and batch evaluation runners.",
     logo: {
-      src: "https://github.com/SWE-agent.png",
+      src: "/harnesses/mini-swe-agent.png",
       sourceUrl: "https://github.com/SWE-agent/mini-swe-agent",
       verifiedAt: miniSweAgentVerifiedAt,
     },
@@ -7401,7 +7401,7 @@ export const harnesses: Harness[] = [
     summary:
       "A proprietary multi-model coding agent with terminal, editor, and web control, non-interactive and runner modes, durable cloud orbs, schedules, MCP, skills, plugins, and built-in or programmable subagents.",
     logo: {
-      src: "https://ampcode.com/favicon.ico",
+      src: "/harnesses/amp.ico",
       sourceUrl: "https://ampcode.com/manual",
       verifiedAt: ampVerifiedAt,
     },
@@ -7594,7 +7594,7 @@ export const harnesses: Harness[] = [
     summary:
       "A proprietary coding CLI with interactive and headless execution, custom and parallel agents, MCP, steering, hooks, resumable sessions, goal loops, and an optional classic checkpoint system; CLI 3.0 adds a separate early-access harness and policy format.",
     logo: {
-      src: "https://kiro.dev/favicon.ico",
+      src: "/harnesses/kiro-cli.ico",
       sourceUrl: "https://kiro.dev/cli/",
       verifiedAt: kiroCliVerifiedAt,
     },
@@ -7823,7 +7823,7 @@ export const harnesses: Harness[] = [
     summary:
       "Poolside's proprietary-distribution CLI combines interactive and JSONL automation modes, ACP client and server roles, OpenRouter and local OpenAI-compatible models, MCP, skills, worktrees, structured trajectories, and optional local or managed sandbox environments.",
     logo: {
-      src: "https://github.com/poolsideai.png",
+      src: "/harnesses/poolside-agent-cli.png",
       sourceUrl: "https://github.com/poolsideai/pool",
       verifiedAt: poolsideCliVerifiedAt,
     },
@@ -8009,7 +8009,7 @@ export const harnesses: Harness[] = [
     summary:
       "An MIT-licensed terminal coding agent whose last public release was July 2025. Its maintained-era design combined persistent plans, project maps, model-role packs, cumulative diff review, command debugging, and rewind; the hosted cloud later wound down, so the remaining path is a dormant self-hosted codebase.",
     logo: {
-      src: "https://github.com/plandex-ai.png",
+      src: "/harnesses/plandex.png",
       sourceUrl: "https://github.com/plandex-ai/plandex",
       verifiedAt: "2026-07-27",
     },

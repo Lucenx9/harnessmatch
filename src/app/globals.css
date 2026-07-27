@@ -817,6 +817,9 @@ p { color: var(--muted); }
 .prose-page { max-width: 850px; }
 .prose-section { padding: 32px 0; border-top: 1px solid var(--line); }
 .prose-section h2 { font-size: 2rem; }
+.privacy-updated { margin-bottom: 14px; color: var(--muted-strong); font: 600 .7rem/1.3 var(--font-mono); text-transform: uppercase; letter-spacing: .055em; }
+.privacy-source-links { display: flex; flex-wrap: wrap; gap: 10px 24px; }
+.privacy-page code { padding: 2px 5px; border: 1px solid var(--line); border-radius: 5px; background: var(--bg-soft); font-size: .84em; }
 .weight-list { overflow: hidden; margin: 24px 0; border: 1px solid var(--line); border-radius: 11px; }
 .weight-list div { display: flex; justify-content: space-between; padding: 13px 15px; border-bottom: 1px solid var(--line); }
 .weight-list div:last-child { border-bottom: 0; }

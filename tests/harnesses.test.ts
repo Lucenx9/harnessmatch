@@ -1324,11 +1324,8 @@ describe("harness evidence ledger", () => {
     for (const harness of harnesses) {
       expect(harness.logo.verifiedAt).toBe(harness.verifiedAt);
       expect(new URL(harness.logo.sourceUrl).hostname).toBe(firstPartyLogoHosts[harness.id]);
-      if (harness.logo.src.startsWith("/")) {
-        expect(existsSync(join(process.cwd(), "public", harness.logo.src.replace(/^\//, "")))).toBe(true);
-      } else {
-        expect(new URL(harness.logo.src).protocol).toBe("https:");
-      }
+      expect(harness.logo.src).toMatch(/^\/harnesses\//);
+      expect(existsSync(join(process.cwd(), "public", harness.logo.src.replace(/^\//, "")))).toBe(true);
     }
   });
 });

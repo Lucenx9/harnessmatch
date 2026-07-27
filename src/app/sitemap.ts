@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${siteUrl}/benchmarks`, lastModified: siteCheckedAt, changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/methodology`, lastModified: siteCheckedAt, changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/data`, lastModified: siteCheckedAt, changeFrequency: "weekly", priority: 0.6 },
+    { url: `${siteUrl}/privacy`, lastModified: siteCheckedAt, changeFrequency: "yearly", priority: 0.3 },
   ];
   const harnessRoutes: MetadataRoute.Sitemap = harnesses
     .filter((harness) => harness.status === "active")
