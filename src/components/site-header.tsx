@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import { BrandMark } from "@/components/brand-mark";
 import { NavLinks } from "@/components/nav-links";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -8,15 +8,7 @@ export function SiteHeader() {
     <header className="site-header">
       <div className="shell header-inner">
         <Link href="/" className="brand">
-          <Image
-            className="brand-logo"
-            src="/brand/harnessmatch-mark-64.png"
-            alt=""
-            aria-hidden="true"
-            width={32}
-            height={32}
-            priority
-          />
+          <BrandMark />
           <span>HarnessMatch</span>
         </Link>
         <nav className="desktop-nav" aria-label="Primary navigation">

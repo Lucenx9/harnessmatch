@@ -35,8 +35,22 @@ export const metadata: Metadata = {
     "Explore source-backed workflow fit across AI coding harnesses with transparent scoring and verified capabilities.",
   applicationName: "HarnessMatch",
   icons: {
-    icon: "/brand/harnessmatch-mark-64.png",
-    apple: "/brand/harnessmatch-mark-180.png",
+    icon: [
+      {
+        url: "/brand/harnessmatch-favicon-light.svg",
+        type: "image/svg+xml",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        url: "/brand/harnessmatch-favicon-dark.svg",
+        type: "image/svg+xml",
+        media: "(prefers-color-scheme: dark)",
+      },
+      { url: "/brand/harnessmatch-mark-32.png", type: "image/png", sizes: "32x32" },
+    ],
+    apple: [
+      { url: "/brand/harnessmatch-mark-180.png", type: "image/png", sizes: "180x180" },
+    ],
   },
   keywords: ["AI coding agents", "coding harnesses", "developer tools", "agent comparison"],
   openGraph: {

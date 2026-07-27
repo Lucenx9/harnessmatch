@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import { BrandMark } from "@/components/brand-mark";
 
 export function SiteFooter() {
   return (
@@ -7,14 +7,7 @@ export function SiteFooter() {
       <div className="shell footer-inner">
         <div>
           <Link href="/" className="brand footer-brand">
-            <Image
-              className="brand-logo"
-              src="/brand/harnessmatch-mark-64.png"
-              alt=""
-              aria-hidden="true"
-              width={32}
-              height={32}
-            />
+            <BrandMark />
             <strong>HarnessMatch</strong>
           </Link>
           <p>Workflow fit, verified against first-party product evidence.</p>
