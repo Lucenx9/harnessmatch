@@ -229,14 +229,22 @@ describe("harness evidence ledger", () => {
   it("separates Gemini CLI enterprise continuity from the Antigravity consumer successor", () => {
     const gemini = harnesses.find((harness) => harness.id === "gemini-cli")!;
     const antigravity = harnesses.find((harness) => harness.id === "antigravity-cli")!;
+    const geminiUrls = gemini.evidence.map((source) => source.url);
     const antigravityUrls = antigravity.evidence.map((source) => source.url);
     const caveats = antigravity.tradeoffs.join(" ");
 
     expect(gemini.status).toBe("active");
     expect(gemini.tradeoffs.join(" ")).toContain("June 18, 2026");
-    expect(gemini.evidence.map((source) => source.url)).toContain(
+    expect(geminiUrls).toContain(
       "https://developers.googleblog.com/an-important-update-transitioning-gemini-cli-to-antigravity-cli/",
     );
+    expect(geminiUrls).toEqual(expect.arrayContaining([
+      "https://geminicli.com/docs/reference/policy-engine/",
+      "https://geminicli.com/docs/hooks/",
+      "https://geminicli.com/docs/cli/git-worktrees/",
+      "https://geminicli.com/docs/admin/enterprise-controls/",
+    ]));
+    expect(gemini.tradeoffs.join(" ")).toContain("Workspace tier is currently non-functional");
     expect(antigravity.verifiedAt).toBe("2026-07-27");
     expect(antigravity.evidence.length).toBeGreaterThanOrEqual(12);
     expect(antigravity.classification).toMatchObject({
@@ -251,6 +259,8 @@ describe("harness evidence ledger", () => {
       "https://antigravity.google/docs/cli/sandbox",
       "https://antigravity.google/docs/cli/subagents",
       "https://antigravity.google/docs/cli/conversations",
+      "https://antigravity.google/docs/cli/artifacts",
+      "https://antigravity.google/docs/cli/projects",
       "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.7",
     ]));
     expect(caveats).toContain("sandboxing is available but off by default");
@@ -475,13 +485,18 @@ describe("harness evidence ledger", () => {
     expect(omp.evidence.every((source) => source.verifiedAt === omp.verifiedAt)).toBe(true);
     expect(omp.features).toMatchObject({ mcp: true, subagents: true, browser: true, sandbox: false, checkpoints: false });
     expect(urls).toEqual(expect.arrayContaining([
-      "https://github.com/can1357/oh-my-pi/blob/f8dbb3669fe31512be748f73de5b9a163151d278/docs/approval-mode.md",
-      "https://github.com/can1357/oh-my-pi/blob/f8dbb3669fe31512be748f73de5b9a163151d278/docs/tools/task.md",
-      "https://github.com/can1357/oh-my-pi/blob/f8dbb3669fe31512be748f73de5b9a163151d278/docs/tools/checkpoint.md",
-      "https://github.com/can1357/oh-my-pi/blob/f8dbb3669fe31512be748f73de5b9a163151d278/docs/memory.md",
+      "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/approval-mode.md",
+      "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/tools/task.md",
+      "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/tools/checkpoint.md",
+      "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/memory.md",
+      "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/hooks.md",
+      "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/extensions.md",
+      "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/secrets.md",
     ]));
     expect(caveats).toContain("subagents also run yolo");
     expect(caveats).toContain("prune conversation context only");
+    expect(caveats).toContain("Secret obfuscation is disabled by default");
+    expect(caveats).toContain("run in-process without isolation");
     expect(caveats).toContain("no score is imported");
   });
 
@@ -558,18 +573,21 @@ describe("harness evidence ledger", () => {
     const caveats = factory.tradeoffs.join(" ");
 
     expect(factory.verifiedAt).toBe("2026-07-27");
-    expect(factory.evidence).toHaveLength(15);
+    expect(factory.evidence).toHaveLength(17);
     expect(factory.evidence.every((source) => source.verifiedAt === factory.verifiedAt)).toBe(true);
     expect(factory.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([
       "https://docs.factory.ai/cli/configuration/settings",
       "https://docs.factory.ai/cli/configuration/mcp",
+      "https://docs.factory.ai/cli/configuration/hooks-guide",
+      "https://docs.factory.ai/enterprise/llm-safety-and-agent-controls",
       "https://docs.factory.ai/changelog/release-notes",
     ]));
     expect(caveats).toContain("Beta OS sandbox is opt-in");
     expect(caveats).toContain("cloudSessionSync");
     expect(caveats).toContain("enabled by default");
+    expect(caveats).toContain("current environment's credentials");
     expect(factory.capabilities).toEqual({
       simplicity: 3,
       flexibility: 5,
@@ -632,6 +650,7 @@ describe("harness evidence ledger", () => {
       "https://zcode.z.ai/en/docs/safety-confirm",
       "https://zcode.z.ai/en/docs/remote-development",
       "https://zcode.z.ai/en/docs/hooks",
+      "https://zcode.z.ai/en/docs/skill",
       "https://zcode.z.ai/en/changelog",
     ]));
     expect(zcode.tradeoffs.join(" ")).toContain("No documented headless CLI");
@@ -1005,6 +1024,7 @@ describe("harness evidence ledger", () => {
       "https://www.codebuff.com/docs/advanced/sdk",
       "https://www.codebuff.com/docs/help/faq",
       "https://github.com/CodebuffAI/codebuff/blob/672b784b42112d0eaf236e63b1005588e3c36711/agents/browser-use/browser-use.ts",
+      "https://github.com/CodebuffAI/codebuff/blob/672b784b42112d0eaf236e63b1005588e3c36711/docs/agents-and-tools.md",
       "https://github.com/CodebuffAI/codebuff/blob/672b784b42112d0eaf236e63b1005588e3c36711/evals/buffbench/README.md",
     ]));
     expect(codebuff.tradeoffs.join(" ")).toContain("without per-command permission prompts");
@@ -1300,6 +1320,8 @@ describe("harness evidence ledger", () => {
       "https://docs.github.com/en/copilot/concepts/agents/copilot-cli/autopilot",
       "https://docs.github.com/en/copilot/concepts/agents/hooks",
       "https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/overview",
+      "https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-custom-agents",
+      "https://docs.github.com/en/copilot/reference/hooks-reference",
     ]));
     expect(urlsFor("cursor-cli")).toContain(
       "https://github.com/cursor/cursor/tree/654b1b4775ca67aef473bd31a14c8c04a1abde2d",
@@ -1307,10 +1329,14 @@ describe("harness evidence ledger", () => {
     expect(urlsFor("junie-cli")).toEqual(expect.arrayContaining([
       "https://junie.jetbrains.com/docs/junie-cli-remote-mode.html",
       "https://junie.jetbrains.com/docs/agent-skills.html",
+      "https://junie.jetbrains.com/docs/junie-cli-configuration.html",
+      "https://junie.jetbrains.com/docs/junie-cli-hooks.html",
+      "https://junie.jetbrains.com/docs/junie-cli-acp.html",
       "https://github.com/JetBrains/junie/tree/9b3fe80b5779f0fc0f9b0ee4eeba50cc071948a5",
       "https://github.com/JetBrains/junie/releases/tag/2518.1",
     ]));
     expect(byId.get("junie-cli")!.tradeoffs.join(" ")).toContain("machine must remain awake");
+    expect(byId.get("junie-cli")!.tradeoffs.join(" ")).toContain("disabled rollout toggle");
     expect(urlsFor("cline")).toEqual(expect.arrayContaining([
       "https://docs.cline.bot/sdk/plugins",
       "https://docs.cline.bot/customization/plugins",

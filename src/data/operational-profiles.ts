@@ -77,10 +77,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
   omp: record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "session-resume" },
     [
-      "https://github.com/can1357/oh-my-pi/blob/f8dbb3669fe31512be748f73de5b9a163151d278/docs/approval-mode.md",
-      "https://github.com/can1357/oh-my-pi/blob/f8dbb3669fe31512be748f73de5b9a163151d278/docs/memory.md",
-      "https://github.com/can1357/oh-my-pi/blob/f8dbb3669fe31512be748f73de5b9a163151d278/docs/rpc.md",
-      "https://github.com/can1357/oh-my-pi/blob/f8dbb3669fe31512be748f73de5b9a163151d278/docs/tools/rewind.md",
+      "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/approval-mode.md",
+      "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/memory.md",
+      "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/rpc.md",
+      "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/tools/rewind.md",
     ],
     "Optional memory persists project knowledge and per-tool policy is granular, but memory is off and approval defaults to yolo; subagents also run yolo. Logs, stats, and session JSONL aid inspection. Checkpoint/rewind only reshapes transcript context, so recovery remains session resume.",
   ),
