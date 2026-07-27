@@ -3,7 +3,7 @@
 **Created:** 2026-07-27
 **Updated:** 2026-07-27 (second pass: web + X recheck for all harnesses)
 **Purpose:** First-party source candidates for every harness, plus ranking-review guidance for a follow-up agent (Codex or Claude).
-**Status:** Partially applied on 2026-07-27. The Codex, Goose, Mux, and Cursor CLI slices were live-verified and integrated; all remaining entries are still research candidates. **Do not treat unapplied entries as verified evidence.** No capability score may change from this packet alone.
+**Status:** Applied on 2026-07-27 for every live-verified, high-value candidate in this packet. The Codex, Goose, Mux, Cursor CLI, Command Code, Qwen Code, Aider, OpenHands, Factory Droid, Grok Build, Letta Harness, Claude Code, OpenCode, Kilo Code, and Kiro CLI slices were integrated. Remaining entries are overlap, broken paths, low-confidence discovery leads, or future refresh prompts—not verified evidence. No capability score may change from this packet alone.
 
 ### Honesty about research depth
 
@@ -46,6 +46,84 @@ Every URL in **§2b** was absent from `src/data/harnesses.ts` when discovered. C
 - Added evidence topics to the complete Cursor CLI ledger and expanded the operational-profile source set for session handling and authentication.
 - Ranking decision: **ledger only**. The five pages confirm already-recorded surfaces and do not change default isolation, permissions, recovery, or model-access posture.
 - Cursor CLI evidence count after the slice: **15**.
+
+#### 2026-07-27 — Command Code workflow slice applied
+
+- Added 12 live-verified official pages covering worktrees, durable sessions, goals, memory, Taste, settings, plan and interactive modes, background scheduling, v1 changes, Mods, and Studio.
+- Ranking decision: **ledger only**. The pages deepen support for already-recorded persistent state, worktree isolation, automation, and extension surfaces. Product-internal goal verification is not independent evidence, and scheduled/background work still inherits host execution.
+- Command Code evidence count after the slice: **21**.
+
+#### 2026-07-27 — Qwen Code daemon and extension slice applied
+
+- Added the official overview, MCP server guide, extension system, alpha `qwen serve` daemon, JetBrains ACP integration, and dated nested-subagent release note.
+- Added the daemon boundary: loopback starts without authentication, non-loopback binding refuses to start without a bearer token, and the alpha docs do not promise production-grade multi-client or network-failure guarantees.
+- Ranking decision: **ledger only**. Existing automation, subagent, MCP, IDE, and security fields already represented these capabilities and their opt-in/default boundaries.
+- Qwen Code evidence count after the slice: **17**.
+
+#### 2026-07-27 — Aider privacy and release-provenance slice applied
+
+- Added the official privacy policy, release history, and operational FAQ.
+- Recorded the version-surface discrepancy: GitHub Releases stops at v0.86.0 and the history page at v0.86.1, while the pinned audited commit explicitly bumps the package to v0.86.2.
+- Ranking decision: **ledger only**. No first-party sandbox was found, so security and isolation remain unchanged.
+- Aider evidence count after the slice: **18**.
+
+#### 2026-07-27 — OpenHands operations slice applied
+
+- Added CLI installation and MCP management, scheduled and event-driven automations, V1 custom sandbox images, and the OSS 1.11.0 release boundary.
+- Recorded that automations run unattended in fresh sandboxes with configured LLM settings, stored secrets, integrations, and Git-provider credentials.
+- Ranking decision: **ledger only**. The sandbox-first platform, always-approve headless path, and operational postures remain unchanged.
+- OpenHands evidence count after the slice: **23**.
+
+#### 2026-07-27 — Factory Droid configuration slice applied
+
+- Added the current settings hierarchy and dedicated MCP configuration page. Release notes and Droid Control were already present, so the duplicate packet suggestions were not re-added.
+- Recorded that CLI session mirroring to Factory web defaults on and can be disabled with `cloudSessionSync`.
+- Ranking decision: **ledger only**. Existing policy, sandbox, automation, and capability fields already represent these mechanisms.
+- Factory Droid evidence count after the slice: **15**.
+
+#### 2026-07-27 — Grok Build settings slice applied
+
+- Added the dedicated MCP server guide, settings overview, and CLI reference.
+- Ranking decision: **ledger only**. These pages provide direct coverage for mechanisms already represented by the evidence ledger and capability profile.
+- Grok Build evidence count after the slice: **24**.
+
+#### 2026-07-27 — Letta Harness boundary slice applied
+
+- Updated the display name from Letta Code to the current official **Letta Harness** name while retaining the stable `letta-code` identifier and repository/package boundary.
+- Added the current documentation index, MCP and client-tool execution models, pinned v0.29.4 CLI MCP implementation, GitHub Action, trusted Mods, settings, changelog, and CLI reference.
+- Rejected the packet's built-in-tool path because it now resolves to 404, and excluded the generic Agent SDK deployment page from harness capability evidence.
+- Ranking decision: **ledger only**. MCP was already code-verifiable and enabled; the new sources clarify that skills are preferred for app/CLI use, external MCP servers are separate execution boundaries, and Mods are fully trusted in-process code.
+- Letta Harness evidence count after the slice: **23**.
+
+#### 2026-07-27 — Claude Code evaluation and retention slice applied
+
+- Added Anthropic's Auto mode engineering evaluation and the qualified Enterprise Zero Data Retention documentation.
+- Recorded the published Auto mode sample boundaries: 10,000 production sessions, 52 real overeager actions, and a 17% false-negative rate on those real actions; Anthropic explicitly does not position it as a replacement for high-stakes review.
+- Recorded that Zero Data Retention requires separate qualification and enablement and excludes web and Cloud sessions, Remote Control, feedback, third-party tools, and MCP integrations.
+- Excluded the sandboxing engineering article because the existing security, sandboxing, runtime, devcontainer, and open runtime records already support the same harness claims.
+- Ranking decision: **ledger only**. Auto mode remains policy/classifier-backed rather than isolation, and ZDR is conditional rather than the product-wide default.
+- Claude Code evidence count after the slice: **56**.
+
+#### 2026-07-27 — OpenCode security-policy slice applied
+
+- Added the immutable v1.18.5 `SECURITY.md` rather than the mutable repository security route.
+- The policy explicitly confirms no built-in sandbox, permissions as a UX control rather than isolation, and the unauthenticated server default when no password is configured.
+- Ranking decision: **ledger only**. The existing host-first runtime, absent sandbox flag, security 3, and server caveat already encode this boundary.
+- OpenCode evidence count after the slice: **25**.
+
+#### 2026-07-27 — Kilo Code sandbox-boundary slice applied
+
+- Added the first-party local-sandbox threat-model article, CLI product surface, and Cloud Agent security architecture.
+- Recorded that local sandboxing is opt-in, leaves reads unrestricted, and is explicitly neither a privacy boundary nor a complete firewall. Cloud Agent uses a distinct managed Cloudflare sandbox architecture.
+- Ranking decision: **ledger only**. Kilo remains host-first because the local default did not change; the managed cloud boundary was already represented separately.
+- Kilo Code evidence count after the slice: **27**.
+
+#### 2026-07-27 — Kiro CLI review and v3-policy slice applied
+
+- Added the privacy/security model and CLI 3.0 permission-rule documentation.
+- Recorded that Supervised and Autopilot change review workflow, not tool capability, isolation, or access control. Declarative v3 policy remains early access and is not treated as the stable 2.x default.
+- Ranking decision: **ledger only**. The existing host-first runtime, no-sandbox feature, and stable-versus-v3 split remain correct.
+- Kiro CLI evidence count after the slice: **21**.
 
 ---
 
@@ -100,14 +178,14 @@ If no field changes: still OK to add evidence-only; document “ledger only” i
 
 | id | status | evidence | sandbox feat | checkpoints | sec score | notes |
 |---|---|---:|---|---|---:|---|
-| claude-code | active | 54 | yes | yes | 4 | Ledger already expanded; residual eng hosts only |
+| claude-code | active | 56 | yes | yes | 4 | Auto-mode evaluation and qualified ZDR limits applied |
 | codex | active | 46 | yes | no | 5 | Codex source slice applied; ranking unchanged |
-| opencode | active | 24 | no | yes | 3 | Add security policy repo page if first-party |
+| opencode | active | 25 | no | yes | 3 | Pinned security policy reinforces host-first boundary |
 | pi | active | 19 | no | no | 2 | Thin on automation ops docs |
 | omp | active | 15 | no | no | 3 | Expand settings/memory/stats if present |
-| grok-build | active | 21 | yes | yes | 4 | Confirm docs.x.ai/build index completeness |
-| aider | active | 15 | no | yes | 3 | Missing security + version pin sources |
-| openhands | active | 17 | yes | no | 5 | Add release pin / changelog |
+| grok-build | active | 24 | yes | yes | 4 | MCP, settings, and CLI reference applied |
+| aider | active | 18 | no | yes | 3 | Privacy and release provenance applied; no sandbox found |
+| openhands | active | 23 | yes | no | Operations and OSS release slice applied |
 | goose | active | 19 | yes | no | 4 | Security slice applied; optional and fail-open controls documented |
 | cline | active | 18 | no | yes | 3 | Changelog / enterprise policy gaps |
 | gemini-cli | active | 13 | yes | yes | 4 | Consumer→Antigravity transition already noted |
@@ -115,15 +193,15 @@ If no field changes: still OK to add evidence-only; document “ledger only” i
 | copilot-cli | active | 14 | yes | yes | 4 | GitHub docs depth OK; confirm fleet/sandbox pages |
 | cursor-cli | active | 15 | yes | yes | 4 | Product-surface slice applied; default posture unchanged |
 | junie-cli | active | 13 | no | no | 4 | Remote mode already critical |
-| factory-droid | active | 13 | yes | yes | 4 | Need deeper security/automation pages |
+| factory-droid | active | 15 | yes | yes | Settings and MCP slice applied; session sync default documented |
 | forgecode | active | 24 | no | no | 2 | Dense; verify defaults not overclaimed |
-| qwen-code | active | 11 | yes | yes | 4 | **Under-sourced** |
+| qwen-code | active | 17 | yes | yes | 4 | Daemon, MCP, extensions, IDE, and nested-agent sources applied |
 | continue-cli | archived | 4 | no | no | 3 | Leave out of recommender |
 | mistral-vibe | active | 26 | no | yes | 4 | Strong docs; confirm CLI vs web split |
 | kimi-code | active | 12 | no | no | 3 | Thin |
-| letta-code | active | 14 | yes | no | 4 | MCP claim vs no MCP feature flag: review |
-| kilo-code | active | 24 | yes | yes | 4 | Strong |
-| command-code | active | 9 | no | yes | 4 | **Under-sourced** |
+| letta-code | active | 23 | yes | no | Current name is Letta Harness; MCP/code boundary and trusted Mods documented |
+| kilo-code | active | 27 | yes | yes | 4 | Local and managed sandbox boundaries separated |
+| command-code | active | 21 | no | yes | 4 | Workflow and persistence slice applied; host boundary unchanged |
 | codebuff | active | 15 | no | no | 3 | Missing dedicated security source |
 | crush | active | 20 | no | no | 3 | Charm-land docs OK |
 | mux | active | 26 | yes | no | 4 | Runtime and access slice applied; default remains host-first |
@@ -134,7 +212,7 @@ If no field changes: still OK to add evidence-only; document “ledger only” i
 | hermes-agent | active | 25 | yes | yes | 4 | Strong OSS |
 | mini-swe-agent | active | 23 | yes | no | 3 | Strong OSS + bench assets |
 | amp | active | 19 | yes | no | 3 | Version pin weak |
-| kiro-cli | active | 19 | no | yes | 4 | v3 experimental path already split |
+| kiro-cli | active | 21 | no | yes | 4 | Review modes and v3 policy boundary applied |
 | poolside-cli | active | 18 | yes | no | 4 | Solid enterprise docs |
 | plandex | dormant | 25 | no | yes | 2 | Dormant; refresh only if status changes |
 
@@ -148,21 +226,22 @@ If no field changes: still OK to add evidence-only; document “ledger only” i
 2. ~~**goose** — security suite almost entirely missing from ledger~~ **Applied 2026-07-27**
 3. ~~**cursor-cli** — MCP, install, using-agent, shell mode missing~~ **Applied 2026-07-27**
 4. ~~**mux** — docker/devcontainer/worktree/SSH runtimes + hooks + GHA missing~~ **Applied 2026-07-27**
-5. **command-code** — worktrees, sessions, memory, goal, taste, settings missing
-6. **qwen-code** — MCP, extensions/subagents, daemon, overview missing
-7. **aider** — privacy + release history missing
+5. ~~**command-code** — worktrees, sessions, memory, goal, taste, settings missing~~ **Applied 2026-07-27**
+6. ~~**qwen-code** — MCP, extensions/subagents, daemon, overview missing~~ **Applied 2026-07-27**
+7. ~~**aider** — privacy + release history missing~~ **Applied 2026-07-27**
 
 ### P1 — important; live candidates below
 
-- openhands (CLI install/MCP/automations/custom sandbox)
-- factory-droid (settings, macOS sandbox notes in release)
+- ~~openhands (CLI install/MCP/automations/custom sandbox)~~ **Applied 2026-07-27**
+- ~~factory-droid (settings, macOS sandbox notes in release)~~ **Applied 2026-07-27**
 - cline (confirm remaining security/browser pages)
 - kimi-code (if security pages appear)
 - codebuff (security page still weak/unfound — do not invent)
 
 ### P2 — dense ledgers; only residual polish
 
-- claude-code residual eng hosts, opencode SECURITY.md, mistral-vibe/stagewise/zoo already heavy
+- ~~claude-code Auto mode/ZDR and opencode SECURITY.md~~ **Applied 2026-07-27**
+- mistral-vibe, stagewise, and zoo-code remain dense and need only future release-driven refreshes
 
 ### P3 — status-gated
 
@@ -228,7 +307,7 @@ Official index: https://mux.coder.com/llms.txt
 
 **Ranking question:** `features.sandbox: true` — which runtime is default? Local vs docker/worktree must stay honest in tradeoffs.
 
-### command-code (ledger 9 — large docs surface unused)
+### command-code (ledger 21 after workflow slice — **applied 2026-07-27**)
 
 | URL | Why useful | conf |
 |---|---|---|
@@ -249,7 +328,7 @@ Official index: https://mux.coder.com/llms.txt
 
 Security page **already in ledger** (`/docs/resources/security`).
 
-### qwen-code (ledger 11)
+### qwen-code (ledger 17 after daemon and extension slice — **applied 2026-07-27**)
 
 | URL | Why useful | conf |
 |---|---|---|
@@ -261,7 +340,7 @@ Security page **already in ledger** (`/docs/resources/security`).
 | https://qwenlm.github.io/qwen-code-docs/en/blog/updates/weekly-update-2026-07-09/ | Nested subagents depth | high |
 | Newer weekly updates after 2026-06-04 pin | Version surface | medium |
 
-### aider (ledger 15 — no privacy/version pages)
+### aider (ledger 18 after privacy and release-provenance slice — **applied 2026-07-27**)
 
 | URL | Why useful | conf |
 |---|---|---|
@@ -272,7 +351,7 @@ Security page **already in ledger** (`/docs/resources/security`).
 
 **No first-party OS sandbox docs found** — do not add third-party CodeGate as evidence.
 
-### openhands (ledger 17 — strong sandboxes already; missing ops)
+### openhands (ledger 23 after operations slice — **applied 2026-07-27**)
 
 | URL | Why useful | conf |
 |---|---|---|
@@ -283,7 +362,7 @@ Security page **already in ledger** (`/docs/resources/security`).
 | https://docs.openhands.dev/openhands/usage/advanced/custom-sandbox-guide | Custom sandbox images | high |
 | GitHub release tag for current OpenHands version | Version pin | high |
 
-### factory-droid (ledger 13)
+### factory-droid (ledger 15 after configuration slice — **applied 2026-07-27**)
 
 | URL | Why useful | conf |
 |---|---|---|
@@ -291,11 +370,11 @@ Security page **already in ledger** (`/docs/resources/security`).
 | https://docs.factory.ai/changelog/release-notes | macOS command sandbox and security-review notes | high (already partially used? **not** in evidence list — add) |
 | Explicit browser/MCP pages if linked from docs nav | browser feature | medium — re-check nav |
 
-### opencode
+### opencode — applied 2026-07-27
 
 | URL | Why useful | conf |
 |---|---|---|
-| https://github.com/anomalyco/opencode/security | **Official:** no built-in sandbox; permissions are UX not isolation | high |
+| ~~https://github.com/anomalyco/opencode/security~~ | **Applied as immutable v1.18.5 `SECURITY.md`:** no built-in sandbox; permissions are UX not isolation | high |
 
 ### cline / copilot-cli / kimi-code / amp / coder-agents
 
@@ -304,13 +383,13 @@ Live search did **not** surface large new first-party pages clearly outside the 
 - Prefer **release pins** and any dedicated security page found on next pass
 - **codebuff:** no dedicated first-party security URL found in search — leave gap open rather than invent
 
-### claude-code residual (not in ledger; host allowlist)
+### claude-code residual — curated and applied 2026-07-27
 
 | URL | Host issue |
 |---|---|
-| https://www.anthropic.com/engineering/claude-code-sandboxing | needs `anthropic.com` |
-| https://www.anthropic.com/engineering/claude-code-auto-mode | needs `anthropic.com` |
-| https://code.claude.com/docs/en/zero-data-retention | ok under `code.claude.com` |
+| https://www.anthropic.com/engineering/claude-code-sandboxing | Excluded as overlap with the existing granular sandbox/runtime records |
+| ~~https://www.anthropic.com/engineering/claude-code-auto-mode~~ | Applied; `www.anthropic.com` allowlisted |
+| ~~https://code.claude.com/docs/en/zero-data-retention~~ | Applied |
 
 ### codex residual (applied 2026-07-27)
 
@@ -351,7 +430,7 @@ Compared again to live `harnesses.ts` evidence counts at discovery time (Claude 
 
 Still **also missing** the earlier high-value harness pages: sandboxing, permission-modes, agents-md, app, auth, etc. (§2b/§3).
 
-#### grok-build (21) — docs.x.ai build tree gaps
+#### grok-build (24) — docs.x.ai build tree gaps **applied 2026-07-27**
 
 Already has sandbox, permissions, worktrees, skills-plugins, enterprise, settings/reference. Still useful if not present:
 
@@ -361,15 +440,15 @@ Already has sandbox, permissions, worktrees, skills-plugins, enterprise, setting
 | https://docs.x.ai/build/settings | Settings hierarchy (user/project/requirements) | high |
 | https://docs.x.ai/build/cli/reference | CLI flags for sandbox/permissions | high |
 
-#### kilo-code (24) — already has sandboxing docs; add product/blog depth
+#### kilo-code (27) — sandbox-boundary slice applied 2026-07-27
 
 | URL | Why | conf |
 |---|---|---|
-| https://blog.kilo.ai/p/kilo-sandbox-run-auto-mode-without | First-party blog: OS sandbox vs permissions, network deny, .git read-only | high — host `blog.kilo.ai` may need allowlist |
-| https://kilo.ai/cli | Product CLI page: `/sandbox`, auto mode | high |
-| https://kilo.ai/docs/contributing/architecture/cloud-security | Cloud Agent sandbox allocation architecture | medium |
+| ~~https://blog.kilo.ai/p/kilo-sandbox-run-auto-mode-without~~ | Applied; OS sandbox vs permissions, read scope, network deny, and limits | high |
+| ~~https://kilo.ai/cli~~ | Applied; `/sandbox` and automation surface | high |
+| ~~https://kilo.ai/docs/contributing/architecture/cloud-security~~ | Applied; separate Cloud Agent sandbox architecture | high after live verification |
 
-#### letta-code (14) — MCP + tool execution model
+#### letta-code / Letta Harness (23) — MCP + tool execution model **applied 2026-07-27**
 
 Ledger has computers/cloud-sandboxes but **not** MCP tools page; feature flag MCP is false — verify:
 
@@ -381,14 +460,14 @@ Ledger has computers/cloud-sandboxes but **not** MCP tools page; feature flag MC
 | https://docs.letta.com/platform/github-action | Automation surface | medium |
 | https://docs.letta.com/letta-agent-sdk/deployment/ | Managed sandbox for SDK sessions | medium |
 
-#### kiro-cli (19)
+#### kiro-cli (21) — applied 2026-07-27
 
 Has data-protection; parent privacy/security + v3 permissions may still be thin:
 
 | URL | Why | conf |
 |---|---|---|
-| https://kiro.dev/docs/cli/privacy-and-security/ | Privacy/security hub (autopilot vs supervised = review workflow not scope) | high |
-| https://kiro.dev/docs/cli/v3/permissions/ | Declarative permission rules (v3 path) | high |
+| ~~https://kiro.dev/docs/cli/privacy-and-security/~~ | Applied; review workflow is not isolation or access control | high |
+| ~~https://kiro.dev/docs/cli/v3/permissions/~~ | Applied; early-access declarative v3 rules | high |
 
 #### hermes-agent (25)
 
@@ -402,7 +481,7 @@ Prior §2b list **confirmed again**; no better first-party replacements found th
 
 Dense / already covered enough for harness claims (polish-only):
 
-- **claude-code** (54) — residual only eng/ZDR hosts
+- **claude-code** (56) — curated Auto mode/ZDR slice applied; sandboxing article excluded as overlap
 - **hermes-agent**, **mistral-vibe**, **stagewise**, **zoo-code**, **forgecode**, **crush**, **kilo-code** (core docs present)
 - **pi** (security + containerization already present)
 - **amp**, **coder-agents**, **poolside-cli** (primary surfaces present)
@@ -422,12 +501,12 @@ Dense / already covered enough for harness claims (polish-only):
 2. ~~**goose** — security hub suite (§2b)~~ **Applied**
 3. ~~**mux** — runtime/* + hooks + GHA (§2b llms.txt)~~ **Applied**
 4. ~~**cursor-cli** — installation / using / mcp / auth (§2b)~~ **Applied**
-5. **command-code** + **qwen-code** — surface fill (§2b)
-6. **grok-build** MCP/settings pages
-7. **letta-code** MCP/client-tools (may flip `features.mcp`)
+5. ~~**command-code** + **qwen-code** — surface fill (§2b)~~ **Applied**
+6. ~~**grok-build** MCP/settings pages~~ **Applied**
+7. ~~**letta-code** MCP/client-tools~~ **Applied; MCP was already enabled and code-verifiable**
 8. **kilo** blog/cli sandbox narrative (ledger-only unless defaults change)
-9. **aider** privacy + HISTORY
-10. **openhands** automations/custom sandbox
+9. ~~**aider** privacy + HISTORY~~ **Applied**
+10. ~~**openhands** automations/custom sandbox~~ **Applied**
 
 ---
 
@@ -442,7 +521,7 @@ For each item: fetch live → write `covers` from actual page → only then add 
 
 ---
 
-### claude-code (50) — ledger strong
+### claude-code (56) — residual slice applied 2026-07-27
 
 **Current hosts:** `code.claude.com`, `claude.com`, `github.com`
 **Ranking note:** security 4 + host-first runtime already encode opt-in Bash sandbox. Do not raise security without fail-closed defaults.
@@ -505,7 +584,7 @@ sandboxing, permission-modes, agents-md
 
 ---
 
-### opencode (24)
+### opencode (25) — security-policy slice applied 2026-07-27
 
 | candidate | kind | claim area | conf |
 |---|---|---|---|
@@ -699,7 +778,7 @@ sandboxing, permission-modes, agents-md
 
 ---
 
-### kilo-code (24)
+### kilo-code (27) — sandbox-boundary slice applied 2026-07-27
 
 | candidate | kind | claim area | conf |
 |---|---|---|---|
@@ -802,7 +881,7 @@ sandboxing, permission-modes, agents-md
 
 ---
 
-### kiro-cli (19)
+### kiro-cli (21) — review and v3-policy slice applied 2026-07-27
 
 | candidate | kind | claim area | conf |
 |---|---|---|---|
@@ -855,7 +934,7 @@ Deprioritize:
 | B | cursor-cli + command-code + qwen-code evidence expansion | Maybe feature/security review |
 | C | goose + mux + codebuff + aider security/version sources | **Goose and Mux applied; codebuff and Aider pending** |
 | D | gemini-cli / antigravity-cli transition hygiene | Access gates |
-| E | Residual claude-code eng sources + host allowlist | Ledger only |
+| E | Residual claude-code eng sources + host allowlist | **Applied 2026-07-27; ledger only** |
 
 Each PR: update `verifiedAt` consistently for touched harnesses; extend `tests/harnesses.test.ts` URL contains assertions for that product.
 
@@ -874,7 +953,7 @@ Each PR: update `verifiedAt` consistently for touched harnesses; extend `tests/h
 
 You are receiving a **research queue**, not a ranking mandate.
 
-1. Continue with **Command Code or Qwen Code**, now that Codex, Goose, Mux, and Cursor CLI are applied.
+1. The Kilo Code, Kiro CLI, OpenCode, and Claude Code residual candidates are complete. Continue only with new release-driven first-party evidence or the explicitly weak Cline, Kimi Code, and Codebuff gaps; do not bulk-add overlap.
 2. After each harness, run `npm test`.
 3. If you change any ordinal or feature flag, add/adjust a recommendation test that names the workflow outcome.
 4. When done with a harness, check the boxes in §0 ranking review and record “ledger only” vs “score change” in the PR description.

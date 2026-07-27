@@ -97,6 +97,8 @@ export const harnesses: Harness[] = [
       "Managed Code Review is a separate Team and Enterprise GitHub surface whose neutral check does not block merges unless users add their own CI gate",
       "Plugin marketplaces can install agents, hooks, MCP and LSP servers; organizations must configure marketplace allowlists when arbitrary sources are not acceptable",
       "The optional unattended retry watchdog can retry capacity errors indefinitely and other transient failures for roughly three hours, so CI owners still need explicit time and spend boundaries",
+      "Auto mode is classifier-backed rather than a sandbox: Anthropic's published evaluation reports a 17% false-negative rate on 52 real overeager actions and says it is not a replacement for careful review in high-stakes workflows",
+      "Zero Data Retention is a separately enabled option for qualifying Enterprise API organizations and excludes web and Cloud sessions, Remote Control, feedback, third-party tools, and MCP integrations",
       "The public GitHub repository exposes releases, plugins, examples, and issue automation rather than the proprietary core implementation or product test suite",
     ],
     setup: "Install Claude Code, authenticate with Claude or an enterprise platform, then run `claude` in a repository.",
@@ -219,6 +221,14 @@ export const harnesses: Harness[] = [
         topic: "execution-control",
         url: "https://claude.com/blog/auto-mode",
         covers: "Classifier-backed autonomy as a safer alternative to dangerously-skip-permissions",
+        kind: "official-announcement",
+        verifiedAt: claudeCodeVerifiedAt,
+      },
+      {
+        title: "Auto mode engineering evaluation",
+        topic: "execution-control",
+        url: "https://www.anthropic.com/engineering/claude-code-auto-mode",
+        covers: "Classifier design, 10,000-session production evaluation, real and synthetic false-negative rates, false positives, and high-stakes limitation",
         kind: "official-announcement",
         verifiedAt: claudeCodeVerifiedAt,
       },
@@ -475,6 +485,14 @@ export const harnesses: Harness[] = [
         topic: "enterprise-operations",
         url: "https://code.claude.com/docs/en/data-usage",
         covers: "What Claude Code transmits, retention posture, telemetry services, and opt-out controls",
+        kind: "official-docs",
+        verifiedAt: claudeCodeVerifiedAt,
+      },
+      {
+        title: "Zero Data Retention",
+        topic: "enterprise-operations",
+        url: "https://code.claude.com/docs/en/zero-data-retention",
+        covers: "Qualified Enterprise enablement, direct-inference scope, excluded product surfaces and integrations, and model availability changes",
         kind: "official-docs",
         verifiedAt: claudeCodeVerifiedAt,
       },
@@ -1029,6 +1047,7 @@ export const harnesses: Harness[] = [
     evidence: [
       {
         title: "OpenCode introduction",
+        topic: "product-surfaces",
         url: "https://opencode.ai/docs/",
         covers: "Terminal, desktop, IDE, installation, and basic provider setup",
         kind: "official-docs",
@@ -1036,6 +1055,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Providers",
+        topic: "product-surfaces",
         url: "https://opencode.ai/docs/providers",
         covers: "More than 75 cloud, subscription, gateway, OpenAI-compatible, and local providers",
         kind: "official-docs",
@@ -1043,6 +1063,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Models",
+        topic: "product-surfaces",
         url: "https://opencode.ai/docs/models",
         covers: "Provider and model selection, local models, variants, defaults, and model-quality warning",
         kind: "official-docs",
@@ -1050,6 +1071,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Agents and permissions",
+        topic: "orchestration-state",
         url: "https://opencode.ai/docs/agents/",
         covers: "Primary agents, parallel subagents, built-in roles, compaction, models, and per-agent permissions",
         kind: "official-docs",
@@ -1057,6 +1079,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Permission policy",
+        topic: "execution-control",
         url: "https://opencode.ai/docs/permissions",
         covers: "Allow, ask, deny, permissive defaults, command patterns, external paths, and auto mode",
         kind: "official-docs",
@@ -1064,6 +1087,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Terminal interface",
+        topic: "orchestration-state",
         url: "https://opencode.ai/docs/tui/",
         covers: "Sessions, compaction, export, sharing, and Git-dependent undo and redo",
         kind: "official-docs",
@@ -1071,6 +1095,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Command-line interface",
+        topic: "product-surfaces",
         url: "https://opencode.ai/docs/cli",
         covers: "Interactive, run, server, attach, session fork, auto approval, and automation commands",
         kind: "official-docs",
@@ -1078,6 +1103,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Built-in and custom tools",
+        topic: "execution-control",
         url: "https://opencode.ai/docs/tools",
         covers: "Host tools, web retrieval, permission controls, custom tools, MCP, and ignore behavior",
         kind: "official-docs",
@@ -1085,6 +1111,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "MCP servers",
+        topic: "automation-extensions",
         url: "https://opencode.ai/docs/mcp-servers",
         covers: "Local and remote MCP transports, OAuth, enablement, environment, permissions, and context cost",
         kind: "official-docs",
@@ -1092,6 +1119,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Plugins",
+        topic: "automation-extensions",
         url: "https://opencode.ai/docs/plugins",
         covers: "Local and npm plugins, hooks, custom authentication, tool interception, and execution scope",
         kind: "official-docs",
@@ -1099,6 +1127,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Skills",
+        topic: "automation-extensions",
         url: "https://opencode.ai/docs/skills",
         covers: "Project and user skills, discovery, permissions, metadata, and lazy loading",
         kind: "official-docs",
@@ -1106,6 +1135,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Rules and project instructions",
+        topic: "orchestration-state",
         url: "https://opencode.ai/docs/rules",
         covers: "AGENTS.md hierarchy, reusable instructions, compatibility files, and context scope",
         kind: "official-docs",
@@ -1113,6 +1143,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "LSP integration",
+        topic: "automation-extensions",
         url: "https://opencode.ai/docs/lsp",
         covers: "Language-server diagnostics, supported servers, custom configuration, and disablement",
         kind: "official-docs",
@@ -1120,6 +1151,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Headless server",
+        topic: "product-surfaces",
         url: "https://opencode.ai/docs/server",
         covers: "OpenAPI server, localhost default, optional Basic auth, event stream, and client APIs",
         kind: "official-docs",
@@ -1127,6 +1159,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Local web interface",
+        topic: "product-surfaces",
         url: "https://opencode.ai/docs/web",
         covers: "Browser client, local binding, optional password, network exposure, CORS, and shared state",
         kind: "official-docs",
@@ -1134,6 +1167,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "SDK",
+        topic: "automation-extensions",
         url: "https://opencode.ai/docs/sdk",
         covers: "Typed programmatic client, server lifecycle, sessions, messages, events, and automation",
         kind: "official-docs",
@@ -1141,6 +1175,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "GitHub automation",
+        topic: "automation-extensions",
         url: "https://opencode.ai/docs/github",
         covers: "Issue and pull-request agents, schedules, workflow permissions, secrets, branches, and reviews",
         kind: "official-docs",
@@ -1148,6 +1183,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Conversation sharing",
+        topic: "enterprise-operations",
         url: "https://opencode.ai/docs/share",
         covers: "Manual, automatic, and disabled sharing, public-link retention, deletion, and privacy guidance",
         kind: "official-docs",
@@ -1155,6 +1191,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Enterprise deployment",
+        topic: "enterprise-operations",
         url: "https://opencode.ai/docs/enterprise",
         covers: "Central configuration, SSO, gateway restrictions, data path, sharing caveat, and roadmap limits",
         kind: "official-docs",
@@ -1162,6 +1199,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Provider policies",
+        topic: "enterprise-operations",
         url: "https://opencode.ai/docs/policies",
         covers: "Experimental provider allow and deny policy, precedence, wildcard matching, and scope",
         kind: "official-docs",
@@ -1169,6 +1207,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Git snapshot implementation",
+        topic: "orchestration-state",
         url: "https://github.com/anomalyco/opencode/blob/e5cc278dec9294a627a7b05f47ce6a564408c1a2/packages/opencode/src/snapshot/index.ts",
         covers: "Snapshot storage, Git-only enablement, ignored and large-file exclusions, restore, and pruning",
         kind: "official-repository",
@@ -1176,6 +1215,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Session revert implementation",
+        topic: "orchestration-state",
         url: "https://github.com/anomalyco/opencode/blob/e5cc278dec9294a627a7b05f47ce6a564408c1a2/packages/opencode/src/session/revert.ts",
         covers: "Message undo and redo, snapshot restoration, patch reversal, and session-state cleanup",
         kind: "official-repository",
@@ -1183,6 +1223,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "OpenCode 1.18.5 release",
+        topic: "releases-code-audit",
         url: "https://github.com/anomalyco/opencode/releases/tag/v1.18.5",
         covers: "Current stable distribution release used for product-version verification",
         kind: "official-announcement",
@@ -1190,8 +1231,17 @@ export const harnesses: Harness[] = [
       },
       {
         title: "OpenCode source tree",
+        topic: "releases-code-audit",
         url: "https://github.com/anomalyco/opencode/tree/e5cc278dec9294a627a7b05f47ce6a564408c1a2",
         covers: "Pinned 1.18.5 implementation, security policy, tests, workflows, clients, and license",
+        kind: "official-repository",
+        verifiedAt: openCodeVerifiedAt,
+      },
+      {
+        title: "Pinned security policy",
+        topic: "execution-control",
+        url: "https://github.com/anomalyco/opencode/blob/e5cc278dec9294a627a7b05f47ce6a564408c1a2/SECURITY.md",
+        covers: "Explicit absence of a sandbox, permission-policy boundary, local server authentication default, and security disclosure process",
         kind: "official-repository",
         verifiedAt: openCodeVerifiedAt,
       },
@@ -1617,6 +1667,7 @@ export const harnesses: Harness[] = [
     evidence: [
       {
         title: "Grok Build overview",
+        topic: "product-surfaces",
         url: "https://docs.x.ai/build/overview",
         covers: "TUI, headless mode, ACP, custom models, installation, and authentication",
         kind: "official-docs",
@@ -1624,6 +1675,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Headless and scripting",
+        topic: "automation-extensions",
         url: "https://docs.x.ai/build/cli/headless-scripting",
         covers: "One-shot execution, JSON event streams, sessions, ACP, update control, and CI integration",
         kind: "official-docs",
@@ -1631,6 +1683,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Permissions and sandbox",
+        topic: "execution-control",
         url: "https://docs.x.ai/build/features/sandbox",
         covers: "OS isolation profiles, default-off behavior, filesystem boundaries, and network limits",
         kind: "official-docs",
@@ -1638,6 +1691,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Permissions",
+        topic: "execution-control",
         url: "https://docs.x.ai/build/features/permissions",
         covers: "Ask, auto, always-approve, accept-edits and dont-ask modes plus allow and deny rules",
         kind: "official-docs",
@@ -1645,6 +1699,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Worktrees",
+        topic: "execution-control",
         url: "https://docs.x.ai/build/features/worktrees",
         covers: "Parallel checkout creation, base refs, subagent isolation, cleanup, and Git limitations",
         kind: "official-docs",
@@ -1652,6 +1707,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Subagents and extensions",
+        topic: "automation-extensions",
         url: "https://docs.x.ai/build/features/skills-plugins-marketplaces",
         covers: "Default-on subagents plus skills, plugins, hooks, MCP, and LSP extensions",
         kind: "official-docs",
@@ -1659,6 +1715,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Subagents",
+        topic: "orchestration-state",
         url: "https://docs.x.ai/build/features/subagents",
         covers: "Built-in and custom child agents, parallel tasks, permissions, models, and worktree isolation",
         kind: "official-docs",
@@ -1666,6 +1723,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Hooks",
+        topic: "automation-extensions",
         url: "https://docs.x.ai/build/features/hooks",
         covers: "Tool and session lifecycle scripts, trust, blocking semantics, plugins, and execution scope",
         kind: "official-docs",
@@ -1673,6 +1731,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Modes and commands",
+        topic: "orchestration-state",
         url: "https://docs.x.ai/build/modes-and-commands",
         covers: "Plan review, session branching, rewind, background tasks, and control modes",
         kind: "official-docs",
@@ -1680,6 +1739,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Plan mode",
+        topic: "execution-control",
         url: "https://docs.x.ai/build/features/plan-mode",
         covers: "Plan-only edit gate, approval transition, persisted plan, and permission-mode interaction",
         kind: "official-docs",
@@ -1687,6 +1747,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Background tasks",
+        topic: "automation-extensions",
         url: "https://docs.x.ai/build/features/background-tasks",
         covers: "Recurring loops, background agents, task list, scheduling, interruption, and persistence",
         kind: "official-docs",
@@ -1694,6 +1755,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Agent dashboard",
+        topic: "product-surfaces",
         url: "https://docs.x.ai/build/features/dashboard",
         covers: "Multi-session monitoring, agent status, attention requests, attachment, and controls",
         kind: "official-docs",
@@ -1701,6 +1763,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Enterprise deployment",
+        topic: "enterprise-operations",
         url: "https://docs.x.ai/build/enterprise",
         covers: "Managed policy, sandbox pinning, authentication, network, telemetry, ZDR, and bypass lock",
         kind: "official-docs",
@@ -1708,6 +1771,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Settings reference",
+        topic: "enterprise-operations",
         url: "https://docs.x.ai/build/settings/reference",
         covers: "Models, permissions, sandbox, MCP, subagents, memory, telemetry, and configuration precedence",
         kind: "official-docs",
@@ -1715,6 +1779,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Grok Build launch",
+        topic: "product-surfaces",
         url: "https://x.ai/news/grok-build-cli",
         covers: "Subscription access, plan approval, diffs, and parallel subagents",
         kind: "official-announcement",
@@ -1722,6 +1787,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Open-source announcement",
+        topic: "releases-code-audit",
         url: "https://x.ai/news/grok-build-open-source",
         covers: "Source release, extension system, MCP, subagents, and local inference configuration",
         kind: "official-announcement",
@@ -1729,6 +1795,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Grok Build changelog",
+        topic: "releases-code-audit",
         url: "https://x.ai/build/changelog",
         covers: "Beta status and current 0.2.111 product release verification",
         kind: "official-announcement",
@@ -1736,6 +1803,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Grok Build repository",
+        topic: "releases-code-audit",
         url: "https://github.com/xai-org/grok-build/tree/b41c75a578f98bddbd326ab02cd53618451d97ee",
         covers: "Pinned public source sync, runtime, tests, session architecture, sync policy, and license",
         kind: "official-repository",
@@ -1743,6 +1811,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Session and rewind guide",
+        topic: "orchestration-state",
         url: "https://github.com/xai-org/grok-build/blob/b41c75a578f98bddbd326ab02cd53618451d97ee/crates/codegen/xai-grok-pager/docs/user-guide/17-sessions.md",
         covers: "Local session storage, resume, fork, rewind, compaction checkpoints, and recovery boundaries",
         kind: "official-repository",
@@ -1750,6 +1819,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Memory guide",
+        topic: "orchestration-state",
         url: "https://github.com/xai-org/grok-build/blob/b41c75a578f98bddbd326ab02cd53618451d97ee/crates/codegen/xai-grok-pager/docs/user-guide/13-memory.md",
         covers: "Optional cross-session memory, default state, storage, retrieval, and lifecycle",
         kind: "official-repository",
@@ -1757,9 +1827,34 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Monitoring and OpenTelemetry guide",
+        topic: "enterprise-operations",
         url: "https://github.com/xai-org/grok-build/blob/b41c75a578f98bddbd326ab02cd53618451d97ee/crates/codegen/xai-grok-pager/docs/user-guide/24-monitoring-usage.md",
         covers: "Pinned session telemetry, OpenTelemetry configuration, local defaults, exported signals, and operational privacy boundaries",
         kind: "official-repository",
+        verifiedAt: grokBuildVerifiedAt,
+      },
+      {
+        title: "MCP servers",
+        topic: "automation-extensions",
+        url: "https://docs.x.ai/build/features/mcp-servers",
+        covers: "Project and user MCP configuration, HTTP and stdio transports, OAuth, server scopes, tool approval, and imported compatibility files",
+        kind: "official-docs",
+        verifiedAt: grokBuildVerifiedAt,
+      },
+      {
+        title: "Settings overview",
+        topic: "enterprise-operations",
+        url: "https://docs.x.ai/build/settings",
+        covers: "TUI and config.toml settings, user and project scopes, starter configuration, precedence, and links to detailed references",
+        kind: "official-docs",
+        verifiedAt: grokBuildVerifiedAt,
+      },
+      {
+        title: "CLI reference",
+        topic: "product-surfaces",
+        url: "https://docs.x.ai/build/cli/reference",
+        covers: "Grok Build commands and common flags for prompts, sessions, headless operation, permissions, sandboxing, models, and updates",
+        kind: "official-docs",
         verifiedAt: grokBuildVerifiedAt,
       },
     ],
@@ -1818,6 +1913,7 @@ export const harnesses: Harness[] = [
       "The browser surface is an experimental Streamlit UI and /web is page scraping, not an autonomous browser-control tool",
       "Watch-files is editor-agnostic integration rather than a maintained first-party IDE extension; the Python Coder API is explicitly unsupported",
       "It is deliberately single-agent and does not provide native MCP or delegated subagents",
+      "The public release surfaces lag one another: GitHub Releases stops at v0.86.0 and the release-history page at v0.86.1, while the audited source commit explicitly bumps the package to v0.86.2",
       "Its benchmark suite is project-owned and model-focused; HarnessMatch does not turn it into an independent product score",
     ],
     setup: "Install Aider, configure a provider or local endpoint, and start it inside a Git repository.",
@@ -1825,6 +1921,7 @@ export const harnesses: Harness[] = [
     evidence: [
       {
         title: "Aider documentation",
+        topic: "product-surfaces",
         url: "https://aider.chat/docs/",
         covers: "Product scope, terminal workflow, repository editing model, and documentation index",
         kind: "official-docs",
@@ -1832,6 +1929,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Options reference",
+        topic: "execution-control",
         url: "https://aider.chat/docs/config/options.html",
         covers: "Complete CLI flags including confirmation, automation, Git, tests, analytics, watch mode, and browser UI",
         kind: "official-docs",
@@ -1839,6 +1937,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Model connections",
+        topic: "product-surfaces",
         url: "https://aider.chat/docs/llms.html",
         covers: "Cloud providers, OpenAI-compatible APIs, and local models",
         kind: "official-docs",
@@ -1846,6 +1945,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "GitHub Copilot",
+        topic: "product-surfaces",
         url: "https://aider.chat/docs/llms/github.html",
         covers: "Use of models billed through a Copilot subscription",
         kind: "official-docs",
@@ -1853,6 +1953,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Local models with Ollama",
+        topic: "product-surfaces",
         url: "https://aider.chat/docs/llms/ollama.html",
         covers: "Local inference configuration, model warnings, context size, and environment requirements",
         kind: "official-docs",
@@ -1860,6 +1961,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Repository map",
+        topic: "orchestration-state",
         url: "https://aider.chat/docs/repomap.html",
         covers: "Repository-wide symbol context",
         kind: "official-docs",
@@ -1867,6 +1969,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Git integration and undo",
+        topic: "orchestration-state",
         url: "https://aider.chat/docs/git.html",
         covers: "Automatic commits, diffs, history, and rollback",
         kind: "official-docs",
@@ -1874,6 +1977,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Linting and testing",
+        topic: "execution-control",
         url: "https://aider.chat/docs/usage/lint-test.html",
         covers: "Automatic linting, configured test commands, post-edit verification, and interactive test execution",
         kind: "official-docs",
@@ -1881,6 +1985,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Scripting Aider",
+        topic: "automation-extensions",
         url: "https://aider.chat/docs/scripting.html",
         covers: "One-shot headless execution, shell scripting, confirmation bypass, and unsupported Python API boundary",
         kind: "official-docs",
@@ -1888,6 +1993,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Aider in an IDE",
+        topic: "product-surfaces",
         url: "https://aider.chat/docs/usage/watch.html",
         covers: "Editor-agnostic watch-files integration, AI comments, and terminal continuation workflow",
         kind: "official-docs",
@@ -1895,6 +2001,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Experimental browser UI",
+        topic: "product-surfaces",
         url: "https://aider.chat/docs/usage/browser.html",
         covers: "Local Streamlit browser interface, experimental status, direct file edits, and Git commits",
         kind: "official-docs",
@@ -1902,6 +2009,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Optional web scraping support",
+        topic: "product-surfaces",
         url: "https://aider.chat/docs/install/optional.html",
         covers: "The /web scraping command, optional Playwright dependency, and distinction from browser automation",
         kind: "official-docs",
@@ -1909,6 +2017,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Analytics controls",
+        topic: "enterprise-operations",
         url: "https://aider.chat/docs/more/analytics.html",
         covers: "Optional PostHog telemetry, local logging, collected fields, and disable controls",
         kind: "official-docs",
@@ -1916,6 +2025,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Aider benchmark methodology",
+        topic: "releases-code-audit",
         url: "https://aider.chat/docs/benchmarks.html",
         covers: "Project-owned model benchmark tasks, edit formats, execution method, and interpretation limits",
         kind: "official-docs",
@@ -1923,9 +2033,34 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Aider v0.86.2 source",
+        topic: "releases-code-audit",
         url: "https://github.com/Aider-AI/aider/tree/253f0368b873ba30d8ee26e463718f0c03614ddf",
         covers: "Pinned stable source, test and workflow inventory, benchmark assets, license, and contributor material",
         kind: "official-repository",
+        verifiedAt: aiderVerifiedAt,
+      },
+      {
+        title: "Privacy policy",
+        topic: "enterprise-operations",
+        url: "https://aider.chat/docs/legal/privacy.html",
+        covers: "Service and programming-tool data collection, randomly generated analytics identifiers, service providers, security limits, and opt-out controls",
+        kind: "official-docs",
+        verifiedAt: aiderVerifiedAt,
+      },
+      {
+        title: "Release history",
+        topic: "releases-code-audit",
+        url: "https://aider.chat/HISTORY.html",
+        covers: "Dated project release notes through v0.86.1 and the documented release-history boundary relative to the newer pinned source commit",
+        kind: "official-announcement",
+        verifiedAt: aiderVerifiedAt,
+      },
+      {
+        title: "Operational FAQ",
+        topic: "product-surfaces",
+        url: "https://aider.chat/docs/faq.html",
+        covers: "Supported workflows, provider data flow, repository handling, analytics references, usage limits, and operational troubleshooting",
+        kind: "official-docs",
         verifiedAt: aiderVerifiedAt,
       },
     ],
@@ -1984,6 +2119,7 @@ export const harnesses: Harness[] = [
       "Headless CLI runs in always-approve mode, and direct SDK execute_tool calls bypass the normal security analyzer and confirmation policy",
       "Security analyzers and confirmation policies reduce risk but do not make model-generated actions trustworthy; remote deployments still require infrastructure hardening",
       "Persistent memory is opt-in, while session persistence, condensation, and memory solve different context problems",
+      "Scheduled and event-driven automations run unattended in fresh sandboxes with the user's configured LLM, stored secrets, MCP integrations, and Git-provider credentials, so trigger scope and credential scope still require review",
       "Local models are supported with documented functional limitations, and the project evaluation harness is not independent evidence of product quality",
     ],
     setup: "Choose OpenHands Cloud, the CLI, or a local container, then configure a model and workspace runtime.",
@@ -1991,6 +2127,7 @@ export const harnesses: Harness[] = [
     evidence: [
       {
         title: "OpenHands V1 documentation index",
+        topic: "product-surfaces",
         url: "https://docs.openhands.dev/llms.txt",
         covers: "Separation of product and SDK surfaces plus the current first-party documentation inventory",
         kind: "official-docs",
@@ -1998,6 +2135,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "OpenHands 1.11.0 source",
+        topic: "releases-code-audit",
         url: "https://github.com/OpenHands/OpenHands/tree/11ca68ab2e15dcd85c21e4d7d3409e7a259369ac",
         covers: "Pinned OSS application source, licensing boundary, tests, CI workflows, and contributor documentation",
         kind: "official-repository",
@@ -2005,6 +2143,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Sandbox overview",
+        topic: "execution-control",
         url: "https://docs.openhands.dev/openhands/usage/sandboxes/overview",
         covers: "Docker, unisolated local process, and remote execution choices in the V1 product",
         kind: "official-docs",
@@ -2012,6 +2151,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Docker sandbox",
+        topic: "execution-control",
         url: "https://docs.openhands.dev/openhands/usage/sandboxes/docker",
         covers: "Recommended container isolation, mounts, networking, image selection, and local prerequisites",
         kind: "official-docs",
@@ -2019,6 +2159,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Process sandbox",
+        topic: "execution-control",
         url: "https://docs.openhands.dev/openhands/usage/sandboxes/process",
         covers: "Host-process execution, absence of container isolation, trusted-task warning, and platform limits",
         kind: "official-docs",
@@ -2026,6 +2167,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Headless mode",
+        topic: "automation-extensions",
         url: "https://docs.openhands.dev/openhands/usage/cli/headless",
         covers: "Non-interactive execution, always-approve behavior, output modes, scripting, and CI use",
         kind: "official-docs",
@@ -2033,6 +2175,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Security and action confirmation",
+        topic: "execution-control",
         url: "https://docs.openhands.dev/sdk/guides/security",
         covers: "Confirmation policies, action risk analyzers, user review flow, and direct-tool bypass boundary",
         kind: "official-docs",
@@ -2040,6 +2183,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Task Tool Set",
+        topic: "orchestration-state",
         url: "https://docs.openhands.dev/sdk/guides/task-tool-set",
         covers: "Synchronous delegation to specialized subagents, task isolation, results, and limitations",
         kind: "official-docs",
@@ -2047,6 +2191,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Browser use",
+        topic: "product-surfaces",
         url: "https://docs.openhands.dev/sdk/guides/agent-browser-use",
         covers: "Browser tool configuration, navigation and interaction capabilities, screenshots, and sandbox relationship",
         kind: "official-docs",
@@ -2054,6 +2199,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Model Context Protocol",
+        topic: "automation-extensions",
         url: "https://docs.openhands.dev/sdk/guides/mcp",
         covers: "MCP server discovery, tool integration, configuration, authentication, and execution model",
         kind: "official-docs",
@@ -2061,6 +2207,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Conversation persistence",
+        topic: "orchestration-state",
         url: "https://docs.openhands.dev/sdk/guides/convo-persistence",
         covers: "Conversation state storage, restoration, resume workflows, event persistence, and storage backends",
         kind: "official-docs",
@@ -2068,6 +2215,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Persistent memory",
+        topic: "orchestration-state",
         url: "https://docs.openhands.dev/sdk/guides/persistent-memory",
         covers: "Opt-in cross-conversation two-tier memory, retrieval, storage, lifecycle, and privacy considerations",
         kind: "official-docs",
@@ -2075,6 +2223,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Observability and tracing",
+        topic: "enterprise-operations",
         url: "https://docs.openhands.dev/sdk/guides/observability",
         covers: "OpenTelemetry spans, supported backends, instrumentation, debugging, and export configuration",
         kind: "official-docs",
@@ -2082,6 +2231,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Metrics tracking",
+        topic: "enterprise-operations",
         url: "https://docs.openhands.dev/sdk/guides/metrics",
         covers: "Token, cost, and latency metrics plus conversation-level aggregation and export",
         kind: "official-docs",
@@ -2089,6 +2239,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "LLM subscriptions",
+        topic: "product-surfaces",
         url: "https://docs.openhands.dev/sdk/guides/llm-subscriptions",
         covers: "ChatGPT Plus and Pro authentication for Codex models and subscription constraints",
         kind: "official-docs",
@@ -2096,6 +2247,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Local LLMs",
+        topic: "product-surfaces",
         url: "https://docs.openhands.dev/openhands/usage/llms/local-llms",
         covers: "Local-model configuration, GPU guidance, model requirements, and documented functional limitations",
         kind: "official-docs",
@@ -2103,9 +2255,58 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Evaluation harness",
+        topic: "releases-code-audit",
         url: "https://docs.openhands.dev/openhands/usage/developers/evaluation-harness",
         covers: "Project-owned evaluation infrastructure and protocol surface without importing a product score",
         kind: "official-docs",
+        verifiedAt: openHandsVerifiedAt,
+      },
+      {
+        title: "CLI installation",
+        topic: "product-surfaces",
+        url: "https://docs.openhands.dev/openhands/usage/cli/installation",
+        covers: "Supported CLI installation methods, local requirements, startup, configuration paths, upgrades, and platform setup",
+        kind: "official-docs",
+        verifiedAt: openHandsVerifiedAt,
+      },
+      {
+        title: "CLI MCP server management",
+        topic: "automation-extensions",
+        url: "https://docs.openhands.dev/openhands/usage/cli/mcp-servers",
+        covers: "HTTP, SSE, and stdio MCP server configuration, OAuth and header authentication, enablement, environment variables, and CLI management",
+        kind: "official-docs",
+        verifiedAt: openHandsVerifiedAt,
+      },
+      {
+        title: "Scheduled automations",
+        topic: "automation-extensions",
+        url: "https://docs.openhands.dev/openhands/usage/automations/overview",
+        covers: "Scheduled unattended conversations, fresh sandbox creation, stored secrets, provider credentials, MCP integrations, run history, and user scope",
+        kind: "official-docs",
+        verifiedAt: openHandsVerifiedAt,
+      },
+      {
+        title: "Event-based automations",
+        topic: "automation-extensions",
+        url: "https://docs.openhands.dev/openhands/usage/automations/event-automations",
+        covers: "GitHub-event and custom-webhook triggers, organization routing, filters, signing-secret workflow, service accounts, and failure modes",
+        kind: "official-docs",
+        verifiedAt: openHandsVerifiedAt,
+      },
+      {
+        title: "Custom sandbox images",
+        topic: "execution-control",
+        url: "https://docs.openhands.dev/openhands/usage/advanced/custom-sandbox-guide",
+        covers: "V1 agent-server container boundary, custom image construction, local-GUI scope, fallback behavior, base images, and runtime configuration",
+        kind: "official-docs",
+        verifiedAt: openHandsVerifiedAt,
+      },
+      {
+        title: "OpenHands 1.11.0 release",
+        topic: "releases-code-audit",
+        url: "https://github.com/OpenHands/OpenHands/releases/tag/1.11.0",
+        covers: "Dated OSS product release corresponding to the pinned implementation snapshot, distinct from separately versioned cloud releases",
+        kind: "official-announcement",
         verifiedAt: openHandsVerifiedAt,
       },
     ],
@@ -3372,6 +3573,7 @@ export const harnesses: Harness[] = [
       "Git worktrees isolate file changes, not processes; dirty headless worktrees are preserved for review rather than silently removed",
       "Droid Control provides browser and desktop automation through a plugin rather than the minimal core tool set",
       "Session rewind and file snapshots do not reverse external side effects, and persistent knowledge relies on explicit AGENTS.md or memory files rather than learned product memory",
+      "CLI session mirroring to Factory web is enabled by default and must be disabled with cloudSessionSync when local-only conversation storage is required",
       "Factory publishes selected benchmark scorecards, but its public repository does not expose the closed agent implementation or a complete immutable evaluation corpus",
     ],
     setup: "Install `droid`, authenticate with Factory or configure BYOK, then begin in read-only mode and raise autonomy only inside a reviewed environment.",
@@ -3379,6 +3581,7 @@ export const harnesses: Harness[] = [
     evidence: [
       {
         title: "Droid CLI reference",
+        topic: "product-surfaces",
         url: "https://docs.factory.ai/reference/cli-reference",
         covers: "Interactive and headless modes, output formats, permissions, worktrees, sessions, MCP, and CI",
         kind: "official-docs",
@@ -3386,6 +3589,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Droid Exec",
+        topic: "automation-extensions",
         url: "https://docs.factory.ai/cli/droid-exec/overview",
         covers: "Read-only default, autonomy tiers, structured JSON-RPC, model selection, parallel worktrees, and sessions",
         kind: "official-docs",
@@ -3393,6 +3597,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Bring Your Own Key",
+        topic: "product-surfaces",
         url: "https://docs.factory.ai/cli/byok/overview",
         covers: "Hosted providers, custom endpoints, open-source models, Ollama, vLLM, and local execution",
         kind: "official-docs",
@@ -3400,6 +3605,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Custom Droids",
+        topic: "orchestration-state",
         url: "https://docs.factory.ai/cli/configuration/custom-droids",
         covers: "Delegated subagents, isolated contexts, prompt and model selection, and per-agent tool policies",
         kind: "official-docs",
@@ -3407,6 +3613,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "IDE integrations",
+        topic: "product-surfaces",
         url: "https://docs.factory.ai/integrations/ide-integrations",
         covers: "VS Code and JetBrains plugins, diff viewing, editor selection context, and shared diagnostics",
         kind: "official-docs",
@@ -3414,6 +3621,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "OS sandbox",
+        topic: "execution-control",
         url: "https://docs.factory.ai/cli/configuration/sandbox",
         covers: "Beta opt-in OS isolation, per-command and whole-process modes, defaults, fail-closed behavior, coverage, and limits",
         kind: "official-docs",
@@ -3421,6 +3629,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Autonomy levels",
+        topic: "execution-control",
         url: "https://docs.factory.ai/cli/user-guides/auto-run",
         covers: "Off, low, medium, and high approval postures, allow and block rules, organization caps, and risk",
         kind: "official-docs",
@@ -3428,6 +3637,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Droid Control",
+        topic: "product-surfaces",
         url: "https://docs.factory.ai/cli/features/droid-control",
         covers: "Plugin-provided browser, terminal, Electron, and desktop control plus verification and demo workflows",
         kind: "official-docs",
@@ -3435,6 +3645,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Session memory management",
+        topic: "orchestration-state",
         url: "https://docs.factory.ai/guides/power-user/memory-management",
         covers: "Explicit memory files, AGENTS.md, compaction, sessions, context practices, and cross-session limitations",
         kind: "official-docs",
@@ -3442,6 +3653,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Telemetry export",
+        topic: "enterprise-operations",
         url: "https://docs.factory.ai/enterprise/telemetry-export",
         covers: "Enterprise OpenTelemetry export, OTLP configuration, events, attributes, security, and observability scope",
         kind: "official-docs",
@@ -3449,6 +3661,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Factory v0.180.0 release notes",
+        topic: "releases-code-audit",
         url: "https://docs.factory.ai/changelog/release-notes",
         covers: "Current binary version, dated feature and hardening changes, compatibility, and product-surface distinctions",
         kind: "official-announcement",
@@ -3456,6 +3669,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Factory public support repository",
+        topic: "releases-code-audit",
         url: "https://github.com/Factory-AI/factory/tree/7ea5f9c2fcde446e1628a33f922f421616761f79",
         covers: "Pinned documentation and distribution support tree, workflows, benchmark pages, proprietary notice, and absent core source",
         kind: "official-repository",
@@ -3463,9 +3677,26 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Terminal-Bench methodology",
+        topic: "releases-code-audit",
         url: "https://factory.ai/news/terminal-bench",
         covers: "Five-run benchmark method, agent integration, sandbox assumption, model comparisons, and limitations",
         kind: "official-announcement",
+        verifiedAt: factoryDroidVerifiedAt,
+      },
+      {
+        title: "Droid settings",
+        topic: "enterprise-operations",
+        url: "https://docs.factory.ai/cli/configuration/settings",
+        covers: "User and project settings hierarchy, local overrides, autonomy defaults, command policy, cloud session sync, hooks, MCP timeouts, and mission settings",
+        kind: "official-docs",
+        verifiedAt: factoryDroidVerifiedAt,
+      },
+      {
+        title: "Droid MCP configuration",
+        topic: "automation-extensions",
+        url: "https://docs.factory.ai/cli/configuration/mcp",
+        covers: "Interactive and scripted MCP management, registry, HTTP, SSE, and stdio transports, OAuth, credentials, package pinning, and tool trust",
+        kind: "official-docs",
         verifiedAt: factoryDroidVerifiedAt,
       },
     ],
@@ -3749,12 +3980,14 @@ export const harnesses: Harness[] = [
       "The sandbox is off by default; `--yolo` does not enable it, and the default macOS profile allows network access while mainly restricting writes",
       "Checkpointing is also opt-in and restores tracked project state and conversation, not shell-created external side effects",
       "Auto-memory is enabled by default and can persist user or project knowledge, so teams should review what is retained and synchronized",
+      "The qwen serve daemon is an alpha local API: loopback starts without authentication, non-loopback binding fails closed without a bearer token, and the docs do not yet claim production-grade multi-client or network-failure guarantees",
     ],
     setup: "Install `@qwen-code/qwen-code`, configure a provider, and enable Seatbelt, Docker, or Podman before running unattended tasks.",
     verifiedAt: qwenCodeVerifiedAt,
     evidence: [
       {
         title: "Qwen Code 0.21.0 source snapshot",
+        topic: "releases-code-audit",
         url: "https://github.com/QwenLM/qwen-code/tree/5610eb405212f807a482214ddd28a259da7855d3",
         covers: "Immutable Apache-2.0 source snapshot for the audited stable release, including CLI, desktop, tests, workflows, and one project-owned codegraph eval fixture",
         kind: "official-repository",
@@ -3762,6 +3995,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Qwen Code 0.21.0 release",
+        topic: "releases-code-audit",
         url: "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.0",
         covers: "Stable release identity and dated version boundary used for the audit",
         kind: "official-announcement",
@@ -3769,6 +4003,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Sandbox",
+        topic: "execution-control",
         url: "https://qwenlm.github.io/qwen-code-docs/en/users/features/sandbox/",
         covers: "Opt-in macOS Seatbelt, Docker and Podman isolation; provider selection; filesystem and network profiles; and the network-open macOS default",
         kind: "official-docs",
@@ -3776,6 +4011,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Approval and settings reference",
+        topic: "execution-control",
         url: "https://qwenlm.github.io/qwen-code-docs/en/users/configuration/settings/",
         covers: "Default approval for edits and shell, plan, auto-edit, classifier-based auto mode, and unrestricted yolo mode",
         kind: "official-docs",
@@ -3783,6 +4019,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Headless safety and budgets",
+        topic: "automation-extensions",
         url: "https://qwenlm.github.io/qwen-code-docs/en/users/features/headless/",
         covers: "Structured automation, explicit run budgets, and the warning that yolo neither enables nor substitutes for a sandbox",
         kind: "official-docs",
@@ -3790,6 +4027,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Persistent memory",
+        topic: "orchestration-state",
         url: "https://qwenlm.github.io/qwen-code-docs/en/users/features/memory/",
         covers: "QWEN.md instructions, default-on auto-memory, user and project scopes, review commands, cleanup, and optional Git synchronization",
         kind: "official-docs",
@@ -3797,6 +4035,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Checkpointing",
+        topic: "orchestration-state",
         url: "https://qwenlm.github.io/qwen-code-docs/en/users/features/checkpointing/",
         covers: "Disabled-by-default shadow-Git snapshots, local conversation capture, restore behavior, and configuration",
         kind: "official-docs",
@@ -3804,6 +4043,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Commands and recovery",
+        topic: "orchestration-state",
         url: "https://qwenlm.github.io/qwen-code-docs/en/users/features/commands/",
         covers: "Session resume and branching, conversation rewind, checkpoint restore, exports, budgets, and background-agent commands",
         kind: "official-docs",
@@ -3811,6 +4051,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Built-in Computer Use release",
+        topic: "product-surfaces",
         url: "https://qwenlm.github.io/qwen-code-docs/en/blog/updates/weekly-update-2026-06-04/",
         covers: "Zero-configuration desktop Computer Use as a native capability rather than an inferred browser feature from WebFetch or MCP",
         kind: "official-announcement",
@@ -3818,6 +4059,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Model providers",
+        topic: "product-surfaces",
         url: "https://qwenlm.github.io/qwen-code-docs/en/users/configuration/model-providers/",
         covers: "OpenAI-compatible, Anthropic, Gemini, Qwen, Vertex AI, and local self-hosted model configuration",
         kind: "official-docs",
@@ -3825,9 +4067,58 @@ export const harnesses: Harness[] = [
       },
       {
         title: "OpenTelemetry observability",
+        topic: "enterprise-operations",
         url: "https://qwenlm.github.io/qwen-code-docs/en/developers/development/telemetry/",
         covers: "Default-off local or OTLP logs, metrics, spans, tool and subagent events, sensitive-data controls, and outbound trace propagation boundaries",
         kind: "official-docs",
+        verifiedAt: qwenCodeVerifiedAt,
+      },
+      {
+        title: "Qwen Code overview",
+        topic: "product-surfaces",
+        url: "https://qwenlm.github.io/qwen-code-docs/en/users/overview/",
+        covers: "Open-source agent scope, terminal workflow, supported integrations, installation entry points, and official documentation map",
+        kind: "official-docs",
+        verifiedAt: qwenCodeVerifiedAt,
+      },
+      {
+        title: "MCP server integration",
+        topic: "automation-extensions",
+        url: "https://qwenlm.github.io/qwen-code-docs/en/developers/tools/mcp-server/",
+        covers: "Model Context Protocol server configuration, transport and tool discovery, lifecycle management, and extension points",
+        kind: "official-docs",
+        verifiedAt: qwenCodeVerifiedAt,
+      },
+      {
+        title: "Qwen Code Extensions",
+        topic: "automation-extensions",
+        url: "https://qwenlm.github.io/qwen-code-docs/en/users/extension/introduction/",
+        covers: "Installable extension packaging for agents, skills, MCP servers, context files, workspace scopes, enablement, and removal",
+        kind: "official-docs",
+        verifiedAt: qwenCodeVerifiedAt,
+      },
+      {
+        title: "qwen serve daemon",
+        topic: "automation-extensions",
+        url: "https://qwenlm.github.io/qwen-code-docs/en/users/qwen-serve/",
+        covers: "Alpha local HTTP and event-stream API, Web Shell, sessions, persistence, loopback and remote authentication, TLS, and maturity limits",
+        kind: "official-docs",
+        verifiedAt: qwenCodeVerifiedAt,
+      },
+      {
+        title: "JetBrains integration",
+        topic: "product-surfaces",
+        url: "https://qwenlm.github.io/qwen-code-docs/en/users/integration-jetbrains/",
+        covers: "JetBrains IDE connection through the Agent Client Protocol, setup, session interaction, and editor context exchange",
+        kind: "official-docs",
+        verifiedAt: qwenCodeVerifiedAt,
+      },
+      {
+        title: "Nested subagent release",
+        topic: "releases-code-audit",
+        url: "https://qwenlm.github.io/qwen-code-docs/en/blog/updates/weekly-update-2026-07-09/",
+        covers: "Dated release notes for nested subagent spawning, default depth controls, tree visibility, parameter-level permissions, and Web Shell sessions",
+        kind: "official-announcement",
         verifiedAt: qwenCodeVerifiedAt,
       },
     ],
@@ -4315,10 +4606,10 @@ export const harnesses: Harness[] = [
   {
     id: "letta-code",
     slug: "letta-code",
-    name: "Letta Code",
+    name: "Letta Harness",
     tagline: "Memory-first harness for persistent agents across machines and sessions.",
     summary:
-      "An Apache-2.0 stateful agent harness with git-backed self-editing memory, skills, MCP, foreground or background subagents, headless execution, schedules, multi-provider access, and selectable local, remote, or managed cloud environments.",
+      "The stateful open-source harness formerly called Letta Code, with git-backed self-editing memory, skills, MCP connectivity, trusted runtime mods, foreground or background subagents, headless execution, schedules, multi-provider access, and selectable local, remote, or managed cloud environments.",
     logo: {
       src: "/harnesses/letta-code.png",
       sourceUrl: "https://github.com/letta-ai.png",
@@ -4365,12 +4656,15 @@ export const harnesses: Harness[] = [
       "The interactive CLI currently starts in unrestricted mode; approval prompts require standard mode or explicit persistent policy rules",
       "Local client tools execute with the selected computer's shell, files, credentials, and installed software even when agent state lives in Letta Cloud",
       "Managed sandboxing is an optional execution target, not the default boundary for local CLI work",
+      "The platform supports external MCP tools, but current first-party guidance recommends skills instead of MCP for the Letta app and CLI; external servers remain separate execution and trust boundaries",
+      "Mods execute as fully trusted code inside the harness process and can add tools, commands, hooks, permission policies, UI, and model providers, so they are not a sandboxed extension mechanism",
     ],
     setup: "Install `@letta-ai/letta-code`, connect a model or coding plan, then choose a local, remote, or cloud environment before creating a persistent agent.",
     verifiedAt: lettaCodeVerifiedAt,
     evidence: [
       {
         title: "Letta Code 0.29.4 source snapshot",
+        topic: "releases-code-audit",
         url: "https://github.com/letta-ai/letta-code/tree/286a01d10602eab4a356f2b062e817310f992966",
         covers: "Immutable Apache-2.0 client and harness source snapshot, including 580 test-like files and eleven workflows; hosted Letta services remain outside the audit",
         kind: "official-repository",
@@ -4378,6 +4672,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Letta Code 0.29.4 release",
+        topic: "releases-code-audit",
         url: "https://github.com/letta-ai/letta-code/releases/tag/v0.29.4",
         covers: "Stable release identity and dated version boundary used for the audit",
         kind: "official-announcement",
@@ -4385,6 +4680,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Letta Code quickstart",
+        topic: "product-surfaces",
         url: "https://docs.letta.com/quickstart",
         covers: "CLI, desktop and web surfaces, headless mode, coding-plan access, persistent memory, parallel conversations, and schedules",
         kind: "official-docs",
@@ -4392,6 +4688,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "MemFS",
+        topic: "orchestration-state",
         url: "https://docs.letta.com/concepts/memfs",
         covers: "Git-backed long-term memory, versioned memory edits, system context, skills, synchronization, and shared memory repositories",
         kind: "official-docs",
@@ -4399,6 +4696,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Permissions",
+        topic: "execution-control",
         url: "https://docs.letta.com/configuration/permissions",
         covers: "Unrestricted default, standard approvals, edit-only mode, persistent allow and deny rules, tool restriction, and memory guards",
         kind: "official-docs",
@@ -4406,6 +4704,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Execution environments",
+        topic: "execution-control",
         url: "https://docs.letta.com/platform/computers",
         covers: "Local host execution, managed cloud sandboxes, remote machines, environment-specific files and credentials, and memory separation",
         kind: "official-docs",
@@ -4413,6 +4712,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Cloud sandboxes",
+        topic: "execution-control",
         url: "https://docs.letta.com/platform/computers/cloud-sandboxes",
         covers: "Managed isolated computers, shell and filesystem scope, lifecycle, local-file separation, and agent-state boundaries",
         kind: "official-docs",
@@ -4420,6 +4720,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Subagents",
+        topic: "orchestration-state",
         url: "https://docs.letta.com/configuration/subagents",
         covers: "Foreground and background delegation, isolated contexts, persistent-agent delegation, custom tools, skills, and memory scope",
         kind: "official-docs",
@@ -4427,6 +4728,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Agent skills",
+        topic: "automation-extensions",
         url: "https://docs.letta.com/configuration/skills",
         covers: "Agent, project, computer, and bundled skill scopes plus persistence, installation, trust warnings, and direct invocation",
         kind: "official-docs",
@@ -4434,6 +4736,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Headless mode",
+        topic: "automation-extensions",
         url: "https://docs.letta.com/platform/cli/headless",
         covers: "Non-interactive execution, structured streams, permission control, environment routing, persistent conversations, and tool events",
         kind: "official-docs",
@@ -4441,6 +4744,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Schedules",
+        topic: "automation-extensions",
         url: "https://docs.letta.com/configuration/schedules",
         covers: "Durable cloud and local schedules, execution targets, cloud-sandbox fallback, limits, timezones, and run history",
         kind: "official-docs",
@@ -4448,6 +4752,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Supported model-provider types",
+        topic: "product-surfaces",
         url: "https://docs.letta.com/api/typescript/resources/models/methods/list",
         covers: "Hosted, BYOK, subscription OAuth, Ollama, LM Studio, vLLM, SGLang, OpenRouter, and other provider types exposed by the Letta platform",
         kind: "official-docs",
@@ -4455,6 +4760,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Memory research lineage",
+        topic: "releases-code-audit",
         url: "https://arxiv.org/abs/2310.08560",
         covers: "First-party MemGPT paper that motivates tiered persistent memory; research lineage rather than comparative product-performance evidence",
         kind: "official-announcement",
@@ -4462,9 +4768,82 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Sleep-time compute research",
+        topic: "releases-code-audit",
         url: "https://arxiv.org/abs/2504.13171",
         covers: "First-party research behind offline memory refinement, used as mechanism evidence rather than a harness benchmark",
         kind: "official-announcement",
+        verifiedAt: lettaCodeVerifiedAt,
+      },
+      {
+        title: "Current Letta documentation index",
+        topic: "product-surfaces",
+        url: "https://docs.letta.com/llms.txt",
+        covers: "Current product map and naming boundary for the Letta Harness, agent SDK, API, execution environments, memory, automation, and customization",
+        kind: "official-docs",
+        verifiedAt: lettaCodeVerifiedAt,
+      },
+      {
+        title: "MCP tool execution model",
+        topic: "automation-extensions",
+        url: "https://docs.letta.com/v1-sdk/tools/mcp-tools",
+        covers: "External MCP server registration, transports, authentication, remote execution boundary, attachment to agents, and guidance to prefer skills in the app and CLI",
+        kind: "official-docs",
+        verifiedAt: lettaCodeVerifiedAt,
+      },
+      {
+        title: "Client tool execution model",
+        topic: "execution-control",
+        url: "https://docs.letta.com/v1-sdk/tools/client-tools",
+        covers: "Local client execution, approval handoff, server-versus-client boundaries, local credentials and resources, and Letta Harness as reference implementation",
+        kind: "official-docs",
+        verifiedAt: lettaCodeVerifiedAt,
+      },
+      {
+        title: "Pinned CLI MCP implementation",
+        topic: "releases-code-audit",
+        url: "https://github.com/letta-ai/letta-code/blob/286a01d10602eab4a356f2b062e817310f992966/src/cli/commands/mcp.ts",
+        covers: "Code-verifiable HTTP, SSE, and stdio MCP server commands, headers, authentication tokens, argument parsing, and CLI result handling at v0.29.4",
+        kind: "official-repository",
+        verifiedAt: lettaCodeVerifiedAt,
+      },
+      {
+        title: "GitHub Action",
+        topic: "automation-extensions",
+        url: "https://docs.letta.com/platform/github-action",
+        covers: "Repository installation, issue and pull-request triggers, @letta-code mentions, workflow setup, authentication, and automated coding or review tasks",
+        kind: "official-docs",
+        verifiedAt: lettaCodeVerifiedAt,
+      },
+      {
+        title: "Trusted runtime mods",
+        topic: "automation-extensions",
+        url: "https://docs.letta.com/configuration/mods",
+        covers: "Fully trusted in-process extensions for tools, commands, hooks, permissions, providers, UI, reload behavior, sharing, and explicit trust boundary",
+        kind: "official-docs",
+        verifiedAt: lettaCodeVerifiedAt,
+      },
+      {
+        title: "Harness configuration",
+        topic: "enterprise-operations",
+        url: "https://docs.letta.com/reference/settings",
+        covers: "Hierarchical global and project settings, backend and authentication modes, provider configuration, environment selection, permissions, and defaults",
+        kind: "official-docs",
+        verifiedAt: lettaCodeVerifiedAt,
+      },
+      {
+        title: "Harness changelog",
+        topic: "releases-code-audit",
+        url: "https://docs.letta.com/reference/changelog",
+        covers: "Versioned Letta Harness changes, permission defaults, memory, channels, mods, providers, schedules, and documentation-lag warning",
+        kind: "official-announcement",
+        verifiedAt: lettaCodeVerifiedAt,
+      },
+      {
+        title: "CLI reference",
+        topic: "product-surfaces",
+        url: "https://docs.letta.com/platform/cli/reference",
+        covers: "Interactive and headless commands, backend selection, model and memory controls, permission modes, session resume, environment routing, and automation flags",
+        kind: "official-docs",
         verifiedAt: lettaCodeVerifiedAt,
       },
     ],
@@ -4518,15 +4897,17 @@ export const harnesses: Harness[] = [
       "Parallel work that combines delegated subagents with isolated Git worktrees",
     ],
     tradeoffs: [
-      "The local OS sandbox is disabled by default, unavailable on Windows, and limits writes and network access rather than filesystem reads",
+      "The local OS sandbox is disabled by default, unavailable on Windows, and limits writes and network access rather than filesystem reads; Kilo explicitly says it is not a privacy boundary or a complete firewall",
       "`kilo run --auto` disables permission prompts; unattended work still needs a trusted or separately isolated environment",
       "Git snapshots are recovery aids rather than backups: ignored files are excluded and old unreachable snapshots can be pruned after seven days",
+      "Cloud Agent runs in a separate managed Cloudflare sandbox architecture with its own repository credentials, persistence, and observability boundaries; this does not make the local CLI sandbox-first",
     ],
     setup: "Install the Kilo extension or `@kilocode/cli`, choose Kilo Gateway, ChatGPT subscription, BYOK, or a local model, then explicitly enable sandboxing on macOS or Linux when the task is not fully trusted.",
     verifiedAt: kiloCodeVerifiedAt,
     evidence: [
       {
         title: "Audited Kilo Code source tree",
+        topic: "releases-code-audit",
         url: "https://github.com/Kilo-Org/kilocode/tree/a19d44c3ef9fd71fb15291af9c7d87906c06f056",
         covers: "Public monorepo implementation inspected at an immutable commit",
         kind: "official-repository",
@@ -4534,6 +4915,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "MIT license",
+        topic: "releases-code-audit",
         url: "https://github.com/Kilo-Org/kilocode/blob/a19d44c3ef9fd71fb15291af9c7d87906c06f056/LICENSE",
         covers: "Client and agent source license plus OpenCode lineage attribution",
         kind: "official-repository",
@@ -4541,6 +4923,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Kilo Code v7.4.16 release",
+        topic: "releases-code-audit",
         url: "https://github.com/Kilo-Org/kilocode/releases/tag/v7.4.16",
         covers: "Latest verified release, dated artifacts, CLI binaries, VSIX packages, and indexing package",
         kind: "official-repository",
@@ -4548,6 +4931,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Installation guide",
+        topic: "product-surfaces",
         url: "https://kilo.ai/docs/getting-started/installing",
         covers: "VS Code, Open VSX, CLI, JetBrains, and supported installation channels",
         kind: "official-docs",
@@ -4555,6 +4939,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Kilo CLI",
+        topic: "product-surfaces",
         url: "https://kilo.ai/docs/code-with-ai/platforms/cli",
         covers: "Terminal workflow, autonomous execution, permission configuration, session continuation, logs, and OpenTelemetry export",
         kind: "official-docs",
@@ -4562,6 +4947,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Cloud Agent",
+        topic: "product-surfaces",
         url: "https://kilo.ai/docs/code-with-ai/platforms/cloud-agent",
         covers: "Browser interface, managed Linux container, repository branches, remote control, triggers, and beta limits",
         kind: "official-docs",
@@ -4569,6 +4955,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Browser use",
+        topic: "product-surfaces",
         url: "https://kilo.ai/docs/code-with-ai/features/browser-use",
         covers: "Built-in VS Code browser automation and optional Playwright MCP path in the CLI",
         kind: "official-docs",
@@ -4576,6 +4963,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "AI providers",
+        topic: "product-surfaces",
         url: "https://kilo.ai/docs/ai-providers",
         covers: "Built-in Gateway, BYOK providers, provider allowlists, and local or self-hosted paths",
         kind: "official-docs",
@@ -4583,6 +4971,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "ChatGPT subscription access",
+        topic: "product-surfaces",
         url: "https://kilo.ai/docs/ai-providers/openai-chatgpt-plus-pro",
         covers: "OAuth use of eligible ChatGPT subscriptions, supported surfaces, and cloud exclusions",
         kind: "official-docs",
@@ -4590,6 +4979,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Ollama local models",
+        topic: "product-surfaces",
         url: "https://kilo.ai/docs/ai-providers/ollama",
         covers: "Local Ollama configuration, hardware caveats, context setup, and offline model path",
         kind: "official-docs",
@@ -4597,6 +4987,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "MCP configuration",
+        topic: "automation-extensions",
         url: "https://kilo.ai/docs/automate/mcp/using-in-kilo-code",
         covers: "Local and remote MCP transports, OAuth, project and global configuration, and tool permissions",
         kind: "official-docs",
@@ -4604,6 +4995,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Custom subagents",
+        topic: "orchestration-state",
         url: "https://kilo.ai/docs/customize/custom-subagents",
         covers: "Built-in and custom delegated agents, isolated sessions, Task invocation, concurrency, and per-agent permissions",
         kind: "official-docs",
@@ -4611,6 +5003,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Agent permissions",
+        topic: "execution-control",
         url: "https://kilo.ai/docs/customize/agent-permissions",
         covers: "Allow, ask, and deny policy rules, precedence, sensitive files, and subagent delegation controls",
         kind: "official-docs",
@@ -4618,6 +5011,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Default approval behavior",
+        topic: "execution-control",
         url: "https://kilo.ai/docs/getting-started/settings/auto-approving-actions",
         covers: "Broad out-of-box tool allowances, shell and sensitive-file prompts, and runtime auto-approval risk",
         kind: "official-docs",
@@ -4625,6 +5019,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "OS sandboxing",
+        topic: "execution-control",
         url: "https://kilo.ai/docs/getting-started/settings/sandboxing",
         covers: "Opt-in macOS and Linux confinement, network policy, write boundaries, unsupported Windows, and trusted-integration limits",
         kind: "official-docs",
@@ -4632,6 +5027,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Checkpoint recovery",
+        topic: "orchestration-state",
         url: "https://kilo.ai/docs/code-with-ai/features/checkpoints",
         covers: "Default-on Git snapshots, message-level rollback, per-file CLI recovery, exclusions, and retention caveats",
         kind: "official-docs",
@@ -4639,6 +5035,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Codebase indexing",
+        topic: "orchestration-state",
         url: "https://kilo.ai/docs/customize/context/codebase-indexing",
         covers: "Opt-in Tree-sitter chunking, embeddings, local and hosted vector stores, filtering, and semantic search",
         kind: "official-docs",
@@ -4646,6 +5043,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Sessions and sharing",
+        topic: "orchestration-state",
         url: "https://kilo.ai/docs/collaborate/sessions-sharing",
         covers: "Private resumable sessions, read-only sharing, forking, and retained task context",
         kind: "official-docs",
@@ -4653,6 +5051,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Agent Manager",
+        topic: "orchestration-state",
         url: "https://kilo.ai/docs/automate/agent-manager",
         covers: "Parallel VS Code sessions, Git worktree isolation, review workflow, terminals, and approval routing",
         kind: "official-docs",
@@ -4660,6 +5059,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Benchmarking status",
+        topic: "releases-code-audit",
         url: "https://kilo.ai/docs/contributing/features/benchmarking",
         covers: "Separation of current smoke-eval evidence from unverified Harbor, ATIF, Opik, and comparison roadmap items",
         kind: "official-docs",
@@ -4667,6 +5067,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Release smoke evaluation workflow",
+        topic: "releases-code-audit",
         url: "https://github.com/Kilo-Org/kilocode/blob/a19d44c3ef9fd71fb15291af9c7d87906c06f056/.github/workflows/smoke-test.yml",
         covers: "Two vendor-operated Harbor smoke tasks, fixed model, private kilo-bench dependency, artifact upload, and cost comments; not an independent benchmark",
         kind: "official-repository",
@@ -4674,6 +5075,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Continuous integration workflow",
+        topic: "releases-code-audit",
         url: "https://github.com/Kilo-Org/kilocode/blob/a19d44c3ef9fd71fb15291af9c7d87906c06f056/.github/workflows/test.yml",
         covers: "Cross-platform unit matrix, sandbox setup, HTTP API exerciser, JetBrains tests, and required gates",
         kind: "official-repository",
@@ -4681,6 +5083,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Sandbox implementation default",
+        topic: "execution-control",
         url: "https://github.com/Kilo-Org/kilocode/blob/a19d44c3ef9fd71fb15291af9c7d87906c06f056/packages/opencode/src/kilocode/sandbox/config.ts",
         covers: "Code-verifiable disabled default, network deny default, destination validation, and project-policy tightening",
         kind: "official-repository",
@@ -4688,9 +5091,34 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Repository security policy",
+        topic: "execution-control",
         url: "https://github.com/Kilo-Org/kilocode/blob/a19d44c3ef9fd71fb15291af9c7d87906c06f056/SECURITY.md",
         covers: "Disclosure channel and stale pre-sandbox threat-model language, retained as a documented source contradiction",
         kind: "official-repository",
+        verifiedAt: kiloCodeVerifiedAt,
+      },
+      {
+        title: "Local sandbox threat model",
+        topic: "execution-control",
+        url: "https://blog.kilo.ai/p/kilo-sandbox-run-auto-mode-without",
+        covers: "OS confinement design, unrestricted read scope, write and network controls, supported platforms, and explicit privacy-boundary and firewall limitations",
+        kind: "official-announcement",
+        verifiedAt: kiloCodeVerifiedAt,
+      },
+      {
+        title: "Kilo CLI product surface",
+        topic: "product-surfaces",
+        url: "https://kilo.ai/cli",
+        covers: "CLI sandbox command, workspace write confinement, read-only Git metadata, optional network denial, sessions, providers, and automation surface",
+        kind: "official-docs",
+        verifiedAt: kiloCodeVerifiedAt,
+      },
+      {
+        title: "Kilo Cloud security architecture",
+        topic: "execution-control",
+        url: "https://kilo.ai/docs/contributing/architecture/cloud-security",
+        covers: "Managed Cloudflare sandbox containers, repository credentials, trust boundaries, persistence, observability, and cloud-agent isolation architecture",
+        kind: "official-docs",
         verifiedAt: kiloCodeVerifiedAt,
       },
     ],
@@ -4755,12 +5183,15 @@ export const harnesses: Harness[] = [
       "Project path controls and Git worktrees constrain file organization but do not provide an OS security boundary for shell execution",
       "Headless editing requires `--yolo`, which enables writes and shell commands together rather than granting a narrow mutation capability",
       "Checkpoints are per-session, omit files over 10 MB, and cannot reverse shell or external-service side effects",
+      "Goal completion is judged inside the product workflow rather than independently replicated evidence; unattended goals still need explicit budget and stop policies",
+      "Monitors, cron schedules, background commands, and background subagents inherit the host execution boundary unless the user supplies an external sandbox",
     ],
     setup: "Install Command Code, run `cmd`, select a model, and commit project policies under `.commandcode/` when team-wide controls are needed.",
     verifiedAt: commandCodeVerifiedAt,
     evidence: [
       {
         title: "CLI reference",
+        topic: "product-surfaces",
         url: "https://commandcode.ai/docs/reference/cli",
         covers: "Interactive and print modes, sessions, worktrees, model selection, permissions, and IDE setup",
         kind: "official-docs",
@@ -4768,6 +5199,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Custom agents",
+        topic: "orchestration-state",
         url: "https://commandcode.ai/docs/agents",
         covers: "Parallel subagents, isolated context, tool policy, background execution, and model selection",
         kind: "official-docs",
@@ -4775,6 +5207,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Permissions",
+        topic: "execution-control",
         url: "https://commandcode.ai/docs/resources/security",
         covers: "Default read-only access, approval-gated writes and shell, project trust, local path scope, optional telemetry, and headless safety behavior",
         kind: "official-docs",
@@ -4782,6 +5215,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "MCP integration",
+        topic: "automation-extensions",
         url: "https://commandcode.ai/docs/mcp",
         covers: "MCP server configuration, tool exposure, authentication, and permission integration",
         kind: "official-docs",
@@ -4789,6 +5223,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Headless mode",
+        topic: "automation-extensions",
         url: "https://commandcode.ai/docs/core-concepts/headless",
         covers: "Read-only automation default, explicit yolo mutation mode, ten-turn default, exit codes, transcript persistence, and deterministic resume flags",
         kind: "official-docs",
@@ -4796,6 +5231,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "File checkpoints",
+        topic: "orchestration-state",
         url: "https://commandcode.ai/docs/core-concepts/checkpoints",
         covers: "Automatic per-message backups, file and conversation restore modes, 10 MB exclusion, per-session scope, and all-or-nothing restore validation",
         kind: "official-docs",
@@ -4803,6 +5239,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Hooks",
+        topic: "automation-extensions",
         url: "https://commandcode.ai/docs/hooks",
         covers: "Pre-tool policy decisions, stop checks, session context injection, audit hooks, retry caps, execution semantics, and failure behavior",
         kind: "official-docs",
@@ -4810,6 +5247,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Agent skills",
+        topic: "automation-extensions",
         url: "https://commandcode.ai/docs/skills",
         covers: "Progressively loaded project and user skills, direct invocation, trust boundaries, and reusable workflow instructions",
         kind: "official-docs",
@@ -4817,9 +5255,106 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Public support repository snapshot",
+        topic: "releases-code-audit",
         url: "https://github.com/CommandCodeAI/command-code/tree/a774fe8cbe71697d115d4660de299c9c1b286cea",
         covers: "Immutable public support and product-information snapshot; it does not expose the proprietary agent implementation, tests, or evaluation suite",
         kind: "official-repository",
+        verifiedAt: commandCodeVerifiedAt,
+      },
+      {
+        title: "Git worktrees",
+        topic: "execution-control",
+        url: "https://commandcode.ai/docs/worktrees",
+        covers: "Session isolation in Git worktrees through the slash command, CLI flag, and agent-controlled enter and exit tools",
+        kind: "official-docs",
+        verifiedAt: commandCodeVerifiedAt,
+      },
+      {
+        title: "Sessions and checkpoints",
+        topic: "orchestration-state",
+        url: "https://commandcode.ai/docs/sessions",
+        covers: "Durable JSONL transcripts, resume, fork, clone, scratchpad, sharing, export, compaction, checkpointing, and rewind behavior",
+        kind: "official-docs",
+        verifiedAt: commandCodeVerifiedAt,
+      },
+      {
+        title: "Goal mode",
+        topic: "orchestration-state",
+        url: "https://commandcode.ai/docs/goal",
+        covers: "Standing multi-turn objectives, autonomous continuation, verification loop, progress handling, and explicit goal cancellation",
+        kind: "official-docs",
+        verifiedAt: commandCodeVerifiedAt,
+      },
+      {
+        title: "Memory instructions",
+        topic: "orchestration-state",
+        url: "https://commandcode.ai/docs/memory",
+        covers: "AGENTS.md instruction tiers, project and user scopes, path imports, precedence, and assembly into agent requests",
+        kind: "official-docs",
+        verifiedAt: commandCodeVerifiedAt,
+      },
+      {
+        title: "Taste profiles",
+        topic: "orchestration-state",
+        url: "https://commandcode.ai/docs/taste",
+        covers: "Learned preference profiles, enable and disable controls, review, sharing, management commands, and persistence boundaries",
+        kind: "official-docs",
+        verifiedAt: commandCodeVerifiedAt,
+      },
+      {
+        title: "Settings and configuration",
+        topic: "enterprise-operations",
+        url: "https://commandcode.ai/docs/settings",
+        covers: "User and project JSON configuration, environment variables, MCP and keybindings, scopes, precedence, and documented defaults",
+        kind: "official-docs",
+        verifiedAt: commandCodeVerifiedAt,
+      },
+      {
+        title: "Plan mode",
+        topic: "execution-control",
+        url: "https://commandcode.ai/docs/plan-mode",
+        covers: "Reasoning-before-execution mode, plan review, inline comments, revision, approval, and auto-accept behavior",
+        kind: "official-docs",
+        verifiedAt: commandCodeVerifiedAt,
+      },
+      {
+        title: "Interactive mode",
+        topic: "product-surfaces",
+        url: "https://commandcode.ai/docs/interactive-mode",
+        covers: "Terminal session surface, input modes, keyboard controls, editor handoff, model switching, and user interaction defaults",
+        kind: "official-docs",
+        verifiedAt: commandCodeVerifiedAt,
+      },
+      {
+        title: "Background tasks and scheduling",
+        topic: "automation-extensions",
+        url: "https://commandcode.ai/docs/background-tasks",
+        covers: "Background commands, monitors, scheduled wakeups, task ledger, background subagents, cron scheduling, sleep, and TUI management",
+        kind: "official-docs",
+        verifiedAt: commandCodeVerifiedAt,
+      },
+      {
+        title: "Command Code v1 changes",
+        topic: "releases-code-audit",
+        url: "https://commandcode.ai/docs/whats-new",
+        covers: "Versioned summary of the rewritten permission engine, worktrees, sessions, background tasks, context handling, and extension changes",
+        kind: "official-announcement",
+        verifiedAt: commandCodeVerifiedAt,
+      },
+      {
+        title: "Mods extension API",
+        topic: "automation-extensions",
+        url: "https://commandcode.ai/docs/mods",
+        covers: "TypeScript extension API for tools, commands, lifecycle hooks, event observers, rendering, model providers, packaging, and verification",
+        kind: "official-docs",
+        verifiedAt: commandCodeVerifiedAt,
+      },
+      {
+        title: "Command Code Studio",
+        topic: "enterprise-operations",
+        url: "https://commandcode.ai/docs/studio",
+        covers: "Hosted dashboard, Taste Studio, usage and billing, API keys, organization administration, and account control surface",
+        kind: "official-docs",
         verifiedAt: commandCodeVerifiedAt,
       },
     ],
@@ -7101,10 +7636,10 @@ export const harnesses: Harness[] = [
       "Longer interactive tasks that benefit from goals, steering, session resume, and optional file checkpoints",
     ],
     tradeoffs: [
-      "Commands and tools operate in the local environment; no built-in execution sandbox or local open-weight model path was verified",
+      "Commands and tools operate in the local environment; no built-in execution sandbox or local open-weight model path was verified, and Supervised versus Autopilot changes review behavior rather than capability, isolation, or access control",
       "Headless runs require an API key and pre-trusted tool categories, so least-privilege configuration is part of the CI setup",
       "Classic checkpoints are experimental and session-scoped; they do not undo external side effects",
-      "CLI 3.0 is early access, opt-in, changes the permission and session formats, removes supervised mode, and cannot use the classic non-TUI path",
+      "CLI 3.0 is early access, opt-in, changes the permission and session formats, removes supervised mode, and cannot use the classic non-TUI path; its declarative permission rules are therefore not treated as the stable 2.x default",
       "The goal loop's completion check is agent-driven vendor functionality, not independent evidence that acceptance criteria were actually satisfied",
     ],
     setup: "Install Kiro CLI 2.14.0, authenticate, and run `kiro-cli`; configure narrowly trusted tools for headless use and enable classic checkpoints explicitly if needed. Treat `kiro-cli --v3` as an early-access migration choice.",
@@ -7112,6 +7647,7 @@ export const harnesses: Harness[] = [
     evidence: [
       {
         title: "Kiro CLI 2.14.0 release",
+        topic: "releases-code-audit",
         url: "https://kiro.dev/changelog/cli/2-14/",
         covers: "Current release, interrupted-response retries, and opt-in V2-to-V3 agent migration",
         kind: "official-announcement",
@@ -7119,6 +7655,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "CLI quickstart",
+        topic: "product-surfaces",
         url: "https://kiro.dev/docs/cli/quick-start/",
         covers: "Terminal workflow, plan mode, approval prompts, project steering, and MCP onboarding",
         kind: "official-docs",
@@ -7126,6 +7663,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Subagents",
+        topic: "orchestration-state",
         url: "https://kiro.dev/docs/cli/chat/subagents/",
         covers: "Up to four parallel agents, task graphs, review loops, live monitoring, aggregation, and scoped tool permissions",
         kind: "official-docs",
@@ -7133,6 +7671,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Tool permissions",
+        topic: "execution-control",
         url: "https://kiro.dev/docs/cli/chat/permissions/",
         covers: "Per-tool trust, command and filesystem approvals, custom-agent permissions, and headless trust behavior",
         kind: "official-docs",
@@ -7140,6 +7679,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Headless mode",
+        topic: "automation-extensions",
         url: "https://kiro.dev/docs/cli/headless/",
         covers: "API-key authentication, non-interactive execution, scoped tool trust, MCP startup gates, CI examples, and limitations",
         kind: "official-docs",
@@ -7147,6 +7687,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "CLI commands and sessions",
+        topic: "product-surfaces",
         url: "https://kiro.dev/docs/cli/reference/cli-commands/",
         covers: "Interactive and non-interactive flags, session resume, JSON-formatted settings, diagnostics, and log controls",
         kind: "official-docs",
@@ -7154,6 +7695,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Session management",
+        topic: "orchestration-state",
         url: "https://kiro.dev/docs/cli/chat/session-management/",
         covers: "Per-turn autosave, per-directory resume, export and import, SQLite storage, and custom persistence scripts",
         kind: "official-docs",
@@ -7161,6 +7703,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Conversation rewind",
+        topic: "orchestration-state",
         url: "https://kiro.dev/docs/cli/chat/rewind/",
         covers: "Non-destructive conversation branching with tool-call and context previews; not file rollback",
         kind: "official-docs",
@@ -7168,6 +7711,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Goal loop",
+        topic: "orchestration-state",
         url: "https://kiro.dev/docs/cli/chat/goal/",
         covers: "Iterative implementation and agent-driven verification, acceptance criteria, iteration limits, steering, and cancellation",
         kind: "official-docs",
@@ -7175,6 +7719,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Queue steering",
+        topic: "orchestration-state",
         url: "https://kiro.dev/docs/cli/chat/queue-steering/",
         covers: "Mid-turn redirection at tool boundaries, queued follow-ups, cancellation, and timing limitations",
         kind: "official-docs",
@@ -7182,6 +7727,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Classic checkpointing",
+        topic: "orchestration-state",
         url: "https://kiro.dev/docs/cli/experimental/checkpointing/",
         covers: "Opt-in shadow-Git snapshots, per-turn and per-tool diffs, soft and hard restore, session scope, and cleanup",
         kind: "official-docs",
@@ -7189,6 +7735,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Built-in tools",
+        topic: "execution-control",
         url: "https://kiro.dev/docs/cli/reference/built-in-tools/",
         covers: "File, shell, search, goal, web, subagent, and other built-in tool semantics and settings",
         kind: "official-docs",
@@ -7196,6 +7743,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Hooks",
+        topic: "automation-extensions",
         url: "https://kiro.dev/docs/cli/hooks/",
         covers: "Lifecycle and tool hooks, JSON events, blocking pre-tool decisions, logging, formatting, and validation",
         kind: "official-docs",
@@ -7203,6 +7751,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "MCP integration",
+        topic: "automation-extensions",
         url: "https://kiro.dev/docs/cli/mcp/",
         covers: "User and workspace MCP servers, transport, OAuth, tool loading, trust, and enterprise registry controls",
         kind: "official-docs",
@@ -7210,6 +7759,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Custom agents",
+        topic: "orchestration-state",
         url: "https://kiro.dev/docs/cli/custom-agents/",
         covers: "Agent-specific prompts, tools, resources, permissions, hooks, MCP servers, and configuration scope",
         kind: "official-docs",
@@ -7217,6 +7767,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Settings reference",
+        topic: "enterprise-operations",
         url: "https://kiro.dev/docs/cli/reference/settings/",
         covers: "Checkpoint feature flag, compaction, logs, tool search, Kiro home isolation, and version-specific settings",
         kind: "official-docs",
@@ -7224,6 +7775,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "CLI 3.0 early access",
+        topic: "releases-code-audit",
         url: "https://kiro.dev/docs/cli/v3/",
         covers: "Opt-in unified harness, capability policies, specs, breaking changes, session incompatibility, and known gaps",
         kind: "official-docs",
@@ -7231,6 +7783,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "CLI 2.7 goal and steering release",
+        topic: "releases-code-audit",
         url: "https://kiro.dev/changelog/cli/2-7/",
         covers: "Introduction of goal loops, queue steering, and enriched rewind previews",
         kind: "official-announcement",
@@ -7238,8 +7791,25 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Data protection",
+        topic: "enterprise-operations",
         url: "https://kiro.dev/docs/cli/privacy-and-security/data-protection/",
         covers: "Encryption, individual and enterprise service-improvement treatment, telemetry, and opt-out controls",
+        kind: "official-docs",
+        verifiedAt: kiroCliVerifiedAt,
+      },
+      {
+        title: "Privacy and security model",
+        topic: "execution-control",
+        url: "https://kiro.dev/docs/cli/privacy-and-security/",
+        covers: "Local execution boundary and explicit distinction between Supervised or Autopilot review behavior and sandboxing, isolation, or access control",
+        kind: "official-docs",
+        verifiedAt: kiroCliVerifiedAt,
+      },
+      {
+        title: "CLI 3.0 permission rules",
+        topic: "execution-control",
+        url: "https://kiro.dev/docs/cli/v3/permissions/",
+        covers: "Early-access declarative allow, ask, and deny capability rules, precedence, matching, project scope, and auditability",
         kind: "official-docs",
         verifiedAt: kiroCliVerifiedAt,
       },
