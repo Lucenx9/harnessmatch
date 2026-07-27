@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { BrandMark } from "@/components/brand-mark";
+import { latestVerifiedAt } from "@/lib/evidence-freshness";
 
 export function SiteFooter() {
+  const verifiedAt = latestVerifiedAt();
+
   return (
     <footer className="site-footer">
       <div className="shell footer-inner">
@@ -21,7 +24,7 @@ export function SiteFooter() {
       </div>
       <div className="shell footer-meta">
         <span>Independent. No affiliate ranking.</span>
-        <span>Capability data verified 2026-07-26.</span>
+        <span>Capability data verified {verifiedAt}.</span>
       </div>
     </footer>
   );

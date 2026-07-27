@@ -133,6 +133,17 @@ export function verifiedRecords(): VerifiedRecord[] {
   return records;
 }
 
+/**
+ * The most recent verification date in the dataset. Use this instead of a
+ * hardcoded date wherever the site states when it was last checked: a literal
+ * keeps asserting the day it was typed long after the content moved on.
+ */
+export function latestVerifiedAt(): string {
+  return verifiedRecords()
+    .map((record) => record.verifiedAt)
+    .reduce((latest, current) => (current > latest ? current : latest));
+}
+
 export type FreshnessSummary = {
   total: number;
   current: number;

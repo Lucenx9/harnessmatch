@@ -1,12 +1,13 @@
 import type { MetadataRoute } from "next";
 import { harnesses } from "@/data/harnesses";
+import { latestVerifiedAt } from "@/lib/evidence-freshness";
 
 const siteUrl = "https://harnessmatch.vercel.app";
-const siteCheckedAt = "2026-07-27";
 
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const siteCheckedAt = latestVerifiedAt();
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: siteUrl, lastModified: siteCheckedAt, changeFrequency: "weekly", priority: 1 },
     { url: `${siteUrl}/recommend`, lastModified: siteCheckedAt, changeFrequency: "monthly", priority: 0.9 },

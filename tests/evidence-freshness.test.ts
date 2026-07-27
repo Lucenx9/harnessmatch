@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
+import { readFile } from "node:fs/promises";
 import {
   evidenceFreshnessPolicy,
   freshnessStateForAge,
   freshnessSummary,
   isValidVerificationDate,
+  latestVerifiedAt,
   recordsInState,
   verificationAgeInDays,
   verifiedRecords,
@@ -80,6 +82,36 @@ describe("evidence freshness", () => {
     expect(isValidVerificationDate("July 1, 2026")).toBe(false);
     expect(isValidVerificationDate("2026-07-01T00:00:00Z")).toBe(false);
     expect(isValidVerificationDate("2026-07-01")).toBe(true);
+  });
+
+  it("derives the site-wide checked date from the newest record in the dataset", () => {
+    const latest = latestVerifiedAt();
+
+    expect(isValidVerificationDate(latest)).toBe(true);
+    expect(verificationAgeInDays(latest, now)).toBeGreaterThanOrEqual(0);
+    for (const record of verifiedRecords()) {
+      expect(record.verifiedAt <= latest).toBe(true);
+    }
+  });
+
+  it("states the checked date in the sitemap and footer without hardcoding it", async () => {
+    const [{ default: sitemap }, footerSource] = await Promise.all([
+      import("../src/app/sitemap"),
+      readFile(new URL("../src/components/site-footer.tsx", import.meta.url), "utf8"),
+    ]);
+    const sitemapSource = await readFile(
+      new URL("../src/app/sitemap.ts", import.meta.url),
+      "utf8",
+    );
+    const latest = latestVerifiedAt();
+
+    for (const entry of sitemap()) {
+      expect(entry.lastModified, entry.url).toBeDefined();
+      expect(String(entry.lastModified) <= latest, entry.url).toBe(true);
+    }
+    expect(sitemap().some((entry) => entry.lastModified === latest)).toBe(true);
+    expect(sitemapSource).not.toMatch(/"20\d\d-\d\d-\d\d"/);
+    expect(footerSource).not.toMatch(/20\d\d-\d\d-\d\d/);
   });
 
   it("summarises the dataset into states that add up", () => {
