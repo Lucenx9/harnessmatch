@@ -11,9 +11,8 @@ export default function ComparePage() {
     <section className="section page-section">
       <div className="shell wide-shell">
         <div className="page-intro">
-          <span className="eyebrow">Capability matrix</span>
-          <h1>Compare architecture, not just branding.</h1>
-          <p>Compare product architecture, controls, evidence, and exact measured configurations. Model capability stays separate.</p>
+          <h1>Compare coding harnesses.</h1>
+          <p>Start with workflow, control, model access, and trade-offs. Open the technical rows only when you need them.</p>
         </div>
         <CompareClient />
       </div>

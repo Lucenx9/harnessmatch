@@ -47,7 +47,7 @@ export const researchSources: ResearchSource[] = [
       "GQM structures the measurement program but does not validate a particular rubric, value function, or benchmark.",
   },
   {
-    title: "ISO/IEC/IEEE 15939:2017 Systems and Software Engineering — Measurement Process",
+    title: "ISO/IEC/IEEE 15939:2017 Systems and Software Engineering - Measurement Process",
     venue: "ISO/IEC/IEEE Standard",
     maturity: "standard",
     url: "https://www.iso.org/standard/71197.html",

@@ -11,7 +11,7 @@ This page follows the HarnessMatch master system and increases information densi
 ## Information hierarchy
 
 1. Product identity, category, license, evidence coverage, source count, and verification date.
-2. Plain-language summary, best-fit workflows, trade-offs, and technical profile.
+2. Plain-language summary, best-fit workflows, trade-offs, and six practical quick facts.
 3. Seven literature-derived architectural mechanisms with categorical posture, rubric value, source links, and verification date.
 4. Pinned public-code audit and admitted model-harness benchmark configurations.
 5. Documented feature support, primary evidence, and setup path.
@@ -22,6 +22,7 @@ This page follows the HarnessMatch master system and increases information densi
 - Operational mechanisms appear in one bordered analytical surface with direct rubric values and claim boundaries.
 - Repository auditability and measured configurations share a two-column evidence area and never feed the workflow score.
 - Technical details and evidence use sparse dividers rather than nested cards.
+- The full taxonomy and operational record is collapsed under “View full technical record”; it must remain complete but does not compete with the initial decision summary.
 - Desktop uses a dense five-column operational strip; tablet and mobile collapse explicitly without horizontal scrolling.
 - The existing violet accent is limited to fit emphasis and interactive focus.
 

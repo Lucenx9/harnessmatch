@@ -12,9 +12,8 @@ export default function HarnessesPage() {
     <section className="section page-section">
       <div className="shell">
         <div className="page-intro">
-          <span className="eyebrow">Catalog</span>
-          <h1>AI coding harness profiles.</h1>
-          <p>Each profile separates catalog layer, role, orchestration, runtime, and model access, then links membership and capability claims to first-party evidence.</p>
+          <h1>Browse coding harnesses.</h1>
+          <p>Filter the catalog, compare practical differences, and open a profile for the complete evidence.</p>
         </div>
         <HarnessLensExplorer
           initialVisibleCount={12}

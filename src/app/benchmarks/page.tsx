@@ -48,9 +48,8 @@ export default function BenchmarksPage() {
     <section className="section page-section benchmark-page">
       <div className="wide-shell shell">
         <header className="page-intro benchmark-intro">
-          <span className="eyebrow">Measured systems</span>
-          <h1>Configurations, not harness grades.</h1>
-          <p>Every result below belongs to one exact model, harness version, effort setting, environment, budget, and run policy.</p>
+          <h1>Compare measured configurations.</h1>
+          <p>Results belong to an exact model, harness version, environment, budget, and run policy.</p>
         </header>
 
         <section className="benchmark-ranking" aria-labelledby="benchmark-ranking-title">
@@ -92,7 +91,7 @@ export default function BenchmarksPage() {
                       </span>
                       <strong className="evidence-row-score">{run.accuracy.toFixed(2)}</strong>
                     </a>
-                    <p className="benchmark-row-meta">95% descriptive interval {interval.lower.toFixed(1)}–{interval.upper.toFixed(1)} · {topIntervalGroup.has(run.id) ? "top interval-overlap group" : "outside top interval group"} · {paretoFrontier.has(run.id) ? "accuracy/cost Pareto frontier" : "dominated on accuracy/cost"}</p>
+                    <p className="benchmark-row-meta">95% descriptive interval {interval.lower.toFixed(1)}-{interval.upper.toFixed(1)}</p>
                   </li>
                 );
               })}
@@ -117,7 +116,7 @@ export default function BenchmarksPage() {
                 <details key={run.id}>
                   <summary>
                     <span>{harness.name} {run.harnessVersion}</span>
-                    <strong>{run.accuracy.toFixed(2)}% · 95% interval {interval.lower.toFixed(1)}–{interval.upper.toFixed(1)}</strong>
+                    <strong>{run.accuracy.toFixed(2)}%, 95% interval {interval.lower.toFixed(1)}-{interval.upper.toFixed(1)}</strong>
                   </summary>
                   <div className="benchmark-record-body">
                     <dl>

@@ -14,7 +14,6 @@ export function SiteHeader() {
         <nav className="desktop-nav" aria-label="Primary navigation">
           <NavLinks />
         </nav>
-        <Link className="header-cta" href="/recommend">Find my match</Link>
         <details className="mobile-menu">
           <summary>Menu</summary>
           <nav aria-label="Mobile navigation">

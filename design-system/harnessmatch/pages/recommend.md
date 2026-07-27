@@ -6,8 +6,8 @@ The recommender is a decision-support workflow, not a marketing conversion funne
 
 - Ask seven concrete questions in plain language.
 - Preserve a predictable back path, keyboard operation, and a shareable result URL.
-- Report eligibility, workflow fit, evidence basis, and measured performance as four separate outputs.
-- Keep sensitivity prominent enough to communicate robustness, but never style its percentage like a success probability.
+- Lead with one recommendation, one fit reason, one trade-off, workflow-fit band, evidence state, and stability label.
+- Keep exact sensitivity available as supporting evidence, but never style its percentage like a success probability.
 
 ## Decision readout
 
@@ -15,9 +15,9 @@ The recommender is a decision-support workflow, not a marketing conversion funne
 - A failed gate is labeled “not eligible on current evidence,” never “incapable” or “unsupported,” until the data model records an explicit negative claim.
 - Workflow fit uses strong, good, conditional, and weak preference bands. Internal 0-100 values remain methodology-only.
 - Evidence basis is a product-level availability summary; individual claim rows remain authoritative.
-- Measured performance reports admitted configuration count only in the readout. Benchmark outcomes stay on the benchmark and profile surfaces and never alter fit.
+- Eligibility, measured-configuration count, complete fit reasons, trade-offs, and scoring belong in the per-result evidence disclosure. Benchmark outcomes stay on the benchmark and profile surfaces and never alter fit.
 - Sensitivity is shown as high, moderate, or low stability with the exact top-three frequency as supporting text.
-- The portability lens uses fit-band rows and categorical provider/local-model columns; it cannot change the recommendation order.
+- Answers, sensitivity explanation, and the portability lens share one secondary disclosure; the portability lens cannot change the recommendation order.
 
 ## Responsive behavior
 

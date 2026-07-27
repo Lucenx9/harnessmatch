@@ -53,8 +53,8 @@ Semantic success, warning, and danger colors are reserved for actual state. They
 ## Typography
 
 - Homepage analysis intro: 3.25rem to 4.7rem, maximum two lines on desktop
-- Page title: 3.1rem to 5.8rem
-- Section title: 2.1rem to 3.75rem
+- Page title: 2.8rem to 4.5rem
+- Section title: 1.9rem to 3.15rem
 - Body: 16px minimum, 1.55 to 1.65 line height
 - Metadata: Geist Mono at 10px to 12px with restrained tracking
 - Headings use tight tracking but never sacrifice readability
@@ -62,6 +62,8 @@ Semantic success, warning, and danger colors are reserved for actual state. They
 ## Layout rules
 
 - Homepage opens with a compact analysis intro and live dataset status, not a promotional hero
+- Every decision surface uses progressive disclosure: recommendation first, practical comparison second, taxonomy and scientific detail on demand
+- A first reading layer should answer what to choose, why it fits, and what to check before choosing
 - The first interactive surface is a workflow-fit chart with explicit assumptions, direct labels, and published weights
 - A second analytical surface offers separate operational-readiness, public-code-auditability, and measured-system rankings
 - Workflow-fit bars visualize deterministic recommendation points, never model intelligence or benchmark performance
@@ -78,6 +80,7 @@ Semantic success, warning, and danger colors are reserved for actual state. They
 - Every chart has a complete readable ranking and downloadable CSV data
 - Compatible products stay ranked; products that miss a hard requirement appear separately and remain unranked
 - The homepage directory uses capability lenses, visible result counts, an eight-profile initial view, and methodology copy next to the data
+- Catalog cards expose only role, interfaces, and model-access posture; the profile owns the complete technical record
 - Scientific findings are translated into plain-language decision rules with direct links to the underlying papers
 - AI-assisted research may accelerate discovery, extraction, and cross-checking, but model output never counts as evidence; every published product claim requires an admitted source and verification date
 - Research-product patterns may increase information density, but must never imply a generic model or harness leaderboard

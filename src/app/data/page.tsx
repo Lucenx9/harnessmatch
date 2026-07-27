@@ -15,9 +15,8 @@ export default function DataPage() {
     <section className="section page-section">
       <div className="shell wide-shell">
         <div className="page-intro">
-          <span className="eyebrow">Evidence ledger</span>
-          <h1>Every claim needs a first-party trail.</h1>
-          <p>Sources are grouped by the product claim they support. Dates show when HarnessMatch checked the page, not when the vendor published it.</p>
+          <h1>Inspect the sources.</h1>
+          <p>Search every product claim and open the first-party page that supports it.</p>
         </div>
         <aside className="notice prominent research-disclosure" aria-label="Research process disclosure">
           <p><strong>{researchProcessDisclosure.label}:</strong> {researchProcessDisclosure.short}</p>

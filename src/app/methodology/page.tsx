@@ -98,19 +98,26 @@ export default function MethodologyPage() {
     <section className="section page-section">
       <div className="shell narrow-shell prose-page">
         <div className="page-intro">
-          <span className="eyebrow">Methodology {methodologyVersion}</span>
-          <h1>A decision model, not a universal leaderboard.</h1>
-          <p>HarnessMatch applies Goal-Question-Metric, hard eligibility gates, multi-criteria decision analysis, sensitivity testing, claim-level evidence states, and configuration-level benchmarks. Each layer answers a different question.</p>
+          <p className="methodology-version">Methodology {methodologyVersion}</p>
+          <h1>How recommendations are built.</h1>
+          <p>We first check whether a tool can meet your requirements, then compare workflow fit and show how stable the result is. Sources and measured configurations remain separate from editorial judgments.</p>
         </div>
 
-        <nav className="methodology-toc" aria-label="Methodology sections">
-          <strong>On this page</strong>
-          <div>
+        <div className="methodology-plain-summary" aria-label="Method in four steps">
+          <div><span>1</span><strong>Scope</strong><p>Only products that own a documented coding loop enter the default ranking.</p></div>
+          <div><span>2</span><strong>Requirements</strong><p>Must-haves are gates. A strength elsewhere cannot cancel a missing requirement.</p></div>
+          <div><span>3</span><strong>Workflow fit</strong><p>Eligible tools are compared against your preferences, not a universal quality score.</p></div>
+          <div><span>4</span><strong>Uncertainty</strong><p>Sensitivity and evidence states show how much confidence to place in the order.</p></div>
+        </div>
+
+        <details className="methodology-toc">
+          <summary>Browse the technical methodology</summary>
+          <nav aria-label="Methodology sections">
             {methodologySections.map(([id, sectionLabel]) => (
               <a href={`#${id}`} key={id}>{sectionLabel}</a>
             ))}
-          </div>
-        </nav>
+          </nav>
+        </details>
 
         <section className="prose-section" id="decision-question">
           <h2>1. Decision question: what should this person use?</h2>
@@ -316,7 +323,7 @@ export default function MethodologyPage() {
             {Object.entries(operationalPostureScores).map(([axis, values]) => (
               <div key={axis}>
                 <strong>{label(axis)}</strong>
-                <span>{Object.entries(values).map(([posture, value]) => `${label(posture)} ${value ?? "unranked"}`).join(" · ")}</span>
+                <span>{Object.entries(values).map(([posture, value]) => `${label(posture)} ${value ?? "unranked"}`).join(", ")}</span>
               </div>
             ))}
           </div>
@@ -326,20 +333,23 @@ export default function MethodologyPage() {
         <section className="prose-section" id="scientific-basis">
           <h2>Scientific basis</h2>
           <p>{researchSources.length} methodological sources define measurement, MCDA, uncertainty, benchmark validity, harness architecture, and claim limits. Papers guide the method; current first-party records still control product claims.</p>
-          <div className="evidence-list research-source-list">
-            {researchSources.map((source) => (
-              <a href={source.url} target="_blank" rel="noreferrer" key={source.url}>
-                <span>
-                  <strong>{source.title}</strong>
-                  <small>{source.supports}</small>
-                  <small className="research-limitation">Limit: {source.limitation}</small>
-                </span>
-                <span className={`evidence-kind maturity-${source.maturity}`}>
-                  {maturityLabel(source.maturity, source.venue)}
-                </span>
-              </a>
-            ))}
-          </div>
+          <details className="scientific-ledger">
+            <summary>Open all {researchSources.length} research sources</summary>
+            <div className="evidence-list research-source-list">
+              {researchSources.map((source) => (
+                <a href={source.url} target="_blank" rel="noreferrer" key={source.url}>
+                  <span>
+                    <strong>{source.title}</strong>
+                    <small>{source.supports}</small>
+                    <small className="research-limitation">Limit: {source.limitation}</small>
+                  </span>
+                  <span className={`evidence-kind maturity-${source.maturity}`}>
+                    {maturityLabel(source.maturity, source.venue)}
+                  </span>
+                </a>
+              ))}
+            </div>
+          </details>
         </section>
       </div>
     </section>

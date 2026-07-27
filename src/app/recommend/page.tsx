@@ -10,10 +10,9 @@ export default function RecommendPage() {
   return (
     <section className="section page-section">
       <div className="shell narrow-shell">
-        <div className="page-intro centered">
-          <span className="eyebrow">Workflow-aware recommendation</span>
-          <h1>Find your best-fit coding harness.</h1>
-          <p>Seven concrete questions. Transparent scoring. No signup and no model-generated verdict.</p>
+        <div className="page-intro">
+          <h1>Find your coding harness.</h1>
+          <p>Answer seven questions. Get one recommendation, two alternatives, and the evidence behind them.</p>
         </div>
         <Recommender />
       </div>

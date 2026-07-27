@@ -4,12 +4,9 @@ import Link from "next/link";
 import { useDeferredValue, useMemo, useState } from "react";
 import { HarnessLogo } from "@/components/harness-logo";
 import {
-  formatIsolationModes,
   harnessRoleLabels,
-  orchestrationLabels,
   productLayerLabels,
   runtimePostureLabels,
-  stateModelLabels,
 } from "@/lib/harness-classification";
 import type {
   FeatureKey,
@@ -226,32 +223,16 @@ export function HarnessLensExplorer({
             <p>{harness.tagline}</p>
             <dl>
               <div>
-                <dt>Product role</dt>
+                <dt>Role</dt>
                 <dd>{harnessRoleLabels[harness.role]}</dd>
-              </div>
-              <div>
-                <dt>Agents</dt>
-                <dd>{orchestrationLabels[harness.orchestration]}</dd>
-              </div>
-              <div>
-                <dt>Runtime</dt>
-                <dd>{runtimePostureLabels[harness.runtime]}</dd>
-              </div>
-              <div>
-                <dt>Isolation</dt>
-                <dd>{formatIsolationModes(harness.isolation)}</dd>
-              </div>
-              <div>
-                <dt>State &amp; recovery</dt>
-                <dd>{stateModelLabels[harness.state]}; {harness.features.checkpoints ? "file rollback" : "no first-class file rollback"}</dd>
-              </div>
-              <div>
-                <dt>Provider</dt>
-                <dd>{providerLabels[harness.providerStyle]}</dd>
               </div>
               <div>
                 <dt>Interfaces</dt>
                 <dd>{harness.interfaces.map((item) => interfaceLabels[item]).join(", ")}</dd>
+              </div>
+              <div>
+                <dt>Model access</dt>
+                <dd>{providerLabels[harness.providerStyle]}</dd>
               </div>
             </dl>
             <div className="lens-card-foot">

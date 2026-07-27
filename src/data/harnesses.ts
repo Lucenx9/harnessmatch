@@ -1493,7 +1493,7 @@ export const harnesses: Harness[] = [
       "Task copy-on-write or worktree isolation separates delegated file changes but is not a documented OS-level sandbox for the primary process, browser, debugger, shell, or local MCP servers",
       "Checkpoint and rewind are disabled by default and prune conversation context only: they do not restore working-tree files, Git state, artifacts, processes, or external side effects",
       "Cross-session memory is disabled by default and model-generated; it must be checked against the current repository rather than treated as authoritative state",
-      "The large built-in surface—browser/CDP, debugger, eval kernels, SSH, MCP, collaboration, media, and high-concurrency agents—expands setup and trust boundaries",
+      "The large built-in surface (browser/CDP, debugger, eval kernels, SSH, MCP, collaboration, media, and high-concurrency agents) expands setup and trust boundaries",
       "Project-owned compaction and local-model evaluations plus README performance claims are not independent harness benchmarks, so no score is imported",
     ],
     setup: "Install `omp`, connect a provider, and change `tools.approvalMode` from the default `yolo` before using it on sensitive repositories.",
@@ -4265,7 +4265,7 @@ export const harnesses: Harness[] = [
       "Official docs currently lag the v2.22.0 code on programmatic approval defaults and MCP OAuth, so pinned source and changelog take precedence",
       "There is no built-in browser automation; web search and fetch tools are not a browser agent",
     ],
-    setup: "Install `mistral-vibe`, use a Mistral plan or API key—or configure a local/OpenAI-compatible provider—then run `vibe`; the default agent asks before tool execution.",
+    setup: "Install `mistral-vibe`, use a Mistral plan or API key, or configure a local/OpenAI-compatible provider. Then run `vibe`; the default agent asks before tool execution.",
     verifiedAt: mistralVibeVerifiedAt,
     evidence: [
       {

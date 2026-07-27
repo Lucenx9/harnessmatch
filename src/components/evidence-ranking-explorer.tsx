@@ -173,7 +173,7 @@ export function EvidenceRankingExplorer({
         logo: row.logo,
         score: (row.level / 4) * 100,
         displayValue: `L${row.level}`,
-        meta: `${architectureLevelAnchors[operationalLens][row.level] ?? "Documented mechanism"} · ${row.documentedAxes}/7 layers · ${row.evidenceSources} sources`,
+        meta: `${architectureLevelAnchors[operationalLens][row.level] ?? "Documented mechanism"}, ${row.documentedAxes}/7 layers, ${row.evidenceSources} sources`,
         href: `/harnesses/${row.slug}`,
         external: false,
         benchmarkDetail: "",

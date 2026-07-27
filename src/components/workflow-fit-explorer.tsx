@@ -271,7 +271,7 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
                       <HarnessLogo logo={result.logo} name={result.name} size="small" />
                       <span>
                         <strong>{result.name}</strong>
-                        <small>{result.fitBand} match · Evidence: {result.evidenceState}</small>
+                        <small>{result.fitBand} match, evidence: {result.evidenceState}</small>
                       </span>
                     </span>
                     <span className="workflow-plot" aria-hidden="true">
@@ -354,7 +354,7 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
                   </span>
                   <span className="ranking-why">{result.why}</span>
                   <strong className="ranking-score">Top 3 in {result.robustness.topThreeFrequency}%</strong>
-                  <span className="ranking-evidence">{result.fitBand} match · average position {result.robustness.meanRank} · {result.evidenceState}</span>
+                  <span className="ranking-evidence">{result.fitBand} match, average position {result.robustness.meanRank}, {result.evidenceState}</span>
                 </Link>
               </li>
             ))}

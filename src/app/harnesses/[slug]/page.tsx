@@ -212,7 +212,7 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
             </div>
             <div>
               <dt>Evidence</dt>
-              <dd>{evidenceState.label} · {harness.evidence.length} sources</dd>
+              <dd>{evidenceState.label}, {harness.evidence.length} sources</dd>
             </div>
             <div>
               <dt>Product record checked</dt>
@@ -241,92 +241,129 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
               <section>
                 <h3>Check before choosing</h3>
                 <ul className="plain-list large-list">
-                  {harness.tradeoffs.map((item) => <li key={item}>{item}</li>)}
+                  {harness.tradeoffs.slice(0, 3).map((item) => <li key={item}>{item}</li>)}
                 </ul>
+                {harness.tradeoffs.length > 3 && (
+                  <details className="profile-more-considerations">
+                    <summary>See {harness.tradeoffs.length - 3} more considerations</summary>
+                    <ul className="plain-list large-list">
+                      {harness.tradeoffs.slice(3).map((item) => <li key={item}>{item}</li>)}
+                    </ul>
+                  </details>
+                )}
               </section>
             </div>
           </article>
 
-          <aside className="profile-spec-panel" aria-labelledby="technical-profile-heading">
-            <h2 id="technical-profile-heading">Technical details</h2>
+          <aside className="profile-spec-panel" aria-labelledby="quick-facts-heading">
+            <h2 id="quick-facts-heading">Quick facts</h2>
             <dl className="profile-spec-list">
-              <div>
-                <dt>Catalog layer</dt>
-                <dd>{membership ? productLayerLabels[membership.layer] : "Not assessed"}</dd>
-              </div>
-              <div>
-                <dt>Harness membership</dt>
-                <dd>{membership ? `${documentedMembershipCriteria}/4 criteria documented` : "Not assessed"}</dd>
-              </div>
-              <div>
-                <dt>Product role</dt>
-                <dd>{harnessRoleLabels[harness.classification.role]}</dd>
-              </div>
-              <div>
-                <dt>Agent organization</dt>
-                <dd>{orchestrationLabels[harness.classification.orchestration]}</dd>
-              </div>
-              <div>
-                <dt>Runtime posture</dt>
-                <dd>{runtimePostureLabels[harness.classification.runtime]}</dd>
-              </div>
-              <div>
-                <dt>Isolation options</dt>
-                <dd>{formatIsolationModes(harness.classification.isolation)}</dd>
-              </div>
-              <div>
-                <dt>State model</dt>
-                <dd>{stateModelLabels[harness.classification.state]}</dd>
-              </div>
-              <div>
-                <dt>Context lifecycle</dt>
-                <dd>{operationalLabels.context[operational.context]}</dd>
-              </div>
-              <div>
-                <dt>Permission posture</dt>
-                <dd>{operationalLabels.permissions[operational.permissions]}</dd>
-              </div>
-              <div>
-                <dt>Verification</dt>
-                <dd>{operationalLabels.verification[operational.verification]}</dd>
-              </div>
-              <div>
-                <dt>Observability</dt>
-                <dd>{operationalLabels.observability[operational.observability]}</dd>
-              </div>
-              <div>
-                <dt>Recovery</dt>
-                <dd>{operationalLabels.recovery[operational.recovery]}</dd>
-              </div>
               <div>
                 <dt>Interfaces</dt>
                 <dd>{harness.interfaces.map((item) => interfaceLabels[item]).join(", ")}</dd>
               </div>
               <div>
-                <dt>Provider posture</dt>
-                <dd>{providerLabels[harness.providerStyle]}</dd>
+                <dt>Approval style</dt>
+                <dd>{operationalLabels.permissions[operational.permissions]}</dd>
               </div>
               <div>
                 <dt>Model portability</dt>
                 <dd>{modelPortabilityLabels[modelPortabilityFor(harness)]}</dd>
               </div>
               <div>
-                <dt>Subscription access</dt>
-                <dd>{harness.supportsSubscription ? "Available" : "Not documented"}</dd>
+                <dt>Isolation</dt>
+                <dd>{formatIsolationModes(harness.classification.isolation)}</dd>
               </div>
               <div>
-                <dt>Enterprise access</dt>
-                <dd>{harness.supportsEnterpriseAccess ? "Available" : "Not documented"}</dd>
+                <dt>Agent organization</dt>
+                <dd>{orchestrationLabels[harness.classification.orchestration]}</dd>
               </div>
               <div>
                 <dt>Local model path</dt>
                 <dd>{harness.localModels ? "Supported" : "Not first-class"}</dd>
               </div>
-              <div>
-                <dt>Claim boundary</dt>
-                <dd>Harness capability only</dd>
-              </div>
             </dl>
+            <details className="profile-technical-details">
+              <summary>View full technical record</summary>
+              <dl className="profile-spec-list">
+                <div>
+                  <dt>Catalog layer</dt>
+                  <dd>{membership ? productLayerLabels[membership.layer] : "Not assessed"}</dd>
+                </div>
+                <div>
+                  <dt>Harness membership</dt>
+                  <dd>{membership ? `${documentedMembershipCriteria}/4 criteria documented` : "Not assessed"}</dd>
+                </div>
+                <div>
+                  <dt>Product role</dt>
+                  <dd>{harnessRoleLabels[harness.classification.role]}</dd>
+                </div>
+                <div>
+                  <dt>Agent organization</dt>
+                  <dd>{orchestrationLabels[harness.classification.orchestration]}</dd>
+                </div>
+                <div>
+                  <dt>Runtime posture</dt>
+                  <dd>{runtimePostureLabels[harness.classification.runtime]}</dd>
+                </div>
+                <div>
+                  <dt>Isolation options</dt>
+                  <dd>{formatIsolationModes(harness.classification.isolation)}</dd>
+                </div>
+                <div>
+                  <dt>State model</dt>
+                  <dd>{stateModelLabels[harness.classification.state]}</dd>
+                </div>
+                <div>
+                  <dt>Context lifecycle</dt>
+                  <dd>{operationalLabels.context[operational.context]}</dd>
+                </div>
+                <div>
+                  <dt>Permission posture</dt>
+                  <dd>{operationalLabels.permissions[operational.permissions]}</dd>
+                </div>
+                <div>
+                  <dt>Verification</dt>
+                  <dd>{operationalLabels.verification[operational.verification]}</dd>
+                </div>
+                <div>
+                  <dt>Observability</dt>
+                  <dd>{operationalLabels.observability[operational.observability]}</dd>
+                </div>
+                <div>
+                  <dt>Recovery</dt>
+                  <dd>{operationalLabels.recovery[operational.recovery]}</dd>
+                </div>
+                <div>
+                  <dt>Interfaces</dt>
+                  <dd>{harness.interfaces.map((item) => interfaceLabels[item]).join(", ")}</dd>
+                </div>
+                <div>
+                  <dt>Provider posture</dt>
+                  <dd>{providerLabels[harness.providerStyle]}</dd>
+                </div>
+                <div>
+                  <dt>Model portability</dt>
+                  <dd>{modelPortabilityLabels[modelPortabilityFor(harness)]}</dd>
+                </div>
+                <div>
+                  <dt>Subscription access</dt>
+                  <dd>{harness.supportsSubscription ? "Available" : "Not documented"}</dd>
+                </div>
+                <div>
+                  <dt>Enterprise access</dt>
+                  <dd>{harness.supportsEnterpriseAccess ? "Available" : "Not documented"}</dd>
+                </div>
+                <div>
+                  <dt>Local model path</dt>
+                  <dd>{harness.localModels ? "Supported" : "Not first-class"}</dd>
+                </div>
+                <div>
+                  <dt>Claim boundary</dt>
+                  <dd>Harness capability only</dd>
+                </div>
+              </dl>
+            </details>
           </aside>
         </div>
 

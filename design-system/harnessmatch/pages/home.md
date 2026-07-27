@@ -19,8 +19,7 @@ The homepage is a working analysis surface. It should feel closer to a compact r
 - Each highlight exposes the leading value, the size of any tied or overlapping group, and opens its detailed ranking in place
 - Horizontal bars for the top seven eligible harnesses, sorted by the deterministic fit score
 - Complete compatible ranking directly below the chart, followed by a disclosure for excluded products and their missing requirements
-- Four plain-language research rules between the ranking and catalog
-- Five plain-language research rules between the ranking surfaces and catalog
+- Three plain-language research rules between the ranking surfaces and catalog
 - Capability-filtered catalog after the chart
 - No testimonial, social proof, generic benefit, or conversion CTA sections
 

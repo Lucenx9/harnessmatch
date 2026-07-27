@@ -119,15 +119,15 @@ export default function HomePage() {
       resultSourceUrl: run.resultSourceUrl,
     }];
   });
-  const homepageResearchInsights = researchInsights.slice(0, 4);
+  const homepageResearchInsights = researchInsights.slice(0, 3);
 
   return (
     <>
       <section className="tool-intro">
         <div className="shell tool-intro-grid">
           <div className="tool-intro-copy">
-            <h1>Find the right coding harness for your workflow.</h1>
-            <p>Choose a workflow. See every eligible tool, why it ranks there, and where current documentation is insufficient.</p>
+            <h1>Choose the right coding harness.</h1>
+            <p>Start with your workflow. See the best fit, its main trade-off, and the evidence behind it.</p>
           </div>
           <dl className="dataset-summary" aria-label="Dataset status">
             <div><dt>Active catalog entries</dt><dd>{activeHarnesses.length}</dd></div>
@@ -158,8 +158,8 @@ export default function HomePage() {
       <section className="section research-translation-section">
         <div className="shell">
           <div className="section-heading stacked-heading">
-            <h2>What the research means for your choice.</h2>
-            <p>{homepageResearchInsights.length} practical rules, with the complete research ledger in the methodology.</p>
+            <h2>Three rules behind the ranking.</h2>
+            <p>The short version of the research. Every rule links to its underlying papers.</p>
           </div>
           <div className="research-insight-grid">
             {homepageResearchInsights.map((insight) => (
@@ -179,15 +179,15 @@ export default function HomePage() {
               </article>
             ))}
           </div>
-          <Link className="text-link research-methodology-link" href="/methodology">Read the full methodology and source limitations</Link>
+          <Link className="text-link research-methodology-link" href="/methodology">Open the full methodology</Link>
         </div>
       </section>
 
       <section className="section catalog-explorer-section">
         <div className="shell">
           <div className="section-heading stacked-heading catalog-explorer-heading">
-            <h2>Filter the source-backed catalog.</h2>
-            <p>Apply a verified capability filter or open a profile to inspect its evidence ledger.</p>
+            <h2>Browse all harnesses.</h2>
+            <p>Filter by a capability, then open a profile for trade-offs and sources.</p>
           </div>
           <HarnessLensExplorer harnesses={activeHarnesses.map((harness) => ({
             id: harness.id,

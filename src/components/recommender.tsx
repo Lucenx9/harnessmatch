@@ -287,9 +287,8 @@ export function Recommender() {
         <div className="results-stack">
           <div className="results-header">
             <div>
-              <span className="eyebrow">No eligible match on current evidence</span>
-              <h2 className="results-heading" ref={resultsHeadingRef} tabIndex={-1}>No active catalog entry passes every scope and workflow gate.</h2>
-              <p>Remove one requirement or change how you want the work to run to see more options. An exclusion can reflect catalog scope or missing evidence; it does not prove technical incapability.</p>
+              <h2 className="results-heading" ref={resultsHeadingRef} tabIndex={-1}>No current match.</h2>
+              <p>Change one requirement to see more options. An exclusion can mean missing evidence, not technical impossibility.</p>
             </div>
             <button className="button secondary" onClick={reviseAnswers}>Edit my answers</button>
           </div>
@@ -320,39 +319,15 @@ export function Recommender() {
       <div className="results-stack">
         <div className="results-header">
           <div>
-            <span className="eyebrow">Your recommendation</span>
-            <h2 className="results-heading" ref={resultsHeadingRef} tabIndex={-1}>{results[0].harness.name} is the strongest match for your setup</h2>
-            <p>
-              Every catalog-membership and selected workflow gate has current supporting documentation. We also varied your priorities 512 ways to check whether the recommendation stays near the top.
-            </p>
+            <h2 className="results-heading" ref={resultsHeadingRef} tabIndex={-1}>Start with {results[0].harness.name}.</h2>
+            <p>It passes your requirements and remains near the top when your priorities change.</p>
           </div>
           <div className="button-row">
-            <Link className="button primary" href={comparisonHref}>Compare top matches</Link>
-            <button className="button secondary" onClick={copyLink}>{copied ? "Copied" : "Copy result link"}</button>
+            <Link className="button primary" href={comparisonHref}>Compare top 3</Link>
+            <button className="button secondary" onClick={copyLink}>{copied ? "Copied" : "Copy link"}</button>
             <button className="button ghost" onClick={reviseAnswers}>Edit answers</button>
           </div>
         </div>
-
-        <section className="answer-recap" aria-labelledby="answer-recap-title">
-          <div className="answer-recap-heading">
-            <div>
-              <span className="eyebrow">Your setup</span>
-              <h3 id="answer-recap-title">What this recommendation is based on</h3>
-            </div>
-            <button className="text-button" type="button" onClick={restart}>Clear and start over</button>
-          </div>
-          <dl>
-            <div><dt>Work in</dt><dd>{interfaceLabels[answers.interface]}</dd></div>
-            <div><dt>Main priority</dt><dd>{priorityLabels[answers.priority]}</dd></div>
-            <div><dt>Model access</dt><dd>{modelAccessLabels[answers.modelAccess]}</dd></div>
-            <div><dt>Approvals</dt><dd>{controlLabels[answers.control]}</dd></div>
-            <div><dt>Typical change</dt><dd>{changeScopeLabels[answers.changeScope]}</dd></div>
-            <div><dt>Work mode</dt><dd>{operatingModeLabels[answers.operatingMode]}</dd></div>
-            <div><dt>Must-haves</dt><dd>{answers.requiredFeatures.map((feature) => featureLabels[feature]).join(", ") || "No extra must-haves"}</dd></div>
-          </dl>
-        </section>
-
-        <WorkflowPortabilityLens results={results} />
 
         {results.slice(0, 3).map((result, index) => {
           const measuredRuns = benchmarkRunsForHarness(result.harness.id);
@@ -374,52 +349,80 @@ export function Recommender() {
                   <span>Robustness of the ordering, not task success</span>
                 </div>
               </div>
-              <dl className="result-outcomes" aria-label={`Four-part decision readout for ${result.harness.name}`}>
-                <div>
-                  <dt>Eligibility</dt>
-                  <dd>Eligible<span className="outcome-note">Catalog membership and every declared workflow gate are documented.</span></dd>
-                </div>
+              <dl className="result-quick-facts" aria-label={`Decision summary for ${result.harness.name}`}>
                 <div>
                   <dt>Workflow fit</dt>
-                  <dd>{fitBandLabels[result.fitBand]}<span className="outcome-note">Preference match, not product quality.</span></dd>
+                  <dd>{fitBandLabels[result.fitBand]}</dd>
                 </div>
                 <div>
-                  <dt>Evidence basis</dt>
-                  <dd>{result.evidenceState.label}<span className="outcome-note">Product-level summary; claim rows may differ.</span></dd>
+                  <dt>Stability</dt>
+                  <dd>{stabilityLabel(result.robustness.topThreeFrequency)}</dd>
                 </div>
                 <div>
-                  <dt>Measured performance</dt>
-                  <dd>
-                    {measuredRuns.length === 0 ? "No admitted configuration" : `${measuredRuns.length} admitted configuration${measuredRuns.length === 1 ? "" : "s"}`}
-                    <span className="outcome-note">{measuredRuns.length === 0 ? "Unknown is not scored as zero." : "Displayed separately and excluded from fit."}</span>
-                  </dd>
+                  <dt>Evidence</dt>
+                  <dd>{result.evidenceState.label}</dd>
                 </div>
               </dl>
-              <div className="result-grid">
+              <div className="result-simple-readout">
                 <div>
                   <h4>Why it fits</h4>
-                  <ul className="check-list">
-                    {result.reasons.map((reason) => <li key={reason}>{reason}</li>)}
-                  </ul>
+                  <p>{result.reasons[0] ?? result.harness.bestFor[0] ?? "Compatible with every required capability."}</p>
                 </div>
                 <div>
-                  <h4>Watch for</h4>
-                  <ul className="plain-list">
-                    {result.compromises.map((item) => <li key={item}>{item}</li>)}
-                  </ul>
+                  <h4>Check before choosing</h4>
+                  <p>{result.compromises[0] ?? result.harness.tradeoffs[0] ?? "Review the full profile before adopting it."}</p>
                 </div>
               </div>
-              <details className="score-breakdown">
-                <summary>How this match was calculated</summary>
-                <p>These are alignment bands for your answers, not product-quality scores.</p>
-                <dl>
-                  {Object.entries(result.scoreBreakdown).map(([factor, value]) => (
-                    <div key={factor}>
-                      <dt>{factorLabels[factor as RecommendationFactor]}</dt>
-                      <dd>{alignmentLabel(value)}</dd>
+              <details className="result-evidence-details">
+                <summary>Evidence and scoring</summary>
+                <div className="result-evidence-body">
+                  <dl className="result-outcomes" aria-label={`Four-part evidence readout for ${result.harness.name}`}>
+                    <div>
+                      <dt>Eligibility</dt>
+                      <dd>Eligible<span className="outcome-note">Every catalog and workflow gate is documented.</span></dd>
                     </div>
-                  ))}
-                </dl>
+                    <div>
+                      <dt>Workflow fit</dt>
+                      <dd>{fitBandLabels[result.fitBand]}<span className="outcome-note">Preference match, not product quality.</span></dd>
+                    </div>
+                    <div>
+                      <dt>Evidence basis</dt>
+                      <dd>{result.evidenceState.label}<span className="outcome-note">Individual claims may have different evidence.</span></dd>
+                    </div>
+                    <div>
+                      <dt>Measured performance</dt>
+                      <dd>
+                        {measuredRuns.length === 0 ? "No admitted configuration" : `${measuredRuns.length} admitted configuration${measuredRuns.length === 1 ? "" : "s"}`}
+                        <span className="outcome-note">{measuredRuns.length === 0 ? "Unknown is not scored as zero." : "Shown separately and excluded from fit."}</span>
+                      </dd>
+                    </div>
+                  </dl>
+                  <div className="result-grid">
+                    <div>
+                      <h4>All fit reasons</h4>
+                      <ul className="check-list">
+                        {result.reasons.map((reason) => <li key={reason}>{reason}</li>)}
+                      </ul>
+                    </div>
+                    <div>
+                      <h4>All trade-offs</h4>
+                      <ul className="plain-list">
+                        {result.compromises.map((item) => <li key={item}>{item}</li>)}
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="score-breakdown">
+                    <p>These are alignment bands for your answers, not product-quality scores.</p>
+                    <dl>
+                      {Object.entries(result.scoreBreakdown).map(([factor, value]) => (
+                        <div key={factor}>
+                          <dt>{factorLabels[factor as RecommendationFactor]}</dt>
+                          <dd>{alignmentLabel(value)}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </div>
               </details>
               <Link className="text-link" href={`/harnesses/${result.harness.slug}`}>Read the full profile</Link>
             </div>
@@ -427,9 +430,33 @@ export function Recommender() {
           );
         })}
 
-        <div className="notice stability-note">
-          <strong>How to read the percentage:</strong> {results[0].harness.name} stays in the top three in {results[0].robustness.topThreeFrequency}% of the priority variations we tested. It is a stability check, not the chance that a coding task will succeed.
-        </div>
+        <details className="recommendation-details">
+          <summary>
+            <strong>Your setup and sensitivity check</strong>
+            <span>Review your answers, model portability, and ranking stability.</span>
+          </summary>
+          <div className="recommendation-details-body">
+            <section className="answer-recap" aria-labelledby="answer-recap-title">
+              <div className="answer-recap-heading">
+                <h3 id="answer-recap-title">What this recommendation uses</h3>
+                <button className="text-button" type="button" onClick={restart}>Clear and start over</button>
+              </div>
+              <dl>
+                <div><dt>Work in</dt><dd>{interfaceLabels[answers.interface]}</dd></div>
+                <div><dt>Main priority</dt><dd>{priorityLabels[answers.priority]}</dd></div>
+                <div><dt>Model access</dt><dd>{modelAccessLabels[answers.modelAccess]}</dd></div>
+                <div><dt>Approvals</dt><dd>{controlLabels[answers.control]}</dd></div>
+                <div><dt>Typical change</dt><dd>{changeScopeLabels[answers.changeScope]}</dd></div>
+                <div><dt>Work mode</dt><dd>{operatingModeLabels[answers.operatingMode]}</dd></div>
+                <div><dt>Must-haves</dt><dd>{answers.requiredFeatures.map((feature) => featureLabels[feature]).join(", ") || "No extra must-haves"}</dd></div>
+              </dl>
+            </section>
+            <WorkflowPortabilityLens results={results} />
+            <div className="notice stability-note">
+              <strong>How to read the percentage:</strong> {results[0].harness.name} stays in the top three in {results[0].robustness.topThreeFrequency}% of the priority variations we tested. It is a stability check, not the chance that a coding task will succeed.
+            </div>
+          </div>
+        </details>
 
         <details className="complete-ranking ranking-disclosure">
           <summary className="complete-ranking-header">
@@ -452,7 +479,7 @@ export function Recommender() {
                     {result.reasons[0] ?? result.harness.bestFor[0] ?? "Compatible with every required capability."}
                   </span>
                   <strong className="ranking-score">Top 3 in {result.robustness.topThreeFrequency}%</strong>
-                  <span className="ranking-evidence">{fitBandLabels[result.fitBand]} · average position {result.robustness.meanRank} · {result.evidenceState.label}</span>
+                  <span className="ranking-evidence">{fitBandLabels[result.fitBand]}, average position {result.robustness.meanRank}, {result.evidenceState.label}</span>
                 </Link>
               </li>
             ))}
