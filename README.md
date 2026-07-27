@@ -49,6 +49,10 @@ npm run build
 
 The static site is written to `out/` after a successful build.
 
+## Deployment
+
+The repository is connected to the existing Vercel project. Pushes to `main` create production deployments; other branches can create isolated preview deployments. Web Analytics is enabled on the production project.
+
 ## Main extension points
 
 - Product and source records: `src/data/harnesses.ts`
