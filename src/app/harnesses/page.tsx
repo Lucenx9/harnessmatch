@@ -17,6 +17,7 @@ export default function HarnessesPage() {
         </div>
         <HarnessLensExplorer
           initialVisibleCount={12}
+          cardHeadingLevel={2}
           harnesses={harnesses.map((harness) => ({
             id: harness.id,
             slug: harness.slug,

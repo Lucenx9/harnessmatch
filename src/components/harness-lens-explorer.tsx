@@ -70,10 +70,13 @@ const providerLabels: Record<LensHarness["providerStyle"], string> = {
 export function HarnessLensExplorer({
   harnesses,
   initialVisibleCount = 8,
+  cardHeadingLevel = 3,
 }: {
   harnesses: LensHarness[];
   initialVisibleCount?: number;
+  cardHeadingLevel?: 2 | 3;
 }) {
+  const CardHeading = `h${cardHeadingLevel}` as const;
   const [query, setQuery] = useState("");
   const [lens, setLens] = useState<LensKey>("all");
   const [catalogLayer, setCatalogLayer] = useState<ProductLayer | "all">("all");
@@ -218,7 +221,7 @@ export function HarnessLensExplorer({
             </div>
             <div className="lens-card-title">
               <HarnessLogo logo={harness.logo} name={harness.name} />
-              <h3><Link href={`/harnesses/${harness.slug}`}>{harness.name}</Link></h3>
+              <CardHeading><Link href={`/harnesses/${harness.slug}`}>{harness.name}</Link></CardHeading>
             </div>
             <p>{harness.tagline}</p>
             <dl>
@@ -245,7 +248,7 @@ export function HarnessLensExplorer({
 
       {filtered.length === 0 && (
         <div className="lens-empty card">
-          <h3>No profiles match these filters.</h3>
+          <CardHeading>No profiles match these filters.</CardHeading>
           <p>Try a product name, remove a capability filter, or clear the advanced filters.</p>
           <button
             className="button secondary"

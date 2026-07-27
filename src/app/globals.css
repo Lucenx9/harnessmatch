@@ -287,8 +287,8 @@ p { color: var(--muted); }
 .lens-card-head, .lens-card-foot { display: flex; align-items: center; justify-content: space-between; gap: 18px; color: var(--muted); font: 500 .63rem/1.4 var(--font-mono); }
 .lens-card-head { margin-bottom: 24px; }
 .lens-card-title { display: flex; align-items: center; gap: 13px; margin-bottom: 12px; }
-.lens-card h3 { margin: 0; font-size: 1.45rem; }
-.lens-card h3 a:hover { color: var(--accent-strong); }
+.lens-card h2, .lens-card h3 { margin: 0; font-size: 1.45rem; line-height: 1.2; letter-spacing: -0.025em; }
+.lens-card h2 a:hover, .lens-card h3 a:hover { color: var(--accent-strong); }
 .lens-card > p { max-width: 500px; min-height: 52px; margin-bottom: 23px; font-size: .87rem; }
 .lens-card dl { display: grid; grid-template-columns: .85fr 1.15fr; gap: 22px; margin: 0 0 25px; }
 .lens-card dl div { min-width: 0; }
@@ -298,7 +298,7 @@ p { color: var(--muted); }
 .lens-card-foot .text-link { min-height: 44px; font-family: var(--font-sans); }
 .lens-show-more { display: flex; justify-content: center; padding: 24px 0; border-bottom: 1px solid var(--line); }
 .lens-empty { margin-top: 24px; padding: 28px; }
-.lens-empty h3 { margin-bottom: 8px; }
+.lens-empty h2, .lens-empty h3 { margin-bottom: 8px; font-size: 1.25rem; line-height: 1.2; letter-spacing: -0.025em; }
 .lens-empty p { max-width: 620px; }
 .lens-method-note { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 22px 0; }
 .lens-method-note p { max-width: 740px; margin: 0; font-size: .78rem; }
