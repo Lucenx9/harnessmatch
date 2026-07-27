@@ -682,8 +682,18 @@ describe("recommendHarnesses", () => {
 
     expect(result).toBeDefined();
     expect(missingRequiredFeatures(result!.harness, answers)).toEqual([]);
-    expect(result?.harness.classification).toMatchObject({ state: "persistent-memory" });
+    expect(result?.harness.classification).toMatchObject({
+      orchestration: "delegated-subagents",
+      state: "persistent-memory",
+    });
+    expect(result?.harness.capabilities).toMatchObject({
+      flexibility: 4,
+      security: 4,
+      autonomy: 5,
+      automation: 5,
+    });
     expect(result?.compromises.join(" ")).toContain("OS sandboxing is disabled by default");
+    expect(result?.harness.tradeoffs.join(" ")).toContain("neutral check does not block merges");
     expect(getOperationalProfile("claude-code")).toEqual({
       context: "persistent",
       permissions: "policy",

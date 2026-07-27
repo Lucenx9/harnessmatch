@@ -45,7 +45,7 @@ export const harnesses: Harness[] = [
     name: "Claude Code",
     tagline: "Polished Claude-first agent across terminal, IDE, desktop, and web.",
     summary:
-      "A Claude-centric coding agent with interactive and non-interactive workflows, explicit permissions, native sandboxing, MCP, hooks, subagents, and subscription or API authentication.",
+      "A Claude-centric coding agent with interactive and non-interactive workflows, explicit permissions, native sandboxing, MCP, hooks, plugins, delegated agents, background sessions, and subscription or API authentication.",
     logo: {
       src: "/harnesses/claude-code.png",
       sourceUrl: "https://code.claude.com/docs/_mintlify/favicons/claude-code/pLsy-mRpNksna2sx/_generated/favicon/android-chrome-192x192.png",
@@ -91,9 +91,12 @@ export const harnesses: Harness[] = [
     tradeoffs: [
       "The local CLI is host-first: OS sandboxing is disabled by default, may fall back to unsandboxed execution when unavailable unless failIfUnavailable is enabled, and covers Bash subprocesses rather than every tool",
       "Worktrees isolate file edits rather than processes; browser control runs in the user's real Chrome profile and can access authenticated sites",
-      "Checkpoint rewind omits Bash-created file changes and remote side effects, while experimental agent teams add coordination and token overhead",
+      "Checkpoint rewind omits Bash-created file changes and remote side effects; agent teams and agent view are research previews, and parallel background sessions consume subscription quota independently",
       "Server-managed settings are not fail-closed on an uncached first launch unless forceRemoteSettingsRefresh is explicitly enabled",
       "Hosted model access is Claude-only, local open-weight models are unsupported, and Chrome integration requires a direct Anthropic plan",
+      "Managed Code Review is a separate Team and Enterprise GitHub surface whose neutral check does not block merges unless users add their own CI gate",
+      "Plugin marketplaces can install agents, hooks, MCP and LSP servers; organizations must configure marketplace allowlists when arbitrary sources are not acceptable",
+      "The optional unattended retry watchdog can retry capacity errors indefinitely and other transient failures for roughly three hours, so CI owners still need explicit time and spend boundaries",
       "The public GitHub repository exposes releases, plugins, examples, and issue automation rather than the proprietary core implementation or product test suite",
     ],
     setup: "Install Claude Code, authenticate with Claude or an enterprise platform, then run `claude` in a repository.",
@@ -101,6 +104,7 @@ export const harnesses: Harness[] = [
     evidence: [
       {
         title: "Claude Code overview",
+        topic: "product-surfaces",
         url: "https://code.claude.com/docs/en/overview",
         covers: "Supported surfaces, CI integrations, MCP, cloud sessions, and remote workflows",
         kind: "official-docs",
@@ -108,6 +112,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "How Claude Code works",
+        topic: "product-surfaces",
         url: "https://code.claude.com/docs/en/how-claude-code-works",
         covers: "Agentic loop, built-in tools, context management, and host interaction model",
         kind: "official-docs",
@@ -115,6 +120,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Platforms and integrations",
+        topic: "product-surfaces",
         url: "https://code.claude.com/docs/en/platforms",
         covers: "CLI, Desktop, IDE, web, mobile, Slack, and CI surface comparison",
         kind: "official-docs",
@@ -122,6 +128,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Product page",
+        topic: "product-surfaces",
         url: "https://claude.com/product/claude-code",
         covers: "Official product surfaces, install paths, Pro and Max plan inclusion, and feature announcements",
         kind: "official-announcement",
@@ -129,6 +136,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "CLI reference",
+        topic: "product-surfaces",
         url: "https://code.claude.com/docs/en/cli-reference",
         covers: "Terminal, print mode, permissions, MCP, and automation flags",
         kind: "official-docs",
@@ -136,6 +144,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Run programmatically",
+        topic: "product-surfaces",
         url: "https://code.claude.com/docs/en/headless",
         covers: "Non-interactive print mode, Agent SDK entrypoints, and headless automation constraints",
         kind: "official-docs",
@@ -143,6 +152,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Tools reference",
+        topic: "product-surfaces",
         url: "https://code.claude.com/docs/en/tools-reference",
         covers: "Built-in tool inventory, per-tool permission requirements, and execution behavior",
         kind: "official-docs",
@@ -150,6 +160,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Security",
+        topic: "execution-control",
         url: "https://code.claude.com/docs/en/security",
         covers: "Read-only defaults, sandbox Bash, working-directory boundary, prompt-injection and cloud safeguards",
         kind: "official-docs",
@@ -157,6 +168,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Sandboxing",
+        topic: "execution-control",
         url: "https://code.claude.com/docs/en/sandboxing",
         covers: "Opt-in OS sandbox, fail-open default, scope, escape hatch, platforms, and limitations",
         kind: "official-docs",
@@ -164,6 +176,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Sandbox environments",
+        topic: "execution-control",
         url: "https://code.claude.com/docs/en/sandbox-environments",
         covers: "Bash sandbox vs runtime vs devcontainer vs VM vs web isolation boundaries and enforcement",
         kind: "official-docs",
@@ -171,6 +184,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Development containers",
+        topic: "execution-control",
         url: "https://code.claude.com/docs/en/devcontainer",
         covers: "Container isolation, egress firewall example, managed policy, and unattended skip-permissions use",
         kind: "official-docs",
@@ -178,6 +192,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Permissions",
+        topic: "execution-control",
         url: "https://code.claude.com/docs/en/permissions",
         covers: "Tool rules, approval modes, managed restrictions, sandbox interaction, and bypass controls",
         kind: "official-docs",
@@ -185,6 +200,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Permission modes",
+        topic: "execution-control",
         url: "https://code.claude.com/docs/en/permission-modes",
         covers: "Manual, acceptEdits, plan, auto, dontAsk, and bypassPermissions tradeoffs and protected paths",
         kind: "official-docs",
@@ -192,6 +208,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Configure auto mode",
+        topic: "execution-control",
         url: "https://code.claude.com/docs/en/auto-mode-config",
         covers: "Classifier trusted infrastructure, hard deny rules, environment slots, and org overrides",
         kind: "official-docs",
@@ -199,6 +216,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Auto mode announcement",
+        topic: "execution-control",
         url: "https://claude.com/blog/auto-mode",
         covers: "Classifier-backed autonomy as a safer alternative to dangerously-skip-permissions",
         kind: "official-announcement",
@@ -206,13 +224,23 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Parallel agents",
+        topic: "orchestration-state",
         url: "https://code.claude.com/docs/en/agents",
         covers: "Subagents, agent view, experimental teams, batch delegation, and worktree choices",
         kind: "official-docs",
         verifiedAt: claudeCodeVerifiedAt,
       },
       {
+        title: "Agent view",
+        topic: "orchestration-state",
+        url: "https://code.claude.com/docs/en/agent-view",
+        covers: "Research-preview background session manager, parallel dispatch, worktrees, permission inheritance, local lifecycle, and quota scaling",
+        kind: "official-docs",
+        verifiedAt: claudeCodeVerifiedAt,
+      },
+      {
         title: "Subagents",
+        topic: "orchestration-state",
         url: "https://code.claude.com/docs/en/sub-agents",
         covers: "Specialized delegated contexts, per-agent tools, permissions, hooks, and worktrees",
         kind: "official-docs",
@@ -220,6 +248,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Agent teams",
+        topic: "orchestration-state",
         url: "https://code.claude.com/docs/en/agent-teams",
         covers: "Experimental coordinated sessions, shared tasks, messaging, permissions, and known overhead",
         kind: "official-docs",
@@ -227,6 +256,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Dynamic workflows",
+        topic: "orchestration-state",
         url: "https://code.claude.com/docs/en/workflows",
         covers: "Scripted multi-subagent orchestration for audits, migrations, and cross-checked research",
         kind: "official-docs",
@@ -234,6 +264,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Worktree isolation",
+        topic: "orchestration-state",
         url: "https://code.claude.com/docs/en/worktrees",
         covers: "Parallel session and subagent file isolation, base refs, cleanup, and boundaries",
         kind: "official-docs",
@@ -241,6 +272,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Checkpointing and rewind",
+        topic: "orchestration-state",
         url: "https://code.claude.com/docs/en/checkpointing",
         covers: "Automatic file checkpoints, rewind, conversation restore, and external-side-effect limitations",
         kind: "official-docs",
@@ -248,6 +280,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Session management",
+        topic: "orchestration-state",
         url: "https://code.claude.com/docs/en/sessions",
         covers: "Local session persistence, resume, naming, branching, export, and retention controls",
         kind: "official-docs",
@@ -255,6 +288,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Project memory",
+        topic: "orchestration-state",
         url: "https://code.claude.com/docs/en/memory",
         covers: "CLAUDE.md hierarchy, default-on local auto memory, storage, loading limits, and user audit",
         kind: "official-docs",
@@ -262,6 +296,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Hooks reference",
+        topic: "automation-extensions",
         url: "https://code.claude.com/docs/en/hooks",
         covers: "Lifecycle hooks, pre-tool enforcement, subagent events, transcripts, and managed controls",
         kind: "official-docs",
@@ -269,6 +304,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "MCP integration",
+        topic: "automation-extensions",
         url: "https://code.claude.com/docs/en/mcp",
         covers: "Local and remote MCP servers, authentication, scopes, resources, and security warnings",
         kind: "official-docs",
@@ -276,13 +312,23 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Managed MCP access",
+        topic: "enterprise-operations",
         url: "https://code.claude.com/docs/en/managed-mcp",
         covers: "Organization allowlists, denylists, and managed MCP server restrictions",
         kind: "official-docs",
         verifiedAt: claudeCodeVerifiedAt,
       },
       {
+        title: "Plugin marketplaces",
+        topic: "automation-extensions",
+        url: "https://code.claude.com/docs/en/plugin-marketplaces",
+        covers: "Plugin distribution, agents, hooks, MCP and LSP components, source pinning, updates, validation, and managed marketplace restrictions",
+        kind: "official-docs",
+        verifiedAt: claudeCodeVerifiedAt,
+      },
+      {
         title: "Chrome integration",
+        topic: "product-surfaces",
         url: "https://code.claude.com/docs/en/chrome",
         covers: "Beta visible-browser automation, site permissions, authenticated state, and plan restrictions",
         kind: "official-docs",
@@ -290,6 +336,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Computer use",
+        topic: "product-surfaces",
         url: "https://code.claude.com/docs/en/computer-use",
         covers: "CLI computer-use for native apps, screen control, and host GUI automation boundaries",
         kind: "official-docs",
@@ -297,6 +344,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Claude Code on the web",
+        topic: "product-surfaces",
         url: "https://code.claude.com/docs/en/claude-code-on-the-web",
         covers: "Durable cloud sessions, isolated VMs, network policy, credential proxying, handoff, and limits",
         kind: "official-docs",
@@ -304,6 +352,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Desktop application",
+        topic: "product-surfaces",
         url: "https://code.claude.com/docs/en/desktop",
         covers: "Desktop sessions, parallel worktrees, previews, computer use, and enterprise configuration",
         kind: "official-docs",
@@ -311,6 +360,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "VS Code extension",
+        topic: "product-surfaces",
         url: "https://code.claude.com/docs/en/vs-code",
         covers: "IDE integration, inline diffs, permission modes, and extension security and privacy",
         kind: "official-docs",
@@ -318,6 +368,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "JetBrains IDEs",
+        topic: "product-surfaces",
         url: "https://code.claude.com/docs/en/jetbrains",
         covers: "JetBrains plugin surfaces, selection context, and terminal-backed Claude Code sessions",
         kind: "official-docs",
@@ -325,6 +376,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Routines",
+        topic: "automation-extensions",
         url: "https://code.claude.com/docs/en/routines",
         covers: "Scheduled local and remote tasks, credentials, result delivery, and operational constraints",
         kind: "official-docs",
@@ -332,13 +384,23 @@ export const harnesses: Harness[] = [
       },
       {
         title: "GitHub Actions",
+        topic: "automation-extensions",
         url: "https://code.claude.com/docs/en/github-actions",
         covers: "CI automation, pull-request and issue triggers, authentication, permissions, and security",
         kind: "official-docs",
         verifiedAt: claudeCodeVerifiedAt,
       },
       {
+        title: "Managed Code Review",
+        topic: "automation-extensions",
+        url: "https://code.claude.com/docs/en/code-review",
+        covers: "Research-preview multi-agent pull-request review, verification and deduplication, triggers, plan scope, neutral checks, and optional user-defined CI gating",
+        kind: "official-docs",
+        verifiedAt: claudeCodeVerifiedAt,
+      },
+      {
         title: "GitLab CI/CD",
+        topic: "automation-extensions",
         url: "https://code.claude.com/docs/en/gitlab-ci-cd",
         covers: "GitLab pipeline automation, authentication, and CI security controls for Claude Code",
         kind: "official-docs",
@@ -346,6 +408,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Settings",
+        topic: "enterprise-operations",
         url: "https://code.claude.com/docs/en/settings",
         covers: "User and project settings hierarchy, sandbox keys, permission defaults, and managed delivery",
         kind: "official-docs",
@@ -353,6 +416,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Server-managed settings",
+        topic: "enterprise-operations",
         url: "https://code.claude.com/docs/en/server-managed-settings",
         covers: "Central policy delivery, precedence, fail-closed refresh option, audit hooks, and limitations",
         kind: "official-docs",
@@ -360,6 +424,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Admin setup",
+        topic: "enterprise-operations",
         url: "https://code.claude.com/docs/en/admin-setup",
         covers: "Enterprise rollout map for providers, managed policy, monitoring, and data handling",
         kind: "official-docs",
@@ -367,6 +432,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Authentication",
+        topic: "enterprise-operations",
         url: "https://code.claude.com/docs/en/authentication",
         covers: "Claude subscription, Console API, enterprise providers, credentials, and long-lived tokens",
         kind: "official-docs",
@@ -374,6 +440,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Feature availability",
+        topic: "enterprise-operations",
         url: "https://code.claude.com/docs/en/feature-availability",
         covers: "Feature matrix across subscription plans, Console, Bedrock, Agent Platform, and Foundry",
         kind: "official-docs",
@@ -381,6 +448,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Enterprise network configuration",
+        topic: "enterprise-operations",
         url: "https://code.claude.com/docs/en/network-config",
         covers: "Proxy, custom CA, mTLS, and required network domains for enterprise deployments",
         kind: "official-docs",
@@ -388,6 +456,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Large codebases",
+        topic: "enterprise-operations",
         url: "https://code.claude.com/docs/en/large-codebases",
         covers: "Monorepo and large-tree guidance with nested CLAUDE.md, sparse worktrees, and package focus",
         kind: "official-docs",
@@ -395,6 +464,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Usage monitoring",
+        topic: "enterprise-operations",
         url: "https://code.claude.com/docs/en/monitoring-usage",
         covers: "OpenTelemetry metrics and events, configuration, privacy boundaries, and dashboards",
         kind: "official-docs",
@@ -402,6 +472,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Data usage",
+        topic: "enterprise-operations",
         url: "https://code.claude.com/docs/en/data-usage",
         covers: "What Claude Code transmits, retention posture, telemetry services, and opt-out controls",
         kind: "official-docs",
@@ -409,6 +480,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Agent SDK overview",
+        topic: "automation-extensions",
         url: "https://code.claude.com/docs/en/agent-sdk/overview",
         covers: "Programmatic agent loop, tools, permissions, sessions, subagents, MCP, and deployment surface",
         kind: "official-docs",
@@ -416,13 +488,23 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Agent SDK secure deployment",
+        topic: "enterprise-operations",
         url: "https://code.claude.com/docs/en/agent-sdk/secure-deployment",
         covers: "Isolation, credential management, and network controls for hosted Agent SDK agents",
         kind: "official-docs",
         verifiedAt: claudeCodeVerifiedAt,
       },
       {
+        title: "Runtime errors and retries",
+        topic: "enterprise-operations",
+        url: "https://code.claude.com/docs/en/errors",
+        covers: "Runtime failure classes, automatic retries, unattended watchdog behavior, timeouts, partial responses, recovery, and provider-specific errors",
+        kind: "official-docs",
+        verifiedAt: claudeCodeVerifiedAt,
+      },
+      {
         title: "Claude Code changelog",
+        topic: "releases-code-audit",
         url: "https://code.claude.com/docs/en/changelog",
         covers: "Versioned release notes for features, permission modes, sandboxing, and surface changes",
         kind: "official-docs",
@@ -430,6 +512,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Claude Code 2.1.220 release",
+        topic: "releases-code-audit",
         url: "https://github.com/anthropics/claude-code/releases/tag/v2.1.220",
         covers: "Current public distribution release used for product-version verification",
         kind: "official-announcement",
@@ -437,6 +520,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Claude Code public repository",
+        topic: "releases-code-audit",
         url: "https://github.com/anthropics/claude-code/tree/7ef6eec9d9ba84ea6f233f26c45f1df5c5991843",
         covers: "Release artifacts, plugins, examples, support automation, license, and absent core source",
         kind: "official-repository",
@@ -444,6 +528,7 @@ export const harnesses: Harness[] = [
       },
       {
         title: "Anthropic sandbox runtime",
+        topic: "releases-code-audit",
         url: "https://github.com/anthropic-experimental/sandbox-runtime",
         covers: "Open Seatbelt and bubblewrap runtime for process filesystem and network isolation",
         kind: "official-repository",

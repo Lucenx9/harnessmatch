@@ -70,6 +70,13 @@ export type CapabilityScores = {
 
 export type EvidenceSource = {
   title: string;
+  topic?:
+    | "product-surfaces"
+    | "execution-control"
+    | "orchestration-state"
+    | "automation-extensions"
+    | "enterprise-operations"
+    | "releases-code-audit";
   url: string;
   covers: string;
   kind: "official-docs" | "official-repository" | "official-announcement";

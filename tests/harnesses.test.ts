@@ -265,8 +265,9 @@ describe("harness evidence ledger", () => {
     const caveats = claude.tradeoffs.join(" ");
 
     expect(claude.verifiedAt).toBe("2026-07-27");
-    expect(claude.evidence.length).toBeGreaterThanOrEqual(40);
+    expect(claude.evidence).toHaveLength(54);
     expect(claude.evidence.every((source) => source.verifiedAt === claude.verifiedAt)).toBe(true);
+    expect(claude.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([
       "https://code.claude.com/docs/en/overview",
@@ -285,6 +286,7 @@ describe("harness evidence ledger", () => {
       "https://code.claude.com/docs/en/auto-mode-config",
       "https://claude.com/blog/auto-mode",
       "https://code.claude.com/docs/en/agents",
+      "https://code.claude.com/docs/en/agent-view",
       "https://code.claude.com/docs/en/sub-agents",
       "https://code.claude.com/docs/en/agent-teams",
       "https://code.claude.com/docs/en/workflows",
@@ -295,6 +297,7 @@ describe("harness evidence ledger", () => {
       "https://code.claude.com/docs/en/hooks",
       "https://code.claude.com/docs/en/mcp",
       "https://code.claude.com/docs/en/managed-mcp",
+      "https://code.claude.com/docs/en/plugin-marketplaces",
       "https://code.claude.com/docs/en/chrome",
       "https://code.claude.com/docs/en/computer-use",
       "https://code.claude.com/docs/en/claude-code-on-the-web",
@@ -303,6 +306,7 @@ describe("harness evidence ledger", () => {
       "https://code.claude.com/docs/en/jetbrains",
       "https://code.claude.com/docs/en/routines",
       "https://code.claude.com/docs/en/github-actions",
+      "https://code.claude.com/docs/en/code-review",
       "https://code.claude.com/docs/en/gitlab-ci-cd",
       "https://code.claude.com/docs/en/settings",
       "https://code.claude.com/docs/en/server-managed-settings",
@@ -315,6 +319,7 @@ describe("harness evidence ledger", () => {
       "https://code.claude.com/docs/en/data-usage",
       "https://code.claude.com/docs/en/agent-sdk/overview",
       "https://code.claude.com/docs/en/agent-sdk/secure-deployment",
+      "https://code.claude.com/docs/en/errors",
       "https://code.claude.com/docs/en/changelog",
       "https://github.com/anthropics/claude-code/releases/tag/v2.1.220",
       "https://github.com/anthropics/claude-code/tree/7ef6eec9d9ba84ea6f233f26c45f1df5c5991843",
@@ -323,7 +328,20 @@ describe("harness evidence ledger", () => {
     expect(caveats).toContain("OS sandboxing is disabled by default");
     expect(caveats).toContain("Worktrees isolate file edits rather than processes");
     expect(caveats).toContain("forceRemoteSettingsRefresh");
+    expect(caveats).toContain("research previews");
+    expect(caveats).toContain("neutral check");
+    expect(caveats).toContain("marketplace allowlists");
+    expect(caveats).toContain("roughly three hours");
     expect(caveats).toContain("proprietary core implementation");
+    expect(claude.capabilities).toEqual({
+      simplicity: 5,
+      flexibility: 4,
+      security: 4,
+      autonomy: 5,
+      automation: 5,
+      largeRepo: 5,
+      humanControl: 5,
+    });
   });
 
   it("pins Codex's multi-surface controls without inventing checkpoint recovery", () => {

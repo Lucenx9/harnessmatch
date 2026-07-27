@@ -32,8 +32,11 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://code.claude.com/docs/en/hooks",
       "https://code.claude.com/docs/en/monitoring-usage",
       "https://code.claude.com/docs/en/checkpointing",
+      "https://code.claude.com/docs/en/agent-view",
+      "https://code.claude.com/docs/en/code-review",
+      "https://code.claude.com/docs/en/errors",
     ],
-    "Auto memory persists local project knowledge, JSONL transcripts and optional OpenTelemetry improve traceability, and policy plus permission modes and hooks can gate tools. The local Bash sandbox remains opt-in and fail-open by default and does not isolate file tools, MCP, or hooks unless a broader runtime, container, or web VM is used; checkpoint recovery excludes Bash-created changes and remote side effects.",
+    "Auto memory persists local project knowledge, JSONL transcripts and optional OpenTelemetry improve traceability, and policy plus permission modes and hooks can gate tools. Agent view adds local research-preview background sessions, while managed Code Review reports a neutral check rather than an enforced workflow gate. The local Bash sandbox remains opt-in and fail-open by default and does not isolate file tools, MCP, or hooks unless a broader runtime, container, or web VM is used; checkpoint recovery excludes Bash-created changes and remote side effects, and unattended retries still need external time and spend limits.",
   ),
   codex: record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },
