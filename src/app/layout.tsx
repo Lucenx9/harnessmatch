@@ -59,9 +59,9 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og.png",
-        width: 1731,
-        height: 909,
+        url: "/og.jpg",
+        width: 1200,
+        height: 630,
         alt: "HarnessMatch coding harness workflow fit explorer.",
       },
     ],
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "HarnessMatch - Coding harness workflow fit",
     description: "An interactive, source-backed comparison of AI coding harnesses by workflow fit.",
-    images: ["/og.png"],
+    images: ["/og.jpg"],
   },
 };
 

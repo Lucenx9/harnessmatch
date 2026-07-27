@@ -103,7 +103,7 @@ Semantic success, warning, and danger colors are reserved for actual state. They
 
 - The homepage hero is deliberately type-led and uses no media asset
 - Product identity comes from the HarnessMatch mark and first-party product logos
-- Social asset: `/public/og.png`
+- Social asset: `/public/og.jpg` (1200x630, kept under 200 KB so link previews are not skipped)
 
 ## Avoid
 
