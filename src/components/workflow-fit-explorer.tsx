@@ -4,9 +4,13 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
 import { HarnessLogo } from "@/components/harness-logo";
+import { recommendationWeights } from "@/lib/recommendation-config";
 import type {
+  EligibilityFailure,
   FeatureKey,
   HarnessLogo as HarnessLogoData,
+  RankRobustness,
+  Recommendation,
   RecommendationAnswers,
 } from "@/lib/types";
 
@@ -16,8 +20,22 @@ export type WorkflowFitResult = {
   name: string;
   logo: HarnessLogoData;
   score: number;
-  blockers: FeatureKey[];
+  fitBand: Recommendation["fitBand"];
+  robustness: RankRobustness;
+  evidenceState: string;
+  evidenceCoverage: "high" | "medium" | "limited";
+  evidenceSourceCount: number;
   verifiedAt: string;
+  why: string;
+  watchOut: string;
+};
+
+export type WorkflowExcludedResult = {
+  id: string;
+  slug: string;
+  name: string;
+  logo: HarnessLogoData;
+  failures: EligibilityFailure[];
 };
 
 export type WorkflowFitScenario = {
@@ -26,6 +44,7 @@ export type WorkflowFitScenario = {
   description: string;
   answers: RecommendationAnswers;
   results: WorkflowFitResult[];
+  excluded: WorkflowExcludedResult[];
 };
 
 const interfaceLabels: Record<RecommendationAnswers["interface"], string> = {
@@ -38,38 +57,43 @@ const interfaceLabels: Record<RecommendationAnswers["interface"], string> = {
 const priorityLabels: Record<RecommendationAnswers["priority"], string> = {
   simplicity: "Simplicity",
   flexibility: "Flexibility",
-  security: "Security",
+  security: "Execution safety",
   autonomy: "Autonomy",
 };
 
 const modelLabels: Record<RecommendationAnswers["modelAccess"], string> = {
   subscription: "Subscription",
-  "model-agnostic": "Model agnostic",
+  "model-agnostic": "APIs and multiple models",
   local: "Local models",
   enterprise: "Enterprise routing",
 };
 
 const controlLabels: Record<RecommendationAnswers["control"], string> = {
-  "approval-heavy": "Approval heavy",
-  balanced: "Balanced",
-  "hands-off": "Hands off",
+  "approval-heavy": "Review most actions",
+  balanced: "Review risky actions",
+  "hands-off": "Let it run",
 };
 
-const repoLabels: Record<RecommendationAnswers["repoContext"], string> = {
-  small: "Small repository",
-  large: "Large repository",
-  ci: "CI and automation",
-  "multi-agent": "Multi-agent",
+const scopeLabels: Record<RecommendationAnswers["changeScope"], string> = {
+  focused: "Focused change",
+  "cross-file": "Cross-file",
+  "large-repo": "Repository-wide",
+};
+
+const operatingModeLabels: Record<RecommendationAnswers["operatingMode"], string> = {
+  interactive: "Work together",
+  ci: "Run unattended",
+  parallel: "Split across agents",
 };
 
 const featureLabels: Record<FeatureKey, string> = {
-  mcp: "MCP",
+  mcp: "External tools (MCP)",
   localModels: "Local models",
-  subagents: "Subagents",
-  headless: "Headless",
-  browser: "Browser",
-  sandbox: "Sandbox",
-  checkpoints: "Checkpoints",
+  subagents: "Agent parallelism",
+  headless: "Runs without an open UI",
+  browser: "Browser control",
+  sandbox: "Isolated execution",
+  checkpoints: "Undo file changes",
 };
 
 function escapeCsv(value: string | number) {
@@ -78,14 +102,36 @@ function escapeCsv(value: string | number) {
 
 function scenarioCsv(scenario: WorkflowFitScenario) {
   const rows = [
-    ["scenario", "rank", "harness", "fit_points", "required_gaps", "verified_at"],
+    ["scenario", "status", "rank", "harness", "reference_preference_index", "fit_band", "top_3_sensitivity_percent", "mean_rank", "why", "evidence_state", "evidence_sources", "verified_at", "failed_gates"],
     ...scenario.results.map((result, index) => [
       scenario.label,
+      "eligible",
       index + 1,
       result.name,
       result.score,
-      result.blockers.map((feature) => featureLabels[feature]).join(", "),
+      result.fitBand,
+      result.robustness.topThreeFrequency,
+      result.robustness.meanRank,
+      result.why,
+      result.evidenceState,
+      result.evidenceSourceCount,
       result.verifiedAt,
+      "",
+    ]),
+    ...scenario.excluded.map((result) => [
+      scenario.label,
+      "not-eligible-on-current-evidence",
+      "",
+      result.name,
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      result.failures.map((failure) => failure.label).join(", "),
     ]),
   ];
 
@@ -100,6 +146,8 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
   if (!selected) return null;
 
   const csvHref = `data:text/csv;charset=utf-8,${encodeURIComponent(scenarioCsv(selected))}`;
+  const chartResults = selected.results.slice(0, 7);
+  const totalProducts = selected.results.length + selected.excluded.length;
 
   const selectTab = (index: number) => {
     const next = scenarios[index];
@@ -129,17 +177,16 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
 
   const topResult = selected.results[0];
   const chartSummary = topResult
-    ? `${topResult.name} has the highest workflow fit for ${selected.label} at ${topResult.score} points out of 100.`
+    ? `${topResult.name} is the strongest match for this workflow and stays in the top three in ${topResult.robustness.topThreeFrequency} percent of tested priority variations.`
     : `No active harness data is available for ${selected.label}.`;
 
   return (
     <div className="workflow-tool">
       <div className="workflow-tool-header">
         <div>
-          <h2 id="workflow-fit-title">Workflow fit explorer</h2>
-          <p>Select a concrete setup. The bars use sourced harness capabilities and the published recommendation weights.</p>
+          <h2 id="workflow-fit-title">Choose a workflow</h2>
+          <p>Start with a familiar setup. See the strongest match and what to check before choosing.</p>
         </div>
-        <span className="workflow-score-unit">Fit points / 100</span>
       </div>
 
       <div className="workflow-tabs" role="tablist" aria-label="Workflow scenarios">
@@ -167,40 +214,50 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
         role="tabpanel"
         aria-labelledby={`workflow-tab-${selected.id}`}
       >
-        <div className="workflow-scenario-copy">
-          <h3>{selected.label}</h3>
+        <div className="workflow-scenario-overview">
           <p>{selected.description}</p>
         </div>
 
-        <dl className="workflow-factors">
+        <dl className="workflow-quick-facts" aria-label="Key workflow assumptions">
           <div><dt>Interface</dt><dd>{interfaceLabels[selected.answers.interface]}</dd></div>
-          <div><dt>Priority</dt><dd>{priorityLabels[selected.answers.priority]}</dd></div>
           <div><dt>Model access</dt><dd>{modelLabels[selected.answers.modelAccess]}</dd></div>
           <div><dt>Control</dt><dd>{controlLabels[selected.answers.control]}</dd></div>
-          <div><dt>Repository</dt><dd>{repoLabels[selected.answers.repoContext]}</dd></div>
-          <div className="workflow-required-factor">
-            <dt>Required</dt>
-            <dd>{selected.answers.requiredFeatures.map((feature) => featureLabels[feature]).join(", ") || "None"}</dd>
-          </div>
         </dl>
 
+        {topResult && (
+          <section className="workflow-decision-summary" aria-label={`Recommended starting point: ${topResult.name}`}>
+            <div className="workflow-decision-product">
+              <span>Start here</span>
+              <Link href={`/harnesses/${topResult.slug}`}>
+                <HarnessLogo logo={topResult.logo} name={topResult.name} size="small" />
+                <strong>{topResult.name}</strong>
+              </Link>
+              <small>{topResult.fitBand} workflow match. Top three in {topResult.robustness.topThreeFrequency}% of priority variations.</small>
+            </div>
+            <div>
+              <span>Why it fits</span>
+              <p>{topResult.why}</p>
+            </div>
+            <div>
+              <span>Check before choosing</span>
+              <p>{topResult.watchOut}</p>
+            </div>
+          </section>
+        )}
+
         <p className="sr-only" id="workflow-chart-summary">{chartSummary}</p>
-        <div className="workflow-chart" aria-labelledby="workflow-fit-title workflow-chart-summary">
+        <section className="workflow-chart" aria-labelledby="workflow-fit-title workflow-chart-summary">
           <div className="workflow-chart-axis" aria-hidden="true">
             <span>Harness</span>
             <span className="workflow-axis-scale"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></span>
-            <span>Fit</span>
+            <span>Stays top 3</span>
           </div>
           <ol className="workflow-chart-list">
-            {selected.results.map((result) => {
-              const gapLabel = result.blockers.length === 0
-                ? "No required capability gaps"
-                : `${result.blockers.length} required ${result.blockers.length === 1 ? "gap" : "gaps"}: ${result.blockers.map((feature) => featureLabels[feature]).join(", ")}`;
-
+            {chartResults.map((result) => {
               return (
                 <li key={result.id}>
                   <Link
-                    className={`workflow-chart-row${result.blockers.length > 0 ? " has-gaps" : ""}`}
+                    className="workflow-chart-row"
                     href={`/harnesses/${result.slug}`}
                     aria-describedby={`workflow-result-${selected.id}-${result.id}`}
                   >
@@ -208,55 +265,115 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
                       <HarnessLogo logo={result.logo} name={result.name} size="small" />
                       <span>
                         <strong>{result.name}</strong>
-                        <small>{result.blockers.length > 0 ? `${result.blockers.length} required ${result.blockers.length === 1 ? "gap" : "gaps"}` : "Requirements met"}</small>
+                        <small>{result.fitBand} match · Evidence: {result.evidenceState}</small>
                       </span>
                     </span>
                     <span className="workflow-plot" aria-hidden="true">
                       <span
                         className="workflow-bar-fill"
-                        style={{ transform: `scaleX(${result.score / 100})` }}
+                        style={{ transform: `scaleX(${result.robustness.topThreeFrequency / 100})` }}
                       />
                     </span>
-                    <strong className="workflow-score">{result.score}</strong>
+                    <strong className="workflow-score">{result.robustness.topThreeFrequency}%</strong>
                   </Link>
                   <span className="sr-only" id={`workflow-result-${selected.id}-${result.id}`}>
-                    {result.score} fit points out of 100. {gapLabel}. Opens the evidence profile.
+                    {result.fitBand} match. Top three in {result.robustness.topThreeFrequency} percent of 512 tested priority variations, with rank range {result.robustness.bestRank} to {result.robustness.worstRank}. Every must-have has current supporting documentation. Evidence state: {result.evidenceState}. Opens the evidence profile.
                   </span>
                 </li>
               );
             })}
           </ol>
+        </section>
+
+        <div className="workflow-progressive-disclosures">
+          <details className="workflow-assumptions">
+            <summary>
+              <strong>View all 7 assumptions</strong>
+              <span>Priority, scope, work mode, and must-haves</span>
+            </summary>
+            <dl className="workflow-factors">
+              <div><dt>Interface</dt><dd>{interfaceLabels[selected.answers.interface]}</dd></div>
+              <div><dt>Priority</dt><dd>{priorityLabels[selected.answers.priority]}</dd></div>
+              <div><dt>Model access</dt><dd>{modelLabels[selected.answers.modelAccess]}</dd></div>
+              <div><dt>Control</dt><dd>{controlLabels[selected.answers.control]}</dd></div>
+              <div><dt>Change scope</dt><dd>{scopeLabels[selected.answers.changeScope]}</dd></div>
+              <div><dt>Operating mode</dt><dd>{operatingModeLabels[selected.answers.operatingMode]}</dd></div>
+              <div className="workflow-required-factor">
+                <dt>Required</dt>
+                <dd>{selected.answers.requiredFeatures.map((feature) => featureLabels[feature]).join(", ") || "None"}</dd>
+              </div>
+            </dl>
+          </details>
+
+          <details className="workflow-explainer">
+            <summary>
+              <strong>How this ranking works</strong>
+              <span>Ordering, stability, and deal-breakers</span>
+            </summary>
+            <section className="workflow-reading-key" aria-label="How to read the ranking">
+              <p><strong>Why this order</strong><span>Tools that fit your priorities appear first.</span></p>
+              <p><strong>Stability</strong><span>How often a tool stays near the top when your priorities change slightly.</span></p>
+              <p><strong>Deal-breakers</strong><span>Tools without current documentation for one are left out instead of receiving a lower score.</span></p>
+            </section>
+            <p className="workflow-method-copy">
+              We first remove tools without current documentation for a must-have. The remaining products are ordered using published reference weights: main priority {recommendationWeights.priority}, approval style {recommendationWeights.control}, change size {recommendationWeights.changeScope}, and work mode {recommendationWeights.operatingMode}. We then vary those priorities 512 ways. The percentage is a stability check, not a task success rate.
+            </p>
+          </details>
         </div>
 
         <div className="workflow-tool-footer">
-          <p><strong>Published weights:</strong> interface 20, priority 20, model access 20, control 15, repository context 15, required features 10. Missing requirements subtract 12 points each.</p>
           <div className="workflow-tool-links">
+            <Link className="text-link" href="/recommend">Answer 7 quick questions</Link>
             <a className="text-link" href={csvHref} download={`harnessmatch-${selected.id}.csv`}>Download CSV</a>
             <Link className="text-link" href="/methodology">Methodology</Link>
           </div>
         </div>
 
-        <details className="workflow-table-disclosure">
-          <summary>View accessible data table</summary>
-          <div className="workflow-table-scroll">
-            <table>
-              <caption>Workflow fit points for {selected.label}</caption>
-              <thead>
-                <tr><th scope="col">Rank</th><th scope="col">Harness</th><th scope="col">Fit points</th><th scope="col">Required gaps</th></tr>
-              </thead>
-              <tbody>
-                {selected.results.map((result, index) => (
-                  <tr key={result.id}>
-                    <td>{index + 1}</td>
-                    <th scope="row"><Link href={`/harnesses/${result.slug}`}>{result.name}</Link></th>
-                    <td>{result.score}</td>
-                    <td>{result.blockers.length > 0 ? result.blockers.map((feature) => featureLabels[feature]).join(", ") : "None"}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+        <details className="complete-ranking ranking-disclosure">
+          <summary className="complete-ranking-header">
+            <div>
+              <h3>See all {selected.results.length} eligible harnesses</h3>
+              <p>{selected.results.length} of {totalProducts} active harnesses have documented support for every must-have in this workflow.</p>
+            </div>
+            <span className="ranking-disclosure-label" aria-hidden="true" />
+          </summary>
+          <ol className="ranking-list">
+            {selected.results.map((result, index) => (
+              <li key={result.id}>
+                <Link className="ranking-row" href={`/harnesses/${result.slug}`}>
+                  <span className="ranking-rank">{index + 1}</span>
+                  <span className="ranking-identity">
+                    <HarnessLogo logo={result.logo} name={result.name} size="small" />
+                    <strong>{result.name}</strong>
+                  </span>
+                  <span className="ranking-why">{result.why}</span>
+                  <strong className="ranking-score">Top 3 in {result.robustness.topThreeFrequency}%</strong>
+                  <span className="ranking-evidence">{result.fitBand} match · average position {result.robustness.meanRank} · {result.evidenceState}</span>
+                </Link>
+              </li>
+            ))}
+          </ol>
         </details>
+
+        {selected.excluded.length > 0 && (
+          <details className="ranking-exclusions">
+            <summary>Why {selected.excluded.length} harnesses do not match</summary>
+            <p>These products are not ranked because at least one must-have is not currently documented.</p>
+            <ul className="exclusion-list">
+              {selected.excluded.map((result) => (
+                <li key={result.id}>
+                  <Link href={`/harnesses/${result.slug}`}>
+                    <span className="ranking-identity">
+                      <HarnessLogo logo={result.logo} name={result.name} size="small" />
+                      <strong>{result.name}</strong>
+                    </span>
+                    <span>Not documented: {result.failures.map((failure) => failure.label).join(", ")}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </details>
+        )}
       </div>
     </div>
   );

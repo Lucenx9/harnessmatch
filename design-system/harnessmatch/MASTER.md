@@ -22,7 +22,7 @@ This file is the visual source of truth for HarnessMatch. Page files in `pages/`
 - HarnessMatch mark: two precision connectors interlock into an H-shaped silhouette, expressing both a wiring harness and a successful match
 - Primary asset: `/public/brand/harnessmatch-mark.png`; favicon and compact derivatives live beside it
 - Wordmark: Geist, 720 weight, with the mark always preceding the name
-- Product logos: downloaded from each vendor's official site or first-party repository and recorded in `src/data/harnesses.ts`
+- Product logos: first-party assets from each vendor's official site or repository, with the asset source recorded in `src/data/harnesses.ts`
 - Product marks keep their original colors and sit on the same neutral light tile in both themes, avoiding trademark recoloring and dark-mode contrast failures
 - When a product name and logo appear together, the image is decorative and the adjacent text provides the accessible name
 
@@ -62,9 +62,20 @@ Semantic success, warning, and danger colors are reserved for actual state. They
 
 - Homepage opens with a compact analysis intro and live dataset status, not a promotional hero
 - The first interactive surface is a workflow-fit chart with explicit assumptions, direct labels, and published weights
+- A second analytical surface offers separate operational-readiness, public-code-auditability, and measured-system rankings
 - Workflow-fit bars visualize deterministic recommendation points, never model intelligence or benchmark performance
-- Every chart has a readable table alternative and downloadable CSV data
-- The homepage directory uses capability lenses, visible result counts, and methodology copy next to the data
+- Required workflow capabilities are eligibility gates. A compatible capability does not add a hidden score bonus
+- Operational fit is evaluated across context management, permission posture, verification, observability, and recovery; any unknown scored posture leaves that comparison unranked
+- Evidence coverage is displayed beside fit and never blended into the fit score
+- Operational readiness uses five visible 20% weights and supports single-axis ranking
+- Code auditability is tied to a pinned public commit; support-only repositories remain unranked
+- Benchmark bars represent exact model-harness configurations and always expose effort, attempts, cost, date, integrity adjustment, and source
+- Missing public evidence is shown as unavailable, never converted into a zero
+- Every chart has a complete readable ranking and downloadable CSV data
+- Compatible products stay ranked; products that miss a hard requirement appear separately and remain unranked
+- The homepage directory uses capability lenses, visible result counts, an eight-profile initial view, and methodology copy next to the data
+- Scientific findings are translated into plain-language decision rules with direct links to the underlying papers
+- AI-assisted research may accelerate discovery, extraction, and cross-checking, but model output never counts as evidence; every published product claim requires an admitted source and verification date
 - Research-product patterns may increase information density, but must never imply a generic model or harness leaderboard
 - Marketing proof, principle, and repeated CTA sections do not belong on the homepage
 - Catalog previews use a two-column, filterable directory layout without implying a ranking

@@ -1,14 +1,34 @@
 # HarnessMatch
 
-An independent, workflow-aware guide for choosing an AI coding harness.
+An evidence-backed decision tool for choosing an AI coding harness by workflow fit.
+
+**Live site:** [harnessmatch.vercel.app](https://harnessmatch.vercel.app)
 
 ## What is included
 
-- Interactive recommendation quiz with explainable scoring
-- Side-by-side comparison for up to four harnesses
-- Static profile pages for Claude Code, Codex, OpenCode, Aider, OpenHands, goose, and Cline
-- Transparent methodology and source ledger
-- Static export: no database or server required for the MVP
+- Workflow recommender with hard eligibility gates and visible preference weights
+- Sensitivity analysis that reports rank robustness without presenting it as task-success probability
+- Side-by-side harness comparison and source-backed product profiles
+- Separate views for workflow fit, architecture, public-code artifacts, and admitted benchmark configurations
+- Claim-level evidence ledger with first-party sources and verification dates
+- Public methodology, validation protocol, scientific references, and benchmark admission policy
+- Static Next.js export with Vercel Web Analytics
+
+HarnessMatch keeps model capability, harness capability, documentation coverage, and measured performance separate. It is not a universal model or product leaderboard.
+
+## Research policy
+
+Language models may assist discovery, extraction, structuring, and cross-checking, but model output is never treated as evidence. Published product claims require an admitted underlying source and a verification date. See the [methodology](https://harnessmatch.vercel.app/methodology) and [data ledger](https://harnessmatch.vercel.app/data).
+
+Benchmark results are admitted only when the model, exact harness version, benchmark version, budget, sandbox or environment, attempts, date, cost, and primary source are recorded.
+
+## Technical stack
+
+- Next.js App Router and static export
+- React and TypeScript
+- Tailwind CSS v4 plus project-level CSS
+- Repository-backed data and deterministic recommendation logic
+- Vitest for scoring, classification, evidence, and validation invariants
 
 ## Run locally
 
@@ -29,10 +49,18 @@ npm run build
 
 The static site is written to `out/` after a successful build.
 
-## Editorial policy
+## Main extension points
 
-HarnessMatch does not convert vendor claims into benchmark scores. Capability data is sourced from first-party documentation and includes a verification date. Performance leaderboards should only be added when runs are reproducible and compare the same task set, model, budget, sandbox, and attempt policy.
+- Product and source records: `src/data/harnesses.ts`
+- Recommendation logic: `src/lib/recommendation.ts`
+- Visible weights and thresholds: `src/lib/recommendation-config.ts`
+- Recommender questions: `src/components/recommender.tsx`
+- Methodology: `src/app/methodology/page.tsx`
 
-## Project status
+## Contribution rules
 
-This is an MVP data model and product shell. The initial scores are transparent editorial fit ratings, not claims of objective model intelligence.
+- Keep model capability separate from harness capability.
+- Every capability claim needs a first-party source and verification date.
+- Archived tools must not appear in recommender results.
+- Scoring changes require tests describing the intended workflow outcome.
+- Keep weights and provisional value functions visible in code and methodology copy.

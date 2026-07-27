@@ -13,7 +13,7 @@ export default function RecommendPage() {
         <div className="page-intro centered">
           <span className="eyebrow">Workflow-aware recommendation</span>
           <h1>Find your best-fit coding harness.</h1>
-          <p>Six concrete questions. Transparent scoring. No signup and no model-generated verdict.</p>
+          <p>Seven concrete questions. Transparent scoring. No signup and no model-generated verdict.</p>
         </div>
         <Recommender />
       </div>

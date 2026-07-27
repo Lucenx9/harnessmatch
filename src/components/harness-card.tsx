@@ -8,7 +8,7 @@ export function HarnessCard({ harness, compact = false }: { harness: Harness; co
     <article className={`harness-card ${compact ? "harness-card-compact" : "card"}`}>
       <div className="card-topline">
         <span className="pill">{harnessRoleLabels[harness.classification.role]}</span>
-        <span className="status active">{harness.status}</span>
+        <span className={`status ${harness.status}`}>{harness.status}</span>
       </div>
       <div className="harness-title-row">
         <HarnessLogo logo={harness.logo} name={harness.name} />
@@ -26,7 +26,7 @@ export function HarnessCard({ harness, compact = false }: { harness: Harness; co
         </div>
       )}
       <div className="card-footer-row">
-        <span>{harness.evidence.length} primary sources<br />Checked {harness.verifiedAt}</span>
+        <span>{harness.evidence.length} primary sources<br />Product record checked {harness.verifiedAt}</span>
         <Link className="text-link" href={`/harnesses/${harness.slug}`}>
           View profile
         </Link>

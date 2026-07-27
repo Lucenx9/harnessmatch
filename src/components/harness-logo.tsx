@@ -26,6 +26,7 @@ export function HarnessLogo({ logo, name, size = "medium", priority = false }: H
         width={dimension}
         height={dimension}
         priority={priority}
+        referrerPolicy={logo.src.startsWith("http") ? "no-referrer" : undefined}
       />
     </span>
   );

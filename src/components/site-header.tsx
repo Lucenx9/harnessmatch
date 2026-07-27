@@ -27,7 +27,6 @@ export function SiteHeader() {
           <summary>Menu</summary>
           <nav aria-label="Mobile navigation">
             <NavLinks />
-            <Link href="/benchmarks">Benchmark policy</Link>
           </nav>
         </details>
         <ThemeToggle />

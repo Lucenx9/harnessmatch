@@ -1,75 +1,291 @@
 import type { Metadata } from "next";
+import { benchmarkRuns } from "@/data/benchmark-runs";
+import { harnesses } from "@/data/harnesses";
+import {
+  repositoryArtifactLabels,
+  repositoryAudits,
+} from "@/data/repository-audits";
 import { researchSources } from "@/data/research";
+import { researchProcessDisclosure } from "@/data/research-process";
+import {
+  contentValidityPlan,
+  interRaterValidationPlan,
+  userValidationPlan,
+} from "@/data/validation-plan";
 import { classificationAxes } from "@/lib/harness-classification";
+import { architectureAxisLabels } from "@/lib/evaluation";
+import {
+  capabilityAxisLabels,
+  capabilityLevelAnchors,
+  capabilityValueFunction,
+  changeScopeWeights,
+  controlStyleWeights,
+  evidenceCoverageThresholds,
+  operatingModeWeights,
+  operationalPostureScores,
+  recommendationSensitivity,
+  recommendationWeights,
+} from "@/lib/recommendation-config";
 
-export const metadata: Metadata = {
-  title: "Methodology",
-};
+export const metadata: Metadata = { title: "Methodology" };
+
+const methodologyVersion = "2.3 · 2026-07-27";
+const capabilityLevels = [1, 2, 3, 4, 5] as const;
+const methodologySections = [
+  ["decision-question", "Decision question"],
+  ["eligibility", "Eligibility gates"],
+  ["preference-model", "Preference model"],
+  ["sensitivity", "Sensitivity"],
+  ["architecture", "Architecture layers"],
+  ["evidence-states", "Evidence states"],
+  ["research-process", "Research process"],
+  ["public-code", "Public-code artifacts"],
+  ["measured-systems", "Measured systems"],
+  ["classification", "Classification"],
+  ["validation", "Validation status"],
+  ["value-tables", "Internal value tables"],
+  ["scientific-basis", "Scientific basis"],
+] as const;
 
 const weights = [
-  ["Interface fit", "20%"],
-  ["Top priority", "20%"],
-  ["Model-access fit", "20%"],
-  ["Control style", "15%"],
-  ["Repository context", "15%"],
-  ["Required features", "10%"],
+  ["Top priority", `${recommendationWeights.priority}%`],
+  ["Control style", `${recommendationWeights.control}%`],
+  ["Change scope", `${recommendationWeights.changeScope}%`],
+  ["Operating mode", `${recommendationWeights.operatingMode}%`],
 ];
+
+const validationSampleNames = interRaterValidationPlan.sampleHarnessIds.map((id) => (
+  harnesses.find((harness) => harness.id === id)?.name ?? id
+));
+
+function label(value: string) {
+  return value
+    .replaceAll(/([a-z])([A-Z])/g, "$1 $2")
+    .replaceAll("-", " ")
+    .replace(/^./, (character) => character.toUpperCase());
+}
+
+function maturityLabel(maturity: (typeof researchSources)[number]["maturity"], venue: string) {
+  if (maturity === "peer-reviewed") return venue;
+  if (maturity === "preprint") return `${venue}, preprint`;
+  if (maturity === "standard") return `${venue}, standard`;
+  return `${venue}, guidance`;
+}
+
+function WeightGroup({ title, values }: { title: string; values: Record<string, Record<string, number>> }) {
+  return (
+    <section className="method-weight-group">
+      <h3>{title}</h3>
+      {Object.entries(values).map(([mode, factors]) => (
+        <div className="method-weight-row" key={mode}>
+          <strong>{label(mode)}</strong>
+          <span>{Object.entries(factors).map(([factor, weight]) => `${label(factor)} ${weight}%`).join(", ")}</span>
+        </div>
+      ))}
+    </section>
+  );
+}
 
 export default function MethodologyPage() {
   return (
     <section className="section page-section">
       <div className="shell narrow-shell prose-page">
         <div className="page-intro">
-          <span className="eyebrow">Methodology</span>
-          <h1>How the recommendation score works.</h1>
-          <p>The engine is deterministic TypeScript. It does not call an LLM and it does not learn from vendor sponsorship.</p>
+          <span className="eyebrow">Methodology {methodologyVersion}</span>
+          <h1>A decision model, not a universal leaderboard.</h1>
+          <p>HarnessMatch applies Goal-Question-Metric, hard eligibility gates, multi-criteria decision analysis, sensitivity testing, claim-level evidence states, and configuration-level benchmarks. Each layer answers a different question.</p>
         </div>
 
-        <section className="prose-section">
-          <h2>Fit score</h2>
-          <p>Each harness has a versioned capability profile. Your answers determine the weights applied to that profile.</p>
-          <div className="weight-list">
-            {weights.map(([label, value]) => (
-              <div key={label}><span>{label}</span><strong>{value}</strong></div>
+        <nav className="methodology-toc" aria-label="Methodology sections">
+          <strong>On this page</strong>
+          <div>
+            {methodologySections.map(([id, sectionLabel]) => (
+              <a href={`#${id}`} key={id}>{sectionLabel}</a>
             ))}
           </div>
-          <p>A missing required feature applies an additional penalty. Archived products are excluded from recommendations.</p>
+        </nav>
+
+        <section className="prose-section" id="decision-question">
+          <h2>1. Decision question: what should this person use?</h2>
+          <p><strong>Goal:</strong> select a coding harness for a declared workflow. <strong>Questions:</strong> can it satisfy the non-negotiable constraints; among eligible tools, which mechanisms fit the workflow; how stable is that ordering; and what evidence supports each claim? <strong>Metrics:</strong> eligibility, preference value, rank robustness, evidence state, and measured system outcomes.</p>
+          <p>Model intelligence is never treated as harness capability. Product mechanisms and benchmark configurations remain separate throughout the data model and interface.</p>
         </section>
 
-        <section className="prose-section">
-          <h2>What a score means</h2>
-          <p>A high score means the product matches the workflow described in the questionnaire. It does not predict the percentage of coding tasks completed, nor does it compare underlying model intelligence.</p>
+        <section className="prose-section" id="eligibility">
+          <h2>2. Eligibility before preference</h2>
+          <p>Interface, model-access path, explicit required features, and mode-implied requirements are non-compensatory gates. CI requires headless execution; parallel work requires documented subagents. A high value elsewhere cannot compensate for a failed gate.</p>
+          <p>Only active products are eligible: dormant and archived products remain visible for research but are excluded from recommendations and benchmark rankings. OpenRouter and GitHub are discovery sources only: they can create a research candidate, but cannot establish a capability.</p>
+          <p>The current public status is deliberately conservative: “Eligible” means every declared gate has current supporting documentation. “Not eligible on current evidence” means at least one gate is not documented; it does not prove technical impossibility. Conditional and explicitly unsupported states will not be shown until the claim ledger can encode and source them directly.</p>
         </section>
 
-        <section className="prose-section">
-          <h2>Operational classification</h2>
-          <p>A single category hides the differences that matter in practice. HarnessMatch therefore classifies every product on three independent axes.</p>
+        <section className="prose-section" id="preference-model">
+          <h2>3. Preference model and swing weights</h2>
+          <p>Eligible products are compared with a provisional linear additive MCDA model. Interface and model access are absent from the score because they were already used as gates. The published reference swing weights sum to 100:</p>
+          <div className="weight-list">
+            {weights.map(([weightLabel, value]) => (
+              <div key={weightLabel}><span>{weightLabel}</span><strong>{value}</strong></div>
+            ))}
+          </div>
+          <p>The editorial 1-5 rubric is mapped through the explicit provisional value function {Object.entries(capabilityValueFunction).map(([level, value]) => `${level}→${value}`).join(", ")}. These internal values enable ordering; the public interface reports preference bands and rank robustness instead of presenting them as measured “quality out of 100”.</p>
+          <div className="method-weight-groups">
+            <WeightGroup title="Control style" values={controlStyleWeights} />
+            <WeightGroup title="Change scope" values={changeScopeWeights} />
+            <WeightGroup title="Operating mode" values={operatingModeWeights} />
+          </div>
+          <h3>Provisional capability anchors</h3>
+          <p>Editors assign the most advanced level supported by first-party records. These anchors define the coding rule; they are not benchmark outcomes, model assessments, or validated performance scales.</p>
+          <div className="capability-rubric-list">
+            {(Object.keys(capabilityLevelAnchors) as Array<keyof typeof capabilityLevelAnchors>).map((axis) => (
+              <details key={axis}>
+                <summary>
+                  <strong>{capabilityAxisLabels[axis]}</strong>
+                  <span>View five behavioral anchors</span>
+                </summary>
+                <ol>
+                  {capabilityLevels.map((level) => (
+                    <li key={level}>
+                      <b>Level {level}</b>
+                      <span>{capabilityLevelAnchors[axis][level]}</span>
+                    </li>
+                  ))}
+                </ol>
+              </details>
+            ))}
+          </div>
+          <p>Publishing an anchor makes an editorial judgment inspectable, not automatically reliable. Claim-level source mapping, independent dual coding, and external validity checks remain open work.</p>
+          <p>The additive model assumes the displayed criteria are sufficiently preference-independent for this use. That assumption is provisional and is listed as a validation target below.</p>
+        </section>
+
+        <section className="prose-section" id="sensitivity">
+          <h2>4. Sensitivity instead of false precision</h2>
+          <p>For each answer set, HarnessMatch evaluates {recommendationSensitivity.scenarios} deterministic sensitivity scenarios. Every reference weight is multiplied by a value between {recommendationSensitivity.weightMultiplierMin} and {recommendationSensitivity.weightMultiplierMax}, then renormalized; each provisional factor value is also stressed by up to ±{recommendationSensitivity.factorValueUncertainty} points, half of one rubric step. The interface reports top-rank frequency, top-three frequency, mean rank, and best-worst rank.</p>
+          <p>A “top three in 90%” result means 90% of tested preference-and-rating stress scenarios place the harness in the top three. It is not a 90% chance of task success and is not a Bayesian posterior. The uncertainty ranges are methodological stress bounds, not empirically estimated rating-error distributions.</p>
+          <p>If any scored operational input is undocumented, the candidate remains unranked for that comparison. Missing values are not renormalized away and are never converted into evidence of absence.</p>
+        </section>
+
+        <section className="prose-section" id="architecture">
+          <h2>5. Seven architecture layers</h2>
+          <p>Architecture is described one layer at a time and never summed into a universal readiness grade.</p>
           <div className="taxonomy-list">
-            {classificationAxes.map((axis) => (
-              <div key={axis.label}>
-                <strong>{axis.label}</strong>
-                <p>{axis.description}</p>
+            {(Object.entries(architectureAxisLabels)).map(([axis, axisLabel]) => (
+              <div key={axis}>
+                <strong>{axisLabel}</strong>
+                <p>Source-backed ordinal description of the most advanced documented mechanism on this layer.</p>
               </div>
             ))}
           </div>
-          <p>These labels describe documented architecture and product posture. They do not imply that multi-agent is always better than single-agent, or that an optional sandbox is active by default.</p>
+          <p>Recovery is kept visible inside lifecycle; permissions are interpreted as governance; execution and tooling are now explicit instead of being inferred from a single “readiness” number.</p>
         </section>
 
-        <section className="prose-section">
-          <h2>Editorial ratings</h2>
-          <p>Ratings such as simplicity, autonomy, and security use a 1-5 scale. Every profile shows these values openly so disagreements can be reviewed as data changes rather than hidden inside prose.</p>
+        <section className="prose-section" id="evidence-states">
+          <h2>6. Evidence states, not source-count confidence</h2>
+          <div className="taxonomy-list">
+            <div><strong>Documented</strong><p>A first-party document, repository, or announcement directly supports the claim and records a verification date.</p></div>
+            <div><strong>Code-verifiable</strong><p>The relevant client or full source is public and inspected at a pinned commit.</p></div>
+            <div><strong>Independently measured</strong><p>A complete external benchmark configuration passes the metadata admission policy.</p></div>
+            <div><strong>Replicated</strong><p>Two independent, compatible measurements reproduce the claim. No current harness is awarded this state by default.</p></div>
+          </div>
+          <p>States are claim-specific and need not form a simple ladder. The legacy high/medium/limited coverage label only describes documentation breadth: high requires {evidenceCoverageThresholds.high.sources} sources across {evidenceCoverageThresholds.high.sourceKinds} kinds; it is not used as scientific confidence.</p>
+          <p>Compact result cards summarize evidence available for the product record. They do not upgrade every individual feature claim to the strongest product-level state; the source rows on each profile remain authoritative.</p>
         </section>
 
-        <section className="prose-section">
-          <h2>Source quality</h2>
-          <p>Capability existence is checked against first-party documentation, repositories, or product announcements. Each profile links claim groups such as model access, runtime isolation, and automation to supporting sources and records the verification date.</p>
-          <p>A missing first-class capability is not inferred from marketing silence alone. The product documentation and command reference are checked before the profile is marked unsupported.</p>
-          <p>Peer-reviewed papers define the comparison axes and benchmark policy. Recent preprints are marked as provisional. Neither overrides newer product documentation nor turns a model-and-harness result into a permanent capability score.</p>
+        <section className="prose-section" id="research-process">
+          <h2>7. {researchProcessDisclosure.label}</h2>
+          <p>{researchProcessDisclosure.introduction}</p>
+          <p>{researchProcessDisclosure.governance}</p>
+          <p>{researchProcessDisclosure.crossCheck}</p>
+          <div className="taxonomy-list">
+            {researchProcessDisclosure.stages.map((stage) => (
+              <div key={stage.label}>
+                <strong>{stage.label}</strong>
+                <p>{stage.description}</p>
+              </div>
+            ))}
+          </div>
+          <p>AI assistance improves research coverage and update speed. It does not replace source provenance, editorial judgment, inter-rater validation, or direct measurement.</p>
         </section>
 
-        <section className="prose-section">
+        <section className="prose-section" id="public-code">
+          <h2>8. Public-code artifacts</h2>
+          <p>{repositoryAudits.length} official repositories are inspected at exact commits for {Object.values(repositoryArtifactLabels).join(", ")}. The interface reports a transparent count out of five, not a weighted product score.</p>
+          <p>Presence does not establish adequacy, security, maintainability, or benchmark independence. Support-only repositories are shown but remain unranked.</p>
+        </section>
+
+        <section className="prose-section" id="measured-systems">
+          <h2>9. Measured systems and uncertainty</h2>
+          <p>No result is admitted without model, exact harness version, benchmark version, budget, sandbox/environment, attempts, date, cost, and primary source. A result belongs to model × harness × configuration × environment × budget.</p>
+          <p>The current view contains {benchmarkRuns.length} Terminal-Bench 2.1 configurations, each with 89 tasks, five attempts, and 445 trials. HarnessMatch shows a descriptive 95% interval calculated as accuracy ± 1.96 × the reported standard error, marks interval overlap with the leading configuration, and identifies the non-dominated accuracy/cost Pareto frontier.</p>
+          <p>The normal approximation does not model task clustering or benchmark sampling. Overlap is a visual uncertainty group, not a formal equivalence test. A task-cluster bootstrap or generalized mixed model remains the preferred future analysis when raw trial data is available.</p>
+        </section>
+
+        <section className="prose-section" id="classification">
+          <h2>10. Classification is descriptive</h2>
+          <div className="taxonomy-list">
+            {classificationAxes.map((axis) => (
+              <div key={axis.label}><strong>{axis.label}</strong><p>{axis.description}</p></div>
+            ))}
+          </div>
+          <p>Runtime posture and available isolation remain separate. Multi-agent organization, autonomy, and a larger feature surface are not assumed to be universally better.</p>
+        </section>
+
+        <section className="prose-section" id="validation">
+          <h2>11. Validation status</h2>
+          <div className="taxonomy-list">
+            <div><strong>Implemented</strong><p>Hard gates, explicit weights, public provisional capability anchors, deterministic sensitivity analysis, missing-data non-renormalization, source dates, pinned repository commits, complete benchmark metadata, descriptive intervals, and Pareto status.</p></div>
+            <div><strong>Protocol published</strong><p>A fixed stratified sample, independent coding procedure, agreement statistics, uncertainty reporting, and held-out recoding rule are now defined in the repository.</p></div>
+            <div><strong>Not yet established</strong><p>Inter-rater reliability, content-validity review by external experts, criterion validity against controlled harness outcomes, and predictive validity in real user adoption.</p></div>
+          </div>
+          <details className="validation-protocol">
+            <summary>
+              <strong>Open the inter-rater validation protocol</strong>
+              <span>{validationSampleNames.length} products, {interRaterValidationPlan.axes.length} axes, {interRaterValidationPlan.independentRaters} independent raters</span>
+            </summary>
+            <div className="validation-protocol-body">
+              <p><strong>Fixed sample:</strong> {validationSampleNames.join(", ")}.</p>
+              <p>{interRaterValidationPlan.samplingRationale}</p>
+              <ol>
+                {interRaterValidationPlan.procedure.map((step) => <li key={step}>{step}</li>)}
+              </ol>
+              <dl>
+                <div><dt>Unit</dt><dd>{interRaterValidationPlan.unitOfAnalysis}</dd></div>
+                <div><dt>Primary statistic</dt><dd>{interRaterValidationPlan.primaryStatistic}</dd></div>
+                <div><dt>Secondary statistic</dt><dd>{interRaterValidationPlan.secondaryStatistic}</dd></div>
+                <div><dt>Uncertainty</dt><dd>{interRaterValidationPlan.uncertainty}</dd></div>
+              </dl>
+              <p>The pre-specified working threshold is α ≥ {interRaterValidationPlan.workingThreshold.toFixed(2)}. {interRaterValidationPlan.thresholdCaveat} Even high agreement would establish reliability, not construct validity.</p>
+            </div>
+          </details>
+          <div className="taxonomy-list validation-next-studies">
+            <div>
+              <strong>Content validity study</strong>
+              <p>{contentValidityPlan.panel} {contentValidityPlan.task}</p>
+              <small>{contentValidityPlan.outputs.join("; ")}.</small>
+            </div>
+            <div>
+              <strong>Prospective user study</strong>
+              <p>{userValidationPlan.design}</p>
+              <small>{userValidationPlan.outcomes.join("; ")}.</small>
+            </div>
+          </div>
+          <p>{userValidationPlan.sampleSizePolicy}</p>
+        </section>
+
+        <section className="prose-section" id="value-tables">
+          <h2>Published internal value tables</h2>
+          <div className="operational-score-table">
+            {Object.entries(operationalPostureScores).map(([axis, values]) => (
+              <div key={axis}>
+                <strong>{label(axis)}</strong>
+                <span>{Object.entries(values).map(([posture, value]) => `${label(posture)} ${value ?? "unranked"}`).join(" · ")}</span>
+              </div>
+            ))}
+          </div>
+          <p>These are transparent provisional value functions used inside workflow preference calculations. They are not benchmark outcomes, probabilities, or universal quality grades.</p>
+        </section>
+
+        <section className="prose-section" id="scientific-basis">
           <h2>Scientific basis</h2>
-          <p>The literature below is used for method, vocabulary, and limits—not as a substitute for current product evidence.</p>
+          <p>{researchSources.length} methodological sources define measurement, MCDA, uncertainty, benchmark validity, harness architecture, and claim limits. Papers guide the method; current first-party records still control product claims.</p>
           <div className="evidence-list research-source-list">
             {researchSources.map((source) => (
               <a href={source.url} target="_blank" rel="noreferrer" key={source.url}>
@@ -79,7 +295,7 @@ export default function MethodologyPage() {
                   <small className="research-limitation">Limit: {source.limitation}</small>
                 </span>
                 <span className={`evidence-kind maturity-${source.maturity}`}>
-                  {source.maturity === "peer-reviewed" ? source.venue : `${source.venue} · preprint`}
+                  {maturityLabel(source.maturity, source.venue)}
                 </span>
               </a>
             ))}

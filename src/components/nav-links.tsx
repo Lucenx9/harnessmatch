@@ -8,6 +8,7 @@ const items = [
   ["Compare", "/compare"],
   ["Harnesses", "/harnesses"],
   ["Sources", "/data"],
+  ["Benchmarks", "/benchmarks"],
   ["Methodology", "/methodology"],
 ] as const;
 

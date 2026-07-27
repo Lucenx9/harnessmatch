@@ -1,20 +1,24 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useDeferredValue, useMemo, useState } from "react";
 import { HarnessLogo } from "@/components/harness-logo";
 import {
-  executionBoundaryLabels,
+  formatIsolationModes,
   harnessRoleLabels,
   orchestrationLabels,
+  runtimePostureLabels,
+  stateModelLabels,
 } from "@/lib/harness-classification";
 import type {
-  ExecutionBoundary,
   FeatureKey,
   HarnessLogo as HarnessLogoData,
   HarnessRole,
   InterfaceType,
+  IsolationMode,
   OrchestrationModel,
+  RuntimePosture,
+  StateModel,
 } from "@/lib/types";
 
 type LensKey = "all" | FeatureKey;
@@ -27,7 +31,9 @@ export type LensHarness = {
   tagline: string;
   role: HarnessRole;
   orchestration: OrchestrationModel;
-  execution: ExecutionBoundary;
+  runtime: RuntimePosture;
+  isolation: IsolationMode[];
+  state: StateModel;
   interfaces: InterfaceType[];
   providerStyle: "single-vendor" | "multi-provider" | "enterprise-routing";
   features: Record<FeatureKey, boolean>;
@@ -38,11 +44,21 @@ export type LensHarness = {
 const lenses: Array<{ key: LensKey; label: string }> = [
   { key: "all", label: "All harnesses" },
   { key: "localModels", label: "Local models" },
-  { key: "sandbox", label: "Built-in sandbox" },
-  { key: "browser", label: "Browser work" },
-  { key: "checkpoints", label: "Checkpoints" },
+  { key: "sandbox", label: "Security sandbox" },
+  { key: "browser", label: "Browser tool" },
+  { key: "checkpoints", label: "File rollback" },
   { key: "mcp", label: "MCP" },
 ];
+
+const roleOptions = Object.entries(harnessRoleLabels) as Array<[HarnessRole, string]>;
+const runtimeOptions = Object.entries(runtimePostureLabels) as Array<[RuntimePosture, string]>;
+const interfaceLabels: Record<InterfaceType, string> = {
+  terminal: "Terminal",
+  ide: "IDE",
+  web: "Web / desktop",
+  automation: "Automation",
+};
+const interfaceOptions = Object.entries(interfaceLabels) as Array<[InterfaceType, string]>;
 
 const providerLabels: Record<LensHarness["providerStyle"], string> = {
   "single-vendor": "Single vendor",
@@ -50,15 +66,61 @@ const providerLabels: Record<LensHarness["providerStyle"], string> = {
   "enterprise-routing": "Enterprise routing",
 };
 
-export function HarnessLensExplorer({ harnesses }: { harnesses: LensHarness[] }) {
+export function HarnessLensExplorer({
+  harnesses,
+  initialVisibleCount = 8,
+}: {
+  harnesses: LensHarness[];
+  initialVisibleCount?: number;
+}) {
+  const [query, setQuery] = useState("");
   const [lens, setLens] = useState<LensKey>("all");
+  const [role, setRole] = useState<HarnessRole | "all">("all");
+  const [surface, setSurface] = useState<InterfaceType | "all">("all");
+  const [runtime, setRuntime] = useState<RuntimePosture | "all">("all");
+  const [showAll, setShowAll] = useState(false);
+  const deferredQuery = useDeferredValue(query.trim().toLowerCase());
   const filtered = useMemo(
-    () => lens === "all" ? harnesses : harnesses.filter((harness) => harness.features[lens]),
-    [harnesses, lens],
+    () => harnesses.filter((harness) => (
+      (!deferredQuery || [
+        harness.name,
+        harness.tagline,
+        harnessRoleLabels[harness.role],
+        harness.interfaces.map((item) => interfaceLabels[item]).join(" "),
+        providerLabels[harness.providerStyle],
+      ].some((value) => value.toLowerCase().includes(deferredQuery))) &&
+      (lens === "all" || harness.features[lens]) &&
+      (role === "all" || harness.role === role) &&
+      (surface === "all" || harness.interfaces.includes(surface)) &&
+      (runtime === "all" || harness.runtime === runtime)
+    )),
+    [deferredQuery, harnesses, lens, role, runtime, surface],
   );
+  const hasAdvancedFilters = role !== "all" || surface !== "all" || runtime !== "all";
+  const availableRuntimeOptions = runtimeOptions.filter(([value]) => (
+    harnesses.some((harness) => harness.runtime === value)
+  ));
+  const visibleHarnesses = showAll ? filtered : filtered.slice(0, initialVisibleCount);
 
   return (
     <div className="lens-explorer">
+      <div className="lens-search-row">
+        <label>
+          Search profiles
+          <input
+            type="search"
+            value={query}
+            placeholder="Name, role, interface, or provider"
+            onChange={(event) => {
+              setQuery(event.target.value);
+              setShowAll(false);
+            }}
+          />
+        </label>
+        <p className="lens-count" aria-live="polite">
+          <strong>{filtered.length}</strong> matching {filtered.length === 1 ? "profile" : "profiles"}
+        </p>
+      </div>
       <div className="lens-toolbar">
         <div className="lens-tabs" role="group" aria-label="Filter harnesses by capability">
           {lenses.map((item) => (
@@ -66,19 +128,71 @@ export function HarnessLensExplorer({ harnesses }: { harnesses: LensHarness[] })
               type="button"
               key={item.key}
               aria-pressed={lens === item.key}
-              onClick={() => setLens(item.key)}
+              onClick={() => {
+                setLens(item.key);
+                setShowAll(false);
+              }}
             >
               {item.label}
             </button>
           ))}
         </div>
-        <p className="lens-count" aria-live="polite">
-          <strong>{filtered.length}</strong> matching {filtered.length === 1 ? "profile" : "profiles"}
-        </p>
       </div>
 
+      <details className="lens-advanced">
+        <summary>
+          Advanced filters
+          <span>{hasAdvancedFilters ? "Filters active" : "Role, surface, and runtime"}</span>
+        </summary>
+        <div className="lens-advanced-grid">
+          <label>
+            Product role
+            <select value={role} onChange={(event) => {
+              setRole(event.target.value as HarnessRole | "all");
+              setShowAll(false);
+            }}>
+              <option value="all">All roles</option>
+              {roleOptions.map(([value, label]) => <option value={value} key={value}>{label}</option>)}
+            </select>
+          </label>
+          <label>
+            Interaction surface
+            <select value={surface} onChange={(event) => {
+              setSurface(event.target.value as InterfaceType | "all");
+              setShowAll(false);
+            }}>
+              <option value="all">All surfaces</option>
+              {interfaceOptions.map(([value, label]) => <option value={value} key={value}>{label}</option>)}
+            </select>
+          </label>
+          <label>
+            Runtime posture
+            <select value={runtime} onChange={(event) => {
+              setRuntime(event.target.value as RuntimePosture | "all");
+              setShowAll(false);
+            }}>
+              <option value="all">All runtime postures</option>
+              {availableRuntimeOptions.map(([value, label]) => <option value={value} key={value}>{label}</option>)}
+            </select>
+          </label>
+          <button
+            className="lens-reset"
+            type="button"
+            disabled={!hasAdvancedFilters}
+            onClick={() => {
+              setRole("all");
+              setSurface("all");
+              setRuntime("all");
+              setShowAll(false);
+            }}
+          >
+            Clear advanced filters
+          </button>
+        </div>
+      </details>
+
       <div className="lens-grid">
-        {filtered.map((harness) => (
+        {visibleHarnesses.map((harness) => (
           <article className="lens-card" key={harness.id}>
             <div className="lens-card-head">
               <span>{harnessRoleLabels[harness.role]}</span>
@@ -96,7 +210,15 @@ export function HarnessLensExplorer({ harnesses }: { harnesses: LensHarness[] })
               </div>
               <div>
                 <dt>Runtime</dt>
-                <dd>{executionBoundaryLabels[harness.execution]}</dd>
+                <dd>{runtimePostureLabels[harness.runtime]}</dd>
+              </div>
+              <div>
+                <dt>Isolation</dt>
+                <dd>{formatIsolationModes(harness.isolation)}</dd>
+              </div>
+              <div>
+                <dt>State &amp; recovery</dt>
+                <dd>{stateModelLabels[harness.state]}; {harness.features.checkpoints ? "file rollback" : "no first-class file rollback"}</dd>
               </div>
               <div>
                 <dt>Provider</dt>
@@ -104,7 +226,7 @@ export function HarnessLensExplorer({ harnesses }: { harnesses: LensHarness[] })
               </div>
               <div>
                 <dt>Interfaces</dt>
-                <dd>{harness.interfaces.join(", ")}</dd>
+                <dd>{harness.interfaces.map((item) => interfaceLabels[item]).join(", ")}</dd>
               </div>
             </dl>
             <div className="lens-card-foot">
@@ -114,6 +236,35 @@ export function HarnessLensExplorer({ harnesses }: { harnesses: LensHarness[] })
           </article>
         ))}
       </div>
+
+      {filtered.length === 0 && (
+        <div className="lens-empty card">
+          <h3>No profiles match these filters.</h3>
+          <p>Try a product name, remove a capability filter, or clear the advanced filters.</p>
+          <button
+            className="button secondary"
+            type="button"
+            onClick={() => {
+              setQuery("");
+              setLens("all");
+              setRole("all");
+              setSurface("all");
+              setRuntime("all");
+              setShowAll(false);
+            }}
+          >
+            Clear all filters
+          </button>
+        </div>
+      )}
+
+      {filtered.length > initialVisibleCount && (
+        <div className="lens-show-more">
+          <button className="button secondary" type="button" onClick={() => setShowAll((current) => !current)}>
+            {showAll ? "Show fewer profiles" : `Show all ${filtered.length} profiles`}
+          </button>
+        </div>
+      )}
 
       <div className="lens-method-note">
         <p>Capability filters reflect explicit product documentation. They do not compare model intelligence or benchmark performance.</p>

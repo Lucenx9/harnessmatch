@@ -2,7 +2,8 @@ export type InterfaceType = "terminal" | "ide" | "web" | "automation";
 export type Priority = "simplicity" | "flexibility" | "security" | "autonomy";
 export type ModelAccess = "subscription" | "model-agnostic" | "local" | "enterprise";
 export type ControlStyle = "approval-heavy" | "balanced" | "hands-off";
-export type RepoContext = "small" | "large" | "ci" | "multi-agent";
+export type ChangeScope = "focused" | "cross-file" | "large-repo";
+export type OperatingMode = "interactive" | "ci" | "parallel";
 export type HarnessRole =
   | "pair-programmer"
   | "coding-agent"
@@ -13,10 +14,13 @@ export type OrchestrationModel =
   | "single-agent"
   | "delegated-subagents"
   | "multi-agent-runtime";
-export type ExecutionBoundary =
-  | "host-process"
-  | "native-sandbox"
-  | "managed-runtime";
+export type RuntimePosture = "host-first" | "sandbox-first" | "managed-first";
+export type IsolationMode =
+  | "os-sandbox"
+  | "container"
+  | "managed-sandbox"
+  | "worktree";
+export type StateModel = "session-based" | "persistent-memory";
 export type FeatureKey =
   | "mcp"
   | "localModels"
@@ -25,6 +29,34 @@ export type FeatureKey =
   | "browser"
   | "sandbox"
   | "checkpoints";
+
+export type ContextManagement = "basic" | "managed" | "persistent" | "unknown";
+export type PermissionPosture = "host" | "approval" | "policy" | "unknown";
+export type VerificationPosture = "manual" | "tool-assisted" | "workflow-gated" | "unknown";
+export type ObservabilityPosture = "session" | "logs" | "traces" | "unknown";
+export type RecoveryPosture =
+  | "manual"
+  | "session-resume"
+  | "checkpoint"
+  | "managed-recovery"
+  | "unknown";
+
+export type OperationalProfile = {
+  context: ContextManagement;
+  permissions: PermissionPosture;
+  verification: VerificationPosture;
+  observability: ObservabilityPosture;
+  recovery: RecoveryPosture;
+};
+
+export type OperationalAxis = keyof OperationalProfile;
+
+export type OperationalProfileRecord = {
+  profile: OperationalProfile;
+  sourceUrls: string[];
+  verifiedAt: string;
+  limitation: string;
+};
 
 export type CapabilityScores = {
   simplicity: number;
@@ -50,6 +82,13 @@ export type HarnessLogo = {
   verifiedAt: string;
 };
 
+export type DiscoverySource = {
+  title: string;
+  url: string;
+  note: string;
+  observedAt: string;
+};
+
 export type Harness = {
   id: string;
   slug: string;
@@ -57,13 +96,14 @@ export type Harness = {
   tagline: string;
   summary: string;
   logo: HarnessLogo;
-  status: "active" | "archived";
+  status: "active" | "dormant" | "archived";
   license: string;
-  category: string;
   classification: {
     role: HarnessRole;
     orchestration: OrchestrationModel;
-    execution: ExecutionBoundary;
+    runtime: RuntimePosture;
+    isolation: IsolationMode[];
+    state: StateModel;
   };
   interfaces: InterfaceType[];
   providerStyle: "single-vendor" | "multi-provider" | "enterprise-routing";
@@ -76,6 +116,7 @@ export type Harness = {
   setup: string;
   verifiedAt: string;
   evidence: EvidenceSource[];
+  discovery?: DiscoverySource[];
 };
 
 export type RecommendationAnswers = {
@@ -83,15 +124,69 @@ export type RecommendationAnswers = {
   priority: Priority;
   modelAccess: ModelAccess;
   control: ControlStyle;
-  repoContext: RepoContext;
+  changeScope: ChangeScope;
+  operatingMode: OperatingMode;
   requiredFeatures: FeatureKey[];
 };
 
 export type Recommendation = {
   harness: Harness;
   score: number;
-  confidence: "high" | "medium" | "low";
+  fitBand: "strong" | "good" | "conditional" | "weak";
+  robustness: RankRobustness;
+  evidenceState: EvidenceStateSummary;
+  evidenceCoverage: "high" | "medium" | "limited";
+  evidenceSourceCount: number;
   reasons: string[];
   compromises: string[];
-  blockers: FeatureKey[];
+  scoreBreakdown: Record<RecommendationFactor, number>;
 };
+
+
+export type RecommendationFactor =
+  | "priority"
+  | "control"
+  | "changeScope"
+  | "operatingMode";
+
+export type RankRobustness = {
+  scenarioCount: number;
+  topRankFrequency: number;
+  topThreeFrequency: number;
+  bestRank: number;
+  worstRank: number;
+  meanRank: number;
+};
+
+export type EvidenceState =
+  | "documented"
+  | "code-verifiable"
+  | "independently-measured"
+  | "replicated";
+
+export type EvidenceStateSummary = {
+  states: EvidenceState[];
+  label: string;
+};
+
+export type EligibilityFailure =
+  | { kind: "interface"; label: string }
+  | { kind: "model-access"; label: string }
+  | { kind: "feature"; feature: FeatureKey; label: string };
+
+export type EligibilityAssessment = {
+  state: "eligible" | "not-eligible-on-current-evidence";
+  label: "Eligible" | "Not eligible on current evidence";
+  failures: EligibilityFailure[];
+};
+
+export type ArchitectureAxis =
+  | "execution"
+  | "tooling"
+  | "context"
+  | "lifecycle"
+  | "observability"
+  | "verification"
+  | "governance";
+
+export type ArchitectureProfile = Record<ArchitectureAxis, number | null>;

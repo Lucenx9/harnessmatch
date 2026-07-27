@@ -10,22 +10,24 @@ This page follows the HarnessMatch master system and increases information densi
 
 ## Information hierarchy
 
-1. Product identity, category, license, evidence count, and verification date.
-2. Seven direct 1-5 fit signals with visible values and plain-language definitions.
-3. Capability summary, best-fit workflows, trade-offs, and technical profile.
-4. Documented feature support, primary evidence, and setup path.
+1. Product identity, category, license, evidence coverage, source count, and verification date.
+2. Plain-language summary, best-fit workflows, trade-offs, and technical profile.
+3. Seven literature-derived architectural mechanisms with categorical posture, rubric value, source links, and verification date.
+4. Pinned public-code audit and admitted model-harness benchmark configurations.
+5. Documented feature support, primary evidence, and setup path.
 
 ## Visual rules
 
 - Use a compact research-product header, not a marketing hero.
-- Fit signals appear in one bordered analytical surface with direct numbers. They never imply rank or measured performance.
+- Operational mechanisms appear in one bordered analytical surface with direct rubric values and claim boundaries.
+- Repository auditability and measured configurations share a two-column evidence area and never feed the workflow score.
 - Technical details and evidence use sparse dividers rather than nested cards.
-- Desktop uses a dense seven-column signal strip; tablet and mobile collapse explicitly without horizontal scrolling.
+- Desktop uses a dense five-column operational strip; tablet and mobile collapse explicitly without horizontal scrolling.
 - The existing violet accent is limited to fit emphasis and interactive focus.
 
 ## Content rules
 
-- Say "editorial product-posture rating" wherever a 1-5 value could be mistaken for a benchmark.
+- Do not expose the legacy editorial 1-5 posture values as if they were measurements.
 - State that the profile describes the harness, not its underlying model.
 - Show source kind and verification date on every evidence row.
 - Do not add pricing, speed, intelligence, popularity, or ranking without the repository's full benchmark record.
