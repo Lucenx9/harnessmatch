@@ -762,7 +762,14 @@ p { color: var(--muted); }
 .profile-operational-grid li > span { color: var(--muted); font-size: .68rem; }
 .profile-operational-grid li > strong { margin: 22px 0 8px; color: var(--text); font-size: .92rem; line-height: 1.35; }
 .profile-operational-grid li > small { color: var(--muted); font-size: .63rem; line-height: 1.45; }
-.profile-operational-grid li > em { margin-top: auto; padding-top: 18px; color: var(--accent-strong); font: 500 .59rem/1.25 var(--font-mono); font-style: normal; }
+.profile-level-indicator { width: max-content; height: 22px; display: flex; align-items: flex-end; gap: 4px; margin-top: auto; padding-top: 18px; }
+.profile-level-indicator > span { width: 7px; border: 1px solid var(--line-strong); border-radius: 2px 2px 1px 1px; background: transparent; }
+.profile-level-indicator > span:nth-child(1) { height: 7px; }
+.profile-level-indicator > span:nth-child(2) { height: 11px; }
+.profile-level-indicator > span:nth-child(3) { height: 15px; }
+.profile-level-indicator > span:nth-child(4) { height: 19px; }
+.profile-level-indicator > .is-filled { border-color: var(--accent); background: var(--accent); }
+.profile-level-indicator.is-empty > span { border-style: dashed; }
 .profile-operational-footer { min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 22px; padding: 13px 18px; border-top: 1px solid var(--line); }
 .profile-operational-footer p { margin: 0; font-size: .68rem; }
 .profile-operational-footer > div { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px 16px; }
@@ -1065,7 +1072,7 @@ p { color: var(--muted); }
   .profile-operational-grid li, .profile-operational-grid li:nth-child(3), .profile-operational-grid li:nth-last-child(-n+2) { min-height: 0; padding: 17px 18px; border-right: 0; border-bottom: 1px solid var(--line); }
   .profile-operational-grid li:last-child { border-bottom: 0; }
   .profile-operational-grid li > strong { margin: 9px 0 5px; }
-  .profile-operational-grid li > em { margin-top: 12px; padding-top: 0; }
+  .profile-operational-grid li > .profile-level-indicator { margin-top: 12px; padding-top: 0; }
   .profile-operational-footer { align-items: start; flex-direction: column; padding: 16px 18px; }
   .profile-operational-footer > div { justify-content: flex-start; }
   .profile-signal-grid, .profile-support-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }

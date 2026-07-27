@@ -34,6 +34,31 @@ import type { ArchitectureAxis, EvidenceSource, FeatureKey } from "@/lib/types";
 
 export const dynamicParams = false;
 
+const architectureLevelCount = 4;
+
+function ArchitectureLevelIndicator({ axis, level }: { axis: ArchitectureAxis; level: number | null }) {
+  const accessibleLabel = level === null
+    ? `${architectureAxisLabels[axis]}: excluded from comparison because the mechanism is not documented`
+    : `${architectureAxisLabels[axis]}: documented level ${level} of ${architectureLevelCount}, ${architectureLevelAnchors[axis][level]}`;
+
+  return (
+    <div
+      className={`profile-level-indicator${level === null ? " is-empty" : ""}`}
+      role="img"
+      aria-label={accessibleLabel}
+      title={accessibleLabel}
+    >
+      {Array.from({ length: architectureLevelCount }, (_, index) => (
+        <span
+          className={level !== null && index < level ? "is-filled" : undefined}
+          aria-hidden="true"
+          key={index}
+        />
+      ))}
+    </div>
+  );
+}
+
 const featureSupport: Array<{ key: FeatureKey; label: string }> = [
   { key: "mcp", label: "External tools (MCP)" },
   { key: "localModels", label: "Local models" },
@@ -422,7 +447,7 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
                   <span>{architectureAxisLabels[axis]}</span>
                   <strong>{level === null ? "Not documented" : architectureLevelAnchors[axis][level]}</strong>
                   <small>Documented mechanism, not a performance score.</small>
-                  <em>{level === null ? "Excluded from comparison" : `Ordinal level ${level}`}</em>
+                  <ArchitectureLevelIndicator axis={axis} level={level} />
                 </li>
               );
             })}
