@@ -115,8 +115,8 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
   ),
   "copilot-cli": record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "checkpoint" },
-    ["https://docs.github.com/en/copilot/concepts/agents/copilot-memory", "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-programmatic-reference", "https://docs.github.com/en/copilot/concepts/about-cloud-and-local-sandboxes", "https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/roll-back-changes"],
-    "Copilot Memory provides hosted, preview repository facts and user preferences with retention rules. Granular policy, optional preview sandboxes, usage/session logs, and Git or tools-based rewind are documented; the closed product exposes no independent product eval suite.",
+    ["https://docs.github.com/en/copilot/concepts/agents/copilot-memory", "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-programmatic-reference", "https://docs.github.com/en/copilot/concepts/about-cloud-and-local-sandboxes", "https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/roll-back-changes", "https://docs.github.com/en/copilot/concepts/agents/copilot-cli/autopilot", "https://docs.github.com/en/copilot/concepts/agents/hooks"],
+    "Copilot Memory provides hosted, preview repository facts and user preferences with retention rules. Granular policy, pre-tool hooks, optional preview sandboxes, usage/session logs, bounded autopilot continuation, and Git or tools-based rewind are documented; the closed product exposes no independent product eval suite.",
   ),
   "cursor-cli": record(
     { context: "managed", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "checkpoint" },
@@ -125,7 +125,14 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
   ),
   "junie-cli": record(
     { context: "managed", permissions: "approval", verification: "tool-assisted", observability: "logs", recovery: "session-resume" },
-    ["https://junie.jetbrains.com/docs/junie-cli.html", "https://junie.jetbrains.com/docs/junie-headless.html", "https://junie.jetbrains.com/docs/junie-cli-worktrees.html"],
+    [
+      "https://junie.jetbrains.com/docs/junie-cli.html",
+      "https://junie.jetbrains.com/docs/junie-headless.html",
+      "https://junie.jetbrains.com/docs/junie-cli-worktrees.html",
+      "https://junie.jetbrains.com/docs/action-allowlist-junie-cli.html",
+      "https://junie.jetbrains.com/docs/junie-cli-remote-mode.html",
+    ],
+    "Approval controls, worktree isolation, resumable session logs, headless execution, and a tethered remote web UI are documented. Brave On removes approvals; worktrees are not an OS boundary; Remote mode still depends on the local CLI process and does not expose the full terminal surface.",
   ),
   "factory-droid": record(
     { context: "managed", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "checkpoint" },
@@ -179,18 +186,23 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://moonshotai.github.io/kimi-code/en/reference/tools.html",
       "https://moonshotai.github.io/kimi-code/en/guides/sessions.html",
       "https://moonshotai.github.io/kimi-code/en/customization/hooks",
+      "https://moonshotai.github.io/kimi-code/en/customization/agents",
+      "https://moonshotai.github.io/kimi-code/en/customization/mcp",
     ],
     "Interactive sessions default to manual approval and persist replayable JSONL event streams, but this is resumable session state rather than learned memory or file rollback. Print mode uses unattended auto permission, can leave background work effectively unbounded, anonymous telemetry defaults on, hooks fail open, and all local tools remain host-privileged.",
   ),
   "letta-code": record(
-    { context: "persistent", permissions: "approval", verification: "tool-assisted", observability: "logs", recovery: "managed-recovery" },
+    { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "managed-recovery" },
     [
       "https://github.com/letta-ai/letta-code/tree/286a01d10602eab4a356f2b062e817310f992966",
-      "https://docs.letta.com/guides/ade/desktop/",
-      "https://docs.letta.com/guides/core-concepts/tools/client-tools/",
-      "https://docs.letta.com/guides/get-started/for-agents",
+      "https://docs.letta.com/concepts/memfs",
+      "https://docs.letta.com/configuration/permissions",
+      "https://docs.letta.com/platform/computers",
+      "https://docs.letta.com/platform/computers/cloud-sandboxes",
+      "https://docs.letta.com/platform/cli/headless",
+      "https://docs.letta.com/configuration/schedules",
     ],
-    "Agent memory and conversations persist across clients and environments, with Git-tracked MemFS providing inspectable context history. Approval-gated client tools still execute on the local host; managed recovery describes durable agent and cloud-environment continuity, not a user-facing project-file checkpoint or reversal of external effects.",
+    "Agent memory and conversations persist across clients and environments, with Git-tracked MemFS providing inspectable context history. Fine-grained policy is available, but the interactive CLI currently starts unrestricted; local tools use the selected computer's shell, files, credentials, and installed software. Managed recovery describes durable agent, schedule, and cloud-environment continuity, not project-file rollback or reversal of external effects.",
   ),
   "kilo-code": record(
     { context: "managed", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "checkpoint" },
@@ -210,8 +222,9 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://commandcode.ai/docs/resources/security",
       "https://commandcode.ai/docs/core-concepts/headless",
       "https://commandcode.ai/docs/core-concepts/checkpoints",
+      "https://commandcode.ai/docs/hooks",
     ],
-    "Local taste rules persist learned preferences and sessions are resumable. Interactive writes and shell require approval by default, while headless runs deny both unless yolo grants both. Per-session checkpoints can restore recorded files and conversation but omit files over 10 MB and cannot reverse shell or external-service effects; the closed implementation is not source-auditable.",
+    "Local taste rules persist learned preferences and sessions are resumable. Interactive writes and shell require approval by default, while headless runs deny both unless yolo grants both. Pre-tool and stop hooks can enforce deterministic checks but remain user-authored local processes. Per-session checkpoints omit files over 10 MB and cannot reverse shell or external-service effects; the closed implementation is not source-auditable.",
   ),
   codebuff: record(
     { context: "managed", permissions: "host", verification: "tool-assisted", observability: "logs", recovery: "session-resume" },

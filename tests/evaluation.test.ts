@@ -67,6 +67,37 @@ describe("multi-axis evidence evaluation", () => {
     }
   });
 
+  it("keeps Cursor's public support repository out of code-verifiable evidence", () => {
+    const audit = repositoryAudits.find((item) => item.harnessId === "cursor-cli")!;
+    const evidence = evidenceStateFor("cursor-cli");
+
+    expect(audit.inspectedRef).toBe("654b1b4775ca67aef473bd31a14c8c04a1abde2d");
+    expect(audit.sourceScope).toBe("support-repository");
+    expect(audit.signals.securityPolicy).toBe(true);
+    expect(repositoryArtifactCount(audit)).toBeNull();
+    expect(audit.limitation).toContain("only five paths");
+    expect(audit.limitation).toContain("no Cursor CLI implementation");
+    expect(evidence.states).toEqual(expect.arrayContaining(["documented", "independently-measured"]));
+    expect(evidence.states).not.toContain("code-verifiable");
+  });
+
+  it("pins Junie's distribution-only audit and Kimi Code's current full-source release", () => {
+    const junie = repositoryAudits.find((item) => item.harnessId === "junie-cli")!;
+    const kimi = repositoryAudits.find((item) => item.harnessId === "kimi-code")!;
+
+    expect(junie.inspectedRef).toBe("9b3fe80b5779f0fc0f9b0ee4eeba50cc071948a5");
+    expect(junie.sourceScope).toBe("support-repository");
+    expect(repositoryArtifactCount(junie)).toBeNull();
+    expect(junie.limitation).toContain("35 installer, registry, template, and test files");
+    expect(junie.limitation).toContain("no CI workflows");
+
+    expect(kimi.inspectedRef).toBe("8a45f10eddbb35c317047e82e567cdb59a220b4f");
+    expect(kimi.sourceScope).toBe("full-source");
+    expect(kimi.signals).toMatchObject({ securityPolicy: true, continuousIntegration: true, automatedTests: true });
+    expect(kimi.limitation).toContain("1,256 test-like files");
+    expect(kimi.limitation).toContain("No dedicated coding-harness evaluation suite");
+  });
+
   it("treats Crush engineering tests as auditable artifacts, not benchmark evidence", () => {
     const audit = repositoryAudits.find((item) => item.harnessId === "crush")!;
 

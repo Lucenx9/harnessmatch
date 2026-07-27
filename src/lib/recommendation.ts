@@ -289,7 +289,7 @@ function explain(harness: Harness, answers: RecommendationAnswers) {
     answers.control === "approval-heavy"
     && harness.capabilities.humanControl >= 4
     && operational.permissions !== "host"
-  ) reasons.push("It keeps review and approvals close to the developer.");
+  ) reasons.push("It documents scoped policy or approval controls.");
   if (answers.control === "approval-heavy" && operational.permissions === "host") {
     compromises.push("Its documented default gives the agent host access instead of asking before each command.");
   }

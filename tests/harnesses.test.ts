@@ -16,7 +16,7 @@ const firstPartyHosts: Record<string, string[]> = {
   cline: ["docs.cline.bot", "github.com"],
   "gemini-cli": ["github.com", "geminicli.com"],
   "copilot-cli": ["docs.github.com", "github.com"],
-  "cursor-cli": ["docs.cursor.com", "cursor.com"],
+  "cursor-cli": ["docs.cursor.com", "cursor.com", "github.com"],
   "junie-cli": ["junie.jetbrains.com", "github.com"],
   "factory-droid": ["docs.factory.ai", "factory.ai", "github.com"],
   forgecode: ["forgecode.dev", "github.com"],
@@ -147,6 +147,7 @@ describe("harness evidence ledger", () => {
     expect(byId.get("cursor-cli")?.classification.isolation).toEqual(expect.arrayContaining(["os-sandbox", "worktree"]));
     expect(byId.get("junie-cli")?.localModels).toBe(true);
     expect(byId.get("junie-cli")?.features.sandbox).toBe(false);
+    expect(byId.get("junie-cli")?.interfaces).toContain("web");
     expect(byId.get("factory-droid")?.features.browser).toBe(true);
     expect(byId.get("factory-droid")?.features.sandbox).toBe(true);
     expect(byId.get("factory-droid")?.features.checkpoints).toBe(true);
@@ -768,6 +769,50 @@ describe("harness evidence ledger", () => {
     expect(caveats).toContain("no Zoo-owned CLI release asset");
     expect(caveats).toContain("No built-in browser controller");
     expect(caveats).toContain("no coding-harness evaluation suite");
+  });
+
+  it("records the current source corrections for Letta, Command Code, Copilot, Cursor, Junie, and Kimi", () => {
+    const byId = new Map(harnesses.map((harness) => [harness.id, harness]));
+    const urlsFor = (id: string) => byId.get(id)!.evidence.map((source) => source.url);
+
+    const letta = byId.get("letta-code")!;
+    expect(letta.summary).not.toContain("hooks");
+    expect(letta.tradeoffs.join(" ")).toContain("starts in unrestricted mode");
+    expect(urlsFor("letta-code")).toEqual(expect.arrayContaining([
+      "https://docs.letta.com/concepts/memfs",
+      "https://docs.letta.com/configuration/permissions",
+      "https://docs.letta.com/platform/computers/cloud-sandboxes",
+      "https://docs.letta.com/configuration/subagents",
+      "https://docs.letta.com/platform/cli/headless",
+      "https://docs.letta.com/configuration/schedules",
+    ]));
+
+    expect(urlsFor("command-code")).toEqual(expect.arrayContaining([
+      "https://commandcode.ai/docs/hooks",
+      "https://commandcode.ai/docs/skills",
+    ]));
+    expect(urlsFor("copilot-cli")).toEqual(expect.arrayContaining([
+      "https://docs.github.com/en/copilot/concepts/agents/copilot-cli/autopilot",
+      "https://docs.github.com/en/copilot/concepts/agents/hooks",
+      "https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/overview",
+    ]));
+    expect(urlsFor("cursor-cli")).toContain(
+      "https://github.com/cursor/cursor/tree/654b1b4775ca67aef473bd31a14c8c04a1abde2d",
+    );
+    expect(urlsFor("junie-cli")).toEqual(expect.arrayContaining([
+      "https://junie.jetbrains.com/docs/junie-cli-remote-mode.html",
+      "https://junie.jetbrains.com/docs/agent-skills.html",
+      "https://github.com/JetBrains/junie/tree/9b3fe80b5779f0fc0f9b0ee4eeba50cc071948a5",
+      "https://github.com/JetBrains/junie/releases/tag/2518.1",
+    ]));
+    expect(byId.get("junie-cli")!.tradeoffs.join(" ")).toContain("machine must remain awake");
+    expect(urlsFor("kimi-code")).toEqual(expect.arrayContaining([
+      "https://github.com/MoonshotAI/kimi-code/tree/8a45f10eddbb35c317047e82e567cdb59a220b4f",
+      "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai%2Fkimi-code%400.29.2",
+      "https://moonshotai.github.io/kimi-code/en/customization/skills",
+      "https://moonshotai.github.io/kimi-code/en/customization/agents",
+      "https://moonshotai.github.io/kimi-code/en/customization/mcp",
+    ]));
   });
 
   it("keeps every product logo local and traceable to a first-party asset", () => {

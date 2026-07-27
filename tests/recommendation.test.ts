@@ -170,6 +170,35 @@ describe("recommendHarnesses", () => {
     expect(getOperationalProfile("factory-droid")).toMatchObject({ permissions: "policy", observability: "traces", recovery: "checkpoint" });
   });
 
+  it("recognizes Letta's opt-in policy for controlled multi-agent work without hiding its permissive default", () => {
+    const answers: RecommendationAnswers = {
+      ...base,
+      priority: "security",
+      modelAccess: "local",
+      control: "approval-heavy",
+      changeScope: "cross-file",
+      operatingMode: "parallel",
+      requiredFeatures: ["mcp", "sandbox", "subagents"],
+    };
+    const result = recommendHarnesses(answers).find((item) => item.harness.id === "letta-code");
+
+    expect(getOperationalProfile("letta-code").permissions).toBe("policy");
+    expect(result).toBeDefined();
+    expect(result!.scoreBreakdown.control).toBeGreaterThan(80);
+    expect(result!.reasons).toContain("It documents scoped policy or approval controls.");
+    expect(result!.harness.tradeoffs.join(" ")).toContain("starts in unrestricted mode");
+  });
+
+  it("admits Junie's tethered browser surface without describing it as an autonomous cloud runtime", () => {
+    const result = recommendHarnesses({ ...base, interface: "web" }).find((item) => item.harness.id === "junie-cli");
+
+    expect(result).toBeDefined();
+    expect(result!.harness.interfaces).toContain("web");
+    expect(result!.harness.classification.runtime).toBe("host-first");
+    expect(result!.harness.tradeoffs.join(" ")).toContain("running local CLI");
+    expect(result!.harness.tradeoffs.join(" ")).toContain("terminal-only actions");
+  });
+
   it("keeps fit separate from evidence coverage", () => {
     const cline = harnesses.find((harness) => harness.id === "cline")!;
     const limited: Harness = { ...cline, evidence: cline.evidence.slice(0, 2) };
