@@ -94,6 +94,12 @@ export const recommendationSensitivity = {
   scenarios: 512,
   weightMultiplierMin: 0.7,
   weightMultiplierMax: 1.3,
+  /**
+   * Maximum half-width of the symmetric perturbation applied to a factor value.
+   * Near 0 or 100 the applied half-width shrinks to the distance to the bound,
+   * so the perturbation stays centred on the factor value instead of losing one
+   * tail to a clamp.
+   */
   factorValueUncertainty: 12.5,
   seed: 0x484d_5632,
 } as const;

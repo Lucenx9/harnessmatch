@@ -182,6 +182,23 @@ function sensitivityWeights(random: () => number): FactorWeights {
   })) as FactorWeights;
 }
 
+/**
+ * Perturbs a factor value without biasing it toward the middle of the scale.
+ * Clamping raw noise would trim the upper tail of a high value and leave its
+ * lower tail intact, so strong candidates would drift down while mid candidates
+ * stayed put. Shrinking the half-width to the nearest bound keeps the
+ * perturbation symmetric, and therefore centred, at every point of the scale.
+ */
+export function perturbedFactorValue(value: number, random: () => number): number {
+  const bounded = clamp(value);
+  const halfWidth = Math.min(
+    recommendationSensitivity.factorValueUncertainty,
+    bounded,
+    100 - bounded,
+  );
+  return bounded + (random() * 2 - 1) * halfWidth;
+}
+
 function robustnessFor(candidates: Array<Pick<Recommendation, "harness" | "scoreBreakdown">>) {
   const counts = new Map<string, { top: number; topThree: number; ranks: number[] }>();
   for (const candidate of candidates) counts.set(candidate.harness.id, { top: 0, topThree: 0, ranks: [] });
@@ -194,10 +211,7 @@ function robustnessFor(candidates: Array<Pick<Recommendation, "harness" | "score
       value: weightedPreferenceValue(Object.fromEntries(
         (Object.keys(candidate.scoreBreakdown) as RecommendationFactor[]).map((factor) => [
           factor,
-          clamp(
-            candidate.scoreBreakdown[factor]
-              + (random() * 2 - 1) * recommendationSensitivity.factorValueUncertainty,
-          ),
+          perturbedFactorValue(candidate.scoreBreakdown[factor], random),
         ]),
       ) as Record<RecommendationFactor, number>, weights),
     })).sort((a, b) => b.value - a.value || a.id.localeCompare(b.id));

@@ -9,6 +9,7 @@ import {
   fitBandFor,
   isCompatible,
   missingRequiredFeatures,
+  perturbedFactorValue,
   recommendHarnesses,
   requiredFeaturesFor,
 } from "../src/lib/recommendation";
@@ -886,5 +887,63 @@ describe("recommendHarnesses", () => {
       observability: "traces",
       recovery: "checkpoint",
     });
+  });
+});
+
+describe("sensitivity perturbation", () => {
+  /**
+   * Uniform samples whose mean is exactly 0.5, so any offset left in the mean of
+   * the perturbed values is bias contributed by the perturbation itself rather
+   * than by the sampler.
+   */
+  const uniformSampler = (count: number) => {
+    let index = 0;
+    return () => (index++ + 0.5) / count;
+  };
+
+  const perturbationsOf = (value: number, count = 2_000) => {
+    const random = uniformSampler(count);
+    return Array.from({ length: count }, () => perturbedFactorValue(value, random));
+  };
+
+  const mean = (values: number[]) =>
+    values.reduce((total, value) => total + value, 0) / values.length;
+
+  it("stays centred on the factor value across the whole scale", () => {
+    for (const value of [0, 5, 12.5, 50, 87.5, 95, 100]) {
+      expect(mean(perturbationsOf(value)), `factor value ${value}`).toBeCloseTo(value, 9);
+    }
+  });
+
+  it("does not push high factor values down, which a clamped perturbation would", () => {
+    const high = mean(perturbationsOf(95));
+    const middle = mean(perturbationsOf(50));
+
+    expect(high - 95).toBeCloseTo(middle - 50, 9);
+  });
+
+  it("keeps perturbed values inside the reportable range", () => {
+    for (const value of [0, 1, 50, 99, 100]) {
+      const values = perturbationsOf(value);
+      expect(Math.min(...values), `factor value ${value}`).toBeGreaterThanOrEqual(0);
+      expect(Math.max(...values), `factor value ${value}`).toBeLessThanOrEqual(100);
+    }
+  });
+
+  it("uses the full uncertainty away from the bounds and shrinks it near them", () => {
+    const middle = perturbationsOf(50);
+    expect(Math.min(...middle)).toBeGreaterThanOrEqual(37.5);
+    expect(Math.max(...middle)).toBeLessThanOrEqual(62.5);
+
+    const nearBound = perturbationsOf(5);
+    expect(Math.min(...nearBound)).toBeGreaterThanOrEqual(0);
+    expect(Math.max(...nearBound)).toBeLessThanOrEqual(10);
+
+    expect(new Set(perturbationsOf(100))).toEqual(new Set([100]));
+  });
+
+  it("clamps an out-of-range factor value before perturbing it", () => {
+    expect(perturbationsOf(140).every((value) => value === 100)).toBe(true);
+    expect(perturbationsOf(-40).every((value) => value === 0)).toBe(true);
   });
 });
