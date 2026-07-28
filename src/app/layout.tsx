@@ -3,7 +3,14 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { canonicalMetadata, siteUrl } from "@/lib/site";
+import {
+  defaultSiteDescription,
+  defaultSiteTitle,
+  siteName,
+  siteUrl,
+  socialMetadata,
+  websiteStructuredData,
+} from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -29,13 +36,12 @@ const themeInit = `
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "HarnessMatch - Coding harness workflow fit",
-    template: "%s | HarnessMatch",
+    default: defaultSiteTitle,
+    template: `%s | ${siteName}`,
   },
-  description:
-    "Explore source-backed workflow fit across AI coding harnesses with transparent scoring and verified capabilities.",
-  ...canonicalMetadata("/"),
-  applicationName: "HarnessMatch",
+  description: defaultSiteDescription,
+  ...socialMetadata(defaultSiteTitle, defaultSiteDescription, "/"),
+  applicationName: siteName,
   icons: {
     icon: [
       {
@@ -55,27 +61,6 @@ export const metadata: Metadata = {
     ],
   },
   keywords: ["AI coding agents", "coding harnesses", "developer tools", "agent comparison"],
-  openGraph: {
-    title: "HarnessMatch - Coding harness workflow fit",
-    description: "An interactive, source-backed comparison of AI coding harnesses by workflow fit.",
-    type: "website",
-    siteName: "HarnessMatch",
-    locale: "en_US",
-    images: [
-      {
-        url: "/og.jpg",
-        width: 1200,
-        height: 630,
-        alt: "HarnessMatch coding harness workflow fit explorer.",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "HarnessMatch - Coding harness workflow fit",
-    description: "An interactive, source-backed comparison of AI coding harnesses by workflow fit.",
-    images: ["/og.jpg"],
-  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -88,6 +73,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteStructuredData).replaceAll("<", "\\u003c"),
+          }}
+        />
       </head>
       <body>
         <a className="skip-link" href="#main-content">Skip to content</a>

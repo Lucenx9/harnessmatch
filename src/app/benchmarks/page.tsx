@@ -10,12 +10,14 @@ import {
   benchmarkTopIntervalGroup,
   costPerSuccessfulTrial,
 } from "@/lib/evaluation";
-import { canonicalMetadata } from "@/lib/site";
+import { pageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Measured systems",
-  ...canonicalMetadata("/benchmarks"),
-};
+  description:
+    "Compare measured AI coding configurations with exact harness and model versions, budgets, environments, attempts, costs, and sources.",
+  path: "/benchmarks",
+});
 
 const requiredFields = [
   "Exact harness version and model",

@@ -21,7 +21,6 @@ import {
   productLayerLabels,
 } from "@/lib/harness-classification";
 import { architectureAxisLabels } from "@/lib/evaluation";
-import { canonicalMetadata } from "@/lib/site";
 import {
   capabilityAxisLabels,
   capabilityLevelAnchors,
@@ -34,11 +33,14 @@ import {
   recommendationSensitivity,
   recommendationWeights,
 } from "@/lib/recommendation-config";
+import { pageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Methodology",
-  ...canonicalMetadata("/methodology"),
-};
+  description:
+    "See how HarnessMatch gates requirements, scores workflow fit, separates model and harness evidence, handles uncertainty, and validates recommendations.",
+  path: "/methodology",
+});
 
 const methodologyVersion = "2.4 / 2026-07-27";
 const capabilityLevels = [1, 2, 3, 4, 5] as const;

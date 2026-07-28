@@ -3,7 +3,14 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import robots from "../src/app/robots";
 import sitemap from "../src/app/sitemap";
-import { canonicalMetadata, siteUrl } from "../src/lib/site";
+import { harnesses } from "../src/data/harnesses";
+import {
+  canonicalMetadata,
+  harnessProfileDescription,
+  pageMetadata,
+  siteUrl,
+  websiteStructuredData,
+} from "../src/lib/site";
 
 const repositoryRoot = fileURLToPath(new URL("../", import.meta.url));
 
@@ -13,6 +20,50 @@ describe("canonical production domain", () => {
     expect(canonicalMetadata("/compare")).toEqual({
       alternates: { canonical: "/compare" },
     });
+  });
+
+  it("builds page-specific canonical and social metadata", () => {
+    const metadata = pageMetadata({
+      title: "Compare coding harnesses",
+      description: "A page-specific description.",
+      path: "/compare",
+    });
+
+    expect(metadata).toEqual(expect.objectContaining({
+      title: "Compare coding harnesses",
+      description: "A page-specific description.",
+      alternates: { canonical: "/compare" },
+      openGraph: expect.objectContaining({
+        title: "Compare coding harnesses | HarnessMatch",
+        description: "A page-specific description.",
+        url: "/compare",
+      }),
+      twitter: expect.objectContaining({
+        title: "Compare coding harnesses | HarnessMatch",
+        description: "A page-specific description.",
+      }),
+    }));
+  });
+
+  it("publishes WebSite structured data on the canonical origin", () => {
+    expect(websiteStructuredData).toEqual(expect.objectContaining({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: "HarnessMatch",
+      url: siteUrl,
+      inLanguage: "en",
+    }));
+  });
+
+  it("keeps profile descriptions unique and within the audited length range", () => {
+    const descriptions = harnesses.map((harness) => (
+      harnessProfileDescription(harness.name, harness.tagline)
+    ));
+
+    expect(descriptions.every((description) => (
+      description.length >= 120 && description.length <= 170
+    ))).toBe(true);
+    expect(new Set(descriptions)).toHaveLength(harnesses.length);
   });
 
   it("publishes only custom-domain URLs in discovery files", () => {

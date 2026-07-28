@@ -32,7 +32,7 @@ import {
   benchmarkConfidenceInterval95,
   evidenceStateFor,
 } from "@/lib/evaluation";
-import { canonicalMetadata } from "@/lib/site";
+import { harnessProfileDescription, pageMetadata } from "@/lib/site";
 import type {
   ArchitectureAxis,
   EvidenceSource,
@@ -168,11 +168,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const harness = harnessBySlug.get(slug);
   if (!harness) return {};
-  return {
+  return pageMetadata({
     title: harness.name,
-    description: harness.summary,
-    ...canonicalMetadata(`/harnesses/${harness.slug}`),
-  };
+    description: harnessProfileDescription(harness.name, harness.tagline),
+    path: `/harnesses/${harness.slug}`,
+  });
 }
 
 export default async function HarnessPage({ params }: { params: Promise<{ slug: string }> }) {

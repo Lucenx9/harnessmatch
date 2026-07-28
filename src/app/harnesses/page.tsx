@@ -3,12 +3,14 @@ import { HarnessLensExplorer } from "@/components/harness-lens-explorer";
 import { featureSupportFor } from "@/data/feature-claims";
 import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnesses } from "@/data/harnesses";
-import { canonicalMetadata } from "@/lib/site";
+import { pageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Coding harness profiles",
-  ...canonicalMetadata("/harnesses"),
-};
+  description:
+    "Browse source-backed AI coding harness profiles by workflow, interfaces, providers, capabilities, trade-offs, and evidence.",
+  path: "/harnesses",
+});
 
 export default function HarnessesPage() {
   return (

@@ -1,17 +1,46 @@
 import type { Metadata } from "next";
 import { EvidenceLedger } from "@/components/evidence-ledger";
 import { discoveryWatchlist } from "@/data/discovery-watchlist";
+import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnesses } from "@/data/harnesses";
 import { researchProcessDisclosure } from "@/data/research-process";
-import { canonicalMetadata } from "@/lib/site";
+import { pageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Data and sources",
-  ...canonicalMetadata("/data"),
-};
+  description:
+    "Search the first-party evidence behind AI coding harness capabilities, classifications, trade-offs, and verification dates.",
+  path: "/data",
+});
 
 export default function DataPage() {
   const activeHarnesses = harnesses.filter((harness) => harness.status === "active");
+  const ledgerRecords = harnesses.map((harness) => ({
+    id: harness.id,
+    name: harness.name,
+    summary: harness.summary,
+    logo: harness.logo,
+    status: harness.status,
+    productLayer: getHarnessMembershipAssessment(harness)?.layer ?? null,
+    role: harness.classification.role,
+    orchestration: harness.classification.orchestration,
+    runtime: harness.classification.runtime,
+    isolation: harness.classification.isolation,
+    state: harness.classification.state,
+    license: harness.license,
+    verifiedAt: harness.verifiedAt,
+    evidence: harness.evidence.map((source) => ({
+      title: source.title,
+      url: source.url,
+      covers: source.covers,
+      kind: source.kind,
+    })),
+    discovery: harness.discovery?.map((source) => ({
+      title: source.title,
+      url: source.url,
+      note: source.note,
+    })),
+  }));
 
   return (
     <section className="section page-section">
@@ -30,7 +59,7 @@ export default function DataPage() {
           <span><strong>{discoveryWatchlist.length}</strong> watchlist records</span>
           <span><strong>0</strong> affiliate sources</span>
         </div>
-        <EvidenceLedger records={harnesses} />
+        <EvidenceLedger records={ledgerRecords} />
 
         <section className="watchlist-section" aria-labelledby="watchlist-heading">
           <div className="section-heading stacked-heading">

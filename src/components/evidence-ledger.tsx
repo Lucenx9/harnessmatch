@@ -2,7 +2,6 @@
 
 import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { HarnessLogo } from "@/components/harness-logo";
-import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import {
   formatIsolationModes,
   harnessRoleLabels,
@@ -11,9 +10,38 @@ import {
   runtimePostureLabels,
   stateModelLabels,
 } from "@/lib/harness-classification";
-import type { Harness } from "@/lib/types";
+import type {
+  DiscoverySource,
+  EvidenceSource,
+  Harness,
+  HarnessLogo as HarnessLogoData,
+  HarnessRole,
+  IsolationMode,
+  OrchestrationModel,
+  ProductLayer,
+  RuntimePosture,
+  StateModel,
+} from "@/lib/types";
 
-type StatusFilter = Harness["status"] | "all";
+export type EvidenceLedgerRecord = {
+  id: string;
+  name: string;
+  summary: string;
+  logo: HarnessLogoData;
+  status: Harness["status"];
+  productLayer: ProductLayer | null;
+  role: HarnessRole;
+  orchestration: OrchestrationModel;
+  runtime: RuntimePosture;
+  isolation: IsolationMode[];
+  state: StateModel;
+  license: string;
+  verifiedAt: string;
+  evidence: Array<Pick<EvidenceSource, "title" | "url" | "covers" | "kind">>;
+  discovery?: Array<Pick<DiscoverySource, "title" | "url" | "note">>;
+};
+
+type StatusFilter = EvidenceLedgerRecord["status"] | "all";
 
 const statusFilterLabels: Record<StatusFilter, string> = {
   all: "all statuses",
@@ -22,12 +50,11 @@ const statusFilterLabels: Record<StatusFilter, string> = {
   archived: "archived",
 };
 
-function productLayerLabelFor(record: Harness) {
-  const membership = getHarnessMembershipAssessment(record);
-  return membership ? productLayerLabels[membership.layer] : "Not assessed";
+function productLayerLabelFor(record: EvidenceLedgerRecord) {
+  return record.productLayer ? productLayerLabels[record.productLayer] : "Not assessed";
 }
 
-export function EvidenceLedger({ records }: { records: Harness[] }) {
+export function EvidenceLedger({ records }: { records: EvidenceLedgerRecord[] }) {
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState<StatusFilter>("all");
   const deferredQuery = useDeferredValue(query.trim().toLowerCase());
@@ -37,7 +64,7 @@ export function EvidenceLedger({ records }: { records: Harness[] }) {
       record.name,
       record.summary,
       productLayerLabelFor(record),
-      harnessRoleLabels[record.classification.role],
+      harnessRoleLabels[record.role],
       ...record.evidence.flatMap((source) => [source.title, source.covers]),
       ...(record.discovery?.flatMap((source) => [source.title, source.note]) ?? []),
     ];
@@ -89,7 +116,7 @@ export function EvidenceLedger({ records }: { records: Harness[] }) {
                 <HarnessLogo logo={record.logo} name={record.name} />
                 <span>
                   <strong>{record.name}</strong>
-                  <small>{productLayerLabelFor(record)}; {harnessRoleLabels[record.classification.role]}</small>
+                  <small>{productLayerLabelFor(record)}; {harnessRoleLabels[record.role]}</small>
                 </span>
               </span>
               <span className="evidence-record-meta">
@@ -102,11 +129,11 @@ export function EvidenceLedger({ records }: { records: Harness[] }) {
               <div className="evidence-product">
                 <p>
                   {productLayerLabelFor(record)}<br />
-                  {harnessRoleLabels[record.classification.role]}<br />
-                  {orchestrationLabels[record.classification.orchestration]}<br />
-                  {runtimePostureLabels[record.classification.runtime]}<br />
-                  {formatIsolationModes(record.classification.isolation)}<br />
-                  {stateModelLabels[record.classification.state]}<br />
+                  {harnessRoleLabels[record.role]}<br />
+                  {orchestrationLabels[record.orchestration]}<br />
+                  {runtimePostureLabels[record.runtime]}<br />
+                  {formatIsolationModes(record.isolation)}<br />
+                  {stateModelLabels[record.state]}<br />
                   {record.license}
                 </p>
                 <a className="logo-source-link" href={record.logo.sourceUrl} target="_blank" rel="noreferrer">

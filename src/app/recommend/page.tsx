@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { Recommender } from "@/components/recommender";
-import { canonicalMetadata } from "@/lib/site";
+import { pageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Harness recommender",
-  description: "Find the AI coding harness that best fits your workflow and constraints.",
-  ...canonicalMetadata("/recommend"),
-};
+  description:
+    "Answer seven questions to find the AI coding harness that best fits your workflow, constraints, preferred controls, model access, and operating mode.",
+  path: "/recommend",
+});
 
 export default function RecommendPage() {
   return (
