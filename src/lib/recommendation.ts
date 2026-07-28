@@ -183,12 +183,20 @@ function seededRandom(seed: number) {
   };
 }
 
+const recommendationFactors = Object.keys(recommendationWeights) as RecommendationFactor[];
+
 function sensitivityWeights(random: () => number): FactorWeights {
-  return Object.fromEntries((Object.keys(recommendationWeights) as RecommendationFactor[]).map((factor) => {
-    const multiplier = recommendationSensitivity.weightMultiplierMin
-      + random() * (recommendationSensitivity.weightMultiplierMax - recommendationSensitivity.weightMultiplierMin);
-    return [factor, recommendationWeights[factor] * multiplier];
-  })) as FactorWeights;
+  const weights = {} as FactorWeights;
+  const min = recommendationSensitivity.weightMultiplierMin;
+  const max = recommendationSensitivity.weightMultiplierMax;
+  const range = max - min;
+
+  for (let i = 0; i < recommendationFactors.length; i++) {
+    const factor = recommendationFactors[i];
+    const multiplier = min + random() * range;
+    weights[factor] = recommendationWeights[factor] * multiplier;
+  }
+  return weights;
 }
 
 /**
@@ -217,12 +225,13 @@ function robustnessFor(candidates: Array<Pick<Recommendation, "harness" | "score
     const weights = sensitivityWeights(random);
     const ranked = candidates.map((candidate) => ({
       id: candidate.harness.id,
-      value: weightedPreferenceValue(Object.fromEntries(
-        (Object.keys(candidate.scoreBreakdown) as RecommendationFactor[]).map((factor) => [
-          factor,
-          perturbedFactorValue(candidate.scoreBreakdown[factor], random),
-        ]),
-      ) as Record<RecommendationFactor, number>, weights),
+      value: weightedPreferenceValue(
+        recommendationFactors.reduce((acc, factor) => {
+          acc[factor] = perturbedFactorValue(candidate.scoreBreakdown[factor], random);
+          return acc;
+        }, {} as Record<RecommendationFactor, number>),
+        weights
+      ),
     })).sort((a, b) => b.value - a.value || a.id.localeCompare(b.id));
 
     ranked.forEach((candidate, index) => {
