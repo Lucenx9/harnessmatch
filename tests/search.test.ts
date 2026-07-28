@@ -4,6 +4,15 @@ import type { GlobalSearchItem } from "../src/lib/search";
 
 const items: GlobalSearchItem[] = [
   {
+    id: "gui-t3-code",
+    kind: "gui",
+    title: "T3 Code",
+    description: "Visual workspace for Codex and Claude Code.",
+    href: "/guis/t3-code",
+    keywords: ["gui", "parallel agents", "worktrees"],
+    meta: "Agent workspace",
+  },
+  {
     id: "harness-claude-code",
     kind: "harness",
     title: "Claude Code",
@@ -38,7 +47,7 @@ describe("rankSearchItems", () => {
   });
 
   it("filters immediately from a partial product name", () => {
-    expect(rankSearchItems(items, "cl").map((item) => item.title)).toEqual(["Claude Code", "Cline"]);
+    expect(rankSearchItems(items, "cl").map((item) => item.title)).toEqual(["Claude Code", "Cline", "T3 Code"]);
   });
 
   it("matches every token across documented search terms", () => {
@@ -55,5 +64,9 @@ describe("rankSearchItems", () => {
 
   it("does not return unrelated entries", () => {
     expect(rankSearchItems(items, "browser automation")).toEqual([]);
+  });
+
+  it("finds GUI records without treating them as harness profiles", () => {
+    expect(rankSearchItems(items, "t3 gui").map((item) => item.kind)).toEqual(["gui"]);
   });
 });

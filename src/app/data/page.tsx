@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { EvidenceLedger } from "@/components/evidence-ledger";
 import { discoveryWatchlist } from "@/data/discovery-watchlist";
+import { guiProducts } from "@/data/gui-products";
 import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnesses } from "@/data/harnesses";
 import { researchProcessDisclosure } from "@/data/research-process";
@@ -47,7 +48,7 @@ export default function DataPage() {
       <div className="shell wide-shell">
         <div className="page-intro">
           <h1>Inspect the sources.</h1>
-          <p>Search every product claim and open the first-party page that supports it.</p>
+          <p>Search coding-harness claims and open the first-party page that supports each record. GUI evidence stays with the dedicated GUI classifier.</p>
         </div>
         <aside className="notice prominent research-disclosure" aria-label="Research process disclosure">
           <p><strong>{researchProcessDisclosure.label}:</strong> {researchProcessDisclosure.short}</p>
@@ -55,6 +56,7 @@ export default function DataPage() {
         </aside>
         <div className="ledger-summary">
           <span><strong>{activeHarnesses.length}</strong> active products</span>
+          <span><strong>{guiProducts.length}</strong> GUI records on <a href="/guis">the GUI page</a></span>
           <span><strong>{activeHarnesses.reduce((total, harness) => total + harness.evidence.length, 0)}</strong> primary sources</span>
           <span><strong>{discoveryWatchlist.length}</strong> watchlist records</span>
           <span><strong>0</strong> affiliate sources</span>

@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { guiProducts } from "@/data/gui-products";
 import { harnesses } from "@/data/harnesses";
 import { latestVerifiedAt } from "@/lib/evidence-freshness";
 import { siteUrl } from "@/lib/site";
@@ -12,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${siteUrl}/recommend`, lastModified: siteCheckedAt, changeFrequency: "monthly", priority: 0.9 },
     { url: `${siteUrl}/compare`, lastModified: siteCheckedAt, changeFrequency: "monthly", priority: 0.8 },
     { url: `${siteUrl}/harnesses`, lastModified: siteCheckedAt, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${siteUrl}/guis`, lastModified: siteCheckedAt, changeFrequency: "weekly", priority: 0.8 },
     { url: `${siteUrl}/benchmarks`, lastModified: siteCheckedAt, changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/methodology`, lastModified: siteCheckedAt, changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/data`, lastModified: siteCheckedAt, changeFrequency: "weekly", priority: 0.6 },
@@ -25,6 +27,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.7,
     }));
+  const guiRoutes: MetadataRoute.Sitemap = guiProducts
+    .filter((product) => product.status === "active")
+    .map((product) => ({
+      url: `${siteUrl}/guis/${product.id}`,
+      lastModified: product.verifiedAt,
+    }));
 
-  return [...staticRoutes, ...harnessRoutes];
+  return [...staticRoutes, ...harnessRoutes, ...guiRoutes];
 }

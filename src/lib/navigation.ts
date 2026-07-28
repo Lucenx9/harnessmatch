@@ -28,6 +28,13 @@ export const searchablePageItems = [
     primary: true,
   },
   {
+    label: "GUIs",
+    href: "/guis",
+    description: "Choose a coding-agent GUI by workflow, harness, platform, and evidence.",
+    keywords: ["gui", "interface", "t3 code", "parallel agents", "desktop"],
+    primary: true,
+  },
+  {
     label: "Data",
     href: "/data",
     description: "Inspect evidence coverage, freshness, and source records.",

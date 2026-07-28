@@ -1,6 +1,6 @@
 export type GlobalSearchItem = {
   id: string;
-  kind: "harness" | "page";
+  kind: "harness" | "gui" | "page";
   title: string;
   description: string;
   href: string;

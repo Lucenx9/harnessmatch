@@ -30,6 +30,12 @@ describe("evidence freshness", () => {
     expect(scopes).toContain("logo");
     expect(scopes).toContain("membership");
     expect(scopes).toContain("operational-profile");
+    expect(scopes).toContain("gui-product");
+    expect(scopes).toContain("gui-logo");
+    expect(scopes).toContain("gui-claim");
+    expect(scopes).toContain("gui-source");
+    expect(scopes).toContain("gui-repository-audit");
+    expect(scopes).toContain("gui-exclusion");
   });
 
   it("records every verification date as a real ISO calendar day", () => {

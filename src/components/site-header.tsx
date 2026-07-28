@@ -3,6 +3,7 @@ import { BrandMark } from "@/components/brand-mark";
 import { GlobalSearch } from "@/components/global-search";
 import { NavLinks } from "@/components/nav-links";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { guiProducts } from "@/data/gui-products";
 import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnesses } from "@/data/harnesses";
 import { searchablePageItems } from "@/lib/navigation";
@@ -66,6 +67,26 @@ const harnessSearchItems: GlobalSearchItem[] = harnesses.map((harness) => {
   };
 });
 
+const guiSearchItems: GlobalSearchItem[] = guiProducts.map((product) => ({
+  id: `gui-${product.id}`,
+  kind: "gui",
+  title: product.name,
+  description: product.summary,
+  href: `/guis/${product.id}`,
+  keywords: [
+    "gui",
+    "coding agent interface",
+    product.layer,
+    product.sourceAccess,
+    product.license,
+    ...product.platforms,
+    ...product.supportedHarnesses,
+    ...(product.acceptsArbitraryCli ? ["any cli", "multiple harnesses"] : []),
+  ],
+  imageSrc: product.logo.src,
+  meta: product.layer === "harness-native" ? "Native GUI" : "Agent workspace",
+}));
+
 const pageSearchItems: GlobalSearchItem[] = searchablePageItems.map((page) => ({
   id: `page-${page.href === "/" ? "home" : page.href.slice(1)}`,
   kind: "page",
@@ -76,7 +97,7 @@ const pageSearchItems: GlobalSearchItem[] = searchablePageItems.map((page) => ({
   meta: "Page",
 }));
 
-const globalSearchItems = [...harnessSearchItems, ...pageSearchItems];
+const globalSearchItems = [...harnessSearchItems, ...guiSearchItems, ...pageSearchItems];
 
 export function SiteHeader() {
   return (
@@ -89,7 +110,7 @@ export function SiteHeader() {
         <nav className="desktop-nav" aria-label="Primary navigation">
           <NavLinks />
         </nav>
-        <GlobalSearch profileCount={harnesses.length} items={globalSearchItems} />
+        <GlobalSearch recordCount={harnesses.length + guiProducts.length} items={globalSearchItems} />
         <details className="mobile-menu">
           <summary>Menu</summary>
           <nav aria-label="Mobile navigation">
