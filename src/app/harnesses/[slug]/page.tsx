@@ -32,7 +32,12 @@ import {
   benchmarkConfidenceInterval95,
   evidenceStateFor,
 } from "@/lib/evaluation";
-import type { ArchitectureAxis, EvidenceSource, FeatureKey } from "@/lib/types";
+import type {
+  ArchitectureAxis,
+  EvidenceSource,
+  FeatureKey,
+  MembershipEvidenceState,
+} from "@/lib/types";
 
 export const dynamicParams = false;
 
@@ -64,6 +69,12 @@ const evidenceKindLabels = {
   "official-repository": "Official repository",
   "official-announcement": "Official announcement",
 } as const;
+
+const membershipEvidenceLabels: Record<MembershipEvidenceState, string> = {
+  documented: "Documented",
+  contradicted: "Contradicted",
+  unknown: "Not established",
+};
 
 type EvidenceTopic = NonNullable<EvidenceSource["topic"]> | "additional";
 
@@ -171,6 +182,10 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
   const documentedMembershipCriteria = membership
     ? Object.values(membership.criteria).filter((criterion) => criterion.state === "documented").length
     : 0;
+  const totalMembershipCriteria = membership ? Object.keys(membership.criteria).length : 0;
+  const qualifiesAsCodingHarness = membership?.layer === "coding-harness"
+    && totalMembershipCriteria > 0
+    && documentedMembershipCriteria === totalMembershipCriteria;
   const evidenceByUrl = new Map(harness.evidence.map((source) => [source.url, source]));
   const operational = operationalRecord.profile;
   const architecture = architectureProfileFor(harness);
@@ -294,7 +309,13 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
                 </div>
                 <div>
                   <dt>Harness membership</dt>
-                  <dd>{membership ? `${documentedMembershipCriteria}/4 criteria documented` : "Not assessed"}</dd>
+                  <dd>
+                    {membership
+                      ? qualifiesAsCodingHarness
+                        ? `Qualifies — ${documentedMembershipCriteria} required criteria evidenced`
+                        : `${documentedMembershipCriteria} of ${totalMembershipCriteria} required criteria evidenced`
+                      : "Not assessed"}
+                  </dd>
                 </div>
                 <div>
                   <dt>Product role</dt>
@@ -373,33 +394,41 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
           <section className="profile-membership" id="membership" aria-labelledby="membership-heading">
             <div className="profile-section-heading">
               <div>
-                <h2 id="membership-heading">Coding-harness membership</h2>
-                <p>The four category tests are admission criteria, not quality points. Every documented state links back to first-party evidence.</p>
+                <h2 id="membership-heading">Why it qualifies as a coding harness</h2>
+                <p>This confirms category fit, not product quality. Every required criterion links back to first-party evidence.</p>
               </div>
-              <div className="profile-operational-summary">
-                <strong>{documentedMembershipCriteria}/4</strong>
-                <span>criteria documented</span>
+              <div className={`profile-membership-verdict profile-membership-verdict--${qualifiesAsCodingHarness ? "qualified" : "unconfirmed"}`}>
+                <strong>{qualifiesAsCodingHarness ? "Qualifies" : "Not established"}</strong>
+                <span>{documentedMembershipCriteria} of {totalMembershipCriteria} required criteria evidenced</span>
               </div>
             </div>
             <ul className="profile-membership-grid">
               {Object.entries(membership.criteria).map(([criterion, assessment]) => (
-                <li key={criterion}>
-                  <span>{membershipCriterionLabels[criterion as keyof typeof membership.criteria]}</span>
-                  <strong>{assessment.state === "documented" ? "Documented" : assessment.state === "contradicted" ? "Contradicted" : "Unknown"}</strong>
+                <li className="profile-membership-criterion" key={criterion}>
+                  <h3>{membershipCriterionLabels[criterion as keyof typeof membership.criteria]}</h3>
+                  <span className={`profile-membership-state profile-membership-state--${assessment.state}`}>
+                    <i aria-hidden="true" />
+                    {membershipEvidenceLabels[assessment.state]}
+                  </span>
                   <p>{membershipCriterionDescriptions[criterion as keyof typeof membership.criteria]}</p>
-                  <div>
-                    {assessment.sourceUrls.map((url) => (
-                      <a href={url} target="_blank" rel="noreferrer" key={url}>
-                        {evidenceByUrl.get(url)?.title ?? "First-party source"}
-                      </a>
-                    ))}
+                  <div className="profile-membership-sources" aria-label="First-party evidence">
+                    {assessment.sourceUrls.length > 0
+                      ? assessment.sourceUrls.map((url) => (
+                          <a href={url} target="_blank" rel="noreferrer" key={url}>
+                            <span>Evidence</span>
+                            {evidenceByUrl.get(url)?.title ?? "First-party source"}
+                          </a>
+                        ))
+                      : <span className="profile-membership-source-missing">No first-party source linked</span>}
                   </div>
                 </li>
               ))}
             </ul>
             <footer>
-              <p>{membership.limitation} Checked {membership.verifiedAt}.</p>
-              <Link className="text-link" href="/methodology#eligibility">Membership rule</Link>
+              <p>
+                {membership.limitation} <time dateTime={membership.verifiedAt}>Checked {membership.verifiedAt}.</time>{" · "}
+                <Link className="text-link" href="/methodology#eligibility">Read the membership rule.</Link>
+              </p>
             </footer>
           </section>
         )}
