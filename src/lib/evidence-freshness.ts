@@ -41,7 +41,8 @@ export type VerifiedRecordScope =
   | "gui-source"
   | "gui-repository-audit"
   | "gui-exclusion"
-  | "openrouter-attribution";
+  | "openrouter-attribution"
+  | "openrouter-ranking";
 
 export type VerifiedRecord = {
   scope: VerifiedRecordScope;
@@ -195,6 +196,12 @@ export function verifiedRecords(): VerifiedRecord[] {
       subject: snapshot.harnessId,
       detail: snapshot.sourceUrl,
       verifiedAt: snapshot.observedAt,
+    });
+    records.push({
+      scope: "openrouter-ranking",
+      subject: snapshot.harnessId,
+      detail: `${snapshot.rolling30d.category}:${snapshot.rolling30d.windowStart}:${snapshot.rolling30d.windowEnd}`,
+      verifiedAt: snapshot.rolling30d.observedAt,
     });
   }
 

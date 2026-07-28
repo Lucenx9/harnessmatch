@@ -154,12 +154,24 @@ export type DiscoverySource = {
 export type OpenRouterAttributionSnapshot = {
   harnessId: string;
   appSlug: string;
+  appId: number;
   sourceUrl: string;
   integrationUrl?: string;
   attributedTokens: number;
   dailyGlobalRank: number | null;
   modelsObserved: number;
   observedAt: string;
+  rolling30d: {
+    category: "coding";
+    rank: number | null;
+    attributedTokens: number | null;
+    attributedRequests: number | null;
+    windowStart: string;
+    windowEnd: string;
+    observedAt: string;
+    datasetVersion: string;
+    sourceUrl: string;
+  };
 };
 
 export type Harness = {

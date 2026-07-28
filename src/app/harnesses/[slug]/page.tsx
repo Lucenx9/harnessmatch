@@ -497,38 +497,44 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
               <div>
                 <span>Ecosystem signal</span>
                 <h2 id="openrouter-heading">OpenRouter routing footprint</h2>
-                <p>Public traffic attributed to this app on OpenRouter. It is context about one routing channel, not a capability or quality score.</p>
+                <p>Public traffic attributed to this app on OpenRouter. The comparable API window runs from {openRouterSnapshot.rolling30d.windowStart} to {openRouterSnapshot.rolling30d.windowEnd}. It is context about one routing channel, not a capability or quality score.</p>
               </div>
               <a className="text-link" href={openRouterSnapshot.sourceUrl} target="_blank" rel="noreferrer">Open app page</a>
             </header>
             <dl className="profile-openrouter-metrics">
               <div>
-                <dt>Attributed tokens</dt>
-                <dd title={`${openRouterSnapshot.attributedTokens.toLocaleString("en-US")} tokens`}>
-                  {compactNumberFormatter.format(openRouterSnapshot.attributedTokens)}
+                <dt>30-day coding rank</dt>
+                <dd>{openRouterSnapshot.rolling30d.rank === null ? "Not listed" : `#${openRouterSnapshot.rolling30d.rank}`}</dd>
+                <small>Coding category</small>
+              </div>
+              <div>
+                <dt>30-day attributed tokens</dt>
+                <dd title={openRouterSnapshot.rolling30d.attributedTokens === null ? undefined : `${openRouterSnapshot.rolling30d.attributedTokens.toLocaleString("en-US")} tokens`}>
+                  {openRouterSnapshot.rolling30d.attributedTokens === null ? "—" : compactNumberFormatter.format(openRouterSnapshot.rolling30d.attributedTokens)}
                 </dd>
-                <small>OpenRouter page total</small>
+                <small>Same API window</small>
               </div>
               <div>
-                <dt>Daily global rank</dt>
-                <dd>{openRouterSnapshot.dailyGlobalRank === null ? "Not listed" : `#${openRouterSnapshot.dailyGlobalRank}`}</dd>
-                <small>At observation time</small>
-              </div>
-              <div>
-                <dt>Models used</dt>
-                <dd>{openRouterSnapshot.modelsObserved.toLocaleString("en-US")}</dd>
-                <small>OpenRouter page count</small>
+                <dt>30-day attributed requests</dt>
+                <dd title={openRouterSnapshot.rolling30d.attributedRequests === null ? undefined : `${openRouterSnapshot.rolling30d.attributedRequests.toLocaleString("en-US")} requests`}>
+                  {openRouterSnapshot.rolling30d.attributedRequests === null ? "—" : compactNumberFormatter.format(openRouterSnapshot.rolling30d.attributedRequests)}
+                </dd>
+                <small>Same API window</small>
               </div>
             </dl>
             <footer>
               <p>
-                Attribution excludes direct APIs, subscriptions, local models, and traffic without app attribution. Token volume is not a standardized workload, user count, or task-success measure.
+                Attribution excludes direct APIs, subscriptions, local models, and traffic without app attribution. OpenRouter coding-category rank is channel-specific; an unlisted app is not scored as zero. Token volume is not a standardized workload, user count, or task-success measure.
               </p>
               <div>
                 {openRouterSnapshot.integrationUrl && (
                   <a className="text-link" href={openRouterSnapshot.integrationUrl} target="_blank" rel="noreferrer">OpenRouter setup</a>
                 )}
-                <span>Source: OpenRouter, as of <time dateTime={openRouterSnapshot.observedAt}>{openRouterSnapshot.observedAt}</time></span>
+                <a className="text-link" href={openRouterSnapshot.rolling30d.sourceUrl} target="_blank" rel="noreferrer">Dataset definition</a>
+                <span title={`${openRouterSnapshot.attributedTokens.toLocaleString("en-US")} page-total tokens`}>
+                  App page: {compactNumberFormatter.format(openRouterSnapshot.attributedTokens)} tokens · {openRouterSnapshot.modelsObserved.toLocaleString("en-US")} models · daily rank {openRouterSnapshot.dailyGlobalRank === null ? "not listed" : `#${openRouterSnapshot.dailyGlobalRank}`}
+                </span>
+                <span>Source: OpenRouter (openrouter.ai/apps), as of <time dateTime={openRouterSnapshot.rolling30d.observedAt}>{openRouterSnapshot.rolling30d.observedAt}</time></span>
               </div>
             </footer>
           </section>

@@ -9,6 +9,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "check:sources": "node scripts/check-source-health.mjs",
+    "sync:openrouter": "node scripts/sync-openrouter-attribution.mjs",
     "verify": "npm run typecheck && npm test && npm run build",
     "verify:maintenance": "npm run check:sources && npm run verify"
   },

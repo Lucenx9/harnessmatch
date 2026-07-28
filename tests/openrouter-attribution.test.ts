@@ -13,6 +13,8 @@ describe("OpenRouter attribution snapshots", () => {
     for (const snapshot of openRouterAttributionSnapshots) {
       expect(harnessIds.has(snapshot.harnessId), snapshot.harnessId).toBe(true);
       expect(snapshot.sourceUrl).toBe(`https://openrouter.ai/apps/${snapshot.appSlug}`);
+      expect(Number.isSafeInteger(snapshot.appId), snapshot.harnessId).toBe(true);
+      expect(snapshot.appId, snapshot.harnessId).toBeGreaterThan(0);
     }
   });
 
@@ -27,6 +29,27 @@ describe("OpenRouter attribution snapshots", () => {
         expect(snapshot.dailyGlobalRank, snapshot.harnessId).toBeGreaterThan(0);
       }
       expect(isValidVerificationDate(snapshot.observedAt), snapshot.harnessId).toBe(true);
+      expect(snapshot.rolling30d.category, snapshot.harnessId).toBe("coding");
+      expect(isValidVerificationDate(snapshot.rolling30d.windowStart), snapshot.harnessId).toBe(true);
+      expect(isValidVerificationDate(snapshot.rolling30d.windowEnd), snapshot.harnessId).toBe(true);
+      expect(isValidVerificationDate(snapshot.rolling30d.observedAt), snapshot.harnessId).toBe(true);
+      expect(snapshot.rolling30d.windowStart <= snapshot.rolling30d.windowEnd, snapshot.harnessId).toBe(true);
+      expect(snapshot.rolling30d.windowEnd <= snapshot.rolling30d.observedAt, snapshot.harnessId).toBe(true);
+      expect(snapshot.rolling30d.sourceUrl).toBe("https://openrouter.ai/docs/agent-sdk/typescript/api-reference/datasets");
+      const rollingValues = [
+        snapshot.rolling30d.rank,
+        snapshot.rolling30d.attributedTokens,
+        snapshot.rolling30d.attributedRequests,
+      ];
+      const allMissing = rollingValues.every((value) => value === null);
+      const allPresent = rollingValues.every((value) => value !== null);
+      expect(allMissing || allPresent, snapshot.harnessId).toBe(true);
+      for (const value of rollingValues) {
+        if (value !== null) {
+          expect(Number.isSafeInteger(value), snapshot.harnessId).toBe(true);
+          expect(value, snapshot.harnessId).toBeGreaterThan(0);
+        }
+      }
     }
   });
 });
