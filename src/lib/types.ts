@@ -1,6 +1,6 @@
 export type InterfaceType = "terminal" | "ide" | "web" | "automation";
 export type Priority = "simplicity" | "flexibility" | "security" | "autonomy";
-export type ModelAccess = "subscription" | "model-agnostic" | "local" | "enterprise";
+export type ModelAccess = "subscription" | "model-agnostic" | "local" | "enterprise" | "no-preference";
 export type ControlStyle = "approval-heavy" | "balanced" | "hands-off";
 export type ChangeScope = "focused" | "cross-file" | "large-repo";
 export type OperatingMode = "interactive" | "ci" | "parallel";

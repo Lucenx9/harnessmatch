@@ -5,7 +5,7 @@ import { pageMetadata } from "@/lib/site";
 export const metadata: Metadata = pageMetadata({
   title: "Harness recommender",
   description:
-    "Answer seven questions to find the AI coding harness that best fits your workflow, constraints, preferred controls, model access, and operating mode.",
+    "Answer seven questions, review your constraints, and compare the AI coding harnesses that best fit your workflow, controls, and model access.",
   path: "/recommend",
 });
 
@@ -15,7 +15,7 @@ export default function RecommendPage() {
       <div className="shell narrow-shell">
         <div className="page-intro">
           <h1>Find your coding harness.</h1>
-          <p>Answer seven questions. Get one recommendation, two alternatives, and the evidence behind them.</p>
+          <p>Answer seven short questions. Review your choices, then compare the leading matches and the evidence behind them.</p>
         </div>
         <Recommender />
       </div>

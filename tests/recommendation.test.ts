@@ -9,6 +9,7 @@ import {
   eligibilityFailuresFor,
   fitBandFor,
   isCompatible,
+  leadingMatchCount,
   missingRequiredFeatures,
   perturbedFactorValue,
   recommendHarnesses,
@@ -19,6 +20,7 @@ import {
   capabilityLevelAnchors,
   capabilityValueFunction,
   changeScopeWeights,
+  closeMatchScoreMargin,
   controlStyleWeights,
   operatingModeWeights,
   operationalPostureScores,
@@ -161,6 +163,13 @@ describe("recommendHarnesses", () => {
     expect(fitBandFor(0)).toBe("weak");
   });
 
+  it("presents near-tied preference values as a leading group", () => {
+    expect(closeMatchScoreMargin).toBe(2);
+    expect(leadingMatchCount([{ score: 81 }, { score: 79 }, { score: 78 }, { score: 70 }])).toBe(2);
+    expect(leadingMatchCount([{ score: 72 }, { score: 72 }, { score: 70 }])).toBe(3);
+    expect(leadingMatchCount([])).toBe(0);
+  });
+
   it("treats interface and model access as non-compensatory gates", () => {
     const answers: RecommendationAnswers = {
       ...base,
@@ -183,6 +192,14 @@ describe("recommendHarnesses", () => {
     expect(enterpriseIds).toContain("gemini-cli");
     expect(harnesses.find((item) => item.id === "gemini-cli")?.providerStyle).toBe("single-vendor");
     expect(harnesses.find((item) => item.id === "antigravity-cli")?.providerStyle).toBe("multi-provider");
+  });
+
+  it("lets an undecided user skip the model-access gate explicitly", () => {
+    const unconstrainedIds = recommendHarnesses({ ...base, modelAccess: "no-preference" })
+      .map((item) => item.harness.id);
+
+    expect(unconstrainedIds).toContain("gemini-cli");
+    expect(unconstrainedIds).toContain("claude-code");
   });
 
   it("credits Antigravity's typed tool and subagent event stream as trace observability", () => {

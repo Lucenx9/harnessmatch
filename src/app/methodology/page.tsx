@@ -26,6 +26,7 @@ import {
   capabilityLevelAnchors,
   capabilityValueFunction,
   changeScopeWeights,
+  closeMatchScoreMargin,
   controlStyleWeights,
   evidenceCoverageThresholds,
   operatingModeWeights,
@@ -42,7 +43,7 @@ export const metadata: Metadata = pageMetadata({
   path: "/methodology",
 });
 
-const methodologyVersion = "2.4 / 2026-07-27";
+const methodologyVersion = "2.5 / 2026-07-28";
 const capabilityLevels = [1, 2, 3, 4, 5] as const;
 const methodologySections = [
   ["decision-question", "Decision question"],
@@ -155,7 +156,7 @@ export default function MethodologyPage() {
           <p>Layer and product role are independent. A platform can still qualify as a coding harness when it owns the loop; a control plane that only supervises external harnesses does not. Orchestrators, frameworks, and adjacent tools remain available to catalog and compare, but they do not enter the default recommendation ordering.</p>
 
           <h3>Workflow gates</h3>
-          <p>After membership, interface, model-access path, explicit required features, and mode-implied requirements are non-compensatory gates. Consumer subscription access, enterprise access, provider breadth, and local-model support are recorded independently: one never establishes another by inference. CI requires headless execution; parallel work requires documented subagents. A high value elsewhere cannot compensate for a failed gate.</p>
+          <p>After membership, interface, model-access path, explicit required features, and mode-implied requirements are non-compensatory gates. Consumer subscription access, enterprise access, provider breadth, and local-model support are recorded independently: one never establishes another by inference. Choosing no model-access preference skips that gate instead of inventing a default constraint. CI requires headless execution; parallel work requires documented subagents. A high value elsewhere cannot compensate for a failed gate.</p>
           <p>Each capability is stored once as a source-linked claim; catalog filters and eligibility gates are derived from that record rather than maintained as separate yes/no fields. Claims preserve operating state: available by default, documented, optional, surface-specific, not documented, explicitly absent, or deprecated. A supported gate must link to a first-party source and verification date. “Not documented” remains uncertainty; “no built-in support” is used only when an admitted source says so explicitly.</p>
           <p>Only active products are eligible: dormant and archived products remain visible for research but are excluded from recommendations and benchmark rankings. OpenRouter and GitHub are discovery sources only: they can create a research candidate, but cannot establish a capability.</p>
           <p>The current public status is deliberately conservative: “Eligible” means catalog membership and every declared workflow gate have current supporting documentation. “Not eligible on current evidence” can mean a neighboring product layer or at least one undocumented gate; it does not prove technical impossibility.</p>
@@ -202,6 +203,7 @@ export default function MethodologyPage() {
         <section className="prose-section" id="sensitivity">
           <h2>4. Sensitivity instead of false precision</h2>
           <p>For each answer set, HarnessMatch evaluates {recommendationSensitivity.scenarios} deterministic sensitivity scenarios. Every reference weight is multiplied by a value between {recommendationSensitivity.weightMultiplierMin} and {recommendationSensitivity.weightMultiplierMax}, then renormalized; each provisional factor value is also stressed by up to ±{recommendationSensitivity.factorValueUncertainty} points, half of one rubric step. The interface reports top-rank frequency, top-three frequency, mean rank, and best-worst rank.</p>
+          <p>Any result within {closeMatchScoreMargin} internal preference points of the highest provisional value is presented as part of the leading group. This display rule does not change the calculation; it prevents a small editorial-value difference from being presented as a uniquely superior product.</p>
           <p>A “top three in 90%” result means 90% of tested preference-and-rating stress scenarios place the harness in the top three. It is not a 90% chance of task success and is not a Bayesian posterior. The uncertainty ranges are methodological stress bounds, not empirically estimated rating-error distributions.</p>
           <p>If any scored operational input is undocumented, the candidate remains unranked for that comparison. Missing values are not renormalized away and are never converted into evidence of absence.</p>
         </section>

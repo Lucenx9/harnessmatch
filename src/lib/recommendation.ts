@@ -10,6 +10,7 @@ import {
 import {
   capabilityValueFunction,
   changeScopeWeights,
+  closeMatchScoreMargin,
   controlStyleWeights,
   evidenceCoverageThresholds,
   fitBandThresholds,
@@ -54,6 +55,7 @@ const modelAccessLabels: Record<RecommendationAnswers["modelAccess"], string> = 
   "model-agnostic": "multiple model providers",
   local: "local models",
   enterprise: "an enterprise access path",
+  "no-preference": "any documented model access path",
 };
 
 const priorityReason: Record<RecommendationAnswers["priority"], string> = {
@@ -164,6 +166,12 @@ export function fitBandFor(score: number): Recommendation["fitBand"] {
   return "weak";
 }
 
+export function leadingMatchCount(results: readonly Pick<Recommendation, "score">[]): number {
+  if (results.length === 0) return 0;
+  const topScore = Math.max(...results.map((result) => result.score));
+  return results.filter((result) => topScore - result.score <= closeMatchScoreMargin).length;
+}
+
 function seededRandom(seed: number) {
   let state = seed >>> 0;
   return () => {
@@ -250,6 +258,7 @@ export function missingRequiredFeatures(harness: Harness, answers: Recommendatio
 }
 
 function supportsRequestedModelAccess(harness: Harness, answers: RecommendationAnswers) {
+  if (answers.modelAccess === "no-preference") return true;
   if (answers.modelAccess === "subscription") return harness.supportsSubscription;
   if (answers.modelAccess === "local") {
     return featureClaimSupportsRequirement(featureClaimFor(harness, "localModels"));
@@ -344,7 +353,11 @@ function explain(harness: Harness, answers: RecommendationAnswers) {
   if (answers.changeScope === "large-repo" && harness.capabilities.largeRepo >= 4) reasons.push("It is documented for changes across a large repository.");
   if (answers.operatingMode === "ci") reasons.push("It can run unattended in CI or headless mode.");
   if (answers.operatingMode === "parallel") reasons.push("It can split work across subagents or parallel tasks.");
-  reasons.push(`Works in your preferred ${interfaceLabels[answers.interface]} and supports ${modelAccessLabels[answers.modelAccess]}.`);
+  if (answers.modelAccess === "no-preference") {
+    reasons.push(`Works in your preferred ${interfaceLabels[answers.interface]}; no model-access gate was applied.`);
+  } else {
+    reasons.push(`Works in your preferred ${interfaceLabels[answers.interface]} and supports ${modelAccessLabels[answers.modelAccess]}.`);
+  }
   if (evidenceCoverageFor(harness) === "limited") compromises.push("Fewer first-party sources are currently available for this product.");
   if (harness.tradeoffs.length > 0 && compromises.length < 3) compromises.push(harness.tradeoffs[0]);
   return { reasons: reasons.slice(0, 4), compromises: compromises.slice(0, 3) };

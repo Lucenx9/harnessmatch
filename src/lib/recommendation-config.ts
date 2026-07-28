@@ -110,6 +110,12 @@ export const fitBandThresholds = {
   conditional: 35,
 } as const;
 
+/**
+ * Results this close to the highest provisional preference value are presented
+ * as a leading group instead of implying that the internal ordering is exact.
+ */
+export const closeMatchScoreMargin = 2;
+
 export const operationalPostureScores = {
   context: {
     basic: 40,

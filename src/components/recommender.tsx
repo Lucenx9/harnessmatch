@@ -6,8 +6,10 @@ import { HarnessLogo } from "@/components/harness-logo";
 import { WorkflowPortabilityLens } from "@/components/workflow-portability-lens";
 import { benchmarkRunsForHarness } from "@/data/benchmark-runs";
 import { harnesses } from "@/data/harnesses";
-import { eligibilityFailuresFor, recommendHarnesses } from "@/lib/recommendation";
+import { eligibilityFailuresFor, leadingMatchCount, recommendHarnesses } from "@/lib/recommendation";
 import type { FeatureKey, Recommendation, RecommendationAnswers, RecommendationFactor } from "@/lib/types";
+
+type QuestionKey = Exclude<keyof RecommendationAnswers, "requiredFeatures">;
 
 const defaultAnswers: RecommendationAnswers = {
   interface: "terminal",
@@ -47,12 +49,12 @@ const questions = [
   {
     key: "modelAccess",
     title: "How do you access AI models?",
-    description: "Choose how you expect to run most tasks. You can add strict requirements at the end.",
+    description: "Choose the access path you expect to use most often.",
     options: [
       ["subscription", "Existing subscription", "Prefer ChatGPT, Claude, or another subscription"],
-      ["model-agnostic", "Multiple model providers", "Choose models from more than one provider"],
+      ["model-agnostic", "API keys / providers", "Bring API keys or choose among supported providers"],
       ["local", "Local models", "Ollama, LM Studio, or self-hosted endpoints"],
-      ["enterprise", "Enterprise access", "Organization-managed cloud access and governance"],
+      ["no-preference", "No preference", "Keep every documented access path in consideration"],
     ],
   },
   {
@@ -122,9 +124,10 @@ const priorityLabels: Record<RecommendationAnswers["priority"], string> = {
 
 const modelAccessLabels: Record<RecommendationAnswers["modelAccess"], string> = {
   subscription: "Existing subscription",
-  "model-agnostic": "Multiple model providers",
+  "model-agnostic": "API keys / providers",
   local: "Local models",
   enterprise: "Enterprise access",
+  "no-preference": "No model-access constraint",
 };
 
 const controlLabels: Record<RecommendationAnswers["control"], string> = {
@@ -166,6 +169,12 @@ function alignmentLabel(value: number) {
   return "Weak";
 }
 
+function rankRangeLabel(result: Recommendation) {
+  const { bestRank, scenarioCount, worstRank } = result.robustness;
+  if (bestRank === worstRank) return `Rank ${bestRank} across all ${scenarioCount} sensitivity runs`;
+  return `Rank range ${bestRank}-${worstRank} across ${scenarioCount} sensitivity runs`;
+}
+
 function eligibilityFailureLabel(failure: ReturnType<typeof eligibilityFailuresFor>[number]) {
   if (failure.kind === "product-layer") return `Catalog scope: ${failure.label}`;
   if (failure.kind === "membership") return `Membership evidence: ${failure.label}`;
@@ -202,6 +211,8 @@ function decodeAnswers(value: string): RecommendationAnswers | null {
 export function Recommender() {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState(defaultAnswers);
+  const [answeredQuestions, setAnsweredQuestions] = useState<Set<QuestionKey>>(() => new Set());
+  const [returnToReview, setReturnToReview] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [copied, setCopied] = useState(false);
   const resultsHeadingRef = useRef<HTMLHeadingElement>(null);
@@ -254,10 +265,23 @@ export function Recommender() {
     }))
     .filter((result) => result.failures.length > 0), [answers]);
 
-  function choose(key: string, value: string) {
-    setAnswers((current) => ({ ...current, [key]: value }));
-    if (step < questions.length - 1) setStep((current) => current + 1);
-    else setStep(questions.length);
+  function choose(key: QuestionKey, value: string) {
+    setAnswers((current) => ({ ...current, [key]: value }) as RecommendationAnswers);
+    setAnsweredQuestions((current) => new Set(current).add(key));
+  }
+
+  function continueFromQuestion() {
+    if (returnToReview) {
+      setReturnToReview(false);
+      setStep(questions.length + 1);
+      return;
+    }
+    setStep((current) => current + 1);
+  }
+
+  function editQuestion(index: number) {
+    setReturnToReview(true);
+    setStep(index);
   }
 
   function toggleFeature(feature: FeatureKey) {
@@ -283,13 +307,17 @@ export function Recommender() {
 
   function restart() {
     setAnswers(defaultAnswers);
+    setAnsweredQuestions(new Set());
+    setReturnToReview(false);
     setStep(0);
     setShowResults(false);
     window.history.replaceState(null, "", window.location.pathname);
   }
 
   function reviseAnswers() {
-    setStep(0);
+    setAnsweredQuestions(new Set(questions.map((question) => question.key)));
+    setReturnToReview(false);
+    setStep(questions.length + 1);
     setShowResults(false);
     window.history.replaceState(null, "", window.location.pathname);
   }
@@ -326,27 +354,43 @@ export function Recommender() {
       );
     }
 
-    const comparisonHref = `/compare?ids=${results.slice(0, 3).map((result) => result.harness.id).join(",")}`;
+    const leadingCount = leadingMatchCount(results);
+    const hasLeadingGroup = leadingCount > 1;
+    const comparisonCount = hasLeadingGroup ? Math.min(3, leadingCount) : Math.min(3, results.length);
+    const comparisonHref = `/compare?ids=${results.slice(0, comparisonCount).map((result) => result.harness.id).join(",")}`;
 
     return (
       <div className="results-stack">
         <div className="results-header">
           <div>
-            <h2 className="results-heading" ref={resultsHeadingRef} tabIndex={-1}>Start with {results[0].harness.name}.</h2>
-            <p>It passes your requirements and remains near the top when your priorities change.</p>
+            <h2 className="results-heading" ref={resultsHeadingRef} tabIndex={-1}>
+              {hasLeadingGroup ? `${leadingCount} leading matches for your answers.` : `Best fit for your answers: ${results[0].harness.name}.`}
+            </h2>
+            <p>
+              {hasLeadingGroup
+                ? "The fit model does not separate this group enough to claim a unique winner. Compare the trade-offs before choosing."
+                : "It passes your requirements, and the published reference preferences leave a clearer fit gap than the alternatives."}
+            </p>
           </div>
           <div className="button-row">
-            <Link className="button primary" href={comparisonHref}>Compare top 3</Link>
+            <Link className="button primary" href={comparisonHref}>
+              {hasLeadingGroup ? `Compare ${comparisonCount} leading matches` : "Compare top matches"}
+            </Link>
             <button className="button secondary" onClick={copyLink}>{copied ? "Copied" : "Copy link"}</button>
-            <button className="button ghost" onClick={reviseAnswers}>Edit answers</button>
+            <button className="button ghost" onClick={reviseAnswers}>Review answers</button>
           </div>
         </div>
 
         {results.slice(0, 3).map((result, index) => {
           const measuredRuns = benchmarkRunsForHarness(result.harness.id);
           return (
-          <article className={`result-card ${index === 0 ? "winner" : ""}`} key={result.harness.id}>
-            <div className="result-rank">#{index + 1}</div>
+          <article className={`result-card ${index < leadingCount ? "leading" : ""}`} key={result.harness.id}>
+            <div
+              className="result-rank"
+              aria-label={index < leadingCount ? "Leading match" : `Alternative ${index + 1 - leadingCount}`}
+            >
+              {index < leadingCount ? "Lead" : "Alt"}
+            </div>
             <div className="result-main">
               <div className="result-title-row">
                 <div className="result-brand">
@@ -358,8 +402,8 @@ export function Recommender() {
                 </div>
                 <div className="fit-score">
                   <strong>{stabilityLabel(result.robustness.topThreeFrequency)}</strong>
-                  <small>Top 3 in {result.robustness.topThreeFrequency}% of sensitivity runs</small>
-                  <span>Robustness of the ordering, not task success</span>
+                  <small>{rankRangeLabel(result)}</small>
+                  <span>Ordering sensitivity, not task success</span>
                 </div>
               </div>
               <dl className="result-quick-facts" aria-label={`Decision summary for ${result.harness.name}`}>
@@ -475,7 +519,11 @@ export function Recommender() {
           <summary className="complete-ranking-header">
             <div>
               <h3>See all {results.length} eligible harnesses</h3>
-              <p>The first three are shown above. Open the full ordering for deeper comparison.</p>
+              <p>
+                {hasLeadingGroup
+                  ? `${leadingCount} results are inside the published close-match margin. The full list follows the reference fit values.`
+                  : "The first three are shown above. Open the full reference ordering for deeper comparison."}
+              </p>
             </div>
             <span className="ranking-disclosure-label" aria-hidden="true" />
           </summary>
@@ -483,7 +531,7 @@ export function Recommender() {
             {results.map((result, index) => (
               <li key={result.harness.id}>
                 <Link className="ranking-row" href={`/harnesses/${result.harness.slug}`}>
-                  <span className="ranking-rank">{index + 1}</span>
+                  <span className="ranking-rank">{index < leadingCount ? "Lead" : index + 1}</span>
                   <span className="ranking-identity">
                     <HarnessLogo logo={result.harness.logo} name={result.harness.name} size="small" />
                     <strong>{result.harness.name}</strong>
@@ -523,15 +571,22 @@ export function Recommender() {
     );
   }
 
+  const featureStep = questions.length;
+  const reviewStep = questions.length + 1;
+  const totalSteps = questions.length + 2;
   const current = questions[step];
-  const totalSteps = questions.length + 1;
+
+  function selectedAnswerLabel(question: (typeof questions)[number]) {
+    const selected = answers[question.key];
+    return question.options.find(([value]) => value === selected)?.[1] ?? "Not answered";
+  }
 
   return (
     <div className="quiz-shell">
       <div
         className="quiz-progress"
         role="progressbar"
-        aria-label={`Question ${Math.min(step + 1, totalSteps)} of ${totalSteps}`}
+        aria-label={`Step ${Math.min(step + 1, totalSteps)} of ${totalSteps}`}
         aria-valuemin={1}
         aria-valuemax={totalSteps}
         aria-valuenow={Math.min(step + 1, totalSteps)}
@@ -541,27 +596,58 @@ export function Recommender() {
 
       {step < questions.length ? (
         <div className="quiz-panel">
-          <div className="quiz-meta">Question {step + 1} of {totalSteps}</div>
-          <h2 ref={stepHeadingRef} tabIndex={-1}>{current.title}</h2>
+          <div className="quiz-meta">Question {step + 1} of {questions.length + 1}</div>
+          <h2 id={`recommend-question-${step}`} ref={stepHeadingRef} tabIndex={-1}>{current.title}</h2>
           <p>{current.description}</p>
-          <div className="option-grid">
-            {current.options.map(([value, label, description]) => (
+          <fieldset className="question-fieldset">
+            <legend className="sr-only">{current.title}</legend>
+            <div className="option-grid">
+              {current.options.map(([value, label, description]) => (
+                <label className="option-card" key={value}>
+                  <input
+                    className="option-radio"
+                    type="radio"
+                    name={current.key}
+                    value={value}
+                    checked={answeredQuestions.has(current.key) && answers[current.key] === value}
+                    onChange={() => choose(current.key, value)}
+                  />
+                  <span className="option-card-copy">
+                    <strong>{label}</strong>
+                    <span>{description}</span>
+                  </span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+          <div className="button-row quiz-actions">
+            {(step > 0 || returnToReview) && (
               <button
-                className="option-card"
-                key={value}
-                type="button"
-                onClick={() => choose(current.key, value)}
+                className="back-button"
+                onClick={() => {
+                  if (returnToReview) {
+                    setReturnToReview(false);
+                    setStep(reviewStep);
+                  } else {
+                    setStep((currentStep) => currentStep - 1);
+                  }
+                }}
               >
-                <strong>{label}</strong>
-                <span>{description}</span>
+                {returnToReview ? "Back to review" : "Back"}
               </button>
-            ))}
+            )}
+            <button
+              className="button primary"
+              disabled={!answeredQuestions.has(current.key)}
+              onClick={continueFromQuestion}
+            >
+              {returnToReview ? "Save answer" : "Continue"}
+            </button>
           </div>
-          {step > 0 && <button className="back-button" onClick={() => setStep((currentStep) => currentStep - 1)}>Back</button>}
         </div>
-      ) : (
+      ) : step === featureStep ? (
         <div className="quiz-panel">
-          <div className="quiz-meta">Question {totalSteps} of {totalSteps}</div>
+          <div className="quiz-meta">Question {questions.length + 1} of {questions.length + 1}</div>
           <h2 ref={stepHeadingRef} tabIndex={-1}>What would you refuse to use a tool without?</h2>
           <p>Select only true deal-breakers. If you are unsure, leave everything unselected and compare the trade-offs in your results.</p>
           <div className="feature-picker">
@@ -578,7 +664,72 @@ export function Recommender() {
             ))}
           </div>
           <div className="button-row quiz-actions">
-            <button className="back-button" onClick={() => setStep(questions.length - 1)}>Back</button>
+            <button
+              className="back-button"
+              onClick={() => {
+                if (returnToReview) {
+                  setReturnToReview(false);
+                  setStep(reviewStep);
+                } else {
+                  setStep(questions.length - 1);
+                }
+              }}
+            >
+              {returnToReview ? "Back to review" : "Back"}
+            </button>
+            <button
+              className="button primary"
+              onClick={() => {
+                setReturnToReview(false);
+                setStep(reviewStep);
+              }}
+            >
+              Review answers
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="quiz-panel review-panel">
+          <div className="quiz-meta">Review</div>
+          <h2 ref={stepHeadingRef} tabIndex={-1}>Check your answers</h2>
+          <p>Requirements remove incompatible products. The remaining answers only change workflow fit and ordering.</p>
+          <dl className="review-answer-list">
+            {questions.map((question, index) => (
+              <div className="review-answer-row" key={question.key}>
+                <div>
+                  <dt>{question.title}</dt>
+                  <dd>{selectedAnswerLabel(question)}</dd>
+                </div>
+                <button
+                  className="text-button"
+                  type="button"
+                  aria-label={`Change answer for: ${question.title}`}
+                  onClick={() => editQuestion(index)}
+                >
+                  Change
+                </button>
+              </div>
+            ))}
+            <div className="review-answer-row">
+              <div>
+                <dt>Must-haves</dt>
+                <dd>{answers.requiredFeatures.map((feature) => featureLabels[feature]).join(", ") || "No extra must-haves"}</dd>
+              </div>
+              <button
+                className="text-button"
+                type="button"
+                aria-label="Change must-have requirements"
+                onClick={() => {
+                  setReturnToReview(true);
+                  setStep(featureStep);
+                }}
+              >
+                Change
+              </button>
+            </div>
+          </dl>
+          <div className="button-row quiz-actions">
+            <button className="back-button" onClick={() => setStep(featureStep)}>Back</button>
             <button className="button primary" onClick={() => setShowResults(true)}>Show my matches</button>
           </div>
         </div>

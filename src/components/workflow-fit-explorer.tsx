@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
 import { HarnessLogo } from "@/components/harness-logo";
+import { leadingMatchCount } from "@/lib/recommendation";
 import { recommendationWeights } from "@/lib/recommendation-config";
 import type {
   EligibilityFailure,
@@ -66,6 +67,7 @@ const modelLabels: Record<RecommendationAnswers["modelAccess"], string> = {
   "model-agnostic": "Multiple model providers",
   local: "Local models",
   enterprise: "Enterprise access",
+  "no-preference": "No model-access constraint",
 };
 
 const controlLabels: Record<RecommendationAnswers["control"], string> = {
@@ -154,6 +156,7 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
   const csvHref = `data:text/csv;charset=utf-8,${encodeURIComponent(scenarioCsv(selected))}`;
   const chartResults = selected.results.slice(0, 7);
   const totalProducts = selected.results.length + selected.excluded.length;
+  const leadingCount = leadingMatchCount(selected.results);
 
   const selectTab = (index: number) => {
     const next = scenarios[index];
@@ -183,7 +186,9 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
 
   const topResult = selected.results[0];
   const chartSummary = topResult
-    ? `${topResult.name} is the strongest match for this workflow and stays in the top three in ${topResult.robustness.topThreeFrequency} percent of tested priority variations.`
+    ? leadingCount > 1
+      ? `${topResult.name} is one of ${leadingCount} leading matches for this workflow and stays in the top three in ${topResult.robustness.topThreeFrequency} percent of tested priority variations.`
+      : `${topResult.name} is the leading match for this workflow and stays in the top three in ${topResult.robustness.topThreeFrequency} percent of tested priority variations.`
     : `No active harness data is available for ${selected.label}.`;
 
   return (
@@ -191,7 +196,7 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
       <div className="workflow-tool-header">
         <div>
           <h2 id="workflow-fit-title">Choose a workflow</h2>
-          <p>Start with a familiar setup. See the strongest match and what to check before choosing.</p>
+          <p>Start with a familiar setup. See the leading match or group and what to check before choosing.</p>
         </div>
       </div>
 
@@ -231,9 +236,14 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
         </dl>
 
         {topResult && (
-          <section className="workflow-decision-summary" aria-label={`Recommended starting point: ${topResult.name}`}>
+          <section
+            className="workflow-decision-summary"
+            aria-label={leadingCount > 1
+              ? `${leadingCount} leading matches; first shown: ${topResult.name}`
+              : `Leading match: ${topResult.name}`}
+          >
             <div className="workflow-decision-product">
-              <span>Start here</span>
+              <span>{leadingCount > 1 ? `1 of ${leadingCount} leading matches` : "Leading match"}</span>
               <Link href={`/harnesses/${topResult.slug}`}>
                 <HarnessLogo logo={topResult.logo} name={topResult.name} size="small" />
                 <strong>{topResult.name}</strong>
