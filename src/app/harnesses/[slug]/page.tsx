@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { HarnessLogo } from "@/components/harness-logo";
 import { FeatureClaimValue } from "@/components/feature-claim-value";
 import { ArchitectureLevelIndicator } from "@/components/architecture-level-indicator";
+import { VisualIcon } from "@/components/visual-icon";
 import { benchmarkRunsForHarness } from "@/data/benchmark-runs";
 import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnessBySlug, harnesses } from "@/data/harnesses";
@@ -252,13 +253,19 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
 
             <div className="profile-considerations-grid">
               <section>
-                <h3>Good choice if</h3>
+                <div className="profile-consideration-heading">
+                  <VisualIcon name="workflow-fit" />
+                  <h3>Good choice if</h3>
+                </div>
                 <ul className="check-list large-list">
                   {harness.bestFor.map((item) => <li key={item}>{item}</li>)}
                 </ul>
               </section>
               <section>
-                <h3>Check before choosing</h3>
+                <div className="profile-consideration-heading">
+                  <VisualIcon name="check-first" />
+                  <h3>Check before choosing</h3>
+                </div>
                 <ul className="plain-list large-list">
                   {harness.tradeoffs.slice(0, 3).map((item) => <li key={item}>{item}</li>)}
                 </ul>
@@ -314,7 +321,7 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
                   <dd>
                     {membership
                       ? qualifiesAsCodingHarness
-                        ? `Qualifies — ${documentedMembershipCriteria} required criteria evidenced`
+                        ? `Qualifies: ${documentedMembershipCriteria} required criteria evidenced`
                         : `${documentedMembershipCriteria} of ${totalMembershipCriteria} required criteria evidenced`
                       : "Not assessed"}
                   </dd>
@@ -395,9 +402,12 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
         {membership && (
           <section className="profile-membership" id="membership" aria-labelledby="membership-heading">
             <div className="profile-section-heading">
-              <div>
-                <h2 id="membership-heading">Why it qualifies as a coding harness</h2>
-                <p>This confirms category fit, not product quality. Every required criterion links back to first-party evidence.</p>
+              <div className="profile-section-title-with-icon">
+                <VisualIcon name="membership" />
+                <div>
+                  <h2 id="membership-heading">Why it qualifies as a coding harness</h2>
+                  <p>This confirms category fit, not product quality. Every required criterion links back to first-party evidence.</p>
+                </div>
               </div>
               <div className={`profile-membership-verdict profile-membership-verdict--${qualifiesAsCodingHarness ? "qualified" : "unconfirmed"}`}>
                 <strong>{qualifiesAsCodingHarness ? "Qualifies" : "Not established"}</strong>
@@ -437,9 +447,12 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
 
         <section className="profile-signals" aria-labelledby="operational-evidence-heading">
           <div className="profile-section-heading">
-            <div>
-              <h2 id="operational-evidence-heading">How it works under the hood</h2>
-              <p>Seven mechanisms mapped from first-party records. These labels describe what the harness provides, not how intelligent its model is.</p>
+            <div className="profile-section-title-with-icon">
+              <VisualIcon name="operating-model" />
+              <div>
+                <h2 id="operational-evidence-heading">How it works under the hood</h2>
+                <p>Seven mechanisms mapped from first-party records. These labels describe what the harness provides, not how intelligent its model is.</p>
+              </div>
             </div>
             <div className="profile-operational-summary">
               <strong>{documentedLayers}/7</strong>
@@ -516,9 +529,12 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
 
         <section className="profile-support" aria-labelledby="support-heading">
           <div className="profile-section-heading">
-            <div>
-              <h2 id="support-heading">Capability support</h2>
-              <p>Documented first-class product support, checked against the sources below.</p>
+            <div className="profile-section-title-with-icon">
+              <VisualIcon name="capability-support" />
+              <div>
+                <h2 id="support-heading">Capability support</h2>
+                <p>Documented first-class product support, checked against the sources below.</p>
+              </div>
             </div>
           </div>
           <dl className="profile-support-grid">

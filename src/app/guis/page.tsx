@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { GuiVisualIcon } from "@/components/gui-visual-icon";
+import { VisualIcon } from "@/components/visual-icon";
 import { GuiWorkflowMatcher } from "@/components/gui-workflow-matcher";
 import { guiExclusions, guiProducts } from "@/data/gui-products";
 import { guiRepositoryAudits } from "@/data/gui-repository-audits";
@@ -26,15 +26,15 @@ export default function GuisPage() {
 
         <section className="gui-scope-summary" aria-label="GUI catalog scope">
           <div>
-            <GuiVisualIcon name="catalog" />
+            <VisualIcon name="catalog" />
             <span className="gui-scope-stat-copy"><strong>{guiProducts.length}</strong><span>active GUI records</span></span>
           </div>
           <div>
-            <GuiVisualIcon name="code-audit" />
+            <VisualIcon name="code-audit" />
             <span className="gui-scope-stat-copy"><strong>{guiRepositoryAudits.length}</strong><span>pinned code audits</span></span>
           </div>
           <div>
-            <GuiVisualIcon name="proprietary" />
+            <VisualIcon name="proprietary" />
             <span className="gui-scope-stat-copy"><strong>{proprietaryCount}</strong><span>proprietary GUIs included</span></span>
           </div>
           <p><strong>Boundary:</strong> ChatGPT Chat and Claude Chat are general conversation surfaces. Codex in ChatGPT Desktop and the Code tab in Claude Desktop are coding-agent GUIs because they expose repository work, execution, and review.</p>

@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useDeferredValue, useMemo, useState } from "react";
 import { HarnessLogo } from "@/components/harness-logo";
+import { VisualIcon } from "@/components/visual-icon";
+import type { VisualIconName } from "@/components/visual-icon";
 import {
   harnessRoleLabels,
   productLayerLabels,
@@ -41,13 +43,13 @@ export type LensHarness = {
   verifiedAt: string;
 };
 
-const lenses: Array<{ key: LensKey; label: string }> = [
-  { key: "all", label: "All harnesses" },
-  { key: "localModels", label: "Local models" },
-  { key: "sandbox", label: "Security sandbox" },
-  { key: "browser", label: "Browser tool" },
-  { key: "checkpoints", label: "File rollback" },
-  { key: "mcp", label: "MCP" },
+const lenses: Array<{ key: LensKey; label: string; icon: VisualIconName }> = [
+  { key: "all", label: "All harnesses", icon: "catalog" },
+  { key: "localModels", label: "Local models", icon: "local-models" },
+  { key: "sandbox", label: "Security sandbox", icon: "security-sandbox" },
+  { key: "browser", label: "Browser tool", icon: "browser-tool" },
+  { key: "checkpoints", label: "File rollback", icon: "file-rollback" },
+  { key: "mcp", label: "MCP", icon: "harness-coverage" },
 ];
 
 const roleOptions = Object.entries(harnessRoleLabels) as Array<[HarnessRole, string]>;
@@ -143,6 +145,7 @@ export function HarnessLensExplorer({
                 setShowAll(false);
               }}
             >
+              <VisualIcon name={item.icon} />
               {item.label}
             </button>
           ))}

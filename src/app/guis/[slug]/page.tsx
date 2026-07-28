@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { GuiLogo } from "@/components/gui-logo";
-import { GuiVisualIcon } from "@/components/gui-visual-icon";
-import type { GuiVisualIconName } from "@/components/gui-visual-icon";
+import { VisualIcon } from "@/components/visual-icon";
+import type { VisualIconName } from "@/components/visual-icon";
 import { guiCapabilityLabels, guiProductById, guiProducts } from "@/data/gui-products";
 import { guiRepositoryAuditFor } from "@/data/gui-repository-audits";
 import { guiProfileDescription, pageMetadata } from "@/lib/site";
@@ -34,7 +34,7 @@ const evidenceKindLabels = {
   "official-announcement": "Official announcement",
 } as const;
 
-const capabilityIcons: Record<GuiCapabilityKey, GuiVisualIconName> = {
+const capabilityIcons: Record<GuiCapabilityKey, VisualIconName> = {
   parallelSessions: "parallel-local",
   workspaceIsolation: "workspace-isolation",
   visualReview: "focused-review",
@@ -96,15 +96,15 @@ export default async function GuiProfilePage({ params }: { params: Promise<{ slu
             <p className="profile-summary">{product.bestFor}</p>
             <div className="profile-considerations-grid">
               <section>
-                <div className="gui-profile-consideration-heading">
-                  <GuiVisualIcon name="workflow-fit" />
+                <div className="profile-consideration-heading">
+                  <VisualIcon name="workflow-fit" />
                   <h3>Good choice if</h3>
                 </div>
                 <p>{product.bestFor}</p>
               </section>
               <section>
-                <div className="gui-profile-consideration-heading">
-                  <GuiVisualIcon name="check-first" />
+                <div className="profile-consideration-heading">
+                  <VisualIcon name="check-first" />
                   <h3>Check before choosing</h3>
                 </div>
                 <p>{product.limitation}</p>
@@ -127,8 +127,8 @@ export default async function GuiProfilePage({ params }: { params: Promise<{ slu
 
         <section className="profile-support gui-profile-harnesses" aria-labelledby="gui-harnesses-heading">
           <div className="profile-section-heading">
-            <div className="gui-profile-section-title">
-              <GuiVisualIcon name="harness-coverage" />
+            <div className="profile-section-title-with-icon">
+              <VisualIcon name="harness-coverage" />
               <div>
                 <h2 id="gui-harnesses-heading">Harness coverage</h2>
                 <p>{product.harnessSupportNote}</p>
@@ -153,7 +153,7 @@ export default async function GuiProfilePage({ params }: { params: Promise<{ slu
             {Object.entries(product.capabilities).map(([key, claim]) => (
               <li key={key}>
                 <div className="gui-profile-capability-heading">
-                  <GuiVisualIcon name={capabilityIcons[key as GuiCapabilityKey]} />
+                  <VisualIcon name={capabilityIcons[key as GuiCapabilityKey]} />
                   <div>
                     <h3>{guiCapabilityLabels[key as keyof typeof guiCapabilityLabels]}</h3>
                     <span className={`gui-claim-state gui-claim-state--${claim.state}`}>{claimStateLabels[claim.state]}</span>

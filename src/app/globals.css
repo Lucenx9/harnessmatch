@@ -315,7 +315,9 @@ p { color: var(--muted); }
 .lens-search-row input::placeholder, .evidence-ledger-controls input::placeholder, .picker-search input::placeholder { color: var(--muted); }
 .lens-toolbar { min-height: 82px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border-bottom: 1px solid var(--line); }
 .lens-tabs { display: flex; flex-wrap: wrap; gap: 6px; padding: 14px 0; }
-.lens-tabs button { min-height: 44px; padding: 0 13px; border: 1px solid transparent; border-radius: var(--radius-small); background: transparent; color: var(--muted); font-size: .79rem; cursor: pointer; transition: color .16s ease, border-color .16s ease, background .16s ease, transform .16s ease; }
+.lens-tabs button { min-height: 44px; display: inline-flex; align-items: center; gap: 7px; padding: 0 13px; border: 1px solid transparent; border-radius: var(--radius-small); background: transparent; color: var(--muted); font-size: .79rem; cursor: pointer; transition: color .16s ease, border-color .16s ease, background .16s ease, transform .16s ease; }
+.lens-tabs .visual-icon { width: 22px; height: 22px; border: 0; border-radius: 0; background: transparent; color: inherit; }
+.lens-tabs .visual-icon svg { width: 17px; height: 17px; }
 .lens-tabs button:hover { color: var(--text); background: var(--surface); }
 .lens-tabs button:active { transform: translateY(1px) scale(.98); }
 .lens-tabs button[aria-pressed="true"] { color: var(--text); border-color: var(--line-strong); background: var(--surface-strong); }
@@ -987,10 +989,10 @@ p { color: var(--muted); }
 .gui-scope-summary .gui-scope-stat-copy > span { color: var(--muted); font-size: .7rem; }
 .gui-scope-summary > p { grid-column: 1 / -1; margin: 0; padding: 16px 20px; border-top: 1px solid var(--line); font-size: .76rem; }
 
-.gui-visual-icon { width: 38px; height: 38px; display: inline-grid; place-items: center; flex: 0 0 auto; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--surface); color: var(--muted-strong); }
-.gui-visual-icon svg { width: 20px; height: 20px; }
-.gui-visual-icon--code-audit, .gui-visual-icon--required { color: var(--success); background: color-mix(in srgb, var(--success) 7%, var(--surface)); }
-.gui-visual-icon--preferred { color: var(--accent-strong); background: var(--accent-soft); }
+.visual-icon { width: 38px; height: 38px; display: inline-grid; place-items: center; flex: 0 0 auto; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--surface); color: var(--muted-strong); }
+.visual-icon svg { width: 20px; height: 20px; }
+.visual-icon--code-audit, .visual-icon--required, .visual-icon--membership { color: var(--success); background: color-mix(in srgb, var(--success) 7%, var(--surface)); }
+.visual-icon--preferred { color: var(--accent-strong); background: var(--accent-soft); }
 
 .gui-matcher { overflow: hidden; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--surface-strong); }
 .gui-matcher-header { display: grid; grid-template-columns: minmax(0, 1fr) 390px; align-items: end; gap: 48px; padding: 30px; }
@@ -1008,7 +1010,7 @@ p { color: var(--muted); }
 .gui-workflow-tabs button:last-child { border-right: 0; }
 .gui-workflow-tabs button:hover { color: var(--text); background: var(--surface-hover); }
 .gui-workflow-tabs button[aria-selected="true"] { color: var(--text); background: var(--accent-soft); box-shadow: inset 0 2px var(--accent); }
-.gui-workflow-tabs button[aria-selected="true"] .gui-visual-icon { border-color: color-mix(in srgb, var(--accent) 35%, var(--line-strong)); color: var(--accent-strong); }
+.gui-workflow-tabs button[aria-selected="true"] .visual-icon { border-color: color-mix(in srgb, var(--accent) 35%, var(--line-strong)); color: var(--accent-strong); }
 .gui-workflow-tab-copy { min-width: 0; display: block; padding-top: 2px; }
 .gui-workflow-tab-copy strong, .gui-workflow-tab-copy > span { display: block; }
 .gui-workflow-tab-copy strong { margin-bottom: 6px; font-size: .82rem; }
@@ -1018,8 +1020,8 @@ p { color: var(--muted); }
 .gui-criteria-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-bottom: 18px; border-block: 1px solid var(--line); }
 .gui-criteria-row > div { min-width: 0; display: grid; grid-template-columns: 32px minmax(0, 1fr); align-items: center; gap: 11px; padding: 13px 16px 13px 0; }
 .gui-criteria-row > div + div { padding-left: 16px; border-left: 1px solid var(--line); }
-.gui-criteria-row .gui-visual-icon { width: 32px; height: 32px; border-radius: 8px; }
-.gui-criteria-row .gui-visual-icon svg { width: 17px; height: 17px; }
+.gui-criteria-row .visual-icon { width: 32px; height: 32px; border-radius: 8px; }
+.gui-criteria-row .visual-icon svg { width: 17px; height: 17px; }
 .gui-criteria-copy, .gui-criteria-copy > span, .gui-criteria-copy > strong { display: block; }
 .gui-criteria-copy > span { margin-bottom: 4px; color: var(--muted); font: 520 .61rem/1.3 var(--font-mono); text-transform: uppercase; }
 .gui-criteria-row strong { color: var(--text); font-size: .74rem; }
@@ -1097,16 +1099,16 @@ p { color: var(--muted); }
 .gui-profile-back:hover { color: var(--accent-strong); }
 .gui-profile-page .profile-identity { margin-bottom: 18px; }
 .gui-profile-page .profile-considerations-grid p { margin: 0; color: var(--muted-strong); font-size: .84rem; line-height: 1.65; }
-.gui-profile-consideration-heading { display: flex; align-items: center; gap: 10px; margin-bottom: 17px; }
-.gui-profile-consideration-heading h3 { margin: 0; }
-.gui-profile-consideration-heading .gui-visual-icon { width: 32px; height: 32px; border-radius: 8px; }
-.gui-profile-consideration-heading .gui-visual-icon svg { width: 17px; height: 17px; }
-.gui-profile-consideration-heading .gui-visual-icon--workflow-fit { color: var(--success); background: color-mix(in srgb, var(--success) 7%, var(--surface)); }
-.gui-profile-consideration-heading .gui-visual-icon--check-first { color: var(--warning); background: color-mix(in srgb, var(--warning) 7%, var(--surface)); }
+.profile-consideration-heading { display: flex; align-items: center; gap: 10px; margin-bottom: 17px; }
+.profile-consideration-heading h3 { margin: 0; }
+.profile-consideration-heading .visual-icon { width: 32px; height: 32px; border-radius: 8px; }
+.profile-consideration-heading .visual-icon svg { width: 17px; height: 17px; }
+.profile-consideration-heading .visual-icon--workflow-fit { color: var(--success); background: color-mix(in srgb, var(--success) 7%, var(--surface)); }
+.profile-consideration-heading .visual-icon--check-first { color: var(--warning); background: color-mix(in srgb, var(--warning) 7%, var(--surface)); }
 .gui-profile-page .profile-spec-list a { color: var(--accent-strong); text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
-.gui-profile-section-title { display: flex; align-items: flex-start; gap: 13px; }
-.gui-profile-section-title > div { min-width: 0; }
-.gui-profile-section-title .gui-visual-icon { margin-top: 2px; }
+.profile-section-title-with-icon { display: flex; align-items: flex-start; gap: 13px; }
+.profile-section-title-with-icon > div { min-width: 0; }
+.profile-section-title-with-icon .visual-icon { margin-top: 2px; }
 .gui-profile-harnesses > .profile-section-heading { margin-bottom: 20px; }
 .gui-profile-harnesses > ul { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 18px 0; border-block: 1px solid var(--line); }
 .gui-profile-harnesses > ul li { padding: 7px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted-strong); background: var(--surface); font: 540 .65rem/1.2 var(--font-mono); }
@@ -1118,8 +1120,8 @@ p { color: var(--muted); }
 .gui-profile-capabilities li > div:first-child { display: grid; gap: 10px; }
 .gui-profile-capabilities .gui-profile-capability-heading { display: flex; align-items: flex-start; gap: 10px; }
 .gui-profile-capability-heading > div { min-width: 0; display: grid; gap: 9px; }
-.gui-profile-capability-heading .gui-visual-icon { width: 34px; height: 34px; border-radius: 8px; }
-.gui-profile-capability-heading .gui-visual-icon svg { width: 18px; height: 18px; }
+.gui-profile-capability-heading .visual-icon { width: 34px; height: 34px; border-radius: 8px; }
+.gui-profile-capability-heading .visual-icon svg { width: 18px; height: 18px; }
 .gui-profile-capabilities h3 { min-height: 36px; margin: 0; color: var(--text); font-size: .76rem; line-height: 1.4; text-transform: capitalize; }
 .gui-profile-capabilities li > p { margin: 16px 0 0; color: var(--muted); font-size: .7rem; line-height: 1.55; }
 .gui-profile-claim-sources { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 16px; }

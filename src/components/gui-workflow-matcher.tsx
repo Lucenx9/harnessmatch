@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useMemo, useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
 import { GuiLogo } from "@/components/gui-logo";
-import { GuiVisualIcon } from "@/components/gui-visual-icon";
+import { VisualIcon } from "@/components/visual-icon";
+import type { VisualIconName } from "@/components/visual-icon";
 import { guiProducts, guiCapabilityLabels } from "@/data/gui-products";
 import {
   guiRepositoryAuditFor,
@@ -26,7 +27,7 @@ type HarnessFilter = string;
 type PlatformFilter = "any" | Extract<GuiPlatform, "macOS" | "Windows" | "Linux" | "Browser">;
 type SourceFilter = "any" | "public-code" | "proprietary";
 
-const workflowIcons: Record<GuiWorkflowId, Parameters<typeof GuiVisualIcon>[0]["name"]> = {
+const workflowIcons: Record<GuiWorkflowId, VisualIconName> = {
   "focused-review": "focused-review",
   "parallel-local": "parallel-local",
   "remote-control": "remote-control",
@@ -142,7 +143,7 @@ export function GuiWorkflowMatcher() {
             onClick={() => setWorkflowId(candidate.id)}
             onKeyDown={(event) => handleTabKey(event, index)}
           >
-            <GuiVisualIcon name={workflowIcons[candidate.id]} />
+            <VisualIcon name={workflowIcons[candidate.id]} />
             <span className="gui-workflow-tab-copy">
               <strong>{candidate.label}</strong>
               <span>{candidate.description}</span>
@@ -159,14 +160,14 @@ export function GuiWorkflowMatcher() {
       >
         <div className="gui-criteria-row">
           <div>
-            <GuiVisualIcon name="required" />
+            <VisualIcon name="required" />
             <span className="gui-criteria-copy">
               <span>Required evidence</span>
               <strong>{workflow.required.map((key) => guiCapabilityLabels[key]).join(" · ")}</strong>
             </span>
           </div>
           <div>
-            <GuiVisualIcon name="preferred" />
+            <VisualIcon name="preferred" />
             <span className="gui-criteria-copy">
               <span>Preferred evidence</span>
               <strong>{workflow.preferred.map((key) => guiCapabilityLabels[key]).join(" · ")}</strong>
