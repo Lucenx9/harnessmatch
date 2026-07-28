@@ -424,7 +424,7 @@ describe("harness evidence ledger", () => {
     const urls = openCode.evidence.map((source) => source.url);
     const caveats = openCode.tradeoffs.join(" ");
 
-    expect(openCode.verifiedAt).toBe("2026-07-27");
+    expect(openCode.verifiedAt).toBe("2026-07-28");
     expect(openCode.evidence).toHaveLength(25);
     expect(openCode.evidence.every((source) => source.verifiedAt === openCode.verifiedAt)).toBe(true);
     expect(openCode.evidence.every((source) => source.topic !== undefined)).toBe(true);
@@ -435,6 +435,7 @@ describe("harness evidence ledger", () => {
       "https://opencode.ai/docs/agents/",
       "https://opencode.ai/docs/server",
       "https://opencode.ai/docs/github",
+      "https://github.com/anomalyco/opencode/releases/tag/v1.18.8",
       "https://github.com/anomalyco/opencode/blob/e5cc278dec9294a627a7b05f47ce6a564408c1a2/packages/opencode/src/snapshot/index.ts",
       "https://github.com/anomalyco/opencode/tree/e5cc278dec9294a627a7b05f47ce6a564408c1a2",
       "https://github.com/anomalyco/opencode/blob/e5cc278dec9294a627a7b05f47ce6a564408c1a2/SECURITY.md",
@@ -493,6 +494,7 @@ describe("harness evidence ledger", () => {
       "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/hooks.md",
       "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/extensions.md",
       "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/secrets.md",
+      "https://github.com/can1357/oh-my-pi/releases/tag/v17.1.8",
     ]));
     expect(caveats).toContain("subagents also run yolo");
     expect(caveats).toContain("prune conversation context only");
@@ -541,7 +543,8 @@ describe("harness evidence ledger", () => {
     const urls = openHands.evidence.map((source) => source.url);
     const caveats = openHands.tradeoffs.join(" ");
 
-    expect(openHands.verifiedAt).toBe("2026-07-27");
+    expect(openHands.verifiedAt).toBe("2026-07-28");
+    expect(openHands.logo.sourceUrl).toBe("https://github.com/OpenHands/OpenHands/blob/main/src/assets/branding/openhands-logo.svg");
     expect(openHands.evidence).toHaveLength(23);
     expect(openHands.evidence.every((source) => source.verifiedAt === openHands.verifiedAt)).toBe(true);
     expect(openHands.evidence.every((source) => source.topic !== undefined)).toBe(true);
@@ -608,8 +611,8 @@ describe("harness evidence ledger", () => {
 
     expect(letta.name).toBe("Letta Harness");
     expect(letta.summary).toContain("formerly called Letta Code");
-    expect(letta.verifiedAt).toBe("2026-07-27");
-    expect(letta.evidence).toHaveLength(23);
+    expect(letta.verifiedAt).toBe("2026-07-28");
+    expect(letta.evidence).toHaveLength(24);
     expect(letta.evidence.every((source) => source.verifiedAt === letta.verifiedAt)).toBe(true);
     expect(letta.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
@@ -623,6 +626,7 @@ describe("harness evidence ledger", () => {
       "https://docs.letta.com/reference/settings",
       "https://docs.letta.com/reference/changelog",
       "https://docs.letta.com/platform/cli/reference",
+      "https://github.com/letta-ai/letta-code/releases/tag/v0.29.9",
     ]));
     expect(caveats).toContain("starts in unrestricted mode");
     expect(caveats).toContain("recommends skills instead of MCP");
@@ -1152,7 +1156,7 @@ describe("harness evidence ledger", () => {
     const urls = vibe.evidence.map((source) => source.url);
     const caveats = vibe.tradeoffs.join(" ");
 
-    expect(vibe.verifiedAt).toBe("2026-07-27");
+    expect(vibe.verifiedAt).toBe("2026-07-28");
     expect(vibe.evidence.length).toBeGreaterThanOrEqual(24);
     expect(vibe.evidence.every((source) => source.verifiedAt === vibe.verifiedAt)).toBe(true);
     expect(vibe.interfaces).toEqual(expect.arrayContaining(["terminal", "ide", "automation"]));
@@ -1167,6 +1171,8 @@ describe("harness evidence ledger", () => {
       "https://docs.mistral.ai/vibe/code/cli/offline-models",
       "https://docs.mistral.ai/vibe/code/vibe-code-web/sandbox-environment",
       "https://github.com/mistralai/mistral-vibe/releases/tag/v2.22.0",
+      "https://github.com/mistralai/mistral-vibe/releases/tag/v2.23.0",
+      "https://github.com/mistralai/mistral-vibe/releases/tag/v2.23.1",
       "https://github.com/mistralai/mistral-vibe/blob/89350a4064ca90e4732271dcc27688e5d684871d/vibe/core/config/vibe_schema.py",
       "https://github.com/mistralai/mistral-vibe/blob/89350a4064ca90e4732271dcc27688e5d684871d/vibe/core/rewind/manager.py",
       "https://github.com/mistralai/mistral-vibe/blob/89350a4064ca90e4732271dcc27688e5d684871d/.github/workflows/ci.yml",
@@ -1174,7 +1180,7 @@ describe("harness evidence ledger", () => {
     expect(caveats).toContain("local CLI executes on the host");
     expect(caveats).toContain("separate surface");
     expect(caveats).toContain("enabled by default");
-    expect(caveats).toContain("docs currently lag");
+    expect(caveats).toContain("release-level evidence until a fresh source audit");
     expect(caveats).toContain("no built-in browser automation");
     expect(vibe.bestFor.join(" ")).toContain("Vibe coders");
     expect(vibe.discovery?.[0].note).toContain("modified Mistral Vibe fork");

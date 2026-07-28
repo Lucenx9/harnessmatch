@@ -55,7 +55,7 @@ describe("multi-axis evidence evaluation", () => {
     for (const audit of repositoryAudits) {
       expect(harnesses.some((harness) => harness.id === audit.harnessId)).toBe(true);
       expect(audit.repositoryUrl).toMatch(/^https:\/\/github\.com\//);
-      expect(audit.inspectedRef).toMatch(/^(?:[a-f0-9]{12}|[a-f0-9]{40})$/);
+      expect(audit.inspectedRef).toMatch(/^[a-f0-9]{40}$/);
       expect(audit.verifiedAt).toMatch(/^\d{4}-\d{2}-\d{2}$/);
       expect(audit.limitation.length).toBeGreaterThan(40);
       if (audit.sourceScope === "support-repository") {
@@ -134,7 +134,7 @@ describe("multi-axis evidence evaluation", () => {
   it("treats Crush engineering tests as auditable artifacts, not benchmark evidence", () => {
     const audit = repositoryAudits.find((item) => item.harnessId === "crush")!;
 
-    expect(audit.inspectedRef).toBe("def12cc6d8e1");
+    expect(audit.inspectedRef).toBe("def12cc6d8e162d6f48a7db260dde5ea3cc5f906");
     expect(audit.signals.automatedTests).toBe(true);
     expect(audit.signals.evaluationAssets).toBe(false);
     expect(audit.limitation).toContain("project-owned engineering tests");
@@ -144,7 +144,7 @@ describe("multi-axis evidence evaluation", () => {
   it("treats ForgeCode evals as project evidence and records its repository contradictions", () => {
     const audit = repositoryAudits.find((item) => item.harnessId === "forgecode")!;
 
-    expect(audit.inspectedRef).toBe("1ca089a52fd2");
+    expect(audit.inspectedRef).toBe("1ca089a52fd2d11ec3b0e84fa0eba154bbb81270");
     expect(audit.signals.automatedTests).toBe(true);
     expect(audit.signals.evaluationAssets).toBe(true);
     expect(audit.signals.securityPolicy).toBe(false);
@@ -155,7 +155,7 @@ describe("multi-axis evidence evaluation", () => {
   it("treats Kilo's private-bench smoke workflow as project evidence, not an imported result", () => {
     const audit = repositoryAudits.find((item) => item.harnessId === "kilo-code")!;
 
-    expect(audit.inspectedRef).toBe("a19d44c3ef9f");
+    expect(audit.inspectedRef).toBe("a19d44c3ef9fd71fb15291af9c7d87906c06f056");
     expect(audit.signals.automatedTests).toBe(true);
     expect(audit.signals.evaluationAssets).toBe(true);
     expect(audit.limitation).toContain("private KiloBench");
@@ -167,7 +167,7 @@ describe("multi-axis evidence evaluation", () => {
     const audit = repositoryAudits.find((item) => item.harnessId === "mistral-vibe")!;
     const evidence = evidenceStateFor("mistral-vibe");
 
-    expect(audit.inspectedRef).toBe("89350a4064ca");
+    expect(audit.inspectedRef).toBe("89350a4064ca90e4732271dcc27688e5d684871d");
     expect(audit.signals.automatedTests).toBe(true);
     expect(audit.signals.evaluationAssets).toBe(false);
     expect(audit.signals.securityPolicy).toBe(false);
@@ -182,7 +182,7 @@ describe("multi-axis evidence evaluation", () => {
     const audit = repositoryAudits.find((item) => item.harnessId === "plandex")!;
     const evidence = evidenceStateFor("plandex");
 
-    expect(audit.inspectedRef).toBe("e2d772072efa");
+    expect(audit.inspectedRef).toBe("e2d772072efadbe41d2946d97d79be55532dbab5");
     expect(audit.signals.securityPolicy).toBe(false);
     expect(audit.signals.continuousIntegration).toBe(false);
     expect(audit.signals.automatedTests).toBe(true);

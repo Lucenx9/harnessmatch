@@ -4,12 +4,12 @@ import type { Harness } from "../lib/types";
 const verifiedAt = "2026-07-26";
 const claudeCodeVerifiedAt = "2026-07-27";
 const codexVerifiedAt = "2026-07-27";
-const openCodeVerifiedAt = "2026-07-27";
+const openCodeVerifiedAt = "2026-07-28";
 const piVerifiedAt = "2026-07-27";
 const ompVerifiedAt = "2026-07-28";
 const grokBuildVerifiedAt = "2026-07-27";
 const aiderVerifiedAt = "2026-07-27";
-const openHandsVerifiedAt = "2026-07-27";
+const openHandsVerifiedAt = "2026-07-28";
 const clineVerifiedAt = "2026-07-27";
 const geminiCliVerifiedAt = "2026-07-27";
 const antigravityCliVerifiedAt = "2026-07-28";
@@ -23,7 +23,7 @@ const coderAgentsVerifiedAt = "2026-07-27";
 const crushVerifiedAt = "2026-07-27";
 const forgeCodeVerifiedAt = "2026-07-27";
 const kiloCodeVerifiedAt = "2026-07-27";
-const mistralVibeVerifiedAt = "2026-07-27";
+const mistralVibeVerifiedAt = "2026-07-28";
 const stagewiseVerifiedAt = "2026-07-27";
 const zooCodeVerifiedAt = "2026-07-27";
 const zcodeVerifiedAt = "2026-07-27";
@@ -35,7 +35,7 @@ const poolsideCliVerifiedAt = "2026-07-27";
 const qwenCodeVerifiedAt = "2026-07-27";
 const continueCliVerifiedAt = "2026-07-27";
 const kimiCodeVerifiedAt = "2026-07-27";
-const lettaCodeVerifiedAt = "2026-07-27";
+const lettaCodeVerifiedAt = "2026-07-28";
 const commandCodeVerifiedAt = "2026-07-27";
 const muxVerifiedAt = "2026-07-27";
 
@@ -1193,10 +1193,10 @@ const harnessRecords: Array<Omit<Harness, "featureClaims">> = [
         verifiedAt: openCodeVerifiedAt,
       },
       {
-        title: "OpenCode 1.18.5 release",
+        title: "OpenCode 1.18.8 release",
         topic: "releases-code-audit",
-        url: "https://github.com/anomalyco/opencode/releases/tag/v1.18.5",
-        covers: "Current stable distribution release used for product-version verification",
+        url: "https://github.com/anomalyco/opencode/releases/tag/v1.18.8",
+        covers: "Current stable distribution release, including newer MCP OAuth compatibility and session-reconnect fixes; the code audit remains pinned separately to 1.18.5",
         kind: "official-announcement",
         verifiedAt: openCodeVerifiedAt,
       },
@@ -1459,9 +1459,9 @@ const harnessRecords: Array<Omit<Harness, "featureClaims">> = [
         verifiedAt: ompVerifiedAt,
       },
       {
-        title: "Oh My Pi 17.1.7 release",
-        url: "https://github.com/can1357/oh-my-pi/releases/tag/v17.1.7",
-        covers: "Current stable package release, tool-input rewriting, schema revalidation, approval routing, and distribution version verification",
+        title: "Oh My Pi 17.1.8 release",
+        url: "https://github.com/can1357/oh-my-pi/releases/tag/v17.1.8",
+        covers: "Current stable package release, concurrent subagent repair through omp cleanse, verification checks, safer worktree cleanup, and distribution version verification; the code audit remains pinned separately to 17.1.7",
         kind: "official-announcement",
         verifiedAt: ompVerifiedAt,
       },
@@ -2027,7 +2027,7 @@ const harnessRecords: Array<Omit<Harness, "featureClaims">> = [
       "An open agent platform and developer control center with CLI, web, SDK, and automation surfaces; provider and local-model flexibility; MCP and browser tools; and local, Docker, or remote execution environments.",
     logo: {
       src: "/harnesses/openhands.svg",
-      sourceUrl: "https://github.com/OpenHands/OpenHands/blob/main/frontend/src/assets/branding/openhands-logo.svg",
+      sourceUrl: "https://github.com/OpenHands/OpenHands/blob/main/src/assets/branding/openhands-logo.svg",
       verifiedAt: openHandsVerifiedAt,
     },
     status: "active",
@@ -4214,7 +4214,7 @@ const harnessRecords: Array<Omit<Harness, "featureClaims">> = [
     tradeoffs: [
       "The local CLI executes on the host: permissions and Git worktrees are controls, not an OS sandbox; Vibe Code Web's managed sandbox is a separate surface",
       "Anonymous telemetry, update checks, and auto-update are enabled by default; a fully offline setup requires disabling them and any networked tools",
-      "Official docs currently lag the v2.22.0 code on programmatic approval defaults and MCP OAuth, so pinned source and changelog take precedence",
+      "The source audit remains pinned to v2.22.0; v2.23.x release notes document new MCP commands and a JSON-RPC app-server refactor, but those newer implementation changes remain release-level evidence until a fresh source audit",
       "There is no built-in browser automation; web search and fetch tools are not a browser agent",
     ],
     setup: "Install `mistral-vibe`, use a Mistral plan or API key, or configure a local/OpenAI-compatible provider. Then run `vibe`; the default agent asks before tool execution.",
@@ -4239,6 +4239,22 @@ const harnessRecords: Array<Omit<Harness, "featureClaims">> = [
         url: "https://github.com/mistralai/mistral-vibe/releases/tag/v2.22.0",
         covers: "Versioned release provenance for the exact source commit used by this audit",
         kind: "official-repository",
+        verifiedAt: mistralVibeVerifiedAt,
+      },
+      {
+        title: "Mistral Vibe v2.23.0 feature release",
+        topic: "releases-code-audit",
+        url: "https://github.com/mistralai/mistral-vibe/releases/tag/v2.23.0",
+        covers: "Dated release evidence for MCP add and remove commands, ACP project links, trust-dialog changes, and the JSON-RPC app-server runtime refactor; not a replacement for the pinned source audit",
+        kind: "official-announcement",
+        verifiedAt: mistralVibeVerifiedAt,
+      },
+      {
+        title: "Mistral Vibe v2.23.1 current release",
+        topic: "releases-code-audit",
+        url: "https://github.com/mistralai/mistral-vibe/releases/tag/v2.23.1",
+        covers: "Current stable distribution boundary and file-mention crash fix; the inspected implementation remains pinned to v2.22.0",
+        kind: "official-announcement",
         verifiedAt: mistralVibeVerifiedAt,
       },
       {
@@ -4611,7 +4627,7 @@ const harnessRecords: Array<Omit<Harness, "featureClaims">> = [
     ],
     tradeoffs: [
       "Its persistent-memory model is more complex than a disposable repository session",
-      "The interactive CLI currently starts in unrestricted mode; approval prompts require standard mode or explicit persistent policy rules",
+      "The interactive CLI currently starts in unrestricted mode; approval prompts require standard mode or explicit persistent policy rules. A new strict mode is documented by the v0.29.9 release, but is not yet reflected in the current permissions guide",
       "Local client tools execute with the selected computer's shell, files, credentials, and installed software even when agent state lives in Letta Cloud",
       "Managed sandboxing is an optional execution target, not the default boundary for local CLI work",
       "The platform supports external MCP tools, but current first-party guidance recommends skills instead of MCP for the Letta app and CLI; external servers remain separate execution and trust boundaries",
@@ -4633,6 +4649,14 @@ const harnessRecords: Array<Omit<Harness, "featureClaims">> = [
         topic: "releases-code-audit",
         url: "https://github.com/letta-ai/letta-code/releases/tag/v0.29.4",
         covers: "Stable release identity and dated version boundary used for the audit",
+        kind: "official-announcement",
+        verifiedAt: lettaCodeVerifiedAt,
+      },
+      {
+        title: "Letta Code 0.29.9 current release",
+        topic: "releases-code-audit",
+        url: "https://github.com/letta-ai/letta-code/releases/tag/v0.29.9",
+        covers: "Current stable distribution boundary and newly released strict permission mode that forces every tool through approval; the inspected client source remains pinned to 0.29.4",
         kind: "official-announcement",
         verifiedAt: lettaCodeVerifiedAt,
       },
