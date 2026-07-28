@@ -18,7 +18,7 @@ The homepage is a working analysis surface. It should feel closer to a compact r
 - Keep only three key assumptions visible in the first reading layer; place the complete seven-factor setup in a disclosure
 - Full-width evidence-ranking explorer after workflow fit, introduced by three mutually exclusive highlight summaries
 - Each highlight exposes the leading value, the size of any tied or overlapping group, and opens its detailed ranking in place
-- Horizontal bars for the top seven eligible harnesses, ordered by reference fit and sized by top-three sensitivity frequency
+- Horizontal bars for the top three eligible harnesses in the first reading layer, ordered by reference fit and sized by top-three sensitivity frequency
 - Complete compatible ranking directly below the chart, followed by a disclosure for excluded products and their missing requirements
 - Three plain-language research rules between the ranking surfaces and catalog
 - Capability-filtered catalog after the chart
@@ -29,10 +29,10 @@ The homepage is a working analysis surface. It should feel closer to a compact r
 - One muted violet series with direct percentage labels and a visible “ranking stability” definition
 - No background progress tracks; quiet vertical gridlines provide the scale
 - Required capabilities filter ineligible products before scoring; an empty state explains when no product clears the gates
-- Scenario controls remain keyboard-operable and horizontally scroll only within their own control row on small screens
+- Scenario controls remain keyboard-operable; all six remain visible in a two-column grid on small screens instead of hiding options behind horizontal scrolling
 - Provide a complete accessible ranking and CSV download for every scenario
 - State explicitly that fit points are not benchmark performance
-- Treat recommendation, reason, and limitation as the first reading layer; keep weights, sensitivity, exclusions, and CSV in progressive disclosures
+- Treat recommendation, reason, limitation, and two visible alternatives as the first reading layer; keep assumptions, weights, exclusions, and the full ranking in progressive disclosures
 - Reuse the horizontal-bar grammar for all rankings, but keep each construct behind its own highlight control
 - Operational readiness defaults to equal weights and offers a single-axis selector
 - Public code audit ranks only full or client-source repositories at pinned commits

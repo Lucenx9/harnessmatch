@@ -24,8 +24,8 @@ export const workflowScenarios: WorkflowScenario[] = [
   },
   {
     id: "local-flexibility",
-    label: "Local and flexible",
-    description: "Terminal work with local models and MCP required.",
+    label: "Local & flexible",
+    description: "Use the terminal, local models, and MCP without locking the workflow to one provider.",
     answers: {
       interface: "terminal",
       priority: "flexibility",
@@ -38,8 +38,8 @@ export const workflowScenarios: WorkflowScenario[] = [
   },
   {
     id: "ide-review",
-    label: "IDE with review",
-    description: "IDE-first changes with file rollback, MCP, and explicit approvals.",
+    label: "IDE with approvals",
+    description: "Work inside an IDE with file rollback, MCP, and explicit approval before risky actions.",
     answers: {
       interface: "ide",
       priority: "security",
@@ -52,8 +52,8 @@ export const workflowScenarios: WorkflowScenario[] = [
   },
   {
     id: "autonomous-ci",
-    label: "Autonomous CI",
-    description: "Headless automation with sandboxing and hands-off control.",
+    label: "Automated CI",
+    description: "Run headless repository tasks in CI with sandboxing and minimal intervention.",
     answers: {
       interface: "automation",
       priority: "autonomy",
@@ -67,7 +67,7 @@ export const workflowScenarios: WorkflowScenario[] = [
   {
     id: "enterprise-controls",
     label: "Enterprise controls",
-    description: "CI execution with enterprise routing, sandboxing, and approval gates.",
+    description: "Run CI workloads with enterprise routing, isolation, and approval gates.",
     answers: {
       interface: "automation",
       priority: "security",
@@ -80,8 +80,8 @@ export const workflowScenarios: WorkflowScenario[] = [
   },
   {
     id: "browser-work",
-    label: "Browser work",
-    description: "Web tasks where built-in browser support is mandatory.",
+    label: "Browser-first",
+    description: "Complete web-facing tasks with browser control built into the coding workflow.",
     answers: {
       interface: "web",
       priority: "autonomy",

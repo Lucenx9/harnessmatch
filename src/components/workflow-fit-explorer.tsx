@@ -154,7 +154,7 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
   if (!selected) return null;
 
   const csvHref = `data:text/csv;charset=utf-8,${encodeURIComponent(scenarioCsv(selected))}`;
-  const chartResults = selected.results.slice(0, 7);
+  const chartResults = selected.results.slice(0, 3);
   const totalProducts = selected.results.length + selected.excluded.length;
   const leadingCount = leadingMatchCount(selected.results);
 
@@ -195,8 +195,8 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
     <div className="workflow-tool">
       <div className="workflow-tool-header">
         <div>
-          <h2 id="workflow-fit-title">Choose a workflow</h2>
-          <p>Start with a familiar setup. See the leading match or group and what to check before choosing.</p>
+          <h2 id="workflow-fit-title">How do you want to work?</h2>
+          <p>Pick the setup closest to yours. See a leading match, the reason, and the main trade-off.</p>
         </div>
       </div>
 
@@ -223,6 +223,7 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
         className="workflow-panel"
         id="workflow-fit-panel"
         role="tabpanel"
+        tabIndex={0}
         aria-labelledby={`workflow-tab-${selected.id}`}
       >
         <div className="workflow-scenario-overview">
@@ -243,7 +244,7 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
               : `Leading match: ${topResult.name}`}
           >
             <div className="workflow-decision-product">
-              <span>{leadingCount > 1 ? `1 of ${leadingCount} leading matches` : "Leading match"}</span>
+              <span>{leadingCount > 1 ? "One of the leading matches" : "Leading match"}</span>
               <Link href={`/harnesses/${topResult.slug}`}>
                 <HarnessLogo logo={topResult.logo} name={topResult.name} size="small" />
                 <strong>{topResult.name}</strong>
@@ -265,15 +266,15 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
         <section className="workflow-chart" aria-labelledby="workflow-fit-title workflow-chart-summary">
           <header className="workflow-chart-heading">
             <div>
-              <h3>Ranking stability</h3>
-              <p>How often each harness stays in the top three across 512 priority variations. This is not task success.</p>
+              <h3>How stable is this match?</h3>
+              <p>How often each option remains in the top three across 512 priority variations. This measures ranking sensitivity, not task success or product quality.</p>
             </div>
-            <span>Order follows the reference fit</span>
+            <span>{chartResults.length} of {selected.results.length} shown</span>
           </header>
           <div className="workflow-chart-axis" aria-hidden="true">
             <span>Harness</span>
             <span className="workflow-axis-scale"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></span>
-            <span>Stability</span>
+            <span>Top 3</span>
           </div>
           <ol className="workflow-chart-list">
             {chartResults.map((result) => {
@@ -311,8 +312,8 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
         <div className="workflow-progressive-disclosures">
           <details className="workflow-assumptions">
             <summary>
-              <strong>View all 7 assumptions</strong>
-              <span>Priority, scope, work mode, and must-haves</span>
+              <strong>Check this workflow&apos;s assumptions</strong>
+              <span>7 inputs used for this preset</span>
             </summary>
             <dl className="workflow-factors">
               <div><dt>Interface</dt><dd>{interfaceLabels[selected.answers.interface]}</dd></div>
@@ -346,9 +347,9 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
 
         <div className="workflow-tool-footer">
           <div className="workflow-tool-links">
-            <Link className="text-link" href="/recommend">Answer 7 quick questions</Link>
+            <Link className="button primary" href="/recommend">Refine your match</Link>
             <a className="text-link" href={csvHref} download={`harnessmatch-${selected.id}.csv`}>Download CSV</a>
-            <Link className="text-link" href="/methodology">Methodology</Link>
+            <Link className="text-link" href="/methodology">Read methodology</Link>
           </div>
         </div>
 
