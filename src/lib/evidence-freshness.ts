@@ -221,17 +221,36 @@ export type FreshnessSummary = {
 
 export function freshnessSummary(now: Date = new Date()): FreshnessSummary {
   const records = verifiedRecords();
-  const dates = records.map((record) => record.verifiedAt).sort();
-  const states = records.map((record) =>
-    freshnessStateForAge(verificationAgeInDays(record.verifiedAt, now)));
+
+  let current = 0;
+  let dueForReview = 0;
+  let stale = 0;
+  let oldestVerifiedAt: string | null = null;
+  let newestVerifiedAt: string | null = null;
+
+  for (const record of records) {
+    const verifiedAt = record.verifiedAt;
+    const state = freshnessStateForAge(verificationAgeInDays(verifiedAt, now));
+
+    if (state === "current") current++;
+    else if (state === "due-for-review") dueForReview++;
+    else if (state === "stale") stale++;
+
+    if (oldestVerifiedAt === null || verifiedAt < oldestVerifiedAt) {
+      oldestVerifiedAt = verifiedAt;
+    }
+    if (newestVerifiedAt === null || verifiedAt > newestVerifiedAt) {
+      newestVerifiedAt = verifiedAt;
+    }
+  }
 
   return {
     total: records.length,
-    current: states.filter((state) => state === "current").length,
-    dueForReview: states.filter((state) => state === "due-for-review").length,
-    stale: states.filter((state) => state === "stale").length,
-    oldestVerifiedAt: dates[0] ?? null,
-    newestVerifiedAt: dates[dates.length - 1] ?? null,
+    current,
+    dueForReview,
+    stale,
+    oldestVerifiedAt,
+    newestVerifiedAt,
   };
 }
 
