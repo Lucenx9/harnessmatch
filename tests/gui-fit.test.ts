@@ -12,6 +12,18 @@ import {
 
 const repositoryRoot = fileURLToPath(new URL("../", import.meta.url));
 
+const firstPartyGuiHosts: Record<string, string[]> = {
+  aq: ["aq.dev", "www.aq.dev"],
+  "claude-code-desktop": ["code.claude.com"],
+  "codex-desktop": ["learn.chatgpt.com"],
+  conductor: ["www.conductor.build"],
+  emdash: ["emdash.ai", "github.com"],
+  nimbalyst: ["docs.nimbalyst.com", "github.com", "nimbalyst.com"],
+  superset: ["docs.superset.sh", "github.com"],
+  "t3-code": ["github.com", "t3.codes"],
+  webmux: ["github.com"],
+};
+
 describe("GUI workflow classification", () => {
   it("keeps native and multi-harness GUIs in a separate active catalog", () => {
     expect(guiProducts.length).toBeGreaterThanOrEqual(8);
@@ -24,17 +36,25 @@ describe("GUI workflow classification", () => {
 
   it("requires direct source links for every documented GUI capability", () => {
     for (const product of guiProducts) {
+      const evidenceUrls = new Set(product.evidence.map((source) => source.url));
       expect(product.evidence.length, product.name).toBeGreaterThan(0);
       expect(product.harnessSupportNote.length, product.name).toBeGreaterThan(0);
       expect(product.logo.src, product.name).toMatch(/^\/(guis|harnesses)\//);
       expect(product.logo.sourceUrl, product.name).toMatch(/^https:\/\//);
       expect(existsSync(`${repositoryRoot}/public${product.logo.src}`), product.name).toBe(true);
-      expect(product.evidence.every((source) => source.url.startsWith("https://")), product.name).toBe(true);
+      expect(
+        product.evidence.every((source) => firstPartyGuiHosts[product.id].includes(new URL(source.url).hostname)),
+        product.name,
+      ).toBe(true);
 
       for (const [capability, claim] of Object.entries(product.capabilities)) {
         if (claim.state === "documented") {
           expect(claim.sourceUrls.length, `${product.name}: ${capability}`).toBeGreaterThan(0);
           expect(claim.sourceUrls.every((url) => url.startsWith("https://"))).toBe(true);
+          expect(
+            claim.sourceUrls.every((url) => evidenceUrls.has(url)),
+            `${product.name}: ${capability}`,
+          ).toBe(true);
         } else if (claim.state === "unknown") {
           expect(claim.sourceUrls, `${product.name}: ${capability}`).toEqual([]);
         }
@@ -72,6 +92,10 @@ describe("GUI workflow classification", () => {
     expect(nimbalyst.license).toBe("MIT");
     expect(nimbalyst.harnessSupportNote).toContain("alpha");
     expect(webmux.harnessSupportNote).toContain("terminal-first");
+    expect(guiProducts.find((product) => product.id === "claude-code-desktop")?.platforms).toEqual([
+      "macOS",
+      "Windows",
+    ]);
   });
 
   it("pins every public-code audit to an exact commit and inspected paths", () => {

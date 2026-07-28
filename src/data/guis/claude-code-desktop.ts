@@ -2,6 +2,8 @@ import type { GuiProduct } from "@/lib/gui-types";
 import { documented, guiVerifiedAt, source, unknown } from "./helpers";
 
 const docs = "https://code.claude.com/docs/en/desktop";
+const worktreeDocs = "https://code.claude.com/docs/en/worktrees";
+const webDocs = "https://code.claude.com/docs/en/claude-code-on-the-web";
 
 export const claudeCodeDesktop: GuiProduct = {
   id: "claude-code-desktop",
@@ -16,7 +18,7 @@ export const claudeCodeDesktop: GuiProduct = {
   layer: "harness-native",
   sourceAccess: "proprietary",
   license: "Proprietary",
-  platforms: ["macOS", "Windows", "Linux"],
+  platforms: ["macOS", "Windows"],
   supportedHarnesses: ["Claude Code"],
   acceptsArbitraryCli: false,
   harnessSupportNote: "Claude Code only. The desktop Code tab requires an eligible Anthropic account or subscription, and cloud sessions count against its usage limits.",
@@ -25,11 +27,15 @@ export const claudeCodeDesktop: GuiProduct = {
   limitation: "It is tied to Claude Code and Anthropic account availability; the desktop GUI source is not public.",
   capabilities: {
     parallelSessions: documented("The session sidebar runs multiple independent sessions in parallel.", docs),
-    workspaceIsolation: documented("Parallel sessions can use automatic Git worktree isolation.", docs),
+    workspaceIsolation: documented("Parallel sessions use automatic Git worktree isolation.", docs, worktreeDocs),
     visualReview: documented("Diff comments, code review, CI monitoring, file editing, terminal, and previews are built in.", docs),
-    remoteExecution: documented("Sessions can run locally, in Anthropic cloud, or over SSH.", docs),
+    remoteExecution: documented("Sessions can run locally, in Anthropic cloud, or over SSH.", docs, webDocs),
     teamCollaboration: unknown("The current desktop reference does not establish a shared live coding session for multiple teammates."),
   },
-  evidence: [source("Claude Code desktop application", docs, "official-docs", "Code-tab scope, parallel sessions, isolation, review panes, permissions, cloud, and SSH.")],
+  evidence: [
+    source("Claude Code desktop application", docs, "official-docs", "macOS and Windows availability, Code-tab scope, parallel sessions, review panes, permissions, cloud, and SSH."),
+    source("Claude Code worktrees", worktreeDocs, "official-docs", "Automatic desktop worktrees, parallel-session isolation, branch selection, ignored-file handling, and cleanup."),
+    source("Claude Code cloud sessions", webDocs, "official-docs", "Managed remote execution, repository access, session continuation, parallel usage, and cloud-environment boundaries."),
+  ],
   verifiedAt: guiVerifiedAt,
 };

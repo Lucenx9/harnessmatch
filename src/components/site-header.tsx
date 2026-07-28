@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { BrandMark } from "@/components/brand-mark";
 import { GlobalSearch } from "@/components/global-search";
+import { MobileNavigation } from "@/components/mobile-navigation";
 import { NavLinks } from "@/components/nav-links";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { guiProducts } from "@/data/gui-products";
@@ -111,12 +112,7 @@ export function SiteHeader() {
           <NavLinks />
         </nav>
         <GlobalSearch recordCount={harnesses.length + guiProducts.length} items={globalSearchItems} />
-        <details className="mobile-menu">
-          <summary>Menu</summary>
-          <nav aria-label="Mobile navigation">
-            <NavLinks />
-          </nav>
-        </details>
+        <MobileNavigation />
         <ThemeToggle />
       </div>
     </header>

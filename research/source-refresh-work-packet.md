@@ -1,7 +1,7 @@
 # Source refresh work packet
 
 **Created:** 2026-07-27
-**Updated:** 2026-07-27 (second pass: web + X recheck for all harnesses)
+**Updated:** 2026-07-28 (whole-ledger health, repository drift, and GUI coverage pass)
 **Purpose:** First-party source candidates for every harness, plus ranking-review guidance for a follow-up agent (Codex or Claude).
 **Status:** Applied on 2026-07-27 for every live-verified, high-value candidate in this packet. The Codex, Goose, Mux, Cursor CLI, Command Code, Qwen Code, Aider, OpenHands, Factory Droid, Grok Build, Letta Harness, Claude Code, OpenCode, Kilo Code, and Kiro CLI slices were integrated. Remaining entries are overlap, broken paths, low-confidence discovery leads, or future refresh prompts—not verified evidence. No capability score may change from this packet alone.
 
@@ -16,6 +16,15 @@
 Every URL in **§2b** was absent from `src/data/harnesses.ts` when discovered. Consult the application log below before treating an entry as pending.
 
 ### Application log
+
+#### 2026-07-28 — Whole-ledger and GUI provenance pass applied
+
+- Probed every published URL collected from the repository-backed data modules: 969 unique URLs before this pass, with 960 healthy, eight access-restricted, one temporarily inconclusive, and zero broken. After adding the GUI records, the second pass covered 980 unique URLs: 969 healthy, eight access-restricted, three fetch-inconclusive, and zero broken. The OpenCode web page and both Pi pages that timed out in the generic probe were reopened successfully in the browser; restricted DOI, ISO, OECD, and xAI endpoints remain valid records rather than being misclassified as dead links.
+- Compared all 36 harness repository audits and five GUI repository audits with current upstream `HEAD`: 25 harness repositories had advanced, all five GUI audit snapshots were unchanged, and no lookup failed.
+- Reviewed the highest-signal drift rather than advancing audit pins mechanically. Pi's new durable-harness document is explicitly a plan, Mux's durable timeline is experiment-gated and off by default, and Letta Harness's v0.29.9 strict permission mode was already represented in the published ledger. These do not justify a recommendation-score change.
+- Expanded the thin GUI ledgers for AQ, Claude Code Desktop, Nimbalyst, and webmux with direct first-party documentation or pinned implementation paths. GUI capability URLs are now contract-tested to belong to the product's published evidence ledger and an admitted first-party host.
+- Corrected Claude Code Desktop platform support from macOS, Windows, and Linux to macOS and Windows because the current official desktop documentation explicitly says Linux is unsupported.
+- Ranking decision: **GUI evidence and platform correction only**. Harness recommendation inputs, GUI fit rules, and benchmark records remain unchanged.
 
 #### 2026-07-27 — Codex slice applied
 
