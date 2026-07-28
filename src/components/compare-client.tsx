@@ -2,6 +2,7 @@
 
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { HarnessLogo } from "@/components/harness-logo";
+import { FeatureClaimValue } from "@/components/feature-claim-value";
 import { benchmarkRunsForHarness } from "@/data/benchmark-runs";
 import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnesses } from "@/data/harnesses";
@@ -234,9 +235,7 @@ export function CompareClient() {
               <tr key={feature}>
                 <th>{label}</th>
                 {chosen.map((harness) => (
-                  <td key={harness.id} className={harness.features[feature] ? "yes" : "no"}>
-                    {harness.features[feature] ? "Yes" : "No"}
-                  </td>
+                  <td key={harness.id}><FeatureClaimValue harness={harness} feature={feature} /></td>
                 ))}
               </tr>
             ))}
@@ -330,9 +329,7 @@ export function CompareClient() {
                   <tr key={feature}>
                     <th>{label}</th>
                     {chosen.map((harness) => (
-                      <td key={harness.id} className={harness.features[feature] ? "yes" : "no"}>
-                        {harness.features[feature] ? "Yes" : "No"}
-                      </td>
+                      <td key={harness.id}><FeatureClaimValue harness={harness} feature={feature} /></td>
                     ))}
                   </tr>
                 ))}

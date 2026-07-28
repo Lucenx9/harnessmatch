@@ -253,10 +253,17 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
 
         <p className="sr-only" id="workflow-chart-summary">{chartSummary}</p>
         <section className="workflow-chart" aria-labelledby="workflow-fit-title workflow-chart-summary">
+          <header className="workflow-chart-heading">
+            <div>
+              <h3>Ranking stability</h3>
+              <p>How often each harness stays in the top three across 512 priority variations. This is not task success.</p>
+            </div>
+            <span>Order follows the reference fit</span>
+          </header>
           <div className="workflow-chart-axis" aria-hidden="true">
             <span>Harness</span>
             <span className="workflow-axis-scale"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></span>
-            <span>Stays top 3</span>
+            <span>Stability</span>
           </div>
           <ol className="workflow-chart-list">
             {chartResults.map((result) => {

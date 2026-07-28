@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { benchmarkRuns } from "@/data/benchmark-runs";
+import { featureClaimFor, featureClaimSupportsRequirement, featureKeys } from "@/data/feature-claims";
 import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnesses } from "@/data/harnesses";
 import { getOperationalProfileRecord } from "@/data/operational-profiles";
@@ -19,10 +20,17 @@ import {
   benchmarkTopIntervalGroup,
 } from "@/lib/evaluation";
 import { eligibilityFailuresFor, recommendHarnesses } from "@/lib/recommendation";
+import { latestVerifiedAt } from "@/lib/evidence-freshness";
 
 export default function HomePage() {
   const activeHarnesses = harnesses.filter((harness) => harness.status === "active");
-  const sourceCount = activeHarnesses.reduce((total, harness) => total + harness.evidence.length, 0);
+  const peerReviewedStudyCount = researchSources.filter((source) => source.maturity === "peer-reviewed").length;
+  const latestCheck = new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${latestVerifiedAt()}T00:00:00Z`));
   const scenarioViews = workflowScenarios.map((scenario) => {
     const results = recommendHarnesses(scenario.answers, activeHarnesses);
     const compatibleIds = new Set(results.map((result) => result.harness.id));
@@ -135,8 +143,8 @@ export default function HomePage() {
           </div>
           <dl className="dataset-summary" aria-label="Dataset status">
             <div><dt>Active catalog entries</dt><dd>{activeHarnesses.length}</dd></div>
-            <div><dt>First-party sources</dt><dd>{sourceCount}</dd></div>
-            <div><dt>Scientific papers</dt><dd>{researchSources.length}</dd></div>
+            <div><dt>Latest source check</dt><dd>{latestCheck}</dd></div>
+            <div><dt>Peer-reviewed studies</dt><dd>{peerReviewedStudyCount}</dd></div>
             <div><dt>Measured configurations</dt><dd>{benchmarkRuns.length}</dd></div>
           </dl>
         </div>
@@ -207,7 +215,10 @@ export default function HomePage() {
             state: harness.classification.state,
             interfaces: harness.interfaces,
             providerStyle: harness.providerStyle,
-            features: harness.features,
+            features: Object.fromEntries(featureKeys.map((feature) => [
+              feature,
+              featureClaimSupportsRequirement(featureClaimFor(harness, feature)),
+            ])) as typeof harness.features,
             evidenceCount: harness.evidence.length,
             verifiedAt: harness.verifiedAt,
           }))} />

@@ -18,7 +18,7 @@ The homepage is a working analysis surface. It should feel closer to a compact r
 - Keep only three key assumptions visible in the first reading layer; place the complete seven-factor setup in a disclosure
 - Full-width evidence-ranking explorer after workflow fit, introduced by three mutually exclusive highlight summaries
 - Each highlight exposes the leading value, the size of any tied or overlapping group, and opens its detailed ranking in place
-- Horizontal bars for the top seven eligible harnesses, sorted by the deterministic fit score
+- Horizontal bars for the top seven eligible harnesses, ordered by reference fit and sized by top-three sensitivity frequency
 - Complete compatible ranking directly below the chart, followed by a disclosure for excluded products and their missing requirements
 - Three plain-language research rules between the ranking surfaces and catalog
 - Capability-filtered catalog after the chart
@@ -26,7 +26,7 @@ The homepage is a working analysis surface. It should feel closer to a compact r
 
 ## Chart rules
 
-- One muted violet series with direct numeric labels
+- One muted violet series with direct percentage labels and a visible “ranking stability” definition
 - No background progress tracks; quiet vertical gridlines provide the scale
 - Required capabilities filter ineligible products before scoring; an empty state explains when no product clears the gates
 - Scenario controls remain keyboard-operable and horizontally scroll only within their own control row on small screens

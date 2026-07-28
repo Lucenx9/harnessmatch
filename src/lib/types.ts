@@ -58,6 +58,29 @@ export type FeatureKey =
   | "sandbox"
   | "checkpoints";
 
+export type FeatureClaimState =
+  | "default"
+  | "documented"
+  | "optional"
+  | "surface-specific"
+  | "not-documented"
+  | "explicitly-absent"
+  | "deprecated";
+
+/**
+ * A feature claim describes what the first-party record actually establishes.
+ * It is deliberately richer than the legacy boolean used by the scoring data:
+ * availability, default state, product surface, provenance, and limitations are
+ * separate facts.
+ */
+export type FeatureClaim = {
+  state: FeatureClaimState;
+  scope: string;
+  sourceUrls: string[];
+  verifiedAt: string;
+  limitation: string;
+};
+
 export type ContextManagement = "basic" | "managed" | "persistent" | "unknown";
 export type PermissionPosture = "host" | "approval" | "policy" | "unknown";
 export type VerificationPosture = "manual" | "tool-assisted" | "workflow-gated" | "unknown";

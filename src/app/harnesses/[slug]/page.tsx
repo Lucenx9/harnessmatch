@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { HarnessLogo } from "@/components/harness-logo";
+import { FeatureClaimValue } from "@/components/feature-claim-value";
+import { ArchitectureLevelIndicator } from "@/components/architecture-level-indicator";
 import { benchmarkRunsForHarness } from "@/data/benchmark-runs";
 import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnessBySlug, harnesses } from "@/data/harnesses";
@@ -33,31 +35,6 @@ import {
 import type { ArchitectureAxis, EvidenceSource, FeatureKey } from "@/lib/types";
 
 export const dynamicParams = false;
-
-const architectureLevelCount = 4;
-
-function ArchitectureLevelIndicator({ axis, level }: { axis: ArchitectureAxis; level: number | null }) {
-  const accessibleLabel = level === null
-    ? `${architectureAxisLabels[axis]}: excluded from comparison because the mechanism is not documented`
-    : `${architectureAxisLabels[axis]}: documented level ${level} of ${architectureLevelCount}, ${architectureLevelAnchors[axis][level]}`;
-
-  return (
-    <div
-      className={`profile-level-indicator${level === null ? " is-empty" : ""}`}
-      role="img"
-      aria-label={accessibleLabel}
-      title={accessibleLabel}
-    >
-      {Array.from({ length: architectureLevelCount }, (_, index) => (
-        <span
-          className={level !== null && index < level ? "is-filled" : undefined}
-          aria-hidden="true"
-          key={index}
-        />
-      ))}
-    </div>
-  );
-}
 
 const featureSupport: Array<{ key: FeatureKey; label: string }> = [
   { key: "mcp", label: "External tools (MCP)" },
@@ -305,7 +282,7 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
               </div>
               <div>
                 <dt>Local model path</dt>
-                <dd>{harness.localModels ? "Supported" : "Not first-class"}</dd>
+                <dd><FeatureClaimValue harness={harness} feature="localModels" compact /></dd>
               </div>
             </dl>
             <details className="profile-technical-details">
@@ -381,7 +358,7 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
                 </div>
                 <div>
                   <dt>Local model path</dt>
-                  <dd>{harness.localModels ? "Supported" : "Not first-class"}</dd>
+                  <dd><FeatureClaimValue harness={harness} feature="localModels" compact /></dd>
                 </div>
                 <div>
                   <dt>Claim boundary</dt>
@@ -515,13 +492,10 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
           </div>
           <dl className="profile-support-grid">
             {featureSupport.map((feature) => {
-              const supported = harness.features[feature.key];
               return (
                 <div key={feature.key}>
                   <dt>{feature.label}</dt>
-                  <dd className={supported ? "yes" : "neutral-no"}>
-                    {supported ? "Supported" : "Not first-class"}
-                  </dd>
+                  <dd><FeatureClaimValue harness={harness} feature={feature.key} /></dd>
                 </div>
               );
             })}

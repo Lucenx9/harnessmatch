@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useMemo, useRef, useState } from "react";
-import type { KeyboardEvent } from "react";
+import type { KeyboardEvent, ReactNode } from "react";
+import { ArchitectureLevelIndicator } from "@/components/architecture-level-indicator";
 import { HarnessLogo } from "@/components/harness-logo";
 import { architectureAxisLabels, architectureLevelAnchors } from "@/lib/evaluation";
 import type { ArchitectureAxis, ArchitectureProfile, HarnessLogo as HarnessLogoData } from "@/lib/types";
@@ -126,7 +127,7 @@ export function EvidenceRankingExplorer({
   const highlightViews: Array<{
     id: ViewId;
     label: string;
-    value: string;
+    value: ReactNode;
     unit: string;
     headline: string;
     detail: string;
@@ -134,8 +135,12 @@ export function EvidenceRankingExplorer({
     {
       id: "operational",
       label: viewLabels.operational,
-      value: operationalLeaderLevel === undefined ? "N/A" : `L${operationalLeaderLevel}`,
-      unit: "of 4 levels",
+      value: operationalLeaderLevel === undefined
+        ? "N/A"
+        : <ArchitectureLevelIndicator axis={operationalLens} level={operationalLeaderLevel} />,
+      unit: operationalLeaderLevel === undefined
+        ? "no comparable record"
+        : architectureLevelAnchors[operationalLens][operationalLeaderLevel],
       headline: operationalLeaders.length > 0
         ? `${compactLeaderNames(operationalLeaders)} ${operationalLeaders.length === 1 ? "leads" : "share the lead"}`
         : "No documented leader",
@@ -176,7 +181,8 @@ export function EvidenceRankingExplorer({
         name: row.name,
         logo: row.logo,
         score: (row.level / 4) * 100,
-        displayValue: `L${row.level}`,
+        displayValue: architectureLevelAnchors[operationalLens][row.level] ?? "Documented mechanism",
+        operationalLevel: row.level,
         meta: `${architectureLevelAnchors[operationalLens][row.level] ?? "Documented mechanism"}, ${row.documentedAxes}/7 layers, ${row.evidenceSources} sources`,
         href: `/harnesses/${row.slug}`,
         external: false,
@@ -190,6 +196,7 @@ export function EvidenceRankingExplorer({
           logo: row.logo,
           score: (row.artifactCount / 5) * 100,
           displayValue: `${row.artifactCount}/5`,
+          operationalLevel: null,
           meta: `${row.passedSignals}/5 artifacts, ${row.sourceScope === "full-source" ? "full source" : "client source"}`,
           href: `/harnesses/${row.slug}`,
           external: false,
@@ -202,6 +209,7 @@ export function EvidenceRankingExplorer({
           logo: row.logo,
           score: row.score,
           displayValue: `${row.score.toFixed(1)}%`,
+          operationalLevel: null,
           meta: `${row.model}, harness ${row.harnessVersion}`,
           href: row.resultSourceUrl,
           external: true,
@@ -288,7 +296,7 @@ export function EvidenceRankingExplorer({
             <span className="evidence-highlight-label">{item.label}</span>
             <span className="evidence-highlight-reading">
               <span className="evidence-highlight-value">
-                <strong>{item.value}</strong>
+                {typeof item.value === "string" ? <strong>{item.value}</strong> : item.value}
                 <small>{item.unit}</small>
               </span>
               <span className="evidence-highlight-copy">
@@ -349,7 +357,11 @@ export function EvidenceRankingExplorer({
                   <span className="evidence-row-plot" aria-hidden="true">
                     <span style={{ transform: `scaleX(${row.score / 100})` }} />
                   </span>
-                  <strong className="evidence-row-score">{row.displayValue}</strong>
+                  <strong className="evidence-row-score">
+                    {row.operationalLevel === null
+                      ? row.displayValue
+                      : <ArchitectureLevelIndicator axis={operationalLens} level={row.operationalLevel} compact />}
+                  </strong>
                 </>
               );
 
@@ -375,7 +387,11 @@ export function EvidenceRankingExplorer({
                   {row.external
                     ? <a href={row.href} target="_blank" rel="noreferrer">{row.name}</a>
                     : <Link href={row.href}>{row.name}</Link>}
-                  <strong>{row.displayValue}</strong>
+                  <strong>
+                    {row.operationalLevel === null
+                      ? row.displayValue
+                      : <ArchitectureLevelIndicator axis={operationalLens} level={row.operationalLevel} compact />}
+                  </strong>
                 </li>
               ))}
             </ol>

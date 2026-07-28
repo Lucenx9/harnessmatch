@@ -1,4 +1,5 @@
 import { harnesses } from "../data/harnesses";
+import { featureClaimFor, featureClaimSupportsRequirement } from "../data/feature-claims";
 import { getHarnessMembershipAssessment } from "../data/harness-membership";
 import { getOperationalProfile } from "../data/operational-profiles";
 import { evidenceStateFor } from "./evaluation";
@@ -243,12 +244,16 @@ export function requiredFeaturesFor(answers: RecommendationAnswers): FeatureKey[
 }
 
 export function missingRequiredFeatures(harness: Harness, answers: RecommendationAnswers): FeatureKey[] {
-  return requiredFeaturesFor(answers).filter((feature) => !harness.features[feature]);
+  return requiredFeaturesFor(answers).filter((feature) => (
+    !featureClaimSupportsRequirement(featureClaimFor(harness, feature))
+  ));
 }
 
 function supportsRequestedModelAccess(harness: Harness, answers: RecommendationAnswers) {
   if (answers.modelAccess === "subscription") return harness.supportsSubscription;
-  if (answers.modelAccess === "local") return harness.localModels;
+  if (answers.modelAccess === "local") {
+    return featureClaimSupportsRequirement(featureClaimFor(harness, "localModels"));
+  }
   if (answers.modelAccess === "model-agnostic") return harness.providerStyle !== "single-vendor";
   return harness.supportsEnterpriseAccess === true;
 }

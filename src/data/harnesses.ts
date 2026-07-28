@@ -2610,7 +2610,7 @@ export const harnesses: Harness[] = [
       {
         title: "Cline overview",
         url: "https://docs.cline.bot/cline-overview",
-        covers: "IDE, CLI, SDK, API, Kanban, enterprise, provider, and automation surfaces",
+        covers: "IDE, CLI, SDK, API, browser use, Kanban, enterprise, provider, and automation surfaces",
         kind: "official-docs",
         verifiedAt: clineVerifiedAt,
       },
@@ -3718,7 +3718,7 @@ export const harnesses: Harness[] = [
         title: "Droid CLI reference",
         topic: "product-surfaces",
         url: "https://docs.factory.ai/reference/cli-reference",
-        covers: "Interactive and headless modes, output formats, permissions, worktrees, sessions, MCP, and CI",
+        covers: "Interactive and headless modes, output formats, permissions, worktrees, sessions, conversation rewind, MCP, and CI",
         kind: "official-docs",
         verifiedAt: factoryDroidVerifiedAt,
       },

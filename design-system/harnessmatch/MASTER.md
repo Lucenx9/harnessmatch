@@ -66,8 +66,9 @@ Semantic success, warning, and danger colors are reserved for actual state. They
 - A first reading layer should answer what to choose, why it fits, and what to check before choosing
 - The first interactive surface is a workflow-fit chart with explicit assumptions, direct labels, and published weights
 - A second analytical surface offers separate operational-readiness, public-code-auditability, and measured-system rankings
-- Workflow-fit bars visualize deterministic recommendation points, never model intelligence or benchmark performance
+- Workflow-fit bars visualize top-three sensitivity frequency across published priority variations, never task success, model intelligence, or benchmark performance
 - Required workflow capabilities are eligibility gates. A compatible capability does not add a hidden score bonus
+- Capability cells state whether support is default, documented, optional, surface-specific, not documented, explicitly absent, or deprecated; every positive state links to first-party evidence
 - Catalog layer is separate from product role: coding harness, external harness orchestrator, framework/runtime, or adjacent tool
 - Default recommendation requires four source-backed coding-harness membership criteria before workflow gates are evaluated
 - Workflow fit × model portability is a categorical decision matrix; it reuses fit bands and never adds a portability score
