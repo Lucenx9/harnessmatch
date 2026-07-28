@@ -585,7 +585,7 @@ describe("recommendHarnesses", () => {
       ...base,
       interface: "automation",
       modelAccess: "local",
-      priority: "automation",
+      priority: "autonomy",
       control: "hands-off",
       changeScope: "large-repo",
       operatingMode: "parallel",
