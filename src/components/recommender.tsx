@@ -185,7 +185,7 @@ function encodeAnswers(answers: RecommendationAnswers) {
   return window.btoa(JSON.stringify(answers));
 }
 
-function decodeAnswers(value: string): RecommendationAnswers | null {
+export function decodeAnswers(value: string): RecommendationAnswers | null {
   try {
     const parsed = JSON.parse(window.atob(value)) as Partial<RecommendationAnswers> & {
       repoContext?: "small" | "large" | "ci" | "multi-agent";
