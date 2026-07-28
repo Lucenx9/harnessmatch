@@ -11,7 +11,7 @@ export const aq: GuiProduct = {
   name: "AQ",
   logo: {
     src: "/guis/aq.svg",
-    sourceUrl: "https://aq.dev/favicon.svg",
+    sourceUrl: product,
     verifiedAt: guiVerifiedAt,
   },
   url: "https://aq.dev/",

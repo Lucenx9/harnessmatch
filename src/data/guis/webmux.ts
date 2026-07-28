@@ -14,7 +14,7 @@ export const webmux: GuiProduct = {
   name: "webmux",
   logo: {
     src: "/guis/webmux.svg",
-    sourceUrl: "https://github.com/windmill-labs/webmux/blob/99cb139eac4bdc11efbb4c7e3045fa16dc4e0252/frontend/public/icon.svg",
+    sourceUrl: "https://github.com/windmill-labs/webmux/blob/99cb139eac4bdc11efbb4c7e3045fa16dc4e0252/site/src/lib/components/SiteLogo.svelte",
     verifiedAt: guiVerifiedAt,
   },
   preview: {
