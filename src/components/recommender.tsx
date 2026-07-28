@@ -205,6 +205,8 @@ export function Recommender() {
   const [showResults, setShowResults] = useState(false);
   const [copied, setCopied] = useState(false);
   const resultsHeadingRef = useRef<HTMLHeadingElement>(null);
+  const stepHeadingRef = useRef<HTMLHeadingElement>(null);
+  const stepEnteredRef = useRef(false);
   const copiedTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -227,6 +229,17 @@ export function Recommender() {
       behavior: "auto",
     });
   }, [showResults]);
+
+  // Answering a question unmounts the button that was just pressed, which drops focus to the
+  // document body. Move it to the new question instead so keyboard and screen reader users are
+  // not sent back through the header on every step. The first render is left alone.
+  useEffect(() => {
+    if (!stepEnteredRef.current) {
+      stepEnteredRef.current = true;
+      return;
+    }
+    stepHeadingRef.current?.focus({ preventScroll: true });
+  }, [step]);
 
   useEffect(() => () => {
     if (copiedTimerRef.current !== null) window.clearTimeout(copiedTimerRef.current);
@@ -529,7 +542,7 @@ export function Recommender() {
       {step < questions.length ? (
         <div className="quiz-panel">
           <div className="quiz-meta">Question {step + 1} of {totalSteps}</div>
-          <h2>{current.title}</h2>
+          <h2 ref={stepHeadingRef} tabIndex={-1}>{current.title}</h2>
           <p>{current.description}</p>
           <div className="option-grid">
             {current.options.map(([value, label, description]) => (
@@ -549,7 +562,7 @@ export function Recommender() {
       ) : (
         <div className="quiz-panel">
           <div className="quiz-meta">Question {totalSteps} of {totalSteps}</div>
-          <h2>What would you refuse to use a tool without?</h2>
+          <h2 ref={stepHeadingRef} tabIndex={-1}>What would you refuse to use a tool without?</h2>
           <p>Select only true deal-breakers. If you are unsure, leave everything unselected and compare the trade-offs in your results.</p>
           <div className="feature-picker">
             {featureOptions.map(([feature, label]) => (
