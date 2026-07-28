@@ -19,6 +19,7 @@ export function SiteFooter() {
           <Link href="/data">Data</Link>
           <Link href="/methodology">Methodology</Link>
           <Link href="/compare">Compare</Link>
+          <Link href="/guis">GUIs</Link>
           <Link href="/benchmarks">Benchmarks</Link>
           <Link href="/privacy">Privacy</Link>
         </div>

@@ -86,6 +86,26 @@ export function harnessProfileDescription(name: string, tagline: string): string
   return description;
 }
 
+export function guiProfileDescription(name: string, summary: string): string {
+  const prefix = `${name}: ${summary}`;
+  const candidates = [
+    `${prefix} Review workflow fit, supported harnesses, limitations, and verified first-party evidence.`,
+    `${prefix} Review supported harnesses, limitations, and verified evidence.`,
+    `${prefix} Workflow fit, limitations, and verified evidence.`,
+    `${name} GUI profile: supported harnesses, workflow fit, platforms, source access, limitations, and verified first-party evidence.`,
+  ];
+  const description = candidates.find((candidate) => (
+    candidate.length >= metaDescriptionLength.min
+    && candidate.length <= metaDescriptionLength.max
+  ));
+
+  if (!description) {
+    throw new Error(`Unable to build a valid GUI meta description for ${name}.`);
+  }
+
+  return description;
+}
+
 export const websiteStructuredData = {
   "@context": "https://schema.org",
   "@type": "WebSite",

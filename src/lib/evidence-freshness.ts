@@ -3,6 +3,8 @@ import { benchmarkRuns } from "../data/benchmark-runs";
 import { getHarnessMembershipAssessment } from "../data/harness-membership";
 import { operationalProfileRecords } from "../data/operational-profiles";
 import { repositoryAudits } from "../data/repository-audits";
+import { guiExclusions, guiProducts } from "../data/gui-products";
+import { guiRepositoryAudits } from "../data/gui-repository-audits";
 
 /**
  * Published claims carry a verification date, so an unmaintained dataset keeps
@@ -29,7 +31,13 @@ export type VerifiedRecordScope =
   | "membership"
   | "operational-profile"
   | "repository-audit"
-  | "benchmark-run";
+  | "benchmark-run"
+  | "gui-product"
+  | "gui-logo"
+  | "gui-claim"
+  | "gui-source"
+  | "gui-repository-audit"
+  | "gui-exclusion";
 
 export type VerifiedRecord = {
   scope: VerifiedRecordScope;
@@ -110,6 +118,55 @@ export function verifiedRecords(): VerifiedRecord[] {
         verifiedAt: operational.verifiedAt,
       });
     }
+  }
+
+  for (const product of guiProducts) {
+    records.push({
+      scope: "gui-product",
+      subject: product.id,
+      detail: "GUI product record",
+      verifiedAt: product.verifiedAt,
+    });
+    records.push({
+      scope: "gui-logo",
+      subject: product.id,
+      detail: product.logo.sourceUrl,
+      verifiedAt: product.logo.verifiedAt,
+    });
+    for (const [capability, claim] of Object.entries(product.capabilities)) {
+      records.push({
+        scope: "gui-claim",
+        subject: product.id,
+        detail: capability,
+        verifiedAt: claim.verifiedAt,
+      });
+    }
+    for (const source of product.evidence) {
+      records.push({
+        scope: "gui-source",
+        subject: product.id,
+        detail: source.url,
+        verifiedAt: source.verifiedAt,
+      });
+    }
+  }
+
+  for (const audit of guiRepositoryAudits) {
+    records.push({
+      scope: "gui-repository-audit",
+      subject: audit.guiId,
+      detail: audit.inspectedRef,
+      verifiedAt: audit.verifiedAt,
+    });
+  }
+
+  for (const exclusion of guiExclusions) {
+    records.push({
+      scope: "gui-exclusion",
+      subject: exclusion.id,
+      detail: exclusion.sourceUrl,
+      verifiedAt: exclusion.verifiedAt,
+    });
   }
 
   for (const audit of repositoryAudits) {

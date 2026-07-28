@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { benchmarkRuns } from "@/data/benchmark-runs";
+import { guiCapabilityLabels } from "@/data/gui-products";
 import { harnesses } from "@/data/harnesses";
 import {
   repositoryArtifactLabels,
@@ -21,6 +22,7 @@ import {
   productLayerLabels,
 } from "@/lib/harness-classification";
 import { architectureAxisLabels } from "@/lib/evaluation";
+import { guiFitBandLabels, guiWorkflows } from "@/lib/gui-fit";
 import {
   capabilityAxisLabels,
   capabilityLevelAnchors,
@@ -43,11 +45,12 @@ export const metadata: Metadata = pageMetadata({
   path: "/methodology",
 });
 
-const methodologyVersion = "2.5 / 2026-07-28";
+const methodologyVersion = "2.6 / 2026-07-28";
 const capabilityLevels = [1, 2, 3, 4, 5] as const;
 const methodologySections = [
   ["decision-question", "Decision question"],
   ["eligibility", "Scope and eligibility"],
+  ["gui-classification", "GUI classification"],
   ["preference-model", "Preference model"],
   ["sensitivity", "Sensitivity"],
   ["architecture", "Architecture layers"],
@@ -160,6 +163,22 @@ export default function MethodologyPage() {
           <p>Each capability is stored once as a source-linked claim; catalog filters and eligibility gates are derived from that record rather than maintained as separate yes/no fields. Claims preserve operating state: available by default, documented, optional, surface-specific, not documented, explicitly absent, or deprecated. A supported gate must link to a first-party source and verification date. “Not documented” remains uncertainty; “no built-in support” is used only when an admitted source says so explicitly.</p>
           <p>Only active products are eligible: dormant and archived products remain visible for research but are excluded from recommendations and benchmark rankings. OpenRouter and GitHub are discovery sources only: they can create a research candidate, but cannot establish a capability.</p>
           <p>The current public status is deliberately conservative: “Eligible” means catalog membership and every declared workflow gate have current supporting documentation. “Not eligible on current evidence” can mean a neighboring product layer or at least one undocumented gate; it does not prove technical impossibility.</p>
+        </section>
+
+        <section className="prose-section" id="gui-classification">
+          <h2>GUI workflow classification</h2>
+          <p>The GUI catalog answers a separate decision question from the harness recommender. A harness-native GUI exposes its own coding harness, while a multi-harness workspace supervises independent CLIs or agent runtimes. Neither layer is treated as universally better, and an external control plane does not inherit the capabilities of the harnesses it launches.</p>
+          <div className="taxonomy-list">
+            {guiWorkflows.map((workflow) => (
+              <div key={workflow.id}>
+                <strong>{workflow.label}</strong>
+                <p>{workflow.description} Required: {workflow.required.map((key) => guiCapabilityLabels[key]).join(", ")}. Preferred: {workflow.preferred.map((key) => guiCapabilityLabels[key]).join(", ")}.</p>
+              </div>
+            ))}
+          </div>
+          <p>Every required claim documented and every preferred claim documented yields <strong>{guiFitBandLabels.strong}</strong>. Documented requirements with an unresolved preferred claim yield <strong>{guiFitBandLabels.good}</strong>. An unresolved requirement yields <strong>{guiFitBandLabels.conditional}</strong>, preserving unknown as uncertainty rather than converting it to absence. Inactive products or contradicted requirements are <strong>{guiFitBandLabels["not-eligible"]}</strong>.</p>
+          <p>Harness coverage records named integrations and separately identifies arbitrary terminal support. A listed provider does not imply feature parity: native chat, history, interruption, resume, authentication, and maturity can differ by provider. Existing CLI subscriptions or credentials remain distinct from the GUI product unless first-party sources say otherwise.</p>
+          <p>Products are alphabetical inside each band. No numeric value, source count, star count, price, or license contributes to fit. Public implementation at a pinned commit adds a code-verifiable evidence state only; proprietary GUIs remain eligible when first-party documentation establishes the same mechanisms.</p>
         </section>
 
         <section className="prose-section" id="preference-model">

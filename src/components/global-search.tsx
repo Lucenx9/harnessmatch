@@ -16,10 +16,10 @@ function isTextEntryTarget(target: EventTarget | null) {
 }
 
 export function GlobalSearch({
-  profileCount,
+  recordCount,
   items,
 }: {
-  profileCount: number;
+  recordCount: number;
   items: GlobalSearchItem[];
 }) {
   const router = useRouter();
@@ -152,7 +152,7 @@ export function GlobalSearch({
       >
         <div className="global-search-panel">
           <div className="global-search-heading">
-            <label id="global-search-title" htmlFor="global-search-input">Search harnesses and pages</label>
+            <label id="global-search-title" htmlFor="global-search-input">Search products and pages</label>
             <button type="button" onClick={closeSearch}>Close</button>
           </div>
 
@@ -168,7 +168,7 @@ export function GlobalSearch({
             aria-activedescendant={activeOptionId}
             aria-describedby="global-search-help"
             autoComplete="off"
-            placeholder="Try Claude, local models, or benchmarks"
+            placeholder="Try T3 Code, Claude, or benchmarks"
             spellCheck={false}
             value={query}
             onChange={(event) => {
@@ -181,7 +181,7 @@ export function GlobalSearch({
           <p className="global-search-help" id="global-search-help">
             {query.trim()
               ? `${rankedResults.length} match${rankedResults.length === 1 ? "" : "es"}`
-              : `Search ${profileCount} catalog profiles by name, workflow, interface, or documented capability.`}
+              : `Search ${recordCount} product records by name, workflow, interface, or documented capability.`}
           </p>
 
           <div className="global-search-results-shell">
@@ -224,7 +224,7 @@ export function GlobalSearch({
 
               {query.trim() && visibleResults.length === 0 && (
                 <div className="global-search-empty">
-                  <strong>No matching harness or page.</strong>
+                  <strong>No matching product or page.</strong>
                   <span>Try a product name, interface, or capability such as local models.</span>
                 </div>
               )}

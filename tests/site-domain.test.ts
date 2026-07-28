@@ -3,9 +3,11 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import robots from "../src/app/robots";
 import sitemap from "../src/app/sitemap";
+import { guiProducts } from "../src/data/gui-products";
 import { harnesses } from "../src/data/harnesses";
 import {
   canonicalMetadata,
+  guiProfileDescription,
   harnessProfileDescription,
   pageMetadata,
   siteUrl,
@@ -56,14 +58,18 @@ describe("canonical production domain", () => {
   });
 
   it("keeps profile descriptions unique and within the audited length range", () => {
-    const descriptions = harnesses.map((harness) => (
+    const harnessDescriptions = harnesses.map((harness) => (
       harnessProfileDescription(harness.name, harness.tagline)
     ));
+    const guiDescriptions = guiProducts.map((product) => (
+      guiProfileDescription(product.name, product.summary)
+    ));
+    const descriptions = [...harnessDescriptions, ...guiDescriptions];
 
     expect(descriptions.every((description) => (
       description.length >= 120 && description.length <= 170
     ))).toBe(true);
-    expect(new Set(descriptions)).toHaveLength(harnesses.length);
+    expect(new Set(descriptions)).toHaveLength(descriptions.length);
   });
 
   it("publishes only custom-domain URLs in discovery files", () => {
@@ -73,6 +79,10 @@ describe("canonical production domain", () => {
     expect(robotsRecord.sitemap).toBe(`${siteUrl}/sitemap.xml`);
     expect(sitemap()).not.toHaveLength(0);
     expect(sitemap().every((entry) => entry.url === siteUrl || entry.url.startsWith(`${siteUrl}/`))).toBe(true);
+    expect(sitemap()).toContainEqual(expect.objectContaining({ url: `${siteUrl}/guis` }));
+    for (const product of guiProducts) {
+      expect(sitemap()).toContainEqual(expect.objectContaining({ url: `${siteUrl}/guis/${product.id}` }));
+    }
   });
 
   it("keeps secondary production hosts out of the index", () => {
