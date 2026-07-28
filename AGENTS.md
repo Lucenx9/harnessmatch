@@ -56,9 +56,11 @@ Keep the public interface in English until localization is explicitly reopened.
 8. Source count, public-code availability, license, and logo provenance are evidence metadata, not workflow-fit inputs.
 9. Archived or dormant GUIs must remain outside active workflow matches and indexable GUI profile routes. Keep research exclusions explicit rather than silently deleting prior classification decisions.
 10. Changes to GUI workflows, required or preferred mechanisms, fit-band rules, or eligibility require outcome-focused tests and matching methodology copy.
+11. Preview media is optional context, not capability evidence. Keep local media, poster, intrinsic dimensions, useful alt text, caption, first-party source or clearly labeled editorial-capture provenance, and verification date aligned. A replaced preview must be checked at desktop and mobile sizes.
 
 ## Evidence dates and freshness
 
+- Store verification dates as ISO UTC calendar days (`YYYY-MM-DD`). Automated runs should derive the date from UTC (for example `date -u +%F`) so a run near local midnight never publishes a future date.
 - A verification date means the underlying source was actually reopened and the published claim was checked on that date. Never advance `verifiedAt` merely because an automation ran, a file was edited, or another source for the same product was refreshed.
 - Every new dated record type must be registered in `verifiedRecords()` in `src/lib/evidence-freshness.ts`; otherwise it ages without any check noticing.
 - `tests/evidence-freshness.test.ts` reads the wall clock by design. A failure means sources are overdue for re-verification, not that the test is flaky. Re-verify the sources or archive the claims; do not widen the thresholds to make the test pass.
@@ -75,10 +77,11 @@ Editing one product file is rarely sufficient. For every product addition, remov
 4. Context, permissions, verification, observability, and recovery posture: `src/data/operational-profiles.ts`.
 5. Public-code signals and inspected commit, when an official repository is available: `src/data/repository-audits.ts`.
 6. Configuration-specific measured results, only when admissible: `src/data/benchmark-runs.ts`.
-7. Discovery-only candidates that are not ready for the ranked catalog: `src/data/discovery-watchlist.ts`.
-8. Freshness registration: `src/lib/evidence-freshness.ts`.
-9. Product-specific and cross-dataset contracts in `tests/`.
-10. User-facing methodology or data-ledger copy when interpretation changes.
+7. Context-only OpenRouter attribution snapshots, when present: `src/data/openrouter-attribution.ts`. These are dated routing-channel observations, never capability evidence or scoring inputs.
+8. Discovery-only candidates that are not ready for the ranked catalog: `src/data/discovery-watchlist.ts`.
+9. Freshness registration: `src/lib/evidence-freshness.ts`.
+10. Product-specific and cross-dataset contracts in `tests/`.
+11. User-facing methodology or data-ledger copy when interpretation changes.
 
 When changing the recommendation model, update `src/lib/recommendation.ts`, `src/lib/recommendation-config.ts`, the methodology page, and outcome-focused tests together. When adding a new question, update the answer types, eligibility or scoring behavior, recommender UI, methodology, and tests together.
 
@@ -86,7 +89,7 @@ When changing taxonomy or evaluation terminology, keep the catalog, profiles, co
 
 For every GUI addition, removal, archival, or source-backed capability change, review all affected records and tests:
 
-1. Product identity, status, layer, platform support, source access, license, harness coverage, logo provenance, claims, evidence, and verification dates: `src/data/guis/`.
+1. Product identity, status, layer, platform support, source access, license, harness coverage, logo and preview provenance, claims, evidence, and verification dates: `src/data/guis/` and preview assets in `public/gui-previews/`.
 2. Active catalog exports and capability labels: `src/data/guis/index.ts` and `src/data/gui-products.ts`.
 3. Explicitly excluded or sunset GUI products: `src/data/guis/exclusions.ts`.
 4. Official repository inspection at a pinned commit, when public implementation is available: `src/data/gui-audits/` and `src/data/gui-repository-audits.ts`.
@@ -129,7 +132,20 @@ Do not add a GUI only to the aggregate export. Each product belongs in its own r
 - Automated source refreshes may publish straightforward, first-party-supported corrections. Ambiguous classification, methodology, or scoring changes must be supported by explicit evidence and tests; otherwise leave a review note or watchlist record instead of guessing.
 - A successful push is not the end of deployment verification. Confirm that the Vercel production deployment is ready and smoke-test the canonical domain, sitemap, robots file, redirects, and the changed user path when tooling is available.
 - `.github/workflows/quality.yml` is the repository quality gate. Do not weaken or skip it to make an automated update pass.
-- Review dependency advisories explicitly. Never run `npm audit fix --force` automatically; framework or dependency upgrades require a scoped change, lockfile review, the full quality sequence, and production verification.
+- Review dependency advisories explicitly with `npm audit --json`. Record severity, direct or transitive status, affected runtime or build surface, fix availability, and the decision taken. Never run `npm audit fix --force`, accept an unrelated major downgrade suggested by npm, or silently ignore a high or critical finding. Framework or dependency upgrades require a scoped change, lockfile review, the full quality sequence, and production verification.
+
+### Required update transaction
+
+An automated run that changes the repository is incomplete until every applicable step below is recorded. A skipped applicable step blocks publication; it is not a warning to ignore.
+
+1. **Synchronize:** start on a clean local `main`, fetch and fast-forward from `origin/main`, record the starting commit, and stop on unrelated changes or divergence.
+2. **Establish:** identify the exact claim, product, route, or defect being changed; reopen the admitted source; record what it establishes, its limitations, and the real observation or verification date.
+3. **Propagate:** walk the relevant harness or GUI change-propagation checklist above. The run report must name every affected dataset or public surface reviewed, including those intentionally left unchanged and why.
+4. **Validate dates and assets:** register every new dated record in `verifiedRecords()`, keep source and preview assets traceable, and never advance unrelated dates.
+5. **Verify locally:** run `npm ci` and `npm run verify` for every published change. Run `npm run verify:maintenance` instead when product data, evidence, research, attribution snapshots, metadata, or public routes change. Access-restricted or inconclusive URLs require explicit review and never count as successful re-verification; a broken published URL blocks the update.
+6. **Review the patch:** run `git diff --check`, inspect `git status --short`, `git diff --stat`, and the full diff, and confirm that only intended files changed. Re-fetch before pushing and stop if `origin/main` advanced since the starting commit.
+7. **Publish and verify:** commit once with a descriptive message, push directly to `main` without a PR, confirm the GitHub quality gate and the Vercel production deployment for that exact commit, then smoke-test the canonical domain, the changed path, and any affected sitemap, robots, `llms.txt`, search, navigation, or profile route.
+8. **Leave a ledger:** report the starting and published commit, sources reopened, claims changed, files and propagation surfaces reviewed, validation results, deployment result, live URLs checked, decision-output impact, and every unresolved or deferred item. A failed CI run, failed deployment, or failed live check means the update is not complete.
 
 ## Commands
 
@@ -137,10 +153,14 @@ Use a clean install for CI and automation:
 
 ```bash
 npm ci
-npm run typecheck
-npm test
-npm run build
-npm run check:sources
+npm run verify
+```
+
+For changes to catalog data, evidence, research, attribution snapshots, metadata, or public routes:
+
+```bash
+npm ci
+npm run verify:maintenance
 ```
 
 For local development:
@@ -160,6 +180,7 @@ The static export is written to `out/` after a successful build.
 - Operational mechanisms: `src/data/operational-profiles.ts`
 - Official repository audits: `src/data/repository-audits.ts`
 - Measured configurations: `src/data/benchmark-runs.ts`
+- Context-only OpenRouter attribution snapshots: `src/data/openrouter-attribution.ts`
 - Scientific literature and research insights: `src/data/research.ts`
 - Research work packets: `research/` (discovery and review aids only, never evidence by themselves)
 - Research-process disclosure: `src/data/research-process.ts`

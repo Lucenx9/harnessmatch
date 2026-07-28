@@ -3,6 +3,7 @@ import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { featureSupportFor } from "../src/data/feature-claims";
 import { harnesses } from "../src/data/harnesses";
+import { isValidVerificationDate } from "../src/lib/evidence-freshness";
 
 const firstPartyHosts: Record<string, string[]> = {
   "claude-code": ["code.claude.com", "claude.com", "www.anthropic.com", "github.com"],
@@ -66,7 +67,7 @@ const firstPartyLogoHosts: Record<string, string> = {
   "copilot-cli": "github.com",
   "cursor-cli": "cursor.com",
   "junie-cli": "junie.jetbrains.com",
-  "factory-droid": "docs.factory.ai",
+  "factory-droid": "factory.ai",
   forgecode: "forgecode.dev",
   "qwen-code": "qwenlm.github.io",
   "continue-cli": "github.com",
@@ -1459,7 +1460,7 @@ describe("harness evidence ledger", () => {
 
   it("keeps every product logo local and traceable to a first-party asset", () => {
     for (const harness of harnesses) {
-      expect(harness.logo.verifiedAt).toBe(harness.verifiedAt);
+      expect(isValidVerificationDate(harness.logo.verifiedAt)).toBe(true);
       expect(new URL(harness.logo.sourceUrl).hostname).toBe(firstPartyLogoHosts[harness.id]);
       expect(harness.logo.src).toMatch(/^\/harnesses\//);
       expect(existsSync(join(process.cwd(), "public", harness.logo.src.replace(/^\//, "")))).toBe(true);

@@ -8,7 +8,9 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "check:sources": "node scripts/check-source-health.mjs"
+    "check:sources": "node scripts/check-source-health.mjs",
+    "verify": "npm run typecheck && npm test && npm run build",
+    "verify:maintenance": "npm run check:sources && npm run verify"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

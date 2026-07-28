@@ -3527,8 +3527,8 @@ const harnessRecords: Array<Omit<Harness, "featureClaims">> = [
       "Factory's proprietary agent combines an interactive CLI, structured headless execution, IDE integrations, many hosted or local models, MCP, custom subagents, worktrees, and tiered permission levels from read-only analysis to deployment workflows.",
     logo: {
       src: "/harnesses/factory-droid.png",
-      sourceUrl: "https://docs.factory.ai/mintlify-assets/_mintlify/favicons/factory/s_hUmgkAuf1_JqOB/_generated/favicon/android-chrome-192x192.png",
-      verifiedAt: factoryDroidVerifiedAt,
+      sourceUrl: "https://factory.ai/icon.svg",
+      verifiedAt: "2026-07-28",
     },
     status: "active",
     license: "Proprietary",
