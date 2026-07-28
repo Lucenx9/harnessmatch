@@ -134,10 +134,10 @@ export default function HomePage() {
       <section className="tool-intro">
         <div className="shell tool-intro-grid">
           <div className="tool-intro-copy">
-            <h1>Choose the right coding harness.</h1>
-            <p>The model reasons. The harness is the CLI, IDE extension, or agent platform that turns it into working code.</p>
+            <h1>Find the coding harness that fits how you work.</h1>
+            <p>A coding harness is the tool around the model: Claude Code, Codex, Cline, and others. Compare them by workflow, control, and evidence.</p>
             <div className="tool-intro-actions">
-              <Link className="button primary" href="/recommend">Find your match</Link>
+              <Link className="button primary" href="/recommend">Answer 7 questions</Link>
               <Link className="button secondary" href="#catalog">Browse catalog</Link>
             </div>
           </div>
@@ -170,8 +170,8 @@ export default function HomePage() {
       <section className="section research-translation-section">
         <div className="shell">
           <div className="section-heading stacked-heading">
-            <h2>Three rules behind the ranking.</h2>
-            <p>The short version of the research. Every rule links to its underlying papers.</p>
+            <h2>Three rules behind the method.</h2>
+            <p>How research becomes a recommendation. Every rule links to its underlying papers.</p>
           </div>
           <div className="research-insight-grid">
             {homepageResearchInsights.map((insight) => (

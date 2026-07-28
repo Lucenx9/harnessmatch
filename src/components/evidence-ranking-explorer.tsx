@@ -217,10 +217,10 @@ export function EvidenceRankingExplorer({
         }));
   const chartRows = allRows.slice(0, view === "benchmarks" ? 6 : 10);
   const description = view === "operational"
-    ? "Seven source-backed architecture layers. Select one layer at a time: ordinal mechanisms are never summed into a universal product grade."
+    ? "How much documented runtime support each harness provides for the selected mechanism. These ordered levels are never summed into a universal product grade."
     : view === "auditability"
-      ? "Five public engineering artifacts at a pinned commit. The count measures inspectability, not product quality."
-      : "Integrity-adjusted Terminal-Bench 2.1 configurations with descriptive intervals and accuracy/cost Pareto status. Results belong to exact systems, not harnesses alone.";
+      ? "How many of five public engineering artifacts could be verified at a pinned commit. This measures inspectability, not product quality."
+      : "Observed Terminal-Bench 2.1 results for exact harness, version, model, effort, budget, and date combinations. They are not harness-only scores.";
 
   const csvRows = view === "operational"
     ? [
@@ -273,8 +273,8 @@ export function EvidenceRankingExplorer({
     <div className="evidence-ranking-tool">
       <header className="evidence-ranking-header">
         <div>
-          <h2>Highlights</h2>
-          <p>Three separate evidence views. Select one to inspect the complete ranking without turning them into an overall product score.</p>
+          <h2>Compare the evidence.</h2>
+          <p>The recommendation above is based on workflow fit. These views compare documented mechanisms, source auditability, and measured configurations separately, without combining them into one score.</p>
         </div>
         <Link className="text-link" href="/methodology">Definitions and weights</Link>
       </header>
@@ -318,7 +318,10 @@ export function EvidenceRankingExplorer({
         aria-labelledby={`evidence-ranking-tab-${view}`}
       >
         <div className="evidence-ranking-context">
-          <p>{description}</p>
+          <div className="evidence-ranking-meaning">
+            <span>What this view shows</span>
+            <p>{description}</p>
+          </div>
           {view === "operational" && (
             <label>
               <span>Operational lens</span>
@@ -338,7 +341,13 @@ export function EvidenceRankingExplorer({
         <div className="evidence-bar-chart" aria-describedby="evidence-ranking-summary">
           <div className="evidence-chart-axis" aria-hidden="true">
             <span>Configuration</span>
-            <span><i>{view === "operational" ? "basic" : "0"}</i><i>25</i><i>50</i><i>75</i><i>{view === "operational" ? "advanced" : view === "auditability" ? "5" : "100"}</i></span>
+            <span>
+              {view === "operational"
+                ? <><i>Lower support</i><i /><i /><i /><i>Higher support</i></>
+                : view === "auditability"
+                  ? <><i>0</i><i /><i /><i /><i>5</i></>
+                  : <><i>0</i><i>25</i><i>50</i><i>75</i><i>100</i></>}
+            </span>
             <span>{view === "benchmarks" ? "Accuracy" : view === "auditability" ? "Artifacts" : "Mechanism"}</span>
           </div>
           <ol>

@@ -10,12 +10,13 @@ The homepage is a working analysis surface. It should feel closer to a compact r
 
 ## Layout
 
-- Compact two-column intro: plain-language definition and utility actions on the left, dataset status on the right
-- Keep two immediate utility actions in the first viewport: open the recommender and jump to the catalog
+- Compact two-column intro: plain-language definition with recognizable product examples and utility actions on the left, dataset status on the right
+- Keep two immediate utility actions in the first viewport: answer the full seven-question recommender and jump to the catalog
 - Full-width workflow-fit explorer immediately below the intro
+- Label the workflow presets as a quick match and distinguish them from the personalized recommender
 - Include a plain-language Vibe coding preset for users who know the tools but not the evaluation vocabulary
 - Translate the selected preset into one immediate answer: starting product, main reason, and limitation to check
-- Keep only three key assumptions visible in the first reading layer; place the complete seven-factor setup in a disclosure
+- Show the match, reason, and limitation before the three visible preset assumptions; place the complete seven-factor setup in a disclosure
 - Full-width evidence-ranking explorer after workflow fit, introduced by three mutually exclusive highlight summaries
 - Each highlight exposes the leading value, the size of any tied or overlapping group, and opens its detailed ranking in place
 - Horizontal bars for the top three eligible harnesses in the first reading layer, ordered by reference fit and sized by top-three sensitivity frequency
@@ -34,6 +35,7 @@ The homepage is a working analysis surface. It should feel closer to a compact r
 - State explicitly that fit points are not benchmark performance
 - Treat recommendation, reason, limitation, and two visible alternatives as the first reading layer; keep assumptions, weights, exclusions, and the full ranking in progressive disclosures
 - Reuse the horizontal-bar grammar for all rankings, but keep each construct behind its own highlight control
+- Introduce every ranking with a visible “What this view shows” definition and state why it remains separate from workflow fit
 - Operational readiness defaults to equal weights and offers a single-axis selector
 - Public code audit ranks only full or client-source repositories at pinned commits
 - Measured systems show exact configuration labels and integrity-adjusted results

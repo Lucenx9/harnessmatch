@@ -195,8 +195,8 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
     <div className="workflow-tool">
       <div className="workflow-tool-header">
         <div>
-          <h2 id="workflow-fit-title">How do you want to work?</h2>
-          <p>Pick the setup closest to yours. See a leading match, the reason, and the main trade-off.</p>
+          <h2 id="workflow-fit-title">Start with a quick workflow match.</h2>
+          <p>Choose the setup closest to yours for an immediate starting point. Use the 7-question recommender when you want a result tailored to your constraints.</p>
         </div>
       </div>
 
@@ -230,12 +230,6 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
           <p>{selected.description}</p>
         </div>
 
-        <dl className="workflow-quick-facts" aria-label="Key workflow assumptions">
-          <div><dt>Interface</dt><dd>{interfaceLabels[selected.answers.interface]}</dd></div>
-          <div><dt>Model access</dt><dd>{modelLabels[selected.answers.modelAccess]}</dd></div>
-          <div><dt>Control</dt><dd>{controlLabels[selected.answers.control]}</dd></div>
-        </dl>
-
         {topResult && (
           <section
             className="workflow-decision-summary"
@@ -261,6 +255,12 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
             </div>
           </section>
         )}
+
+        <dl className="workflow-quick-facts" aria-label="Key assumptions for this workflow preset">
+          <div><dt>Preset interface</dt><dd>{interfaceLabels[selected.answers.interface]}</dd></div>
+          <div><dt>Preset model access</dt><dd>{modelLabels[selected.answers.modelAccess]}</dd></div>
+          <div><dt>Preset control</dt><dd>{controlLabels[selected.answers.control]}</dd></div>
+        </dl>
 
         <p className="sr-only" id="workflow-chart-summary">{chartSummary}</p>
         <section className="workflow-chart" aria-labelledby="workflow-fit-title workflow-chart-summary">
@@ -347,7 +347,7 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
 
         <div className="workflow-tool-footer">
           <div className="workflow-tool-links">
-            <Link className="button primary" href="/recommend">Refine your match</Link>
+            <Link className="button primary" href="/recommend">Personalize this result</Link>
             <a className="text-link" href={csvHref} download={`harnessmatch-${selected.id}.csv`}>Download CSV</a>
             <Link className="text-link" href="/methodology">Read methodology</Link>
           </div>
