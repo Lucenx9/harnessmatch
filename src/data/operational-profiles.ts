@@ -484,6 +484,60 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
     ],
     "Historical self-host posture at the last inspected source commit. Pending diffs and rewind provide review and recovery, not command isolation; execution uses the host, while the plan log is a session record rather than structured tracing.",
   ),
+  wakil: record(
+    { context: "persistent", permissions: "approval", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },
+    [
+      "https://github.com/treeol/wakil/blob/4d2e4f9d38860905fb41593beca87dc40f28fe51/README.md",
+      "https://github.com/treeol/wakil/blob/4d2e4f9d38860905fb41593beca87dc40f28fe51/docs/memory.md",
+      "https://github.com/treeol/wakil/blob/4d2e4f9d38860905fb41593beca87dc40f28fe51/config.example.json",
+    ],
+    "Wakil combines resumable sessions, optional JSONL traces, a confirmation gate, a default hardened container, and a provenance-aware durable store. Direct execution, host browser opening, Docker-socket access, and ungated memory proposals remain outside a simple fail-closed interpretation; verification is tool-assisted rather than a required test gate.",
+    refreshedAt,
+  ),
+  "deepagents-code": record(
+    { context: "persistent", permissions: "approval", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },
+    [
+      "https://github.com/langchain-ai/deepagents/blob/43eb196cf7faa993f2fa372dcc1fa65572d8a301/libs/code/README.md",
+      "https://github.com/langchain-ai/deepagents/blob/43eb196cf7faa993f2fa372dcc1fa65572d8a301/libs/code/THREAT_MODEL.md",
+      "https://github.com/langchain-ai/deepagents/blob/43eb196cf7faa993f2fa372dcc1fa65572d8a301/libs/code/deepagents_code/client/non_interactive.py",
+    ],
+    "Deep Agents Code persists local sessions and memory, exposes interactive approvals and non-interactive limits, and can emit streamed execution events. The local mode trusts repository artifacts before approval and executes on the host; managed sandboxes are optional provider surfaces, while resume and SQLite checkpoints do not imply filesystem rollback.",
+    refreshedAt,
+  ),
+  opensquilla: record(
+    { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },
+    [
+      "https://github.com/opensquilla/opensquilla/blob/f569e05de52dcc1e3954bbcbebe1b10106cdba6e/docs/tools-and-sandbox.md",
+      "https://github.com/opensquilla/opensquilla/blob/f569e05de52dcc1e3954bbcbebe1b10106cdba6e/docs/approvals-and-permissions.md",
+      "https://github.com/opensquilla/opensquilla/blob/f569e05de52dcc1e3954bbcbebe1b10106cdba6e/docs/sessions.md",
+      "https://github.com/opensquilla/opensquilla/blob/f569e05de52dcc1e3954bbcbebe1b10106cdba6e/docs/diagnostics-and-replay.md",
+    ],
+    "OpenSquilla records durable sessions and structured diagnostic timelines, supports replay, and exposes explicit policy modes. Sandbox strength depends on the operating system and selected mode; bypass and full access weaken controls, replay is not filesystem rollback, and task verification remains a tool-assisted agent behavior rather than an enforced completion gate.",
+    refreshedAt,
+  ),
+  postqode: record(
+    { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "session-resume" },
+    [
+      "https://www.npmjs.com/package/@postqode/agent/v/0.9.0",
+      "https://www.npmjs.com/package/@postqode/coding-agent/v/0.9.0",
+      "https://www.npmjs.com/package/@postqode/headless-agent/v/0.9.0",
+      "https://www.npmjs.com/package/@postqode/agent-tui/v/0.9.0",
+    ],
+    "The public 0.9.0 packages establish persistent MEMORY.md state, append-only JSONL sessions, resume, hooks, aborts, and explicit turn and cost budgets. No execution sandbox is established, and the accessible package record exposes less detail about product-wide approval policy and multi-agent recovery than the vendor's product-level positioning.",
+    refreshedAt,
+  ),
+  kern: record(
+    { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "session-resume" },
+    [
+      "https://github.com/oguzbilgic/kern-ai/blob/8f82a046833128b2bf5f67fdf85a76b35b0fe847/docs/tools.md",
+      "https://github.com/oguzbilgic/kern-ai/blob/8f82a046833128b2bf5f67fdf85a76b35b0fe847/docs/context.md",
+      "https://github.com/oguzbilgic/kern-ai/blob/8f82a046833128b2bf5f67fdf85a76b35b0fe847/docs/memory.md",
+      "https://github.com/oguzbilgic/kern-ai/blob/8f82a046833128b2bf5f67fdf85a76b35b0fe847/docs/config.md",
+      "https://github.com/oguzbilgic/kern-ai/blob/8f82a046833128b2bf5f67fdf85a76b35b0fe847/docs/subagents.md",
+    ],
+    "Kern persists JSONL transcripts, local vector recall, notes, logs, and subagent records. Runtime control is a coarse read, write, or full tool scope rather than per-call approval; optional Docker wraps the service rather than each task, and running subagents do not recover across process restarts.",
+    refreshedAt,
+  ),
 };
 
 const unknownRecord: OperationalProfileRecord = {

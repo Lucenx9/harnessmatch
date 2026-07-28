@@ -585,7 +585,7 @@ describe("recommendHarnesses", () => {
       ...base,
       interface: "automation",
       modelAccess: "local",
-      priority: "automation",
+      priority: "autonomy",
       control: "hands-off",
       changeScope: "large-repo",
       operatingMode: "parallel",
@@ -984,6 +984,34 @@ describe("recommendHarnesses", () => {
       observability: "traces",
       recovery: "checkpoint",
     });
+  });
+
+  it("surfaces the new catalog wave for the workflows its first-party record supports", () => {
+    const secureLocal: RecommendationAnswers = {
+      ...base,
+      modelAccess: "local",
+      priority: "security",
+      control: "approval-heavy",
+      operatingMode: "parallel",
+      requiredFeatures: ["sandbox", "subagents", "mcp"],
+    };
+    const automatedIde: RecommendationAnswers = {
+      ...base,
+      interface: "automation",
+      modelAccess: "model-agnostic",
+      priority: "autonomy",
+      control: "hands-off",
+      operatingMode: "ci",
+      requiredFeatures: ["headless", "browser", "mcp"],
+    };
+
+    const wakil = recommendHarnesses(secureLocal).find((item) => item.harness.id === "wakil");
+    const postqode = recommendHarnesses(automatedIde).find((item) => item.harness.id === "postqode");
+    expect(wakil).toBeDefined();
+    expect(postqode).toBeDefined();
+    expect(missingRequiredFeatures(wakil!.harness, secureLocal)).toEqual([]);
+    expect(missingRequiredFeatures(postqode!.harness, automatedIde)).toEqual([]);
+    expect(postqode?.harness.tradeoffs.join(" ")).toContain("No execution sandbox");
   });
 });
 

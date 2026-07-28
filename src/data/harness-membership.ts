@@ -267,6 +267,36 @@ const membershipDefinitions: Record<string, MembershipDefinition> = {
     activeContextManagement: "Context management",
     runtimeControl: "Autonomy levels",
   }),
+  wakil: documentedCodingHarness({
+    adaptiveLoop: "Wakil repository overview",
+    environmentMutation: "Wakil repository overview",
+    activeContextManagement: "Wakil durable memory",
+    runtimeControl: "Wakil repository overview",
+  }),
+  "deepagents-code": documentedCodingHarness({
+    adaptiveLoop: "Deep Agents Code threat model",
+    environmentMutation: "Deep Agents Code threat model",
+    activeContextManagement: "Deep Agents Code overview",
+    runtimeControl: "Deep Agents Code threat model",
+  }),
+  opensquilla: documentedCodingHarness({
+    adaptiveLoop: "OpenSquilla agents",
+    environmentMutation: "OpenSquilla tools and sandbox",
+    activeContextManagement: "OpenSquilla sessions",
+    runtimeControl: "OpenSquilla approvals and permissions",
+  }),
+  postqode: documentedCodingHarness({
+    adaptiveLoop: "PostQode agent package",
+    environmentMutation: "PostQode coding-agent package",
+    activeContextManagement: ["PostQode agent package", "PostQode headless-agent package"],
+    runtimeControl: ["PostQode agent package", "PostQode headless-agent package"],
+  }),
+  kern: documentedCodingHarness({
+    adaptiveLoop: "Kern overview",
+    environmentMutation: "Kern tools",
+    activeContextManagement: ["Kern context management", "Kern durable memory"],
+    runtimeControl: "Kern configuration",
+  }),
 };
 
 export function getHarnessMembershipAssessment(

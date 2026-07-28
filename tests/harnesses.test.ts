@@ -43,6 +43,11 @@ const firstPartyHosts: Record<string, string[]> = {
   "kiro-cli": ["kiro.dev"],
   "poolside-cli": ["docs.poolside.ai", "github.com"],
   plandex: ["github.com"],
+  wakil: ["github.com"],
+  "deepagents-code": ["github.com"],
+  opensquilla: ["github.com"],
+  postqode: ["postqode.ai", "www.postqode.ai", "www.npmjs.com"],
+  kern: ["github.com"],
 };
 
 const firstPartyLogoHosts: Record<string, string> = {
@@ -84,6 +89,11 @@ const firstPartyLogoHosts: Record<string, string> = {
   "kiro-cli": "kiro.dev",
   "poolside-cli": "github.com",
   plandex: "github.com",
+  wakil: "github.com",
+  "deepagents-code": "github.com",
+  opensquilla: "github.com",
+  postqode: "postqode.ai",
+  kern: "github.com",
 };
 
 describe("harness evidence ledger", () => {
@@ -243,6 +253,24 @@ describe("harness evidence ledger", () => {
       sandbox: true,
       checkpoints: false,
     });
+  });
+
+  it("admits the OpenRouter-discovered wave only through first-party membership evidence", () => {
+    const byId = new Map(harnesses.map((harness) => [harness.id, harness]));
+    for (const id of ["wakil", "deepagents-code", "opensquilla", "postqode", "kern"]) {
+      const harness = byId.get(id);
+      expect(harness, id).toBeDefined();
+      expect(harness?.status).toBe("active");
+      expect(harness?.discovery?.some((source) => source.url.startsWith("https://openrouter.ai/apps"))).toBe(true);
+      expect(harness?.evidence.every((source) => !source.url.includes("openrouter.ai/apps"))).toBe(true);
+    }
+
+    expect(featureSupportFor(byId.get("wakil")).sandbox).toBe(true);
+    expect(featureSupportFor(byId.get("deepagents-code")).headless).toBe(true);
+    expect(featureSupportFor(byId.get("opensquilla")).subagents).toBe(true);
+    expect(featureSupportFor(byId.get("postqode")).sandbox).toBe(false);
+    expect(featureSupportFor(byId.get("postqode")).subagents).toBe(false);
+    expect(featureSupportFor(byId.get("kern")).localModels).toBe(true);
   });
 
   it("separates Gemini CLI enterprise continuity from the Antigravity consumer successor", () => {

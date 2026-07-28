@@ -425,6 +425,74 @@ const featureClaimSeedsByHarness = {
     browser: documented("Execution and debugging", "Browser debugging source"),
     checkpoints: documented("CLI reference", "Autonomy defaults in source"),
   },
+  wakil: {
+    mcp: documented("Wakil repository overview", "Wakil configuration example"),
+    localModels: documented("Wakil repository overview", "Wakil configuration example"),
+    subagents: documented("Wakil repository overview", "Wakil durable memory"),
+    browser: configuredClaim(
+      "optional",
+      ["Wakil repository overview", "Wakil configuration example"],
+      "Optional headless-browser tools; host URL opening remains outside the container",
+    ),
+    sandbox: configuredClaim(
+      "default",
+      ["Wakil repository overview", "Wakil configuration example"],
+      "Hardened persistent Docker container by default; direct host mode is available",
+      "Isolation weakens materially when direct mode or host Docker-socket access is enabled.",
+    ),
+  },
+  "deepagents-code": {
+    mcp: documented("Deep Agents Code threat model", "Deep Agents Code MCP implementation"),
+    subagents: documented("Deep Agents Code threat model", "Deep Agents Code overview"),
+    headless: documented("Deep Agents Code overview", "Deep Agents Code non-interactive runner"),
+    sandbox: configuredClaim(
+      "optional",
+      ["Deep Agents Code overview", "Deep Agents Code sandbox factory"],
+      "Optional managed remote sandbox backends; local execution trusts the host working directory",
+    ),
+  },
+  opensquilla: {
+    mcp: documented("OpenSquilla MCP server"),
+    localModels: documented("OpenSquilla overview"),
+    subagents: documented("OpenSquilla sessions", "OpenSquilla agents"),
+    headless: documented("OpenSquilla CLI"),
+    sandbox: configuredClaim(
+      "surface-specific",
+      ["OpenSquilla tools and sandbox", "OpenSquilla approvals and permissions"],
+      "OS- and permission-mode-dependent execution isolation",
+      "Availability and enforcement vary by platform; bypass and full-access modes deliberately weaken the boundary.",
+    ),
+  },
+  postqode: {
+    mcp: documented("PostQode product overview", "PostQode MCP package"),
+    localModels: configuredClaim(
+      "surface-specific",
+      ["PostQode enterprise deployment"],
+      "Private or self-hosted model paths on enterprise deployments",
+    ),
+    headless: documented("PostQode headless-agent package"),
+    browser: configuredClaim(
+      "optional",
+      ["PostQode browser package"],
+      "Optional browser-automation tool package",
+    ),
+  },
+  kern: {
+    mcp: documented("Kern MCP", "Kern configuration"),
+    localModels: documented("Kern overview", "Kern configuration"),
+    subagents: documented("Kern tools", "Kern subagents"),
+    headless: configuredClaim(
+      "documented",
+      ["Kern overview"],
+      "Long-running background agent service with automation and channel surfaces",
+    ),
+    sandbox: configuredClaim(
+      "surface-specific",
+      ["Kern Docker deployment"],
+      "Optional whole-service container deployment",
+      "Docker isolates the deployed service; it is not a disposable per-task sandbox.",
+    ),
+  },
 } satisfies Record<string, Partial<Record<FeatureKey, FeatureClaimSeed>>>;
 
 export const featureClaimHarnessIds = Object.keys(featureClaimSeedsByHarness);
