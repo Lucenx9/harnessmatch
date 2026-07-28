@@ -85,7 +85,7 @@ describe("multi-axis evidence evaluation", () => {
     const audit = repositoryAudits.find((item) => item.harnessId === "antigravity-cli")!;
     const evidence = evidenceStateFor("antigravity-cli");
 
-    expect(audit.inspectedRef).toBe("2ae8126db826afb9477bb81f663294f8b5dff84e");
+    expect(audit.inspectedRef).toBe("03e095ac3619462ecd0928f3f5470387dbda6a00");
     expect(audit.sourceScope).toBe("support-repository");
     expect(Object.values(audit.signals).every((signal) => signal === false)).toBe(true);
     expect(repositoryArtifactCount(audit)).toBeNull();
@@ -93,6 +93,25 @@ describe("multi-axis evidence evaluation", () => {
     expect(audit.limitation).toContain("no core harness source");
     expect(evidence.states).toEqual(["documented"]);
     expect(benchmarkRuns.some((run) => run.harnessId === "antigravity-cli")).toBe(false);
+  });
+
+  it("does not invent public CI or benchmark results for Codebuff's source snapshot", () => {
+    const audit = repositoryAudits.find((item) => item.harnessId === "codebuff")!;
+    const evidence = evidenceStateFor("codebuff");
+
+    expect(audit.inspectedRef).toBe("180071751c43a479684672576c44f14e120d2717");
+    expect(audit.sourceScope).toBe("full-source");
+    expect(audit.signals).toMatchObject({
+      securityPolicy: true,
+      continuousIntegration: false,
+      automatedTests: true,
+      evaluationAssets: true,
+      contributorDocumentation: true,
+    });
+    expect(audit.limitation).toContain("no public CI configuration");
+    expect(audit.limitation).toContain("LLM-judged");
+    expect(evidence.states).toContain("code-verifiable");
+    expect(benchmarkRuns.some((run) => run.harnessId === "codebuff")).toBe(false);
   });
 
   it("pins Junie's distribution-only audit and Kimi Code's current full-source release", () => {

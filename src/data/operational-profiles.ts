@@ -1,6 +1,7 @@
 import type { OperationalProfile, OperationalProfileRecord } from "../lib/types";
 
 const verifiedAt = "2026-07-27";
+const refreshedAt = "2026-07-28";
 const defaultLimitation =
   "Documentation-derived posture. It describes exposed harness mechanisms, not task success or model capability.";
 
@@ -16,8 +17,9 @@ function record(
   profile: OperationalProfile,
   sourceUrls: string[],
   limitation = defaultLimitation,
+  recordVerifiedAt = verifiedAt,
 ): OperationalProfileRecord {
-  return { profile, sourceUrls, verifiedAt, limitation };
+  return { profile, sourceUrls, verifiedAt: recordVerifiedAt, limitation };
 }
 
 export const operationalProfileRecords: Partial<Record<string, OperationalProfileRecord>> = {
@@ -77,12 +79,13 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
   omp: record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "session-resume" },
     [
-      "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/approval-mode.md",
-      "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/memory.md",
-      "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/rpc.md",
-      "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/tools/rewind.md",
+      "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/approval-mode.md",
+      "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/memory.md",
+      "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/rpc.md",
+      "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/tools/rewind.md",
     ],
     "Optional memory persists project knowledge and per-tool policy is granular, but memory is off and approval defaults to yolo; subagents also run yolo. Logs, stats, and session JSONL aid inspection. Checkpoint/rewind only reshapes transcript context, so recovery remains session resume.",
+    refreshedAt,
   ),
   "grok-build": record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "checkpoint" },
@@ -153,7 +156,7 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
     "Persistent memory and Auto Memory are reviewable but Auto Memory is experimental and off by default. Policy, optional OS/container isolation, project eval tools, OpenTelemetry, and shadow-Git checkpoints support inspection and recovery; external side effects remain outside rewind.",
   ),
   "antigravity-cli": record(
-    { context: "managed", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "session-resume" },
+    { context: "managed", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },
     [
       "https://antigravity.google/docs/cli/overview",
       "https://antigravity.google/docs/cli/permissions",
@@ -161,8 +164,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://antigravity.google/docs/cli/subagents",
       "https://antigravity.google/docs/cli/conversations",
       "https://antigravity.google/docs/cli/reference",
+      "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.8",
     ],
-    "Workspace-scoped history, visible agent and task logs, artifact review, and policy rules support inspection and session resume. Native sandboxing is off by default, workspace file access is auto-allowed by default, and rewind or fork changes conversation state rather than restoring the filesystem.",
+    "Workspace-scoped history, an opt-in typed NDJSON stream with tool and child-agent trajectory fields, artifact review, and policy rules support inspection and session resume. Native sandboxing is off by default, workspace file access is auto-allowed by default, and rewind or fork changes conversation state rather than restoring the filesystem.",
+    refreshedAt,
   ),
   "copilot-cli": record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "checkpoint" },

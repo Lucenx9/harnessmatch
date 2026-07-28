@@ -185,6 +185,26 @@ describe("recommendHarnesses", () => {
     expect(harnesses.find((item) => item.id === "antigravity-cli")?.providerStyle).toBe("multi-provider");
   });
 
+  it("credits Antigravity's typed tool and subagent event stream as trace observability", () => {
+    const answers: RecommendationAnswers = {
+      ...base,
+      interface: "automation",
+      priority: "autonomy",
+      operatingMode: "parallel",
+    };
+    const result = recommendHarnesses(answers).find((item) => item.harness.id === "antigravity-cli");
+
+    expect(result).toBeDefined();
+    expect(getOperationalProfile("antigravity-cli")).toEqual({
+      context: "managed",
+      permissions: "policy",
+      verification: "tool-assisted",
+      observability: "traces",
+      recovery: "session-resume",
+    });
+    expect(result?.scoreBreakdown.operatingMode).toBeCloseTo(87.5, 2);
+  });
+
   it("explains every failed eligibility gate", () => {
     const answers: RecommendationAnswers = {
       ...base,

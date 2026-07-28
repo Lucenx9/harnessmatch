@@ -246,7 +246,7 @@ describe("harness evidence ledger", () => {
       "https://geminicli.com/docs/admin/enterprise-controls/",
     ]));
     expect(gemini.tradeoffs.join(" ")).toContain("Workspace tier is currently non-functional");
-    expect(antigravity.verifiedAt).toBe("2026-07-27");
+    expect(antigravity.verifiedAt).toBe("2026-07-28");
     expect(antigravity.evidence.length).toBeGreaterThanOrEqual(12);
     expect(antigravity.classification).toMatchObject({
       orchestration: "multi-agent-runtime",
@@ -262,7 +262,7 @@ describe("harness evidence ledger", () => {
       "https://antigravity.google/docs/cli/conversations",
       "https://antigravity.google/docs/cli/artifacts",
       "https://antigravity.google/docs/cli/projects",
-      "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.7",
+      "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.8",
     ]));
     expect(caveats).toContain("sandboxing is available but off by default");
     expect(caveats).toContain("not the local Git checkout");
@@ -481,23 +481,24 @@ describe("harness evidence ledger", () => {
     const urls = omp.evidence.map((source) => source.url);
     const caveats = omp.tradeoffs.join(" ");
 
-    expect(omp.verifiedAt).toBe("2026-07-27");
+    expect(omp.verifiedAt).toBe("2026-07-28");
     expect(omp.evidence.length).toBeGreaterThanOrEqual(14);
     expect(omp.evidence.every((source) => source.verifiedAt === omp.verifiedAt)).toBe(true);
     expect(featureSupportFor(omp)).toMatchObject({ mcp: true, subagents: true, browser: true, sandbox: false, checkpoints: false });
     expect(urls).toEqual(expect.arrayContaining([
-      "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/approval-mode.md",
-      "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/tools/task.md",
-      "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/tools/checkpoint.md",
-      "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/memory.md",
-      "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/hooks.md",
-      "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/extensions.md",
-      "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/secrets.md",
+      "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/approval-mode.md",
+      "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/tools/task.md",
+      "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/tools/checkpoint.md",
+      "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/memory.md",
+      "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/hooks.md",
+      "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/extensions.md",
+      "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/secrets.md",
     ]));
     expect(caveats).toContain("subagents also run yolo");
     expect(caveats).toContain("prune conversation context only");
     expect(caveats).toContain("Secret obfuscation is disabled by default");
     expect(caveats).toContain("run in-process without isolation");
+    expect(caveats).toContain("revised inputs are schema-revalidated");
     expect(caveats).toContain("no score is imported");
   });
 

@@ -6,13 +6,13 @@ const claudeCodeVerifiedAt = "2026-07-27";
 const codexVerifiedAt = "2026-07-27";
 const openCodeVerifiedAt = "2026-07-27";
 const piVerifiedAt = "2026-07-27";
-const ompVerifiedAt = "2026-07-27";
+const ompVerifiedAt = "2026-07-28";
 const grokBuildVerifiedAt = "2026-07-27";
 const aiderVerifiedAt = "2026-07-27";
 const openHandsVerifiedAt = "2026-07-27";
 const clineVerifiedAt = "2026-07-27";
 const geminiCliVerifiedAt = "2026-07-27";
-const antigravityCliVerifiedAt = "2026-07-27";
+const antigravityCliVerifiedAt = "2026-07-28";
 const copilotCliVerifiedAt = "2026-07-27";
 const cursorCliVerifiedAt = "2026-07-27";
 const junieCliVerifiedAt = "2026-07-27";
@@ -1444,7 +1444,7 @@ const harnessRecords: Array<Omit<Harness, "featureClaims">> = [
       "Task copy-on-write or worktree isolation separates delegated file changes but is not a documented OS-level sandbox for the primary process, browser, debugger, shell, or local MCP servers",
       "Checkpoint and rewind are disabled by default and prune conversation context only: they do not restore working-tree files, Git state, artifacts, processes, or external side effects",
       "Cross-session memory is disabled by default and model-generated; it must be checked against the current repository rather than treated as authoritative state",
-      "Secret obfuscation is disabled by default, while extensions and hooks run in-process without isolation and can block tools, access session state, or terminate the session if they fail outside guarded handlers",
+      "Secret obfuscation is disabled by default, while extensions and hooks run in-process without isolation and can block or rewrite tool calls, access session state, or terminate the session if they fail outside guarded handlers; revised inputs are schema-revalidated and pass through the approval gate before execution",
       "The large built-in surface (browser/CDP, debugger, eval kernels, SSH, MCP, collaboration, media, and high-concurrency agents) expands setup and trust boundaries",
       "Project-owned compaction and local-model evaluations plus README performance claims are not independent harness benchmarks, so no score is imported",
     ],
@@ -1453,15 +1453,15 @@ const harnessRecords: Array<Omit<Harness, "featureClaims">> = [
     evidence: [
       {
         title: "Oh My Pi repository",
-        url: "https://github.com/can1357/oh-my-pi/tree/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7",
-        covers: "Pinned 17.1.6 source, LSP, debugger, browser, subagents, tests, and MIT license",
+        url: "https://github.com/can1357/oh-my-pi/tree/d16c6168c86f40fc44f25118c2fd06fe160fcb93",
+        covers: "Pinned 17.1.7 source, LSP, debugger, browser, subagents, tests, and MIT license",
         kind: "official-repository",
         verifiedAt: ompVerifiedAt,
       },
       {
-        title: "Oh My Pi 17.1.6 release",
-        url: "https://github.com/can1357/oh-my-pi/releases/tag/v17.1.6",
-        covers: "Current stable package release and distribution version verification",
+        title: "Oh My Pi 17.1.7 release",
+        url: "https://github.com/can1357/oh-my-pi/releases/tag/v17.1.7",
+        covers: "Current stable package release, tool-input rewriting, schema revalidation, approval routing, and distribution version verification",
         kind: "official-announcement",
         verifiedAt: ompVerifiedAt,
       },
@@ -1474,105 +1474,105 @@ const harnessRecords: Array<Omit<Harness, "featureClaims">> = [
       },
       {
         title: "Approval modes",
-        url: "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/approval-mode.md",
+        url: "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/approval-mode.md",
         covers: "Default yolo posture, tiers, per-tool policy, destructive overrides, ACP, and subagent behavior",
         kind: "official-docs",
         verifiedAt: ompVerifiedAt,
       },
       {
         title: "Settings reference",
-        url: "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/settings.md",
+        url: "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/settings.md",
         covers: "Approval defaults, feature gates, project settings, memory, MCP, and task isolation",
         kind: "official-docs",
         verifiedAt: ompVerifiedAt,
       },
       {
         title: "Provider reference",
-        url: "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/providers.md",
+        url: "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/providers.md",
         covers: "Cloud subscriptions, API providers, local runtimes, model roles, and fallback configuration",
         kind: "official-docs",
         verifiedAt: ompVerifiedAt,
       },
       {
         title: "RPC protocol reference",
-        url: "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/rpc.md",
+        url: "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/rpc.md",
         covers: "NDJSON automation, host tools, UI requests, and subagent event streams",
         kind: "official-docs",
         verifiedAt: ompVerifiedAt,
       },
       {
         title: "Task subagents",
-        url: "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/tools/task.md",
+        url: "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/tools/task.md",
         covers: "Parallel task batches, typed results, background execution, agent discovery, and workspace isolation",
         kind: "official-docs",
         verifiedAt: ompVerifiedAt,
       },
       {
         title: "Browser tool",
-        url: "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/tools/browser.md",
+        url: "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/tools/browser.md",
         covers: "Puppeteer and CDP control, Chromium download, applications, screenshots, network, and process effects",
         kind: "official-docs",
         verifiedAt: ompVerifiedAt,
       },
       {
         title: "MCP configuration",
-        url: "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/mcp-config.md",
+        url: "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/mcp-config.md",
         covers: "Local and remote transports, OAuth, profiles, discovery, credentials, timeouts, and enablement",
         kind: "official-docs",
         verifiedAt: ompVerifiedAt,
       },
       {
         title: "Checkpoint tool",
-        url: "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/tools/checkpoint.md",
+        url: "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/tools/checkpoint.md",
         covers: "Disabled-by-default conversation marker, in-memory scope, persistence, and absent file snapshot",
         kind: "official-docs",
         verifiedAt: ompVerifiedAt,
       },
       {
         title: "Rewind tool",
-        url: "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/tools/rewind.md",
+        url: "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/tools/rewind.md",
         covers: "Conversation pruning, retained report, branch persistence, and absent filesystem recovery",
         kind: "official-docs",
         verifiedAt: ompVerifiedAt,
       },
       {
         title: "Autonomous memory",
-        url: "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/memory.md",
+        url: "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/memory.md",
         covers: "Optional persistent project memory, extraction, consolidation, redaction, scope, and defaults",
         kind: "official-docs",
         verifiedAt: ompVerifiedAt,
       },
       {
         title: "ACP implementation",
-        url: "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/packages/coding-agent/src/commands/acp.ts",
+        url: "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/packages/coding-agent/src/commands/acp.ts",
         covers: "Agent Client Protocol entry point, editor integration, runtime options, and headless surface",
         kind: "official-repository",
         verifiedAt: ompVerifiedAt,
       },
       {
         title: "Evaluation runtime",
-        url: "https://github.com/can1357/oh-my-pi/tree/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/packages/coding-agent/src/eval",
+        url: "https://github.com/can1357/oh-my-pi/tree/d16c6168c86f40fc44f25118c2fd06fe160fcb93/packages/coding-agent/src/eval",
         covers: "Project-owned execution kernels and engineering tests rather than independent coding outcomes",
         kind: "official-repository",
         verifiedAt: ompVerifiedAt,
       },
       {
         title: "Runtime hooks",
-        url: "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/hooks.md",
-        covers: "Current extension-backed hook path, lifecycle events, pre-tool blocking, fail-closed interception, and loading behavior",
+        url: "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/hooks.md",
+        covers: "Current extension-backed hook path, lifecycle events, pre-tool blocking or input rewriting, fail-closed interception, and loading behavior",
         kind: "official-docs",
         verifiedAt: ompVerifiedAt,
       },
       {
         title: "Runtime extensions",
-        url: "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/extensions.md",
-        covers: "In-process extension runtime, tools, handlers, session APIs, policy interception, timers, and absent isolation",
+        url: "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/extensions.md",
+        covers: "In-process extension runtime, tools, handlers, tool-input rewriting with schema and approval rechecks, session APIs, timers, and absent isolation",
         kind: "official-docs",
         verifiedAt: ompVerifiedAt,
       },
       {
         title: "Secret obfuscation",
-        url: "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/secrets.md",
+        url: "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/secrets.md",
         covers: "Disabled-by-default outbound secret masking, environment and file discovery, reversible placeholders, and configuration",
         kind: "official-docs",
         verifiedAt: ompVerifiedAt,
@@ -2847,7 +2847,7 @@ const harnessRecords: Array<Omit<Harness, "featureClaims">> = [
     name: "Antigravity CLI",
     tagline: "Google's managed multi-agent terminal harness for consumer and enterprise workflows.",
     summary:
-      "A proprietary terminal interface to Google's shared Antigravity agent harness, with a managed multi-provider model catalog, asynchronous subagents, headless and SSH use, browser actions, MCP, plugins, skills, hooks, granular permissions, and optional native OS sandboxing.",
+      "A proprietary terminal interface to Google's shared Antigravity agent harness, with a managed multi-provider model catalog, asynchronous subagents, structured headless output, SSH use, browser actions, MCP, plugins, skills, hooks, granular permissions, and optional native OS sandboxing.",
     logo: {
       src: "/harnesses/antigravity-cli.png",
       sourceUrl: "https://github.com/google-antigravity",
@@ -2983,9 +2983,9 @@ const harnessRecords: Array<Omit<Harness, "featureClaims">> = [
         verifiedAt: antigravityCliVerifiedAt,
       },
       {
-        title: "Antigravity CLI 1.1.7 release",
-        url: "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.7",
-        covers: "Pinned shipped version, release date, binary distribution, fixes, and public support-repository boundary",
+        title: "Antigravity CLI 1.1.8 release",
+        url: "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.8",
+        covers: "Pinned shipped version, typed NDJSON traces, tool and subagent trajectory fields, JSON-schema output, token accounting, and public support-repository boundary",
         kind: "official-repository",
         verifiedAt: antigravityCliVerifiedAt,
       },
