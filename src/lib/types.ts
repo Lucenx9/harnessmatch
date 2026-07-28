@@ -161,17 +161,22 @@ export type OpenRouterAttributionSnapshot = {
   dailyGlobalRank: number | null;
   modelsObserved: number;
   observedAt: string;
-  rolling30d: {
-    category: "coding";
-    rank: number | null;
-    attributedTokens: number | null;
-    attributedRequests: number | null;
-    windowStart: string;
-    windowEnd: string;
-    observedAt: string;
-    datasetVersion: string;
-    sourceUrl: string;
-  };
+  windows: Record<OpenRouterUsageWindowKey, OpenRouterUsageWindow>;
+};
+
+export type OpenRouterUsageWindowKey = "day" | "week" | "month";
+
+export type OpenRouterUsageWindow = {
+  category: "coding";
+  days: 1 | 7 | 30;
+  rank: number | null;
+  attributedTokens: number | null;
+  attributedRequests: number | null;
+  windowStart: string;
+  windowEnd: string;
+  observedAt: string;
+  datasetVersion: string;
+  sourceUrl: string;
 };
 
 export type Harness = {

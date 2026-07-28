@@ -17,6 +17,12 @@ export const openRouterApps = [
 
 export const rankingDatasetSourceUrl = "https://openrouter.ai/docs/agent-sdk/typescript/api-reference/datasets";
 
+export const rankingWindows = [
+  { key: "day", days: 1 },
+  { key: "week", days: 7 },
+  { key: "month", days: 30 },
+];
+
 function assertSafePositiveInteger(value, label) {
   if (!Number.isSafeInteger(value) || value <= 0) {
     throw new Error(`${label} must be a positive safe integer`);
@@ -33,6 +39,12 @@ function parseInteger(value, label) {
   const parsed = typeof value === "number" ? value : Number(value);
   assertSafePositiveInteger(parsed, label);
   return parsed;
+}
+
+function inclusiveUtcDays(startDate, endDate) {
+  const start = Date.parse(`${startDate}T00:00:00Z`);
+  const end = Date.parse(`${endDate}T00:00:00Z`);
+  return Math.round((end - start) / 86_400_000) + 1;
 }
 
 export function parseOpenRouterAppPage(html, app) {
@@ -116,14 +128,36 @@ export function parseRankingResponses(payloads) {
   };
 }
 
-export function buildOpenRouterSnapshots(pageMetrics, ranking) {
+export function buildOpenRouterSnapshots(pageMetrics, rankings) {
+  for (const { key, days } of rankingWindows) {
+    const ranking = rankings[key];
+    if (!ranking) throw new Error(`${key} ranking window is missing`);
+    const actualDays = inclusiveUtcDays(ranking.meta.windowStart, ranking.meta.windowEnd);
+    if (actualDays !== days) {
+      throw new Error(`${key} ranking spans ${actualDays} days instead of ${days}`);
+    }
+  }
+
   return openRouterApps.map((app) => {
     const page = pageMetrics.get(app.appId);
     if (!page) throw new Error(`${app.appSlug}: public app metrics are missing`);
-    const ranked = ranking.rowsByAppId.get(app.appId) ?? null;
-    if (ranked && ranked.appName !== app.appName) {
-      throw new Error(`${app.appSlug}: ranking name changed from ${app.appName} to ${ranked.appName}`);
-    }
+    const windows = Object.fromEntries(rankingWindows.map(({ key, days }) => {
+      const ranking = rankings[key];
+      const ranked = ranking.rowsByAppId.get(app.appId) ?? null;
+      if (ranked && ranked.appName !== app.appName) {
+        throw new Error(`${app.appSlug}: ranking name changed from ${app.appName} to ${ranked.appName}`);
+      }
+
+      return [key, {
+        category: "coding",
+        days,
+        rank: ranked?.rank ?? null,
+        attributedTokens: ranked?.attributedTokens ?? null,
+        attributedRequests: ranked?.attributedRequests ?? null,
+        ...ranking.meta,
+        sourceUrl: rankingDatasetSourceUrl,
+      }];
+    }));
 
     return {
       harnessId: app.harnessId,
@@ -132,14 +166,7 @@ export function buildOpenRouterSnapshots(pageMetrics, ranking) {
       sourceUrl: `https://openrouter.ai/apps/${app.appSlug}`,
       ...(app.integrationUrl ? { integrationUrl: app.integrationUrl } : {}),
       ...page,
-      rolling30d: {
-        category: "coding",
-        rank: ranked?.rank ?? null,
-        attributedTokens: ranked?.attributedTokens ?? null,
-        attributedRequests: ranked?.attributedRequests ?? null,
-        ...ranking.meta,
-        sourceUrl: rankingDatasetSourceUrl,
-      },
+      windows,
     };
   });
 }
@@ -168,21 +195,28 @@ export function renderOpenRouterAttributionFile(snapshots) {
       `    dailyGlobalRank: ${formatInteger(snapshot.dailyGlobalRank)},`,
       `    modelsObserved: ${formatInteger(snapshot.modelsObserved)},`,
       `    observedAt: ${quote(snapshot.observedAt)},`,
-      "    rolling30d: {",
-      `      category: ${quote(snapshot.rolling30d.category)},`,
-      `      rank: ${formatInteger(snapshot.rolling30d.rank)},`,
-      `      attributedTokens: ${formatInteger(snapshot.rolling30d.attributedTokens)},`,
-      `      attributedRequests: ${formatInteger(snapshot.rolling30d.attributedRequests)},`,
-      `      windowStart: ${quote(snapshot.rolling30d.windowStart)},`,
-      `      windowEnd: ${quote(snapshot.rolling30d.windowEnd)},`,
-      `      observedAt: ${quote(snapshot.rolling30d.observedAt)},`,
-      `      datasetVersion: ${quote(snapshot.rolling30d.datasetVersion)},`,
-      `      sourceUrl: ${quote(snapshot.rolling30d.sourceUrl)},`,
-      "    },",
-      "  },",
+      "    windows: {",
     );
+    for (const { key } of rankingWindows) {
+      const window = snapshot.windows[key];
+      lines.push(
+        `      ${key}: {`,
+        `        category: ${quote(window.category)},`,
+        `        days: ${window.days},`,
+        `        rank: ${formatInteger(window.rank)},`,
+        `        attributedTokens: ${formatInteger(window.attributedTokens)},`,
+        `        attributedRequests: ${formatInteger(window.attributedRequests)},`,
+        `        windowStart: ${quote(window.windowStart)},`,
+        `        windowEnd: ${quote(window.windowEnd)},`,
+        `        observedAt: ${quote(window.observedAt)},`,
+        `        datasetVersion: ${quote(window.datasetVersion)},`,
+        `        sourceUrl: ${quote(window.sourceUrl)},`,
+        "      },",
+      );
+    }
+    lines.push("    },", "  },");
     return lines.join("\n");
   }).join("\n");
 
-  return `import type { OpenRouterAttributionSnapshot } from "../lib/types";\n\n/**\n * Generated by \`npm run sync:openrouter\` from canonical OpenRouter app pages\n * and the authenticated 30-day coding-app ranking dataset. These records are\n * ecosystem context only; they never enter capability or recommendation logic.\n */\nexport const openRouterAttributionSnapshots: OpenRouterAttributionSnapshot[] = [\n${records}\n];\n\nexport const openRouterAttributionByHarness = new Map(\n  openRouterAttributionSnapshots.map((snapshot) => [snapshot.harnessId, snapshot]),\n);\n`;
+  return `import type { OpenRouterAttributionSnapshot } from "../lib/types";\n\n/**\n * Generated by \`npm run sync:openrouter\` from canonical OpenRouter app pages\n * and authenticated 1-day, 7-day, and 30-day coding-app ranking datasets. These\n * records are ecosystem context only; they never enter recommendation logic.\n */\nexport const openRouterAttributionSnapshots: OpenRouterAttributionSnapshot[] = [\n${records}\n];\n\nexport const openRouterAttributionByHarness = new Map(\n  openRouterAttributionSnapshots.map((snapshot) => [snapshot.harnessId, snapshot]),\n);\n`;
 }

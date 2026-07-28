@@ -201,6 +201,7 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
   const documentedLayers = Object.values(architecture).filter((value) => value !== null).length;
   const repositoryAudit = repositoryAuditForHarness(harness.id);
   const openRouterSnapshot = openRouterAttributionByHarness.get(harness.id);
+  const openRouterMonth = openRouterSnapshot?.windows.month;
   const artifactCount = repositoryAudit ? repositoryArtifactCount(repositoryAudit) : null;
   const measuredRuns = benchmarkRunsForHarness(harness.id);
   const evidenceState = evidenceStateFor(harness.id);
@@ -491,33 +492,33 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
           </footer>
         </section>
 
-        {openRouterSnapshot && (
+        {openRouterSnapshot && openRouterMonth && (
           <section className="profile-openrouter" id="openrouter-footprint" aria-labelledby="openrouter-heading">
             <header>
               <div>
                 <span>Ecosystem signal</span>
                 <h2 id="openrouter-heading">OpenRouter routing footprint</h2>
-                <p>Public traffic attributed to this app on OpenRouter. The comparable API window runs from {openRouterSnapshot.rolling30d.windowStart} to {openRouterSnapshot.rolling30d.windowEnd}. It is context about one routing channel, not a capability or quality score.</p>
+                <p>Public traffic attributed to this app on OpenRouter. The comparable API window runs from {openRouterMonth.windowStart} to {openRouterMonth.windowEnd}. It is context about one routing channel, not a capability or quality score.</p>
               </div>
               <a className="text-link" href={openRouterSnapshot.sourceUrl} target="_blank" rel="noreferrer">Open app page</a>
             </header>
             <dl className="profile-openrouter-metrics">
               <div>
                 <dt>30-day coding rank</dt>
-                <dd>{openRouterSnapshot.rolling30d.rank === null ? "Not listed" : `#${openRouterSnapshot.rolling30d.rank}`}</dd>
+                <dd>{openRouterMonth.rank === null ? "Not listed" : `#${openRouterMonth.rank}`}</dd>
                 <small>Coding category</small>
               </div>
               <div>
                 <dt>30-day attributed tokens</dt>
-                <dd title={openRouterSnapshot.rolling30d.attributedTokens === null ? undefined : `${openRouterSnapshot.rolling30d.attributedTokens.toLocaleString("en-US")} tokens`}>
-                  {openRouterSnapshot.rolling30d.attributedTokens === null ? "—" : compactNumberFormatter.format(openRouterSnapshot.rolling30d.attributedTokens)}
+                <dd title={openRouterMonth.attributedTokens === null ? undefined : `${openRouterMonth.attributedTokens.toLocaleString("en-US")} tokens`}>
+                  {openRouterMonth.attributedTokens === null ? "Not listed" : compactNumberFormatter.format(openRouterMonth.attributedTokens)}
                 </dd>
                 <small>Same API window</small>
               </div>
               <div>
                 <dt>30-day attributed requests</dt>
-                <dd title={openRouterSnapshot.rolling30d.attributedRequests === null ? undefined : `${openRouterSnapshot.rolling30d.attributedRequests.toLocaleString("en-US")} requests`}>
-                  {openRouterSnapshot.rolling30d.attributedRequests === null ? "—" : compactNumberFormatter.format(openRouterSnapshot.rolling30d.attributedRequests)}
+                <dd title={openRouterMonth.attributedRequests === null ? undefined : `${openRouterMonth.attributedRequests.toLocaleString("en-US")} requests`}>
+                  {openRouterMonth.attributedRequests === null ? "Not listed" : compactNumberFormatter.format(openRouterMonth.attributedRequests)}
                 </dd>
                 <small>Same API window</small>
               </div>
@@ -530,11 +531,11 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
                 {openRouterSnapshot.integrationUrl && (
                   <a className="text-link" href={openRouterSnapshot.integrationUrl} target="_blank" rel="noreferrer">OpenRouter setup</a>
                 )}
-                <a className="text-link" href={openRouterSnapshot.rolling30d.sourceUrl} target="_blank" rel="noreferrer">Dataset definition</a>
+                <a className="text-link" href={openRouterMonth.sourceUrl} target="_blank" rel="noreferrer">Dataset definition</a>
                 <span title={`${openRouterSnapshot.attributedTokens.toLocaleString("en-US")} page-total tokens`}>
-                  App page: {compactNumberFormatter.format(openRouterSnapshot.attributedTokens)} tokens · {openRouterSnapshot.modelsObserved.toLocaleString("en-US")} models · daily rank {openRouterSnapshot.dailyGlobalRank === null ? "not listed" : `#${openRouterSnapshot.dailyGlobalRank}`}
+                  App page: {compactNumberFormatter.format(openRouterSnapshot.attributedTokens)} tokens, {openRouterSnapshot.modelsObserved.toLocaleString("en-US")} models, daily rank {openRouterSnapshot.dailyGlobalRank === null ? "not listed" : `#${openRouterSnapshot.dailyGlobalRank}`}
                 </span>
-                <span>Source: OpenRouter (openrouter.ai/apps), as of <time dateTime={openRouterSnapshot.rolling30d.observedAt}>{openRouterSnapshot.rolling30d.observedAt}</time></span>
+                <span>Source: OpenRouter (openrouter.ai/apps), as of <time dateTime={openRouterMonth.observedAt}>{openRouterMonth.observedAt}</time></span>
               </div>
             </footer>
           </section>

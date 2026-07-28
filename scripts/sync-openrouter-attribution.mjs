@@ -5,6 +5,7 @@ import {
   openRouterApps,
   parseOpenRouterAppPage,
   parseRankingResponses,
+  rankingWindows,
   renderOpenRouterAttributionFile,
 } from "./lib/openrouter-sync.mjs";
 
@@ -68,7 +69,13 @@ async function fetchAppMetrics() {
   return new Map(records);
 }
 
-async function fetchRankingPages(apiKey) {
+function utcDateBefore(isoDate, daysBefore) {
+  const date = new Date(`${isoDate}T00:00:00Z`);
+  date.setUTCDate(date.getUTCDate() - daysBefore);
+  return date.toISOString().slice(0, 10);
+}
+
+async function fetchRankingPages(apiKey, window) {
   const payloads = [];
   for (const offset of [0, 100]) {
     const url = new URL("https://openrouter.ai/api/v1/datasets/app-rankings");
@@ -76,10 +83,12 @@ async function fetchRankingPages(apiKey) {
     url.searchParams.set("sort", "popular");
     url.searchParams.set("limit", "100");
     url.searchParams.set("offset", String(offset));
+    if (window.startDate) url.searchParams.set("start_date", window.startDate);
+    if (window.endDate) url.searchParams.set("end_date", window.endDate);
     const response = await fetchWithRetry(
       url,
       { headers: { Authorization: `Bearer ${apiKey}` } },
-      `ranking page ${offset / 100 + 1}`,
+      `${window.key} ranking page ${offset / 100 + 1}`,
     );
     payloads.push(await response.json());
   }
@@ -91,18 +100,36 @@ if (!apiKey) {
   throw new Error("OPENROUTER_API_KEY is missing. Add it to .env.local or the process environment.");
 }
 
-const [pageMetrics, ranking] = await Promise.all([
+const [pageMetrics, monthRanking] = await Promise.all([
   fetchAppMetrics(),
-  fetchRankingPages(apiKey),
+  fetchRankingPages(apiKey, { key: "month" }),
 ]);
-const snapshots = buildOpenRouterSnapshots(pageMetrics, ranking);
+const resolvedEndDate = monthRanking.meta.windowEnd;
+const shorterWindows = await Promise.all(
+  rankingWindows
+    .filter(({ key }) => key !== "month")
+    .map(({ key, days }) => fetchRankingPages(apiKey, {
+      key,
+      startDate: utcDateBefore(resolvedEndDate, days - 1),
+      endDate: resolvedEndDate,
+    })),
+);
+const rankings = {
+  month: monthRanking,
+  ...Object.fromEntries(
+    rankingWindows
+      .filter(({ key }) => key !== "month")
+      .map(({ key }, index) => [key, shorterWindows[index]]),
+  ),
+};
+const snapshots = buildOpenRouterSnapshots(pageMetrics, rankings);
 const nextContents = renderOpenRouterAttributionFile(snapshots);
 const previousContents = await readFile(outputPath, "utf8");
 
 if (previousContents === nextContents) {
-  console.log(`OpenRouter attribution is current (${ranking.meta.windowStart} to ${ranking.meta.windowEnd}).`);
+  console.log(`OpenRouter attribution is current through ${resolvedEndDate}.`);
 } else {
   await writeFile(outputPath, nextContents, "utf8");
-  const listed = snapshots.filter((snapshot) => snapshot.rolling30d.rank !== null).length;
-  console.log(`Updated ${snapshots.length} OpenRouter app snapshots; ${listed} are listed in the ${ranking.meta.windowStart} to ${ranking.meta.windowEnd} coding window.`);
+  const listed = snapshots.filter((snapshot) => snapshot.windows.month.rank !== null).length;
+  console.log(`Updated ${snapshots.length} OpenRouter app snapshots through ${resolvedEndDate}; ${listed} are listed in the 30-day coding window.`);
 }

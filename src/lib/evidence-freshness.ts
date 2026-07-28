@@ -197,12 +197,14 @@ export function verifiedRecords(): VerifiedRecord[] {
       detail: snapshot.sourceUrl,
       verifiedAt: snapshot.observedAt,
     });
-    records.push({
-      scope: "openrouter-ranking",
-      subject: snapshot.harnessId,
-      detail: `${snapshot.rolling30d.category}:${snapshot.rolling30d.windowStart}:${snapshot.rolling30d.windowEnd}`,
-      verifiedAt: snapshot.rolling30d.observedAt,
-    });
+    for (const [windowKey, window] of Object.entries(snapshot.windows)) {
+      records.push({
+        scope: "openrouter-ranking",
+        subject: snapshot.harnessId,
+        detail: `${window.category}:${windowKey}:${window.windowStart}:${window.windowEnd}`,
+        verifiedAt: window.observedAt,
+      });
+    }
   }
 
   for (const audit of repositoryAudits) {

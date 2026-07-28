@@ -9,6 +9,7 @@ const coreResources = [
   ["Recommender", "/recommend", "Seven-question workflow-fit recommendation"],
   ["Compare harnesses", "/compare", "Side-by-side capability and operating-model comparison"],
   ["Harness catalog", "/harnesses", "Filterable catalog of coding harness profiles"],
+  ["Usage signals", "/usage", "Daily, 7-day, and 30-day OpenRouter-attributed traffic with explicit limits"],
   ["Coding agent GUIs", "/guis", "Workflow classification for native and multi-harness graphical interfaces"],
   ["Methodology", "/methodology", "Eligibility gates, visible weights, uncertainty, and evidence policy"],
   ["Data and sources", "/data", "Searchable ledger of dated first-party evidence"],

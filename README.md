@@ -9,6 +9,7 @@ An evidence-backed decision tool for choosing an AI coding harness by workflow f
 - Workflow recommender with hard eligibility gates and visible preference weights
 - Sensitivity analysis that reports rank robustness without presenting it as task-success probability
 - Side-by-side harness comparison and source-backed product profiles
+- Channel-scoped usage signals with explicit daily, weekly, and monthly windows
 - Separate views for workflow fit, architecture, public-code artifacts, and admitted benchmark configurations
 - Claim-level evidence ledger with first-party sources and verification dates
 - Public methodology, validation protocol, scientific references, and benchmark admission policy
@@ -60,6 +61,7 @@ The repository is connected to the existing Vercel project. Pushes to `main` cre
 - Visible weights and thresholds: `src/lib/recommendation-config.ts`
 - Recommender questions: `src/components/recommender.tsx`
 - Methodology: `src/app/methodology/page.tsx`
+- Usage page and export: `src/app/usage/page.tsx` and `src/app/usage.csv/route.ts`
 
 ## Contribution rules
 

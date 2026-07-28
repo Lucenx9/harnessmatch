@@ -28,21 +28,28 @@ describe("OpenRouter attribution sync", () => {
 
   it("joins ranking rows by stable app id instead of duplicate names", () => {
     const app = openRouterApps[0];
-    const ranking = parseRankingResponses([{
-      data: [{
-        app_id: app.appId,
-        app_name: app.appName,
-        rank: 1,
-        total_tokens: "1000",
-        total_requests: 20,
-      }],
-      meta: {
-        as_of: "2026-07-28T22:57:13.831Z",
-        version: "v1",
-        start_date: "2026-06-28",
-        end_date: "2026-07-27",
-      },
-    }]);
+    function rankingFor(startDate) {
+      return parseRankingResponses([{
+        data: [{
+          app_id: app.appId,
+          app_name: app.appName,
+          rank: 1,
+          total_tokens: "1000",
+          total_requests: 20,
+        }],
+        meta: {
+          as_of: "2026-07-28T22:57:13.831Z",
+          version: "v1",
+          start_date: startDate,
+          end_date: "2026-07-27",
+        },
+      }]);
+    }
+    const rankings = {
+      day: rankingFor("2026-07-27"),
+      week: rankingFor("2026-07-21"),
+      month: rankingFor("2026-06-28"),
+    };
     const pageMetrics = new Map(openRouterApps.map((candidate) => [candidate.appId, {
       appId: candidate.appId,
       attributedTokens: 10,
@@ -50,10 +57,10 @@ describe("OpenRouter attribution sync", () => {
       modelsObserved: 1,
       observedAt: "2026-07-28",
     }]));
-    const snapshots = buildOpenRouterSnapshots(pageMetrics, ranking);
+    const snapshots = buildOpenRouterSnapshots(pageMetrics, rankings);
 
-    expect(snapshots[0].rolling30d).toMatchObject({ rank: 1, attributedTokens: 1_000, attributedRequests: 20 });
-    expect(snapshots[1].rolling30d).toMatchObject({ rank: null, attributedTokens: null, attributedRequests: null });
+    expect(snapshots[0].windows.month).toMatchObject({ days: 30, rank: 1, attributedTokens: 1_000, attributedRequests: 20 });
+    expect(snapshots[1].windows.day).toMatchObject({ days: 1, rank: null, attributedTokens: null, attributedRequests: null });
     expect(renderOpenRouterAttributionFile(snapshots)).toContain("ecosystem context only");
   });
 });

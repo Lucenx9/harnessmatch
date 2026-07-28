@@ -2,6 +2,19 @@ import { describe, expect, it } from "vitest";
 import { harnesses } from "../src/data/harnesses";
 import { openRouterAttributionSnapshots } from "../src/data/openrouter-attribution";
 import { isValidVerificationDate } from "../src/lib/evidence-freshness";
+import type { OpenRouterUsageWindowKey } from "../src/lib/types";
+
+const expectedWindowDays: Record<OpenRouterUsageWindowKey, number> = {
+  day: 1,
+  week: 7,
+  month: 30,
+};
+
+function inclusiveDays(startDate: string, endDate: string) {
+  return Math.round(
+    (Date.parse(`${endDate}T00:00:00Z`) - Date.parse(`${startDate}T00:00:00Z`)) / 86_400_000,
+  ) + 1;
+}
 
 describe("OpenRouter attribution snapshots", () => {
   const harnessIds = new Set(harnesses.map((harness) => harness.id));
@@ -29,25 +42,25 @@ describe("OpenRouter attribution snapshots", () => {
         expect(snapshot.dailyGlobalRank, snapshot.harnessId).toBeGreaterThan(0);
       }
       expect(isValidVerificationDate(snapshot.observedAt), snapshot.harnessId).toBe(true);
-      expect(snapshot.rolling30d.category, snapshot.harnessId).toBe("coding");
-      expect(isValidVerificationDate(snapshot.rolling30d.windowStart), snapshot.harnessId).toBe(true);
-      expect(isValidVerificationDate(snapshot.rolling30d.windowEnd), snapshot.harnessId).toBe(true);
-      expect(isValidVerificationDate(snapshot.rolling30d.observedAt), snapshot.harnessId).toBe(true);
-      expect(snapshot.rolling30d.windowStart <= snapshot.rolling30d.windowEnd, snapshot.harnessId).toBe(true);
-      expect(snapshot.rolling30d.windowEnd <= snapshot.rolling30d.observedAt, snapshot.harnessId).toBe(true);
-      expect(snapshot.rolling30d.sourceUrl).toBe("https://openrouter.ai/docs/agent-sdk/typescript/api-reference/datasets");
-      const rollingValues = [
-        snapshot.rolling30d.rank,
-        snapshot.rolling30d.attributedTokens,
-        snapshot.rolling30d.attributedRequests,
-      ];
-      const allMissing = rollingValues.every((value) => value === null);
-      const allPresent = rollingValues.every((value) => value !== null);
-      expect(allMissing || allPresent, snapshot.harnessId).toBe(true);
-      for (const value of rollingValues) {
-        if (value !== null) {
-          expect(Number.isSafeInteger(value), snapshot.harnessId).toBe(true);
-          expect(value, snapshot.harnessId).toBeGreaterThan(0);
+      for (const key of Object.keys(expectedWindowDays) as OpenRouterUsageWindowKey[]) {
+        const window = snapshot.windows[key];
+        expect(window.category, `${snapshot.harnessId}:${key}`).toBe("coding");
+        expect(window.days, `${snapshot.harnessId}:${key}`).toBe(expectedWindowDays[key]);
+        expect(isValidVerificationDate(window.windowStart), `${snapshot.harnessId}:${key}`).toBe(true);
+        expect(isValidVerificationDate(window.windowEnd), `${snapshot.harnessId}:${key}`).toBe(true);
+        expect(isValidVerificationDate(window.observedAt), `${snapshot.harnessId}:${key}`).toBe(true);
+        expect(window.windowEnd <= window.observedAt, `${snapshot.harnessId}:${key}`).toBe(true);
+        expect(inclusiveDays(window.windowStart, window.windowEnd), `${snapshot.harnessId}:${key}`).toBe(window.days);
+        expect(window.sourceUrl).toBe("https://openrouter.ai/docs/agent-sdk/typescript/api-reference/datasets");
+        const values = [window.rank, window.attributedTokens, window.attributedRequests];
+        const allMissing = values.every((value) => value === null);
+        const allPresent = values.every((value) => value !== null);
+        expect(allMissing || allPresent, `${snapshot.harnessId}:${key}`).toBe(true);
+        for (const value of values) {
+          if (value !== null) {
+            expect(Number.isSafeInteger(value), `${snapshot.harnessId}:${key}`).toBe(true);
+            expect(value, `${snapshot.harnessId}:${key}`).toBeGreaterThan(0);
+          }
         }
       }
     }

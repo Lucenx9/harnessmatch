@@ -80,6 +80,7 @@ describe("canonical production domain", () => {
     expect(sitemap()).not.toHaveLength(0);
     expect(sitemap().every((entry) => entry.url === siteUrl || entry.url.startsWith(`${siteUrl}/`))).toBe(true);
     expect(sitemap()).toContainEqual(expect.objectContaining({ url: `${siteUrl}/guis` }));
+    expect(sitemap()).toContainEqual(expect.objectContaining({ url: `${siteUrl}/usage` }));
     for (const product of guiProducts) {
       expect(sitemap()).toContainEqual(expect.objectContaining({ url: `${siteUrl}/guis/${product.id}` }));
     }

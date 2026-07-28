@@ -17,6 +17,7 @@ describe("llms.txt", () => {
     expect(manifest).toContain("## Core resources");
     expect(manifest).toContain("## Active harness profiles");
     expect(manifest).toContain(`](${siteUrl}/guis)`);
+    expect(manifest).toContain(`](${siteUrl}/usage)`);
     expect(links.length).toBeGreaterThan(0);
     expect(links.every((link) => link === siteUrl || link.startsWith(`${siteUrl}/`))).toBe(true);
   });

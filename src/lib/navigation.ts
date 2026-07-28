@@ -28,6 +28,13 @@ export const searchablePageItems = [
     primary: true,
   },
   {
+    label: "Usage",
+    href: "/usage",
+    description: "Compare channel-specific usage signals across cataloged harnesses.",
+    keywords: ["usage", "most used", "popular", "openrouter", "tokens", "requests"],
+    primary: true,
+  },
+  {
     label: "GUIs",
     href: "/guis",
     description: "Choose a coding-agent GUI by workflow, harness, platform, and evidence.",
