@@ -2,7 +2,7 @@
 
 An evidence-backed decision tool for choosing an AI coding harness by workflow fit.
 
-**Live site:** [harnessmatch.vercel.app](https://harnessmatch.vercel.app)
+**Live site:** [harnessmatch.dev](https://harnessmatch.dev)
 
 ## What is included
 
@@ -18,7 +18,7 @@ HarnessMatch keeps model capability, harness capability, documentation coverage,
 
 ## Research policy
 
-Language models may assist discovery, extraction, structuring, and cross-checking, but model output is never treated as evidence. Published product claims require an admitted underlying source and a verification date. See the [methodology](https://harnessmatch.vercel.app/methodology) and [data ledger](https://harnessmatch.vercel.app/data).
+Language models may assist discovery, extraction, structuring, and cross-checking, but model output is never treated as evidence. Published product claims require an admitted underlying source and a verification date. See the [methodology](https://harnessmatch.dev/methodology) and [data ledger](https://harnessmatch.dev/data).
 
 Benchmark results are admitted only when the model, exact harness version, benchmark version, budget, sandbox or environment, attempts, date, cost, and primary source are recorded.
 

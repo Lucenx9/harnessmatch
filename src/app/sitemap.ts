@@ -1,8 +1,7 @@
 import type { MetadataRoute } from "next";
 import { harnesses } from "@/data/harnesses";
 import { latestVerifiedAt } from "@/lib/evidence-freshness";
-
-const siteUrl = "https://harnessmatch.vercel.app";
+import { siteUrl } from "@/lib/site";
 
 export const dynamic = "force-static";
 

@@ -32,6 +32,7 @@ import {
   benchmarkConfidenceInterval95,
   evidenceStateFor,
 } from "@/lib/evaluation";
+import { canonicalMetadata } from "@/lib/site";
 import type {
   ArchitectureAxis,
   EvidenceSource,
@@ -170,6 +171,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: harness.name,
     description: harness.summary,
+    ...canonicalMetadata(`/harnesses/${harness.slug}`),
   };
 }
 

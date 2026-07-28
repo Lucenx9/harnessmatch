@@ -21,6 +21,7 @@ import {
   productLayerLabels,
 } from "@/lib/harness-classification";
 import { architectureAxisLabels } from "@/lib/evaluation";
+import { canonicalMetadata } from "@/lib/site";
 import {
   capabilityAxisLabels,
   capabilityLevelAnchors,
@@ -34,7 +35,10 @@ import {
   recommendationWeights,
 } from "@/lib/recommendation-config";
 
-export const metadata: Metadata = { title: "Methodology" };
+export const metadata: Metadata = {
+  title: "Methodology",
+  ...canonicalMetadata("/methodology"),
+};
 
 const methodologyVersion = "2.4 / 2026-07-27";
 const capabilityLevels = [1, 2, 3, 4, 5] as const;

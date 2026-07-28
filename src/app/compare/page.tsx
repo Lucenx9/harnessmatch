@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { CompareClient } from "@/components/compare-client";
+import { canonicalMetadata } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Compare coding harnesses",
   description: "Compare coding harnesses by interfaces, providers, capabilities, controls, and trade-offs.",
+  ...canonicalMetadata("/compare"),
 };
 
 export default function ComparePage() {

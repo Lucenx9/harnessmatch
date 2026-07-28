@@ -10,9 +10,11 @@ import {
   benchmarkTopIntervalGroup,
   costPerSuccessfulTrial,
 } from "@/lib/evaluation";
+import { canonicalMetadata } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Measured systems",
+  ...canonicalMetadata("/benchmarks"),
 };
 
 const requiredFields = [

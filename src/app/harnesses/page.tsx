@@ -3,9 +3,11 @@ import { HarnessLensExplorer } from "@/components/harness-lens-explorer";
 import { featureSupportFor } from "@/data/feature-claims";
 import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnesses } from "@/data/harnesses";
+import { canonicalMetadata } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Coding harness profiles",
+  ...canonicalMetadata("/harnesses"),
 };
 
 export default function HarnessesPage() {

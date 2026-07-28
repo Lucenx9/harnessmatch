@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
-
-const siteUrl = "https://harnessmatch.vercel.app";
+import { siteUrl } from "@/lib/site";
 
 export const dynamic = "force-static";
 

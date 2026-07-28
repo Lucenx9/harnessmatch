@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import { canonicalMetadata } from "@/lib/site";
 
 const privacyEmail = "lucenz@proton.me";
 
 export const metadata: Metadata = {
   title: "Privacy",
   description: "How HarnessMatch handles technical and analytics data.",
+  ...canonicalMetadata("/privacy"),
 };
 
 export default function PrivacyPage() {

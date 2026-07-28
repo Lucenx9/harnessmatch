@@ -3,9 +3,11 @@ import { EvidenceLedger } from "@/components/evidence-ledger";
 import { discoveryWatchlist } from "@/data/discovery-watchlist";
 import { harnesses } from "@/data/harnesses";
 import { researchProcessDisclosure } from "@/data/research-process";
+import { canonicalMetadata } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Data and sources",
+  ...canonicalMetadata("/data"),
 };
 
 export default function DataPage() {

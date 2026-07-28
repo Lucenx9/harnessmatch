@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { canonicalMetadata, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -26,13 +27,14 @@ const themeInit = `
 `;
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://harnessmatch.vercel.app"),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "HarnessMatch - Coding harness workflow fit",
     template: "%s | HarnessMatch",
   },
   description:
     "Explore source-backed workflow fit across AI coding harnesses with transparent scoring and verified capabilities.",
+  ...canonicalMetadata("/"),
   applicationName: "HarnessMatch",
   icons: {
     icon: [
@@ -57,6 +59,8 @@ export const metadata: Metadata = {
     title: "HarnessMatch - Coding harness workflow fit",
     description: "An interactive, source-backed comparison of AI coding harnesses by workflow fit.",
     type: "website",
+    siteName: "HarnessMatch",
+    locale: "en_US",
     images: [
       {
         url: "/og.jpg",
