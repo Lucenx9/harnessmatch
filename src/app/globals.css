@@ -795,20 +795,16 @@ p { color: var(--muted); }
 .profile-operational-grid li > span { color: var(--muted); font-size: .68rem; }
 .profile-operational-grid li > strong { margin: 22px 0 8px; color: var(--text); font-size: .92rem; line-height: 1.35; }
 .profile-operational-grid li > small { color: var(--muted); font-size: .63rem; line-height: 1.45; }
-.profile-level-indicator { width: max-content; height: 32px; display: flex; align-items: flex-end; gap: 6px; margin-top: auto; padding-top: 18px; }
-.profile-level-indicator > span { width: 12px; border: 1px solid var(--muted); border-radius: 3px 3px 1px 1px; background: var(--surface-hover); opacity: .58; }
-.profile-level-indicator > span:nth-child(1) { height: 10px; }
-.profile-level-indicator > span:nth-child(2) { height: 17px; }
-.profile-level-indicator > span:nth-child(3) { height: 24px; }
-.profile-level-indicator > span:nth-child(4) { height: 31px; }
-.profile-level-indicator > .is-filled { border-color: var(--accent-strong); background: var(--accent); opacity: 1; }
-.profile-level-indicator.is-empty > span { border-style: dashed; background: transparent; }
-.profile-level-indicator.is-compact { height: 24px; gap: 3px; margin: 0 0 0 auto; padding: 0; }
-.profile-level-indicator.is-compact > span { width: 7px; }
-.profile-level-indicator.is-compact > span:nth-child(1) { height: 7px; }
-.profile-level-indicator.is-compact > span:nth-child(2) { height: 12px; }
-.profile-level-indicator.is-compact > span:nth-child(3) { height: 17px; }
-.profile-level-indicator.is-compact > span:nth-child(4) { height: 22px; }
+.profile-rubric-rail { width: 104px; height: 30px; position: relative; display: grid; grid-template-columns: repeat(4, 1fr); align-items: end; margin-top: auto; padding-top: 18px; }
+.profile-rubric-rail::before { content: ""; position: absolute; right: 12px; bottom: 5px; left: 12px; height: 1px; background: var(--line-strong); }
+.profile-rubric-rail > span { z-index: 1; width: 6px; height: 6px; justify-self: center; margin-bottom: 2px; border: 1px solid var(--muted); border-radius: 2px; background: var(--surface-strong); opacity: .82; }
+.profile-rubric-rail > .is-selected { width: 10px; height: 10px; margin-bottom: 0; border-color: var(--accent-strong); background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); opacity: 1; }
+.profile-rubric-rail.is-empty::before { background: repeating-linear-gradient(to right, var(--line-strong) 0 4px, transparent 4px 8px); }
+.profile-rubric-rail.is-empty > span { border-style: dashed; background: transparent; opacity: .54; }
+.profile-rubric-rail.is-compact { width: 44px; height: 16px; margin: 0 0 0 auto; padding: 0; align-items: center; }
+.profile-rubric-rail.is-compact::before { right: 5px; bottom: auto; left: 5px; top: 50%; transform: translateY(-50%); }
+.profile-rubric-rail.is-compact > span { width: 4px; height: 4px; margin: 0; border-radius: 1px; }
+.profile-rubric-rail.is-compact > .is-selected { width: 8px; height: 8px; box-shadow: 0 0 0 2px var(--accent-soft); }
 .profile-operational-footer { min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 22px; padding: 13px 18px; border-top: 1px solid var(--line); }
 .profile-operational-footer p { margin: 0; font-size: .68rem; }
 .profile-operational-footer > div { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px 16px; }
@@ -1115,7 +1111,7 @@ p { color: var(--muted); }
   .profile-operational-grid li, .profile-operational-grid li:nth-child(3), .profile-operational-grid li:nth-last-child(-n+2) { min-height: 0; padding: 17px 18px; border-right: 0; border-bottom: 1px solid var(--line); }
   .profile-operational-grid li:last-child { border-bottom: 0; }
   .profile-operational-grid li > strong { margin: 9px 0 5px; }
-  .profile-operational-grid li > .profile-level-indicator { margin-top: 12px; padding-top: 0; }
+  .profile-operational-grid li > .profile-rubric-rail { margin-top: 12px; padding-top: 0; }
   .profile-operational-footer { align-items: start; flex-direction: column; padding: 16px 18px; }
   .profile-operational-footer > div { justify-content: flex-start; }
   .profile-signal-grid, .profile-support-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }

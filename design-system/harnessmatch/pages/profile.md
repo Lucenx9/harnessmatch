@@ -23,6 +23,7 @@ This page follows the HarnessMatch master system and increases information densi
 - Present coding-harness membership as a categorical verdict, never as a score. “Qualifies” is primary; the evidenced-criteria count is supporting context.
 - Give each membership criterion a visible text state, a semantic state marker, a short definition, and its first-party evidence link.
 - Operational mechanisms appear in one bordered analytical surface with direct rubric values and claim boundaries.
+- Visualize an operational rubric as a neutral four-position rail with only the documented position selected. Never cumulatively fill earlier positions or imply that the rail measures performance.
 - Repository auditability and measured configurations share a two-column evidence area and never feed the workflow score.
 - Technical details and evidence use sparse dividers rather than nested cards.
 - The full taxonomy and operational record is collapsed under “View full technical record”; it must remain complete but does not compete with the initial decision summary.

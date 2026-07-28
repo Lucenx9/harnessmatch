@@ -14,18 +14,18 @@ export function ArchitectureLevelIndicator({
 }) {
   const accessibleLabel = level === null
     ? `${architectureAxisLabels[axis]}: excluded from comparison because the mechanism is not documented`
-    : `${architectureAxisLabels[axis]}: ${architectureLevelAnchors[axis][level]}, documented level ${level} of ${architectureLevelCount}`;
+    : `${architectureAxisLabels[axis]}: ${architectureLevelAnchors[axis][level]}, rubric position ${level} of ${architectureLevelCount}; this is not a performance score`;
 
   return (
     <span
-      className={`profile-level-indicator${level === null ? " is-empty" : ""}${compact ? " is-compact" : ""}`}
+      className={`profile-rubric-rail${level === null ? " is-empty" : ""}${compact ? " is-compact" : ""}`}
       role="img"
       aria-label={accessibleLabel}
       title={accessibleLabel}
     >
       {Array.from({ length: architectureLevelCount }, (_, index) => (
         <span
-          className={level !== null && index < level ? "is-filled" : undefined}
+          className={level !== null && index + 1 === level ? "is-selected" : undefined}
           aria-hidden="true"
           key={index}
         />
