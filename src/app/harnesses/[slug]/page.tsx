@@ -8,6 +8,7 @@ import { VisualIcon } from "@/components/visual-icon";
 import { benchmarkRunsForHarness } from "@/data/benchmark-runs";
 import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnessBySlug, harnesses } from "@/data/harnesses";
+import { openRouterAttributionByHarness } from "@/data/openrouter-attribution";
 import { getOperationalProfileRecord } from "@/data/operational-profiles";
 import {
   repositoryArtifactCount,
@@ -99,6 +100,11 @@ const evidenceTopicOrder: EvidenceTopic[] = [
   "releases-code-audit",
   "additional",
 ];
+
+const compactNumberFormatter = new Intl.NumberFormat("en", {
+  notation: "compact",
+  maximumFractionDigits: 2,
+});
 
 function EvidenceRows({ sources }: { sources: EvidenceSource[] }) {
   return (
@@ -194,6 +200,7 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
   const architecture = architectureProfileFor(harness);
   const documentedLayers = Object.values(architecture).filter((value) => value !== null).length;
   const repositoryAudit = repositoryAuditForHarness(harness.id);
+  const openRouterSnapshot = openRouterAttributionByHarness.get(harness.id);
   const artifactCount = repositoryAudit ? repositoryArtifactCount(repositoryAudit) : null;
   const measuredRuns = benchmarkRunsForHarness(harness.id);
   const evidenceState = evidenceStateFor(harness.id);
@@ -484,6 +491,49 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
           </footer>
         </section>
 
+        {openRouterSnapshot && (
+          <section className="profile-openrouter" id="openrouter-footprint" aria-labelledby="openrouter-heading">
+            <header>
+              <div>
+                <span>Ecosystem signal</span>
+                <h2 id="openrouter-heading">OpenRouter routing footprint</h2>
+                <p>Public traffic attributed to this app on OpenRouter. It is context about one routing channel, not a capability or quality score.</p>
+              </div>
+              <a className="text-link" href={openRouterSnapshot.sourceUrl} target="_blank" rel="noreferrer">Open app page</a>
+            </header>
+            <dl className="profile-openrouter-metrics">
+              <div>
+                <dt>Attributed tokens</dt>
+                <dd title={`${openRouterSnapshot.attributedTokens.toLocaleString("en-US")} tokens`}>
+                  {compactNumberFormatter.format(openRouterSnapshot.attributedTokens)}
+                </dd>
+                <small>OpenRouter page total</small>
+              </div>
+              <div>
+                <dt>Daily global rank</dt>
+                <dd>{openRouterSnapshot.dailyGlobalRank === null ? "Not listed" : `#${openRouterSnapshot.dailyGlobalRank}`}</dd>
+                <small>At observation time</small>
+              </div>
+              <div>
+                <dt>Models used</dt>
+                <dd>{openRouterSnapshot.modelsObserved.toLocaleString("en-US")}</dd>
+                <small>OpenRouter page count</small>
+              </div>
+            </dl>
+            <footer>
+              <p>
+                Attribution excludes direct APIs, subscriptions, local models, and traffic without app attribution. Token volume is not a standardized workload, user count, or task-success measure.
+              </p>
+              <div>
+                {openRouterSnapshot.integrationUrl && (
+                  <a className="text-link" href={openRouterSnapshot.integrationUrl} target="_blank" rel="noreferrer">OpenRouter setup</a>
+                )}
+                <span>Source: OpenRouter, as of <time dateTime={openRouterSnapshot.observedAt}>{openRouterSnapshot.observedAt}</time></span>
+              </div>
+            </footer>
+          </section>
+        )}
+
         <section className="profile-measurement-grid" aria-label="Public audit and measured configurations">
           <article>
             <h2>Public code audit</h2>
@@ -577,7 +627,7 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
             )}
             {harness.discovery && harness.discovery.length > 0 && (
               <div className="profile-discovery-note">
-                <h3>Ecosystem discovery</h3>
+                <h3>Ecosystem context</h3>
                 {harness.discovery.map((source) => (
                   <p key={source.url}>
                     <a href={source.url} target="_blank" rel="noreferrer">{source.title}</a>

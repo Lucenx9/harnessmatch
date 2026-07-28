@@ -146,6 +146,22 @@ export type DiscoverySource = {
   observedAt: string;
 };
 
+/**
+ * A dated view of traffic publicly attributed to an app on OpenRouter.
+ * This is ecosystem context, not first-party capability evidence or a quality
+ * measure, and therefore lives outside the Harness record and recommendation.
+ */
+export type OpenRouterAttributionSnapshot = {
+  harnessId: string;
+  appSlug: string;
+  sourceUrl: string;
+  integrationUrl?: string;
+  attributedTokens: number;
+  dailyGlobalRank: number | null;
+  modelsObserved: number;
+  observedAt: string;
+};
+
 export type Harness = {
   id: string;
   slug: string;

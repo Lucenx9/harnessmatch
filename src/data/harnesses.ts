@@ -1223,6 +1223,14 @@ const harnessRecords: Array<Omit<Harness, "featureClaims">> = [
         verifiedAt: openCodeVerifiedAt,
       },
     ],
+    discovery: [
+      {
+        title: "OpenCode model-usage data",
+        url: "https://opencode.ai/data/",
+        note: "First-party live telemetry for OpenCode Go and Zen model usage, daily unique users, session and token cost, cache ratio, provider share, and geography. It is product-operated usage context, not a benchmark or evidence of task success, and does not affect recommendations.",
+        observedAt: "2026-07-28",
+      },
+    ],
   },
   {
     id: "pi",

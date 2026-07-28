@@ -1,0 +1,127 @@
+import type { OpenRouterAttributionSnapshot } from "../lib/types";
+
+/**
+ * Public app-page snapshots captured from OpenRouter. Traffic appears only
+ * when clients identify an app through OpenRouter attribution. These records
+ * are deliberately separate from capability evidence and recommendation data.
+ */
+export const openRouterAttributionSnapshots: OpenRouterAttributionSnapshot[] = [
+  {
+    harnessId: "hermes-agent",
+    appSlug: "hermes-agent",
+    sourceUrl: "https://openrouter.ai/apps/hermes-agent",
+    integrationUrl: "https://openrouter.ai/docs/cookbook/coding-agents/hermes-integration",
+    attributedTokens: 29_629_686_518_468,
+    dailyGlobalRank: 1,
+    modelsObserved: 394,
+    observedAt: "2026-07-28",
+  },
+  {
+    harnessId: "kilo-code",
+    appSlug: "kilo-code",
+    sourceUrl: "https://openrouter.ai/apps/kilo-code",
+    integrationUrl: "https://kilo.ai/docs/providers/openrouter",
+    attributedTokens: 7_597_760_849_370,
+    dailyGlobalRank: 2,
+    modelsObserved: 355,
+    observedAt: "2026-07-28",
+  },
+  {
+    harnessId: "openclaw",
+    appSlug: "openclaw",
+    sourceUrl: "https://openrouter.ai/apps/openclaw",
+    integrationUrl: "https://openrouter.ai/docs/cookbook/coding-agents/openclaw-integration",
+    attributedTokens: 4_749_327_213_587,
+    dailyGlobalRank: 4,
+    modelsObserved: 376,
+    observedAt: "2026-07-28",
+  },
+  {
+    harnessId: "claude-code",
+    appSlug: "claude-code",
+    sourceUrl: "https://openrouter.ai/apps/claude-code",
+    integrationUrl: "https://openrouter.ai/docs/cookbook/coding-agents/claude-code-integration",
+    attributedTokens: 6_867_431_207_546,
+    dailyGlobalRank: 3,
+    modelsObserved: 305,
+    observedAt: "2026-07-28",
+  },
+  {
+    harnessId: "openhands",
+    appSlug: "openhands",
+    sourceUrl: "https://openrouter.ai/apps/openhands",
+    attributedTokens: 191_933_703_938,
+    dailyGlobalRank: 33,
+    modelsObserved: 202,
+    observedAt: "2026-07-28",
+  },
+  {
+    harnessId: "omp",
+    appSlug: "oh-my-pi",
+    sourceUrl: "https://openrouter.ai/apps/oh-my-pi",
+    attributedTokens: 993_942_971,
+    dailyGlobalRank: null,
+    modelsObserved: 29,
+    observedAt: "2026-07-28",
+  },
+  {
+    harnessId: "cline",
+    appSlug: "cline",
+    sourceUrl: "https://openrouter.ai/apps/cline",
+    integrationUrl: "https://docs.cline.bot/provider-config/openrouter",
+    attributedTokens: 2_713_124_163_611,
+    dailyGlobalRank: 5,
+    modelsObserved: 313,
+    observedAt: "2026-07-28",
+  },
+  {
+    harnessId: "pi",
+    appSlug: "pi",
+    sourceUrl: "https://openrouter.ai/apps/pi",
+    attributedTokens: 2_189_124_137_288,
+    dailyGlobalRank: 6,
+    modelsObserved: 324,
+    observedAt: "2026-07-28",
+  },
+  {
+    harnessId: "aider",
+    appSlug: "aider",
+    sourceUrl: "https://openrouter.ai/apps/aider",
+    integrationUrl: "https://aider.chat/docs/llms/openrouter.html",
+    attributedTokens: 8_786_706_718,
+    dailyGlobalRank: null,
+    modelsObserved: 202,
+    observedAt: "2026-07-28",
+  },
+  {
+    harnessId: "goose",
+    appSlug: "goose",
+    sourceUrl: "https://openrouter.ai/apps/goose",
+    attributedTokens: 1_214_515_198,
+    dailyGlobalRank: null,
+    modelsObserved: 89,
+    observedAt: "2026-07-28",
+  },
+  {
+    harnessId: "codex",
+    appSlug: "codex",
+    sourceUrl: "https://openrouter.ai/apps/codex",
+    attributedTokens: 562_301_262_481,
+    dailyGlobalRank: 14,
+    modelsObserved: 332,
+    observedAt: "2026-07-28",
+  },
+  {
+    harnessId: "qwen-code",
+    appSlug: "qwen-code",
+    sourceUrl: "https://openrouter.ai/apps/qwen-code",
+    attributedTokens: 67_948_040_389,
+    dailyGlobalRank: 56,
+    modelsObserved: 133,
+    observedAt: "2026-07-28",
+  },
+];
+
+export const openRouterAttributionByHarness = new Map(
+  openRouterAttributionSnapshots.map((snapshot) => [snapshot.harnessId, snapshot]),
+);

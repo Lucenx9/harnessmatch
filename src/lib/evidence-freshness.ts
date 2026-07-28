@@ -5,6 +5,7 @@ import { operationalProfileRecords } from "../data/operational-profiles";
 import { repositoryAudits } from "../data/repository-audits";
 import { guiExclusions, guiProducts } from "../data/gui-products";
 import { guiRepositoryAudits } from "../data/gui-repository-audits";
+import { openRouterAttributionSnapshots } from "../data/openrouter-attribution";
 
 /**
  * Published claims carry a verification date, so an unmaintained dataset keeps
@@ -27,6 +28,7 @@ export type FreshnessState = "current" | "due-for-review" | "stale";
 export type VerifiedRecordScope =
   | "harness"
   | "evidence-source"
+  | "discovery-source"
   | "logo"
   | "membership"
   | "operational-profile"
@@ -38,7 +40,8 @@ export type VerifiedRecordScope =
   | "gui-claim"
   | "gui-source"
   | "gui-repository-audit"
-  | "gui-exclusion";
+  | "gui-exclusion"
+  | "openrouter-attribution";
 
 export type VerifiedRecord = {
   scope: VerifiedRecordScope;
@@ -97,6 +100,14 @@ export function verifiedRecords(): VerifiedRecord[] {
         subject: harness.id,
         detail: source.url,
         verifiedAt: source.verifiedAt,
+      });
+    }
+    for (const source of harness.discovery ?? []) {
+      records.push({
+        scope: "discovery-source",
+        subject: harness.id,
+        detail: source.url,
+        verifiedAt: source.observedAt,
       });
     }
 
@@ -175,6 +186,15 @@ export function verifiedRecords(): VerifiedRecord[] {
       subject: exclusion.id,
       detail: exclusion.sourceUrl,
       verifiedAt: exclusion.verifiedAt,
+    });
+  }
+
+  for (const snapshot of openRouterAttributionSnapshots) {
+    records.push({
+      scope: "openrouter-attribution",
+      subject: snapshot.harnessId,
+      detail: snapshot.sourceUrl,
+      verifiedAt: snapshot.observedAt,
     });
   }
 
