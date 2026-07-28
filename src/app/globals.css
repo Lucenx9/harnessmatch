@@ -132,12 +132,13 @@ p { color: var(--muted); }
 .global-search-results-shell { min-height: 104px; border-top: 1px solid var(--line); }
 .global-search-results { max-height: min(430px, calc(100dvh - 280px)); padding: 0 8px 8px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--line-strong) transparent; }
 .global-search-results-label { padding: 10px 10px 7px; color: var(--muted); font: 600 .64rem/1 var(--font-mono); letter-spacing: .055em; text-transform: uppercase; }
-.global-search-result { min-height: 62px; display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 8px 10px; border-radius: 9px; transition: background .12s ease, box-shadow .12s ease; }
-.global-search-result[aria-selected="true"] { background: var(--accent-soft); box-shadow: inset 2px 0 var(--accent); }
-.global-search-result:active { background: color-mix(in srgb, var(--accent-soft) 72%, var(--surface-hover)); }
+.global-search-result { min-height: 62px; display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 8px 10px; border: 1px solid transparent; border-radius: 9px; transition: background .12s ease, border-color .12s ease; }
+.global-search-result[aria-selected="true"] { border-color: var(--line-strong); background: color-mix(in srgb, var(--text) 5%, var(--surface-strong)); }
+.global-search-result:active { background: color-mix(in srgb, var(--text) 8%, var(--surface-strong)); }
 .global-search-result-logo, .global-search-page-glyph { width: 32px; height: 32px; display: grid; place-items: center; overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
-.global-search-result-logo img { width: 30px; height: 30px; object-fit: contain; }
-.global-search-page-glyph { color: var(--accent-strong); font: 700 .9rem/1 var(--font-mono); }
+.global-search-result-logo { border-color: rgba(17, 17, 22, .12); background: #f7f7f8; }
+.global-search-result-logo img { width: 72%; height: 72%; object-fit: contain; }
+.global-search-page-glyph { color: var(--muted-strong); font: 700 .9rem/1 var(--font-mono); }
 .global-search-result-copy { min-width: 0; }
 .global-search-result-copy strong, .global-search-result-copy small { display: block; }
 .global-search-result-copy strong { margin-bottom: 2px; overflow: hidden; color: var(--text); font-size: .82rem; text-overflow: ellipsis; white-space: nowrap; }
