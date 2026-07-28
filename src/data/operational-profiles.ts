@@ -408,6 +408,20 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
     ],
     "Code-verifiable at commit 0fa5e41c86f022bba147797849f0b44865721476. Completion contracts gate an optional persistent-goal loop on stated evidence, but the LLM judge can still produce false verdicts. Checkpoints and memory or skill write approval are opt-in; local execution remains host-privileged, and a process restart does not resume an in-flight delegated child.",
   ),
+  openclaw: record(
+    { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "managed-recovery" },
+    [
+      "https://docs.openclaw.ai/concepts/memory",
+      "https://docs.openclaw.ai/compaction",
+      "https://docs.openclaw.ai/gateway/config-tools",
+      "https://docs.openclaw.ai/tools/exec-approvals",
+      "https://docs.openclaw.ai/gateway/restart-recovery",
+      "https://docs.openclaw.ai/gateway/opentelemetry",
+      "https://docs.openclaw.ai/automation/tasks",
+    ],
+    "Code-verifiable at commit 4ce534aec2e3ab0fefe7eb6b131cc7be5023500d. OpenClaw persists workspace memory and compacts session context, composes tool policy and approvals, exports optional OpenTelemetry traces, and reconciles durable tasks after restarts. Sandboxing is off by default, enterprise policy conformance checks configuration rather than enforcing every tool call, observability is opt-in, and managed restart or task recovery does not roll back repository files or external side effects.",
+    refreshedAt,
+  ),
   "mini-swe-agent": record(
     { context: "basic", permissions: "approval", verification: "manual", observability: "traces", recovery: "manual" },
     [

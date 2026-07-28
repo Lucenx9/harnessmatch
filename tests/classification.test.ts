@@ -68,6 +68,7 @@ describe("harness classification", () => {
       "command-code",
       "mux",
       "hermes-agent",
+      "openclaw",
       "plandex",
     ]);
   });

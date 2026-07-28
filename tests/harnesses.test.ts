@@ -37,6 +37,7 @@ const firstPartyHosts: Record<string, string[]> = {
   zcode: ["zcode.z.ai"],
   stagewise: ["stagewise.io", "docs.stagewise.io", "github.com"],
   "hermes-agent": ["github.com", "hermes-agent.nousresearch.com"],
+  openclaw: ["docs.openclaw.ai", "github.com"],
   "mini-swe-agent": ["github.com", "mini-swe-agent.com"],
   amp: ["ampcode.com"],
   "kiro-cli": ["kiro.dev"],
@@ -77,6 +78,7 @@ const firstPartyLogoHosts: Record<string, string> = {
   zcode: "zcode.z.ai",
   stagewise: "stagewise.io",
   "hermes-agent": "github.com",
+  openclaw: "github.com",
   "mini-swe-agent": "github.com",
   amp: "ampcode.com",
   "kiro-cli": "kiro.dev",
@@ -225,6 +227,22 @@ describe("harness evidence ledger", () => {
     expect(byId.get("hermes-agent")?.classification.state).toBe("persistent-memory");
     expect(byId.get("hermes-agent")?.interfaces).toEqual(expect.arrayContaining(["terminal", "ide", "web", "automation"]));
     expect(featureSupportFor(byId.get("hermes-agent")).checkpoints).toBe(true);
+    expect(byId.get("openclaw")?.classification).toMatchObject({
+      role: "general-agent",
+      orchestration: "multi-agent-runtime",
+      runtime: "host-first",
+      isolation: ["container"],
+      state: "persistent-memory",
+    });
+    expect(featureSupportFor(byId.get("openclaw"))).toMatchObject({
+      mcp: true,
+      localModels: true,
+      subagents: true,
+      headless: true,
+      browser: true,
+      sandbox: true,
+      checkpoints: false,
+    });
   });
 
   it("separates Gemini CLI enterprise continuity from the Antigravity consumer successor", () => {
@@ -681,6 +699,54 @@ describe("harness evidence ledger", () => {
     expect(caveats).toContain("default local backend executes with the user's host privileges");
     expect(caveats).toContain("Checkpoints, memory-write review, skill-write review, and whole-process isolation are opt-in");
     expect(caveats).toContain("no score is imported");
+  });
+
+  it("classifies OpenClaw as a general-purpose coding harness without importing adapter benchmark scores", () => {
+    const openclaw = harnesses.find((harness) => harness.id === "openclaw")!;
+    const urls = openclaw.evidence.map((source) => source.url);
+    const caveats = openclaw.tradeoffs.join(" ");
+
+    expect(openclaw.verifiedAt).toBe("2026-07-28");
+    expect(openclaw.evidence.length).toBeGreaterThanOrEqual(30);
+    expect(openclaw.evidence.every((source) => source.verifiedAt === openclaw.verifiedAt)).toBe(true);
+    expect(new Set(urls).size).toBe(urls.length);
+    expect(openclaw.classification).toEqual({
+      role: "general-agent",
+      orchestration: "multi-agent-runtime",
+      runtime: "host-first",
+      isolation: ["container"],
+      state: "persistent-memory",
+    });
+    expect(openclaw.capabilities).toEqual({
+      simplicity: 3,
+      flexibility: 5,
+      security: 4,
+      autonomy: 5,
+      automation: 5,
+      largeRepo: 3,
+      humanControl: 4,
+    });
+    expect(featureSupportFor(openclaw)).toMatchObject({
+      mcp: true,
+      localModels: true,
+      subagents: true,
+      headless: true,
+      browser: true,
+      sandbox: true,
+      checkpoints: false,
+    });
+    expect(urls).toEqual(expect.arrayContaining([
+      "https://github.com/openclaw/openclaw/releases/tag/v2026.7.1",
+      "https://docs.openclaw.ai/agent-loop",
+      "https://docs.openclaw.ai/tools/exec",
+      "https://docs.openclaw.ai/concepts/memory",
+      "https://docs.openclaw.ai/tools/subagents",
+      "https://docs.openclaw.ai/gateway/security",
+      "https://github.com/openclaw/openclaw/blob/4ce534aec2e3ab0fefe7eb6b131cc7be5023500d/src/agents/embedded-agent-runner/run-loop.ts",
+    ]));
+    expect(caveats).toContain("sandboxing is off by default");
+    expect(caveats).toContain("do not provide repository-file rollback");
+    expect(caveats).toContain("imports no product score");
   });
 
   it("keeps mini-SWE-agent minimal without overstating confirmation as full control", () => {

@@ -580,6 +580,40 @@ describe("recommendHarnesses", () => {
     });
   });
 
+  it("admits OpenClaw for persistent multi-provider automation without treating its optional sandbox as the default", () => {
+    const answers: RecommendationAnswers = {
+      ...base,
+      interface: "automation",
+      modelAccess: "local",
+      priority: "automation",
+      control: "hands-off",
+      changeScope: "large-repo",
+      operatingMode: "parallel",
+      requiredFeatures: ["sandbox", "browser", "mcp"],
+    };
+    const result = recommendHarnesses(answers).find((item) => item.harness.id === "openclaw");
+
+    expect(result).toBeDefined();
+    expect(missingRequiredFeatures(result!.harness, answers)).toEqual([]);
+    expect(featureSupportFor(result?.harness)).toMatchObject({
+      localModels: true,
+      headless: true,
+      sandbox: true,
+      browser: true,
+      mcp: true,
+      checkpoints: false,
+    });
+    expect(result?.harness.tradeoffs.join(" ")).toContain("sandboxing is off by default");
+    expect(result?.harness.capabilities).toMatchObject({ automation: 5, autonomy: 5, simplicity: 3 });
+    expect(getOperationalProfile("openclaw")).toEqual({
+      context: "persistent",
+      permissions: "policy",
+      verification: "tool-assisted",
+      observability: "traces",
+      recovery: "managed-recovery",
+    });
+  });
+
   it("admits mini-SWE-agent for a simple confirmed terminal workflow without treating prompts as rollback", () => {
     const answers: RecommendationAnswers = {
       ...base,

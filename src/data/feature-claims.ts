@@ -370,6 +370,19 @@ const featureClaimSeedsByHarness = {
     sandbox: documented("Security and trust boundaries", "Terminal backend configuration"),
     checkpoints: documented("Checkpoint and rollback", "Checkpoint implementation at inspected commit"),
   },
+  openclaw: {
+    mcp: documented("MCP"),
+    localModels: documented("Local models"),
+    subagents: documented("Sub-agents", "Multi-agent routing"),
+    headless: documented("Automation overview", "Background task ledger"),
+    browser: documented("Managed browser"),
+    sandbox: configuredClaim(
+      "optional",
+      ["Security and sandboxing", "Docker installation"],
+      "Optional container isolation when sandboxing is deliberately enabled",
+      "The normal local runtime remains host-first and unsandboxed by default.",
+    ),
+  },
   "mini-swe-agent": {
     localModels: documented("Local model configuration"),
     headless: documented("SWE-bench runner", "ProgramBench runner"),

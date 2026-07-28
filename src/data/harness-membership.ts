@@ -231,6 +231,12 @@ const membershipDefinitions: Record<string, MembershipDefinition> = {
     activeContextManagement: "Persistent memory",
     runtimeControl: "Security and trust boundaries",
   }),
+  openclaw: documentedCodingHarness({
+    adaptiveLoop: ["Agent runtime", "Agent loop"],
+    environmentMutation: ["Tools overview", "Exec tool"],
+    activeContextManagement: ["Persistent memory", "Compaction"],
+    runtimeControl: ["Tool configuration and policy", "Security and sandboxing"],
+  }),
   "mini-swe-agent": documentedCodingHarness({
     adaptiveLoop: "Control flow",
     environmentMutation: "Control flow",
