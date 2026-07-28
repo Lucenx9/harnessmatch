@@ -213,12 +213,17 @@ function robustnessFor(candidates: Array<Pick<Recommendation, "harness" | "score
   for (const candidate of candidates) counts.set(candidate.harness.id, { top: 0, topThree: 0, ranks: [] });
   const random = seededRandom(recommendationSensitivity.seed);
 
+  const candidatesWithFactors = candidates.map((candidate) => ({
+    ...candidate,
+    factors: Object.keys(candidate.scoreBreakdown) as RecommendationFactor[],
+  }));
+
   for (let scenario = 0; scenario < recommendationSensitivity.scenarios; scenario += 1) {
     const weights = sensitivityWeights(random);
-    const ranked = candidates.map((candidate) => ({
+    const ranked = candidatesWithFactors.map((candidate) => ({
       id: candidate.harness.id,
       value: weightedPreferenceValue(Object.fromEntries(
-        (Object.keys(candidate.scoreBreakdown) as RecommendationFactor[]).map((factor) => [
+        candidate.factors.map((factor) => [
           factor,
           perturbedFactorValue(candidate.scoreBreakdown[factor], random),
         ]),
