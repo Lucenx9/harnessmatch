@@ -4,6 +4,8 @@
 
 HarnessMatch is an evidence-backed decision tool for choosing an AI coding harness by workflow fit. It is not a generic model leaderboard, an affiliate ranking site, or a marketing landing page.
 
+The GUI catalog answers a separate decision question: which graphical interface or multi-harness workspace fits a workflow. Do not merge GUI fit into the coding-harness recommender, transfer capabilities between the two catalogs, or imply that a control plane inherits the capabilities of the harnesses it launches.
+
 Design for technically aware users, including vibe coders, who need a clear recommendation without reading the entire methodology first. Prefer a data-first, restrained interface inspired by Vercel, Linear, Cursor, and strong analysis products. Every prominent visual must help comparison or decision-making; avoid decorative hero imagery, inflated claims, and sales copy.
 
 Keep the public interface in English until localization is explicitly reopened.
@@ -16,6 +18,7 @@ Keep the public interface in English until localization is explicitly reopened.
 - Repository-backed product, evidence, classification, and evaluation data
 - Deterministic recommendation logic in `src/lib/recommendation.ts`
 - Visible scoring inputs and value functions in `src/lib/recommendation-config.ts`
+- Separate repository-backed GUI records with non-numeric workflow classification in `src/lib/gui-fit.ts`
 - Vitest contracts for ranking, classification, evidence, freshness, SEO, and validation
 - GitHub quality gate and Vercel Git deployment from `main`
 
@@ -40,6 +43,19 @@ Keep the public interface in English until localization is explicitly reopened.
 13. The recommender expresses preference fit for declared answers, not universal product quality. Public percentages describe rank robustness across deterministic sensitivity scenarios, not task-success probability. Do not expose the internal 0–100 value function as a measured quality grade.
 14. Scoring, thresholds, gates, and value functions must be visible in code and explained in methodology copy. Avoid hidden magic constants.
 15. Scoring or eligibility changes require tests that describe the intended workflow outcome and preserve the model-versus-harness boundary.
+
+## GUI catalog invariants
+
+1. Keep GUI products separate from coding harnesses. `harness-native` and `multi-harness-workspace` describe the interface layer; neither is a quality tier.
+2. A GUI capability may be `documented`, `unknown`, or `contradicted`. A documented claim requires direct first-party support and a verification date. Unknown is uncertainty, not evidence of absence.
+3. GUI fit is deterministic and non-numeric. Required mechanisms are evidence gates, preferred mechanisms distinguish strong from good fit, unresolved requirements remain conditional, and contradicted requirements or inactive products are not eligible.
+4. Products remain alphabetical inside each GUI fit band. Do not introduce hidden scores, source-count bonuses, popularity signals, star counts, or license preferences into GUI fit.
+5. Named harness support and arbitrary CLI support are distinct claims. An integration name does not establish feature parity, native authentication, subscription compatibility, history, interruption, resume, or any capability of the underlying harness.
+6. A GUI never inherits model or harness capability from a supported provider. Likewise, a harness does not inherit remote execution, collaboration, isolation, or review features from a GUI that can launch it.
+7. Public-code findings require an official repository pinned to an exact inspected commit and path list. Proprietary products may remain eligible on first-party documentation and must not be penalized merely because implementation code is unavailable.
+8. Source count, public-code availability, license, and logo provenance are evidence metadata, not workflow-fit inputs.
+9. Archived or dormant GUIs must remain outside active workflow matches and indexable GUI profile routes. Keep research exclusions explicit rather than silently deleting prior classification decisions.
+10. Changes to GUI workflows, required or preferred mechanisms, fit-band rules, or eligibility require outcome-focused tests and matching methodology copy.
 
 ## Evidence dates and freshness
 
@@ -68,12 +84,26 @@ When changing the recommendation model, update `src/lib/recommendation.ts`, `src
 
 When changing taxonomy or evaluation terminology, keep the catalog, profiles, comparison UI, recommender exclusions, methodology, `llms.txt`, and tests consistent.
 
+For every GUI addition, removal, archival, or source-backed capability change, review all affected records and tests:
+
+1. Product identity, status, layer, platform support, source access, license, harness coverage, logo provenance, claims, evidence, and verification dates: `src/data/guis/`.
+2. Active catalog exports and capability labels: `src/data/guis/index.ts` and `src/data/gui-products.ts`.
+3. Explicitly excluded or sunset GUI products: `src/data/guis/exclusions.ts`.
+4. Official repository inspection at a pinned commit, when public implementation is available: `src/data/gui-audits/` and `src/data/gui-repository-audits.ts`.
+5. Workflow definitions and deterministic fit-band behavior: `src/lib/gui-fit.ts` and `src/lib/gui-types.ts`.
+6. Freshness registration for products, logos, claims, sources, audits, and exclusions: `src/lib/evidence-freshness.ts`.
+7. GUI classification, provenance, SEO, sitemap, and freshness contracts in `tests/`.
+8. GUI pages, methodology, navigation, search, sitemap, and `llms.txt` when public interpretation or routes change.
+
+Do not add a GUI only to the aggregate export. Each product belongs in its own record file, and every documented capability must link to the first-party evidence that establishes it.
+
 ## SEO, domain, and public identity
 
 - The sole canonical origin is `https://harnessmatch.dev`, defined centrally in `src/lib/site.ts`.
 - `www.harnessmatch.dev` and `harnessmatch.vercel.app` are secondary hosts that permanently redirect to the canonical origin. Do not use them in canonical tags, sitemap URLs, structured data, social metadata, or public documentation.
 - Every indexable page must have a page-specific canonical URL and useful title and description. Use the shared metadata helpers in `src/lib/site.ts`.
 - A new or renamed public route is not complete until it has one descriptive H1, page-specific canonical/title/description/Open Graph/Twitter metadata, an intentional internal-link path, and sitemap treatment that matches its indexability.
+- GUI routes follow the same contract: `/guis` is the workflow-classification index and each active `/guis/[slug]` profile must have unique metadata, an evidence path, and a canonical sitemap entry.
 - Keep metadata descriptions unique and within the SiteGuru-audited 120–170 character range. Write useful summaries for humans; do not keyword-stuff or create filler pages for SEO, GEO, or AEO.
 - Social metadata must describe the current page. Do not let non-home routes inherit generic homepage Open Graph or Twitter values.
 - Keep the root `WebSite` JSON-LD valid. Add richer structured data only when every field is truthful, supported by the page, and source-backed when it includes a capability claim.
@@ -91,6 +121,7 @@ When changing taxonomy or evaluation terminology, keep the catalog, profiles, co
 ## Automation and deployment policy
 
 - Scheduled maintenance is intended to update the site automatically through direct commits to `main`; do not open pull requests unless explicitly requested.
+- Scheduled catalog maintenance covers both harness and GUI records while preserving their separate taxonomies, evidence rules, and decision outputs.
 - Automation must fail closed. Before committing or pushing, run the same quality sequence as CI: `npm ci`, `npm run typecheck`, `npm test`, and `npm run build`.
 - Do not push when a validation step fails, evidence is conflicting, a required source cannot be verified, or the local worktree contains unrelated changes that cannot be preserved safely.
 - Start automated work from the current remote `main`, verify that `main` has not advanced before pushing, and never force-push or bypass branch protections and quality gates.
@@ -135,6 +166,10 @@ The static export is written to `out/` after a successful build.
 - Workflow scenarios: `src/data/workflow-scenarios.ts`
 - Recommendation logic: `src/lib/recommendation.ts`
 - Visible weights and value functions: `src/lib/recommendation-config.ts`
+- GUI product records and exclusions: `src/data/guis/`
+- GUI public-code audits: `src/data/gui-audits/`
+- GUI types and workflow classification: `src/lib/gui-types.ts` and `src/lib/gui-fit.ts`
+- GUI catalog and profiles: `src/app/guis/page.tsx`, `src/app/guis/[slug]/page.tsx`, and `src/components/gui-workflow-matcher.tsx`
 - Freshness policy and dated-record registry: `src/lib/evidence-freshness.ts`
 - Taxonomy labels and derived classification: `src/lib/harness-classification.ts`
 - Canonical origin and shared metadata: `src/lib/site.ts`
