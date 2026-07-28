@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
   featureClaimFor,
+  featureClaimHarnessIds,
   featureClaimSupportsRequirement,
   featureKeys,
+  featureSupportFor,
 } from "../src/data/feature-claims";
 import { harnesses } from "../src/data/harnesses";
 
@@ -29,14 +31,16 @@ describe("feature claim ledger", () => {
     expect(missingSources).toEqual([]);
   });
 
-  it("preserves the existing eligibility boundary during the claim-model migration", () => {
+  it("stores one complete native claim record without legacy boolean mirrors", () => {
+    expect([...featureClaimHarnessIds].sort()).toEqual(harnesses.map((harness) => harness.id).sort());
     for (const harness of harnesses) {
-      for (const feature of featureKeys) {
-        expect(
-          featureClaimSupportsRequirement(featureClaimFor(harness, feature)),
-          `${harness.id}.${feature}`,
-        ).toBe(harness.features[feature]);
-      }
+      expect(Object.keys(harness.featureClaims).sort()).toEqual([...featureKeys].sort());
+      expect("features" in harness).toBe(false);
+      expect("localModels" in harness).toBe(false);
+      expect(featureSupportFor(harness)).toEqual(Object.fromEntries(featureKeys.map((feature) => [
+        feature,
+        featureClaimSupportsRequirement(featureClaimFor(harness, feature)),
+      ])));
     }
   });
 

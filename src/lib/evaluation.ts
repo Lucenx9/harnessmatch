@@ -1,5 +1,6 @@
 import { getOperationalProfileRecord } from "../data/operational-profiles";
 import { benchmarkRuns } from "../data/benchmark-runs";
+import { featureClaimFor, featureClaimSupportsRequirement } from "../data/feature-claims";
 import { repositoryAuditForHarness } from "../data/repository-audits";
 import { operationalPostureScores } from "./recommendation-config";
 import type { BenchmarkRun } from "../data/benchmark-runs";
@@ -96,11 +97,14 @@ export function architectureProfileFor(harness: Harness): ArchitectureProfile {
       : harness.classification.isolation.includes("worktree")
         ? 2
         : 1;
-  const tooling = harness.features.mcp && harness.features.browser
+  const hasMcp = featureClaimSupportsRequirement(featureClaimFor(harness, "mcp"));
+  const hasBrowser = featureClaimSupportsRequirement(featureClaimFor(harness, "browser"));
+  const hasDocumentedFeature = Object.values(harness.featureClaims).some(featureClaimSupportsRequirement);
+  const tooling = hasMcp && hasBrowser
     ? 4
-    : harness.features.mcp
+    : hasMcp
       ? 3
-      : Object.values(harness.features).some(Boolean)
+      : hasDocumentedFeature
         ? 2
         : 1;
 

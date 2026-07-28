@@ -1,3 +1,4 @@
+import { featureClaimFor, featureClaimSupportsRequirement } from "@/data/feature-claims";
 import type {
   Harness,
   HarnessMembershipCriterion,
@@ -78,11 +79,13 @@ export const modelPortabilityDescriptions: Record<ModelPortability, string> = {
 };
 
 export function modelPortabilityFor(
-  harness: Pick<Harness, "providerStyle" | "localModels">,
+  harness: Pick<Harness, "providerStyle" | "featureClaims">,
 ): ModelPortability {
   if (harness.providerStyle === "single-vendor") return "vendor-specific";
   if (harness.providerStyle === "enterprise-routing") return "managed-routing";
-  if (harness.localModels) return "provider-and-local";
+  if (featureClaimSupportsRequirement(featureClaimFor(harness, "localModels"))) {
+    return "provider-and-local";
+  }
   return "provider-choice";
 }
 

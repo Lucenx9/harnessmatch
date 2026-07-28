@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
+import { featureSupportFor } from "../src/data/feature-claims";
 import { harnesses } from "../src/data/harnesses";
 
 const firstPartyHosts: Record<string, string[]> = {
@@ -100,30 +101,30 @@ describe("harness evidence ledger", () => {
   it("records the source-audited capability corrections", () => {
     const byId = new Map(harnesses.map((harness) => [harness.id, harness]));
 
-    expect(byId.get("claude-code")?.features.sandbox).toBe(true);
+    expect(featureSupportFor(byId.get("claude-code")).sandbox).toBe(true);
     expect(byId.get("claude-code")?.classification.isolation).toEqual(expect.arrayContaining(["os-sandbox", "worktree", "managed-sandbox"]));
     expect(byId.get("claude-code")?.classification.state).toBe("persistent-memory");
     expect(byId.get("claude-code")?.capabilities.security).toBe(4);
-    expect(byId.get("codex")?.localModels).toBe(true);
+    expect(featureSupportFor(byId.get("codex")).localModels).toBe(true);
     expect(byId.get("codex")?.providerStyle).toBe("multi-provider");
     expect(byId.get("codex")?.classification).toMatchObject({
       runtime: "sandbox-first",
       isolation: expect.arrayContaining(["os-sandbox", "worktree", "managed-sandbox"]),
       state: "persistent-memory",
     });
-    expect(byId.get("opencode")?.features.checkpoints).toBe(true);
-    expect(byId.get("opencode")?.features.sandbox).toBe(false);
+    expect(featureSupportFor(byId.get("opencode")).checkpoints).toBe(true);
+    expect(featureSupportFor(byId.get("opencode")).sandbox).toBe(false);
     expect(byId.get("opencode")?.capabilities.security).toBe(3);
-    expect(byId.get("pi")?.features.sandbox).toBe(false);
-    expect(byId.get("pi")?.features.subagents).toBe(false);
+    expect(featureSupportFor(byId.get("pi")).sandbox).toBe(false);
+    expect(featureSupportFor(byId.get("pi")).subagents).toBe(false);
     expect(byId.get("pi")?.classification).toMatchObject({ runtime: "host-first", isolation: [], state: "session-based" });
-    expect(byId.get("omp")?.features.browser).toBe(true);
-    expect(byId.get("omp")?.features.sandbox).toBe(false);
-    expect(byId.get("omp")?.features.checkpoints).toBe(false);
+    expect(featureSupportFor(byId.get("omp")).browser).toBe(true);
+    expect(featureSupportFor(byId.get("omp")).sandbox).toBe(false);
+    expect(featureSupportFor(byId.get("omp")).checkpoints).toBe(false);
     expect(byId.get("omp")?.classification).toMatchObject({ isolation: ["worktree"], state: "persistent-memory" });
     expect(byId.get("omp")?.capabilities.humanControl).toBe(3);
-    expect(byId.get("grok-build")?.features.sandbox).toBe(true);
-    expect(byId.get("grok-build")?.features.checkpoints).toBe(true);
+    expect(featureSupportFor(byId.get("grok-build")).sandbox).toBe(true);
+    expect(featureSupportFor(byId.get("grok-build")).checkpoints).toBe(true);
     expect(byId.get("grok-build")?.classification).toMatchObject({
       isolation: expect.arrayContaining(["os-sandbox", "worktree"]),
       state: "persistent-memory",
@@ -133,11 +134,11 @@ describe("harness evidence ledger", () => {
     expect(byId.get("openhands")?.supportsSubscription).toBe(true);
     expect(byId.get("openhands")?.classification.state).toBe("persistent-memory");
     expect(byId.get("cline")?.classification.isolation).toEqual(["worktree"]);
-    expect(byId.get("cline")?.features.sandbox).toBe(false);
+    expect(featureSupportFor(byId.get("cline")).sandbox).toBe(false);
     expect(byId.get("cline")?.capabilities).toMatchObject({ security: 3, autonomy: 5 });
-    expect(byId.get("gemini-cli")?.features.sandbox).toBe(true);
-    expect(byId.get("gemini-cli")?.features.checkpoints).toBe(true);
-    expect(byId.get("gemini-cli")?.features.browser).toBe(true);
+    expect(featureSupportFor(byId.get("gemini-cli")).sandbox).toBe(true);
+    expect(featureSupportFor(byId.get("gemini-cli")).checkpoints).toBe(true);
+    expect(featureSupportFor(byId.get("gemini-cli")).browser).toBe(true);
     expect(byId.get("gemini-cli")?.classification.state).toBe("persistent-memory");
     expect(byId.get("gemini-cli")?.capabilities.security).toBe(4);
     expect(byId.get("gemini-cli")?.supportsSubscription).toBe(false);
@@ -145,7 +146,7 @@ describe("harness evidence ledger", () => {
     expect(byId.get("antigravity-cli")?.providerStyle).toBe("multi-provider");
     expect(byId.get("antigravity-cli")?.supportsSubscription).toBe(true);
     expect(byId.get("antigravity-cli")?.supportsEnterpriseAccess).toBe(true);
-    expect(byId.get("antigravity-cli")?.features).toMatchObject({
+    expect(featureSupportFor(byId.get("antigravity-cli"))).toMatchObject({
       mcp: true,
       subagents: true,
       headless: true,
@@ -153,77 +154,77 @@ describe("harness evidence ledger", () => {
       sandbox: true,
       checkpoints: false,
     });
-    expect(byId.get("copilot-cli")?.features.subagents).toBe(true);
-    expect(byId.get("copilot-cli")?.localModels).toBe(true);
+    expect(featureSupportFor(byId.get("copilot-cli")).subagents).toBe(true);
+    expect(featureSupportFor(byId.get("copilot-cli")).localModels).toBe(true);
     expect(byId.get("copilot-cli")?.classification.state).toBe("persistent-memory");
-    expect(byId.get("cursor-cli")?.features.subagents).toBe(true);
-    expect(byId.get("cursor-cli")?.features.sandbox).toBe(true);
-    expect(byId.get("cursor-cli")?.features.checkpoints).toBe(true);
+    expect(featureSupportFor(byId.get("cursor-cli")).subagents).toBe(true);
+    expect(featureSupportFor(byId.get("cursor-cli")).sandbox).toBe(true);
+    expect(featureSupportFor(byId.get("cursor-cli")).checkpoints).toBe(true);
     expect(byId.get("cursor-cli")?.classification.isolation).toEqual(expect.arrayContaining(["os-sandbox", "worktree"]));
-    expect(byId.get("junie-cli")?.localModels).toBe(true);
-    expect(byId.get("junie-cli")?.features.sandbox).toBe(false);
+    expect(featureSupportFor(byId.get("junie-cli")).localModels).toBe(true);
+    expect(featureSupportFor(byId.get("junie-cli")).sandbox).toBe(false);
     expect(byId.get("junie-cli")?.interfaces).toContain("web");
-    expect(byId.get("factory-droid")?.features.browser).toBe(true);
-    expect(byId.get("factory-droid")?.features.sandbox).toBe(true);
-    expect(byId.get("factory-droid")?.features.checkpoints).toBe(true);
+    expect(featureSupportFor(byId.get("factory-droid")).browser).toBe(true);
+    expect(featureSupportFor(byId.get("factory-droid")).sandbox).toBe(true);
+    expect(featureSupportFor(byId.get("factory-droid")).checkpoints).toBe(true);
     expect(byId.get("factory-droid")?.classification.isolation).toEqual(expect.arrayContaining(["os-sandbox", "worktree"]));
-    expect(byId.get("forgecode")?.localModels).toBe(true);
-    expect(byId.get("forgecode")?.features.sandbox).toBe(false);
-    expect(byId.get("forgecode")?.features.checkpoints).toBe(false);
+    expect(featureSupportFor(byId.get("forgecode")).localModels).toBe(true);
+    expect(featureSupportFor(byId.get("forgecode")).sandbox).toBe(false);
+    expect(featureSupportFor(byId.get("forgecode")).checkpoints).toBe(false);
     expect(byId.get("forgecode")?.capabilities.security).toBe(2);
-    expect(byId.get("qwen-code")?.features.sandbox).toBe(true);
-    expect(byId.get("qwen-code")?.features.subagents).toBe(true);
-    expect(byId.get("qwen-code")?.features.browser).toBe(true);
-    expect(byId.get("qwen-code")?.features.checkpoints).toBe(true);
+    expect(featureSupportFor(byId.get("qwen-code")).sandbox).toBe(true);
+    expect(featureSupportFor(byId.get("qwen-code")).subagents).toBe(true);
+    expect(featureSupportFor(byId.get("qwen-code")).browser).toBe(true);
+    expect(featureSupportFor(byId.get("qwen-code")).checkpoints).toBe(true);
     expect(byId.get("qwen-code")?.classification.state).toBe("persistent-memory");
     expect(byId.get("qwen-code")?.capabilities.security).toBe(4);
-    expect(byId.get("continue-cli")?.features.subagents).toBe(false);
-    expect(byId.get("continue-cli")?.features.sandbox).toBe(false);
+    expect(featureSupportFor(byId.get("continue-cli")).subagents).toBe(false);
+    expect(featureSupportFor(byId.get("continue-cli")).sandbox).toBe(false);
     expect(byId.get("continue-cli")?.status).toBe("archived");
     expect(byId.get("mistral-vibe")?.providerStyle).toBe("multi-provider");
     expect(byId.get("mistral-vibe")?.supportsSubscription).toBe(true);
-    expect(byId.get("mistral-vibe")?.localModels).toBe(true);
-    expect(byId.get("mistral-vibe")?.features.sandbox).toBe(false);
-    expect(byId.get("mistral-vibe")?.features.checkpoints).toBe(true);
-    expect(byId.get("kimi-code")?.features.subagents).toBe(true);
-    expect(byId.get("kimi-code")?.features.sandbox).toBe(false);
-    expect(byId.get("letta-code")?.features.sandbox).toBe(true);
+    expect(featureSupportFor(byId.get("mistral-vibe")).localModels).toBe(true);
+    expect(featureSupportFor(byId.get("mistral-vibe")).sandbox).toBe(false);
+    expect(featureSupportFor(byId.get("mistral-vibe")).checkpoints).toBe(true);
+    expect(featureSupportFor(byId.get("kimi-code")).subagents).toBe(true);
+    expect(featureSupportFor(byId.get("kimi-code")).sandbox).toBe(false);
+    expect(featureSupportFor(byId.get("letta-code")).sandbox).toBe(true);
     expect(byId.get("letta-code")?.classification.runtime).toBe("host-first");
     expect(byId.get("letta-code")?.classification.isolation).toContain("managed-sandbox");
     expect(byId.get("letta-code")?.classification.state).toBe("persistent-memory");
-    expect(byId.get("command-code")?.features.subagents).toBe(true);
-    expect(byId.get("command-code")?.features.sandbox).toBe(false);
+    expect(featureSupportFor(byId.get("command-code")).subagents).toBe(true);
+    expect(featureSupportFor(byId.get("command-code")).sandbox).toBe(false);
     expect(byId.get("command-code")?.classification.state).toBe("persistent-memory");
     expect(byId.get("codebuff")?.license).toContain("Apache-2.0");
     expect(byId.get("codebuff")?.providerStyle).toBe("multi-provider");
-    expect(byId.get("codebuff")?.features.browser).toBe(true);
-    expect(byId.get("codebuff")?.features.sandbox).toBe(false);
+    expect(featureSupportFor(byId.get("codebuff")).browser).toBe(true);
+    expect(featureSupportFor(byId.get("codebuff")).sandbox).toBe(false);
     expect(byId.get("crush")?.license).toBe("FSL-1.1-MIT");
     expect(byId.get("crush")?.supportsSubscription).toBe(true);
-    expect(byId.get("crush")?.features.subagents).toBe(true);
-    expect(byId.get("crush")?.features.headless).toBe(true);
+    expect(featureSupportFor(byId.get("crush")).subagents).toBe(true);
+    expect(featureSupportFor(byId.get("crush")).headless).toBe(true);
     expect(byId.get("crush")?.interfaces).toContain("automation");
     expect(byId.get("mux")?.supportsSubscription).toBe(true);
-    expect(byId.get("mux")?.localModels).toBe(true);
-    expect(byId.get("mux")?.features.localModels).toBe(true);
-    expect(byId.get("mux")?.features.browser).toBe(false);
+    expect(featureSupportFor(byId.get("mux")).localModels).toBe(true);
+    expect(featureSupportFor(byId.get("mux")).localModels).toBe(true);
+    expect(featureSupportFor(byId.get("mux")).browser).toBe(false);
     expect(byId.get("mux")?.classification.state).toBe("persistent-memory");
-    expect(byId.get("coder-agents")?.features.mcp).toBe(true);
-    expect(byId.get("coder-agents")?.features.browser).toBe(true);
-    expect(byId.get("coder-agents")?.features.sandbox).toBe(true);
-    expect(byId.get("zoo-code")?.features.checkpoints).toBe(true);
+    expect(featureSupportFor(byId.get("coder-agents")).mcp).toBe(true);
+    expect(featureSupportFor(byId.get("coder-agents")).browser).toBe(true);
+    expect(featureSupportFor(byId.get("coder-agents")).sandbox).toBe(true);
+    expect(featureSupportFor(byId.get("zoo-code")).checkpoints).toBe(true);
     expect(byId.get("zcode")?.interfaces).toContain("automation");
-    expect(byId.get("zcode")?.features).toMatchObject({
+    expect(featureSupportFor(byId.get("zcode"))).toMatchObject({
       subagents: true,
       headless: false,
       browser: true,
       sandbox: true,
       checkpoints: true,
     });
-    expect(byId.get("stagewise")?.localModels).toBe(true);
+    expect(featureSupportFor(byId.get("stagewise")).localModels).toBe(true);
     expect(byId.get("hermes-agent")?.classification.state).toBe("persistent-memory");
     expect(byId.get("hermes-agent")?.interfaces).toEqual(expect.arrayContaining(["terminal", "ide", "web", "automation"]));
-    expect(byId.get("hermes-agent")?.features.checkpoints).toBe(true);
+    expect(featureSupportFor(byId.get("hermes-agent")).checkpoints).toBe(true);
   });
 
   it("separates Gemini CLI enterprise continuity from the Antigravity consumer successor", () => {
@@ -369,7 +370,7 @@ describe("harness evidence ledger", () => {
     expect(codex.evidence.every((source) => source.verifiedAt === codex.verifiedAt)).toBe(true);
     expect(codex.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
-    expect(codex.features).toMatchObject({ mcp: true, localModels: true, subagents: true, headless: true, browser: true, sandbox: true, checkpoints: false });
+    expect(featureSupportFor(codex)).toMatchObject({ mcp: true, localModels: true, subagents: true, headless: true, browser: true, sandbox: true, checkpoints: false });
     expect(urls).toEqual(expect.arrayContaining([
       "https://developers.openai.com/codex/agent-approvals-security",
       "https://developers.openai.com/codex/sandboxing",
@@ -462,7 +463,7 @@ describe("harness evidence ledger", () => {
     expect(pi.verifiedAt).toBe("2026-07-27");
     expect(pi.evidence.length).toBeGreaterThanOrEqual(18);
     expect(pi.evidence.every((source) => source.verifiedAt === pi.verifiedAt)).toBe(true);
-    expect(pi.features).toMatchObject({ mcp: false, subagents: false, browser: false, sandbox: false, checkpoints: false });
+    expect(featureSupportFor(pi)).toMatchObject({ mcp: false, subagents: false, browser: false, sandbox: false, checkpoints: false });
     expect(urls).toEqual(expect.arrayContaining([
       "https://pi.dev/docs/latest/security",
       "https://pi.dev/docs/latest/sessions",
@@ -483,7 +484,7 @@ describe("harness evidence ledger", () => {
     expect(omp.verifiedAt).toBe("2026-07-27");
     expect(omp.evidence.length).toBeGreaterThanOrEqual(14);
     expect(omp.evidence.every((source) => source.verifiedAt === omp.verifiedAt)).toBe(true);
-    expect(omp.features).toMatchObject({ mcp: true, subagents: true, browser: true, sandbox: false, checkpoints: false });
+    expect(featureSupportFor(omp)).toMatchObject({ mcp: true, subagents: true, browser: true, sandbox: false, checkpoints: false });
     expect(urls).toEqual(expect.arrayContaining([
       "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/approval-mode.md",
       "https://github.com/can1357/oh-my-pi/blob/2f63a07ba9b418a534a4aee3bdc880b3fe17caa7/docs/tools/task.md",
@@ -625,7 +626,7 @@ describe("harness evidence ledger", () => {
     expect(caveats).toContain("starts in unrestricted mode");
     expect(caveats).toContain("recommends skills instead of MCP");
     expect(caveats).toContain("fully trusted code inside the harness process");
-    expect(letta.features).toMatchObject({ mcp: true, subagents: true, headless: true, sandbox: true, checkpoints: false });
+    expect(featureSupportFor(letta)).toMatchObject({ mcp: true, subagents: true, headless: true, sandbox: true, checkpoints: false });
     expect(letta.capabilities).toEqual({
       simplicity: 3,
       flexibility: 5,
@@ -686,7 +687,7 @@ describe("harness evidence ledger", () => {
     expect(mini.evidence.length).toBeGreaterThanOrEqual(20);
     expect(mini.evidence.every((source) => source.verifiedAt === mini.verifiedAt)).toBe(true);
     expect(mini.capabilities.humanControl).toBe(3);
-    expect(mini.features).toMatchObject({ mcp: false, subagents: false, browser: false, sandbox: true, checkpoints: false });
+    expect(featureSupportFor(mini)).toMatchObject({ mcp: false, subagents: false, browser: false, sandbox: true, checkpoints: false });
     expect(urls).toEqual(expect.arrayContaining([
       "https://github.com/SWE-agent/mini-swe-agent/releases/tag/v2.4.6",
       "https://mini-swe-agent.com/latest/advanced/control_flow/",
@@ -710,7 +711,7 @@ describe("harness evidence ledger", () => {
     expect(amp.evidence.length).toBeGreaterThanOrEqual(18);
     expect(amp.evidence.every((source) => source.verifiedAt === amp.verifiedAt)).toBe(true);
     expect(amp.classification).toMatchObject({ runtime: "host-first", isolation: ["managed-sandbox"], state: "session-based" });
-    expect(amp.features).toMatchObject({ sandbox: true, checkpoints: false, headless: true, subagents: true, browser: true });
+    expect(featureSupportFor(amp)).toMatchObject({ sandbox: true, checkpoints: false, headless: true, subagents: true, browser: true });
     expect(amp.capabilities).toMatchObject({ security: 3, largeRepo: 4, humanControl: 3 });
     expect(urls).toEqual(expect.arrayContaining([
       "https://ampcode.com/manual#orbs",
@@ -737,7 +738,7 @@ describe("harness evidence ledger", () => {
     expect(kiro.evidence.every((source) => source.verifiedAt === kiro.verifiedAt)).toBe(true);
     expect(kiro.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
-    expect(kiro.features).toMatchObject({ headless: true, subagents: true, mcp: true, checkpoints: true, sandbox: false });
+    expect(featureSupportFor(kiro)).toMatchObject({ headless: true, subagents: true, mcp: true, checkpoints: true, sandbox: false });
     expect(kiro.capabilities.automation).toBe(4);
     expect(urls).toEqual(expect.arrayContaining([
       "https://kiro.dev/changelog/cli/2-14/",
@@ -776,8 +777,8 @@ describe("harness evidence ledger", () => {
     expect(pool.evidence.length).toBeGreaterThanOrEqual(18);
     expect(pool.evidence.every((source) => source.verifiedAt === pool.verifiedAt)).toBe(true);
     expect(pool.providerStyle).toBe("multi-provider");
-    expect(pool.localModels).toBe(true);
-    expect(pool.features).toMatchObject({ localModels: true, sandbox: true, checkpoints: false, subagents: false });
+    expect(featureSupportFor(pool).localModels).toBe(true);
+    expect(featureSupportFor(pool)).toMatchObject({ localModels: true, sandbox: true, checkpoints: false, subagents: false });
     expect(pool.classification.isolation).toEqual(expect.arrayContaining(["container", "managed-sandbox", "worktree"]));
     expect(pool.capabilities).toMatchObject({ flexibility: 5, security: 4, automation: 4, humanControl: 4 });
     expect(urls).toEqual(expect.arrayContaining([
@@ -1112,7 +1113,7 @@ describe("harness evidence ledger", () => {
     expect(new Set(urls).size).toBe(urls.length);
     expect(kilo.classification.orchestration).toBe("delegated-subagents");
     expect(kilo.classification.isolation).toEqual(expect.arrayContaining(["os-sandbox", "managed-sandbox", "worktree"]));
-    expect(kilo.features).toMatchObject({ subagents: true, sandbox: true, checkpoints: true });
+    expect(featureSupportFor(kilo)).toMatchObject({ subagents: true, sandbox: true, checkpoints: true });
     expect(urls).toEqual(expect.arrayContaining([
       "https://kilo.ai/docs/customize/custom-subagents",
       "https://kilo.ai/docs/getting-started/settings/sandboxing",
@@ -1157,8 +1158,8 @@ describe("harness evidence ledger", () => {
     expect(vibe.interfaces).not.toContain("web");
     expect(vibe.providerStyle).toBe("multi-provider");
     expect(vibe.supportsSubscription).toBe(true);
-    expect(vibe.localModels).toBe(true);
-    expect(vibe.features).toMatchObject({ mcp: true, localModels: true, subagents: true, headless: true, sandbox: false, checkpoints: true });
+    expect(featureSupportFor(vibe).localModels).toBe(true);
+    expect(featureSupportFor(vibe)).toMatchObject({ mcp: true, localModels: true, subagents: true, headless: true, sandbox: false, checkpoints: true });
     expect(urls).toEqual(expect.arrayContaining([
       "https://docs.mistral.ai/vibe/code/cli/install-setup",
       "https://docs.mistral.ai/vibe/code/safety-approvals-permissions",
@@ -1191,8 +1192,8 @@ describe("harness evidence ledger", () => {
     expect(plandex.interfaces).toEqual(expect.arrayContaining(["terminal", "automation"]));
     expect(plandex.providerStyle).toBe("multi-provider");
     expect(plandex.supportsSubscription).toBe(true);
-    expect(plandex.localModels).toBe(true);
-    expect(plandex.features).toMatchObject({
+    expect(featureSupportFor(plandex).localModels).toBe(true);
+    expect(featureSupportFor(plandex)).toMatchObject({
       mcp: false,
       localModels: true,
       subagents: false,
@@ -1229,7 +1230,7 @@ describe("harness evidence ledger", () => {
     expect(stagewise.evidence.length).toBeGreaterThanOrEqual(24);
     expect(stagewise.evidence.every((source) => source.verifiedAt === stagewise.verifiedAt)).toBe(true);
     expect(stagewise.interfaces).toEqual(["ide", "web"]);
-    expect(stagewise.features).toMatchObject({
+    expect(featureSupportFor(stagewise)).toMatchObject({
       mcp: false,
       localModels: true,
       subagents: true,
@@ -1267,7 +1268,7 @@ describe("harness evidence ledger", () => {
     expect(zoo.evidence.every((source) => source.verifiedAt === zoo.verifiedAt)).toBe(true);
     expect(zoo.interfaces).toEqual(["ide"]);
     expect(zoo.classification.isolation).toEqual(["worktree"]);
-    expect(zoo.features).toMatchObject({
+    expect(featureSupportFor(zoo)).toMatchObject({
       mcp: true,
       localModels: true,
       subagents: true,

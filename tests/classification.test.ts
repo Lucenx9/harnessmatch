@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { featureSupportFor } from "../src/data/feature-claims";
 import { harnesses } from "../src/data/harnesses";
 import { getHarnessMembershipAssessment } from "../src/data/harness-membership";
 import { getOperationalProfile, getOperationalProfileRecord } from "../src/data/operational-profiles";
@@ -41,9 +42,9 @@ describe("harness classification", () => {
     for (const harness of harnesses) {
       const securityIsolation = harness.classification.isolation.filter((mode) => mode !== "worktree");
       if (securityIsolation.length > 0) {
-        expect(harness.features.sandbox, harness.name).toBe(true);
+        expect(featureSupportFor(harness).sandbox, harness.name).toBe(true);
       }
-      if (harness.features.sandbox) {
+      if (featureSupportFor(harness).sandbox) {
         expect(securityIsolation.length, harness.name).toBeGreaterThan(0);
       }
     }
@@ -74,9 +75,9 @@ describe("harness classification", () => {
   it("keeps orchestration labels consistent with documented subagent support", () => {
     for (const harness of harnesses) {
       if (harness.classification.orchestration === "single-agent") {
-        expect(harness.features.subagents, harness.name).toBe(false);
+        expect(featureSupportFor(harness).subagents, harness.name).toBe(false);
       } else {
-        expect(harness.features.subagents, harness.name).toBe(true);
+        expect(featureSupportFor(harness).subagents, harness.name).toBe(true);
       }
     }
   });

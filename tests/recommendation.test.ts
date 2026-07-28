@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { featureSupportFor } from "../src/data/feature-claims";
 import { workflowScenarios } from "../src/data/workflow-scenarios";
 import { harnesses } from "../src/data/harnesses";
 import { getHarnessMembershipAssessment } from "../src/data/harness-membership";
@@ -89,7 +90,7 @@ describe("recommendHarnesses", () => {
     const result = recommendHarnesses(answers);
 
     expect(result.length).toBeGreaterThan(0);
-    expect(result.every((item) => item.harness.localModels && item.harness.features.mcp)).toBe(true);
+    expect(result.every((item) => featureSupportFor(item.harness).localModels && featureSupportFor(item.harness).mcp)).toBe(true);
   });
 
   it("keeps external harness orchestrators visible to the catalog but outside the default recommender", () => {
@@ -168,7 +169,7 @@ describe("recommendHarnesses", () => {
     };
     const result = recommendHarnesses(answers);
     expect(result.length).toBeGreaterThan(0);
-    expect(result.every((item) => item.harness.interfaces.includes("ide") && item.harness.localModels)).toBe(true);
+    expect(result.every((item) => item.harness.interfaces.includes("ide") && featureSupportFor(item.harness).localModels)).toBe(true);
   });
 
   it("keeps consumer subscriptions, enterprise access, and provider posture as separate gates", () => {
@@ -195,7 +196,7 @@ describe("recommendHarnesses", () => {
     for (const harness of activeHarnesses) {
       const missing = missingRequiredFeatures(harness, answers);
       expect(missing).toEqual(
-        requiredFeaturesFor(answers).filter((feature) => !harness.features[feature]),
+        requiredFeaturesFor(answers).filter((feature) => !featureSupportFor(harness)[feature]),
       );
       expect(isCompatible(harness, answers)).toBe(eligibilityFailuresFor(harness, answers).length === 0);
     }
@@ -215,7 +216,7 @@ describe("recommendHarnesses", () => {
 
     expect(requiredFeaturesFor(answers)).toContain("headless");
     expect(result.length).toBeGreaterThan(0);
-    expect(result.every((item) => item.harness.features.headless)).toBe(true);
+    expect(result.every((item) => featureSupportFor(item.harness).headless)).toBe(true);
   });
 
   it("makes subagents an implicit parallel-work requirement", () => {
@@ -224,7 +225,7 @@ describe("recommendHarnesses", () => {
 
     expect(requiredFeaturesFor(answers)).toContain("subagents");
     expect(result.length).toBeGreaterThan(0);
-    expect(result.every((item) => item.harness.features.subagents)).toBe(true);
+    expect(result.every((item) => featureSupportFor(item.harness).subagents)).toBe(true);
   });
 
   it("keeps audited automation posture distinct across Aider, OpenHands, and Cline", () => {
@@ -260,7 +261,7 @@ describe("recommendHarnesses", () => {
       recovery: "session-resume",
     });
     expect(result?.scoreBreakdown.operatingMode).toBeCloseTo(87.5, 2);
-    expect(result?.harness.features).toMatchObject({ subagents: true, sandbox: false, checkpoints: false });
+    expect(featureSupportFor(result?.harness)).toMatchObject({ subagents: true, sandbox: false, checkpoints: false });
     expect(result?.compromises.join(" ")).toContain("host privileges");
   });
 
@@ -385,7 +386,7 @@ describe("recommendHarnesses", () => {
     const result = recommendHarnesses(answers).find((item) => item.harness.id === "kilo-code");
 
     expect(result).toBeDefined();
-    expect(result?.harness.features).toMatchObject({ sandbox: true, checkpoints: true, subagents: true, browser: true });
+    expect(featureSupportFor(result?.harness)).toMatchObject({ sandbox: true, checkpoints: true, subagents: true, browser: true });
     expect(requiredFeaturesFor(answers)).toContain("subagents");
     expect(missingRequiredFeatures(result!.harness, answers)).toEqual([]);
     expect(result?.compromises.join(" ")).toContain("disabled by default");
@@ -412,7 +413,7 @@ describe("recommendHarnesses", () => {
 
     expect(result).toBeDefined();
     expect(missingRequiredFeatures(result!.harness, answers)).toEqual([]);
-    expect(result?.harness.features).toMatchObject({ checkpoints: true, mcp: true, sandbox: false });
+    expect(featureSupportFor(result?.harness)).toMatchObject({ checkpoints: true, mcp: true, sandbox: false });
     expect(result?.harness.providerStyle).toBe("multi-provider");
     expect(result?.compromises.join(" ")).toContain("local CLI executes on the host");
     expect(getOperationalProfile("mistral-vibe")).toEqual({
@@ -443,7 +444,7 @@ describe("recommendHarnesses", () => {
 
     expect(parallel).toBeDefined();
     expect(missingRequiredFeatures(parallel!.harness, parallelAnswers)).toEqual([]);
-    expect(parallel?.harness.features).toMatchObject({ subagents: true, browser: true, checkpoints: true, headless: false });
+    expect(featureSupportFor(parallel?.harness)).toMatchObject({ subagents: true, browser: true, checkpoints: true, headless: false });
     expect(parallel?.harness.tradeoffs.join(" ")).toContain("separate top-level agent sessions");
     expect(unattended).toBeUndefined();
     expect(getOperationalProfile("stagewise")).toEqual({
@@ -504,7 +505,7 @@ describe("recommendHarnesses", () => {
 
     expect(scheduled).toBeDefined();
     expect(missingRequiredFeatures(scheduled!.harness, scheduledAnswers)).toEqual([]);
-    expect(scheduled?.harness.features.headless).toBe(false);
+    expect(featureSupportFor(scheduled?.harness).headless).toBe(false);
     expect(scheduled?.harness.tradeoffs.join(" ")).toContain("scheduled automation still belongs to the desktop product");
     expect(unattended).toBeUndefined();
     expect(getOperationalProfile("zcode")).toEqual({
@@ -531,7 +532,7 @@ describe("recommendHarnesses", () => {
 
     expect(result).toBeDefined();
     expect(missingRequiredFeatures(result!.harness, answers)).toEqual([]);
-    expect(result?.harness.features).toMatchObject({ headless: true, sandbox: true, checkpoints: true, subagents: true });
+    expect(featureSupportFor(result?.harness)).toMatchObject({ headless: true, sandbox: true, checkpoints: true, subagents: true });
     expect(result?.compromises.join(" ")).toContain("default local backend executes with the user's host privileges");
     expect(getOperationalProfile("hermes-agent")).toEqual({
       context: "persistent",
@@ -585,7 +586,7 @@ describe("recommendHarnesses", () => {
     expect(result).toBeDefined();
     expect(missingRequiredFeatures(result!.harness, answers)).toEqual([]);
     expect(result?.harness.classification.isolation).toContain("managed-sandbox");
-    expect(result?.harness.features.checkpoints).toBe(false);
+    expect(featureSupportFor(result?.harness).checkpoints).toBe(false);
     expect(result?.compromises.join(" ")).toContain("Local tools run with host privileges and without approval by default");
     expect(getOperationalProfile("amp")).toEqual({
       context: "persistent",
@@ -611,7 +612,7 @@ describe("recommendHarnesses", () => {
 
     expect(result).toBeDefined();
     expect(missingRequiredFeatures(result!.harness, answers)).toEqual([]);
-    expect(result?.harness.features).toMatchObject({ subagents: true, checkpoints: true, sandbox: false });
+    expect(featureSupportFor(result?.harness)).toMatchObject({ subagents: true, checkpoints: true, sandbox: false });
     expect(result?.compromises.join(" ")).toContain("Commands and tools operate in the local environment");
     expect(getOperationalProfile("kiro-cli")).toEqual({
       context: "managed",
@@ -637,7 +638,7 @@ describe("recommendHarnesses", () => {
 
     expect(result).toBeDefined();
     expect(missingRequiredFeatures(result!.harness, answers)).toEqual([]);
-    expect(result?.harness.features).toMatchObject({ headless: true, localModels: true, sandbox: true, checkpoints: false });
+    expect(featureSupportFor(result?.harness)).toMatchObject({ headless: true, localModels: true, sandbox: true, checkpoints: false });
     expect(result?.compromises.join(" ")).toContain("local environment is enabled by default");
     expect(getOperationalProfile("poolside-cli")).toEqual({
       context: "managed",
@@ -708,7 +709,7 @@ describe("recommendHarnesses", () => {
     expect(delegated?.harness.bestFor.join(" ")).toContain("read-only research agent");
     expect(delegated?.harness.tradeoffs.join(" ")).toContain("not independent write-capable implementation");
     expect(scripted).toBeDefined();
-    expect(scripted?.harness.features.sandbox).toBe(false);
+    expect(featureSupportFor(scripted?.harness).sandbox).toBe(false);
   });
 
   it("partitions every active harness into ranked or explicitly excluded", () => {
@@ -736,8 +737,8 @@ describe("recommendHarnesses", () => {
     });
 
     expect(result[0].harness.interfaces).toContain("ide");
-    expect(result[0].harness.features.checkpoints).toBe(true);
-    expect(result[0].harness.features.mcp).toBe(true);
+    expect(featureSupportFor(result[0].harness).checkpoints).toBe(true);
+    expect(featureSupportFor(result[0].harness).mcp).toBe(true);
   });
 
   it("keeps autonomous CI recommendations gated by both isolation and headless support", () => {
@@ -750,7 +751,7 @@ describe("recommendHarnesses", () => {
     });
 
     expect(result.length).toBeGreaterThan(0);
-    expect(result.every((item) => item.harness.features.sandbox && item.harness.features.headless)).toBe(true);
+    expect(result.every((item) => featureSupportFor(item.harness).sandbox && featureSupportFor(item.harness).headless)).toBe(true);
   });
 
   it("admits Claude Code for durable managed parallel work while exposing its opt-in local boundary", () => {
@@ -802,8 +803,9 @@ describe("recommendHarnesses", () => {
 
     expect(result).toBeDefined();
     expect(missingRequiredFeatures(result!.harness, answers)).toEqual([]);
-    expect(result?.harness).toMatchObject({ providerStyle: "multi-provider", localModels: true });
-    expect(result?.harness.features.checkpoints).toBe(false);
+    expect(result?.harness).toMatchObject({ providerStyle: "multi-provider" });
+    expect(featureSupportFor(result?.harness).localModels).toBe(true);
+    expect(featureSupportFor(result?.harness).checkpoints).toBe(false);
     expect(result?.harness.tradeoffs.join(" ")).toContain("no product-level file checkpoint");
     expect(getOperationalProfile("codex")).toEqual({
       context: "persistent",
@@ -829,7 +831,7 @@ describe("recommendHarnesses", () => {
     expect(result).toBeDefined();
     expect(missingRequiredFeatures(result!.harness, answers)).toEqual([]);
     expect(result?.harness.capabilities.security).toBe(3);
-    expect(result?.harness.features.sandbox).toBe(false);
+    expect(featureSupportFor(result?.harness).sandbox).toBe(false);
     expect(result?.harness.tradeoffs.join(" ")).toContain("application policy rather than an isolation boundary");
     expect(getOperationalProfile("opencode")).toEqual({
       context: "managed",
@@ -852,7 +854,7 @@ describe("recommendHarnesses", () => {
     const result = recommendHarnesses(answers).find((item) => item.harness.id === "pi");
 
     expect(result).toBeDefined();
-    expect(result?.harness.features).toMatchObject({ headless: true, sandbox: false, checkpoints: false });
+    expect(featureSupportFor(result?.harness)).toMatchObject({ headless: true, sandbox: false, checkpoints: false });
     expect(result?.harness.tradeoffs.join(" ")).toContain("no built-in permission system");
     expect(getOperationalProfile("pi")).toEqual({
       context: "managed",
@@ -878,7 +880,7 @@ describe("recommendHarnesses", () => {
     expect(result).toBeDefined();
     expect(missingRequiredFeatures(result!.harness, answers)).toEqual([]);
     expect(result?.harness.capabilities.humanControl).toBe(3);
-    expect(result?.harness.features.checkpoints).toBe(false);
+    expect(featureSupportFor(result?.harness).checkpoints).toBe(false);
     expect(result?.harness.tradeoffs.join(" ")).toContain("subagents also run yolo");
     expect(getOperationalProfile("omp")).toEqual({
       context: "persistent",

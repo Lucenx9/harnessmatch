@@ -36,7 +36,7 @@ export type LensHarness = {
   state: StateModel;
   interfaces: InterfaceType[];
   providerStyle: "single-vendor" | "multi-provider" | "enterprise-routing";
-  features: Record<FeatureKey, boolean>;
+  featureSupport: Record<FeatureKey, boolean>;
   evidenceCount: number;
   verifiedAt: string;
 };
@@ -95,7 +95,7 @@ export function HarnessLensExplorer({
         harness.interfaces.map((item) => interfaceLabels[item]).join(" "),
         providerLabels[harness.providerStyle],
       ].some((value) => value.toLowerCase().includes(deferredQuery))) &&
-      (lens === "all" || harness.features[lens]) &&
+      (lens === "all" || harness.featureSupport[lens]) &&
       (catalogLayer === "all" || harness.layer === catalogLayer) &&
       (role === "all" || harness.role === role) &&
       (surface === "all" || harness.interfaces.includes(surface)) &&

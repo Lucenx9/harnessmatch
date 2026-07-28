@@ -1,3 +1,4 @@
+import { featureClaimsForHarness } from "./feature-claims";
 import type { Harness } from "../lib/types";
 
 const verifiedAt = "2026-07-26";
@@ -38,7 +39,7 @@ const lettaCodeVerifiedAt = "2026-07-27";
 const commandCodeVerifiedAt = "2026-07-27";
 const muxVerifiedAt = "2026-07-27";
 
-export const harnesses: Harness[] = [
+const harnessRecords: Array<Omit<Harness, "featureClaims">> = [
   {
     id: "claude-code",
     slug: "claude-code",
@@ -64,16 +65,6 @@ export const harnesses: Harness[] = [
     providerStyle: "enterprise-routing",
     supportsSubscription: true,
     supportsEnterpriseAccess: true,
-    localModels: false,
-    features: {
-      mcp: true,
-      localModels: false,
-      subagents: true,
-      headless: true,
-      browser: true,
-      sandbox: true,
-      checkpoints: true,
-    },
     capabilities: {
       simplicity: 5,
       flexibility: 4,
@@ -578,16 +569,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "ide", "web", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: true,
-      localModels: true,
-      subagents: true,
-      headless: true,
-      browser: true,
-      sandbox: true,
-      checkpoints: false,
-    },
     capabilities: {
       simplicity: 4,
       flexibility: 5,
@@ -1010,16 +991,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "ide", "web", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: true,
-      localModels: true,
-      subagents: true,
-      headless: true,
-      browser: false,
-      sandbox: false,
-      checkpoints: true,
-    },
     capabilities: {
       simplicity: 4,
       flexibility: 5,
@@ -1271,16 +1242,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: false,
-      localModels: true,
-      subagents: false,
-      headless: true,
-      browser: false,
-      sandbox: false,
-      checkpoints: false,
-    },
     capabilities: {
       simplicity: 5,
       flexibility: 5,
@@ -1464,16 +1425,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "ide", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: true,
-      localModels: true,
-      subagents: true,
-      headless: true,
-      browser: true,
-      sandbox: false,
-      checkpoints: false,
-    },
     capabilities: {
       simplicity: 3,
       flexibility: 5,
@@ -1652,16 +1603,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "ide", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: true,
-      localModels: true,
-      subagents: true,
-      headless: true,
-      browser: false,
-      sandbox: true,
-      checkpoints: true,
-    },
     capabilities: {
       simplicity: 4,
       flexibility: 5,
@@ -1905,16 +1846,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "ide", "web", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: false,
-      localModels: true,
-      subagents: false,
-      headless: true,
-      browser: false,
-      sandbox: false,
-      checkpoints: true,
-    },
     capabilities: {
       simplicity: 5,
       flexibility: 5,
@@ -2111,16 +2042,6 @@ export const harnesses: Harness[] = [
     interfaces: ["web", "terminal", "ide", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: true,
-      localModels: true,
-      subagents: true,
-      headless: true,
-      browser: true,
-      sandbox: true,
-      checkpoints: false,
-    },
     capabilities: {
       simplicity: 2,
       flexibility: 5,
@@ -2357,16 +2278,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "web", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: true,
-      localModels: true,
-      subagents: true,
-      headless: true,
-      browser: true,
-      sandbox: true,
-      checkpoints: false,
-    },
     capabilities: {
       simplicity: 4,
       flexibility: 5,
@@ -2571,16 +2482,6 @@ export const harnesses: Harness[] = [
     interfaces: ["ide", "terminal", "web", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: true,
-      localModels: true,
-      subagents: true,
-      headless: true,
-      browser: true,
-      sandbox: false,
-      checkpoints: true,
-    },
     capabilities: {
       simplicity: 4,
       flexibility: 5,
@@ -2792,16 +2693,6 @@ export const harnesses: Harness[] = [
     providerStyle: "single-vendor",
     supportsSubscription: false,
     supportsEnterpriseAccess: true,
-    localModels: false,
-    features: {
-      mcp: true,
-      localModels: false,
-      subagents: true,
-      headless: true,
-      browser: true,
-      sandbox: true,
-      checkpoints: true,
-    },
     capabilities: {
       simplicity: 5,
       flexibility: 3,
@@ -2975,16 +2866,6 @@ export const harnesses: Harness[] = [
     providerStyle: "multi-provider",
     supportsSubscription: true,
     supportsEnterpriseAccess: true,
-    localModels: false,
-    features: {
-      mcp: true,
-      localModels: false,
-      subagents: true,
-      headless: true,
-      browser: true,
-      sandbox: true,
-      checkpoints: false,
-    },
     capabilities: {
       simplicity: 5,
       flexibility: 4,
@@ -3148,16 +3029,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: true,
-      localModels: true,
-      subagents: true,
-      headless: true,
-      browser: false,
-      sandbox: true,
-      checkpoints: true,
-    },
     capabilities: {
       simplicity: 4,
       flexibility: 5,
@@ -3321,16 +3192,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "automation"],
     providerStyle: "single-vendor",
     supportsSubscription: true,
-    localModels: false,
-    features: {
-      mcp: true,
-      localModels: false,
-      subagents: true,
-      headless: true,
-      browser: false,
-      sandbox: true,
-      checkpoints: true,
-    },
     capabilities: {
       simplicity: 5,
       flexibility: 3,
@@ -3502,16 +3363,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "ide", "web", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: true,
-      localModels: true,
-      subagents: true,
-      headless: true,
-      browser: false,
-      sandbox: false,
-      checkpoints: false,
-    },
     capabilities: {
       simplicity: 4,
       flexibility: 5,
@@ -3677,16 +3528,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "ide", "web", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: true,
-      localModels: true,
-      subagents: true,
-      headless: true,
-      browser: true,
-      sandbox: true,
-      checkpoints: true,
-    },
     capabilities: {
       simplicity: 3,
       flexibility: 5,
@@ -3876,16 +3717,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: true,
-      localModels: true,
-      subagents: true,
-      headless: true,
-      browser: false,
-      sandbox: false,
-      checkpoints: false,
-    },
     capabilities: {
       simplicity: 4,
       flexibility: 5,
@@ -4103,16 +3934,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "ide", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: true,
-      localModels: true,
-      subagents: true,
-      headless: true,
-      browser: true,
-      sandbox: true,
-      checkpoints: true,
-    },
     capabilities: {
       simplicity: 4,
       flexibility: 5,
@@ -4298,16 +4119,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "ide", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: true,
-      localModels: true,
-      subagents: false,
-      headless: true,
-      browser: false,
-      sandbox: false,
-      checkpoints: false,
-    },
     capabilities: {
       simplicity: 4,
       flexibility: 5,
@@ -4384,16 +4195,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "ide", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: true,
-      localModels: true,
-      subagents: true,
-      headless: true,
-      browser: false,
-      sandbox: false,
-      checkpoints: true,
-    },
     capabilities: {
       simplicity: 4,
       flexibility: 5,
@@ -4635,16 +4436,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "ide", "web", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: true,
-      localModels: true,
-      subagents: true,
-      headless: true,
-      browser: false,
-      sandbox: false,
-      checkpoints: false,
-    },
     capabilities: {
       simplicity: 4,
       flexibility: 5,
@@ -4804,16 +4595,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "web", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: true,
-      localModels: true,
-      subagents: true,
-      headless: true,
-      browser: false,
-      sandbox: true,
-      checkpoints: false,
-    },
     capabilities: {
       simplicity: 3,
       flexibility: 5,
@@ -5049,16 +4830,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "ide", "web", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: true,
-      localModels: true,
-      subagents: true,
-      headless: true,
-      browser: true,
-      sandbox: true,
-      checkpoints: true,
-    },
     capabilities: {
       simplicity: 4,
       flexibility: 5,
@@ -5332,16 +5103,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "ide", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: false,
-    features: {
-      mcp: true,
-      localModels: false,
-      subagents: true,
-      headless: true,
-      browser: false,
-      sandbox: false,
-      checkpoints: true,
-    },
     capabilities: {
       simplicity: 4,
       flexibility: 5,
@@ -5568,16 +5329,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: false,
-    features: {
-      mcp: true,
-      localModels: false,
-      subagents: true,
-      headless: true,
-      browser: true,
-      sandbox: false,
-      checkpoints: false,
-    },
     capabilities: {
       simplicity: 4,
       flexibility: 4,
@@ -5747,16 +5498,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: true,
-      localModels: true,
-      subagents: true,
-      headless: true,
-      browser: false,
-      sandbox: false,
-      checkpoints: false,
-    },
     capabilities: {
       simplicity: 4,
       flexibility: 5,
@@ -5954,16 +5695,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "ide", "web", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: true,
-      localModels: true,
-      subagents: true,
-      headless: true,
-      browser: false,
-      sandbox: true,
-      checkpoints: false,
-    },
     capabilities: {
       simplicity: 3,
       flexibility: 5,
@@ -6232,16 +5963,6 @@ export const harnesses: Harness[] = [
     providerStyle: "enterprise-routing",
     supportsSubscription: false,
     supportsEnterpriseAccess: true,
-    localModels: true,
-    features: {
-      mcp: true,
-      localModels: true,
-      subagents: true,
-      headless: true,
-      browser: true,
-      sandbox: true,
-      checkpoints: false,
-    },
     capabilities: {
       simplicity: 3,
       flexibility: 5,
@@ -6440,16 +6161,6 @@ export const harnesses: Harness[] = [
     interfaces: ["ide"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: true,
-      localModels: true,
-      subagents: true,
-      headless: false,
-      browser: false,
-      sandbox: false,
-      checkpoints: true,
-    },
     capabilities: {
       simplicity: 4,
       flexibility: 5,
@@ -6699,16 +6410,6 @@ export const harnesses: Harness[] = [
     interfaces: ["ide", "web", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: false,
-    features: {
-      mcp: true,
-      localModels: false,
-      subagents: true,
-      headless: false,
-      browser: true,
-      sandbox: true,
-      checkpoints: true,
-    },
     capabilities: {
       simplicity: 4,
       flexibility: 4,
@@ -6886,16 +6587,6 @@ export const harnesses: Harness[] = [
     interfaces: ["ide", "web"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: false,
-      localModels: true,
-      subagents: true,
-      headless: false,
-      browser: true,
-      sandbox: false,
-      checkpoints: true,
-    },
     capabilities: {
       simplicity: 4,
       flexibility: 5,
@@ -7144,16 +6835,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "ide", "web", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: true,
-      localModels: true,
-      subagents: true,
-      headless: true,
-      browser: true,
-      sandbox: true,
-      checkpoints: true,
-    },
     capabilities: {
       simplicity: 3,
       flexibility: 5,
@@ -7387,16 +7068,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: false,
-    localModels: true,
-    features: {
-      mcp: false,
-      localModels: true,
-      subagents: false,
-      headless: true,
-      browser: false,
-      sandbox: true,
-      checkpoints: false,
-    },
     capabilities: {
       simplicity: 5,
       flexibility: 4,
@@ -7608,16 +7279,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "ide", "web", "automation"],
     providerStyle: "single-vendor",
     supportsSubscription: true,
-    localModels: false,
-    features: {
-      mcp: true,
-      localModels: false,
-      subagents: true,
-      headless: true,
-      browser: true,
-      sandbox: true,
-      checkpoints: false,
-    },
     capabilities: {
       simplicity: 4,
       flexibility: 4,
@@ -7802,16 +7463,6 @@ export const harnesses: Harness[] = [
     providerStyle: "enterprise-routing",
     supportsSubscription: true,
     supportsEnterpriseAccess: true,
-    localModels: false,
-    features: {
-      mcp: true,
-      localModels: false,
-      subagents: true,
-      headless: true,
-      browser: false,
-      sandbox: false,
-      checkpoints: true,
-    },
     capabilities: {
       simplicity: 4,
       flexibility: 4,
@@ -8030,16 +7681,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "ide", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: true,
-      localModels: true,
-      subagents: false,
-      headless: true,
-      browser: false,
-      sandbox: true,
-      checkpoints: false,
-    },
     capabilities: {
       simplicity: 4,
       flexibility: 5,
@@ -8216,16 +7857,6 @@ export const harnesses: Harness[] = [
     interfaces: ["terminal", "automation"],
     providerStyle: "multi-provider",
     supportsSubscription: true,
-    localModels: true,
-    features: {
-      mcp: false,
-      localModels: true,
-      subagents: false,
-      headless: true,
-      browser: true,
-      sandbox: false,
-      checkpoints: true,
-    },
     capabilities: {
       simplicity: 2,
       flexibility: 5,
@@ -8429,5 +8060,10 @@ export const harnesses: Harness[] = [
     ],
   },
 ];
+
+export const harnesses: Harness[] = harnessRecords.map((harness) => ({
+  ...harness,
+  featureClaims: featureClaimsForHarness(harness),
+}));
 
 export const harnessBySlug = new Map(harnesses.map((harness) => [harness.slug, harness]));

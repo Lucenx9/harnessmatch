@@ -69,9 +69,8 @@ export type FeatureClaimState =
 
 /**
  * A feature claim describes what the first-party record actually establishes.
- * It is deliberately richer than the legacy boolean used by the scoring data:
- * availability, default state, product surface, provenance, and limitations are
- * separate facts.
+ * Availability, default state, product surface, provenance, and limitations are
+ * separate facts; no parallel boolean is kept as a second source of truth.
  */
 export type FeatureClaim = {
   state: FeatureClaimState;
@@ -168,8 +167,7 @@ export type Harness = {
   providerStyle: "single-vendor" | "multi-provider" | "enterprise-routing";
   supportsSubscription: boolean;
   supportsEnterpriseAccess?: boolean;
-  localModels: boolean;
-  features: Record<FeatureKey, boolean>;
+  featureClaims: Record<FeatureKey, FeatureClaim>;
   capabilities: CapabilityScores;
   bestFor: string[];
   tradeoffs: string[];

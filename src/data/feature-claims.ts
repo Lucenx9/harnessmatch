@@ -36,160 +36,430 @@ const featureScopes: Record<FeatureKey, string> = {
   checkpoints: "Product-supported file or session rollback",
 };
 
-const evidencePatterns: Record<FeatureKey, RegExp> = {
-  mcp: /\bmcp\b|model context protocol/i,
-  localModels: /local[^,.]{0,30}(?:model|inference|provider|runtime|llm)|ollama|lm studio|llama\.cpp|self-hosted|openai-compatible|custom (?:endpoint|model)/i,
-  subagents: /sub.?agent|multi.?agent|parallel agent|delegat|agent team|swarm/i,
-  headless: /headless|non.?interactive|automation|\bci\b|execute mode|one-shot|json event|rpc mode|runner|scriptable|structured output|print mode/i,
-  browser: /\bbrowser\b|computer-use|desktop interaction|web control/i,
-  sandbox: /sandbox|isolation|container|docker|bubblewrap|gvisor|nsjail|seatbelt|managed machine|workspace template/i,
-  checkpoints: /checkpoint|rollback|rewind|undo|snapshot restoration|file snapshot/i,
+const documentedLimitation =
+  "The source establishes the mechanism, not its quality or availability in every mode.";
+const undocumentedScope = "No first-class support established by the current record";
+const undocumentedLimitation =
+  "Absence of current documentation is not proof that the capability is impossible.";
+
+type FeatureClaimSeed = {
+  state: Exclude<FeatureClaimState, "not-documented">;
+  sourceTitles: string[];
+  scope?: string;
+  limitation?: string;
 };
 
-type ClaimOverride = Partial<Pick<FeatureClaim, "state" | "scope" | "limitation">> & {
-  sourceTitles?: string[];
-};
+const documented = (...sourceTitles: string[]): FeatureClaimSeed => ({
+  state: "documented",
+  sourceTitles,
+});
 
-const overrides: Record<string, Partial<Record<FeatureKey, ClaimOverride>>> = {
+const configuredClaim = (
+  state: FeatureClaimSeed["state"],
+  sourceTitles: string[],
+  scope: string,
+  limitation?: string,
+): FeatureClaimSeed => ({ state, sourceTitles, scope, limitation });
+
+/**
+ * Native capability ledger. Source titles are explicit foreign keys into each
+ * harness evidence ledger; omitted features resolve to `not-documented`.
+ */
+const featureClaimSeedsByHarness = {
   "claude-code": {
-    sandbox: {
-      state: "optional",
-      scope: "Optional OS sandbox locally; managed isolation on cloud surfaces",
-      limitation: "Local sandbox coverage depends on configuration and does not contain every process or side effect.",
-    },
+    mcp: documented("Claude Code overview", "CLI reference"),
+    subagents: documented("Parallel agents", "Subagents"),
+    headless: documented("Claude Code overview", "Platforms and integrations"),
+    browser: documented("Chrome integration", "Computer use"),
+    sandbox: configuredClaim(
+      "optional",
+      ["Security", "Sandboxing"],
+      "Optional OS sandbox locally; managed isolation on cloud surfaces",
+      "Local sandbox coverage depends on configuration and does not contain every process or side effect.",
+    ),
+    checkpoints: documented("Checkpointing and rewind"),
   },
   codex: {
-    sandbox: {
-      state: "default",
-      scope: "Sandbox-first local CLI and managed cloud execution",
-      limitation: "The effective boundary still depends on the selected sandbox and approval policy.",
-    },
+    mcp: documented("Model Context Protocol", "Skills and plugins"),
+    localModels: documented("Developer command reference", "Admin rollout guide"),
+    subagents: documented("Subagents", "Codex cloud"),
+    headless: documented("Non-interactive mode", "Codex GitHub Action"),
+    browser: documented("Browser", "ChatGPT desktop app"),
+    sandbox: configuredClaim(
+      "default",
+      ["Developer command reference", "Approvals and security"],
+      "Sandbox-first local CLI and managed cloud execution",
+      "The effective boundary still depends on the selected sandbox and approval policy.",
+    ),
   },
   opencode: {
-    sandbox: {
-      state: "explicitly-absent",
-      scope: "Host execution; permission rules are not process isolation",
-      sourceTitles: ["Pinned security policy"],
-      limitation: "The official security policy explicitly states that OpenCode has no sandbox.",
-    },
+    mcp: documented("Built-in and custom tools", "MCP servers"),
+    localModels: documented("Providers", "Models"),
+    subagents: documented("Agents and permissions"),
+    headless: documented("Command-line interface", "Headless server"),
+    sandbox: configuredClaim(
+      "explicitly-absent",
+      ["Pinned security policy"],
+      "Host execution; permission rules are not process isolation",
+      "The official security policy explicitly states that OpenCode has no sandbox.",
+    ),
+    checkpoints: documented("Terminal interface", "Session revert implementation"),
   },
   pi: {
-    sandbox: {
-      state: "explicitly-absent",
-      scope: "Host execution; external containerization is user-supplied",
-      sourceTitles: ["Security"],
-      limitation: "The official security guide documents no built-in permission prompts or sandbox.",
-    },
+    localModels: documented("Providers", "Local llama.cpp models"),
+    headless: documented("JSON event stream", "RPC mode"),
+    sandbox: configuredClaim(
+      "explicitly-absent",
+      ["Security"],
+      "Host execution; external containerization is user-supplied",
+      "The official security guide documents no built-in permission prompts or sandbox.",
+    ),
+  },
+  omp: {
+    mcp: documented("Settings reference", "MCP configuration"),
+    localModels: documented("Provider reference"),
+    subagents: documented("Oh My Pi repository", "Approval modes"),
+    headless: documented("RPC protocol reference", "ACP implementation"),
+    browser: documented("Oh My Pi repository", "Browser tool"),
   },
   "grok-build": {
-    sandbox: {
-      state: "optional",
-      scope: "Optional OS sandbox profiles; disabled by default",
-      limitation: "Network and filesystem coverage varies by platform and selected profile.",
-    },
+    mcp: documented("Subagents and extensions", "Settings reference"),
+    localModels: documented("Grok Build overview", "Open-source announcement"),
+    subagents: documented("Worktrees", "Subagents and extensions"),
+    headless: documented("Grok Build overview", "Headless and scripting"),
+    sandbox: configuredClaim(
+      "optional",
+      ["Permissions and sandbox", "Worktrees"],
+      "Optional OS sandbox profiles; disabled by default",
+      "Network and filesystem coverage varies by platform and selected profile.",
+    ),
+    checkpoints: documented("Modes and commands", "Session and rewind guide"),
+  },
+  aider: {
+    localModels: documented("Model connections", "Local models with Ollama"),
+    headless: documented("Options reference", "Scripting Aider"),
+    checkpoints: documented("Git integration and undo"),
+  },
+  openhands: {
+    mcp: documented("Model Context Protocol", "CLI MCP server management"),
+    localModels: documented("Local LLMs"),
+    subagents: documented("Task Tool Set"),
+    headless: documented("OpenHands 1.11.0 source", "Headless mode"),
+    browser: documented("Browser use"),
+    sandbox: documented("Sandbox overview", "Docker sandbox"),
+  },
+  goose: {
+    mcp: documented("Computer Controller extension", "Security guide"),
+    localModels: documented("Supported LLM providers", "Classification API specification"),
+    subagents: documented("Subagents", "Codebase analysis"),
+    headless: documented("Headless goose", "Session recipes"),
+    browser: documented("Computer Controller extension"),
+    sandbox: documented("goose v1.25.0 sandbox"),
+  },
+  cline: {
+    mcp: documented("CLI reference", "MCP"),
+    localModels: documented("Local models"),
+    subagents: documented("Kanban", "Subagents"),
+    headless: documented("Cline overview", "CLI overview"),
+    browser: documented("Cline overview"),
+    checkpoints: documented("Checkpoints"),
   },
   "gemini-cli": {
-    sandbox: {
-      state: "optional",
-      scope: "Optional OS or container sandbox profiles",
-      limitation: "Profiles and platform support change the effective filesystem and network boundary.",
-    },
+    mcp: documented("Trusted folders", "MCP integration"),
+    subagents: documented("Subagents and browser agent", "Experimental Git worktrees"),
+    headless: documented("Headless mode", "Policy engine"),
+    browser: documented("Subagents and browser agent"),
+    sandbox: configuredClaim(
+      "optional",
+      ["Sandboxing", "Subagents and browser agent"],
+      "Optional OS or container sandbox profiles",
+      "Profiles and platform support change the effective filesystem and network boundary.",
+    ),
+    checkpoints: documented("Checkpointing"),
   },
   "antigravity-cli": {
-    sandbox: {
-      state: "optional",
-      scope: "Optional OS or container isolation",
-    },
+    mcp: documented("Fine-grained permissions", "Plugins and skills"),
+    subagents: documented("Execution modes", "Background tasks and subagents"),
+    headless: documented("Antigravity CLI overview", "CLI settings reference"),
+    browser: documented("Fine-grained permissions"),
+    sandbox: configuredClaim(
+      "optional",
+      ["Native terminal sandbox", "CLI settings reference"],
+      "Optional OS or container isolation",
+    ),
   },
   "copilot-cli": {
-    sandbox: {
-      state: "optional",
-      scope: "Optional sandboxed execution mode",
-    },
+    mcp: documented("About GitHub Copilot CLI", "MCP configuration"),
+    localModels: documented("About GitHub Copilot CLI", "Custom providers"),
+    subagents: documented("Fleet subagents", "Copilot hooks"),
+    headless: documented("Programmatic reference"),
+    sandbox: configuredClaim(
+      "optional",
+      ["Cloud and local sandboxes", "Fleet subagents"],
+      "Optional sandboxed execution mode",
+    ),
+    checkpoints: documented("Session rollback"),
   },
   "cursor-cli": {
-    sandbox: {
-      state: "optional",
-      scope: "Optional sandbox policy for command execution",
-    },
+    mcp: documented("Cursor CLI overview", "Parameters and isolation controls"),
+    subagents: documented("CLI changelog"),
+    headless: documented("Headless mode", "Parameters and isolation controls"),
+    sandbox: configuredClaim(
+      "optional",
+      ["Parameters and isolation controls", "CLI configuration"],
+      "Optional sandbox policy for command execution",
+    ),
+    checkpoints: documented("CLI configuration", "CLI changelog"),
+  },
+  "junie-cli": {
+    mcp: documented("Action Allowlist", "MCP configuration"),
+    localModels: documented("Ollama integration"),
+    subagents: documented("Custom subagents"),
+    headless: documented("Headless mode", "Junie CLI configuration"),
   },
   "factory-droid": {
-    sandbox: {
-      state: "optional",
-      scope: "Beta OS sandbox; opt-in",
-      limitation: "Per-command mode contains shell children while the main Droid process remains outside the boundary.",
-    },
-    checkpoints: {
-      sourceTitles: ["Droid CLI reference"],
-      scope: "Interactive session rewind",
-      limitation: "Rewind does not reverse external side effects.",
-    },
+    mcp: documented("Droid CLI reference", "Droid settings"),
+    localModels: documented("Bring Your Own Key"),
+    subagents: documented("Custom Droids", "Droid hooks"),
+    headless: documented("Droid CLI reference", "Droid hooks"),
+    browser: documented("Droid Control"),
+    sandbox: configuredClaim(
+      "optional",
+      ["OS sandbox", "Terminal-Bench methodology"],
+      "Beta OS sandbox; opt-in",
+      "Per-command mode contains shell children while the main Droid process remains outside the boundary.",
+    ),
+    checkpoints: configuredClaim(
+      "documented",
+      ["Droid CLI reference"],
+      "Interactive session rewind",
+      "Rewind does not reverse external side effects.",
+    ),
+  },
+  forgecode: {
+    mcp: documented("Audited ForgeCode readme", "MCP integration"),
+    localModels: documented("Installation and setup", "Custom and local providers"),
+    subagents: documented("Delegated task tool"),
+    headless: documented("Audited ForgeCode readme", "CLI implementation"),
   },
   "qwen-code": {
-    sandbox: {
-      state: "optional",
-      scope: "Optional OS or container sandbox",
-    },
+    mcp: documented("Built-in Computer Use release", "MCP server integration"),
+    localModels: documented("Model providers"),
+    subagents: documented("OpenTelemetry observability", "Nested subagent release"),
+    headless: documented("Headless safety and budgets"),
+    browser: documented("Built-in Computer Use release"),
+    sandbox: configuredClaim(
+      "optional",
+      ["Sandbox", "Headless safety and budgets"],
+      "Optional OS or container sandbox",
+    ),
+    checkpoints: documented("Checkpointing", "Commands and recovery"),
+  },
+  "continue-cli": {
+    mcp: documented("Continue CLI quickstart", "Models, rules, and tools"),
+    localModels: documented("Models, rules, and tools"),
+    headless: documented("Continue CLI quickstart", "Tool permissions"),
+  },
+  "mistral-vibe": {
+    mcp: documented("MCP servers", "Pinned changelog"),
+    localModels: documented("Offline and local models", "Pinned shipped defaults"),
+    subagents: documented("Agents and subagents", "Lifecycle hooks"),
+    headless: documented("Work with the CLI", "Pinned CLI entrypoint"),
+    checkpoints: documented("Pinned checkpoint and rewind manager", "Pinned local-session architecture"),
+  },
+  "kimi-code": {
+    mcp: documented("Kimi Code documentation", "Model Context Protocol"),
+    localModels: documented("Providers and models"),
+    subagents: documented("Kimi Code documentation", "Configuration defaults"),
+    headless: documented("Command reference"),
   },
   "letta-code": {
-    sandbox: {
-      state: "surface-specific",
-      scope: "Managed cloud sandbox; local tools remain host-executed",
-    },
+    mcp: documented("MCP tool execution model", "Pinned CLI MCP implementation"),
+    localModels: documented("Supported model-provider types"),
+    subagents: documented("Subagents"),
+    headless: documented("Letta Code quickstart", "Headless mode"),
+    sandbox: configuredClaim(
+      "surface-specific",
+      ["Execution environments", "Cloud sandboxes"],
+      "Managed cloud sandbox; local tools remain host-executed",
+    ),
   },
   "kilo-code": {
-    sandbox: {
-      state: "surface-specific",
-      scope: "Opt-in locally; managed isolation on cloud surfaces",
-    },
+    mcp: documented("Browser use", "MCP configuration"),
+    localModels: documented("AI providers", "Ollama local models"),
+    subagents: documented("Custom subagents", "Agent permissions"),
+    headless: documented("Browser use", "Kilo CLI product surface"),
+    browser: documented("Cloud Agent", "Browser use"),
+    sandbox: configuredClaim(
+      "surface-specific",
+      ["Cloud Agent", "OS sandboxing"],
+      "Opt-in locally; managed isolation on cloud surfaces",
+    ),
+    checkpoints: documented("Checkpoint recovery"),
+  },
+  "command-code": {
+    mcp: documented("MCP integration", "Settings and configuration"),
+    subagents: documented("Custom agents", "Background tasks and scheduling"),
+    headless: documented("CLI reference", "Permissions"),
+    checkpoints: documented("File checkpoints", "Sessions and checkpoints"),
+  },
+  codebuff: {
+    mcp: documented("Pinned browser agent", "Pinned MCP client"),
+    subagents: documented("Agent overview", "How Codebuff works"),
+    headless: documented("SDK and programmatic access", "Local chat history and troubleshooting"),
+    browser: documented("Pinned public implementation", "Pinned browser agent"),
+  },
+  crush: {
+    mcp: documented("Pinned Crush overview", "Crush configuration schema"),
+    localModels: documented("Pinned Crush overview"),
+    subagents: documented("Pinned task-agent implementation", "Pinned task-agent instructions"),
+    headless: documented("Pinned non-interactive run command", "Pinned cross-platform CI workflow"),
   },
   mux: {
-    sandbox: {
-      state: "surface-specific",
-      scope: "Container or devcontainer modes; host execution remains available",
-    },
+    mcp: documented("Mux MCP servers", "Administrative policy file"),
+    localModels: documented("Model providers", "Local runtime"),
+    subagents: documented("Mux agents", "ACP editor integrations"),
+    headless: documented("Mux agents", "Mux MCP servers"),
+    sandbox: configuredClaim(
+      "surface-specific",
+      ["Mux runtimes", "Local runtime"],
+      "Container or devcontainer modes; host execution remains available",
+    ),
   },
   "coder-agents": {
-    sandbox: {
-      state: "surface-specific",
-      scope: "Isolation depends on the selected workspace template",
-    },
-    browser: {
-      state: "optional",
-      scope: "Experimental computer-use subagent in desktop-enabled workspaces",
-      sourceTitles: ["Virtual desktop"],
-    },
+    mcp: documented("Platform controls", "MCP server controls"),
+    localModels: documented("Coder Agents overview", "Models and providers"),
+    subagents: documented("Coder Agents overview", "Virtual desktop"),
+    headless: documented("Coder Agents getting started", "Workspace execution implementation at inspected commit"),
+    browser: configuredClaim(
+      "optional",
+      ["Virtual desktop"],
+      "Experimental computer-use subagent in desktop-enabled workspaces",
+    ),
+    sandbox: configuredClaim(
+      "surface-specific",
+      ["Coder Agents architecture"],
+      "Isolation depends on the selected workspace template",
+    ),
+  },
+  "zoo-code": {
+    mcp: documented("Zoo Code product page", "MCP integration"),
+    localModels: documented("Using local models"),
+    subagents: documented("Modes and orchestrator", "Tool workflow"),
+    checkpoints: documented("Checkpoints"),
+  },
+  zcode: {
+    mcp: documented("MCP servers", "Plugin system"),
+    subagents: documented("Subagents", "Plugin system"),
+    browser: documented("ZCode Agent workflow", "ADE tools"),
+    sandbox: documented("ADE tools", "Remote development"),
+    checkpoints: documented("Safety confirmation"),
+  },
+  stagewise: {
+    localModels: documented("Models and providers", "Custom providers"),
+    subagents: documented("stagewise product overview", "Product chat agent at inspected commit"),
+    browser: documented("Install stagewise", "Browser and agent"),
+    checkpoints: documented("Diff review", "Diff history service at inspected commit"),
+  },
+  "hermes-agent": {
+    mcp: documented("Hermes documentation overview", "MCP integration"),
+    localModels: documented("API server", "Desktop app"),
+    subagents: documented("Hermes Agent 0.19.0 release", "Hermes documentation overview"),
+    headless: documented("Hermes documentation overview", "Tools and toolsets"),
+    browser: documented("Hermes documentation overview", "Tools and toolsets"),
+    sandbox: documented("Security and trust boundaries", "Terminal backend configuration"),
+    checkpoints: documented("Checkpoint and rollback", "Checkpoint implementation at inspected commit"),
+  },
+  "mini-swe-agent": {
+    localModels: documented("Local model configuration"),
+    headless: documented("SWE-bench runner", "ProgramBench runner"),
+    sandbox: documented("Execution environments", "Experimental Bubblewrap environment"),
   },
   amp: {
-    sandbox: {
-      state: "surface-specific",
-      scope: "Managed cloud orbs; local tools run on the host",
-      sourceTitles: ["Cloud orbs", "Agents in Orbs announcement"],
-    },
-    browser: {
-      scope: "Browser-capable local or managed agent workflow",
-      sourceTitles: ["Amp owner’s manual"],
-    },
+    mcp: documented("MCP and workspace trust"),
+    subagents: documented("Subagents and review", "Permissions and plugins"),
+    headless: documented("Remote runners", "CLI execute mode"),
+    browser: configuredClaim(
+      "documented",
+      ["Amp owner’s manual"],
+      "Browser-capable local or managed agent workflow",
+    ),
+    sandbox: configuredClaim(
+      "surface-specific",
+      ["Cloud orbs", "Agents in Orbs announcement"],
+      "Managed cloud orbs; local tools run on the host",
+    ),
+  },
+  "kiro-cli": {
+    mcp: documented("CLI quickstart", "Headless mode"),
+    subagents: documented("Subagents", "Built-in tools"),
+    headless: documented("Tool permissions", "Headless mode"),
+    checkpoints: documented("Conversation rewind", "Classic checkpointing"),
   },
   "poolside-cli": {
-    sandbox: {
-      state: "surface-specific",
-      scope: "Isolation depends on the managed or configured execution surface",
-    },
+    mcp: documented("CLI reference", "Tool and path policy reference"),
+    localModels: documented("Release repository readme at inspected commit"),
+    headless: documented("Poolside Agent CLI", "Automated mode"),
+    sandbox: configuredClaim(
+      "surface-specific",
+      ["Tool and path policy reference", "Managed sandboxes"],
+      "Isolation depends on the managed or configured execution surface",
+    ),
   },
+  plandex: {
+    localModels: documented("Claude Pro and Max subscriptions", "Ollama local models"),
+    headless: documented("CLI reference", "Browser debugging source"),
+    browser: documented("Execution and debugging", "Browser debugging source"),
+    checkpoints: documented("CLI reference", "Autonomy defaults in source"),
+  },
+} satisfies Record<string, Partial<Record<FeatureKey, FeatureClaimSeed>>>;
+
+export const featureClaimHarnessIds = Object.keys(featureClaimSeedsByHarness);
+
+type FeatureClaimHarnessRecord = {
+  id: string;
+  verifiedAt: string;
+  evidence: EvidenceSource[];
 };
 
-function sourceText(source: EvidenceSource) {
-  return `${source.title} ${source.covers}`;
+function sourceUrlsForTitles(harness: FeatureClaimHarnessRecord, sourceTitles: string[]) {
+  return sourceTitles.map((title) => {
+    const matchingSources = harness.evidence.filter((source) => source.title === title);
+    if (matchingSources.length !== 1) {
+      throw new Error(
+        `${harness.id}: capability source title ${JSON.stringify(title)} matched ${matchingSources.length} evidence records`,
+      );
+    }
+    return matchingSources[0].url;
+  });
 }
 
-function sourcesForClaim(harness: Harness, feature: FeatureKey, override?: ClaimOverride) {
-  if (override?.sourceTitles) {
-    const titles = new Set(override.sourceTitles);
-    return harness.evidence.filter((source) => titles.has(source.title));
-  }
+export function featureClaimsForHarness(
+  harness: FeatureClaimHarnessRecord,
+): Record<FeatureKey, FeatureClaim> {
+  const seeds = featureClaimSeedsByHarness[harness.id as keyof typeof featureClaimSeedsByHarness];
+  if (!seeds) throw new Error(`${harness.id}: missing native capability ledger`);
 
-  return harness.evidence.filter((source) => evidencePatterns[feature].test(sourceText(source))).slice(0, 2);
+  return Object.fromEntries(featureKeys.map((feature) => {
+    const seed = (seeds as Partial<Record<FeatureKey, FeatureClaimSeed>>)[feature];
+    if (!seed) {
+      return [feature, {
+        state: "not-documented",
+        scope: undocumentedScope,
+        sourceUrls: [],
+        verifiedAt: harness.verifiedAt,
+        limitation: undocumentedLimitation,
+      } satisfies FeatureClaim];
+    }
+
+    return [feature, {
+      state: seed.state,
+      scope: seed.scope ?? featureScopes[feature],
+      sourceUrls: sourceUrlsForTitles(harness, seed.sourceTitles),
+      verifiedAt: harness.verifiedAt,
+      limitation: seed.limitation ?? documentedLimitation,
+    } satisfies FeatureClaim];
+  })) as Record<FeatureKey, FeatureClaim>;
 }
 
 export function featureClaimSupportsRequirement(claim: FeatureClaim): boolean {
@@ -199,23 +469,20 @@ export function featureClaimSupportsRequirement(claim: FeatureClaim): boolean {
     || claim.state === "surface-specific";
 }
 
-export function featureClaimFor(harness: Harness, feature: FeatureKey): FeatureClaim {
-  const override = overrides[harness.id]?.[feature];
-  const legacySupport = harness.features[feature];
-  const state = override?.state ?? (legacySupport ? "documented" : "not-documented");
-  const sources = legacySupport || override?.sourceTitles
-    ? sourcesForClaim(harness, feature, override)
-    : [];
+export function featureClaimFor(
+  harness: Pick<Harness, "featureClaims">,
+  feature: FeatureKey,
+): FeatureClaim {
+  return harness.featureClaims[feature];
+}
 
-  return {
-    state,
-    scope: override?.scope ?? (legacySupport
-      ? featureScopes[feature]
-      : "No first-class support established by the current record"),
-    sourceUrls: sources.map((source) => source.url),
-    verifiedAt: harness.verifiedAt,
-    limitation: override?.limitation ?? (legacySupport
-      ? "The source establishes the mechanism, not its quality or availability in every mode."
-      : "Absence of current documentation is not proof that the capability is impossible."),
-  };
+/** Derived compatibility view for filtering and assertions; never persisted. */
+export function featureSupportFor(
+  harness: Pick<Harness, "featureClaims"> | null | undefined,
+): Record<FeatureKey, boolean> {
+  if (!harness) throw new Error("Cannot derive feature support for a missing harness");
+  return Object.fromEntries(featureKeys.map((feature) => [
+    feature,
+    featureClaimSupportsRequirement(featureClaimFor(harness, feature)),
+  ])) as Record<FeatureKey, boolean>;
 }

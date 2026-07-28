@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { benchmarkRuns } from "@/data/benchmark-runs";
-import { featureClaimFor, featureClaimSupportsRequirement, featureKeys } from "@/data/feature-claims";
+import { featureSupportFor } from "@/data/feature-claims";
 import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnesses } from "@/data/harnesses";
 import { getOperationalProfileRecord } from "@/data/operational-profiles";
@@ -215,10 +215,7 @@ export default function HomePage() {
             state: harness.classification.state,
             interfaces: harness.interfaces,
             providerStyle: harness.providerStyle,
-            features: Object.fromEntries(featureKeys.map((feature) => [
-              feature,
-              featureClaimSupportsRequirement(featureClaimFor(harness, feature)),
-            ])) as typeof harness.features,
+            featureSupport: featureSupportFor(harness),
             evidenceCount: harness.evidence.length,
             verifiedAt: harness.verifiedAt,
           }))} />

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { HarnessLensExplorer } from "@/components/harness-lens-explorer";
+import { featureSupportFor } from "@/data/feature-claims";
 import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnesses } from "@/data/harnesses";
 
@@ -32,7 +33,7 @@ export default function HarnessesPage() {
             state: harness.classification.state,
             interfaces: harness.interfaces,
             providerStyle: harness.providerStyle,
-            features: harness.features,
+            featureSupport: featureSupportFor(harness),
             evidenceCount: harness.evidence.length,
             verifiedAt: harness.verifiedAt,
           }))}
