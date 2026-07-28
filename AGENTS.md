@@ -73,10 +73,18 @@ When changing taxonomy or evaluation terminology, keep the catalog, profiles, co
 - The sole canonical origin is `https://harnessmatch.dev`, defined centrally in `src/lib/site.ts`.
 - `www.harnessmatch.dev` and `harnessmatch.vercel.app` are secondary hosts that permanently redirect to the canonical origin. Do not use them in canonical tags, sitemap URLs, structured data, social metadata, or public documentation.
 - Every indexable page must have a page-specific canonical URL and useful title and description. Use the shared metadata helpers in `src/lib/site.ts`.
+- A new or renamed public route is not complete until it has one descriptive H1, page-specific canonical/title/description/Open Graph/Twitter metadata, an intentional internal-link path, and sitemap treatment that matches its indexability.
+- Keep metadata descriptions unique and within the SiteGuru-audited 120–170 character range. Write useful summaries for humans; do not keyword-stuff or create filler pages for SEO, GEO, or AEO.
+- Social metadata must describe the current page. Do not let non-home routes inherit generic homepage Open Graph or Twitter values.
+- Keep the root `WebSite` JSON-LD valid. Add richer structured data only when every field is truthful, supported by the page, and source-backed when it includes a capability claim.
 - Keep `src/app/sitemap.ts`, `src/app/robots.ts`, `src/app/llms.txt/route.ts`, page metadata, and `vercel.json` aligned after route or domain changes.
+- `robots.txt` intentionally allows compliant crawlers. Any AI-crawler policy change must distinguish search/retrieval bots from model-training bots and be treated as an explicit product and privacy decision. Do not add non-standard `llms.txt` directives to `robots.txt`.
+- `llms.txt` is a machine-readable orientation guide, not access control or a ranking guarantee. Generate it from repository data, list only active profiles, preserve the model-versus-harness distinction and evidence-date caveats, and update its tests when the contract changes.
 - Keep canonical-domain references in `README.md` aligned with the deployed site.
 - A sitemap `lastmod` value must represent a real, significant change to that page's primary content. Omit it when no reliable page-level date exists. Do not use `priority` or `changefreq` as ranking signals.
 - Keep only canonical, indexable, successful URLs in the sitemap. Do not add redirected, archived, parameterized, or `noindex` URLs.
+- SiteGuru results may lag behind production. Before changing code for a reported issue, compare the report's captured title, description, and canonical URL with the live response; re-run the audit after deployment instead of coding against stale findings.
+- After SEO or crawler-discovery changes, run the full quality sequence and inspect the static export for page canonical/title/description, Open Graph/Twitter metadata, JSON-LD, `out/robots.txt`, `out/sitemap.xml`, and `out/llms.txt`. After deployment, smoke-test the same resources on the canonical origin.
 - HarnessMatch is an independent personal project. The only public contact detail is `lucenz@proton.me`. Do not add a legal name, street address, telephone number, VAT number, company details, newsletter, advertising tracker, or additional personal information unless explicitly requested.
 - Vercel Web Analytics is the only intended visitor analytics integration. Any new analytics, cookies, forms, accounts, or third-party data collection requires an explicit privacy review and corresponding disclosure before release.
 
