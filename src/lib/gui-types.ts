@@ -10,6 +10,19 @@ export type GuiLogo = {
   verifiedAt: string;
 };
 
+export type GuiPreview = {
+  kind: "image" | "video";
+  src: string;
+  poster?: string;
+  width: number;
+  height: number;
+  alt: string;
+  caption: string;
+  sourceUrl: string;
+  provenance: "official-media" | "editorial-capture";
+  verifiedAt: string;
+};
+
 export type GuiCapabilityKey =
   | "parallelSessions"
   | "workspaceIsolation"
@@ -38,6 +51,7 @@ export type GuiProduct = {
   id: string;
   name: string;
   logo: GuiLogo;
+  preview?: GuiPreview;
   url: string;
   status: "active" | "dormant" | "archived";
   layer: GuiLayer;

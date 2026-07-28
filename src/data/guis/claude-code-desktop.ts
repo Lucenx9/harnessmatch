@@ -4,6 +4,7 @@ import { documented, guiVerifiedAt, source, unknown } from "./helpers";
 const docs = "https://code.claude.com/docs/en/desktop";
 const worktreeDocs = "https://code.claude.com/docs/en/worktrees";
 const webDocs = "https://code.claude.com/docs/en/claude-code-on-the-web";
+const officialPreview = "https://www.reddit.com/r/ClaudeAI/comments/1p5pn25/claude_code_is_now_available_in_our_desktop_app/";
 
 export const claudeCodeDesktop: GuiProduct = {
   id: "claude-code-desktop",
@@ -11,6 +12,18 @@ export const claudeCodeDesktop: GuiProduct = {
   logo: {
     src: "/harnesses/claude-code.png",
     sourceUrl: "https://code.claude.com/docs/_mintlify/favicons/claude-code/pLsy-mRpNksna2sx/_generated/favicon/android-chrome-192x192.png",
+    verifiedAt: guiVerifiedAt,
+  },
+  preview: {
+    kind: "video",
+    src: "/gui-previews/claude-code-desktop.mp4",
+    poster: "/gui-previews/claude-code-desktop-poster.webp",
+    width: 1280,
+    height: 720,
+    alt: "Claude Code Desktop showing parallel coding sessions and a live application preview.",
+    caption: "Claude Code Desktop launch preview published by the verified ClaudeOfficial account.",
+    sourceUrl: officialPreview,
+    provenance: "official-media",
     verifiedAt: guiVerifiedAt,
   },
   url: docs,

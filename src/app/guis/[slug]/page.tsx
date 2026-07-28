@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { GuiLogo } from "@/components/gui-logo";
+import { GuiProductPreview } from "@/components/gui-product-preview";
 import { VisualIcon } from "@/components/visual-icon";
 import type { VisualIconName } from "@/components/visual-icon";
 import { guiCapabilityLabels, guiProductById, guiProducts } from "@/data/gui-products";
@@ -124,6 +125,8 @@ export default async function GuiProfilePage({ params }: { params: Promise<{ slu
             </dl>
           </aside>
         </div>
+
+        {product.preview && <GuiProductPreview id={product.id} name={product.name} preview={product.preview} />}
 
         <section className="profile-support gui-profile-harnesses" aria-labelledby="gui-harnesses-heading">
           <div className="profile-section-heading">

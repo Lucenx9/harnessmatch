@@ -32,6 +32,7 @@ describe("evidence freshness", () => {
     expect(scopes).toContain("operational-profile");
     expect(scopes).toContain("gui-product");
     expect(scopes).toContain("gui-logo");
+    expect(scopes).toContain("gui-preview");
     expect(scopes).toContain("gui-claim");
     expect(scopes).toContain("gui-source");
     expect(scopes).toContain("gui-repository-audit");

@@ -42,6 +42,18 @@ describe("GUI workflow classification", () => {
       expect(product.logo.src, product.name).toMatch(/^\/(guis|harnesses)\//);
       expect(product.logo.sourceUrl, product.name).toMatch(/^https:\/\//);
       expect(existsSync(`${repositoryRoot}/public${product.logo.src}`), product.name).toBe(true);
+      if (product.preview) {
+        expect(product.preview.src, product.name).toMatch(/^\/gui-previews\//);
+        expect(existsSync(`${repositoryRoot}/public${product.preview.src}`), product.name).toBe(true);
+        expect(product.preview.sourceUrl, product.name).toMatch(/^https:\/\//);
+        expect(product.preview.width, product.name).toBeGreaterThan(0);
+        expect(product.preview.height, product.name).toBeGreaterThan(0);
+        expect(product.preview.alt.length, product.name).toBeGreaterThan(20);
+        if (product.preview.kind === "video") {
+          expect(product.preview.poster, product.name).toMatch(/^\/gui-previews\//);
+          expect(existsSync(`${repositoryRoot}/public${product.preview.poster}`), product.name).toBe(true);
+        }
+      }
       expect(
         product.evidence.every((source) => firstPartyGuiHosts[product.id].includes(new URL(source.url).hostname)),
         product.name,

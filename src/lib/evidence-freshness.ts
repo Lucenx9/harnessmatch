@@ -34,6 +34,7 @@ export type VerifiedRecordScope =
   | "benchmark-run"
   | "gui-product"
   | "gui-logo"
+  | "gui-preview"
   | "gui-claim"
   | "gui-source"
   | "gui-repository-audit"
@@ -133,6 +134,14 @@ export function verifiedRecords(): VerifiedRecord[] {
       detail: product.logo.sourceUrl,
       verifiedAt: product.logo.verifiedAt,
     });
+    if (product.preview) {
+      records.push({
+        scope: "gui-preview",
+        subject: product.id,
+        detail: product.preview.sourceUrl,
+        verifiedAt: product.preview.verifiedAt,
+      });
+    }
     for (const [capability, claim] of Object.entries(product.capabilities)) {
       records.push({
         scope: "gui-claim",

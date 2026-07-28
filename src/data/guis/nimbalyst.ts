@@ -6,6 +6,7 @@ const quickstart = "https://docs.nimbalyst.com/getting-started/quickstart";
 const sessions = "https://nimbalyst.com/features/session-management/";
 const gitTools = "https://nimbalyst.com/features/git/";
 const mobile = "https://nimbalyst.com/mobile-agent-management/";
+const officialPreview = "https://nimbalyst.com/videos/nimbalyst-demo-dark-20260429.mp4";
 
 export const nimbalyst: GuiProduct = {
   id: "nimbalyst",
@@ -13,6 +14,18 @@ export const nimbalyst: GuiProduct = {
   logo: {
     src: "/guis/nimbalyst.svg",
     sourceUrl: "https://nimbalyst.com/nimbalyst-icon.svg",
+    verifiedAt: guiVerifiedAt,
+  },
+  preview: {
+    kind: "video",
+    src: "/gui-previews/nimbalyst.mp4",
+    poster: "/gui-previews/nimbalyst-poster.webp",
+    width: 1280,
+    height: 800,
+    alt: "Nimbalyst dark interface demonstrating visual files, coding-agent sessions, and project navigation.",
+    caption: "Official Nimbalyst dark-mode product demonstration.",
+    sourceUrl: officialPreview,
+    provenance: "official-media",
     verifiedAt: guiVerifiedAt,
   },
   url: "https://nimbalyst.com/",

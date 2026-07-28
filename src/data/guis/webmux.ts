@@ -7,6 +7,7 @@ const snapshot = `${repository}/tree/${inspectedRef}`;
 const worktreeService = `${repository}/blob/${inspectedRef}/backend/src/services/worktree-service.ts`;
 const agentRegistry = `${repository}/blob/${inspectedRef}/backend/src/services/agent-registry.ts`;
 const agentUiService = `${repository}/blob/${inspectedRef}/backend/src/services/agents-ui-service.ts`;
+const officialPreview = `${repository}/blob/${inspectedRef}/site/static/videos/demo.gif`;
 
 export const webmux: GuiProduct = {
   id: "webmux",
@@ -14,6 +15,18 @@ export const webmux: GuiProduct = {
   logo: {
     src: "/guis/webmux.svg",
     sourceUrl: "https://github.com/windmill-labs/webmux/blob/99cb139eac4bdc11efbb4c7e3045fa16dc4e0252/frontend/public/icon.svg",
+    verifiedAt: guiVerifiedAt,
+  },
+  preview: {
+    kind: "video",
+    src: "/gui-previews/webmux.mp4",
+    poster: "/gui-previews/webmux-poster.webp",
+    width: 800,
+    height: 500,
+    alt: "webmux browser dashboard demonstrating agent sessions, worktrees, terminals, and project controls.",
+    caption: "Official webmux product demo from the same source commit used for the implementation audit.",
+    sourceUrl: officialPreview,
+    provenance: "official-media",
     verifiedAt: guiVerifiedAt,
   },
   url: repository,
