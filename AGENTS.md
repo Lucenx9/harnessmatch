@@ -185,6 +185,8 @@ The static export is written to `out/` after a successful build.
 - Measured configurations: `src/data/benchmark-runs.ts`
 - Context-only usage snapshots: `src/data/openrouter-attribution.ts` and `src/data/ecosystem-signals.ts`
 - Usage sync and stable mappings: `scripts/sync-openrouter-attribution.mjs`, `scripts/lib/openrouter-sync.mjs`, `scripts/sync-ecosystem-signals.mjs`, `scripts/lib/ecosystem-signals.mjs`, and `scripts/lib/ecosystem-signal-mappings.mjs`
+- Factual stable-release feed and product-scoped watchlist: `src/data/release-signals.json`, `src/data/release-signals.ts`, `scripts/sync-release-signals.mjs`, `scripts/lib/release-signals.mjs`, and `scripts/lib/release-watch-mappings.mjs`
+- AI-assisted release-note triage for editorial review only: `scripts/triage-release-updates.mjs`, `scripts/lib/release-triage.mjs`, and `research/release-review-queue.json`
 - Source-separated usage page and CSV: `src/app/usage/page.tsx`, `src/components/usage-signals-explorer.tsx`, and `src/app/usage.csv/route.ts`
 - Scientific literature and research insights: `src/data/research.ts`
 - Research work packets: `research/` (discovery and review aids only, never evidence by themselves)
