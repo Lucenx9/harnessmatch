@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-07-29T03:42:01.689Z",
+  "updatedAt": "2026-07-29T14:02:52.537Z",
   "generatedBy": {
     "provider": "OpenRouter",
     "model": "openai/gpt-oss-20b",
@@ -8,6 +8,71 @@
     "purpose": "AI-assisted release-note triage for editorial review; never product evidence."
   },
   "items": [
+    {
+      "key": "junie-cli:2577.1",
+      "harnessId": "junie-cli",
+      "version": "2577.1",
+      "releasedAt": "2026-07-29",
+      "releaseUrl": "https://github.com/JetBrains/junie/releases/tag/2577.1",
+      "sourceApiUrl": "https://api.github.com/repos/JetBrains/junie/releases/tags/2577.1",
+      "releaseTitle": "Junie Nightly 2577.1",
+      "releaseNotesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T14:02:52.537Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 403,
+        "completionTokens": 97,
+        "totalTokens": 500
+      },
+      "triage": {
+        "summary": "No release notes provided.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [],
+        "verificationQuestions": [],
+        "limitations": [
+          "Release notes are empty; no information about changes or potential impacts."
+        ]
+      }
+    },
+    {
+      "key": "stagewise:stagewise@1.26.0",
+      "harnessId": "stagewise",
+      "version": "stagewise@1.26.0",
+      "releasedAt": "2026-07-29",
+      "releaseUrl": "https://github.com/stagewise-io/stagewise/releases/tag/stagewise%401.26.0",
+      "sourceApiUrl": "https://api.github.com/repos/stagewise-io/stagewise/releases/tags/stagewise%401.26.0",
+      "releaseTitle": "Stagewise 1.26.0",
+      "releaseNotesSha256": "413fc087626aa6a3e0321b4a7641c1fda0dac09597b30c4a2cd22ac2e33d1038",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T14:02:52.537Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 713,
+        "completionTokens": 271,
+        "totalTokens": 984
+      },
+      "triage": {
+        "summary": "Stagewise 1.26.0 introduces several UI and model‑preset enhancements, including a device emulation toolbar, command‑center terminals, side‑chat support, and user‑configurable utility models, along with numerous bug fixes around auto‑update, event handling, and model selection.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Added device emulation toolbar, command‑center terminals, side chats, and model presets for utility tasks."
+          },
+          {
+            "category": "unknown",
+            "description": "Fixed auto‑update flow, event propagation, screenshot scaling, toolbar refinement, terminal selection, model sorting, chat input hitbox, side‑chat activation, test alignment, preset race, hotkey disabling, PR review…"
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": []
+      }
+    },
     {
       "key": "kimi-code:@moonshot-ai/kimi-code@0.30.0",
       "harnessId": "kimi-code",
