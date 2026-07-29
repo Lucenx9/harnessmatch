@@ -22,6 +22,19 @@ Keep the public interface in English until localization is explicitly reopened.
 - Vitest contracts for classification, measurement, evidence, freshness, SEO, and validation
 - GitHub quality gate and Vercel Git deployment from `main`
 
+## TypeScript and module-quality rules
+
+1. Follow current TypeScript, React, and Next.js best practices on every change; do not treat type safety or module boundaries as optional cleanup.
+2. Preserve the strict compiler contract in `tsconfig.json`, including `strict`, `exactOptionalPropertyTypes`, `noUncheckedIndexedAccess`, unused-code checks, and consistent filename casing. Never weaken a compiler option to make a change pass.
+3. Do not introduce `any`, broad type assertions, `@ts-ignore`, or non-null assertions as shortcuts. Narrow `unknown` values, validate external input, and use a documented, local exception only when the boundary cannot be expressed safely.
+4. Model domain state with explicit types, discriminated unions, readonly literals, and exhaustive handling. Derive types from the source of truth when practical instead of duplicating string unions or object shapes.
+5. Respect exact optional semantics: omit an absent optional property rather than assigning `undefined`. Guard array, map, record, and URL-derived lookups before use instead of assuming an entry exists.
+6. Validate every untrusted runtime boundary—network responses, environment variables, generated JSON, route input, and persisted snapshots—before converting it to a domain type. Static typing alone is not runtime validation.
+7. Keep Server and Client Component boundaries narrow. Server-only datasets and derivation helpers must not be imported into client modules; pass the smallest JSON-serializable view model the interaction needs.
+8. Keep modules cohesive and dependencies directional. Split files by domain responsibility when unrelated concerns or product records accumulate; avoid new aggregate data monoliths, circular imports, and catch-all utility modules.
+9. Prefer type-only imports where appropriate, pure deterministic helpers for classification and transformations, and immutable transformations over hidden mutation or module-level state.
+10. A TypeScript change is incomplete until `npm run typecheck`, `npm run lint`, relevant tests, and the static build pass through `npm run verify`.
+
 ## Scientific and editorial invariants
 
 1. Keep model capability separate from harness capability. A model benchmark, provider claim, or model reputation cannot establish a harness capability.
