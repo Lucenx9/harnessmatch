@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-07-29T14:02:52.537Z",
+  "updatedAt": "2026-07-29T14:24:45.467Z",
   "generatedBy": {
     "provider": "OpenRouter",
     "model": "openai/gpt-oss-20b",
@@ -8,6 +8,56 @@
     "purpose": "AI-assisted release-note triage for editorial review; never product evidence."
   },
   "items": [
+    {
+      "key": "kilo-code:v7.4.17",
+      "harnessId": "kilo-code",
+      "version": "v7.4.17",
+      "releasedAt": "2026-07-29",
+      "releaseUrl": "https://github.com/Kilo-Org/kilocode/releases/tag/v7.4.17",
+      "sourceApiUrl": "https://api.github.com/repos/Kilo-Org/kilocode/releases/tags/v7.4.17",
+      "releaseTitle": "v7.4.17 (release)",
+      "releaseNotesSha256": "0f9f53aa889f797d3cbe58b97a528bf8c5383fe9873c3fe07b2315b55a2fbd96",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T14:24:45.467Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3388,
+        "completionTokens": 287,
+        "totalTokens": 3675
+      },
+      "triage": {
+        "summary": "Minor UI and feature enhancements, bug fixes, and upstream dependency updates for Kilo Code v7.4.17. Adds shortcut badges, terminal options, prompt navigator rail, and various UI tweaks. Includes several bug fixes for terminal handling, settings persistence, and console URL credentials.…",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "documentation",
+            "description": "Added shortcut badges and prompt navigator rail to UI."
+          },
+          {
+            "category": "compatibility",
+            "description": "Updated opencode dependency to v1.17.9 with numerous core bug fixes."
+          },
+          {
+            "category": "performance",
+            "description": "Improved terminal opening speed and session tab updates."
+          },
+          {
+            "category": "safety",
+            "description": "Fixed potential credential leakage in console URLs and PTY processes."
+          },
+          {
+            "category": "unknown",
+            "description": "Various UI tweaks and bug fixes across Agent Manager, VS Code integration, and TUI."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "Release notes do not specify any changes to runtime control, permissions, or isolation that would require further verification."
+        ]
+      }
+    },
     {
       "key": "stagewise:stagewise@1.26.0",
       "harnessId": "stagewise",
@@ -189,6 +239,48 @@
         "verificationQuestions": [],
         "limitations": [
           "Release notes are truncated; some details may be missing."
+        ]
+      }
+    },
+    {
+      "key": "cline:v4.0.12",
+      "harnessId": "cline",
+      "version": "v4.0.12",
+      "releasedAt": "2026-07-28",
+      "releaseUrl": "https://github.com/cline/cline/releases/tag/v4.0.12",
+      "sourceApiUrl": "https://api.github.com/repos/cline/cline/releases/tags/v4.0.12",
+      "releaseTitle": "v4.0.12",
+      "releaseNotesSha256": "9d71e00d23b9e05caff6db378200846b73fbb0e02c613583c6b4fcd9131222af",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T14:24:45.467Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 511,
+        "completionTokens": 349,
+        "totalTokens": 860
+      },
+      "triage": {
+        "summary": "Added free Cline models with a dedicated error card showing reset time, and fixed behavior to retain streamed Claude Code responses when a max‑turns error occurs.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Support for free Cline models, displayed as \"(free)\" in the model picker, with a dedicated error card that includes the reset time when the free limit is reached."
+          },
+          {
+            "category": "capability",
+            "description": "Retention of already streamed Claude Code responses when the CLI exits due to a max‑turns error, preventing loss of valid responses."
+          }
+        ],
+        "verificationQuestions": [
+          "What is the exact reset time logic for the free model limit?",
+          "How is the error card presented to the user?",
+          "Does the change to retain streamed responses affect any other error handling paths?"
+        ],
+        "limitations": [
+          "Release notes do not specify the reset time calculation or UI details of the error card."
         ]
       }
     },
@@ -665,6 +757,56 @@
         ],
         "limitations": [
           "The release notes list many feature additions but do not detail the underlying permission or policy changes, nor do they specify the impact on existing integrations.…"
+        ]
+      }
+    },
+    {
+      "key": "deepagents-code:deepagents-code==0.1.49",
+      "harnessId": "deepagents-code",
+      "version": "deepagents-code==0.1.49",
+      "releasedAt": "2026-07-27",
+      "releaseUrl": "https://github.com/langchain-ai/deepagents/releases/tag/deepagents-code%3D%3D0.1.49",
+      "sourceApiUrl": "https://api.github.com/repos/langchain-ai/deepagents/releases/tags/deepagents-code%3D%3D0.1.49",
+      "releaseTitle": "deepagents-code==0.1.49",
+      "releaseNotesSha256": "f0b657b9d9a3e608ca7514139442faf5f37acdf76661e03b0ddb663d6addfd73",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T14:24:45.467Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1507,
+        "completionTokens": 268,
+        "totalTokens": 1775
+      },
+      "triage": {
+        "summary": "Added LangSmith Gateway credential recognition, slash commands for mode changes, an install subcommand, and various UI and performance fixes.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Recognition of LangSmith Gateway credentials added."
+          },
+          {
+            "category": "compatibility",
+            "description": "Slash commands for mode changes and escape to manual mode from YOLO notice added."
+          },
+          {
+            "category": "compatibility",
+            "description": "An `install` subcommand added."
+          },
+          {
+            "category": "performance",
+            "description": "Server graph bootstrap cwd calls moved off event loop."
+          },
+          {
+            "category": "performance",
+            "description": "Post-install restart modal kept responsive."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "Release notes do not specify any changes to runtime control, permissions, isolation, or verification mechanisms."
         ]
       }
     },
