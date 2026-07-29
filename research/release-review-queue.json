@@ -9,35 +9,6 @@
   },
   "items": [
     {
-      "key": "junie-cli:2577.1",
-      "harnessId": "junie-cli",
-      "version": "2577.1",
-      "releasedAt": "2026-07-29",
-      "releaseUrl": "https://github.com/JetBrains/junie/releases/tag/2577.1",
-      "sourceApiUrl": "https://api.github.com/repos/JetBrains/junie/releases/tags/2577.1",
-      "releaseTitle": "Junie Nightly 2577.1",
-      "releaseNotesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "releaseNotesTruncated": false,
-      "analyzedAt": "2026-07-29T14:02:52.537Z",
-      "status": "needs-editorial-review",
-      "model": "openai/gpt-oss-20b",
-      "usage": {
-        "promptTokens": 403,
-        "completionTokens": 97,
-        "totalTokens": 500
-      },
-      "triage": {
-        "summary": "No release notes provided.",
-        "reviewPriority": "routine",
-        "capabilityReviewRecommended": false,
-        "reportedChanges": [],
-        "verificationQuestions": [],
-        "limitations": [
-          "Release notes are empty; no information about changes or potential impacts."
-        ]
-      }
-    },
-    {
       "key": "stagewise:stagewise@1.26.0",
       "harnessId": "stagewise",
       "version": "stagewise@1.26.0",
@@ -218,35 +189,6 @@
         "verificationQuestions": [],
         "limitations": [
           "Release notes are truncated; some details may be missing."
-        ]
-      }
-    },
-    {
-      "key": "junie-cli:2555.1",
-      "harnessId": "junie-cli",
-      "version": "2555.1",
-      "releasedAt": "2026-07-28",
-      "releaseUrl": "https://github.com/JetBrains/junie/releases/tag/2555.1",
-      "sourceApiUrl": "https://api.github.com/repos/JetBrains/junie/releases/tags/2555.1",
-      "releaseTitle": "Junie Nightly 2555.1",
-      "releaseNotesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "releaseNotesTruncated": false,
-      "analyzedAt": "2026-07-29T03:12:03.819Z",
-      "status": "needs-editorial-review",
-      "model": "openai/gpt-oss-20b",
-      "usage": {
-        "promptTokens": 403,
-        "completionTokens": 97,
-        "totalTokens": 500
-      },
-      "triage": {
-        "summary": "No release notes provided.",
-        "reviewPriority": "routine",
-        "capabilityReviewRecommended": false,
-        "reportedChanges": [],
-        "verificationQuestions": [],
-        "limitations": [
-          "Release notes are empty; no information on changes or potential impacts."
         ]
       }
     },

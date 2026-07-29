@@ -37,22 +37,61 @@ describe("GPT-OSS release triage", () => {
     expect(selected).toEqual(release);
   });
 
+  it("uses product-specific release titles when GitHub flags preview channels as stable", () => {
+    const selected = selectLatestStableRelease([
+      { tag_name: "2577.1", name: "Junie Nightly 2577.1", published_at: "2026-07-29T13:50:00Z", html_url: "https://github.com/JetBrains/junie/releases/tag/2577.1", draft: false, prerelease: false },
+      { tag_name: "2548.3", name: "Junie EAP 26.8.3 (2548.3)", published_at: "2026-07-29T13:21:46Z", html_url: "https://github.com/JetBrains/junie/releases/tag/2548.3", draft: false, prerelease: false },
+      { tag_name: "2470.4", name: "Junie Release 26.7.27 (2470.4)", published_at: "2026-07-28T16:23:35Z", html_url: "https://github.com/JetBrains/junie/releases/tag/2470.4", draft: false, prerelease: false },
+    ], {
+      harnessId: "junie-cli",
+      includeTagPatterns: [String.raw`^\d+\.\d+$`],
+      includeNamePatterns: [String.raw`^Junie Release\b`],
+    }, {
+      harnessId: "junie-cli",
+      repositoryUrl: "https://github.com/JetBrains/junie",
+      sourceScope: "support-repository",
+    });
+    expect(selected).toEqual({
+      harnessId: "junie-cli",
+      repository: "JetBrains/junie",
+      version: "2470.4",
+      releasedAt: "2026-07-28",
+      releaseUrl: "https://github.com/JetBrains/junie/releases/tag/2470.4",
+    });
+  });
+
   it("keeps the release watchlist unique and tied to canonical harness audits", () => {
     const source = readFileSync(new URL("../src/data/repository-audits.ts", import.meta.url), "utf8");
     const auditedIds = new Set([...source.matchAll(/harnessId: "([^"]+)", repositoryUrl: "https:\/\/github\.com\//g)]
       .map((match) => match[1]));
     const watchedIds = githubReleaseWatches.map(({ harnessId }) => harnessId);
     expect(new Set(watchedIds).size).toBe(watchedIds.length);
-    expect(watchedIds).toHaveLength(27);
+    expect(watchedIds).toHaveLength(30);
     expect(watchedIds.every((id) => auditedIds.has(id))).toBe(true);
     expect(watchedIds).toEqual(expect.arrayContaining([
-      "aider", "crush", "hermes-agent", "kern", "kimi-code", "letta-code", "mini-swe-agent",
-      "mistral-vibe", "mux", "openclaw", "openhands", "opensquilla", "poolside-cli", "stagewise", "zoo-code",
+      "aider", "cline", "crush", "deepagents-code", "hermes-agent", "kern", "kilo-code", "kimi-code",
+      "letta-code", "mini-swe-agent", "mistral-vibe", "mux", "openclaw", "openhands", "opensquilla",
+      "poolside-cli", "stagewise", "zoo-code",
     ]));
     const openHandsWatch = githubReleaseWatches.find(({ harnessId }) => harnessId === "openhands");
     const openHandsPatterns = openHandsWatch?.includeTagPatterns.map((pattern) => new RegExp(pattern)) ?? [];
     expect(openHandsPatterns.some((pattern) => pattern.test("1.11.0"))).toBe(true);
     expect(openHandsPatterns.some((pattern) => pattern.test("v1.6.1"))).toBe(false);
+    const junieWatch = githubReleaseWatches.find(({ harnessId }) => harnessId === "junie-cli");
+    const junieNamePatterns = junieWatch?.includeNamePatterns?.map((pattern) => new RegExp(pattern)) ?? [];
+    expect(junieNamePatterns.some((pattern) => pattern.test("Junie Release 26.7.27 (2470.4)"))).toBe(true);
+    expect(junieNamePatterns.some((pattern) => pattern.test("Junie Nightly 2577.1"))).toBe(false);
+    const patternsFor = (harnessId: string) => (
+      githubReleaseWatches.find((watch) => watch.harnessId === harnessId)?.includeTagPatterns
+        .map((pattern) => new RegExp(pattern)) ?? []
+    );
+    expect(patternsFor("cline").some((pattern) => pattern.test("v4.0.12"))).toBe(true);
+    expect(patternsFor("cline").some((pattern) => pattern.test("cli-v3.0.47"))).toBe(false);
+    expect(patternsFor("cline").some((pattern) => pattern.test("desktop-v0.0.7"))).toBe(false);
+    expect(patternsFor("deepagents-code").some((pattern) => pattern.test("deepagents-code==0.1.49"))).toBe(true);
+    expect(patternsFor("deepagents-code").some((pattern) => pattern.test("deepagents==0.7.0"))).toBe(false);
+    expect(patternsFor("kilo-code").some((pattern) => pattern.test("v7.4.17"))).toBe(true);
+    expect(patternsFor("kilo-code").some((pattern) => pattern.test("jetbrains/v7.0.11"))).toBe(false);
   });
 
   it("triages each stable version once", () => {
@@ -146,7 +185,15 @@ describe("GPT-OSS release triage", () => {
 
   it("validates the committed queue contract", () => {
     const source = readFileSync(new URL("../research/release-review-queue.json", import.meta.url), "utf8");
-    const queue = parseReleaseReviewQueue(source) as { generatedBy: { model: string; authority: boolean } };
+    const queue = parseReleaseReviewQueue(source) as {
+      generatedBy: { model: string; authority: boolean };
+      items: Array<{ harnessId: string; releaseTitle: string }>;
+    };
     expect(queue.generatedBy).toEqual(expect.objectContaining({ model: releaseTriageModel, authority: false }));
+    const junieWatch = githubReleaseWatches.find(({ harnessId }) => harnessId === "junie-cli");
+    const junieNamePatterns = junieWatch?.includeNamePatterns?.map((pattern) => new RegExp(pattern)) ?? [];
+    expect(queue.items.filter(({ harnessId }) => harnessId === "junie-cli").every(({ releaseTitle }) => (
+      junieNamePatterns.some((pattern) => pattern.test(releaseTitle))
+    ))).toBe(true);
   });
 });

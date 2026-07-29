@@ -1,6 +1,7 @@
 export type ReleaseWatch = {
   harnessId: string;
   includeTagPatterns: string[];
+  includeNamePatterns?: string[];
 };
 
 export type RepositoryAuditIdentity = {

@@ -32,10 +32,15 @@ function matchingStableReleases(releases, watch, audit) {
     throw new Error(`Release watch has no tag pattern for ${watch.harnessId}`);
   }
   const patterns = watch.includeTagPatterns.map((pattern) => new RegExp(pattern));
+  const namePatterns = watch.includeNamePatterns?.map((pattern) => new RegExp(pattern)) ?? [];
   const releaseUrlPrefix = `${audit.repositoryUrl}/releases/tag/`;
   return releases.filter((release) => {
     if (release?.draft === true || release?.prerelease === true) return false;
     if (typeof release?.tag_name !== "string" || !patterns.some((pattern) => pattern.test(release.tag_name))) return false;
+    if (namePatterns.length > 0 && (
+      typeof release?.name !== "string"
+      || !namePatterns.some((pattern) => pattern.test(release.name))
+    )) return false;
     if (typeof release?.published_at !== "string" || !/^\d{4}-\d{2}-\d{2}T/.test(release.published_at)) {
       throw new Error(`GitHub release date is invalid for ${watch.harnessId}`);
     }
