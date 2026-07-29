@@ -73,7 +73,7 @@ export const githubReleaseArtifacts = [
   {
     harnessId: "codex",
     includePatterns: [
-      String.raw`^codex$`,
+      "^codex$",
       String.raw`^codex-(?:aarch64|x86_64)-(?:apple-darwin|pc-windows-msvc|unknown-linux-musl)(?:\.exe|\.dmg|\.tar\.gz|\.zst|\.exe\.(?:tar\.gz|zip|zst))$`,
     ],
     artifactScope: "Stable Codex CLI binaries and platform archives",

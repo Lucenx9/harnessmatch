@@ -329,6 +329,12 @@ export function getHarnessMembershipAssessment(
   };
 }
 
+export function requireHarnessMembershipAssessment(harness: Harness): HarnessMembershipAssessment {
+  const assessment = getHarnessMembershipAssessment(harness);
+  if (!assessment) throw new Error(`Missing membership assessment for ${harness.id}`);
+  return assessment;
+}
+
 export function hasDocumentedCodingHarnessMembership(harness: Harness) {
   const assessment = getHarnessMembershipAssessment(harness);
   return assessment?.layer === "coding-harness"

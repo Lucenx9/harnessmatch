@@ -98,10 +98,11 @@ export function GET() {
         rankBySignal.set(`${source}:${signal.harnessId}`, index + 1);
       });
   }
-  const ecosystemRows = activeSignals.map((signal) => {
-    const harness = activeHarnessById.get(signal.harnessId)!;
+  const ecosystemRows = activeSignals.flatMap((signal) => {
+    const harness = activeHarnessById.get(signal.harnessId);
+    if (!harness) return [];
     const [secondaryMetric, secondaryValue] = ecosystemSecondary(signal);
-    return [
+    return [[
       signal.source,
       signal.metric,
       null,
@@ -120,7 +121,7 @@ export function GET() {
       signal.artifactId,
       signal.artifactUrl,
       signal.sourceUrl,
-    ].map(csvCell).join(",");
+    ].map(csvCell).join(",")];
   });
 
   return new Response([header.join(","), ...openRouterRows, ...ecosystemRows, ""].join("\n"), {

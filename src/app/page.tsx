@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ecosystemSignalSnapshots } from "@/data/ecosystem-signals";
 import { featureSupportFor } from "@/data/feature-claims";
-import { getHarnessMembershipAssessment } from "@/data/harness-membership";
+import { requireHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnesses } from "@/data/harnesses";
 import { openRouterAttributionSnapshots } from "@/data/openrouter-attribution";
 import { harnessReleaseSnapshots } from "@/data/release-signals";
@@ -77,7 +77,7 @@ export default function HomePage() {
             name: harness.name,
             logo: harness.logo,
             tagline: harness.tagline,
-            layer: getHarnessMembershipAssessment(harness)!.layer,
+            layer: requireHarnessMembershipAssessment(harness).layer,
             role: harness.classification.role,
             orchestration: harness.classification.orchestration,
             runtime: harness.classification.runtime,

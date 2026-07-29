@@ -36,6 +36,26 @@
 	},
 	"overrides": [
 		{
+			"includes": ["src/app/styles/*.css"],
+			"linter": {
+				"rules": {
+					"style": {
+						"noDescendingSpecificity": "off"
+					}
+				}
+			}
+		},
+		{
+			"includes": ["tests/**"],
+			"linter": {
+				"rules": {
+					"style": {
+						"noNonNullAssertion": "off"
+					}
+				}
+			}
+		},
+		{
 			"includes": ["src/app/layout.tsx"],
 			"linter": {
 				"rules": {

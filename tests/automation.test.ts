@@ -30,7 +30,7 @@ describe("daily usage automation", () => {
     expect(workflow).toContain("deployments: read");
     expect(workflow).toContain("npm run sync:usage");
     expect(workflow).toContain("for attempt in 1 2");
-    expect(workflow).toContain('git restore --worktree -- "${generated_paths[@]}"');
+    expect(workflow).toContain('git restore --worktree -- "' + "$" + '{generated_paths[@]}"');
     expect(workflow).toContain("failed after two complete transaction attempts");
     expect(workflow).toContain("src/data/release-signals.json");
     expect(workflow).toContain("src/data/gui-ecosystem-signals.ts");

@@ -1,44 +1,33 @@
 "use client";
 
 import { useDeferredValue, useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { HarnessLogo } from "@/components/harness-logo";
 import {
-  formatIsolationModes,
   harnessRoleLabels,
-  orchestrationLabels,
   productLayerLabels,
-  runtimePostureLabels,
-  stateModelLabels,
 } from "@/lib/harness-classification";
 import type {
-  DiscoverySource,
-  EvidenceSource,
   Harness,
   HarnessLogo as HarnessLogoData,
   HarnessRole,
-  IsolationMode,
-  OrchestrationModel,
   ProductLayer,
-  RuntimePosture,
-  StateModel,
 } from "@/lib/types";
 
 export type EvidenceLedgerRecord = {
   id: string;
+  slug: string;
   name: string;
   summary: string;
   logo: HarnessLogoData;
   status: Harness["status"];
   productLayer: ProductLayer | null;
   role: HarnessRole;
-  orchestration: OrchestrationModel;
-  runtime: RuntimePosture;
-  isolation: IsolationMode[];
-  state: StateModel;
   license: string;
   verifiedAt: string;
-  evidence: Array<Pick<EvidenceSource, "title" | "url" | "covers" | "kind">>;
-  discovery?: Array<Pick<DiscoverySource, "title" | "url" | "note">>;
+  primarySourceCount: number;
+  discoverySourceCount: number;
+  searchText: string;
 };
 
 type StatusFilter = EvidenceLedgerRecord["status"] | "all";
@@ -73,8 +62,7 @@ export function EvidenceLedger({ records }: { records: EvidenceLedgerRecord[] })
       record.summary,
       productLayerLabelFor(record),
       harnessRoleLabels[record.role],
-      ...record.evidence.flatMap((source) => [source.title, source.covers]),
-      ...(record.discovery?.flatMap((source) => [source.title, source.note]) ?? []),
+      record.searchText,
     ];
     return matchesStatus && (!deferredQuery || searchable.some((value) => value.toLowerCase().includes(deferredQuery)));
   }), [deferredQuery, records, status]);
@@ -129,44 +117,21 @@ export function EvidenceLedger({ records }: { records: EvidenceLedgerRecord[] })
               </span>
               <span className="evidence-record-meta">
                 <span className={`status ${record.status}`}>{record.status}</span>
-                <span>{record.evidence.length} primary sources</span>
+                <span>{record.primarySourceCount} primary sources</span>
                 <span>Checked {record.verifiedAt}</span>
               </span>
             </summary>
             <div className="evidence-record-body">
               <div className="evidence-product">
-                <p>
-                  {productLayerLabelFor(record)}<br />
-                  {harnessRoleLabels[record.role]}<br />
-                  {orchestrationLabels[record.orchestration]}<br />
-                  {runtimePostureLabels[record.runtime]}<br />
-                  {formatIsolationModes(record.isolation)}<br />
-                  {stateModelLabels[record.state]}<br />
-                  {record.license}
-                </p>
+                <p>{productLayerLabelFor(record)}<br />{harnessRoleLabels[record.role]}<br />{record.license}</p>
                 <a className="logo-source-link" href={record.logo.sourceUrl} target="_blank" rel="noreferrer">
                   Official logo source
                 </a>
               </div>
-              <div className="evidence-list">
-                {record.evidence.map((source) => (
-                  <a href={source.url} target="_blank" rel="noreferrer" key={source.url}>
-                    <span>
-                      <strong>{source.title}</strong>
-                      <small>{source.covers}</small>
-                    </span>
-                    <span className="evidence-kind">{source.kind.replace("official-", "")}</span>
-                  </a>
-                ))}
-                {record.discovery?.map((source) => (
-                  <a className="discovery-source" href={source.url} target="_blank" rel="noreferrer" key={`${record.id}-${source.url}`}>
-                    <span>
-                      <strong>{source.title}</strong>
-                      <small>{source.note}</small>
-                    </span>
-                    <span className="evidence-kind">discovery</span>
-                  </a>
-                ))}
+              <div className="evidence-record-summary">
+                <p>{record.summary}</p>
+                <p>{record.primarySourceCount} first-party sources{record.discoverySourceCount > 0 ? ` and ${record.discoverySourceCount} discovery records` : ""} are indexed on the canonical product profile.</p>
+                <Link className="button secondary" href={`/harnesses/${record.slug}#evidence`}>Inspect all sources</Link>
               </div>
             </div>
           </details>

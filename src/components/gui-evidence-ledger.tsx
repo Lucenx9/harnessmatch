@@ -4,11 +4,8 @@ import Link from "next/link";
 import { useDeferredValue, useMemo, useState } from "react";
 import { GuiLogo } from "@/components/gui-logo";
 import type {
-  GuiEvidenceSource,
   GuiLayer,
   GuiLogo as GuiLogoData,
-  GuiPlatform,
-  GuiRepositoryAudit,
   GuiSourceAccess,
 } from "@/lib/gui-types";
 
@@ -21,18 +18,9 @@ export type GuiEvidenceLedgerRecord = {
   layer: GuiLayer;
   sourceAccess: GuiSourceAccess;
   license: string;
-  platforms: GuiPlatform[];
-  supportedHarnesses: string[];
-  acceptsArbitraryCli: boolean;
   verifiedAt: string;
-  evidence: GuiEvidenceSource[];
-  preview?: {
-    caption: string;
-    provenance: "official-media" | "editorial-capture";
-    sourceUrl: string;
-    verifiedAt: string;
-  };
-  audit?: Pick<GuiRepositoryAudit, "repositoryUrl" | "inspectedRef" | "sourceScope" | "verifiedAt">;
+  evidenceRecordCount: number;
+  searchText: string;
 };
 
 type LayerFilter = GuiLayer | "all";
@@ -48,16 +36,6 @@ const sourceAccessLabels: Record<GuiSourceAccess, string> = {
   proprietary: "Proprietary",
 };
 
-const evidenceKindLabels: Record<GuiEvidenceSource["kind"], string> = {
-  "official-docs": "official docs",
-  "official-repository": "official repository",
-  "official-announcement": "official announcement",
-};
-
-function evidenceRecordCount(record: GuiEvidenceLedgerRecord) {
-  return record.evidence.length + (record.preview ? 1 : 0) + (record.audit ? 1 : 0);
-}
-
 export function GuiEvidenceLedger({ records }: { records: GuiEvidenceLedgerRecord[] }) {
   const [query, setQuery] = useState("");
   const [layer, setLayer] = useState<LayerFilter>("all");
@@ -70,10 +48,7 @@ export function GuiEvidenceLedger({ records }: { records: GuiEvidenceLedgerRecor
       layerLabels[record.layer],
       sourceAccessLabels[record.sourceAccess],
       record.license,
-      ...record.platforms,
-      ...record.supportedHarnesses,
-      ...record.evidence.flatMap((source) => [source.title, source.covers]),
-      ...(record.preview ? [record.preview.caption, record.preview.provenance] : []),
+      record.searchText,
     ];
     return matchesLayer && (!deferredQuery || searchable.some((value) => value.toLowerCase().includes(deferredQuery)));
   }), [deferredQuery, layer, records]);
@@ -114,55 +89,24 @@ export function GuiEvidenceLedger({ records }: { records: GuiEvidenceLedgerRecor
               </span>
               <span className="evidence-record-meta">
                 <span className={`status ${record.status}`}>{record.status}</span>
-                <span>{evidenceRecordCount(record)} evidence records</span>
+                <span>{record.evidenceRecordCount} evidence records</span>
                 <span>Checked {record.verifiedAt}</span>
               </span>
             </summary>
 
             <div className="evidence-record-body">
               <div className="evidence-product">
-                <p>
-                  {layerLabels[record.layer]}<br />
-                  {sourceAccessLabels[record.sourceAccess]}<br />
-                  {record.platforms.join(", ")}<br />
-                  {record.supportedHarnesses.length} named harnesses<br />
-                  {record.acceptsArbitraryCli ? "Arbitrary CLI documented" : "Named integrations only"}<br />
-                  {record.license}
-                </p>
+                <p>{layerLabels[record.layer]}<br />{sourceAccessLabels[record.sourceAccess]}<br />{record.license}</p>
                 <div className="evidence-product-links">
                   <Link className="logo-source-link" href={`/guis/${record.id}`}>Open GUI profile</Link>
                   <a className="logo-source-link" href={record.logo.sourceUrl} target="_blank" rel="noreferrer">Official logo source</a>
                 </div>
               </div>
 
-              <div className="evidence-list">
-                {record.evidence.map((source) => (
-                  <a href={source.url} target="_blank" rel="noreferrer" key={source.url}>
-                    <span>
-                      <strong>{source.title}</strong>
-                      <small>{source.covers}</small>
-                    </span>
-                    <span className="evidence-kind">{evidenceKindLabels[source.kind]}</span>
-                  </a>
-                ))}
-                {record.preview && (
-                  <a href={record.preview.sourceUrl} target="_blank" rel="noreferrer">
-                    <span>
-                      <strong>Product preview provenance</strong>
-                      <small>{record.preview.caption}</small>
-                    </span>
-                    <span className="evidence-kind">{record.preview.provenance.replace("-", " ")}</span>
-                  </a>
-                )}
-                {record.audit && (
-                  <a href={`${record.audit.repositoryUrl}/tree/${record.audit.inspectedRef}`} target="_blank" rel="noreferrer">
-                    <span>
-                      <strong>Pinned implementation audit</strong>
-                      <small>Repository inspected at commit {record.audit.inspectedRef.slice(0, 12)}.</small>
-                    </span>
-                    <span className="evidence-kind">{record.audit.sourceScope.replace("-", " ")}</span>
-                  </a>
-                )}
+              <div className="evidence-record-summary">
+                <p>{record.summary}</p>
+                <p>{record.evidenceRecordCount} source, preview, and code-audit records are indexed on the canonical GUI profile.</p>
+                <Link className="button secondary" href={`/guis/${record.id}#evidence`}>Inspect all sources</Link>
               </div>
             </div>
           </details>

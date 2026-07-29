@@ -36,31 +36,25 @@ export default function DataPage() {
   const releaseActivity = buildRecentReleaseActivity({ harnesses, releaseSnapshots: harnessReleaseSnapshots });
   const ledgerRecords: EvidenceLedgerRecord[] = harnesses.map((harness) => ({
     id: harness.id,
+    slug: harness.slug,
     name: harness.name,
     summary: harness.summary,
     logo: harness.logo,
     status: harness.status,
     productLayer: getHarnessMembershipAssessment(harness)?.layer ?? null,
     role: harness.classification.role,
-    orchestration: harness.classification.orchestration,
-    runtime: harness.classification.runtime,
-    isolation: harness.classification.isolation,
-    state: harness.classification.state,
     license: harness.license,
     verifiedAt: harness.verifiedAt,
-    evidence: harness.evidence.map((source) => ({
-      title: source.title,
-      url: source.url,
-      covers: source.covers,
-      kind: source.kind,
-    })),
-    ...(harness.discovery ? {
-      discovery: harness.discovery.map((source) => ({
-        title: source.title,
-        url: source.url,
-        note: source.note,
-      })),
-    } : {}),
+    primarySourceCount: harness.evidence.length,
+    discoverySourceCount: harness.discovery?.length ?? 0,
+    searchText: [
+      harness.classification.orchestration,
+      harness.classification.runtime,
+      ...harness.classification.isolation,
+      harness.classification.state,
+      ...harness.evidence.flatMap((source) => [source.title, source.covers]),
+      ...(harness.discovery?.flatMap((source) => [source.title, source.note]) ?? []),
+    ].join(" "),
   }));
   const guiLedgerRecords: GuiEvidenceLedgerRecord[] = guiProducts.map((product) => {
     const audit = guiAuditById.get(product.id);
@@ -73,20 +67,15 @@ export default function DataPage() {
       layer: product.layer,
       sourceAccess: product.sourceAccess,
       license: product.license,
-      platforms: product.platforms,
-      supportedHarnesses: product.supportedHarnesses,
-      acceptsArbitraryCli: product.acceptsArbitraryCli,
       verifiedAt: product.verifiedAt,
-      evidence: product.evidence,
-      ...(product.preview ? {
-        preview: {
-          caption: product.preview.caption,
-          provenance: product.preview.provenance,
-          sourceUrl: product.preview.sourceUrl,
-          verifiedAt: product.preview.verifiedAt,
-        },
-      } : {}),
-      ...(audit ? { audit } : {}),
+      evidenceRecordCount: product.evidence.length + (product.preview ? 1 : 0) + (audit ? 1 : 0),
+      searchText: [
+        ...product.platforms,
+        ...product.supportedHarnesses,
+        product.acceptsArbitraryCli ? "arbitrary CLI" : "named integrations",
+        ...product.evidence.flatMap((source) => [source.title, source.covers]),
+        ...(product.preview ? [product.preview.caption, product.preview.provenance] : []),
+      ].join(" "),
     };
   });
   const primarySourceCount = activeHarnesses.reduce((total, harness) => total + harness.evidence.length, 0)
@@ -114,7 +103,7 @@ export default function DataPage() {
   const auditabilityRanking = repositoryAudits.flatMap((audit) => {
     const harness = harnessById.get(audit.harnessId);
     const artifactCount = repositoryArtifactCount(audit);
-    if (!harness || harness.status !== "active" || artifactCount === null || audit.sourceScope === "support-repository") return [];
+    if (harness?.status !== "active" || artifactCount === null || audit.sourceScope === "support-repository") return [];
     return [{
       id: harness.id,
       slug: harness.slug,
@@ -132,7 +121,7 @@ export default function DataPage() {
   const benchmarkFamilies = benchmarkFamilyCount(benchmarkRuns);
   const benchmarkRanking = benchmarkRuns.flatMap((run) => {
     const harness = harnessById.get(run.harnessId);
-    if (!harness || harness.status !== "active") return [];
+    if (harness?.status !== "active") return [];
     const interval = benchmarkConfidenceInterval95(run);
     return [{
       id: run.id,
@@ -194,7 +183,7 @@ export default function DataPage() {
         <section className="data-evidence-section" id="harness-evidence" aria-labelledby="harness-evidence-heading">
           <div className="section-heading stacked-heading">
             <h2 id="harness-evidence-heading">Harness evidence</h2>
-            <p>Runtime classifications, documented controls, product state, and the first-party sources supporting each harness record.</p>
+            <p>Search classifications and source coverage, then open the canonical harness profile for the complete first-party ledger.</p>
           </div>
           <EvidenceLedger records={ledgerRecords} />
         </section>
@@ -202,7 +191,7 @@ export default function DataPage() {
         <section className="data-evidence-section" id="gui-evidence" aria-labelledby="gui-evidence-heading">
           <div className="section-heading stacked-heading">
             <h2 id="gui-evidence-heading">GUI evidence</h2>
-            <p>Interface layer, platform support, harness compatibility, source access, product media provenance, and pinned implementation audits.</p>
+            <p>Search interface coverage, compatibility, and provenance, then open the canonical GUI profile for the complete evidence ledger.</p>
           </div>
           <GuiEvidenceLedger records={guiLedgerRecords} />
         </section>

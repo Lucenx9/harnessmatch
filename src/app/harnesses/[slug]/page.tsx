@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { HarnessLogo } from "@/components/harness-logo";
 import { FeatureClaimValue } from "@/components/feature-claim-value";
 import { HarnessArchitectureSection } from "@/components/harness-architecture-section";
+import { HarnessEcosystemSection } from "@/components/harness-ecosystem-section";
+import { HarnessMeasurementSection } from "@/components/harness-measurement-section";
 import { HarnessMembershipSection } from "@/components/harness-membership-section";
 import { VisualIcon } from "@/components/visual-icon";
 import { benchmarkRunsForHarness } from "@/data/benchmark-runs";
@@ -14,8 +16,6 @@ import { openRouterAttributionByHarness } from "@/data/openrouter-attribution";
 import { releaseSnapshotByHarness } from "@/data/release-signals";
 import { getOperationalProfileRecord } from "@/data/operational-profiles";
 import {
-  repositoryArtifactCount,
-  repositoryArtifactLabels,
   repositoryAuditForHarness,
 } from "@/data/repository-audits";
 import {
@@ -30,15 +30,10 @@ import {
 } from "@/lib/harness-classification";
 import {
   architectureProfileFor,
-  benchmarkConfidenceInterval95,
   evidenceStateFor,
 } from "@/lib/evaluation";
 import { harnessProfileDescription, pageMetadata } from "@/lib/site";
-import type {
-  EcosystemSignalSnapshot,
-  EvidenceSource,
-  FeatureKey,
-} from "@/lib/types";
+import type { EvidenceSource, FeatureKey } from "@/lib/types";
 
 export const dynamicParams = false;
 
@@ -93,22 +88,7 @@ const evidenceTopicOrder: EvidenceTopic[] = [
   "additional",
 ];
 
-const compactNumberFormatter = new Intl.NumberFormat("en", {
-  notation: "compact",
-  maximumFractionDigits: 2,
-});
-
-const ecosystemSignalLabels: Record<EcosystemSignalSnapshot["source"], string> = {
-  homebrew: "Homebrew 30d events",
-  npm: "npm last-month downloads",
-  "github-releases": "Release asset downloads",
-  vscode: "VS Code installs",
-  openvsx: "Open VSX downloads",
-  jetbrains: "JetBrains downloads",
-  github: "GitHub stars",
-};
-
-const ecosystemSignalOrder: Record<EcosystemSignalSnapshot["source"], number> = {
+const ecosystemSignalOrder = {
   homebrew: 0,
   npm: 1,
   "github-releases": 2,
@@ -116,23 +96,7 @@ const ecosystemSignalOrder: Record<EcosystemSignalSnapshot["source"], number> = 
   openvsx: 4,
   jetbrains: 5,
   github: 6,
-};
-
-const repositoryScopeLabels = {
-  "full-source": "Full-source repository",
-  "client-source": "Client-source repository",
-  "support-repository": "Support repository",
 } as const;
-
-function ecosystemSignalUnit(signal: EcosystemSignalSnapshot) {
-  if (signal.source === "homebrew") return `${signal.artifactKind === "formula" ? "Formula" : "Cask"}: ${signal.artifactId}`;
-  if (signal.source === "npm") return `Package: ${signal.artifactId}`;
-  if (signal.source === "github-releases") return `${signal.releaseCount} stable releases; ${signal.assetCount} matched assets`;
-  if (signal.source === "vscode") return `Extension: ${signal.artifactId}`;
-  if (signal.source === "openvsx") return `Extension: ${signal.artifactId}; latest ${signal.latestVersion}`;
-  if (signal.source === "jetbrains") return `Plugin ${signal.pluginId}: ${signal.artifactId}`;
-  return `${repositoryScopeLabels[signal.repositoryScope]}; ${compactNumberFormatter.format(signal.forks)} forks`;
-}
 
 function EvidenceRows({ sources }: { sources: EvidenceSource[] }) {
   return (
@@ -187,14 +151,6 @@ const operationalLabels = {
   },
 } as const;
 
-const repositorySignalLabels = {
-  securityPolicy: "Security policy",
-  continuousIntegration: "CI workflows",
-  automatedTests: "Automated tests",
-  evaluationAssets: "Evaluation assets",
-  contributorDocumentation: "Contributor documentation",
-} as const;
-
 export function generateStaticParams() {
   return harnesses.map((harness) => ({ slug: harness.slug }));
 }
@@ -229,16 +185,14 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
   const architecture = architectureProfileFor(harness);
   const repositoryAudit = repositoryAuditForHarness(harness.id);
   const openRouterSnapshot = openRouterAttributionByHarness.get(harness.id);
-  const openRouterMonth = openRouterSnapshot?.windows.month;
   const releaseSnapshot = releaseSnapshotByHarness.get(harness.id);
   const ecosystemSignals = [...(ecosystemSignalsByHarness.get(harness.id) ?? [])]
     .sort((left, right) => ecosystemSignalOrder[left.source] - ecosystemSignalOrder[right.source]);
   const ecosystemCheckedAt = [
-    openRouterMonth?.observedAt,
+    openRouterSnapshot?.windows.month.observedAt,
     releaseSnapshot?.observedAt,
     ...ecosystemSignals.map((signal) => signal.observedAt),
   ].filter((value): value is string => Boolean(value)).sort().at(-1);
-  const artifactCount = repositoryAudit ? repositoryArtifactCount(repositoryAudit) : null;
   const measuredRuns = benchmarkRunsForHarness(harness.id);
   const evidenceState = evidenceStateFor(harness.id);
   const primaryEvidence = harness.evidence.slice(0, primaryEvidenceLimit);
@@ -459,102 +413,14 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
           verifiedAt={operationalRecord.verifiedAt}
         />
 
-        {(releaseSnapshot || openRouterMonth || ecosystemSignals.length > 0) && (
-          <section className="profile-ecosystem" id="ecosystem-signals" aria-labelledby="ecosystem-signals-heading">
-            <header>
-              <div>
-                <span>Context, not quality</span>
-                <h2 id="ecosystem-signals-heading">Public ecosystem signals</h2>
-                <p>Source-native observations for exact mapped artifacts and reviewed stable release trains. Different units and populations stay separate, and missing coverage is never treated as zero.</p>
-              </div>
-              <Link className="text-link" href="/usage">Compare all signals</Link>
-            </header>
-            <ul className="profile-ecosystem-metrics">
-              {releaseSnapshot && (
-                <li>
-                  <span className="profile-ecosystem-label">Latest stable release</span>
-                  <strong className="profile-ecosystem-value" title={`Latest stable version ${releaseSnapshot.latestVersion}`}>
-                    {releaseSnapshot.latestVersion}
-                  </strong>
-                  <small>
-                    Released {releaseSnapshot.latestReleaseAt}; {releaseSnapshot.recentReleaseCount} stable {releaseSnapshot.recentReleaseCount === 1 ? "release" : "releases"} in {releaseSnapshot.recentReleaseWindowDays} days
-                  </small>
-                  <a className="text-link" href={releaseSnapshot.latestReleaseUrl} target="_blank" rel="noreferrer">Open release</a>
-                </li>
-              )}
-              {openRouterSnapshot && openRouterMonth && (
-                <li>
-                  <span className="profile-ecosystem-label">OpenRouter 30d tokens</span>
-                  <strong className="profile-ecosystem-value" title={openRouterMonth.attributedTokens === null ? undefined : `${openRouterMonth.attributedTokens.toLocaleString("en-US")} attributed tokens`}>
-                    {openRouterMonth.attributedTokens === null ? "Not listed" : compactNumberFormatter.format(openRouterMonth.attributedTokens)}
-                  </strong>
-                  <small>{openRouterMonth.rank === null ? "Not ranked" : `#${openRouterMonth.rank} coding app`}; {openRouterMonth.windowStart} to {openRouterMonth.windowEnd}</small>
-                  <a className="text-link" href={openRouterSnapshot.sourceUrl} target="_blank" rel="noreferrer">Open app page</a>
-                </li>
-              )}
-              {ecosystemSignals.map((signal) => (
-                <li key={`${signal.source}:${signal.artifactId}`}>
-                  <span className="profile-ecosystem-label">{ecosystemSignalLabels[signal.source]}</span>
-                  <strong className="profile-ecosystem-value" title={`${signal.value.toLocaleString("en-US")} ${signal.metric}`}>{compactNumberFormatter.format(signal.value)}</strong>
-                  <small>{ecosystemSignalUnit(signal)}</small>
-                  <a className="text-link" href={signal.artifactUrl} target="_blank" rel="noreferrer">Open artifact</a>
-                </li>
-              ))}
-            </ul>
-            <footer>
-              <p>
-                Routing, package retrievals, release downloads, editor installs, and repository interest observe different populations. They are never added together and never affect capability evidence, classification, or measured results.
-              </p>
-              <div>
-                <Link className="text-link" href="/methodology#eligibility">Interpretation rules</Link>
-                {ecosystemCheckedAt && <span>Signals checked <time dateTime={ecosystemCheckedAt}>{ecosystemCheckedAt}</time></span>}
-              </div>
-            </footer>
-          </section>
-        )}
+        <HarnessEcosystemSection
+          releaseSnapshot={releaseSnapshot}
+          openRouterSnapshot={openRouterSnapshot}
+          ecosystemSignals={ecosystemSignals}
+          checkedAt={ecosystemCheckedAt}
+        />
 
-        <section className="profile-measurement-grid" aria-label="Public audit and measured configurations">
-          <article>
-            <h2>Public code audit</h2>
-            {!repositoryAudit && <p>No official public repository was located for a code-level audit.</p>}
-            {repositoryAudit && (
-              <>
-                <div className="profile-measurement-value">
-                  <strong>{artifactCount === null ? "Unranked" : `${artifactCount}/5`}</strong>
-                  <span>{artifactCount === null ? "support-only repository" : "public artifacts present"}</span>
-                </div>
-                <dl className="profile-audit-signals">
-                  {(Object.keys(repositorySignalLabels) as Array<keyof typeof repositorySignalLabels>).map((signal) => (
-                    <div key={signal}>
-                      <dt>{repositoryArtifactLabels[signal]}</dt>
-                      <dd>{repositoryAudit.signals[signal] ? "Present at inspected commit" : "Not found"}</dd>
-                    </div>
-                  ))}
-                </dl>
-                <p>{repositoryAudit.limitation}</p>
-                <a className="text-link" href={`${repositoryAudit.repositoryUrl}/tree/${repositoryAudit.inspectedRef}`} target="_blank" rel="noreferrer">Inspect commit {repositoryAudit.inspectedRef}, checked {repositoryAudit.verifiedAt}</a>
-              </>
-            )}
-          </article>
-          <article>
-            <h2>Measured configurations</h2>
-            {measuredRuns.length === 0 && <p>No benchmark run passes the full metadata admission policy for this harness yet. Missing data is not scored as zero.</p>}
-            {measuredRuns.map((run) => {
-              const interval = benchmarkConfidenceInterval95(run);
-              return (
-                <div className="profile-benchmark-record" key={run.id}>
-                  <div className="profile-measurement-value">
-                    <strong>{run.accuracy.toFixed(2)}%</strong>
-                    <span>95% descriptive interval {interval.lower.toFixed(1)}-{interval.upper.toFixed(1)}</span>
-                  </div>
-                  <p>{run.model}, harness {run.harnessVersion}, {run.reasoningEffort} effort, {run.totalTrials} trials, ${run.totalCostUsd.toLocaleString("en-US", { minimumFractionDigits: 2 })}. Result source checked {run.verifiedAt}.</p>
-                  <a className="text-link" href={run.resultSourceUrl} target="_blank" rel="noreferrer">Open official result</a>
-                </div>
-              );
-            })}
-            <Link className="text-link" href="/benchmarks">Benchmark policy and all runs</Link>
-          </article>
-        </section>
+        <HarnessMeasurementSection repositoryAudit={repositoryAudit} measuredRuns={measuredRuns} />
 
         <section className="profile-support" aria-labelledby="support-heading">
           <div className="profile-section-heading">

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { HarnessLensExplorer } from "@/components/harness-lens-explorer";
 import { featureSupportFor } from "@/data/feature-claims";
-import { getHarnessMembershipAssessment } from "@/data/harness-membership";
+import { requireHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnesses } from "@/data/harnesses";
 import { pageMetadata } from "@/lib/site";
 
@@ -29,7 +29,7 @@ export default function HarnessesPage() {
             name: harness.name,
             logo: harness.logo,
             tagline: harness.tagline,
-            layer: getHarnessMembershipAssessment(harness)!.layer,
+            layer: requireHarnessMembershipAssessment(harness).layer,
             role: harness.classification.role,
             orchestration: harness.classification.orchestration,
             runtime: harness.classification.runtime,

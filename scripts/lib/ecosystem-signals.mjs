@@ -328,7 +328,7 @@ function formatInteger(value) {
   return value.toLocaleString("en-US").replaceAll(",", "_");
 }
 
-function renderValue(key, value, indent) {
+function renderValue(value) {
   if (typeof value === "number") return formatInteger(value);
   return JSON.stringify(value);
 }
@@ -344,7 +344,7 @@ export function renderEcosystemSignalsFile(signals) {
     const lines = ["  {"];
     for (const key of orderedKeys) {
       if (signal[key] === undefined) continue;
-      lines.push(`    ${key}: ${renderValue(key, signal[key], 4)},`);
+      lines.push(`    ${key}: ${renderValue(signal[key])},`);
     }
     lines.push("  },");
     return lines.join("\n");
