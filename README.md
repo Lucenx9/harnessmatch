@@ -1,16 +1,14 @@
 # HarnessMatch
 
-An evidence-backed decision tool for choosing an AI coding harness by workflow fit.
+An evidence-backed catalog and comparison tool for AI coding harnesses.
 
 **Live site:** [harnessmatch.dev](https://harnessmatch.dev)
 
 ## What is included
 
-- Workflow recommender with hard eligibility gates and visible preference weights
-- Sensitivity analysis that reports rank robustness without presenting it as task-success probability
 - Side-by-side harness comparison and source-backed product profiles
 - Source-separated routing, package, release-asset, editor-marketplace, and repository signals with explicit windows and limits
-- Separate views for workflow fit, architecture, public-code artifacts, and admitted benchmark configurations
+- Separate views for classification, architecture, public-code artifacts, and admitted benchmark configurations
 - Claim-level evidence ledger with first-party sources and verification dates
 - Public methodology, validation protocol, scientific references, and benchmark admission policy
 - Static Next.js export with Vercel Web Analytics
@@ -28,8 +26,8 @@ Benchmark results are admitted only when the model, exact harness version, bench
 - Next.js App Router and static export
 - React and TypeScript
 - Tailwind CSS v4 plus project-level CSS
-- Repository-backed data and deterministic recommendation logic
-- Vitest for scoring, classification, evidence, and validation invariants
+- Repository-backed data and deterministic classification logic
+- Vitest for classification, measurement, evidence, and validation invariants
 
 ## Run locally
 
@@ -56,7 +54,7 @@ Refresh the context-only usage datasets with:
 npm run sync:usage
 ```
 
-This command requires `OPENROUTER_API_KEY` for OpenRouter and uses `GITHUB_TOKEN` or the authenticated `gh` session for GitHub repository and release data. The OpenRouter sync records source-native most-used windows plus 7-day and 30-day trending ranks; it never infers a growth percentage. Homebrew, npm, VS Code, Open VSX, and JetBrains use public endpoints. GUI Homebrew activity, filtered stable GitHub installer downloads, and GitHub repository interest are generated separately in `src/data/gui-ecosystem-signals.ts`, so they cannot be confused with harness usage. Generated values are not recommendation or GUI-fit inputs.
+This command requires `OPENROUTER_API_KEY` for OpenRouter and uses `GITHUB_TOKEN` or the authenticated `gh` session for GitHub repository and release data. The OpenRouter sync records source-native most-used windows plus 7-day and 30-day trending ranks; it never infers a growth percentage. Homebrew, npm, VS Code, Open VSX, and JetBrains use public endpoints. GUI Homebrew activity, filtered stable GitHub installer downloads, and GitHub repository interest are generated separately in `src/data/gui-ecosystem-signals.ts`, so they cannot be confused with harness usage. Generated values are not capability, classification, or GUI-fit inputs.
 
 ### Automatic usage maintenance
 
@@ -64,7 +62,7 @@ This command requires `OPENROUTER_API_KEY` for OpenRouter and uses `GITHUB_TOKEN
 
 The workflow requires the repository Actions secret `OPENROUTER_API_KEY`. GitHub supplies the short-lived `GITHUB_TOKEN`; no personal access token is stored. A factual source, generated-data schema, identity, validation, concurrency, quality, deployment, or smoke-test failure stops the transaction and remains visible in the Actions run.
 
-`src/data/release-signals.json` is generated first from the reviewed watchlist and official GitHub release API. It publishes only validated facts: product-scoped stable tag, date, official link, repository scope, observation date, and trailing 90-day release count. When a generated version has not been seen before, `openai/gpt-oss-20b` receives a bounded copy of its official release notes and writes structured triage to `research/release-review-queue.json`. The watchlist is independent from GitHub asset-download measurement, so a release can be reviewed even when it exposes no countable binary. Product-specific tag filters exclude prereleases and unrelated monorepo release trains. Release text is treated as untrusted input, model output is validated and cannot introduce links, and inference failure never blocks factual source synchronization. The queue is editorial assistance only: it is not imported by the site, is not evidence, and cannot update claims, categories, recommendation weights, or scores.
+`src/data/release-signals.json` is generated first from the reviewed watchlist and official GitHub release API. It publishes only validated facts: product-scoped stable tag, date, official link, repository scope, observation date, and trailing 90-day release count. When a generated version has not been seen before, `openai/gpt-oss-20b` receives a bounded copy of its official release notes and writes structured triage to `research/release-review-queue.json`. The watchlist is independent from GitHub asset-download measurement, so a release can be reviewed even when it exposes no countable binary. Product-specific tag filters exclude prereleases and unrelated monorepo release trains. Release text is treated as untrusted input, model output is validated and cannot introduce links, and inference failure never blocks factual source synchronization. The queue is editorial assistance only: it is not imported by the site, is not evidence, and cannot update claims, categories, or measured comparisons.
 
 ## Deployment
 
@@ -73,9 +71,8 @@ The repository is connected to the existing Vercel project. Pushes to `main` cre
 ## Main extension points
 
 - Product and source records: `src/data/harnesses.ts`
-- Recommendation logic: `src/lib/recommendation.ts`
-- Visible weights and thresholds: `src/lib/recommendation-config.ts`
-- Recommender questions: `src/components/recommender.tsx`
+- Classification and comparison helpers: `src/lib/harness-classification.ts` and `src/lib/evaluation.ts`
+- Ordinal anchors and operational reference values: `src/lib/evaluation-config.ts`
 - Methodology: `src/app/methodology/page.tsx`
 - Usage page and export: `src/app/usage/page.tsx`, `src/components/usage-signals-explorer.tsx`, and `src/app/usage.csv/route.ts`
 
@@ -83,7 +80,7 @@ The repository is connected to the existing Vercel project. Pushes to `main` cre
 
 - Keep model capability separate from harness capability.
 - Every capability claim needs a first-party source and verification date.
-- Archived tools must not appear in recommender results.
-- Scoring changes require tests describing the intended workflow outcome.
-- Keep weights and provisional value functions visible in code and methodology copy.
+- Archived tools must not appear in active catalog summaries or active benchmark rankings.
+- Classification and measurement changes require tests describing the intended outcome.
+- Do not add a personalized recommender, universal product score, or composite popularity score.
 - Verification dates decay: `src/lib/evidence-freshness.ts` sets the review and maximum-age windows, and the freshness test fails the build once a published claim exceeds the maximum age. Re-verify the sources rather than widening the window.

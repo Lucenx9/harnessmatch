@@ -4,7 +4,7 @@ This page follows the HarnessMatch master system and increases information densi
 
 ## Purpose
 
-- Help a developer understand one harness before comparing or running the recommender.
+- Help a developer understand one harness before comparing it with other records.
 - Keep harness capability separate from model capability.
 - Put verified signals, claim boundaries, and first-party sources ahead of promotional copy.
 
@@ -24,7 +24,7 @@ This page follows the HarnessMatch master system and increases information densi
 - Give each membership criterion a visible text state, a semantic state marker, a short definition, and its first-party evidence link.
 - Operational mechanisms appear in one bordered analytical surface with direct rubric values and claim boundaries.
 - Visualize an operational rubric as a neutral four-position rail with only the documented position selected. Never cumulatively fill earlier positions or imply that the rail measures performance.
-- Repository auditability and measured configurations share a two-column evidence area and never feed the workflow score.
+- Repository auditability and measured configurations share a two-column evidence area and never feed a product score.
 - Technical details and evidence use sparse dividers rather than nested cards.
 - The full taxonomy and operational record is collapsed under “View full technical record”; it must remain complete but does not compete with the initial decision summary.
 - Desktop uses a dense five-column operational strip; tablet and mobile collapse explicitly without horizontal scrolling.

@@ -71,7 +71,7 @@ describe("scientific methodology ledger", () => {
     expect(insight.sourceUrls).toEqual(expect.arrayContaining([vibe.url, permissions.url]));
   });
 
-  it("requires held-out validation before harness optimization affects general recommendations", () => {
+  it("requires held-out validation before harness optimization supports general product claims", () => {
     const observable = researchSources.find((item) => item.title.startsWith("Agentic Harness Engineering:"))!;
     const heldOut = researchSources.find((item) => item.title === "Rethinking the Evaluation of Harness Evolution for Agents")!;
     const definition = researchSources.find((item) => item.title.startsWith("What makes a harness a harness:"))!;
@@ -84,16 +84,13 @@ describe("scientific methodology ledger", () => {
     expect(insight.sourceUrls).toEqual(expect.arrayContaining([observable.url, heldOut.url]));
   });
 
-  it("grounds both coding reliability and user-centered recommendation validation", () => {
+  it("grounds ordinal coding reliability without overstating validity", () => {
     const reliability = researchSources.find((item) => item.title.startsWith("Applying Inter-Rater Reliability"))!;
     const alpha = researchSources.find((item) => item.title.startsWith("krippendorffsalpha:"))!;
-    const recommenderUx = researchSources.find((item) => item.title === "A User-Centric Evaluation Framework for Recommender Systems")!;
 
     expect(reliability.venue).toBe("Journal of Systems and Software 2023");
     expect(reliability.url).toBe("https://doi.org/10.1016/j.jss.2022.111520");
     expect(alpha.limitation).toContain("reliability rather than validity");
-    expect(recommenderUx.supports).toContain("perceived recommendation quality");
-    expect(recommenderUx.limitation).toContain("domain-specific prospective study");
   });
 
   it("grounds every plain-language insight in the scientific ledger", () => {

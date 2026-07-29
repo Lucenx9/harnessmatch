@@ -4,10 +4,10 @@ This file is the visual source of truth for HarnessMatch. Page files in `pages/`
 
 ## Design read
 
-- Product: evidence-backed coding harness recommendation tool
+- Product: evidence-backed coding harness catalog and comparison tool
 - Audience: developers and technical buyers
 - Direction: restrained developer research tool with analysis-first density inspired by Vercel, Linear, Cursor, Artificial Analysis, and Vellum
-- Redesign mode: targeted evolution with routes, information architecture, and scoring behavior preserved
+- Redesign mode: targeted evolution with routes, information architecture, and evidence boundaries preserved
 - Dials: variance 4, motion 2, density 7
 
 ## Foundation
@@ -62,33 +62,31 @@ Semantic success, warning, and danger colors are reserved for actual state. They
 ## Layout rules
 
 - Homepage opens with a compact analysis intro and live dataset status, not a promotional hero
-- Decision surfaces use progressive disclosure: observed data and catalog facts first, tailored guidance when the user asks for it, and methodology on demand
-- A first reading layer should answer what to choose, why it fits, and what to check before choosing
+- Decision surfaces use progressive disclosure: observed data and catalog facts first, detailed comparison when the user asks for it, and methodology on demand
+- A first reading layer should explain what is available, how products differ, and what evidence to check
 - The first interactive homepage surface is a compact, source-separated usage preview with five directly labeled rows
-- Latest stable versions, exact release dates, and trailing 90-day cadence follow the catalog; the tailored recommender remains a secondary navigation path
+- Latest stable versions, exact release dates, and trailing 90-day cadence follow the catalog
 - Operational-readiness, public-code-auditability, and measured-system rankings live on the dedicated Data page
-- Workflow-fit bars visualize top-three sensitivity frequency across published priority variations, never task success, model intelligence, or benchmark performance
-- Required workflow capabilities are eligibility gates. A compatible capability does not add a hidden score bonus
+- Capability filters narrow the catalog without adding hidden score bonuses
 - Capability cells state whether support is default, documented, optional, surface-specific, not documented, explicitly absent, or deprecated; every positive state links to first-party evidence
 - Catalog layer is separate from product role: coding harness, external harness orchestrator, framework/runtime, or adjacent tool
-- Default recommendation requires four source-backed coding-harness membership criteria before workflow gates are evaluated
-- Workflow fit × model portability is a categorical decision matrix; it reuses fit bands and never adds a portability score
-- Operational fit is evaluated across context management, permission posture, verification, observability, and recovery; any unknown scored posture leaves that comparison unranked
-- Evidence coverage is displayed beside fit and never blended into the fit score
+- Coding-harness membership requires four source-backed criteria; neighboring product layers remain visible and separate
+- Model portability is categorical and never contributes to a product score
+- Operational posture is evaluated across context management, permission posture, verification, observability, and recovery; any unknown scored posture leaves that analytical view unranked
+- Evidence coverage is displayed as context and never blended into capability or measured results
 - Operational readiness uses five visible 20% weights and supports single-axis ranking
 - Code auditability is tied to a pinned public commit; support-only repositories remain unranked
 - Benchmark bars represent exact model-harness configurations and always expose effort, attempts, cost, date, integrity adjustment, and source
 - Missing public evidence is shown as unavailable, never converted into a zero
 - Every chart has a complete readable ranking and downloadable CSV data
-- Public usage signals keep native units, dates, coverage, and rank scope; they never combine into a popularity score or affect recommendations
-- Compatible products stay ranked; products that miss a hard requirement appear separately and remain unranked
+- Public usage signals keep native units, dates, coverage, and rank scope; they never combine into a popularity score or affect classification
 - The homepage directory uses capability lenses, visible result counts, an eight-profile initial view, and methodology copy next to the data
 - Catalog cards expose only role, interfaces, and model-access posture; the profile owns the complete technical record
 - Scientific findings are translated into plain-language decision rules on Methodology, while the homepage links to that detail without repeating research cards
 - AI-assisted research may accelerate discovery, extraction, and cross-checking, but model output never counts as evidence; every published product claim requires an admitted source and verification date
 - Research-product patterns may increase information density, but must never imply a generic model or harness leaderboard
 - Marketing proof, principle, and repeated CTA sections do not belong on the homepage
-- The persistent header exposes Harnesses, Usage, Compare, and Data as primary destinations; GUIs, Methodology, and Recommend remain available in a clearly labeled secondary menu
+- The persistent header exposes Harnesses, Usage, Compare, and Data as primary destinations; GUIs and Methodology remain available in a clearly labeled secondary menu
 - Search stays directly accessible in the header, while the theme control uses a compact icon with an accessible name and tooltip
 - Catalog previews use a two-column, filterable directory layout without implying a ranking
 - Mobile layouts collapse explicitly below 768px and must never scroll horizontally
@@ -100,8 +98,6 @@ Semantic success, warning, and danger colors are reserved for actual state. They
 - Press state uses a small downward translation and scale reduction
 - Motion respects `prefers-reduced-motion`
 - Buttons and muted text meet WCAG AA in both themes
-- The recommender exposes progress semantics and selected requirements with `aria-pressed`
-- Scenario tabs use tab semantics, arrow-key navigation, visible focus, and 44px minimum targets
 - Chart values are printed directly and required capability gaps include text and pattern, not color alone
 
 ## Imagery

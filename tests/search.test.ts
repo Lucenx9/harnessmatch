@@ -82,11 +82,10 @@ describe("primary navigation", () => {
     ]);
   });
 
-  it("keeps supporting and guided paths in the secondary menu", () => {
+  it("keeps supporting data paths in the secondary menu", () => {
     expect(secondaryNavigationItems.map((item) => item.label)).toEqual([
       "GUIs",
       "Methodology",
-      "Recommend",
     ]);
   });
 });

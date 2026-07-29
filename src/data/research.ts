@@ -17,16 +17,6 @@ export type ResearchInsight = {
 
 export const researchSources: ResearchSource[] = [
   {
-    title: "An Introductory Guide to Multi-Criteria Decision Analysis",
-    venue: "UK Government Analysis Function 2024",
-    maturity: "guidance",
-    url: "https://analysisfunction.civilservice.gov.uk/policy-store/an-introductory-guide-to-mcda/",
-    supports:
-      "Defines hard minima before compensatory scoring, cardinal value functions, swing weighting, preference-independence assumptions, cost separation, and sensitivity analysis.",
-    limitation:
-      "It is practitioner guidance for general decisions, so HarnessMatch must still validate criteria and preferences with coding-harness users.",
-  },
-  {
     title: "Handbook on Constructing Composite Indicators: Methodology and User Guide",
     venue: "OECD / European Commission JRC 2008",
     maturity: "guidance",
@@ -57,16 +47,6 @@ export const researchSources: ResearchSource[] = [
       "The standard defines a measurement process rather than product-specific scoring rules for AI coding harnesses.",
   },
   {
-    title: "Stochastic Multicriteria Acceptability Analysis for Group Decision Making",
-    venue: "European Journal of Operational Research 2007",
-    maturity: "peer-reviewed",
-    url: "https://doi.org/10.1016/j.ejor.2006.01.030",
-    supports:
-      "Motivates rank-acceptability analysis when weights or performance inputs are uncertain or missing instead of publishing one brittle ordering.",
-    limitation:
-      "HarnessMatch currently varies weights only and should not call its deterministic sensitivity sample a full SMAA implementation.",
-  },
-  {
     title: "Applying Inter-Rater Reliability and Agreement in Collaborative Grounded Theory Studies in Software Engineering",
     venue: "Journal of Systems and Software 2023",
     maturity: "peer-reviewed",
@@ -85,16 +65,6 @@ export const researchSources: ResearchSource[] = [
       "Supports agreement analysis for ordinal ratings, missing assignments, and more than two coders while emphasizing that interpretation thresholds depend on context.",
     limitation:
       "The coefficient measures reliability rather than validity; HarnessMatch must also report uncertainty, raw disagreement, and the composition of the coded sample.",
-  },
-  {
-    title: "A User-Centric Evaluation Framework for Recommender Systems",
-    venue: "ACM RecSys 2011",
-    maturity: "peer-reviewed",
-    url: "https://doi.org/10.1145/2043932.2043962",
-    supports:
-      "Motivates evaluating perceived recommendation quality, transparency, usefulness, satisfaction, and behavioral intention instead of relying only on offline ranking behavior.",
-    limitation:
-      "ResQue was developed for recommender-system user experience, not coding harness selection; HarnessMatch still needs a domain-specific prospective study.",
   },
   {
     title: "Establishing Best Practices in Building Rigorous Agentic Benchmarks",
@@ -174,7 +144,7 @@ export const researchSources: ResearchSource[] = [
     supports:
       "Studies training-trajectory selection across mini-SWE-agent, MSWE-agent, and other scaffolds, reinforcing that the agent framework and trajectory construction must be recorded when interpreting coding-model results.",
     limitation:
-      "The experiments optimize model training and use specific framework configurations; they do not compare current harness products for end-user workflow fit, so HarnessMatch imports no mini-SWE-agent product score from the paper.",
+      "The experiments optimize model training and use specific framework configurations; they do not compare current harness products for end-user suitability, so HarnessMatch imports no mini-SWE-agent product score from the paper.",
   },
   {
     title: "LAGUNA M.1 / XS.2 Technical Report",
@@ -532,7 +502,7 @@ export const researchSources: ResearchSource[] = [
     maturity: "preprint",
     url: "https://arxiv.org/abs/2604.20779",
     supports:
-      "Studies 6,000 public coding-agent sessions and distinguishes agent-dominant vibe coding from human-authored workflows, supporting workflow-specific recommendations and evaluation with real interaction traces.",
+      "Studies 6,000 public coding-agent sessions and distinguishes agent-dominant vibe coding from human-authored workflows, supporting workflow-specific comparison and evaluation with real interaction traces.",
     limitation:
       "It is a living observational dataset and recent preprint; public-session selection, attribution, and survival into commits do not establish causal product quality or safety rankings.",
   },
@@ -609,7 +579,7 @@ export const researchInsights: ResearchInsight[] = [
   {
     title: "A better harness must work beyond the tasks that shaped it.",
     summary:
-      "Harness changes should predict an outcome before evaluation, use matched budgets and simple search baselines, and then hold up on unseen tasks or another benchmark before influencing a general recommendation.",
+      "Harness changes should predict an outcome before evaluation, use matched budgets and simple search baselines, and then hold up on unseen tasks or another benchmark before supporting a general product claim.",
     sourceUrls: [
       "https://arxiv.org/abs/2604.25850",
       "https://arxiv.org/abs/2607.12227",

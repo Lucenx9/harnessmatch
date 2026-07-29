@@ -281,7 +281,7 @@ export function HomeUsageSummary({
       </div>
 
       <footer className="home-usage-footer">
-        <p>{sourceNote(selectedSource, openRouterView)} Rankings stay source-specific and never affect recommendations.</p>
+        <p>{sourceNote(selectedSource, openRouterView)} Rankings stay source-specific and never affect capability claims or classifications.</p>
       </footer>
     </section>
   );

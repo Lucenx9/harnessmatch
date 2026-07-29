@@ -2,7 +2,7 @@ import { getOperationalProfileRecord } from "../data/operational-profiles";
 import { benchmarkRuns } from "../data/benchmark-runs";
 import { featureClaimFor, featureClaimSupportsRequirement } from "../data/feature-claims";
 import { repositoryAuditForHarness } from "../data/repository-audits";
-import { operationalPostureScores } from "./recommendation-config";
+import { operationalPostureScores } from "./evaluation-config";
 import type { BenchmarkRun } from "../data/benchmark-runs";
 import type {
   ArchitectureAxis,

@@ -5,7 +5,7 @@ import { pageMetadata } from "@/lib/site";
 export const metadata: Metadata = pageMetadata({
   title: "Compare coding harnesses",
   description:
-    "Compare AI coding harnesses by interfaces, model access, capabilities, execution controls, workflow fit, trade-offs, and evidence.",
+    "Compare AI coding harnesses by interfaces, model access, capabilities, execution controls, trade-offs, and verified evidence.",
   path: "/compare",
 });
 

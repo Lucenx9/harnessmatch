@@ -583,7 +583,7 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
             </ul>
             <footer>
               <p>
-                Routing, package retrievals, release downloads, editor installs, and repository interest observe different populations. They are never added together and never affect capability evidence, workflow fit, or recommendation order.
+                Routing, package retrievals, release downloads, editor installs, and repository interest observe different populations. They are never added together and never affect capability evidence, classification, or measured results.
               </p>
               <div>
                 <Link className="text-link" href="/methodology#eligibility">Interpretation rules</Link>

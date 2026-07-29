@@ -10,7 +10,7 @@ export const discoveryWatchlist: WatchlistCandidate[] = [
   {
     name: "Terminus 2",
     status: "adjacent-tool",
-    reason: "Terminal-Bench documents Terminus as an autonomy-first evaluation agent outside the task container. It remains a research scaffold until first-party availability and daily-use support are documented well enough for workflow recommendation.",
+    reason: "Terminal-Bench documents Terminus as an autonomy-first evaluation agent outside the task container. It remains a research scaffold until first-party availability and daily-use support are documented well enough for catalog inclusion.",
     sourceUrl: "https://www.tbench.ai/news/terminus",
     observedAt: "2026-07-27",
   },
@@ -24,7 +24,7 @@ export const discoveryWatchlist: WatchlistCandidate[] = [
   {
     name: "Roo Code",
     status: "archived-lineage",
-    reason: "The first-party repository was archived in May 2026. Active lineage is represented by Zoo Code and archived tools are excluded from recommendation results.",
+    reason: "The first-party repository was archived in May 2026. Active lineage is represented by Zoo Code and archived tools are excluded from active catalog summaries.",
     sourceUrl: "https://github.com/RooCodeInc/Roo-Code",
     observedAt: "2026-07-26",
   },

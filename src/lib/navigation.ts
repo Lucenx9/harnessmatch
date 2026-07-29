@@ -51,15 +51,8 @@ export const searchablePageItems = [
   {
     label: "Methodology",
     href: "/methodology",
-    description: "Understand eligibility, scoring, evidence, and sensitivity.",
-    keywords: ["methods", "scoring", "weights", "research", "science"],
-    navigation: "secondary",
-  },
-  {
-    label: "Recommend",
-    href: "/recommend",
-    description: "Find leading harness matches for your workflow.",
-    keywords: ["recommendation", "quiz", "workflow fit", "choose"],
+    description: "Understand scope, classification, evidence, and measurement rules.",
+    keywords: ["methods", "classification", "evidence", "research", "science"],
     navigation: "secondary",
   },
   {

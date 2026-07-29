@@ -1,9 +1,4 @@
 export type InterfaceType = "terminal" | "ide" | "web" | "automation";
-export type Priority = "simplicity" | "flexibility" | "security" | "autonomy";
-export type ModelAccess = "subscription" | "model-agnostic" | "local" | "enterprise" | "no-preference";
-export type ControlStyle = "approval-heavy" | "balanced" | "hands-off";
-export type ChangeScope = "focused" | "cross-file" | "large-repo";
-export type OperatingMode = "interactive" | "ci" | "parallel";
 export type HarnessRole =
   | "pair-programmer"
   | "coding-agent"
@@ -149,7 +144,7 @@ export type DiscoverySource = {
 /**
  * A dated view of traffic publicly attributed to an app on OpenRouter.
  * This is ecosystem context, not first-party capability evidence or a quality
- * measure, and therefore lives outside the Harness record and recommendation.
+ * measure, and therefore lives outside the Harness record and classification.
  */
 export type OpenRouterAttributionSnapshot = {
   harnessId: string;
@@ -306,45 +301,6 @@ export type Harness = {
   verifiedAt: string;
   evidence: EvidenceSource[];
   discovery?: DiscoverySource[];
-};
-
-export type RecommendationAnswers = {
-  interface: InterfaceType;
-  priority: Priority;
-  modelAccess: ModelAccess;
-  control: ControlStyle;
-  changeScope: ChangeScope;
-  operatingMode: OperatingMode;
-  requiredFeatures: FeatureKey[];
-};
-
-export type Recommendation = {
-  harness: Harness;
-  score: number;
-  fitBand: "strong" | "good" | "conditional" | "weak";
-  robustness: RankRobustness;
-  evidenceState: EvidenceStateSummary;
-  evidenceCoverage: "high" | "medium" | "limited";
-  evidenceSourceCount: number;
-  reasons: string[];
-  compromises: string[];
-  scoreBreakdown: Record<RecommendationFactor, number>;
-};
-
-
-export type RecommendationFactor =
-  | "priority"
-  | "control"
-  | "changeScope"
-  | "operatingMode";
-
-export type RankRobustness = {
-  scenarioCount: number;
-  topRankFrequency: number;
-  topThreeFrequency: number;
-  bestRank: number;
-  worstRank: number;
-  meanRank: number;
 };
 
 export type EvidenceState =

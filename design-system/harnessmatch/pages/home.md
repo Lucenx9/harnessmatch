@@ -4,9 +4,8 @@ The homepage is a working analysis surface. It should feel closer to a compact r
 
 ## Page job
 
-- Let a user enter through source-separated usage, evidence, comparison, or the catalog without making the recommender the homepage task
-- Keep the tailored recommender available through secondary navigation for users who explicitly want workflow guidance
-- Add source-separated adoption context without turning popularity into quality or a recommendation factor
+- Let a user enter through source-separated usage, evidence, comparison, or the catalog
+- Add source-separated adoption context without turning popularity into quality or a classification factor
 - Show latest stable versions with exact release dates and a transparent trailing 90-day cadence over releases with reviewed assets
 - Route users to evidence profiles without inserting promotional sections between the working tools and catalog
 
@@ -17,11 +16,10 @@ The homepage is a working analysis surface. It should feel closer to a compact r
 - Put the source-separated usage preview immediately below the intro
 - Place the capability-filtered catalog after public usage signals
 - Replace workflow-fit presets with a latest-stable-release table sourced from reviewed GitHub release mappings
-- Sort releases by exact latest stable release date, then matched stable releases in the trailing 90-day window, without implying quality or recommendation rank
+- Sort releases by exact latest stable release date, then matched stable releases in the trailing 90-day window, without implying quality or product rank
 - Default to the completed OpenRouter 7-day window; keep Homebrew, npm, GitHub Releases, and VS Code in independent tabs
 - Show five rows, native units, direct values, observation dates, coverage, and a link to the complete Usage page
 - Keep the operational, auditability, and measured-system explorer on the Data page
-- Keep the personalized workflow test on `/recommend`; do not duplicate it as a second homepage recommender
 - Keep the catalog's compact methodology note as the final research route, without separate research-card repetition
 - No testimonial, social proof, generic benefit, or conversion CTA sections
 

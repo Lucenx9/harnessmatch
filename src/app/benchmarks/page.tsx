@@ -173,7 +173,7 @@ export default function BenchmarksPage() {
             <h2>Claim boundary</h2>
             <p>The same harness can move when the model, effort, version, task set, budget, or integrity policy changes.</p>
             <div className="formula">result = model × harness × config × environment × budget</div>
-            <p>HarnessMatch never copies this accuracy into workflow fit, operational readiness, or code auditability.</p>
+            <p>HarnessMatch never copies this accuracy into capability classification, operational readiness, or code auditability.</p>
             <p>The displayed 95% interval is a normal approximation from the reported standard error. It is descriptive, not a task-cluster-corrected equivalence test.</p>
           </div>
         </section>

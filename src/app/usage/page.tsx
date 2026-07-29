@@ -60,7 +60,7 @@ export default function UsagePage() {
         </section>
 
         <aside className="usage-source-note" aria-label="Usage signal source notes">
-          <p>All records are refreshed from public or authenticated source APIs and joined only through an explicit artifact mapping. Coverage gaps remain visible and no popularity signal affects recommendations.</p>
+          <p>All records are refreshed from public or authenticated source APIs and joined only through an explicit artifact mapping. Coverage gaps remain visible and no popularity signal affects capability claims or classifications.</p>
           <div>
             <a href="https://openrouter.ai/docs/agent-sdk/typescript/api-reference/datasets" target="_blank" rel="noreferrer">OpenRouter dataset</a>
             <a href="https://formulae.brew.sh/docs/api/" target="_blank" rel="noreferrer">Homebrew API</a>

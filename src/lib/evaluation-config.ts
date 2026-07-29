@@ -4,7 +4,6 @@ import type {
   ObservabilityPosture,
   PermissionPosture,
   RecoveryPosture,
-  RecommendationAnswers,
   VerificationPosture,
 } from "./types";
 
@@ -75,47 +74,6 @@ export const capabilityLevelAnchors: Record<
   },
 };
 
-export const recommendationWeights = {
-  priority: 30,
-  control: 25,
-  changeScope: 25,
-  operatingMode: 20,
-} as const;
-
-export const capabilityValueFunction: Record<CapabilityLevel, number> = {
-  1: 0,
-  2: 25,
-  3: 50,
-  4: 75,
-  5: 100,
-} as const;
-
-export const recommendationSensitivity = {
-  scenarios: 512,
-  weightMultiplierMin: 0.7,
-  weightMultiplierMax: 1.3,
-  /**
-   * Maximum half-width of the symmetric perturbation applied to a factor value.
-   * Near 0 or 100 the applied half-width shrinks to the distance to the bound,
-   * so the perturbation stays centred on the factor value instead of losing one
-   * tail to a clamp.
-   */
-  factorValueUncertainty: 12.5,
-  seed: 0x484d_5632,
-} as const;
-
-export const fitBandThresholds = {
-  strong: 75,
-  good: 55,
-  conditional: 35,
-} as const;
-
-/**
- * Results this close to the highest provisional preference value are presented
- * as a leading group instead of implying that the internal ordering is exact.
- */
-export const closeMatchScoreMargin = 2;
-
 export const operationalPostureScores = {
   context: {
     basic: 40,
@@ -148,41 +106,4 @@ export const operationalPostureScores = {
     "managed-recovery": 100,
     unknown: null,
   } satisfies Record<RecoveryPosture, number | null>,
-} as const;
-
-export const controlStyleWeights = {
-  "approval-heavy": { humanControl: 55, permissions: 30, recovery: 15 },
-  balanced: { humanControl: 30, autonomy: 25, permissions: 20, verification: 15, recovery: 10 },
-  "hands-off": {
-    autonomy: 25,
-    automation: 20,
-    verification: 20,
-    recovery: 15,
-    security: 10,
-    observability: 10,
-  },
-} as const;
-
-export const operatingModeWeights = {
-  interactive: { simplicity: 40, humanControl: 35, recovery: 25 },
-  ci: { automation: 35, verification: 25, security: 20, observability: 20 },
-  parallel: { autonomy: 30, context: 25, observability: 25, recovery: 20 },
-} as const;
-
-export const changeScopeWeights = {
-  focused: { simplicity: 70, humanControl: 30 },
-  "cross-file": { flexibility: 60, context: 40 },
-  "large-repo": { largeRepo: 55, context: 45 },
-} as const;
-
-export const implicitRequiredFeatures: Partial<
-  Record<RecommendationAnswers["operatingMode"], readonly ("headless" | "subagents")[]>
-> = {
-  ci: ["headless"],
-  parallel: ["subagents"],
-};
-
-export const evidenceCoverageThresholds = {
-  high: { sources: 4, sourceKinds: 2 },
-  medium: { sources: 3, sourceKinds: 1 },
 } as const;

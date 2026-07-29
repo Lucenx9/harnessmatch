@@ -23,6 +23,11 @@ describe("usage surface", () => {
     expect(sitemap()).toContainEqual(expect.objectContaining({ url: `${siteUrl}/benchmarks` }));
   });
 
+  it("keeps the removed recommender out of navigation and the sitemap", () => {
+    expect(searchablePageItems).not.toContainEqual(expect.objectContaining({ href: "/recommend" }));
+    expect(sitemap()).not.toContainEqual(expect.objectContaining({ url: `${siteUrl}/recommend` }));
+  });
+
   it("exports every active source record without combining their metrics", async () => {
     const activeHarnessById = new Map(
       harnesses.filter((harness) => harness.status === "active").map((harness) => [harness.id, harness]),

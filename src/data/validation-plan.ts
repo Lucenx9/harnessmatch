@@ -56,16 +56,16 @@ export const contentValidityPlan = {
   ],
 } as const;
 
-export const userValidationPlan = {
+export const usabilityValidationPlan = {
   status: "not-started" as ValidationPlanStatus,
   design:
-    "Prospective pilot: collect workflow preferences, lock the recommendation, counterbalance hands-on trials of two or three eligible harnesses, and keep the predicted winner hidden until pre-reveal ratings are complete.",
+    "Prospective pilot: give developers realistic comparison tasks, record which catalog and evidence views they use, and test whether they can explain the relevant trade-offs before choosing what to evaluate themselves.",
   outcomes: [
-    "Pre-reveal match between the locked recommendation and the user's preferred harness",
-    "Perceived recommendation quality and transparency",
-    "Choice confidence and satisfaction after real use",
-    "Switching frequency and reasons after a follow-up period",
+    "Accuracy when identifying documented capabilities, unknowns, and evidence limits",
+    "Time and interaction cost required to build a shortlist",
+    "Decision confidence without implying that the site selected a winner",
+    "Comprehension of the boundary between popularity, documentation, and measured performance",
   ],
   sampleSizePolicy:
-    "Use the first pilot to estimate variance and completion rates, then set the confirmatory sample from a preregistered precision or power target. Pilot results alone do not establish predictive validity.",
+    "Use the first pilot to estimate completion rates and task variance, then set the confirmatory sample from a preregistered precision or power target. Pilot results alone do not establish general usability.",
 } as const;

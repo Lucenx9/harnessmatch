@@ -70,9 +70,10 @@ export function pageMetadata({
 export function harnessProfileDescription(name: string, tagline: string): string {
   const prefix = `${name}: ${tagline}`;
   const candidates = [
-    `${prefix} Compare workflow fit, capabilities, controls, trade-offs, and verified first-party evidence.`,
-    `${prefix} Compare workflow fit, controls, trade-offs, and verified evidence.`,
-    `${prefix} Workflow fit, trade-offs, and verified evidence.`,
+    `${prefix} Inspect capabilities, controls, trade-offs, public activity, and verified first-party evidence.`,
+    `${prefix} Inspect controls, trade-offs, public activity, and verified evidence.`,
+    `${prefix} Capabilities, trade-offs, and verified first-party evidence.`,
+    `${prefix} Verified capabilities, controls, and evidence.`,
   ];
   const description = candidates.find((candidate) => (
     candidate.length >= metaDescriptionLength.min

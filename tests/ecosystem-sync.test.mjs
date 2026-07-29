@@ -167,7 +167,7 @@ describe("ecosystem signal sync", () => {
       artifactUrl: "https://www.npmjs.com/package/@openai/codex",
       sourceUrl: "https://github.com/npm/download-counts",
     }]);
-    expect(output).toContain("never enter recommendation or capability scoring");
+    expect(output).toContain("never affect capability claims or classification");
     expect(output).toContain('source: "npm"');
   });
 });
