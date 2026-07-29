@@ -213,9 +213,9 @@ export function UsageSignalsExplorer({
       rank: record.usage.rank,
       value: record.usage.attributedTokens,
       valueLabel: record.usage.attributedTokens === null ? "Not listed" : `${compactNumberFormatter.format(record.usage.attributedTokens)} tokens`,
-      valueAriaLabel: record.usage.attributedTokens === null ? "No attributed traffic in this window" : `${fullNumberFormatter.format(record.usage.attributedTokens)} attributed tokens`,
+      valueAriaLabel: record.usage.attributedTokens === null ? "Not listed in this window" : `${fullNumberFormatter.format(record.usage.attributedTokens)} attributed tokens`,
       secondary: record.usage.attributedRequests === null ? "Not listed" : compactNumberFormatter.format(record.usage.attributedRequests),
-      secondaryAriaLabel: record.usage.attributedRequests === null ? "No attributed requests in this window" : `${fullNumberFormatter.format(record.usage.attributedRequests)} attributed requests`,
+      secondaryAriaLabel: record.usage.attributedRequests === null ? "Not listed in this window" : `${fullNumberFormatter.format(record.usage.attributedRequests)} attributed requests`,
     }));
 
   const ecosystemRows = selectedSource === "openrouter" ? [] : rowsForEcosystem(ecosystemRecords, selectedSource);
@@ -362,7 +362,7 @@ export function UsageSignalsExplorer({
                   </span>
                   <span className="usage-bar-cell">
                     {row.value === null ? (
-                      <span className="usage-missing">No attributed traffic in this window</span>
+                      <span className="usage-missing">{row.valueLabel}</span>
                     ) : (
                       <>
                         <span className="usage-bar" style={{ width: `${barWidth}%` }} aria-hidden="true" />
