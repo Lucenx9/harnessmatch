@@ -1,4 +1,7 @@
 const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
+const millisecondsPerDay = 86_400_000;
+
+export const githubReleaseActivityWindowDays = 90;
 
 export const sourceDefinitions = {
   homebrew: {
@@ -41,7 +44,7 @@ function nonNegativeInteger(value, label) {
 function elapsedUtcDays(startDate, endDate) {
   const start = Date.parse(`${startDate}T00:00:00Z`);
   const end = Date.parse(`${endDate}T00:00:00Z`);
-  return Math.round((end - start) / 86_400_000);
+  return Math.round((end - start) / millisecondsPerDay);
 }
 
 export function parseHomebrewAnalytics(payload, artifacts, artifactKind, observedAt) {
@@ -241,12 +244,29 @@ export function parseGitHubReleaseDownloads(releases, artifact, audit, observedA
   if (matchedAssets.length === 0) {
     throw new Error(`No stable GitHub release assets match ${artifact.harnessId}`);
   }
-  const latestReleaseAt = matchedReleases
-    .map((release) => release.published_at.slice(0, 10))
-    .sort()
-    .at(-1);
-  assertIsoDate(latestReleaseAt, `GitHub ${artifact.harnessId} latest release date`);
   assertIsoDate(observedAt, "GitHub releases observation date");
+  for (const release of matchedReleases) {
+    assertIsoDate(release.published_at.slice(0, 10), `GitHub ${artifact.harnessId} release date`);
+  }
+  const latestRelease = matchedReleases.toSorted((left, right) => (
+    right.published_at.localeCompare(left.published_at)
+  ))[0];
+  const latestReleaseAt = latestRelease.published_at.slice(0, 10);
+  assertIsoDate(latestReleaseAt, `GitHub ${artifact.harnessId} latest release date`);
+  if (latestRelease.tag_name.length === 0) {
+    throw new Error(`GitHub ${artifact.harnessId} latest release tag is missing`);
+  }
+  const expectedReleaseUrlPrefix = `${audit.repositoryUrl}/releases/tag/`;
+  if (typeof latestRelease.html_url !== "string" || !latestRelease.html_url.toLowerCase().startsWith(expectedReleaseUrlPrefix.toLowerCase())) {
+    throw new Error(`GitHub ${artifact.harnessId} latest release URL changed`);
+  }
+  const recentWindowStart = new Date(
+    Date.parse(`${observedAt}T00:00:00Z`) - ((githubReleaseActivityWindowDays - 1) * millisecondsPerDay),
+  ).toISOString().slice(0, 10);
+  const recentReleaseCount = matchedReleases.filter((release) => {
+    const releaseDate = release.published_at.slice(0, 10);
+    return releaseDate >= recentWindowStart && releaseDate <= observedAt;
+  }).length;
   const repositorySlug = audit.repositoryUrl.replace("https://github.com/", "");
   return {
     source: "github-releases",
@@ -258,7 +278,11 @@ export function parseGitHubReleaseDownloads(releases, artifact, audit, observedA
     ), 0),
     assetCount: matchedAssets.length,
     releaseCount: matchedReleases.length,
+    recentReleaseCount,
+    recentReleaseWindowDays: githubReleaseActivityWindowDays,
+    latestVersion: latestRelease.tag_name,
     latestReleaseAt,
+    latestReleaseUrl: latestRelease.html_url,
     artifactScope: artifact.artifactScope,
     repositoryScope: audit.sourceScope,
     observedAt,
@@ -313,7 +337,8 @@ export function renderEcosystemSignalsFile(signals) {
   const records = signals.map((signal) => {
     const orderedKeys = [
       "source", "metric", "harnessId", "artifactId", "artifactKind", "value", "forks", "repositoryScope",
-      "pluginId", "latestVersion", "assetCount", "releaseCount", "latestReleaseAt", "artifactScope",
+      "pluginId", "latestVersion", "assetCount", "releaseCount", "recentReleaseCount", "recentReleaseWindowDays",
+      "latestReleaseAt", "latestReleaseUrl", "artifactScope",
       "windowDays", "windowStart", "windowEnd", "observedAt", "artifactUrl", "sourceUrl",
     ];
     const lines = ["  {"];

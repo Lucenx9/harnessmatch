@@ -91,7 +91,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="home-release-section" aria-label="Recent stable release activity">
+      <section className="home-release-section" aria-label="Latest stable harness releases">
         <div className="wide-shell shell">
           <HomeReleaseActivity records={recentReleaseActivity} />
         </div>

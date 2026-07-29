@@ -27,7 +27,12 @@ describe("ecosystem usage signals", () => {
       if (signal.source === "github-releases") {
         expect(signal.assetCount).toBeGreaterThan(0);
         expect(signal.releaseCount).toBeGreaterThan(0);
+        expect(signal.recentReleaseCount).toBeGreaterThanOrEqual(0);
+        expect(signal.recentReleaseCount).toBeLessThanOrEqual(signal.releaseCount);
+        expect(signal.recentReleaseWindowDays).toBe(90);
+        expect(signal.latestVersion.length).toBeGreaterThan(0);
         expect(signal.latestReleaseAt).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+        expect(signal.latestReleaseUrl).toMatch(/^https:\/\/github\.com\/.+\/releases\/tag\//);
       }
       if (signal.source === "openvsx") expect(signal.latestVersion.length).toBeGreaterThan(0);
       if (signal.source === "jetbrains") expect(signal.pluginId).toBeGreaterThan(0);

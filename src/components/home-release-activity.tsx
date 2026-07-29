@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { HarnessLogo } from "@/components/harness-logo";
 import type { ReleaseActivityRecord } from "@/lib/usage-view";
-
-const fullNumberFormatter = new Intl.NumberFormat("en-US");
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "short",
   day: "numeric",
@@ -20,6 +18,10 @@ function formatDate(value: string) {
   return dateFormatter.format(new Date(`${value}T00:00:00Z`));
 }
 
+function formatReleaseCount(value: number) {
+  return `${value} ${value === 1 ? "release" : "releases"}`;
+}
+
 export function HomeReleaseActivity({ records }: { records: ReleaseActivityRecord[] }) {
   const observedAt = records.reduce(
     (latest, record) => record.signal.observedAt > latest ? record.signal.observedAt : latest,
@@ -30,8 +32,8 @@ export function HomeReleaseActivity({ records }: { records: ReleaseActivityRecor
     <section className="home-release-activity" aria-labelledby="home-release-heading">
       <header className="home-release-header">
         <div>
-          <h2 id="home-release-heading">Recent release activity</h2>
-          <p>Latest stable releases from explicitly matched GitHub feeds. Recency and downloads describe activity, not product quality.</p>
+          <h2 id="home-release-heading">Latest stable releases</h2>
+          <p>Current version, date, and 90-day cadence from stable GitHub releases with reviewed assets. Frequency describes activity, not quality.</p>
         </div>
         <Link className="text-link" href="/usage">Open all usage data</Link>
       </header>
@@ -40,9 +42,9 @@ export function HomeReleaseActivity({ records }: { records: ReleaseActivityRecor
         <>
           <div className="home-release-columns" aria-hidden="true">
             <span>Harness</span>
-            <span>Latest stable release</span>
-            <span>Releases scanned</span>
-            <span>Matched asset downloads</span>
+            <span>Stable version</span>
+            <span>Released</span>
+            <span>Release cadence</span>
           </div>
           <ol className="home-release-list">
             {records.map((record) => (
@@ -55,30 +57,31 @@ export function HomeReleaseActivity({ records }: { records: ReleaseActivityRecor
                   </span>
                 </div>
                 <a
-                  className="home-release-date"
-                  href={record.signal.artifactUrl}
+                  className="home-release-version"
+                  href={record.signal.latestReleaseUrl}
                   target="_blank"
                   rel="noreferrer"
-                  aria-label={`Open ${record.name} GitHub release source`}
+                  aria-label={`Open ${record.name} ${record.signal.latestVersion} release on GitHub`}
                 >
-                  <span className="home-release-mobile-label">Latest stable release</span>
-                  <strong>{formatDate(record.signal.latestReleaseAt)}</strong>
-                  <small>GitHub source</small>
+                  <span className="home-release-mobile-label">Stable version</span>
+                  <strong>{record.signal.latestVersion}</strong>
+                  <small>Open release</small>
                 </a>
                 <div className="home-release-stat">
-                  <span className="home-release-mobile-label">Releases scanned</span>
-                  <strong>{fullNumberFormatter.format(record.signal.releaseCount)}</strong>
+                  <span className="home-release-mobile-label">Released</span>
+                  <strong>{formatDate(record.signal.latestReleaseAt)}</strong>
                 </div>
                 <div className="home-release-stat">
-                  <span className="home-release-mobile-label">Matched downloads</span>
-                  <strong>{fullNumberFormatter.format(record.signal.value)}</strong>
+                  <span className="home-release-mobile-label">Release cadence</span>
+                  <strong>{formatReleaseCount(record.signal.recentReleaseCount)}</strong>
+                  <small>past {record.signal.recentReleaseWindowDays} days</small>
                 </div>
               </li>
             ))}
           </ol>
           <footer className="home-release-footer">
             <p>
-              Sorted by latest stable release date, then matched downloads. Coverage is limited to reviewed asset mappings.
+              Sorted by latest stable release date, then matched stable releases in the trailing 90-day window. Version tags are shown verbatim.
               {observedAt ? ` Observed ${formatDate(observedAt)}.` : ""}
             </p>
           </footer>

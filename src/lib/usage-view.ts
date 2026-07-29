@@ -52,7 +52,7 @@ export function buildRecentReleaseActivity({
     })
     .sort((left, right) => (
       right.signal.latestReleaseAt.localeCompare(left.signal.latestReleaseAt)
-      || right.signal.value - left.signal.value
+      || right.signal.recentReleaseCount - left.signal.recentReleaseCount
       || left.name.localeCompare(right.name)
     ))
     .slice(0, Math.max(0, limit));

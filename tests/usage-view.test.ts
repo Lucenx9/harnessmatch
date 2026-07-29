@@ -51,8 +51,14 @@ describe("usage view records", () => {
     expect(records).toHaveLength(6);
     expect(records.every((record) => activeIds.has(record.id))).toBe(true);
     expect(records.every((record) => record.signal.source === "github-releases")).toBe(true);
-    expect(records.map((record) => record.signal.latestReleaseAt)).toEqual(
-      records.map((record) => record.signal.latestReleaseAt).toSorted().reverse(),
+    expect(records.every((record) => record.signal.latestVersion.length > 0)).toBe(true);
+    expect(records.every((record) => record.signal.recentReleaseWindowDays === 90)).toBe(true);
+    expect(records.map((record) => record.id)).toEqual(
+      records.toSorted((left, right) => (
+        right.signal.latestReleaseAt.localeCompare(left.signal.latestReleaseAt)
+        || right.signal.recentReleaseCount - left.signal.recentReleaseCount
+        || left.name.localeCompare(right.name)
+      )).map((record) => record.id),
     );
   });
 });

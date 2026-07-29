@@ -65,7 +65,7 @@ Semantic success, warning, and danger colors are reserved for actual state. They
 - Decision surfaces use progressive disclosure: observed data and catalog facts first, tailored guidance when the user asks for it, and methodology on demand
 - A first reading layer should answer what to choose, why it fits, and what to check before choosing
 - The first interactive homepage surface is a compact, source-separated usage preview with five directly labeled rows
-- Recent stable release activity follows the catalog; the tailored recommender remains a secondary navigation path
+- Latest stable versions, exact release dates, and trailing 90-day cadence follow the catalog; the tailored recommender remains a secondary navigation path
 - Operational-readiness, public-code-auditability, and measured-system rankings live on the dedicated Data page
 - Workflow-fit bars visualize top-three sensitivity frequency across published priority variations, never task success, model intelligence, or benchmark performance
 - Required workflow capabilities are eligibility gates. A compatible capability does not add a hidden score bonus

@@ -245,7 +245,11 @@ export type GitHubReleaseDownloadSignal = EcosystemSignalBase & {
   value: number;
   assetCount: number;
   releaseCount: number;
+  recentReleaseCount: number;
+  recentReleaseWindowDays: number;
+  latestVersion: string;
   latestReleaseAt: string;
+  latestReleaseUrl: string;
   artifactScope: string;
   repositoryScope: "full-source" | "client-source" | "support-repository";
 };

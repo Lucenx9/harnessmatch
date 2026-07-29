@@ -7,7 +7,7 @@ The homepage is a working analysis surface. It should feel closer to a compact r
 - Let a user enter through source-separated usage, evidence, comparison, or the catalog without making the recommender the homepage task
 - Keep the tailored recommender available through secondary navigation for users who explicitly want workflow guidance
 - Add source-separated adoption context without turning popularity into quality or a recommendation factor
-- Show recent stable release activity with exact dates, reviewed asset scope, and native GitHub download counts
+- Show latest stable versions with exact release dates and a transparent trailing 90-day cadence over releases with reviewed assets
 - Route users to evidence profiles without inserting promotional sections between the working tools and catalog
 
 ## Layout
@@ -16,8 +16,8 @@ The homepage is a working analysis surface. It should feel closer to a compact r
 - Add direct, equal-weight entry points for Usage, Compare, Evidence, and the active catalog below the intro
 - Put the source-separated usage preview immediately below the intro
 - Place the capability-filtered catalog after public usage signals
-- Replace workflow-fit presets with a recent-release table sourced from reviewed stable GitHub release mappings
-- Sort recent releases by exact latest stable release date, then matched asset downloads, without implying quality or recommendation rank
+- Replace workflow-fit presets with a latest-stable-release table sourced from reviewed GitHub release mappings
+- Sort releases by exact latest stable release date, then matched stable releases in the trailing 90-day window, without implying quality or recommendation rank
 - Default to the completed OpenRouter 7-day window; keep Homebrew, npm, GitHub Releases, and VS Code in independent tabs
 - Show five rows, native units, direct values, observation dates, coverage, and a link to the complete Usage page
 - Keep the operational, auditability, and measured-system explorer on the Data page
@@ -29,8 +29,8 @@ The homepage is a working analysis surface. It should feel closer to a compact r
 
 - Usage bars use a single muted-violet series without background tracks, and every row links directly to the harness profile
 - Usage tabs use native source names instead of implying a combined top-harness leaderboard
-- Release activity uses a direct table rather than bars because date recency, release count, and downloads are separate dimensions
-- Every release row opens the HarnessMatch profile and exposes the corresponding GitHub release feed as an external source
+- Release activity uses a direct table because version, date, and maintenance cadence answer different operational questions
+- Every release row opens the HarnessMatch profile and links its verbatim version tag to the exact GitHub release
 
 ## Catalog rules
 

@@ -108,6 +108,7 @@ describe("ecosystem signal sync", () => {
       {
         tag_name: "v1.0.0",
         published_at: "2026-07-01T10:00:00Z",
+        html_url: "https://github.com/example/tool/releases/tag/v1.0.0",
         draft: false,
         prerelease: false,
         assets: [
@@ -122,6 +123,14 @@ describe("ecosystem signal sync", () => {
         prerelease: true,
         assets: [{ id: 3, name: "tool-linux-x64.tar.gz", download_count: 900 }],
       },
+      {
+        tag_name: "v0.9.0",
+        published_at: "2026-03-01T10:00:00Z",
+        html_url: "https://github.com/example/tool/releases/tag/v0.9.0",
+        draft: false,
+        prerelease: false,
+        assets: [{ id: 4, name: "tool-linux-x64.tar.gz", download_count: 50 }],
+      },
     ], {
       harnessId: "tool",
       includePatterns: [String.raw`^tool-.+\.(?:tar\.gz|zip)$`],
@@ -133,10 +142,14 @@ describe("ecosystem signal sync", () => {
     }, observedAt);
     expect(signal).toMatchObject({
       source: "github-releases",
-      value: 100,
-      assetCount: 1,
-      releaseCount: 1,
+      value: 150,
+      assetCount: 2,
+      releaseCount: 2,
+      recentReleaseCount: 1,
+      recentReleaseWindowDays: 90,
+      latestVersion: "v1.0.0",
       latestReleaseAt: "2026-07-01",
+      latestReleaseUrl: "https://github.com/example/tool/releases/tag/v1.0.0",
     });
   });
 
