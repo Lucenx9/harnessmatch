@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-07-29T02:53:06.162Z",
+  "updatedAt": "2026-07-29T03:17:44.202Z",
   "generatedBy": {
     "provider": "OpenRouter",
     "model": "openai/gpt-oss-20b",
@@ -55,6 +55,215 @@
         "verificationQuestions": [],
         "limitations": [
           "Release notes are truncated; some details may be missing."
+        ]
+      }
+    },
+    {
+      "key": "junie-cli:2555.1",
+      "harnessId": "junie-cli",
+      "version": "2555.1",
+      "releasedAt": "2026-07-28",
+      "releaseUrl": "https://github.com/JetBrains/junie/releases/tag/2555.1",
+      "sourceApiUrl": "https://api.github.com/repos/JetBrains/junie/releases/tags/2555.1",
+      "releaseTitle": "Junie Nightly 2555.1",
+      "releaseNotesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T03:12:03.819Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 403,
+        "completionTokens": 97,
+        "totalTokens": 500
+      },
+      "triage": {
+        "summary": "No release notes provided.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [],
+        "verificationQuestions": [],
+        "limitations": [
+          "Release notes are empty; no information on changes or potential impacts."
+        ]
+      }
+    },
+    {
+      "key": "kern:v0.32.1",
+      "harnessId": "kern",
+      "version": "v0.32.1",
+      "releasedAt": "2026-07-28",
+      "releaseUrl": "https://github.com/oguzbilgic/kern-ai/releases/tag/v0.32.1",
+      "sourceApiUrl": "https://api.github.com/repos/oguzbilgic/kern-ai/releases/tags/v0.32.1",
+      "releaseTitle": "v0.32.1",
+      "releaseNotesSha256": "0f28570b5aa1d628e6870b9e28a11f5cf572e5a3c15907157d7f7536cf942535",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T03:12:03.819Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 705,
+        "completionTokens": 277,
+        "totalTokens": 982
+      },
+      "triage": {
+        "summary": "Fixes in v0.32.1 address environment variable precedence, prevent leaking of media URIs to providers, and reduce session write amplification by appending only new records and repairing torn lines.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Environment variable precedence in .kern/.env now authoritative, preventing silent inheritance of provider keys."
+          },
+          {
+            "category": "safety",
+            "description": "Media URI leakage to provider removed; failures degrade to text placeholders and final strip pass ensures no raw URI is sent."
+          },
+          {
+            "category": "performance",
+            "description": "Session write amplification reduced by appending only new records and repairing torn trailing lines."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the change to .kern/.env affect any other environment variable handling in the system?",
+          "Is the final strip pass guaranteed to remove all raw URIs in all failure scenarios?",
+          "How does the append-only strategy handle concurrent writes?"
+        ],
+        "limitations": [
+          "The notes do not detail impact on other components or potential edge cases."
+        ]
+      }
+    },
+    {
+      "key": "letta-code:v0.29.10",
+      "harnessId": "letta-code",
+      "version": "v0.29.10",
+      "releasedAt": "2026-07-28",
+      "releaseUrl": "https://github.com/letta-ai/letta-code/releases/tag/v0.29.10",
+      "sourceApiUrl": "https://api.github.com/repos/letta-ai/letta-code/releases/tags/v0.29.10",
+      "releaseTitle": "Release v0.29.10",
+      "releaseNotesSha256": "6d9ea786c817047b0b5d2a0febeb547c22c1b738c7a2b43b7d35c03d2346c69f",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T03:12:03.819Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 588,
+        "completionTokens": 237,
+        "totalTokens": 825
+      },
+      "triage": {
+        "summary": "Release v0.29.10 adds UI support for shared cloud agents, introduces a new builtin skill for managing shared memory on cloud agents, and adds OpenAI Responses API support to the app server. Version bump is also included.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "documentation",
+            "description": "UI enhancement to show shared cloud agents."
+          },
+          {
+            "category": "capability",
+            "description": "New builtin skill for managing shared memory on cloud agents."
+          },
+          {
+            "category": "capability",
+            "description": "App server now supports OpenAI Responses API."
+          },
+          {
+            "category": "compatibility",
+            "description": "Version bump to 0.29.10."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "Information limited to the release notes; no details on implementation or potential impact on runtime control, permissions, or isolation."
+        ]
+      }
+    },
+    {
+      "key": "mistral-vibe:v2.23.1",
+      "harnessId": "mistral-vibe",
+      "version": "v2.23.1",
+      "releasedAt": "2026-07-28",
+      "releaseUrl": "https://github.com/mistralai/mistral-vibe/releases/tag/v2.23.1",
+      "sourceApiUrl": "https://api.github.com/repos/mistralai/mistral-vibe/releases/tags/v2.23.1",
+      "releaseTitle": "v2.23.1",
+      "releaseNotesSha256": "2995191d1347880bec8f762b73ab2f15231654270f44fd790317158c7813d910",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T03:12:03.819Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 427,
+        "completionTokens": 125,
+        "totalTokens": 552
+      },
+      "triage": {
+        "summary": "Fixed a crash that occurred when @-mentioning a file, which aborted the turn.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "unknown",
+            "description": "Crash when @-mentioning a file, which aborted the turn"
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": []
+      }
+    },
+    {
+      "key": "opensquilla:v0.5.1",
+      "harnessId": "opensquilla",
+      "version": "v0.5.1",
+      "releasedAt": "2026-07-28",
+      "releaseUrl": "https://github.com/opensquilla/opensquilla/releases/tag/v0.5.1",
+      "sourceApiUrl": "https://api.github.com/repos/opensquilla/opensquilla/releases/tags/v0.5.1",
+      "releaseTitle": "OpenSquilla 0.5.1",
+      "releaseNotesSha256": "c7f8b5fae72e90d73db29b68643278705ff9f7960b2bbbb10a41bbeba622fa27",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T03:12:03.819Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 2355,
+        "completionTokens": 625,
+        "totalTokens": 2980
+      },
+      "triage": {
+        "summary": "OpenSquilla 0.5.1 is a maintenance release adding durable plan mode, project workspaces, richer artifact previews, improved desktop startup and profile recovery, enhanced control console UI, new provider options, and stronger reliability for scheduled tasks and execution modes. It also updates download assets, signing policy, and privacy settings.",
+        "reviewPriority": "review",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Durable Plan mode that persists plans across full lifecycle and clearer summaries in execution dock."
+          },
+          {
+            "category": "capability",
+            "description": "Project workspaces with first‑class setup, improved chat activity, safer sandbox routing, and native folder creation on macOS."
+          },
+          {
+            "category": "capability",
+            "description": "Artifact previews now support richer browser‑grade rendering and direct file attachment from chat composer."
+          },
+          {
+            "category": "capability",
+            "description": "Desktop startup and profile recovery hardened: consolidation of legacy recovery profiles, bounded recovery, non‑blocking profile merge, and Windows profile import support."
+          },
+          {
+            "category": "capability",
+            "description": "Control console UI improvements: cleaner chat, provider settings, stable skills navigation, safer settings overlays, refined Cron/Skills/MetaSkill workflows."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the durable plan mode affect any existing plan data migration or compatibility?",
+          "Are there any changes to sandbox routing that could impact custom provider configurations?",
+          "What are the implications of the atomic idempotency for tool‑created Cron jobs on existing scheduled workflows?",
+          "Does the Windows installer signing status affect installation security requirements?",
+          "Are there any backward‑compatibility concerns for users upgrading from 0.5.0 regarding profile data or scheduled tasks?"
+        ],
+        "limitations": [
+          "The notes do not detail internal implementation changes or potential side effects on existing user data beyond the stated migration guidance.…"
         ]
       }
     },
@@ -355,6 +564,150 @@
       }
     },
     {
+      "key": "kimi-code:@moonshot-ai/kimi-code@0.29.2",
+      "harnessId": "kimi-code",
+      "version": "@moonshot-ai/kimi-code@0.29.2",
+      "releasedAt": "2026-07-27",
+      "releaseUrl": "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai/kimi-code%400.29.2",
+      "sourceApiUrl": "https://api.github.com/repos/MoonshotAI/kimi-code/releases/tags/%40moonshot-ai%2Fkimi-code%400.29.2",
+      "releaseTitle": "@moonshot-ai/kimi-code@0.29.2",
+      "releaseNotesSha256": "1369e3cf974e73dcf4856c290e5ae77972f886d3680a8895cba2497ae56f52df",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T03:12:03.819Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1370,
+        "completionTokens": 332,
+        "totalTokens": 1702
+      },
+      "triage": {
+        "summary": "Patch updates to experimental engine state handling, deferred tool schemas, eager service instantiation, clipboard fix, goal pursuit logic, message routing during goals, session state management, and undo consistency.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Experimental engine state now held in agent- and session-scope containers, affecting visibility and disposal."
+          },
+          {
+            "category": "compatibility",
+            "description": "Tool schemas can be registered with deferred disclosure, delaying schema resolution."
+          },
+          {
+            "category": "compatibility",
+            "description": "Services are instantiated eagerly at scope creation following dependency graph."
+          },
+          {
+            "category": "compatibility",
+            "description": "Clipboard copy over HTTP now uses event placeholder instead of replacing clipboard."
+          },
+          {
+            "category": "compatibility",
+            "description": "Goal pursuit step limit now splits work into continuation turns instead of pausing."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "The notes do not specify whether these changes affect external API behavior or user-facing features beyond the described fixes."
+        ]
+      }
+    },
+    {
+      "key": "stagewise:stagewise@1.25.0",
+      "harnessId": "stagewise",
+      "version": "stagewise@1.25.0",
+      "releasedAt": "2026-07-25",
+      "releaseUrl": "https://github.com/stagewise-io/stagewise/releases/tag/stagewise%401.25.0",
+      "sourceApiUrl": "https://api.github.com/repos/stagewise-io/stagewise/releases/tags/stagewise%401.25.0",
+      "releaseTitle": "Stagewise 1.25.0",
+      "releaseNotesSha256": "7014b3df4cfc47b5781eeda95e432bca8e36af79e07ef3e6ad15131da307f3bd",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T03:12:03.819Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 453,
+        "completionTokens": 159,
+        "totalTokens": 612
+      },
+      "triage": {
+        "summary": "Stagewise 1.25.0 adds support for Claude Opus 5 and enhances custom model telemetry.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "documentation",
+            "description": "Added feature description for Claude Opus 5 support and telemetry enrichment."
+          },
+          {
+            "category": "compatibility",
+            "description": "No compatibility changes reported."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "Information limited to release notes; no details on implementation or impact on existing functionality."
+        ]
+      }
+    },
+    {
+      "key": "zoo-code:v3.72.0",
+      "harnessId": "zoo-code",
+      "version": "v3.72.0",
+      "releasedAt": "2026-07-25",
+      "releaseUrl": "https://github.com/Zoo-Code-Org/Zoo-Code/releases/tag/v3.72.0",
+      "sourceApiUrl": "https://api.github.com/repos/Zoo-Code-Org/Zoo-Code/releases/tags/v3.72.0",
+      "releaseTitle": "Zoo Code v3.72.0",
+      "releaseNotesSha256": "a171e2a09c20a61899074bf15719224c58014c770f060713dc747e6f6eb0b086",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T03:12:03.819Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1075,
+        "completionTokens": 811,
+        "totalTokens": 1886
+      },
+      "triage": {
+        "summary": "Zoo Code v3.72.0 adds several new language‑model providers (Moonshot, Kimi Code, Kimi K3, Gemini 3.6 Flash, MiniMax‑M3) and expands model support across existing providers. It introduces a safe way to abandon interrupted subtasks, adds a new `CompletePromptOptions` API, and updates various internal identifiers and caching logic.…",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Addition of Moonshot provider with live model discovery, streaming, metadata, and picker."
+          },
+          {
+            "category": "capability",
+            "description": "Addition of Kimi Code provider with OAuth device‑flow authentication."
+          },
+          {
+            "category": "capability",
+            "description": "Cross‑provider support for Claude Opus 5."
+          },
+          {
+            "category": "capability",
+            "description": "Support for Kimi K3 in Moonshot and OpenCode Go providers."
+          },
+          {
+            "category": "capability",
+            "description": "Gemini 3.6 Flash model support."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the addition of the Moonshot provider require any new runtime permissions or changes to isolation?",
+          "Are the OAuth device‑flow authentication flows for Kimi Code provider fully documented and do they affect existing authentication mechanisms?",
+          "Will the new `CompletePromptOptions` API alter the behavior of existing callers or introduce new required parameters?",
+          "Do the changes to provider identifiers and categories impact any downstream tooling or integrations that rely on provider names?",
+          "Are there any backward‑compatibility concerns with the removal of MCP server‑creation translations?"
+        ],
+        "limitations": [
+          "The release notes list many changes but do not specify the exact impact on runtime control, permissions, or isolation. The notes also do not detail whether any of the new providers or API changes are…"
+        ]
+      }
+    },
+    {
       "key": "claude-code:v2.1.220",
       "harnessId": "claude-code",
       "version": "v2.1.220",
@@ -444,6 +797,112 @@
       }
     },
     {
+      "key": "crush:v0.87.0",
+      "harnessId": "crush",
+      "version": "v0.87.0",
+      "releasedAt": "2026-07-24",
+      "releaseUrl": "https://github.com/charmbracelet/crush/releases/tag/v0.87.0",
+      "sourceApiUrl": "https://api.github.com/repos/charmbracelet/crush/releases/tags/v0.87.0",
+      "releaseTitle": "v0.87.0",
+      "releaseNotesSha256": "d89096c33db544df7b34fc6ae4e6c1e375da80b74eade62ee2d2f019b0a75a58",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T03:12:03.819Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3117,
+        "completionTokens": 334,
+        "totalTokens": 3451
+      },
+      "triage": {
+        "summary": "New OAuth support for MCP servers, performance improvements for LSP and bang mode, system‑wide config file added, and various bug fixes.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Introduces OAuth 2.1 authorization for HTTP MCP servers and adds support for Claude Channels MCP extension, enabling MCPs to send notifications and use OAuth authentication."
+          },
+          {
+            "category": "performance",
+            "description": "Optimizes CPU and memory usage for LSP server handling in large repositories and improves output streaming performance in bang mode."
+          },
+          {
+            "category": "compatibility",
+            "description": "Adds system‑wide configuration file at /etc/crush/crush.json to improve compatibility with NixOS."
+          },
+          {
+            "category": "unknown",
+            "description": "Restores previously disabled MCP prompts and fixes various concurrency, race, and configuration bugs."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the OAuth implementation require any new runtime permissions or external services?",
+          "Are there any changes to the command‑line interface that might affect existing scripts?",
+          "Is the system‑wide config file location documented and does it override user‑level config?"
+        ],
+        "limitations": [
+          "The notes do not detail the exact runtime changes or security implications of the OAuth implementation; further inspection of the code or documentation would be needed to confirm permissions and isolation effects."
+        ]
+      }
+    },
+    {
+      "key": "mux:v0.28.1",
+      "harnessId": "mux",
+      "version": "v0.28.1",
+      "releasedAt": "2026-07-24",
+      "releaseUrl": "https://github.com/coder/mux/releases/tag/v0.28.1",
+      "sourceApiUrl": "https://api.github.com/repos/coder/mux/releases/tags/v0.28.1",
+      "releaseTitle": "v0.28.1",
+      "releaseNotesSha256": "9e70fd4c7ad09896ffbee5f15e24bdc5801f743ffba9b4d8a6aa47ad1a0e7f33",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T03:12:03.819Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 705,
+        "completionTokens": 442,
+        "totalTokens": 1147
+      },
+      "triage": {
+        "summary": "Adds new AI models (Claude Opus 5, Kimi K3, Gemini 3.6 Flash) and GPT‑5.6 with reasoning controls and context limit fixes. Introduces project‑less scratch chats, queued messages, file staging, mid‑turn thinking changes, sub‑agent reporting and persistence, skill refresh, cost breakdown UI, and context stats tab. Includes ~17 bug fixes.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "New model support: Claude Opus 5, Kimi K3, Gemini 3.6 Flash, GPT‑5.6 with reasoning controls and context limit corrections."
+          },
+          {
+            "category": "capability",
+            "description": "Chat enhancements: project‑less scratch chats, message queueing, file staging, mid‑turn thinking changes."
+          },
+          {
+            "category": "capability",
+            "description": "Agents: sub‑agent reporting in chat, sticky sub‑agents, skill refresh with invocation control and dynamic context."
+          },
+          {
+            "category": "documentation",
+            "description": "UI updates: per‑model cost breakdown, context stats sub‑tab."
+          },
+          {
+            "category": "performance",
+            "description": "Approximately 17 fixes across streaming, task management, OAuth, and mobile layouts."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the new GPT‑5.6 reasoning control affect existing prompt templates?",
+          "Are the message queueing changes backward compatible with current error handling?",
+          "How does the sticky sub‑agent persistence interact with existing agent lifecycle?",
+          "What are the exact context limit changes for Codex OAuth?",
+          "Do the UI cost breakdown and context stats tabs alter any existing API calls?"
+        ],
+        "limitations": [
+          "Information limited to release notes; no details on internal implementation or backward‑compatibility guarantees."
+        ]
+      }
+    },
+    {
       "key": "copilot-cli:v1.0.75",
       "harnessId": "copilot-cli",
       "version": "v1.0.75",
@@ -520,6 +979,38 @@
       }
     },
     {
+      "key": "mini-swe-agent:v2.4.6",
+      "harnessId": "mini-swe-agent",
+      "version": "v2.4.6",
+      "releasedAt": "2026-07-23",
+      "releaseUrl": "https://github.com/SWE-agent/mini-swe-agent/releases/tag/v2.4.6",
+      "sourceApiUrl": "https://api.github.com/repos/SWE-agent/mini-swe-agent/releases/tags/v2.4.6",
+      "releaseTitle": "v2.4.6",
+      "releaseNotesSha256": "970307dddfd95de343e6241f906699f606ae957d7cac6702ee180c4978c907ed",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T03:12:03.819Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 488,
+        "completionTokens": 210,
+        "totalTokens": 698
+      },
+      "triage": {
+        "summary": "Fixes billing count for calls that fail to parse, ensuring they are counted against the cost limit.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Corrects the billing count for failed parse calls so they are included in cost limit calculations."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": []
+      }
+    },
+    {
       "key": "goose:v1.44.0",
       "harnessId": "goose",
       "version": "v1.44.0",
@@ -571,6 +1062,250 @@
         ],
         "limitations": [
           "The notes list many bug fixes and UI changes but do not detail underlying implementation changes beyond feature additions. Specifics on how security fix is applied are not provided."
+        ]
+      }
+    },
+    {
+      "key": "hermes-agent:v2026.7.20",
+      "harnessId": "hermes-agent",
+      "version": "v2026.7.20",
+      "releasedAt": "2026-07-20",
+      "releaseUrl": "https://github.com/NousResearch/hermes-agent/releases/tag/v2026.7.20",
+      "sourceApiUrl": "https://api.github.com/repos/NousResearch/hermes-agent/releases/tags/v2026.7.20",
+      "releaseTitle": "Hermes Agent v0.19.0 (2026.7.20) — The Quicksilver Release",
+      "releaseNotesSha256": "29152fc12cb3a81ee6bead51aea8fd817f3df6fb182efec488335e8257117fee",
+      "releaseNotesTruncated": true,
+      "analyzedAt": "2026-07-29T03:12:03.819Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3497,
+        "completionTokens": 273,
+        "totalTokens": 3770
+      },
+      "triage": {
+        "summary": "Hermes Agent v0.19.0 introduces extensive performance improvements, new subscription management, smart approvals, password‑manager integration, live subagent transcripts, durable delivery ledger, profile‑based routing, new providers/models, reasoning effort controls, export features, and security hardening.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "performance",
+            "description": "First‑turn latency reduced ~80%, desktop app speed improvements, incremental markdown rendering, virtualized diffs, snappy session switching."
+          },
+          {
+            "category": "compatibility",
+            "description": "New provider support (Fireworks, DeepInfra, Upstage Solar), model catalog updates (GPT‑5.6, grok‑4.5, etc.)."
+          },
+          {
+            "category": "documentation",
+            "description": "Updated release notes, documentation for new features."
+          },
+          {
+            "category": "unknown",
+            "description": "Credential surface hardening, token redaction, webhook size cap, CI hardening."
+          },
+          {
+            "category": "unknown",
+            "description": "Various internal refactors and PR consolidations."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "Release notes truncated; some details may be missing."
+        ]
+      }
+    },
+    {
+      "key": "poolside-cli:v1.0.13",
+      "harnessId": "poolside-cli",
+      "version": "v1.0.13",
+      "releasedAt": "2026-07-20",
+      "releaseUrl": "https://github.com/poolsideai/pool/releases/tag/v1.0.13",
+      "sourceApiUrl": "https://api.github.com/repos/poolsideai/pool/releases/tags/v1.0.13",
+      "releaseTitle": "v1.0.13",
+      "releaseNotesSha256": "7d2cf836ac4b81c156eaef48d01b739fccfc3dd3fc524cbae1db1406d503ead9",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T03:12:03.819Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 460,
+        "completionTokens": 218,
+        "totalTokens": 678
+      },
+      "triage": {
+        "summary": "v1.0.13 adds image support to the read tool, introduces an effort level selector in the TUI, and switches logs to JSON format while reducing network requests for session creation.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Added image support to the read tool."
+          },
+          {
+            "category": "capability",
+            "description": "Added effort level selector to the ACP client (TUI)."
+          },
+          {
+            "category": "capability",
+            "description": "Switched logs to JSON format."
+          },
+          {
+            "category": "performance",
+            "description": "Reduced network requests for session/new."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": []
+      }
+    },
+    {
+      "key": "openclaw:v2026.7.1",
+      "harnessId": "openclaw",
+      "version": "v2026.7.1",
+      "releasedAt": "2026-07-13",
+      "releaseUrl": "https://github.com/openclaw/openclaw/releases/tag/v2026.7.1",
+      "sourceApiUrl": "https://api.github.com/repos/openclaw/openclaw/releases/tags/v2026.7.1",
+      "releaseTitle": "openclaw 2026.7.1",
+      "releaseNotesSha256": "66945fe91cae1574ae5af7b6a67a3f7cb3348f1586be70353763d91517167329",
+      "releaseNotesTruncated": true,
+      "analyzedAt": "2026-07-29T03:12:03.819Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3794,
+        "completionTokens": 440,
+        "totalTokens": 4234
+      },
+      "triage": {
+        "summary": "OpenClaw v2026.7.1 introduces extensive UI, onboarding, and app updates, expands model/provider support (GPT‑5.6, Tencent Hy3, Meta Muse Spark 1.1), enhances coding‑agent workflows, and adds significant improvements to messaging channels (Telegram, Slack, Discord, Apple Messages, etc.).…",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Expanded model and provider support including GPT‑5.6, Tencent Hy3, Meta Muse Spark 1.1, and broader Claude, Ollama, ClawRouter, LongCat."
+          },
+          {
+            "category": "compatibility",
+            "description": "New channel support and enhanced messaging capabilities for Telegram, Slack, Discord, Apple Messages, Signal, WhatsApp, Teams, Matrix, Feishu, and others."
+          },
+          {
+            "category": "compatibility",
+            "description": "Updated official iOS, Android, and macOS apps with new features, bug fixes, and improved offline reading, queued sends, and native session controls."
+          },
+          {
+            "category": "compatibility",
+            "description": "New tools and automation features: browser control, downloads, cron jobs, terminals, files, search, fetch, MCP, background tasks."
+          },
+          {
+            "category": "safety",
+            "description": "Security hardening: tokens, secrets, approval scopes, local paths, network destinations, attachments, archives, and untrusted provider or plugin responses are better protected."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "The notes are extensive but some details are truncated; full context may be needed for deeper assessment."
+        ]
+      }
+    },
+    {
+      "key": "openhands:1.11.0",
+      "harnessId": "openhands",
+      "version": "1.11.0",
+      "releasedAt": "2026-07-09",
+      "releaseUrl": "https://github.com/OpenHands/OpenHands/releases/tag/1.11.0",
+      "sourceApiUrl": "https://api.github.com/repos/OpenHands/OpenHands/releases/tags/1.11.0",
+      "releaseTitle": "1.11.0",
+      "releaseNotesSha256": "a899b39da544746d7de2ed4e27f967ea0c8e26e159100dcabb7ff18aeb4dae53",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T03:17:44.202Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 858,
+        "completionTokens": 329,
+        "totalTokens": 1187
+      },
+      "triage": {
+        "summary": "New features include passing repository metadata to observability traces, adding Agent Profiles on the cloud backend, expanding the usage dashboard with budgets, and enabling email surface for SMTP/resend. Bug fix addresses webhook‑driven DB connection leaks. Maintenance updates bump SDK packages and release new cloud versions.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Pass repository metadata to observability traces."
+          },
+          {
+            "category": "capability",
+            "description": "Add Agent Profiles on the cloud/SaaS backend."
+          },
+          {
+            "category": "capability",
+            "description": "Add Budgets dashboard and expand Usage Dashboard."
+          },
+          {
+            "category": "capability",
+            "description": "Surface email enabled for smtp/resend."
+          },
+          {
+            "category": "unknown",
+            "description": "Prevent webhook‑driven DB connection leaks."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "Information limited to the supplied release notes; no external context or verification of impact."
+        ]
+      }
+    },
+    {
+      "key": "aider:v0.86.0",
+      "harnessId": "aider",
+      "version": "v0.86.0",
+      "releasedAt": "2025-08-09",
+      "releaseUrl": "https://github.com/Aider-AI/aider/releases/tag/v0.86.0",
+      "sourceApiUrl": "https://api.github.com/repos/Aider-AI/aider/releases/tags/v0.86.0",
+      "releaseTitle": "Aider v0.86.0",
+      "releaseNotesSha256": "84c50ce88d1da2122ba49e1171799a44540a625f025c4b509a8e0bd4b62578bd",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T03:12:03.819Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 653,
+        "completionTokens": 370,
+        "totalTokens": 1023
+      },
+      "triage": {
+        "summary": "Aider v0.86.0 adds support for GPT‑5, Grok‑4, Gemini‑2.5‑flash‑lite‑preview‑06‑17, and MoonshotAI Kimi‑K2 models, updates command feedback for /clear and /undo, displays model announcements, fixes model setting replacement, updates analytics, bumps litellm dependency, and notes that 88% of code was written by Aider.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Added support for GPT‑5, Grok‑4, Gemini‑2.5‑flash‑lite‑preview‑06‑17, and MoonshotAI Kimi‑K2 models."
+          },
+          {
+            "category": "compatibility",
+            "description": "Fixed issue where new settings for an existing model didn't replace the old ones."
+          },
+          {
+            "category": "performance",
+            "description": "Bumped dependencies to litellm==1.75.0."
+          },
+          {
+            "category": "documentation",
+            "description": "/clear now prints confirmation; /undo output shows only first line of each commit message; model announcements displayed with no‑arg /model command."
+          },
+          {
+            "category": "unknown",
+            "description": "Analytics updated to support latest PostHog SDK event‑capture API."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "Information limited to the supplied release notes; no external verification of claims or impact on runtime control, isolation, or permissions."
         ]
       }
     }

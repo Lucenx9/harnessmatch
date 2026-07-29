@@ -4,13 +4,14 @@ import {
   buildReleaseTriageMessages,
   emptyReleaseReviewQueue,
   mergeReleaseReviewQueue,
-  parseGeneratedReleaseSignals,
   parseReleaseReviewQueue,
   pendingReleaseCandidates,
   releaseTriageModel,
   releaseTriageTool,
+  selectLatestStableRelease,
   validateReleaseTriageOutput,
 } from "../scripts/lib/release-triage.mjs";
+import { githubReleaseWatches } from "../scripts/lib/release-watch-mappings.mjs";
 
 const analyzedAt = "2026-07-29T00:00:00.000Z";
 const release = {
@@ -22,22 +23,35 @@ const release = {
 };
 
 describe("GPT-OSS release triage", () => {
-  it("parses only generated stable release records", () => {
-    const source = `export const records = [
-  {
-    source: "github",
-    harnessId: "ignored",
-  },
-  {
-    source: "github-releases",
-    harnessId: "example",
-    artifactId: "example/example",
-    latestVersion: "v1.2.3",
-    latestReleaseAt: "2026-07-29",
-    latestReleaseUrl: "https://github.com/example/example/releases/tag/v1.2.3",
-  },
-];`;
-    expect(parseGeneratedReleaseSignals(source)).toEqual([release]);
+  it("selects the newest stable product-scoped release", () => {
+    const selected = selectLatestStableRelease([
+      { tag_name: "desktop-v9.0.0", published_at: "2026-07-30T00:00:00Z", html_url: "https://github.com/example/example/releases/tag/desktop-v9.0.0", draft: false, prerelease: false },
+      { tag_name: "v1.3.0-beta.1", published_at: "2026-07-30T00:00:00Z", html_url: "https://github.com/example/example/releases/tag/v1.3.0-beta.1", draft: false, prerelease: true },
+      { tag_name: "v1.2.3", published_at: "2026-07-29T00:00:00Z", html_url: "https://github.com/example/example/releases/tag/v1.2.3", draft: false, prerelease: false },
+      { tag_name: "v1.2.2", published_at: "2026-07-28T00:00:00Z", html_url: "https://github.com/example/example/releases/tag/v1.2.2", draft: false, prerelease: false },
+    ], { harnessId: "example", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] }, {
+      harnessId: "example",
+      repositoryUrl: "https://github.com/example/example",
+    });
+    expect(selected).toEqual(release);
+  });
+
+  it("keeps the release watchlist unique and tied to canonical harness audits", () => {
+    const source = readFileSync(new URL("../src/data/repository-audits.ts", import.meta.url), "utf8");
+    const auditedIds = new Set([...source.matchAll(/harnessId: "([^"]+)", repositoryUrl: "https:\/\/github\.com\//g)]
+      .map((match) => match[1]));
+    const watchedIds = githubReleaseWatches.map(({ harnessId }) => harnessId);
+    expect(new Set(watchedIds).size).toBe(watchedIds.length);
+    expect(watchedIds).toHaveLength(27);
+    expect(watchedIds.every((id) => auditedIds.has(id))).toBe(true);
+    expect(watchedIds).toEqual(expect.arrayContaining([
+      "aider", "crush", "hermes-agent", "kern", "kimi-code", "letta-code", "mini-swe-agent",
+      "mistral-vibe", "mux", "openclaw", "openhands", "opensquilla", "poolside-cli", "stagewise", "zoo-code",
+    ]));
+    const openHandsWatch = githubReleaseWatches.find(({ harnessId }) => harnessId === "openhands");
+    const openHandsPatterns = openHandsWatch?.includeTagPatterns.map((pattern) => new RegExp(pattern)) ?? [];
+    expect(openHandsPatterns.some((pattern) => pattern.test("1.11.0"))).toBe(true);
+    expect(openHandsPatterns.some((pattern) => pattern.test("v1.6.1"))).toBe(false);
   });
 
   it("triages each stable version once", () => {

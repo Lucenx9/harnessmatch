@@ -2,22 +2,24 @@ import { createHash } from "node:crypto";
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { appendWorkflowSummary, requiredEnvironment } from "./lib/github-automation.mjs";
+import { parseRepositoryAudits } from "./lib/ecosystem-signals.mjs";
+import { githubReleaseWatches } from "./lib/release-watch-mappings.mjs";
 import {
   buildReleaseTriageMessages,
   emptyReleaseReviewQueue,
   mergeReleaseReviewQueue,
-  parseGeneratedReleaseSignals,
   parseReleaseReviewQueue,
   pendingReleaseCandidates,
   releaseReviewQueuePath,
   releaseTriageModel,
   releaseTriageTool,
   renderReleaseReviewQueue,
+  selectLatestStableRelease,
   validateReleaseTriageOutput,
 } from "./lib/release-triage.mjs";
 
 const projectRoot = process.cwd();
-const signalPath = resolve(projectRoot, "src/data/ecosystem-signals.ts");
+const repositoryAuditPath = resolve(projectRoot, "src/data/repository-audits.ts");
 const queuePath = resolve(projectRoot, releaseReviewQueuePath);
 const analyzedAt = new Date().toISOString();
 const maximumCandidates = Number.parseInt(process.env.RELEASE_TRIAGE_MAX_CANDIDATES ?? "20", 10);
@@ -42,13 +44,14 @@ async function fetchJsonWithRetry(url, init, label, timeoutMs = 45_000) {
   for (let attempt = 1; attempt <= 3; attempt += 1) {
     try {
       const response = await fetch(url, { ...init, signal: AbortSignal.timeout(timeoutMs) });
-      if (response.ok) return response.json();
+      if (response.ok) return await response.json();
       const body = await response.text();
       if (![408, 429, 500, 502, 503, 504].includes(response.status) || attempt === 3) {
         throw new NonRetryableHttpError(`${label}: HTTP ${response.status} ${body.slice(0, 300)}`);
       }
     } catch (error) {
-      if (error instanceof NonRetryableHttpError || attempt === 3) throw error;
+      if (error instanceof NonRetryableHttpError) throw error;
+      if (attempt === 3) throw new Error(`${label}: request failed after ${attempt} attempts`, { cause: error });
     }
     await new Promise((resolveDelay) => setTimeout(resolveDelay, attempt * 1_000));
   }
@@ -78,6 +81,26 @@ async function fetchOfficialRelease(release) {
     throw new Error(`GitHub release date changed for ${release.harnessId}`);
   }
   return { payload, sourceApiUrl };
+}
+
+async function fetchLatestWatchedRelease(watch, audit) {
+  const repository = audit.repositoryUrl.replace("https://github.com/", "");
+  const releases = [];
+  for (let page = 1; page <= 3; page += 1) {
+    const payload = await fetchJsonWithRetry(
+      `https://api.github.com/repos/${repository}/releases?per_page=100&page=${page}`,
+      { headers: githubHeaders() },
+      `GitHub release watch ${watch.harnessId} page ${page}`,
+    );
+    if (!Array.isArray(payload)) throw new Error(`GitHub release schema changed for ${watch.harnessId}`);
+    releases.push(...payload);
+    const selected = selectLatestStableRelease(releases, watch, audit);
+    if (selected || payload.length < 100) {
+      if (!selected) throw new Error(`No product-scoped stable GitHub release was found for ${watch.harnessId}`);
+      return selected;
+    }
+  }
+  throw new Error(`No product-scoped stable GitHub release was found within three pages for ${watch.harnessId}`);
 }
 
 async function analyzeRelease(release, releasePayload, openRouterApiKey) {
@@ -151,8 +174,16 @@ async function mapWithConcurrency(items, concurrency, task) {
   return results;
 }
 
-const [signalSource, queue] = await Promise.all([readFile(signalPath, "utf8"), readQueue()]);
-const releases = parseGeneratedReleaseSignals(signalSource);
+const [repositoryAuditSource, queue] = await Promise.all([readFile(repositoryAuditPath, "utf8"), readQueue()]);
+const audits = parseRepositoryAudits(repositoryAuditSource);
+const auditByHarness = new Map(audits.map((audit) => [audit.harnessId, audit]));
+const watchedHarnessIds = new Set(githubReleaseWatches.map(({ harnessId }) => harnessId));
+if (watchedHarnessIds.size !== githubReleaseWatches.length) throw new Error("Release watchlist repeats a harness id");
+const releases = await mapWithConcurrency(githubReleaseWatches, 4, async (watch) => {
+  const audit = auditByHarness.get(watch.harnessId);
+  if (!audit) throw new Error(`No canonical repository audit for release watch: ${watch.harnessId}`);
+  return fetchLatestWatchedRelease(watch, audit);
+});
 const candidates = refreshAll ? releases : pendingReleaseCandidates(releases, queue);
 
 if (candidates.length === 0) {

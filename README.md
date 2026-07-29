@@ -64,7 +64,7 @@ This command requires `OPENROUTER_API_KEY` for OpenRouter and uses `GITHUB_TOKEN
 
 The workflow requires the repository Actions secret `OPENROUTER_API_KEY`. GitHub supplies the short-lived `GITHUB_TOKEN`; no personal access token is stored. A factual source, generated-data schema, identity, validation, concurrency, quality, deployment, or smoke-test failure stops the transaction and remains visible in the Actions run.
 
-When a mapped stable GitHub version has not been seen before, `openai/gpt-oss-20b` receives a bounded copy of its official release notes and writes structured triage to `research/release-review-queue.json`. Release text is treated as untrusted input, model output is validated and cannot introduce links, and inference failure never blocks factual source synchronization. The queue is editorial assistance only: it is not imported by the site, is not evidence, and cannot update claims, categories, recommendation weights, or scores.
+When a stable version in the reviewed harness release watchlist has not been seen before, `openai/gpt-oss-20b` receives a bounded copy of its official release notes and writes structured triage to `research/release-review-queue.json`. The watchlist is independent from GitHub asset-download measurement, so a release can be reviewed even when it exposes no countable binary. Product-specific tag filters exclude prereleases and unrelated monorepo release trains. Release text is treated as untrusted input, model output is validated and cannot introduce links, and inference failure never blocks factual source synchronization. The queue is editorial assistance only: it is not imported by the site, is not evidence, and cannot update claims, categories, recommendation weights, or scores.
 
 ## Deployment
 
