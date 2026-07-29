@@ -62,10 +62,10 @@ Semantic success, warning, and danger colors are reserved for actual state. They
 ## Layout rules
 
 - Homepage opens with a compact analysis intro and live dataset status, not a promotional hero
-- Every decision surface uses progressive disclosure: recommendation first, practical comparison second, taxonomy and scientific detail on demand
+- Decision surfaces use progressive disclosure: observed data and catalog facts first, tailored guidance when the user asks for it, and methodology on demand
 - A first reading layer should answer what to choose, why it fits, and what to check before choosing
-- The first interactive surface is a workflow-fit chart with explicit assumptions, direct labels, and published weights
-- The second homepage surface is a compact, source-separated usage preview with five directly labeled rows
+- The first interactive homepage surface is a compact, source-separated usage preview with five directly labeled rows
+- Recent stable release activity follows the catalog; the tailored recommender remains a secondary navigation path
 - Operational-readiness, public-code-auditability, and measured-system rankings live on the dedicated Data page
 - Workflow-fit bars visualize top-three sensitivity frequency across published priority variations, never task success, model intelligence, or benchmark performance
 - Required workflow capabilities are eligibility gates. A compatible capability does not add a hidden score bonus
@@ -88,6 +88,8 @@ Semantic success, warning, and danger colors are reserved for actual state. They
 - AI-assisted research may accelerate discovery, extraction, and cross-checking, but model output never counts as evidence; every published product claim requires an admitted source and verification date
 - Research-product patterns may increase information density, but must never imply a generic model or harness leaderboard
 - Marketing proof, principle, and repeated CTA sections do not belong on the homepage
+- The persistent header exposes Harnesses, Usage, Compare, and Data as primary destinations; GUIs, Methodology, and Recommend remain available in a clearly labeled secondary menu
+- Search stays directly accessible in the header, while the theme control uses a compact icon with an accessible name and tooltip
 - Catalog previews use a two-column, filterable directory layout without implying a ranking
 - Mobile layouts collapse explicitly below 768px and must never scroll horizontally
 

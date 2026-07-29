@@ -372,7 +372,7 @@ describe("recommendHarnesses", () => {
     }
   });
 
-  it("keeps every homepage scenario tied to its explicit workflow gates", () => {
+  it("keeps every published workflow scenario tied to its explicit gates", () => {
     const topHarnesses = new Set<string>();
 
     for (const scenario of workflowScenarios) {
@@ -385,7 +385,7 @@ describe("recommendHarnesses", () => {
     expect(topHarnesses.size).toBeGreaterThan(2);
   });
 
-  it("leads with a product-specific reason in every homepage ranking", () => {
+  it("leads with a product-specific reason in every published scenario ranking", () => {
     for (const scenario of workflowScenarios) {
       const leadReasons = recommendHarnesses(scenario.answers).map((result) => result.reasons[0]);
 

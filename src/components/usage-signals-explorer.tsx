@@ -29,7 +29,10 @@ const sourceOptions: Array<{ key: UsageSource; label: string }> = [
   { key: "openrouter", label: "OpenRouter" },
   { key: "homebrew", label: "Homebrew" },
   { key: "npm", label: "npm" },
+  { key: "github-releases", label: "Releases" },
   { key: "vscode", label: "VS Code" },
+  { key: "openvsx", label: "Open VSX" },
+  { key: "jetbrains", label: "JetBrains" },
   { key: "github", label: "GitHub" },
 ];
 
@@ -62,7 +65,10 @@ function sourceTitle(source: UsageSource) {
     case "openrouter": return "OpenRouter attributed traffic";
     case "homebrew": return "Homebrew install events";
     case "npm": return "npm package downloads";
+    case "github-releases": return "GitHub release asset downloads";
     case "vscode": return "VS Code Marketplace installs";
+    case "openvsx": return "Open VSX extension downloads";
+    case "jetbrains": return "JetBrains Marketplace downloads";
     case "github": return "GitHub repository interest";
   }
 }
@@ -72,7 +78,10 @@ function sourceSummary(source: UsageSource) {
     case "openrouter": return "Traffic attributed to public coding apps using OpenRouter's app-attribution mechanism.";
     case "homebrew": return "Install-on-request events for mapped formulae and install events for mapped casks.";
     case "npm": return "Registry downloads for one mapped, user-facing package per harness.";
+    case "github-releases": return "Cumulative downloads of explicitly matched stable CLI binaries and archives.";
     case "vscode": return "Cumulative Marketplace installs for the exact mapped extension.";
+    case "openvsx": return "Cumulative downloads for exact extensions in the vendor-neutral Open VSX registry.";
+    case "jetbrains": return "Cumulative downloads for exact plugins in the JetBrains Marketplace.";
     case "github": return "Cumulative stars for the repository audited by HarnessMatch. Stars indicate interest, not use.";
   }
 }
@@ -82,7 +91,10 @@ function sourceFootnote(source: UsageSource) {
     case "openrouter": return "Token totals combine prompt and completion tokens. Tokenizers differ, attribution is opt-in, and this is not standardized work, users, or task success.";
     case "homebrew": return "Homebrew counts install events, not unique people or active installations. Formula and cask events share a source view but retain their artifact labels.";
     case "npm": return "Downloads include automated and repeated retrievals. They are not unique users, active installs, or completed coding tasks.";
+    case "github-releases": return "Counts sum only mapped assets across stable published releases. Repeated, automated, and multi-platform downloads remain possible, so this is not a user count.";
     case "vscode": return "Marketplace installs are cumulative extension-install events. They are not current active users or usage frequency.";
+    case "openvsx": return "Registry downloads are cumulative retrieval events, not active installations or unique users. Coverage is limited to exact verified extension identities.";
+    case "jetbrains": return "Marketplace downloads are cumulative plugin retrievals, not active installations, unique users, or CLI-only use.";
     case "github": return "Stars measure interest in the mapped repository. Support and client repositories may cover only part of the product, as labeled per row.";
   }
 }
@@ -106,9 +118,24 @@ function rowsForEcosystem(records: EcosystemUsageRecord[], source: EcosystemSign
       } else if (record.signal.source === "npm") {
         valueLabel = `${compactNumberFormatter.format(value)} downloads`;
         valueAriaLabel = `${fullNumberFormatter.format(value)} npm downloads`;
+      } else if (record.signal.source === "github-releases") {
+        valueLabel = `${compactNumberFormatter.format(value)} downloads`;
+        valueAriaLabel = `${fullNumberFormatter.format(value)} matched GitHub release asset downloads`;
+        secondary = `${record.signal.releaseCount} releases · ${record.signal.assetCount} assets`;
+        secondaryAriaLabel = `${record.signal.assetCount} matched assets across ${record.signal.releaseCount} stable releases; latest release ${record.signal.latestReleaseAt}`;
       } else if (record.signal.source === "vscode") {
         valueLabel = `${compactNumberFormatter.format(value)} installs`;
         valueAriaLabel = `${fullNumberFormatter.format(value)} cumulative Marketplace installs`;
+      } else if (record.signal.source === "openvsx") {
+        valueLabel = `${compactNumberFormatter.format(value)} downloads`;
+        valueAriaLabel = `${fullNumberFormatter.format(value)} cumulative Open VSX downloads`;
+        secondary = `Version ${record.signal.latestVersion}`;
+        secondaryAriaLabel = `Latest Open VSX version ${record.signal.latestVersion}; extension ${record.signal.artifactId}`;
+      } else if (record.signal.source === "jetbrains") {
+        valueLabel = `${compactNumberFormatter.format(value)} downloads`;
+        valueAriaLabel = `${fullNumberFormatter.format(value)} cumulative JetBrains Marketplace downloads`;
+        secondary = `Plugin ${record.signal.pluginId}`;
+        secondaryAriaLabel = `JetBrains plugin ${record.signal.pluginId}; identifier ${record.signal.artifactId}`;
       } else if (record.signal.source === "github") {
         valueLabel = `${compactNumberFormatter.format(value)} stars`;
         valueAriaLabel = `${fullNumberFormatter.format(value)} GitHub stars`;
@@ -274,7 +301,7 @@ export function UsageSignalsExplorer({
           <span>Rank</span>
           <span>Harness</span>
           <span>{selectedSource === "github" ? "Repository interest" : "Observed volume"}</span>
-          <span>{selectedSource === "openrouter" ? "Requests" : selectedSource === "github" ? "Repository" : "Artifact"}</span>
+          <span>{selectedSource === "openrouter" ? "Requests" : selectedSource === "github" ? "Repository" : selectedSource === "github-releases" ? "Matched scope" : "Artifact"}</span>
         </div>
 
         <ol className="usage-ranking" aria-label={`${sourceTitle(selectedSource)} ranking for ${dateRange}`}>

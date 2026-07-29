@@ -37,6 +37,9 @@ function csvCell(value: string | number | null) {
 function ecosystemSecondary(signal: EcosystemSignalSnapshot): [string, string | number] {
   if (signal.source === "github") return ["forks", signal.forks];
   if (signal.source === "homebrew") return ["artifact_kind", signal.artifactKind];
+  if (signal.source === "github-releases") return ["matched_assets", `${signal.assetCount} across ${signal.releaseCount} stable releases`];
+  if (signal.source === "openvsx") return ["latest_version", signal.latestVersion];
+  if (signal.source === "jetbrains") return ["plugin_id", signal.pluginId];
   return ["artifact_id", signal.artifactId];
 }
 
@@ -72,7 +75,7 @@ export function GET() {
 
   const activeSignals = ecosystemSignalSnapshots.filter((signal) => activeHarnessById.has(signal.harnessId));
   const rankBySignal = new Map<string, number>();
-  for (const source of ["homebrew", "npm", "vscode", "github"] as const) {
+  for (const source of ["homebrew", "npm", "github-releases", "vscode", "openvsx", "jetbrains", "github"] as const) {
     activeSignals
       .filter((signal) => signal.source === source)
       .sort((left, right) => right.value - left.value || left.harnessId.localeCompare(right.harnessId))

@@ -4,14 +4,24 @@ import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import {
   parseGitHubRepository,
+  parseGitHubReleaseDownloads,
   parseHomebrewAnalytics,
+  parseJetBrainsPlugin,
   parseNpmDownloads,
+  parseOpenVsxExtension,
   parseRepositoryAudits,
   parseVsCodeExtension,
   renderEcosystemSignalsFile,
   validateNpmPackageIdentity,
 } from "./lib/ecosystem-signals.mjs";
-import { homebrewArtifacts, npmPackages, vsCodeExtensions } from "./lib/ecosystem-signal-mappings.mjs";
+import {
+  githubReleaseArtifacts,
+  homebrewArtifacts,
+  jetBrainsPlugins,
+  npmPackages,
+  openVsxExtensions,
+  vsCodeExtensions,
+} from "./lib/ecosystem-signal-mappings.mjs";
 
 const execFile = promisify(execFileCallback);
 const projectRoot = process.cwd();
@@ -116,16 +126,45 @@ async function vsCodeSignals() {
   });
 }
 
-async function githubSignals() {
-  const source = await readFile(resolve(projectRoot, "src/data/repository-audits.ts"), "utf8");
-  const audits = parseRepositoryAudits(source);
+async function openVsxSignals() {
+  return mapWithConcurrency(openVsxExtensions, 3, async (artifact) => {
+    const response = await fetchWithRetry(
+      `https://open-vsx.org/api/${artifact.artifactId}`,
+      { headers: { Accept: "application/json", "User-Agent": "HarnessMatch-ecosystem-sync" } },
+      `Open VSX ${artifact.artifactId}`,
+    );
+    return parseOpenVsxExtension(await response.json(), artifact, observedAt);
+  });
+}
+
+async function jetBrainsSignals() {
+  return mapWithConcurrency(jetBrainsPlugins, 3, async (artifact) => {
+    const response = await fetchWithRetry(
+      `https://plugins.jetbrains.com/api/plugins/${artifact.pluginId}`,
+      { headers: { Accept: "application/json", "User-Agent": "HarnessMatch-ecosystem-sync" } },
+      `JetBrains ${artifact.artifactId}`,
+    );
+    return parseJetBrainsPlugin(await response.json(), artifact, observedAt);
+  });
+}
+
+async function githubHeaders() {
   const token = await githubToken();
-  const headers = {
+  return {
     Accept: "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
     "User-Agent": "HarnessMatch-ecosystem-sync",
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
   };
+}
+
+async function canonicalRepositoryAudits() {
+  const source = await readFile(resolve(projectRoot, "src/data/repository-audits.ts"), "utf8");
+  return parseRepositoryAudits(source);
+}
+
+async function githubSignals() {
+  const [audits, headers] = await Promise.all([canonicalRepositoryAudits(), githubHeaders()]);
   return mapWithConcurrency(audits, 4, async (audit) => {
     const slug = audit.repositoryUrl.replace("https://github.com/", "");
     const response = await fetchWithRetry(`https://api.github.com/repos/${slug}`, { headers }, `GitHub ${slug}`);
@@ -133,7 +172,38 @@ async function githubSignals() {
   });
 }
 
-const groups = await Promise.all([homebrewSignals(), npmSignals(), vsCodeSignals(), githubSignals()]);
+async function githubReleaseSignals() {
+  const [audits, headers] = await Promise.all([canonicalRepositoryAudits(), githubHeaders()]);
+  const auditByHarness = new Map(audits.map((audit) => [audit.harnessId, audit]));
+  return mapWithConcurrency(githubReleaseArtifacts, 3, async (artifact) => {
+    const audit = auditByHarness.get(artifact.harnessId);
+    if (!audit) throw new Error(`No canonical repository audit for GitHub releases: ${artifact.harnessId}`);
+    const slug = audit.repositoryUrl.replace("https://github.com/", "");
+    const releases = [];
+    for (let page = 1; ; page += 1) {
+      const response = await fetchWithRetry(
+        `https://api.github.com/repos/${slug}/releases?per_page=100&page=${page}`,
+        { headers },
+        `GitHub releases ${slug} page ${page}`,
+      );
+      const pageReleases = await response.json();
+      if (!Array.isArray(pageReleases)) throw new Error(`GitHub releases schema changed for ${slug}`);
+      releases.push(...pageReleases);
+      if (pageReleases.length < 100) break;
+    }
+    return parseGitHubReleaseDownloads(releases, artifact, audit, observedAt);
+  });
+}
+
+const groups = await Promise.all([
+  homebrewSignals(),
+  npmSignals(),
+  vsCodeSignals(),
+  openVsxSignals(),
+  jetBrainsSignals(),
+  githubReleaseSignals(),
+  githubSignals(),
+]);
 const signals = groups.flat().sort((left, right) => (
   left.source.localeCompare(right.source) || left.harnessId.localeCompare(right.harnessId)
 ));

@@ -5,7 +5,7 @@ Use `design-system/harnessmatch/MASTER.md` as the base. This page is a technical
 ## Decision contract
 
 - Question: what public routing, distribution, marketplace, or repository-interest signals are visible for cataloged harnesses?
-- Sources: OpenRouter, Homebrew, npm, VS Code Marketplace, and GitHub.
+- Sources: OpenRouter, Homebrew, npm, filtered stable GitHub release assets, VS Code Marketplace, Open VSX, JetBrains Marketplace, and GitHub.
 - Keep one source visible at a time. Never combine sources into a composite popularity, adoption, or quality score.
 - Preserve each source's native unit, time window, population, ranking scope, and observation date.
 - Missing coverage means no admitted artifact mapping. Never render it as zero.
@@ -33,4 +33,6 @@ Use `design-system/harnessmatch/MASTER.md` as the base. This page is a technical
 - Say `signals`, `events`, `downloads`, `installs`, `stars`, or `attributed traffic` according to the source.
 - Never say `market share`, `users`, `best`, `quality`, or `task success` based on these records.
 - State that package downloads and install events are not unique users.
+- State that release totals include only mapped stable assets but may still contain repeated, automated, or multi-platform retrievals.
+- State that editor-marketplace downloads and installs are cumulative retrieval events, not active users.
 - State that GitHub stars are repository interest and preserve full/client/support repository scope.

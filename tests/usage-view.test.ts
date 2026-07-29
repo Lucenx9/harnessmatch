@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { ecosystemSignalSnapshots } from "../src/data/ecosystem-signals";
 import { harnesses } from "../src/data/harnesses";
 import { openRouterAttributionSnapshots } from "../src/data/openrouter-attribution";
-import { buildUsageViewRecords } from "../src/lib/usage-view";
+import { buildRecentReleaseActivity, buildUsageViewRecords } from "../src/lib/usage-view";
 
 describe("usage view records", () => {
   it("joins only active harnesses while preserving every source-specific record", () => {
@@ -19,7 +19,7 @@ describe("usage view records", () => {
     expect(records.openRouterRecords).toHaveLength(expectedOpenRouter.length);
     expect(records.ecosystemRecords).toHaveLength(expectedEcosystem.length);
     expect(new Set(records.ecosystemRecords.map((record) => record.signal.source))).toEqual(
-      new Set(["homebrew", "npm", "vscode", "github"]),
+      new Set(["homebrew", "npm", "github-releases", "vscode", "openvsx", "jetbrains", "github"]),
     );
     expect(records.openRouterRecords.every((record) => activeIds.has(record.id))).toBe(true);
     expect(records.ecosystemRecords.every((record) => activeIds.has(record.id))).toBe(true);
@@ -36,7 +36,23 @@ describe("usage view records", () => {
     expect(records.ecosystemRecords.every((record) => "signal" in record)).toBe(true);
     expect(records.ecosystemRecords.some((record) => record.signal.metric === "install-events")).toBe(true);
     expect(records.ecosystemRecords.some((record) => record.signal.metric === "downloads")).toBe(true);
+    expect(records.ecosystemRecords.some((record) => record.signal.metric === "asset-downloads")).toBe(true);
     expect(records.ecosystemRecords.some((record) => record.signal.metric === "installs")).toBe(true);
     expect(records.ecosystemRecords.some((record) => record.signal.metric === "stars")).toBe(true);
+  });
+
+  it("builds a recent-release view from active harnesses without creating a quality rank", () => {
+    const records = buildRecentReleaseActivity({
+      harnesses,
+      ecosystemSignals: ecosystemSignalSnapshots,
+    });
+    const activeIds = new Set(harnesses.filter((harness) => harness.status === "active").map((harness) => harness.id));
+
+    expect(records).toHaveLength(6);
+    expect(records.every((record) => activeIds.has(record.id))).toBe(true);
+    expect(records.every((record) => record.signal.source === "github-releases")).toBe(true);
+    expect(records.map((record) => record.signal.latestReleaseAt)).toEqual(
+      records.map((record) => record.signal.latestReleaseAt).toSorted().reverse(),
+    );
   });
 });

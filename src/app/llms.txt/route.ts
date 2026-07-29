@@ -9,7 +9,7 @@ const coreResources = [
   ["Recommender", "/recommend", "Seven-question workflow-fit recommendation"],
   ["Compare harnesses", "/compare", "Side-by-side capability and operating-model comparison"],
   ["Harness catalog", "/harnesses", "Filterable catalog of coding harness profiles"],
-  ["Usage signals", "/usage", "Source-separated OpenRouter, Homebrew, npm, VS Code, and GitHub ecosystem observations with explicit limits"],
+  ["Usage signals", "/usage", "Source-separated routing, package, release, editor-marketplace, and repository observations with explicit limits"],
   ["Coding agent GUIs", "/guis", "Workflow classification for native and multi-harness graphical interfaces"],
   ["Methodology", "/methodology", "Eligibility gates, visible weights, uncertainty, and evidence policy"],
   ["Data and sources", "/data", "Searchable ledger of dated first-party evidence"],

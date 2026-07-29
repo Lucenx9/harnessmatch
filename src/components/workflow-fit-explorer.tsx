@@ -195,8 +195,8 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
     <div className="workflow-tool">
       <div className="workflow-tool-header">
         <div>
-          <h2 id="workflow-fit-title">Match by workflow.</h2>
-          <p>Choose the setup closest to yours. Use the 7-question recommender when you need a result tailored to your constraints.</p>
+          <h2 id="workflow-fit-title">Workflow fit by preset.</h2>
+          <p>Inspect common working setups using published eligibility gates, weights, and sensitivity checks.</p>
         </div>
       </div>
 
@@ -347,9 +347,9 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
 
         <div className="workflow-tool-footer">
           <div className="workflow-tool-links">
-            <Link className="button primary" href="/recommend">Personalize this result</Link>
             <a className="text-link" href={csvHref} download={`harnessmatch-${selected.id}.csv`}>Download CSV</a>
             <Link className="text-link" href="/methodology">Read methodology</Link>
+            <Link className="text-link" href="/recommend">Open the advanced workflow guide</Link>
           </div>
         </div>
 

@@ -10,6 +10,15 @@ export const sourceDefinitions = {
   vscode: {
     sourceUrl: "https://learn.microsoft.com/en-us/javascript/api/azure-devops-extension-api/eventcounts",
   },
+  openvsx: {
+    sourceUrl: "https://github.com/eclipse-openvsx/openvsx",
+  },
+  jetbrains: {
+    sourceUrl: "https://plugins.jetbrains.com/docs/marketplace/api-reference.html",
+  },
+  "github-releases": {
+    sourceUrl: "https://docs.github.com/en/rest/releases/releases",
+  },
   github: {
     sourceUrl: "https://docs.github.com/en/rest/activity/starring",
   },
@@ -149,6 +158,115 @@ export function parseVsCodeExtension(payload, artifact, observedAt) {
   };
 }
 
+export function parseOpenVsxExtension(payload, artifact, observedAt) {
+  const [expectedNamespace, expectedName] = artifact.artifactId.split("/");
+  const canonicalId = payload ? `${payload.namespace}/${payload.name}` : null;
+  if (canonicalId?.toLowerCase() !== artifact.artifactId.toLowerCase()) {
+    throw new Error(`Open VSX extension identity changed for ${artifact.artifactId}`);
+  }
+  if (payload.displayName !== artifact.displayName) {
+    throw new Error(`Open VSX display name changed for ${artifact.artifactId}`);
+  }
+  if (payload.verified !== true) {
+    throw new Error(`Open VSX namespace is no longer verified for ${artifact.artifactId}`);
+  }
+  if (typeof payload.version !== "string" || payload.version.length === 0) {
+    throw new Error(`Open VSX latest version is missing for ${artifact.artifactId}`);
+  }
+  if (artifact.repositoryUrl && normalizedGitHubUrl(payload.repository) !== normalizedGitHubUrl(artifact.repositoryUrl)) {
+    throw new Error(`Open VSX repository identity changed for ${artifact.artifactId}`);
+  }
+  if (payload.namespace.toLowerCase() !== expectedNamespace.toLowerCase() || payload.name.toLowerCase() !== expectedName.toLowerCase()) {
+    throw new Error(`Open VSX canonical namespace changed for ${artifact.artifactId}`);
+  }
+  assertIsoDate(observedAt, "Open VSX observation date");
+  return {
+    source: "openvsx",
+    metric: "downloads",
+    harnessId: artifact.harnessId,
+    artifactId: canonicalId,
+    value: nonNegativeInteger(payload.downloadCount, `Open VSX ${artifact.artifactId} downloads`),
+    latestVersion: payload.version,
+    observedAt,
+    artifactUrl: `https://open-vsx.org/extension/${payload.namespace}/${payload.name}`,
+    sourceUrl: `https://open-vsx.org/api/${payload.namespace}/${payload.name}`,
+  };
+}
+
+export function parseJetBrainsPlugin(payload, artifact, observedAt) {
+  if (payload?.id !== artifact.pluginId || payload?.xmlId !== artifact.artifactId || payload?.name !== artifact.name) {
+    throw new Error(`JetBrains plugin identity changed for ${artifact.artifactId}`);
+  }
+  assertIsoDate(observedAt, "JetBrains observation date");
+  return {
+    source: "jetbrains",
+    metric: "downloads",
+    harnessId: artifact.harnessId,
+    artifactId: artifact.artifactId,
+    pluginId: artifact.pluginId,
+    value: nonNegativeInteger(payload.downloads, `JetBrains ${artifact.artifactId} downloads`),
+    observedAt,
+    artifactUrl: `https://plugins.jetbrains.com/plugin/${artifact.pluginId}`,
+    sourceUrl: `https://plugins.jetbrains.com/api/plugins/${artifact.pluginId}`,
+  };
+}
+
+function matchingReleaseAssets(release, patterns) {
+  if (release?.draft === true || release?.prerelease === true) return [];
+  if (!Array.isArray(release?.assets) || typeof release?.tag_name !== "string" || typeof release?.published_at !== "string") {
+    throw new Error("GitHub release schema is incomplete");
+  }
+  return release.assets.filter((asset) => patterns.some((pattern) => pattern.test(asset.name)));
+}
+
+export function parseGitHubReleaseDownloads(releases, artifact, audit, observedAt) {
+  if (!Array.isArray(releases)) throw new Error(`GitHub releases are missing for ${artifact.harnessId}`);
+  if (audit?.harnessId !== artifact.harnessId) throw new Error(`GitHub release audit identity changed for ${artifact.harnessId}`);
+  const patterns = artifact.includePatterns.map((pattern) => new RegExp(pattern));
+  const matchedReleases = [];
+  const matchedAssets = [];
+  const assetIds = new Set();
+  for (const release of releases) {
+    const assets = matchingReleaseAssets(release, patterns);
+    if (assets.length === 0) continue;
+    matchedReleases.push(release);
+    for (const asset of assets) {
+      if (!Number.isSafeInteger(asset.id) || assetIds.has(asset.id)) {
+        throw new Error(`GitHub release asset identity is invalid for ${artifact.harnessId}`);
+      }
+      assetIds.add(asset.id);
+      matchedAssets.push(asset);
+    }
+  }
+  if (matchedAssets.length === 0) {
+    throw new Error(`No stable GitHub release assets match ${artifact.harnessId}`);
+  }
+  const latestReleaseAt = matchedReleases
+    .map((release) => release.published_at.slice(0, 10))
+    .sort()
+    .at(-1);
+  assertIsoDate(latestReleaseAt, `GitHub ${artifact.harnessId} latest release date`);
+  assertIsoDate(observedAt, "GitHub releases observation date");
+  const repositorySlug = audit.repositoryUrl.replace("https://github.com/", "");
+  return {
+    source: "github-releases",
+    metric: "asset-downloads",
+    harnessId: artifact.harnessId,
+    artifactId: repositorySlug,
+    value: matchedAssets.reduce((total, asset) => (
+      total + nonNegativeInteger(asset.download_count, `GitHub ${artifact.harnessId} asset downloads`)
+    ), 0),
+    assetCount: matchedAssets.length,
+    releaseCount: matchedReleases.length,
+    latestReleaseAt,
+    artifactScope: artifact.artifactScope,
+    repositoryScope: audit.sourceScope,
+    observedAt,
+    artifactUrl: `${audit.repositoryUrl}/releases`,
+    sourceUrl: `https://api.github.com/repos/${repositorySlug}/releases`,
+  };
+}
+
 export function parseGitHubRepository(payload, audit, observedAt) {
   const expectedSlug = audit.repositoryUrl.replace("https://github.com/", "");
   if (payload?.full_name?.toLowerCase() !== expectedSlug.toLowerCase()) {
@@ -195,6 +313,7 @@ export function renderEcosystemSignalsFile(signals) {
   const records = signals.map((signal) => {
     const orderedKeys = [
       "source", "metric", "harnessId", "artifactId", "artifactKind", "value", "forks", "repositoryScope",
+      "pluginId", "latestVersion", "assetCount", "releaseCount", "latestReleaseAt", "artifactScope",
       "windowDays", "windowStart", "windowEnd", "observedAt", "artifactUrl", "sourceUrl",
     ];
     const lines = ["  {"];
@@ -206,5 +325,5 @@ export function renderEcosystemSignalsFile(signals) {
     return lines.join("\n");
   }).join("\n");
 
-  return `import type { EcosystemSignalSnapshot } from "../lib/types";\n\n/**\n * Generated by \`npm run sync:ecosystem\` from the public Homebrew, npm,\n * VS Code Marketplace, and GitHub APIs. Each source keeps its native unit and\n * population. These signals never enter recommendation or capability scoring.\n */\nexport const ecosystemSignalSnapshots: EcosystemSignalSnapshot[] = [\n${records}\n];\n\nexport const ecosystemSignalsByHarness = new Map<string, EcosystemSignalSnapshot[]>();\nfor (const signal of ecosystemSignalSnapshots) {\n  const existing = ecosystemSignalsByHarness.get(signal.harnessId) ?? [];\n  existing.push(signal);\n  ecosystemSignalsByHarness.set(signal.harnessId, existing);\n}\n`;
+  return `import type { EcosystemSignalSnapshot } from "../lib/types";\n\n/**\n * Generated by \`npm run sync:ecosystem\` from public distribution, marketplace,\n * and repository APIs. Each source keeps its native unit and population. These\n * signals never enter recommendation or capability scoring.\n */\nexport const ecosystemSignalSnapshots: EcosystemSignalSnapshot[] = [\n${records}\n];\n\nexport const ecosystemSignalsByHarness = new Map<string, EcosystemSignalSnapshot[]>();\nfor (const signal of ecosystemSignalSnapshots) {\n  const existing = ecosystemSignalsByHarness.get(signal.harnessId) ?? [];\n  existing.push(signal);\n  ecosystemSignalsByHarness.set(signal.harnessId, existing);\n}\n`;
 }

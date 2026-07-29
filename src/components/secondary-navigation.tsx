@@ -1,36 +1,38 @@
 "use client";
 
+import { CaretDownIcon } from "@phosphor-icons/react/dist/icons/CaretDown";
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { NavLinks } from "@/components/nav-links";
-import { primaryNavigationItems, secondaryNavigationItems } from "@/lib/navigation";
+import { secondaryNavigationItems } from "@/lib/navigation";
 
-export function MobileNavigation() {
+export function SecondaryNavigation() {
   const detailsRef = useRef<HTMLDetailsElement>(null);
   const pathname = usePathname();
+  const containsCurrentPage = secondaryNavigationItems.some(({ href }) => (
+    pathname === href || pathname.startsWith(`${href}/`)
+  ));
 
   function closeMenu() {
     if (detailsRef.current) detailsRef.current.open = false;
   }
 
   useEffect(() => {
-    if (detailsRef.current) {
-      detailsRef.current.open = false;
-    }
+    if (detailsRef.current) detailsRef.current.open = false;
   }, [pathname]);
 
   useEffect(() => {
     function handlePointerDown(event: PointerEvent) {
       const menu = detailsRef.current;
       if (menu?.open && event.target instanceof Node && !menu.contains(event.target)) {
-        menu.open = false;
+        closeMenu();
       }
     }
 
     function handleKeyDown(event: KeyboardEvent) {
       const menu = detailsRef.current;
       if (event.key === "Escape" && menu?.open) {
-        menu.open = false;
+        closeMenu();
         menu.querySelector("summary")?.focus();
       }
     }
@@ -44,18 +46,14 @@ export function MobileNavigation() {
   }, []);
 
   return (
-    <details className="mobile-menu" ref={detailsRef}>
-      <summary>Menu</summary>
-      <nav aria-label="Mobile navigation">
-        <div className="mobile-nav-group">
-          <span>Explore data</span>
-          <NavLinks items={primaryNavigationItems} onNavigate={closeMenu} />
-        </div>
-        <div className="mobile-nav-group">
-          <span>More</span>
-          <NavLinks items={secondaryNavigationItems} onNavigate={closeMenu} />
-        </div>
-      </nav>
+    <details className="desktop-more-menu" data-current={containsCurrentPage || undefined} ref={detailsRef}>
+      <summary>
+        More
+        <CaretDownIcon aria-hidden="true" size={13} weight="bold" />
+      </summary>
+      <div className="desktop-more-links">
+        <NavLinks items={secondaryNavigationItems} onNavigate={closeMenu} />
+      </div>
     </details>
   );
 }

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { primaryNavigationItems, secondaryNavigationItems } from "../src/lib/navigation";
 import { rankSearchItems } from "../src/lib/search";
 import type { GlobalSearchItem } from "../src/lib/search";
 
@@ -68,5 +69,24 @@ describe("rankSearchItems", () => {
 
   it("finds GUI records without treating them as harness profiles", () => {
     expect(rankSearchItems(items, "t3 gui").map((item) => item.kind)).toEqual(["gui"]);
+  });
+});
+
+describe("primary navigation", () => {
+  it("keeps the permanent header focused on data surfaces", () => {
+    expect(primaryNavigationItems.map((item) => item.label)).toEqual([
+      "Harnesses",
+      "Usage",
+      "Compare",
+      "Data",
+    ]);
+  });
+
+  it("keeps supporting and guided paths in the secondary menu", () => {
+    expect(secondaryNavigationItems.map((item) => item.label)).toEqual([
+      "GUIs",
+      "Methodology",
+      "Recommend",
+    ]);
   });
 });

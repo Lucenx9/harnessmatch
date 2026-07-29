@@ -1,5 +1,7 @@
 "use client";
 
+import { MoonIcon } from "@phosphor-icons/react/dist/icons/Moon";
+import { SunIcon } from "@phosphor-icons/react/dist/icons/Sun";
 import { useEffect, useState } from "react";
 
 export function ThemeToggle() {
@@ -28,7 +30,9 @@ export function ThemeToggle() {
       aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
       title={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
     >
-      <span aria-hidden="true">{theme === "dark" ? "Light" : "Dark"}</span>
+      {theme === "dark"
+        ? <SunIcon aria-hidden="true" size={18} weight="regular" />
+        : <MoonIcon aria-hidden="true" size={18} weight="regular" />}
     </button>
   );
 }

@@ -10,7 +10,7 @@ import type {
   UsageProduct,
 } from "@/lib/usage-view";
 
-type UsageSource = "openrouter" | EcosystemSignalSnapshot["source"];
+type UsageSource = "openrouter" | "homebrew" | "npm" | "github-releases" | "vscode";
 
 type SummaryRow = UsageProduct & {
   rank: number;
@@ -23,8 +23,8 @@ const sourceOptions: Array<{ key: UsageSource; label: string }> = [
   { key: "openrouter", label: "OpenRouter" },
   { key: "homebrew", label: "Homebrew" },
   { key: "npm", label: "npm" },
+  { key: "github-releases", label: "Releases" },
   { key: "vscode", label: "VS Code" },
-  { key: "github", label: "GitHub" },
 ];
 
 const compactNumberFormatter = new Intl.NumberFormat("en", {
@@ -44,8 +44,8 @@ function sourceTitle(source: UsageSource) {
     case "openrouter": return "OpenRouter attributed traffic";
     case "homebrew": return "Homebrew install events";
     case "npm": return "npm package downloads";
+    case "github-releases": return "GitHub release downloads";
     case "vscode": return "VS Code Marketplace installs";
-    case "github": return "GitHub repository interest";
   }
 }
 
@@ -54,8 +54,8 @@ function sourceNote(source: UsageSource) {
     case "openrouter": return "Opt-in traffic attributed to coding apps. Attributed volume does not measure users, task quality, or success.";
     case "homebrew": return "Install events are not unique people or active installations.";
     case "npm": return "Downloads can include automated and repeated retrievals.";
+    case "github-releases": return "Stable asset downloads can be repeated, automated, or split across platforms.";
     case "vscode": return "Marketplace installs are cumulative events, not current active users.";
-    case "github": return "Stars measure repository interest, not product use or quality.";
   }
 }
 
@@ -74,12 +74,12 @@ function ecosystemRows(records: EcosystemUsageRecord[], source: Exclude<UsageSou
       } else if (record.signal.source === "npm") {
         valueLabel = `${compactNumberFormatter.format(value)} downloads`;
         valueAriaLabel = `${fullNumberFormatter.format(value)} npm downloads`;
+      } else if (record.signal.source === "github-releases") {
+        valueLabel = `${compactNumberFormatter.format(value)} downloads`;
+        valueAriaLabel = `${fullNumberFormatter.format(value)} matched GitHub release asset downloads`;
       } else if (record.signal.source === "vscode") {
         valueLabel = `${compactNumberFormatter.format(value)} installs`;
         valueAriaLabel = `${fullNumberFormatter.format(value)} cumulative Marketplace installs`;
-      } else if (record.signal.source === "github") {
-        valueLabel = `${compactNumberFormatter.format(value)} stars`;
-        valueAriaLabel = `${fullNumberFormatter.format(value)} GitHub stars`;
       }
 
       return {
@@ -154,8 +154,8 @@ export function HomeUsageSummary({
     <section className="home-usage-summary" aria-labelledby="home-usage-heading">
       <header className="home-usage-header">
         <div>
-          <h2 id="home-usage-heading">Observed usage</h2>
-          <p>Public activity signals from separate ecosystems. Popularity provides context, not a quality score.</p>
+          <h2 id="home-usage-heading">Public usage signals</h2>
+          <p>Compare source-native activity without turning popularity into a quality score.</p>
         </div>
         <Link className="text-link" href="/usage">Open full usage data</Link>
       </header>

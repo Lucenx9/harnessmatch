@@ -43,3 +43,92 @@ export const vsCodeExtensions = [
   { harnessId: "claude-code", artifactId: "anthropic.claude-code" },
   { harnessId: "codex", artifactId: "openai.chatgpt" },
 ];
+
+export const openVsxExtensions = [
+  { harnessId: "cline", artifactId: "saoudrizwan/claude-dev", displayName: "Cline", repositoryUrl: "https://github.com/cline/cline" },
+  { harnessId: "kilo-code", artifactId: "kilocode/Kilo-Code", displayName: "Kilo Code: AI Coding Agent, Copilot, and Autocomplete", repositoryUrl: "https://github.com/Kilo-Org/kilocode" },
+  { harnessId: "continue-cli", artifactId: "Continue/continue", displayName: "Continue - open-source AI code agent", repositoryUrl: "https://github.com/continuedev/continue" },
+  { harnessId: "claude-code", artifactId: "anthropic/claude-code", displayName: "Claude Code for VS Code" },
+  { harnessId: "codex", artifactId: "openai/chatgpt", displayName: "Codex – OpenAI’s coding agent" },
+];
+
+export const jetBrainsPlugins = [
+  { harnessId: "continue-cli", pluginId: 22_707, artifactId: "com.github.continuedev.continueintellijextension", name: "Continue" },
+  { harnessId: "junie-cli", pluginId: 26_104, artifactId: "org.jetbrains.junie", name: "Junie, the AI coding agent by JetBrains" },
+  { harnessId: "cline", pluginId: 28_247, artifactId: "bot.cline", name: "Cline" },
+  { harnessId: "kilo-code", pluginId: 28_350, artifactId: "ai.kilocode.jetbrains", name: "Kilo Code" },
+];
+
+/**
+ * GitHub release totals are admitted only when asset names isolate the user-facing
+ * harness distribution from SDKs, checksums, source archives, GUI packages, and
+ * unrelated monorepo artifacts. Drafts and prereleases are excluded by the parser.
+ */
+export const githubReleaseArtifacts = [
+  {
+    harnessId: "claude-code",
+    includePatterns: [String.raw`^claude-(?:darwin|linux|win32)-.+\.(?:tar\.gz|zip)$`],
+    artifactScope: "Stable Claude Code platform archives",
+  },
+  {
+    harnessId: "codex",
+    includePatterns: [
+      String.raw`^codex$`,
+      String.raw`^codex-(?:aarch64|x86_64)-(?:apple-darwin|pc-windows-msvc|unknown-linux-musl)(?:\.exe|\.dmg|\.tar\.gz|\.zst|\.exe\.(?:tar\.gz|zip|zst))$`,
+    ],
+    artifactScope: "Stable Codex CLI binaries and platform archives",
+  },
+  {
+    harnessId: "opencode",
+    includePatterns: [String.raw`^opencode-(?:darwin|linux|windows)-.+\.(?:tar\.gz|zip)$`],
+    artifactScope: "Stable OpenCode CLI platform archives",
+  },
+  {
+    harnessId: "pi",
+    includePatterns: [String.raw`^pi-(?:darwin|linux|windows)-(?:arm64|x64)\.(?:tar\.gz|zip)$`],
+    artifactScope: "Stable Pi coding-agent platform archives",
+  },
+  {
+    harnessId: "omp",
+    includePatterns: [String.raw`^omp-(?:darwin|linux|windows)-.+(?:\.exe)?$`],
+    artifactScope: "Stable Oh My Pi platform binaries",
+  },
+  {
+    harnessId: "goose",
+    includePatterns: [String.raw`^goose-(?:aarch64|x86_64)-.+\.(?:tar\.bz2|tar\.gz|zip)$`],
+    artifactScope: "Stable Goose CLI platform archives",
+  },
+  {
+    harnessId: "gemini-cli",
+    includePatterns: [String.raw`^(?:gemini-cli-bundle|gemini-(?:darwin|linux|windows)-.+)\.(?:zip|tar\.gz)$`],
+    artifactScope: "Stable Gemini CLI bundle and platform archives",
+  },
+  {
+    harnessId: "antigravity-cli",
+    includePatterns: [String.raw`^agy_cli_(?:linux|mac|windows)_(?:arm64|x64)\.(?:tar\.gz|zip)$`],
+    artifactScope: "Stable Antigravity CLI platform archives",
+  },
+  {
+    harnessId: "copilot-cli",
+    includePatterns: [
+      String.raw`^copilot-(?:darwin|linux|linuxmusl|win32)-(?:arm64|x64)\.(?:tar\.gz|zip)$`,
+      String.raw`^copilot-(?:arm64|x64)\.msi$`,
+    ],
+    artifactScope: "Stable GitHub Copilot CLI platform archives and installers",
+  },
+  {
+    harnessId: "junie-cli",
+    includePatterns: [String.raw`^junie-release-.+\.(?:zip|tar\.gz)$`],
+    artifactScope: "Stable Junie CLI platform archives",
+  },
+  {
+    harnessId: "forgecode",
+    includePatterns: [String.raw`^forge-(?:aarch64|x86_64)-.+(?:\.exe)?$`],
+    artifactScope: "Stable ForgeCode platform binaries",
+  },
+  {
+    harnessId: "qwen-code",
+    includePatterns: [String.raw`^qwen-code-(?:darwin|linux|win)-(?:arm64|x64)\.(?:tar\.gz|zip)$`],
+    artifactScope: "Stable Qwen Code platform archives",
+  },
+];

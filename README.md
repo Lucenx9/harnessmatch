@@ -9,7 +9,7 @@ An evidence-backed decision tool for choosing an AI coding harness by workflow f
 - Workflow recommender with hard eligibility gates and visible preference weights
 - Sensitivity analysis that reports rank robustness without presenting it as task-success probability
 - Side-by-side harness comparison and source-backed product profiles
-- Source-separated OpenRouter, Homebrew, npm, VS Code, and GitHub ecosystem signals with explicit windows and limits
+- Source-separated routing, package, release-asset, editor-marketplace, and repository signals with explicit windows and limits
 - Separate views for workflow fit, architecture, public-code artifacts, and admitted benchmark configurations
 - Claim-level evidence ledger with first-party sources and verification dates
 - Public methodology, validation protocol, scientific references, and benchmark admission policy
@@ -56,7 +56,7 @@ Refresh the context-only usage datasets with:
 npm run sync:usage
 ```
 
-This command requires `OPENROUTER_API_KEY` for OpenRouter and uses `GITHUB_TOKEN` or the authenticated `gh` session for GitHub. Generated values are not recommendation inputs.
+This command requires `OPENROUTER_API_KEY` for OpenRouter and uses `GITHUB_TOKEN` or the authenticated `gh` session for GitHub repository and release data. Homebrew, npm, VS Code, Open VSX, and JetBrains use public endpoints. Generated values are not recommendation inputs.
 
 ## Deployment
 

@@ -9,7 +9,7 @@ import { buildUsageViewRecords } from "@/lib/usage-view";
 export const metadata: Metadata = pageMetadata({
   title: "Coding harness usage signals",
   description:
-    "Compare source-separated OpenRouter traffic, Homebrew installs, npm downloads, VS Code installs, and GitHub repository interest for AI coding harnesses.",
+    "Compare source-separated routing, package, release, editor-marketplace, and repository signals for AI coding harnesses.",
   path: "/usage",
 });
 
@@ -25,7 +25,7 @@ export default function UsagePage() {
       <div className="shell wide-shell">
         <div className="page-intro usage-page-intro">
           <h1>Coding harness usage signals</h1>
-          <p>Compare public signals from five ecosystems. Each view keeps its own unit, time window, coverage, and limitations, so you can inspect adoption context without confusing it with quality.</p>
+          <p>Compare public signals from eight source views. Each keeps its own unit, time window, coverage, and limitations, so you can inspect adoption context without confusing it with quality.</p>
         </div>
 
         <UsageSignalsExplorer
@@ -46,7 +46,11 @@ export default function UsagePage() {
             </div>
             <div>
               <dt>Distribution</dt>
-              <dd>Homebrew 30d install events, npm last-month downloads, and cumulative VS Code Marketplace installs for exact mapped artifacts.</dd>
+              <dd>Homebrew 30d events, npm last-month downloads, and cumulative downloads of explicitly matched stable GitHub release assets.</dd>
+            </div>
+            <div>
+              <dt>Editor marketplaces</dt>
+              <dd>Cumulative VS Code installs, Open VSX downloads, and JetBrains downloads for exact mapped extensions or plugins.</dd>
             </div>
             <div>
               <dt>Repository interest</dt>
@@ -61,7 +65,10 @@ export default function UsagePage() {
             <a href="https://openrouter.ai/docs/agent-sdk/typescript/api-reference/datasets" target="_blank" rel="noreferrer">OpenRouter dataset</a>
             <a href="https://formulae.brew.sh/docs/api/" target="_blank" rel="noreferrer">Homebrew API</a>
             <a href="https://github.com/npm/download-counts" target="_blank" rel="noreferrer">npm downloads API</a>
+            <a href="https://docs.github.com/en/rest/releases/releases" target="_blank" rel="noreferrer">GitHub releases API</a>
             <a href="https://learn.microsoft.com/en-us/javascript/api/azure-devops-extension-api/eventcounts" target="_blank" rel="noreferrer">Marketplace metric</a>
+            <a href="https://github.com/eclipse-openvsx/openvsx" target="_blank" rel="noreferrer">Open VSX registry</a>
+            <a href="https://plugins.jetbrains.com/docs/marketplace/api-reference.html" target="_blank" rel="noreferrer">JetBrains API</a>
             <a href="https://docs.github.com/en/rest/activity/starring" target="_blank" rel="noreferrer">GitHub stars API</a>
             <a href="/methodology#eligibility">Evidence policy</a>
           </div>

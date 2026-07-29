@@ -24,6 +24,13 @@ describe("ecosystem usage signals", () => {
         expect(signal.windowStart).toMatch(/^\d{4}-\d{2}-\d{2}$/);
         expect(signal.windowEnd).toMatch(/^\d{4}-\d{2}-\d{2}$/);
       }
+      if (signal.source === "github-releases") {
+        expect(signal.assetCount).toBeGreaterThan(0);
+        expect(signal.releaseCount).toBeGreaterThan(0);
+        expect(signal.latestReleaseAt).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      }
+      if (signal.source === "openvsx") expect(signal.latestVersion.length).toBeGreaterThan(0);
+      if (signal.source === "jetbrains") expect(signal.pluginId).toBeGreaterThan(0);
     }
   });
 
@@ -40,7 +47,7 @@ describe("ecosystem usage signals", () => {
 
   it("preserves the source-specific metrics instead of a composite score", () => {
     expect(new Set(ecosystemSignalSnapshots.map((signal) => signal.metric))).toEqual(
-      new Set(["install-events", "downloads", "installs", "stars"]),
+      new Set(["install-events", "downloads", "asset-downloads", "installs", "stars"]),
     );
     expect(ecosystemSignalSnapshots.every((signal) => !("score" in signal))).toBe(true);
   });

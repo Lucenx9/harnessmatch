@@ -2,8 +2,11 @@ import { readFile } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
 import {
   parseGitHubRepository,
+  parseGitHubReleaseDownloads,
   parseHomebrewAnalytics,
+  parseJetBrainsPlugin,
   parseNpmDownloads,
+  parseOpenVsxExtension,
   parseRepositoryAudits,
   parseVsCodeExtension,
   renderEcosystemSignalsFile,
@@ -47,6 +50,46 @@ describe("ecosystem signal sync", () => {
       artifactId: "@openai/codex",
       identity: { kind: "repository", value: "https://github.com/openai/codex" },
     })).toThrow(/repository identity changed/);
+
+    expect(() => parseOpenVsxExtension({
+      namespace: "someone-else",
+      name: "chatgpt",
+      displayName: "Codex – OpenAI’s coding agent",
+      verified: true,
+      version: "1.0.0",
+      downloadCount: 10,
+    }, {
+      harnessId: "codex",
+      artifactId: "openai/chatgpt",
+      displayName: "Codex – OpenAI’s coding agent",
+    }, observedAt)).toThrow(/identity changed/);
+  });
+
+  it("parses exact Open VSX and JetBrains marketplace identities", () => {
+    expect(parseOpenVsxExtension({
+      namespace: "openai",
+      name: "chatgpt",
+      displayName: "Codex – OpenAI’s coding agent",
+      verified: true,
+      version: "26.1.0",
+      downloadCount: 123,
+    }, {
+      harnessId: "codex",
+      artifactId: "openai/chatgpt",
+      displayName: "Codex – OpenAI’s coding agent",
+    }, observedAt)).toMatchObject({ source: "openvsx", value: 123, latestVersion: "26.1.0" });
+
+    expect(parseJetBrainsPlugin({
+      id: 26_104,
+      xmlId: "org.jetbrains.junie",
+      name: "Junie, the AI coding agent by JetBrains",
+      downloads: 456,
+    }, {
+      harnessId: "junie-cli",
+      pluginId: 26_104,
+      artifactId: "org.jetbrains.junie",
+      name: "Junie, the AI coding agent by JetBrains",
+    }, observedAt)).toMatchObject({ source: "jetbrains", value: 456, pluginId: 26_104 });
   });
 
   it("parses the canonical repository audit list and GitHub scope", async () => {
@@ -58,6 +101,43 @@ describe("ecosystem signal sync", () => {
       forks_count: 20,
     }, audits.find((audit) => audit.harnessId === "codex"), observedAt);
     expect(signal).toMatchObject({ harnessId: "codex", value: 100, forks: 20, repositoryScope: "client-source" });
+  });
+
+  it("sums only stable GitHub release assets admitted by the mapping", () => {
+    const signal = parseGitHubReleaseDownloads([
+      {
+        tag_name: "v1.0.0",
+        published_at: "2026-07-01T10:00:00Z",
+        draft: false,
+        prerelease: false,
+        assets: [
+          { id: 1, name: "tool-linux-x64.tar.gz", download_count: 100 },
+          { id: 2, name: "SHA256SUMS", download_count: 80 },
+        ],
+      },
+      {
+        tag_name: "v1.1.0-beta",
+        published_at: "2026-07-20T10:00:00Z",
+        draft: false,
+        prerelease: true,
+        assets: [{ id: 3, name: "tool-linux-x64.tar.gz", download_count: 900 }],
+      },
+    ], {
+      harnessId: "tool",
+      includePatterns: [String.raw`^tool-.+\.(?:tar\.gz|zip)$`],
+      artifactScope: "Stable tool platform archives",
+    }, {
+      harnessId: "tool",
+      repositoryUrl: "https://github.com/example/tool",
+      sourceScope: "full-source",
+    }, observedAt);
+    expect(signal).toMatchObject({
+      source: "github-releases",
+      value: 100,
+      assetCount: 1,
+      releaseCount: 1,
+      latestReleaseAt: "2026-07-01",
+    });
   });
 
   it("renders an explicitly context-only generated file", () => {

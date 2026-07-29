@@ -187,6 +187,9 @@ export type EcosystemSignalSnapshot =
   | HomebrewUsageSignal
   | NpmUsageSignal
   | VsCodeUsageSignal
+  | OpenVsxUsageSignal
+  | JetBrainsUsageSignal
+  | GitHubReleaseDownloadSignal
   | GitHubInterestSignal;
 
 type EcosystemSignalBase = {
@@ -220,6 +223,31 @@ export type VsCodeUsageSignal = EcosystemSignalBase & {
   source: "vscode";
   metric: "installs";
   value: number;
+};
+
+export type OpenVsxUsageSignal = EcosystemSignalBase & {
+  source: "openvsx";
+  metric: "downloads";
+  value: number;
+  latestVersion: string;
+};
+
+export type JetBrainsUsageSignal = EcosystemSignalBase & {
+  source: "jetbrains";
+  metric: "downloads";
+  value: number;
+  pluginId: number;
+};
+
+export type GitHubReleaseDownloadSignal = EcosystemSignalBase & {
+  source: "github-releases";
+  metric: "asset-downloads";
+  value: number;
+  assetCount: number;
+  releaseCount: number;
+  latestReleaseAt: string;
+  artifactScope: string;
+  repositoryScope: "full-source" | "client-source" | "support-repository";
 };
 
 export type GitHubInterestSignal = EcosystemSignalBase & {

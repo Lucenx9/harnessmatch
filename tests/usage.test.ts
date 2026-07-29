@@ -18,7 +18,7 @@ describe("usage surface", () => {
     expect(primaryNavigationItems).not.toContainEqual({ label: "Benchmarks", href: "/benchmarks" });
     expect(searchablePageItems).toContainEqual(expect.objectContaining({
       href: "/benchmarks",
-      primary: false,
+      navigation: null,
     }));
     expect(sitemap()).toContainEqual(expect.objectContaining({ url: `${siteUrl}/benchmarks` }));
   });
@@ -43,7 +43,7 @@ describe("usage surface", () => {
       expect(csv).toContain(`${siteUrl}/harnesses/${harness.slug}`);
       expect(csv).toContain(snapshot.windows.month.sourceUrl);
     }
-    for (const source of ["homebrew", "npm", "vscode", "github"]) {
+    for (const source of ["homebrew", "npm", "github-releases", "vscode", "openvsx", "jetbrains", "github"]) {
       expect(csv).toContain(`${source},`);
     }
     expect(csv).toContain("global_coding_apps");

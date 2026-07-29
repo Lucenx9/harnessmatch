@@ -5,13 +5,11 @@ import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnesses } from "@/data/harnesses";
 import { openRouterAttributionSnapshots } from "@/data/openrouter-attribution";
 import { researchSources } from "@/data/research";
-import { workflowScenarios } from "@/data/workflow-scenarios";
 import { HarnessLensExplorer } from "@/components/harness-lens-explorer";
+import { HomeReleaseActivity } from "@/components/home-release-activity";
 import { HomeUsageSummary } from "@/components/home-usage-summary";
-import { WorkflowFitExplorer } from "@/components/workflow-fit-explorer";
-import { eligibilityFailuresFor, recommendHarnesses } from "@/lib/recommendation";
 import { latestVerifiedAt } from "@/lib/evidence-freshness";
-import { buildUsageViewRecords } from "@/lib/usage-view";
+import { buildRecentReleaseActivity, buildUsageViewRecords } from "@/lib/usage-view";
 
 export default function HomePage() {
   const activeHarnesses = harnesses.filter((harness) => harness.status === "active");
@@ -25,68 +23,38 @@ export default function HomePage() {
     year: "numeric",
     timeZone: "UTC",
   }).format(new Date(`${latestVerifiedAt()}T00:00:00Z`));
-  const scenarioViews = workflowScenarios.map((scenario) => {
-    const results = recommendHarnesses(scenario.answers, activeHarnesses);
-    const compatibleIds = new Set(results.map((result) => result.harness.id));
-
-    return {
-      ...scenario,
-      results: results.map((result) => ({
-        id: result.harness.id,
-        slug: result.harness.slug,
-        name: result.harness.name,
-        logo: result.harness.logo,
-        score: result.score,
-        fitBand: result.fitBand,
-        robustness: result.robustness,
-        evidenceState: result.evidenceState.label,
-        evidenceCoverage: result.evidenceCoverage,
-        evidenceSourceCount: result.evidenceSourceCount,
-        verifiedAt: result.harness.verifiedAt,
-        why: result.reasons[0] ?? result.harness.bestFor[0] ?? "Every required capability has current supporting documentation.",
-        watchOut: result.compromises[0] ?? result.harness.tradeoffs[0] ?? "No major limitation is documented for this workflow.",
-      })),
-      excluded: activeHarnesses
-        .filter((harness) => !compatibleIds.has(harness.id))
-        .map((harness) => ({
-          id: harness.id,
-          slug: harness.slug,
-          name: harness.name,
-          logo: harness.logo,
-          failures: eligibilityFailuresFor(harness, scenario.answers),
-        })),
-    };
-  });
   const usageRecords = buildUsageViewRecords({
     harnesses,
     openRouterSnapshots: openRouterAttributionSnapshots,
+    ecosystemSignals: ecosystemSignalSnapshots,
+  });
+  const recentReleaseActivity = buildRecentReleaseActivity({
+    harnesses,
     ecosystemSignals: ecosystemSignalSnapshots,
   });
 
   return (
     <>
       <section className="tool-intro">
-        <div className="shell tool-intro-grid">
-          <div className="tool-intro-copy">
-            <h1>Find the coding harness that fits how you work.</h1>
-            <p>A coding harness is the tool around the model: Claude Code, Codex, Cline, and others. Compare them by workflow, control, and evidence.</p>
-            <div className="tool-intro-actions">
-              <Link className="button primary" href="/recommend">Answer 7 questions</Link>
-              <Link className="button secondary" href="#catalog">Browse catalog</Link>
+        <div className="shell">
+          <div className="tool-intro-grid">
+            <div className="tool-intro-copy">
+              <h1>Source-backed data on AI coding harnesses.</h1>
+              <p>Compare documented capabilities, operating models, public usage signals, and evidence coverage. Popularity and quality remain separate.</p>
             </div>
+            <dl className="dataset-summary" aria-label="Dataset status">
+              <div><dt>Active catalog entries</dt><dd>{activeHarnesses.length}</dd></div>
+              <div><dt>Latest source check</dt><dd>{latestCheck}</dd></div>
+              <div><dt>Peer-reviewed studies</dt><dd>{peerReviewedStudyCount}</dd></div>
+              <div><dt>Primary source pages</dt><dd>{primarySourcePageCount}</dd></div>
+            </dl>
           </div>
-          <dl className="dataset-summary" aria-label="Dataset status">
-            <div><dt>Active catalog entries</dt><dd>{activeHarnesses.length}</dd></div>
-            <div><dt>Latest source check</dt><dd>{latestCheck}</dd></div>
-            <div><dt>Peer-reviewed studies</dt><dd>{peerReviewedStudyCount}</dd></div>
-            <div><dt>Primary source pages</dt><dd>{primarySourcePageCount}</dd></div>
-          </dl>
-        </div>
-      </section>
-
-      <section className="analysis-section" aria-label="Workflow fit analysis">
-        <div className="wide-shell shell">
-          <WorkflowFitExplorer scenarios={scenarioViews} />
+          <nav className="home-data-nav" aria-label="Primary data views">
+            <Link href="/usage"><strong>Usage signals</strong><span>Eight source-separated views</span></Link>
+            <Link href="/compare"><strong>Compare harnesses</strong><span>Capabilities and operating model</span></Link>
+            <Link href="/data"><strong>Evidence ledger</strong><span>{primarySourcePageCount} primary-source pages</span></Link>
+            <Link href="#catalog"><strong>Harness catalog</strong><span>{activeHarnesses.length} active profiles</span></Link>
+          </nav>
         </div>
       </section>
 
@@ -120,6 +88,12 @@ export default function HomePage() {
             evidenceCount: harness.evidence.length,
             verifiedAt: harness.verifiedAt,
           }))} />
+        </div>
+      </section>
+
+      <section className="home-release-section" aria-label="Recent stable release activity">
+        <div className="wide-shell shell">
+          <HomeReleaseActivity records={recentReleaseActivity} />
         </div>
       </section>
     </>

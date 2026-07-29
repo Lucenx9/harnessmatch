@@ -111,15 +111,21 @@ const compactNumberFormatter = new Intl.NumberFormat("en", {
 const ecosystemSignalLabels: Record<EcosystemSignalSnapshot["source"], string> = {
   homebrew: "Homebrew 30d events",
   npm: "npm last-month downloads",
+  "github-releases": "Release asset downloads",
   vscode: "VS Code installs",
+  openvsx: "Open VSX downloads",
+  jetbrains: "JetBrains downloads",
   github: "GitHub stars",
 };
 
 const ecosystemSignalOrder: Record<EcosystemSignalSnapshot["source"], number> = {
   homebrew: 0,
   npm: 1,
-  vscode: 2,
-  github: 3,
+  "github-releases": 2,
+  vscode: 3,
+  openvsx: 4,
+  jetbrains: 5,
+  github: 6,
 };
 
 const repositoryScopeLabels = {
@@ -131,7 +137,10 @@ const repositoryScopeLabels = {
 function ecosystemSignalUnit(signal: EcosystemSignalSnapshot) {
   if (signal.source === "homebrew") return `${signal.artifactKind === "formula" ? "Formula" : "Cask"}: ${signal.artifactId}`;
   if (signal.source === "npm") return `Package: ${signal.artifactId}`;
+  if (signal.source === "github-releases") return `${signal.releaseCount} stable releases; ${signal.assetCount} matched assets`;
   if (signal.source === "vscode") return `Extension: ${signal.artifactId}`;
+  if (signal.source === "openvsx") return `Extension: ${signal.artifactId}; latest ${signal.latestVersion}`;
+  if (signal.source === "jetbrains") return `Plugin ${signal.pluginId}: ${signal.artifactId}`;
   return `${repositoryScopeLabels[signal.repositoryScope]}; ${compactNumberFormatter.format(signal.forks)} forks`;
 }
 
@@ -466,7 +475,7 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
                     {membershipEvidenceLabels[assessment.state]}
                   </span>
                   <p>{membershipCriterionDescriptions[criterion as keyof typeof membership.criteria]}</p>
-                  <div className="profile-membership-sources" aria-label="First-party evidence">
+                  <div className="profile-membership-sources" role="group" aria-label="First-party evidence">
                     {assessment.sourceUrls.length > 0
                       ? assessment.sourceUrls.map((url) => (
                           <a href={url} target="_blank" rel="noreferrer" key={url}>
@@ -537,29 +546,29 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
               </div>
               <Link className="text-link" href="/usage">Compare all signals</Link>
             </header>
-            <dl className="profile-ecosystem-metrics">
+            <ul className="profile-ecosystem-metrics">
               {openRouterSnapshot && openRouterMonth && (
-                <div>
-                  <dt>OpenRouter 30d tokens</dt>
-                  <dd title={openRouterMonth.attributedTokens === null ? undefined : `${openRouterMonth.attributedTokens.toLocaleString("en-US")} attributed tokens`}>
+                <li>
+                  <span className="profile-ecosystem-label">OpenRouter 30d tokens</span>
+                  <strong className="profile-ecosystem-value" title={openRouterMonth.attributedTokens === null ? undefined : `${openRouterMonth.attributedTokens.toLocaleString("en-US")} attributed tokens`}>
                     {openRouterMonth.attributedTokens === null ? "Not listed" : compactNumberFormatter.format(openRouterMonth.attributedTokens)}
-                  </dd>
+                  </strong>
                   <small>{openRouterMonth.rank === null ? "Not ranked" : `#${openRouterMonth.rank} coding app`}; {openRouterMonth.windowStart} to {openRouterMonth.windowEnd}</small>
                   <a className="text-link" href={openRouterSnapshot.sourceUrl} target="_blank" rel="noreferrer">Open app page</a>
-                </div>
+                </li>
               )}
               {ecosystemSignals.map((signal) => (
-                <div key={`${signal.source}:${signal.artifactId}`}>
-                  <dt>{ecosystemSignalLabels[signal.source]}</dt>
-                  <dd title={`${signal.value.toLocaleString("en-US")} ${signal.metric}`}>{compactNumberFormatter.format(signal.value)}</dd>
+                <li key={`${signal.source}:${signal.artifactId}`}>
+                  <span className="profile-ecosystem-label">{ecosystemSignalLabels[signal.source]}</span>
+                  <strong className="profile-ecosystem-value" title={`${signal.value.toLocaleString("en-US")} ${signal.metric}`}>{compactNumberFormatter.format(signal.value)}</strong>
                   <small>{ecosystemSignalUnit(signal)}</small>
                   <a className="text-link" href={signal.artifactUrl} target="_blank" rel="noreferrer">Open artifact</a>
-                </div>
+                </li>
               ))}
-            </dl>
+            </ul>
             <footer>
               <p>
-                Routing, downloads, installs, and repository interest observe different populations. They are never added together and never affect capability evidence, workflow fit, or recommendation order.
+                Routing, package retrievals, release downloads, editor installs, and repository interest observe different populations. They are never added together and never affect capability evidence, workflow fit, or recommendation order.
               </p>
               <div>
                 <Link className="text-link" href="/methodology#eligibility">Interpretation rules</Link>

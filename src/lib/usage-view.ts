@@ -1,5 +1,6 @@
 import type {
   EcosystemSignalSnapshot,
+  GitHubReleaseDownloadSignal,
   Harness,
   OpenRouterAttributionSnapshot,
   OpenRouterUsageWindow,
@@ -15,6 +16,47 @@ export type OpenRouterUsageRecord = UsageProduct & {
 export type EcosystemUsageRecord = UsageProduct & {
   signal: EcosystemSignalSnapshot;
 };
+
+export type ReleaseActivityRecord = UsageProduct & {
+  signal: GitHubReleaseDownloadSignal;
+};
+
+export function buildRecentReleaseActivity({
+  harnesses,
+  ecosystemSignals,
+  limit = 6,
+}: {
+  harnesses: Harness[];
+  ecosystemSignals: EcosystemSignalSnapshot[];
+  limit?: number;
+}): ReleaseActivityRecord[] {
+  const activeHarnessById = new Map(
+    harnesses
+      .filter((harness) => harness.status === "active")
+      .map((harness) => [harness.id, harness]),
+  );
+
+  return ecosystemSignals
+    .flatMap((signal): ReleaseActivityRecord[] => {
+      if (signal.source !== "github-releases") return [];
+      const harness = activeHarnessById.get(signal.harnessId);
+      if (!harness) return [];
+      return [{
+        id: harness.id,
+        slug: harness.slug,
+        name: harness.name,
+        tagline: harness.tagline,
+        logo: harness.logo,
+        signal,
+      }];
+    })
+    .sort((left, right) => (
+      right.signal.latestReleaseAt.localeCompare(left.signal.latestReleaseAt)
+      || right.signal.value - left.signal.value
+      || left.name.localeCompare(right.name)
+    ))
+    .slice(0, Math.max(0, limit));
+}
 
 export function buildUsageViewRecords({
   harnesses,

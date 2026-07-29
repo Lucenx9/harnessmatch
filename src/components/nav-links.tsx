@@ -4,12 +4,23 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { primaryNavigationItems } from "@/lib/navigation";
 
-export function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
+type NavigationItem = {
+  readonly href: string;
+  readonly label: string;
+};
+
+export function NavLinks({
+  items = primaryNavigationItems,
+  onNavigate,
+}: {
+  items?: readonly NavigationItem[];
+  onNavigate?: () => void;
+}) {
   const pathname = usePathname();
   const normalizedPath = pathname.length > 1 ? pathname.replace(/\/$/, "") : pathname;
 
-  return primaryNavigationItems.map(({ label, href }) => {
-    const current = normalizedPath === href || (href === "/harnesses" && normalizedPath.startsWith("/harnesses/"));
+  return items.map(({ label, href }) => {
+    const current = normalizedPath === href || (href !== "/" && normalizedPath.startsWith(`${href}/`));
     return (
       <Link href={href} aria-current={current ? "page" : undefined} key={href} onClick={onNavigate}>
         {label}
