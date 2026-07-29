@@ -1,5 +1,7 @@
 import { readdir } from "node:fs/promises";
 import { createViteServer } from "vitest/node";
+import { safeFetch } from "./source-health-network.mjs";
+import { collectUrls } from "./source-health-urls.mjs";
 
 const dataRoot = new URL("../src/data/", import.meta.url);
 const concurrency = Number.parseInt(process.env.SOURCE_CHECK_CONCURRENCY ?? "8", 10);
@@ -9,11 +11,6 @@ const restrictedStatuses = new Set([401, 403, 429]);
 if (!Number.isInteger(concurrency) || concurrency < 1) throw new Error("SOURCE_CHECK_CONCURRENCY must be a positive integer.");
 if (!Number.isInteger(timeoutMs) || timeoutMs < 1) throw new Error("SOURCE_CHECK_TIMEOUT_MS must be a positive integer.");
 
-function urlsIn(source) {
-  const matches = source.match(/https?:\/\/[^\s"'`<>\\]+/g) ?? [];
-  return matches.map((url) => url.replace(/[),.;]+$/, ""));
-}
-
 async function probe(url) {
   let lastError;
 
@@ -22,9 +19,8 @@ async function probe(url) {
     const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
     try {
-      const response = await fetch(url, {
+      const { response, finalUrl, redirected } = await safeFetch(url, {
         method: attempt === 1 ? "HEAD" : "GET",
-        redirect: "follow",
         signal: controller.signal,
         headers: {
           accept: "text/html,application/xhtml+xml,application/json,text/plain,*/*",
@@ -40,8 +36,8 @@ async function probe(url) {
       return {
         url,
         status: response.status,
-        finalUrl: response.url,
-        redirected: response.redirected,
+        finalUrl,
+        redirected,
         state: response.ok || (response.status >= 300 && response.status < 400)
           ? "healthy"
           : restrictedStatuses.has(response.status)
@@ -81,18 +77,6 @@ async function mapConcurrent(items, worker, limit) {
 
   await Promise.all(Array.from({ length: Math.min(limit, items.length) }, run));
   return results;
-}
-
-function collectUrls(value, urls, seen) {
-  if (typeof value === "string") {
-    for (const url of urlsIn(value)) urls.add(url);
-    return;
-  }
-  if (value === null || (typeof value !== "object" && typeof value !== "function")) return;
-  if (seen.has(value)) return;
-  seen.add(value);
-  if (typeof value === "function") return;
-  for (const item of Object.values(value)) collectUrls(item, urls, seen);
 }
 
 const moduleFiles = (await readdir(dataRoot, { withFileTypes: true }))
