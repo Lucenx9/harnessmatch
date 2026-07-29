@@ -11,6 +11,7 @@ describe("daily usage automation", () => {
     expect(allowedUsageRefreshPaths).toEqual([
       "research/release-review-queue.json",
       "src/data/ecosystem-signals.ts",
+      "src/data/gui-ecosystem-signals.ts",
       "src/data/openrouter-attribution.ts",
       "src/data/release-signals.json",
     ]);
@@ -28,7 +29,11 @@ describe("daily usage automation", () => {
     expect(workflow).toContain("contents: write");
     expect(workflow).toContain("deployments: read");
     expect(workflow).toContain("npm run sync:usage");
+    expect(workflow).toContain("for attempt in 1 2");
+    expect(workflow).toContain('git restore --worktree -- "${generated_paths[@]}"');
+    expect(workflow).toContain("failed after two complete transaction attempts");
     expect(workflow).toContain("src/data/release-signals.json");
+    expect(workflow).toContain("src/data/gui-ecosystem-signals.ts");
     expect(workflow).toContain("npm run triage:releases");
     expect(workflow).toContain("continue-on-error: true");
     expect(workflow).toContain("research/release-review-queue.json");

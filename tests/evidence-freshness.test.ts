@@ -41,6 +41,7 @@ describe("evidence freshness", () => {
     expect(scopes).toContain("openrouter-attribution");
     expect(scopes).toContain("openrouter-ranking");
     expect(scopes).toContain("ecosystem-signal");
+    expect(scopes).toContain("gui-ecosystem-signal");
     expect(scopes).toContain("release-snapshot");
   });
 

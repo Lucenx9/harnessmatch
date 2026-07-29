@@ -61,7 +61,27 @@ jobs:
         run: npm ci
 
       - name: Synchronize usage sources
-        run: npm run sync:usage
+        shell: bash
+        run: |
+          set -euo pipefail
+          generated_paths=(
+            src/data/openrouter-attribution.ts
+            src/data/ecosystem-signals.ts
+            src/data/gui-ecosystem-signals.ts
+            src/data/release-signals.json
+          )
+          for attempt in 1 2; do
+            if npm run sync:usage; then
+              exit 0
+            fi
+            if [[ "$attempt" -eq 2 ]]; then
+              echo "Usage synchronization failed after two complete transaction attempts." >&2
+              exit 1
+            fi
+            echo "::warning::Usage synchronization hit a transient source error; restoring the generated baseline and retrying the complete transaction in 20 seconds."
+            git restore --worktree -- "${generated_paths[@]}"
+            sleep 20
+          done
 
       - name: Triage new stable releases with GPT-OSS
         id: release_triage
@@ -84,7 +104,7 @@ jobs:
           git status --short
           git diff --stat
           git diff
-          if git diff --quiet -- research/release-review-queue.json src/data/openrouter-attribution.ts src/data/ecosystem-signals.ts src/data/release-signals.json; then
+          if git diff --quiet -- research/release-review-queue.json src/data/openrouter-attribution.ts src/data/ecosystem-signals.ts src/data/gui-ecosystem-signals.ts src/data/release-signals.json; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "No source values changed; nothing will be published." >> "$GITHUB_STEP_SUMMARY"
           else
@@ -130,7 +150,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/data/openrouter-attribution.ts src/data/ecosystem-signals.ts src/data/release-signals.json
+          git add src/data/openrouter-attribution.ts src/data/ecosystem-signals.ts src/data/gui-ecosystem-signals.ts src/data/release-signals.json
           if [[ -f research/release-review-queue.json ]]; then
             git add research/release-review-queue.json
           fi

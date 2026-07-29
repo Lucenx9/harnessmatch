@@ -7,6 +7,7 @@ import { guiExclusions, guiProducts } from "../data/gui-products";
 import { guiRepositoryAudits } from "../data/gui-repository-audits";
 import { openRouterAttributionSnapshots } from "../data/openrouter-attribution";
 import { ecosystemSignalSnapshots } from "../data/ecosystem-signals";
+import { guiEcosystemSignalSnapshots } from "../data/gui-ecosystem-signals";
 import { harnessReleaseSnapshots } from "../data/release-signals";
 
 /**
@@ -46,6 +47,7 @@ export type VerifiedRecordScope =
   | "openrouter-attribution"
   | "openrouter-ranking"
   | "ecosystem-signal"
+  | "gui-ecosystem-signal"
   | "release-snapshot";
 
 export type VerifiedRecord = {
@@ -223,6 +225,15 @@ export function verifiedRecords(): VerifiedRecord[] {
     records.push({
       scope: "ecosystem-signal",
       subject: signal.harnessId,
+      detail: `${signal.source}:${signal.artifactId}:${signal.metric}`,
+      verifiedAt: signal.observedAt,
+    });
+  }
+
+  for (const signal of guiEcosystemSignalSnapshots) {
+    records.push({
+      scope: "gui-ecosystem-signal",
+      subject: signal.guiId,
       detail: `${signal.source}:${signal.artifactId}:${signal.metric}`,
       verifiedAt: signal.observedAt,
     });

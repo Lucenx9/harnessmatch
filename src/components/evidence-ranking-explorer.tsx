@@ -269,10 +269,10 @@ export function EvidenceRankingExplorer({
     <div className="evidence-ranking-tool">
       <header className="evidence-ranking-header">
         <div>
-          <h2>Compare the evidence.</h2>
-          <p>HarnessMatch recommendations use workflow fit. These views compare documented mechanisms, source auditability, and measured configurations separately, without combining them into one score.</p>
+          <h2>Evidence comparisons</h2>
+          <p>Compare documented operational mechanisms, repository auditability, and measured benchmark runs. Each view keeps its own unit; no composite score.</p>
         </div>
-        <Link className="text-link" href="/methodology">Definitions and weights</Link>
+        <Link className="text-link" href="/methodology">Methods and definitions</Link>
       </header>
 
       <div className="evidence-highlight-tabs" role="tablist" aria-label="Evidence highlights">
