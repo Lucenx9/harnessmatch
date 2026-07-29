@@ -1,0 +1,80 @@
+import { readFile } from "node:fs/promises";
+import { describe, expect, it } from "vitest";
+import {
+  parseGitHubRepository,
+  parseHomebrewAnalytics,
+  parseNpmDownloads,
+  parseRepositoryAudits,
+  parseVsCodeExtension,
+  renderEcosystemSignalsFile,
+  validateNpmPackageIdentity,
+} from "../scripts/lib/ecosystem-signals.mjs";
+
+const observedAt = "2026-07-28";
+
+describe("ecosystem signal sync", () => {
+  it("parses exact Homebrew base artifacts without adding HEAD variants", () => {
+    const signals = parseHomebrewAnalytics({
+      start_date: "2026-06-28",
+      end_date: "2026-07-28",
+      formulae: {
+        opencode: [
+          { formula: "opencode", count: "34,964" },
+          { formula: "opencode --HEAD", count: "12" },
+        ],
+      },
+    }, [{ harnessId: "opencode", artifactId: "opencode", artifactKind: "formula" }], "formula", observedAt);
+    expect(signals[0]).toMatchObject({ value: 34_964, windowDays: 30, artifactKind: "formula" });
+  });
+
+  it("fails closed when package or extension identity changes", () => {
+    expect(() => parseNpmDownloads({
+      package: "wrong-package",
+      downloads: 10,
+      start: "2026-06-25",
+      end: "2026-07-24",
+    }, { harnessId: "codex", artifactId: "@openai/codex" }, observedAt)).toThrow(/identity changed/);
+
+    expect(() => parseVsCodeExtension({ results: [{ extensions: [] }] }, {
+      harnessId: "codex",
+      artifactId: "openai.chatgpt",
+    }, observedAt)).toThrow(/identity changed/);
+
+    expect(() => validateNpmPackageIdentity({
+      name: "@openai/codex",
+      repository: { url: "git+https://github.com/example/not-codex.git" },
+    }, {
+      artifactId: "@openai/codex",
+      identity: { kind: "repository", value: "https://github.com/openai/codex" },
+    })).toThrow(/repository identity changed/);
+  });
+
+  it("parses the canonical repository audit list and GitHub scope", async () => {
+    const source = await readFile(new URL("../src/data/repository-audits.ts", import.meta.url), "utf8");
+    const audits = parseRepositoryAudits(source);
+    const signal = parseGitHubRepository({
+      full_name: "openai/codex",
+      stargazers_count: 100,
+      forks_count: 20,
+    }, audits.find((audit) => audit.harnessId === "codex"), observedAt);
+    expect(signal).toMatchObject({ harnessId: "codex", value: 100, forks: 20, repositoryScope: "client-source" });
+  });
+
+  it("renders an explicitly context-only generated file", () => {
+    const output = renderEcosystemSignalsFile([{
+      source: "npm",
+      metric: "downloads",
+      harnessId: "codex",
+      artifactId: "@openai/codex",
+      value: 1,
+      windowDays: 30,
+      windowStart: "2026-06-25",
+      windowEnd: "2026-07-24",
+      observedAt,
+      artifactUrl: "https://www.npmjs.com/package/@openai/codex",
+      sourceUrl: "https://github.com/npm/download-counts",
+    }]);
+    expect(output).toContain("never enter recommendation or capability scoring");
+    expect(output).toContain('source: "npm"');
+  });
+});

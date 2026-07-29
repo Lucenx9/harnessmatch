@@ -179,6 +179,57 @@ export type OpenRouterUsageWindow = {
   sourceUrl: string;
 };
 
+/**
+ * Public distribution and repository signals. Each source keeps its native
+ * unit and population; these records must never be combined into one score.
+ */
+export type EcosystemSignalSnapshot =
+  | HomebrewUsageSignal
+  | NpmUsageSignal
+  | VsCodeUsageSignal
+  | GitHubInterestSignal;
+
+type EcosystemSignalBase = {
+  harnessId: string;
+  observedAt: string;
+  artifactId: string;
+  artifactUrl: string;
+  sourceUrl: string;
+};
+
+export type HomebrewUsageSignal = EcosystemSignalBase & {
+  source: "homebrew";
+  metric: "install-events";
+  artifactKind: "formula" | "cask";
+  value: number;
+  windowDays: 30;
+  windowStart: string;
+  windowEnd: string;
+};
+
+export type NpmUsageSignal = EcosystemSignalBase & {
+  source: "npm";
+  metric: "downloads";
+  value: number;
+  windowDays: 30;
+  windowStart: string;
+  windowEnd: string;
+};
+
+export type VsCodeUsageSignal = EcosystemSignalBase & {
+  source: "vscode";
+  metric: "installs";
+  value: number;
+};
+
+export type GitHubInterestSignal = EcosystemSignalBase & {
+  source: "github";
+  metric: "stars";
+  value: number;
+  forks: number;
+  repositoryScope: "full-source" | "client-source" | "support-repository";
+};
+
 export type Harness = {
   id: string;
   slug: string;

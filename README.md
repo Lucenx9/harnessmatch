@@ -9,7 +9,7 @@ An evidence-backed decision tool for choosing an AI coding harness by workflow f
 - Workflow recommender with hard eligibility gates and visible preference weights
 - Sensitivity analysis that reports rank robustness without presenting it as task-success probability
 - Side-by-side harness comparison and source-backed product profiles
-- Channel-scoped usage signals with explicit daily, weekly, and monthly windows
+- Source-separated OpenRouter, Homebrew, npm, VS Code, and GitHub ecosystem signals with explicit windows and limits
 - Separate views for workflow fit, architecture, public-code artifacts, and admitted benchmark configurations
 - Claim-level evidence ledger with first-party sources and verification dates
 - Public methodology, validation protocol, scientific references, and benchmark admission policy
@@ -50,6 +50,14 @@ npm run build
 
 The static site is written to `out/` after a successful build.
 
+Refresh the context-only usage datasets with:
+
+```bash
+npm run sync:usage
+```
+
+This command requires `OPENROUTER_API_KEY` for OpenRouter and uses `GITHUB_TOKEN` or the authenticated `gh` session for GitHub. Generated values are not recommendation inputs.
+
 ## Deployment
 
 The repository is connected to the existing Vercel project. Pushes to `main` create production deployments; other branches can create isolated preview deployments. Web Analytics is enabled on the production project.
@@ -61,7 +69,7 @@ The repository is connected to the existing Vercel project. Pushes to `main` cre
 - Visible weights and thresholds: `src/lib/recommendation-config.ts`
 - Recommender questions: `src/components/recommender.tsx`
 - Methodology: `src/app/methodology/page.tsx`
-- Usage page and export: `src/app/usage/page.tsx` and `src/app/usage.csv/route.ts`
+- Usage page and export: `src/app/usage/page.tsx`, `src/components/usage-signals-explorer.tsx`, and `src/app/usage.csv/route.ts`
 
 ## Contribution rules
 

@@ -1,0 +1,45 @@
+export const homebrewArtifacts = [
+  { harnessId: "aider", artifactId: "aider", artifactKind: "formula" },
+  { harnessId: "goose", artifactId: "block-goose-cli", artifactKind: "formula" },
+  { harnessId: "cline", artifactId: "cline", artifactKind: "formula" },
+  { harnessId: "forgecode", artifactId: "forgecode", artifactKind: "formula" },
+  { harnessId: "gemini-cli", artifactId: "gemini-cli", artifactKind: "formula" },
+  { harnessId: "hermes-agent", artifactId: "hermes-agent", artifactKind: "formula" },
+  { harnessId: "kimi-code", artifactId: "kimi-code", artifactKind: "formula" },
+  { harnessId: "letta-code", artifactId: "letta-code", artifactKind: "formula" },
+  { harnessId: "mistral-vibe", artifactId: "mistral-vibe", artifactKind: "formula" },
+  { harnessId: "openclaw", artifactId: "openclaw-cli", artifactKind: "formula" },
+  { harnessId: "opencode", artifactId: "opencode", artifactKind: "formula" },
+  { harnessId: "pi", artifactId: "pi-coding-agent", artifactKind: "formula" },
+  { harnessId: "qwen-code", artifactId: "qwen-code", artifactKind: "formula" },
+  { harnessId: "claude-code", artifactId: "claude-code", artifactKind: "cask" },
+  { harnessId: "codex", artifactId: "codex", artifactKind: "cask" },
+  { harnessId: "copilot-cli", artifactId: "copilot-cli", artifactKind: "cask" },
+  { harnessId: "cursor-cli", artifactId: "cursor-cli", artifactKind: "cask" },
+  { harnessId: "factory-droid", artifactId: "droid", artifactKind: "cask" },
+];
+
+export const npmPackages = [
+  { harnessId: "claude-code", artifactId: "@anthropic-ai/claude-code", identity: { kind: "homepage", value: "https://github.com/anthropics/claude-code" } },
+  { harnessId: "codex", artifactId: "@openai/codex", identity: { kind: "repository", value: "https://github.com/openai/codex" } },
+  { harnessId: "gemini-cli", artifactId: "@google/gemini-cli", identity: { kind: "repository", value: "https://github.com/google-gemini/gemini-cli" } },
+  { harnessId: "qwen-code", artifactId: "@qwen-code/qwen-code", identity: { kind: "repository", value: "https://github.com/QwenLM/qwen-code" } },
+  { harnessId: "pi", artifactId: "@earendil-works/pi-coding-agent", identity: { kind: "repository", value: "https://github.com/earendil-works/pi" } },
+  { harnessId: "letta-code", artifactId: "@letta-ai/letta-code", identity: { kind: "repository", value: "https://github.com/letta-ai/letta-code" } },
+  { harnessId: "kilo-code", artifactId: "@kilocode/cli", identity: { kind: "repository", value: "https://github.com/Kilo-Org/kilocode" } },
+  { harnessId: "kimi-code", artifactId: "@moonshot-ai/kimi-code", identity: { kind: "repository", value: "https://github.com/MoonshotAI/kimi-code" } },
+  { harnessId: "opencode", artifactId: "opencode-ai", identity: { kind: "install-page", value: "https://opencode.ai/docs/", contains: "npm install -g opencode-ai" } },
+  { harnessId: "openclaw", artifactId: "openclaw", identity: { kind: "repository", value: "https://github.com/openclaw/openclaw" } },
+  { harnessId: "cline", artifactId: "cline", identity: { kind: "repository", value: "https://github.com/cline/cline" } },
+  { harnessId: "postqode", artifactId: "@postqode/agent-tui", identity: { kind: "repository", value: "https://github.com/postqode/postqode-extension" } },
+  { harnessId: "copilot-cli", artifactId: "@github/copilot", identity: { kind: "repository", value: "https://github.com/github/copilot-cli" } },
+  { harnessId: "codebuff", artifactId: "codebuff", identity: { kind: "repository", value: "https://github.com/CodebuffAI/codebuff" } },
+  { harnessId: "omp", artifactId: "@oh-my-pi/pi-coding-agent", identity: { kind: "repository", value: "https://github.com/can1357/oh-my-pi" } },
+];
+
+export const vsCodeExtensions = [
+  { harnessId: "cline", artifactId: "saoudrizwan.claude-dev" },
+  { harnessId: "kilo-code", artifactId: "kilocode.Kilo-Code" },
+  { harnessId: "claude-code", artifactId: "anthropic.claude-code" },
+  { harnessId: "codex", artifactId: "openai.chatgpt" },
+];

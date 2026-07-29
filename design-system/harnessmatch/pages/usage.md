@@ -1,20 +1,36 @@
 # Usage page override
 
-The global HarnessMatch design system remains authoritative. This page uses a denser analytical layout because exact comparison is the product surface.
+Use `design-system/harnessmatch/MASTER.md` as the base. This page is a technical decision-support surface, not a marketing dashboard.
 
 ## Decision contract
 
-- Question: which cataloged harnesses received the most publicly attributed OpenRouter traffic in the selected completed UTC window?
-- Visual: sorted horizontal leaderboard with one primary measure, attributed tokens, and requests as secondary context.
-- Windows: latest completed day, 7 days, and 30 days. The 7-day view is the default because it balances recency with day-to-day volatility.
-- Scope: OpenRouter coding-app attribution only. Never label the output as overall market share, users, quality, or task success.
-- Missingness: unlisted records remain visible as `Not listed`; never convert them to zero.
+- Question: what public routing, distribution, marketplace, or repository-interest signals are visible for cataloged harnesses?
+- Sources: OpenRouter, Homebrew, npm, VS Code Marketplace, and GitHub.
+- Keep one source visible at a time. Never combine sources into a composite popularity, adoption, or quality score.
+- Preserve each source's native unit, time window, population, ranking scope, and observation date.
+- Missing coverage means no admitted artifact mapping. Never render it as zero.
+- OpenRouter rank is the global public coding-app rank. Other ranks are only among mapped active HarnessMatch products.
 
-## Layout and interaction
+## Visual hierarchy
 
-- Keep the page server-rendered; isolate window selection in one client leaf.
-- Use one ranked list, not a card grid. Every row is a link to the corresponding HarnessMatch profile.
-- Bars use the existing muted violet accent without a background track. Exact values remain visible as text.
-- Tabs are keyboard operable with left and right arrow keys and preserve 44px touch targets.
-- Mobile rows use two visual lines and never require horizontal scrolling.
-- Provide a static CSV export and source links beside the interpretation caveat.
+1. Plain-language page title and one-sentence interpretation rule.
+2. Source tabs with horizontal overflow on narrow screens.
+3. Optional OpenRouter window selector.
+4. Ranked horizontal-bar list with exact values and direct profile links.
+5. Source-specific limitation and a unified CSV export.
+6. Compact methodology and primary-source links.
+
+## Interaction and accessibility
+
+- Tabs use semantic `tablist`/`tab` roles, arrow-key navigation, visible focus, and at least 44px hit targets.
+- Bars communicate relative magnitude only; exact values remain visible text and screen-reader labels.
+- Avoid entrance animation and width transitions. Respect reduced motion globally.
+- Show at most 12 rows initially, then offer an explicit show-all control.
+- On mobile, keep the page itself free of horizontal overflow; only the source-tab strip may scroll horizontally.
+
+## Copy constraints
+
+- Say `signals`, `events`, `downloads`, `installs`, `stars`, or `attributed traffic` according to the source.
+- Never say `market share`, `users`, `best`, `quality`, or `task success` based on these records.
+- State that package downloads and install events are not unique users.
+- State that GitHub stars are repository interest and preserve full/client/support repository scope.

@@ -40,6 +40,7 @@ describe("evidence freshness", () => {
     expect(scopes).toContain("gui-exclusion");
     expect(scopes).toContain("openrouter-attribution");
     expect(scopes).toContain("openrouter-ranking");
+    expect(scopes).toContain("ecosystem-signal");
   });
 
   it("records every verification date as a real ISO calendar day", () => {

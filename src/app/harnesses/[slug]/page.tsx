@@ -6,6 +6,7 @@ import { FeatureClaimValue } from "@/components/feature-claim-value";
 import { ArchitectureLevelIndicator } from "@/components/architecture-level-indicator";
 import { VisualIcon } from "@/components/visual-icon";
 import { benchmarkRunsForHarness } from "@/data/benchmark-runs";
+import { ecosystemSignalsByHarness } from "@/data/ecosystem-signals";
 import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnessBySlug, harnesses } from "@/data/harnesses";
 import { openRouterAttributionByHarness } from "@/data/openrouter-attribution";
@@ -37,6 +38,7 @@ import {
 import { harnessProfileDescription, pageMetadata } from "@/lib/site";
 import type {
   ArchitectureAxis,
+  EcosystemSignalSnapshot,
   EvidenceSource,
   FeatureKey,
   MembershipEvidenceState,
@@ -105,6 +107,33 @@ const compactNumberFormatter = new Intl.NumberFormat("en", {
   notation: "compact",
   maximumFractionDigits: 2,
 });
+
+const ecosystemSignalLabels: Record<EcosystemSignalSnapshot["source"], string> = {
+  homebrew: "Homebrew 30d events",
+  npm: "npm last-month downloads",
+  vscode: "VS Code installs",
+  github: "GitHub stars",
+};
+
+const ecosystemSignalOrder: Record<EcosystemSignalSnapshot["source"], number> = {
+  homebrew: 0,
+  npm: 1,
+  vscode: 2,
+  github: 3,
+};
+
+const repositoryScopeLabels = {
+  "full-source": "Full-source repository",
+  "client-source": "Client-source repository",
+  "support-repository": "Support repository",
+} as const;
+
+function ecosystemSignalUnit(signal: EcosystemSignalSnapshot) {
+  if (signal.source === "homebrew") return `${signal.artifactKind === "formula" ? "Formula" : "Cask"}: ${signal.artifactId}`;
+  if (signal.source === "npm") return `Package: ${signal.artifactId}`;
+  if (signal.source === "vscode") return `Extension: ${signal.artifactId}`;
+  return `${repositoryScopeLabels[signal.repositoryScope]}; ${compactNumberFormatter.format(signal.forks)} forks`;
+}
 
 function EvidenceRows({ sources }: { sources: EvidenceSource[] }) {
   return (
@@ -202,6 +231,12 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
   const repositoryAudit = repositoryAuditForHarness(harness.id);
   const openRouterSnapshot = openRouterAttributionByHarness.get(harness.id);
   const openRouterMonth = openRouterSnapshot?.windows.month;
+  const ecosystemSignals = [...(ecosystemSignalsByHarness.get(harness.id) ?? [])]
+    .sort((left, right) => ecosystemSignalOrder[left.source] - ecosystemSignalOrder[right.source]);
+  const ecosystemCheckedAt = [
+    openRouterMonth?.observedAt,
+    ...ecosystemSignals.map((signal) => signal.observedAt),
+  ].filter((value): value is string => Boolean(value)).sort().at(-1);
   const artifactCount = repositoryAudit ? repositoryArtifactCount(repositoryAudit) : null;
   const measuredRuns = benchmarkRunsForHarness(harness.id);
   const evidenceState = evidenceStateFor(harness.id);
@@ -492,50 +527,43 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
           </footer>
         </section>
 
-        {openRouterSnapshot && openRouterMonth && (
-          <section className="profile-openrouter" id="openrouter-footprint" aria-labelledby="openrouter-heading">
+        {(openRouterMonth || ecosystemSignals.length > 0) && (
+          <section className="profile-ecosystem" id="ecosystem-signals" aria-labelledby="ecosystem-signals-heading">
             <header>
               <div>
-                <span>Ecosystem signal</span>
-                <h2 id="openrouter-heading">OpenRouter routing footprint</h2>
-                <p>Public traffic attributed to this app on OpenRouter. The comparable API window runs from {openRouterMonth.windowStart} to {openRouterMonth.windowEnd}. It is context about one routing channel, not a capability or quality score.</p>
+                <span>Context, not quality</span>
+                <h2 id="ecosystem-signals-heading">Public ecosystem signals</h2>
+                <p>Source-native observations for exact mapped artifacts. Different units and populations stay separate, and missing coverage is never treated as zero.</p>
               </div>
-              <a className="text-link" href={openRouterSnapshot.sourceUrl} target="_blank" rel="noreferrer">Open app page</a>
+              <Link className="text-link" href="/usage">Compare all signals</Link>
             </header>
-            <dl className="profile-openrouter-metrics">
-              <div>
-                <dt>30-day coding rank</dt>
-                <dd>{openRouterMonth.rank === null ? "Not listed" : `#${openRouterMonth.rank}`}</dd>
-                <small>Coding category</small>
-              </div>
-              <div>
-                <dt>30-day attributed tokens</dt>
-                <dd title={openRouterMonth.attributedTokens === null ? undefined : `${openRouterMonth.attributedTokens.toLocaleString("en-US")} tokens`}>
-                  {openRouterMonth.attributedTokens === null ? "Not listed" : compactNumberFormatter.format(openRouterMonth.attributedTokens)}
-                </dd>
-                <small>Same API window</small>
-              </div>
-              <div>
-                <dt>30-day attributed requests</dt>
-                <dd title={openRouterMonth.attributedRequests === null ? undefined : `${openRouterMonth.attributedRequests.toLocaleString("en-US")} requests`}>
-                  {openRouterMonth.attributedRequests === null ? "Not listed" : compactNumberFormatter.format(openRouterMonth.attributedRequests)}
-                </dd>
-                <small>Same API window</small>
-              </div>
+            <dl className="profile-ecosystem-metrics">
+              {openRouterSnapshot && openRouterMonth && (
+                <div>
+                  <dt>OpenRouter 30d tokens</dt>
+                  <dd title={openRouterMonth.attributedTokens === null ? undefined : `${openRouterMonth.attributedTokens.toLocaleString("en-US")} attributed tokens`}>
+                    {openRouterMonth.attributedTokens === null ? "Not listed" : compactNumberFormatter.format(openRouterMonth.attributedTokens)}
+                  </dd>
+                  <small>{openRouterMonth.rank === null ? "Not ranked" : `#${openRouterMonth.rank} coding app`}; {openRouterMonth.windowStart} to {openRouterMonth.windowEnd}</small>
+                  <a className="text-link" href={openRouterSnapshot.sourceUrl} target="_blank" rel="noreferrer">Open app page</a>
+                </div>
+              )}
+              {ecosystemSignals.map((signal) => (
+                <div key={`${signal.source}:${signal.artifactId}`}>
+                  <dt>{ecosystemSignalLabels[signal.source]}</dt>
+                  <dd title={`${signal.value.toLocaleString("en-US")} ${signal.metric}`}>{compactNumberFormatter.format(signal.value)}</dd>
+                  <small>{ecosystemSignalUnit(signal)}</small>
+                  <a className="text-link" href={signal.artifactUrl} target="_blank" rel="noreferrer">Open artifact</a>
+                </div>
+              ))}
             </dl>
             <footer>
               <p>
-                Attribution excludes direct APIs, subscriptions, local models, and traffic without app attribution. OpenRouter coding-category rank is channel-specific; an unlisted app is not scored as zero. Token volume is not a standardized workload, user count, or task-success measure.
+                Routing, downloads, installs, and repository interest observe different populations. They are never added together and never affect capability evidence, workflow fit, or recommendation order.
               </p>
               <div>
-                {openRouterSnapshot.integrationUrl && (
-                  <a className="text-link" href={openRouterSnapshot.integrationUrl} target="_blank" rel="noreferrer">OpenRouter setup</a>
-                )}
-                <a className="text-link" href={openRouterMonth.sourceUrl} target="_blank" rel="noreferrer">Dataset definition</a>
-                <span title={`${openRouterSnapshot.attributedTokens.toLocaleString("en-US")} page-total tokens`}>
-                  App page: {compactNumberFormatter.format(openRouterSnapshot.attributedTokens)} tokens, {openRouterSnapshot.modelsObserved.toLocaleString("en-US")} models, daily rank {openRouterSnapshot.dailyGlobalRank === null ? "not listed" : `#${openRouterSnapshot.dailyGlobalRank}`}
-                </span>
-                <span>Source: OpenRouter (openrouter.ai/apps), as of <time dateTime={openRouterMonth.observedAt}>{openRouterMonth.observedAt}</time></span>
+                <Link className="text-link" href="/methodology#eligibility">Interpretation rules</Link>
+                {ecosystemCheckedAt && <span>Signals checked <time dateTime={ecosystemCheckedAt}>{ecosystemCheckedAt}</time></span>}
               </div>
             </footer>
           </section>
