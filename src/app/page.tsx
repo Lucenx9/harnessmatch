@@ -4,6 +4,7 @@ import { featureSupportFor } from "@/data/feature-claims";
 import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnesses } from "@/data/harnesses";
 import { openRouterAttributionSnapshots } from "@/data/openrouter-attribution";
+import { harnessReleaseSnapshots } from "@/data/release-signals";
 import { researchSources } from "@/data/research";
 import { HarnessLensExplorer } from "@/components/harness-lens-explorer";
 import { HomeReleaseActivity } from "@/components/home-release-activity";
@@ -30,7 +31,7 @@ export default function HomePage() {
   });
   const recentReleaseActivity = buildRecentReleaseActivity({
     harnesses,
-    ecosystemSignals: ecosystemSignalSnapshots,
+    releaseSnapshots: harnessReleaseSnapshots,
   });
 
   return (
@@ -93,7 +94,11 @@ export default function HomePage() {
 
       <section className="home-release-section" aria-label="Latest stable harness releases">
         <div className="wide-shell shell">
-          <HomeReleaseActivity records={recentReleaseActivity} />
+          <HomeReleaseActivity
+            records={recentReleaseActivity}
+            limit={8}
+            action={{ href: "/data#stable-releases", label: "Open all release feeds" }}
+          />
         </div>
       </section>
     </>

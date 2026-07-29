@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-07-29T03:17:44.202Z",
+  "updatedAt": "2026-07-29T03:34:32.052Z",
   "generatedBy": {
     "provider": "OpenRouter",
     "model": "openai/gpt-oss-20b",
@@ -8,6 +8,50 @@
     "purpose": "AI-assisted release-note triage for editorial review; never product evidence."
   },
   "items": [
+    {
+      "key": "letta-code:v0.29.11",
+      "harnessId": "letta-code",
+      "version": "v0.29.11",
+      "releasedAt": "2026-07-29",
+      "releaseUrl": "https://github.com/letta-ai/letta-code/releases/tag/v0.29.11",
+      "sourceApiUrl": "https://api.github.com/repos/letta-ai/letta-code/releases/tags/v0.29.11",
+      "releaseTitle": "Release v0.29.11",
+      "releaseNotesSha256": "a2927b9d5cb9c25627eabce402448f2823da61cdcfc9e0e84b0c668af13bc3f5",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T03:34:32.052Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 584,
+        "completionTokens": 234,
+        "totalTokens": 818
+      },
+      "triage": {
+        "summary": "This release includes several bug fixes: auto‑title handling for empty conversations, preserving in‑flight turns after relay reconnects, preventing false pong timeouts during event‑loop stalls, and a version bump.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Fixed auto‑title handling for empty conversations."
+          },
+          {
+            "category": "compatibility",
+            "description": "Preserved in‑flight turns across relay reconnects."
+          },
+          {
+            "category": "compatibility",
+            "description": "Avoided false pong timeouts under event‑loop stalls."
+          },
+          {
+            "category": "documentation",
+            "description": "Bumped version to 0.29.11."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": []
+      }
+    },
     {
       "key": "codex:rust-v0.146.0",
       "harnessId": "codex",

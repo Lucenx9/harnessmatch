@@ -692,6 +692,7 @@ p { color: var(--muted); }
 .ledger-summary { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 18px; }
 .ledger-summary span { padding: 8px 11px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font: 500 .7rem/1 var(--font-mono); }
 .ledger-summary strong { color: var(--text); }
+.data-release-section { scroll-margin-top: 90px; margin: 44px 0 68px; }
 .data-evidence-section { scroll-margin-top: 90px; padding-top: 42px; }
 .data-ranking-section { margin: 58px 0 76px; }
 .data-evidence-section + .data-evidence-section { margin-top: 68px; padding-top: 68px; border-top: 1px solid var(--line-strong); }

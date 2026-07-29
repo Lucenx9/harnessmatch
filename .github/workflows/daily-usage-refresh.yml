@@ -84,7 +84,7 @@ jobs:
           git status --short
           git diff --stat
           git diff
-          if git diff --quiet -- research/release-review-queue.json src/data/openrouter-attribution.ts src/data/ecosystem-signals.ts; then
+          if git diff --quiet -- research/release-review-queue.json src/data/openrouter-attribution.ts src/data/ecosystem-signals.ts src/data/release-signals.json; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "No source values changed; nothing will be published." >> "$GITHUB_STEP_SUMMARY"
           else
@@ -130,7 +130,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/data/openrouter-attribution.ts src/data/ecosystem-signals.ts
+          git add src/data/openrouter-attribution.ts src/data/ecosystem-signals.ts src/data/release-signals.json
           if [[ -f research/release-review-queue.json ]]; then
             git add research/release-review-queue.json
           fi

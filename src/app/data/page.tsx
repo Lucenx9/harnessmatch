@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { EvidenceRankingExplorer } from "@/components/evidence-ranking-explorer";
 import { EvidenceLedger } from "@/components/evidence-ledger";
 import { GuiEvidenceLedger } from "@/components/gui-evidence-ledger";
+import { HomeReleaseActivity } from "@/components/home-release-activity";
 import { benchmarkRuns } from "@/data/benchmark-runs";
 import { discoveryWatchlist } from "@/data/discovery-watchlist";
 import { guiProducts } from "@/data/gui-products";
@@ -11,6 +12,7 @@ import { harnesses } from "@/data/harnesses";
 import { getOperationalProfileRecord } from "@/data/operational-profiles";
 import { repositoryArtifactCount, repositoryAudits } from "@/data/repository-audits";
 import { researchProcessDisclosure } from "@/data/research-process";
+import { harnessReleaseSnapshots } from "@/data/release-signals";
 import {
   architectureProfileFor,
   benchmarkConfidenceInterval95,
@@ -19,17 +21,19 @@ import {
   benchmarkTopIntervalGroup,
 } from "@/lib/evaluation";
 import { pageMetadata } from "@/lib/site";
+import { buildRecentReleaseActivity } from "@/lib/usage-view";
 
 export const metadata: Metadata = pageMetadata({
   title: "Data and sources",
   description:
-    "Search the first-party evidence behind AI coding harness capabilities, classifications, trade-offs, and verification dates.",
+    "Inspect current stable releases and first-party evidence for AI coding harness capabilities, classifications, trade-offs, and verification dates.",
   path: "/data",
 });
 
 export default function DataPage() {
   const activeHarnesses = harnesses.filter((harness) => harness.status === "active");
   const guiAuditById = new Map(guiRepositoryAudits.map((audit) => [audit.guiId, audit]));
+  const releaseActivity = buildRecentReleaseActivity({ harnesses, releaseSnapshots: harnessReleaseSnapshots });
   const ledgerRecords = harnesses.map((harness) => ({
     id: harness.id,
     name: harness.name,
@@ -162,7 +166,12 @@ export default function DataPage() {
           <span><strong>{primarySourceCount}</strong> primary sources</span>
           <span><strong>{guiRepositoryAudits.length}</strong> pinned GUI code audits</span>
           <span><strong>{discoveryWatchlist.length}</strong> watchlist records</span>
+          <span><strong>{releaseActivity.length}</strong> stable release feeds</span>
           <span><strong>0</strong> affiliate sources</span>
+        </div>
+
+        <div className="data-release-section" id="stable-releases">
+          <HomeReleaseActivity records={releaseActivity} />
         </div>
 
         <section className="data-ranking-section" aria-label="Evidence-based rankings">

@@ -5,7 +5,6 @@ export const releaseTriageResponseFormat: Record<string, unknown>;
 export const releaseTriageTool: Record<string, unknown>;
 export const releaseTriageOutputSchema: { parse(value: unknown): unknown };
 
-export function selectLatestStableRelease(releases: unknown[], watch: Record<string, unknown>, audit: Record<string, unknown>): Record<string, string> | null;
 export function emptyReleaseReviewQueue(updatedAt: string): Record<string, unknown>;
 export function parseReleaseReviewQueue(source: string): Record<string, unknown>;
 export function pendingReleaseCandidates(releases: Array<Record<string, string>>, queue: Record<string, unknown>): Array<Record<string, string>>;

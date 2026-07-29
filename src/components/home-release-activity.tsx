@@ -22,7 +22,16 @@ function formatReleaseCount(value: number) {
   return `${value} ${value === 1 ? "release" : "releases"}`;
 }
 
-export function HomeReleaseActivity({ records }: { records: ReleaseActivityRecord[] }) {
+export function HomeReleaseActivity({
+  records,
+  limit,
+  action,
+}: {
+  records: ReleaseActivityRecord[];
+  limit?: number;
+  action?: { href: string; label: string };
+}) {
+  const visibleRecords = limit === undefined ? records : records.slice(0, Math.max(0, limit));
   const observedAt = records.reduce(
     (latest, record) => record.signal.observedAt > latest ? record.signal.observedAt : latest,
     "",
@@ -33,9 +42,9 @@ export function HomeReleaseActivity({ records }: { records: ReleaseActivityRecor
       <header className="home-release-header">
         <div>
           <h2 id="home-release-heading">Latest stable releases</h2>
-          <p>Current version, date, and 90-day cadence from stable GitHub releases with reviewed assets. Frequency describes activity, not quality.</p>
+          <p>Current version, publication date, and 90-day cadence from reviewed product-scoped GitHub release feeds. Frequency describes activity, not quality.</p>
         </div>
-        <Link className="text-link" href="/usage">Open all usage data</Link>
+        {action && <Link className="text-link" href={action.href}>{action.label}</Link>}
       </header>
 
       {records.length > 0 ? (
@@ -47,7 +56,7 @@ export function HomeReleaseActivity({ records }: { records: ReleaseActivityRecor
             <span>Release cadence</span>
           </div>
           <ol className="home-release-list">
-            {records.map((record) => (
+            {visibleRecords.map((record) => (
               <li className="home-release-row" key={record.id}>
                 <div className="home-release-product">
                   <HarnessLogo logo={record.logo} name={record.name} size="small" />
@@ -81,7 +90,7 @@ export function HomeReleaseActivity({ records }: { records: ReleaseActivityRecor
           </ol>
           <footer className="home-release-footer">
             <p>
-              Sorted by latest stable release date, then matched stable releases in the trailing 90-day window. Version tags are shown verbatim.
+              Showing {visibleRecords.length} of {records.length} reviewed release feeds, sorted by latest stable release date and then trailing 90-day cadence. Version tags are shown verbatim.
               {observedAt ? ` Observed ${formatDate(observedAt)}.` : ""}
             </p>
           </footer>

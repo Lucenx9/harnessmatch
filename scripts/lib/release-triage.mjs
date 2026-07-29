@@ -136,40 +136,6 @@ export const releaseTriageTool = {
   },
 };
 
-export function selectLatestStableRelease(releases, watch, audit) {
-  if (!Array.isArray(releases)) throw new Error(`GitHub releases are missing for ${watch.harnessId}`);
-  if (audit?.harnessId !== watch.harnessId) throw new Error(`Release-watch repository identity changed for ${watch.harnessId}`);
-  if (!Array.isArray(watch.includeTagPatterns) || watch.includeTagPatterns.length === 0) {
-    throw new Error(`Release watch has no tag pattern for ${watch.harnessId}`);
-  }
-  const patterns = watch.includeTagPatterns.map((pattern) => new RegExp(pattern));
-  const repository = audit.repositoryUrl.replace("https://github.com/", "");
-  const releaseUrlPrefix = `${audit.repositoryUrl}/releases/tag/`;
-  const matches = releases.filter((release) => {
-    if (release?.draft === true || release?.prerelease === true) return false;
-    if (typeof release?.tag_name !== "string" || !patterns.some((pattern) => pattern.test(release.tag_name))) return false;
-    if (typeof release?.published_at !== "string" || !/^\d{4}-\d{2}-\d{2}T/.test(release.published_at)) {
-      throw new Error(`GitHub release date is invalid for ${watch.harnessId}`);
-    }
-    if (typeof release?.html_url !== "string" || !release.html_url.toLowerCase().startsWith(releaseUrlPrefix.toLowerCase())) {
-      throw new Error(`GitHub release URL changed for ${watch.harnessId}`);
-    }
-    return true;
-  }).toSorted((left, right) => (
-    right.published_at.localeCompare(left.published_at)
-    || right.tag_name.localeCompare(left.tag_name)
-  ));
-  const latest = matches[0];
-  if (!latest) return null;
-  return {
-    harnessId: watch.harnessId,
-    repository,
-    version: latest.tag_name,
-    releasedAt: latest.published_at.slice(0, 10),
-    releaseUrl: latest.html_url,
-  };
-}
-
 export function emptyReleaseReviewQueue(updatedAt) {
   return {
     schemaVersion: 1,

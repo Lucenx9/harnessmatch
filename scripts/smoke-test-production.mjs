@@ -5,6 +5,7 @@ const attempts = 12;
 
 const checks = [
   { url: `${canonicalOrigin}/`, includes: "Source-backed data on AI coding harnesses" },
+  { url: `${canonicalOrigin}/data`, includes: "Latest stable releases" },
   { url: `${canonicalOrigin}/usage`, includes: "Coding harness usage signals" },
   { url: `${canonicalOrigin}/sitemap.xml`, includes: "https://harnessmatch.dev/harnesses/" },
   { url: `${canonicalOrigin}/robots.txt`, includes: "Sitemap: https://harnessmatch.dev/sitemap.xml" },

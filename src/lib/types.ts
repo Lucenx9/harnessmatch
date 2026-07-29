@@ -254,6 +254,19 @@ export type GitHubReleaseDownloadSignal = EcosystemSignalBase & {
   repositoryScope: "full-source" | "client-source" | "support-repository";
 };
 
+export type HarnessReleaseSnapshot = {
+  harnessId: string;
+  repository: string;
+  repositoryScope: "full-source" | "client-source" | "support-repository";
+  latestVersion: string;
+  latestReleaseAt: string;
+  latestReleaseUrl: string;
+  recentReleaseCount: number;
+  recentReleaseWindowDays: number;
+  observedAt: string;
+  sourceUrl: string;
+};
+
 export type GitHubInterestSignal = EcosystemSignalBase & {
   source: "github";
   metric: "stars";

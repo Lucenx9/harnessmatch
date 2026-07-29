@@ -10,6 +10,7 @@ import { ecosystemSignalsByHarness } from "@/data/ecosystem-signals";
 import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnessBySlug, harnesses } from "@/data/harnesses";
 import { openRouterAttributionByHarness } from "@/data/openrouter-attribution";
+import { releaseSnapshotByHarness } from "@/data/release-signals";
 import { getOperationalProfileRecord } from "@/data/operational-profiles";
 import {
   repositoryArtifactCount,
@@ -240,10 +241,12 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
   const repositoryAudit = repositoryAuditForHarness(harness.id);
   const openRouterSnapshot = openRouterAttributionByHarness.get(harness.id);
   const openRouterMonth = openRouterSnapshot?.windows.month;
+  const releaseSnapshot = releaseSnapshotByHarness.get(harness.id);
   const ecosystemSignals = [...(ecosystemSignalsByHarness.get(harness.id) ?? [])]
     .sort((left, right) => ecosystemSignalOrder[left.source] - ecosystemSignalOrder[right.source]);
   const ecosystemCheckedAt = [
     openRouterMonth?.observedAt,
+    releaseSnapshot?.observedAt,
     ...ecosystemSignals.map((signal) => signal.observedAt),
   ].filter((value): value is string => Boolean(value)).sort().at(-1);
   const artifactCount = repositoryAudit ? repositoryArtifactCount(repositoryAudit) : null;
@@ -536,17 +539,29 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
           </footer>
         </section>
 
-        {(openRouterMonth || ecosystemSignals.length > 0) && (
+        {(releaseSnapshot || openRouterMonth || ecosystemSignals.length > 0) && (
           <section className="profile-ecosystem" id="ecosystem-signals" aria-labelledby="ecosystem-signals-heading">
             <header>
               <div>
                 <span>Context, not quality</span>
                 <h2 id="ecosystem-signals-heading">Public ecosystem signals</h2>
-                <p>Source-native observations for exact mapped artifacts. Different units and populations stay separate, and missing coverage is never treated as zero.</p>
+                <p>Source-native observations for exact mapped artifacts and reviewed stable release trains. Different units and populations stay separate, and missing coverage is never treated as zero.</p>
               </div>
               <Link className="text-link" href="/usage">Compare all signals</Link>
             </header>
             <ul className="profile-ecosystem-metrics">
+              {releaseSnapshot && (
+                <li>
+                  <span className="profile-ecosystem-label">Latest stable release</span>
+                  <strong className="profile-ecosystem-value" title={`Latest stable version ${releaseSnapshot.latestVersion}`}>
+                    {releaseSnapshot.latestVersion}
+                  </strong>
+                  <small>
+                    Released {releaseSnapshot.latestReleaseAt}; {releaseSnapshot.recentReleaseCount} stable {releaseSnapshot.recentReleaseCount === 1 ? "release" : "releases"} in {releaseSnapshot.recentReleaseWindowDays} days
+                  </small>
+                  <a className="text-link" href={releaseSnapshot.latestReleaseUrl} target="_blank" rel="noreferrer">Open release</a>
+                </li>
+              )}
               {openRouterSnapshot && openRouterMonth && (
                 <li>
                   <span className="profile-ecosystem-label">OpenRouter 30d tokens</span>

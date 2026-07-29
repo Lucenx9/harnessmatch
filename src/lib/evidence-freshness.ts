@@ -7,6 +7,7 @@ import { guiExclusions, guiProducts } from "../data/gui-products";
 import { guiRepositoryAudits } from "../data/gui-repository-audits";
 import { openRouterAttributionSnapshots } from "../data/openrouter-attribution";
 import { ecosystemSignalSnapshots } from "../data/ecosystem-signals";
+import { harnessReleaseSnapshots } from "../data/release-signals";
 
 /**
  * Published claims carry a verification date, so an unmaintained dataset keeps
@@ -44,7 +45,8 @@ export type VerifiedRecordScope =
   | "gui-exclusion"
   | "openrouter-attribution"
   | "openrouter-ranking"
-  | "ecosystem-signal";
+  | "ecosystem-signal"
+  | "release-snapshot";
 
 export type VerifiedRecord = {
   scope: VerifiedRecordScope;
@@ -215,6 +217,15 @@ export function verifiedRecords(): VerifiedRecord[] {
       subject: signal.harnessId,
       detail: `${signal.source}:${signal.artifactId}:${signal.metric}`,
       verifiedAt: signal.observedAt,
+    });
+  }
+
+  for (const snapshot of harnessReleaseSnapshots) {
+    records.push({
+      scope: "release-snapshot",
+      subject: snapshot.harnessId,
+      detail: `${snapshot.repository}:${snapshot.latestVersion}`,
+      verifiedAt: snapshot.observedAt,
     });
   }
 

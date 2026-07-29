@@ -12,7 +12,7 @@ const coreResources = [
   ["Usage signals", "/usage", "Source-separated routing, package, release, editor-marketplace, and repository observations with explicit limits"],
   ["Coding agent GUIs", "/guis", "Workflow classification for native and multi-harness graphical interfaces"],
   ["Methodology", "/methodology", "Eligibility gates, visible weights, uncertainty, and evidence policy"],
-  ["Data and sources", "/data", "Searchable ledger of dated first-party evidence"],
+  ["Data and sources", "/data", "Current reviewed stable release feeds and a searchable ledger of dated first-party evidence"],
   ["Benchmark archive", "/benchmarks", "Exploratory configuration-specific benchmark records and limitations"],
 ] as const;
 

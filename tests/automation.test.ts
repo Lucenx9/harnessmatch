@@ -12,6 +12,7 @@ describe("daily usage automation", () => {
       "research/release-review-queue.json",
       "src/data/ecosystem-signals.ts",
       "src/data/openrouter-attribution.ts",
+      "src/data/release-signals.json",
     ]);
     const paths = changedPathsFromPorcelain([
       " M src/data/ecosystem-signals.ts",
@@ -27,6 +28,7 @@ describe("daily usage automation", () => {
     expect(workflow).toContain("contents: write");
     expect(workflow).toContain("deployments: read");
     expect(workflow).toContain("npm run sync:usage");
+    expect(workflow).toContain("src/data/release-signals.json");
     expect(workflow).toContain("npm run triage:releases");
     expect(workflow).toContain("continue-on-error: true");
     expect(workflow).toContain("research/release-review-queue.json");

@@ -8,10 +8,10 @@ import {
   pendingReleaseCandidates,
   releaseTriageModel,
   releaseTriageTool,
-  selectLatestStableRelease,
   validateReleaseTriageOutput,
 } from "../scripts/lib/release-triage.mjs";
 import { githubReleaseWatches } from "../scripts/lib/release-watch-mappings.mjs";
+import { selectLatestStableRelease } from "../scripts/lib/release-signals.mjs";
 
 const analyzedAt = "2026-07-29T00:00:00.000Z";
 const release = {
@@ -32,6 +32,7 @@ describe("GPT-OSS release triage", () => {
     ], { harnessId: "example", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] }, {
       harnessId: "example",
       repositoryUrl: "https://github.com/example/example",
+      sourceScope: "full-source",
     });
     expect(selected).toEqual(release);
   });
