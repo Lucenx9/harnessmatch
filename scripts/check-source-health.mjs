@@ -1,6 +1,7 @@
 import { readdir } from "node:fs/promises";
 import { createViteServer } from "vitest/node";
 import { safeFetch } from "./source-health-network.mjs";
+import { collectUrls } from "./source-health-urls.mjs";
 
 const dataRoot = new URL("../src/data/", import.meta.url);
 const concurrency = Number.parseInt(process.env.SOURCE_CHECK_CONCURRENCY ?? "8", 10);
@@ -9,11 +10,6 @@ const restrictedStatuses = new Set([401, 403, 429]);
 
 if (!Number.isInteger(concurrency) || concurrency < 1) throw new Error("SOURCE_CHECK_CONCURRENCY must be a positive integer.");
 if (!Number.isInteger(timeoutMs) || timeoutMs < 1) throw new Error("SOURCE_CHECK_TIMEOUT_MS must be a positive integer.");
-
-function urlsIn(source) {
-  const matches = source.match(/https?:\/\/[^\s"'`<>\\]+/g) ?? [];
-  return matches.map((url) => url.replace(/[),.;]+$/, ""));
-}
 
 async function probe(url) {
   let lastError;
@@ -81,24 +77,6 @@ async function mapConcurrent(items, worker, limit) {
 
   await Promise.all(Array.from({ length: Math.min(limit, items.length) }, run));
   return results;
-}
-
-const sourceUrlFields = new Set(["url", "sourceUrl", "sourceUrls", "repositoryUrl", "benchmarkSourceUrl", "resultSourceUrl", "submissionUrl"]);
-
-function collectUrls(value, urls, seen, field) {
-  if (typeof value === "string") {
-    if (sourceUrlFields.has(field)) for (const url of urlsIn(value)) urls.add(url);
-    return;
-  }
-  if (value === null || (typeof value !== "object" && typeof value !== "function")) return;
-  if (seen.has(value)) return;
-  seen.add(value);
-  if (typeof value === "function") return;
-  if (Array.isArray(value)) {
-    for (const item of value) collectUrls(item, urls, seen, field);
-  } else {
-    for (const [key, item] of Object.entries(value)) collectUrls(item, urls, seen, key);
-  }
 }
 
 const moduleFiles = (await readdir(dataRoot, { withFileTypes: true }))
