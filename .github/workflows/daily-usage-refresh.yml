@@ -63,6 +63,17 @@ jobs:
       - name: Synchronize usage sources
         run: npm run sync:usage
 
+      - name: Triage new stable releases with GPT-OSS
+        id: release_triage
+        continue-on-error: true
+        run: npm run triage:releases
+
+      - name: Record deferred release triage
+        if: always() && steps.release_triage.outcome == 'failure'
+        run: |
+          echo "::warning::GPT-OSS release triage failed; factual usage synchronization will continue and the untriaged release will be retried tomorrow."
+          echo "GPT-OSS release triage was deferred after an API, schema, or validation failure; no model output was published." >> "$GITHUB_STEP_SUMMARY"
+
       - name: Inspect generated change
         id: diff
         shell: bash
@@ -73,7 +84,7 @@ jobs:
           git status --short
           git diff --stat
           git diff
-          if git diff --quiet -- src/data/openrouter-attribution.ts src/data/ecosystem-signals.ts; then
+          if git diff --quiet -- research/release-review-queue.json src/data/openrouter-attribution.ts src/data/ecosystem-signals.ts; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "No source values changed; nothing will be published." >> "$GITHUB_STEP_SUMMARY"
           else
@@ -120,8 +131,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add src/data/openrouter-attribution.ts src/data/ecosystem-signals.ts
+          if [[ -f research/release-review-queue.json ]]; then
+            git add research/release-review-queue.json
+          fi
           git diff --cached --check
-          git commit -m "chore(data): refresh usage signals $(date -u +%F)"
+          git commit -m "chore(data): refresh usage signals and release triage $(date -u +%F)"
           published_sha="$(git rev-parse HEAD)"
           git push origin HEAD:main
           echo "published_sha=$published_sha" >> "$GITHUB_OUTPUT"
@@ -148,4 +162,5 @@ jobs:
         if: steps.diff.outputs.changed == 'true'
         run: |
           echo "Usage data refreshed from source-native APIs." >> "$GITHUB_STEP_SUMMARY"
+          echo "GPT-OSS output, when present, is a repository-only editorial queue and not product evidence." >> "$GITHUB_STEP_SUMMARY"
           echo "Recommendation, capability, membership, methodology, and verification dates were not changed." >> "$GITHUB_STEP_SUMMARY"

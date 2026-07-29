@@ -1,4 +1,5 @@
 export const allowedUsageRefreshPaths = [
+  "research/release-review-queue.json",
   "src/data/ecosystem-signals.ts",
   "src/data/openrouter-attribution.ts",
 ];

@@ -1,0 +1,578 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-07-29T02:53:06.162Z",
+  "generatedBy": {
+    "provider": "OpenRouter",
+    "model": "openai/gpt-oss-20b",
+    "authority": false,
+    "purpose": "AI-assisted release-note triage for editorial review; never product evidence."
+  },
+  "items": [
+    {
+      "key": "codex:rust-v0.146.0",
+      "harnessId": "codex",
+      "version": "rust-v0.146.0",
+      "releasedAt": "2026-07-29",
+      "releaseUrl": "https://github.com/openai/codex/releases/tag/rust-v0.146.0",
+      "sourceApiUrl": "https://api.github.com/repos/openai/codex/releases/tags/rust-v0.146.0",
+      "releaseTitle": "0.146.0",
+      "releaseNotesSha256": "2145004993e992c9f19ca4229290b61fb8f575a18838c9ea64771423efe014b8",
+      "releaseNotesTruncated": true,
+      "analyzedAt": "2026-07-29T02:53:06.162Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3235,
+        "completionTokens": 319,
+        "totalTokens": 3554
+      },
+      "triage": {
+        "summary": "Release 0.146.0 adds several new features such as session naming, plugin marketplace support, thread forking, remote Code Mode connections, standalone web search, and skill discovery. Bug fixes improve proxy handling, connection stability, state preservation, terminal rendering, Windows behavior, and skill catalog handling.…",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Enhanced proxy handling across authentication, plugin downloads, and remote execution."
+          },
+          {
+            "category": "compatibility",
+            "description": "Improved Windows navigation keys and process tree termination."
+          },
+          {
+            "category": "compatibility",
+            "description": "Preservation of thread settings and approvals across interruptions and forks."
+          },
+          {
+            "category": "documentation",
+            "description": "Added guidance on shared HTTP client usage and path URI canonicalization."
+          },
+          {
+            "category": "performance",
+            "description": "Reduced app‑server serialization overhead and request‑building allocations."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "Release notes are truncated; some details may be missing."
+        ]
+      }
+    },
+    {
+      "key": "antigravity-cli:1.1.8",
+      "harnessId": "antigravity-cli",
+      "version": "1.1.8",
+      "releasedAt": "2026-07-28",
+      "releaseUrl": "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.8",
+      "sourceApiUrl": "https://api.github.com/repos/google-antigravity/antigravity-cli/releases/tags/1.1.8",
+      "releaseTitle": "1.1.8",
+      "releaseNotesSha256": "394b3355f730e66853716c9db4449597ea74045f6146ab924759f0de4ba56dc9",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T02:53:06.162Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 807,
+        "completionTokens": 350,
+        "totalTokens": 1157
+      },
+      "triage": {
+        "summary": "Added structured, machine‑readable output options (text, json, stream‑json) with discoverable flags, a new NDJSON stream format, JSON schema enforcement, enriched tool and subagent metadata, token accounting, a copy‑on‑select setting, and improved compound‑command permission handling.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Print mode now supports structured output via --output-format (text, json, stream-json)."
+          },
+          {
+            "category": "capability",
+            "description": "New stream-json format emits NDJSON events (init, step_update, result) with typed step_type."
+          },
+          {
+            "category": "capability",
+            "description": "--json-schema flag enforces custom JSON schema on structured output."
+          },
+          {
+            "category": "capability",
+            "description": "Structured stream enriched with tool_info and subagent_info payloads."
+          },
+          {
+            "category": "capability",
+            "description": "JSON usage object now reports cache_read_tokens."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "Information limited to release notes; no details on implementation or potential side effects."
+        ]
+      }
+    },
+    {
+      "key": "gemini-cli:v0.53.0",
+      "harnessId": "gemini-cli",
+      "version": "v0.53.0",
+      "releasedAt": "2026-07-28",
+      "releaseUrl": "https://github.com/google-gemini/gemini-cli/releases/tag/v0.53.0",
+      "sourceApiUrl": "https://api.github.com/repos/google-gemini/gemini-cli/releases/tags/v0.53.0",
+      "releaseTitle": "Release v0.53.0",
+      "releaseNotesSha256": "4f13d31645289bedc1bfd0dd5d9df994b66e0edf573a648e7a022cb8fd52bd10",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T02:53:06.162Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 734,
+        "completionTokens": 450,
+        "totalTokens": 1184
+      },
+      "triage": {
+        "summary": "Version 0.53.0 introduces several bug fixes, new features, and security improvements. Key changes include a new LLM triage orchestrator and container build support, enhanced macOS profile handling, mitigation of infinite ReAct and prompt‑injection loops, enforcement of workspace trust and task isolation to prevent remote code execution, and a new eval…",
+        "reviewPriority": "review",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Implemented LLM triage orchestrator and container build support."
+          },
+          {
+            "category": "compatibility",
+            "description": "Aligned macOS permissive Seatbelt profiles with deny‑default model."
+          },
+          {
+            "category": "safety",
+            "description": "Enforced workspace trust and task isolation to prevent RCE."
+          },
+          {
+            "category": "performance",
+            "description": "Mitigated infinite ReAct loops and prompt injection loops."
+          },
+          {
+            "category": "documentation",
+            "description": "Added eval coverage report command."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the LLM triage orchestrator introduce new runtime dependencies or alter existing orchestration logic?",
+          "What specific changes were made to the macOS Seatbelt profiles and how do they affect existing deployments?",
+          "How does the enforcement of workspace trust and task isolation modify the current isolation model?",
+          "What are the exact conditions that trigger the mitigation of infinite ReAct loops?",
+          "Is the eval coverage report command compatible with all existing eval workflows?"
+        ],
+        "limitations": [
+          "The release notes do not detail the internal implementation of the new features or the exact scope of the security mitigations. No explicit performance benchmarks or backward‑compatibility guarantees are provided."
+        ]
+      }
+    },
+    {
+      "key": "junie-cli:2470.4",
+      "harnessId": "junie-cli",
+      "version": "2470.4",
+      "releasedAt": "2026-07-28",
+      "releaseUrl": "https://github.com/JetBrains/junie/releases/tag/2470.4",
+      "sourceApiUrl": "https://api.github.com/repos/JetBrains/junie/releases/tags/2470.4",
+      "releaseTitle": "Junie Release 26.7.27 (2470.4)",
+      "releaseNotesSha256": "246147c69effa3d6d4554214167930dd4f18ae425d73ca2d89d67c8a02397f0a",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T02:53:06.162Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 430,
+        "completionTokens": 160,
+        "totalTokens": 590
+      },
+      "triage": {
+        "summary": "Junie CLI v2470.4 addresses startup and login problems on macOS and enhances tool capability filtering along with background command execution.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Fixed startup and login issues on macOS."
+          },
+          {
+            "category": "performance",
+            "description": "Improved tool capability filtering and background command execution."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": []
+      }
+    },
+    {
+      "key": "omp:v17.1.8",
+      "harnessId": "omp",
+      "version": "v17.1.8",
+      "releasedAt": "2026-07-28",
+      "releaseUrl": "https://github.com/can1357/oh-my-pi/releases/tag/v17.1.8",
+      "sourceApiUrl": "https://api.github.com/repos/can1357/oh-my-pi/releases/tags/v17.1.8",
+      "releaseTitle": "v17.1.8",
+      "releaseNotesSha256": "26c6b379b2a494434a2be86c0c1cbfc7b021ca6fa5796e1c28c31ac775c6e588",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T02:53:06.162Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 2163,
+        "completionTokens": 559,
+        "totalTokens": 2722
+      },
+      "triage": {
+        "summary": "This release contains numerous bug fixes across several packages, a new utility for Vertex AI endpoint resolution, and a few breaking changes in the coding‑agent package (tab screenshot handling and guided‑goal command interface). Most changes are compatibility or documentation fixes, with a few safety‑related fixes (e.g., preventing daemon restart loops).",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Added resolveVertexEndpointHost utility and fixed endpoint resolution for multi‑region Vertex AI."
+          },
+          {
+            "category": "compatibility",
+            "description": "Fixed under‑reporting of Anthropic cache‑write costs in catalog."
+          },
+          {
+            "category": "deprecation",
+            "description": "Breaking change: tab.screenshot() no longer accepts a per‑call save path; now uses default screenshot directory."
+          },
+          {
+            "category": "compatibility",
+            "description": "Reworked /guided‑goal command to a conversational interface."
+          },
+          {
+            "category": "performance",
+            "description": "Reduced startup memory usage by lazy‑loading HTML session export assets."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "The notes do not detail any changes to runtime control, isolation, or permissions that would require further verification."
+        ]
+      }
+    },
+    {
+      "key": "opencode:v1.18.9",
+      "harnessId": "opencode",
+      "version": "v1.18.9",
+      "releasedAt": "2026-07-28",
+      "releaseUrl": "https://github.com/anomalyco/opencode/releases/tag/v1.18.9",
+      "sourceApiUrl": "https://api.github.com/repos/anomalyco/opencode/releases/tags/v1.18.9",
+      "releaseTitle": "v1.18.9",
+      "releaseNotesSha256": "6effa794f19833349524501d1e5f4c36e8e12b3b5a419576329a84f26b1ca248",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T02:53:06.162Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 557,
+        "completionTokens": 295,
+        "totalTokens": 852
+      },
+      "triage": {
+        "summary": "v1.18.9 includes bug fixes for legacy MCP SDK compatibility, desktop app stability, and session loading, plus UI improvements and an opt‑in sidecar feature.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Restored compatibility with legacy MCP SDK clients."
+          },
+          {
+            "category": "unknown",
+            "description": "Fixed a Solid cleanup crash that could break navigation in the desktop app."
+          },
+          {
+            "category": "unknown",
+            "description": "Fixed home session loading so the session list can update without suspending the whole page."
+          },
+          {
+            "category": "unknown",
+            "description": "Removed extra vertical borders from the V2 home projects view."
+          },
+          {
+            "category": "unknown",
+            "description": "Added an opt‑in V2 desktop sidecar backed by the bundled CLI service."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": []
+      }
+    },
+    {
+      "key": "qwen-code:v0.21.1",
+      "harnessId": "qwen-code",
+      "version": "v0.21.1",
+      "releasedAt": "2026-07-28",
+      "releaseUrl": "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.1",
+      "sourceApiUrl": "https://api.github.com/repos/QwenLM/qwen-code/releases/tags/v0.21.1",
+      "releaseTitle": "Release v0.21.1",
+      "releaseNotesSha256": "950a977e8f34190ea2d0502bc1705eaa88d7de331f2a6560b71c07fedd6b1ce3",
+      "releaseNotesTruncated": true,
+      "analyzedAt": "2026-07-29T02:53:06.162Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3796,
+        "completionTokens": 780,
+        "totalTokens": 4576
+      },
+      "triage": {
+        "summary": "Release v0.21.1 introduces a wide range of new features and bug fixes, notably adding Goal v3 runtime orchestration, a retrieval‑only context_search tool, strict write contracts for review submissions, hot‑reload of workspace trust policies, and enhanced telemetry and statistics.…",
+        "reviewPriority": "review",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Adds Goal v3 runtime orchestration and worker tools, enabling more complex sub‑agent workflows."
+          },
+          {
+            "category": "capability",
+            "description": "Introduces a retrieval‑only context_search tool with no automatic recall or write, affecting external data access."
+          },
+          {
+            "category": "capability",
+            "description": "Enforces a strict write contract for review submissions and adds a tripwire to detect bypass attempts."
+          },
+          {
+            "category": "capability",
+            "description": "Enables hot‑reloading of workspace trust changes in the running daemon, changing policy enforcement without restart."
+          },
+          {
+            "category": "capability",
+            "description": "Adds retryInitialDelayMs and retryMaxDelayMs settings for stream‑side and SSE rate‑limit retries, impacting provider compatibility."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the new Goal v3 orchestration alter existing sub‑agent behavior or introduce new permission requirements?",
+          "What are the exact constraints of the retrieval‑only context_search tool and how does it interact with existing data sources?",
+          "How does the strict write contract for review submissions enforce policy and what are the failure modes?",
+          "What policy changes are enabled by hot‑reloading of workspace trust, and are there any race conditions?",
+          "Which providers are affected by the new retry delay settings and how should they be configured?"
+        ],
+        "limitations": [
+          "The release notes list many feature additions but do not detail the underlying permission or policy changes, nor do they specify the impact on existing integrations.…"
+        ]
+      }
+    },
+    {
+      "key": "claude-code:v2.1.220",
+      "harnessId": "claude-code",
+      "version": "v2.1.220",
+      "releasedAt": "2026-07-25",
+      "releaseUrl": "https://github.com/anthropics/claude-code/releases/tag/v2.1.220",
+      "sourceApiUrl": "https://api.github.com/repos/anthropics/claude-code/releases/tags/v2.1.220",
+      "releaseTitle": "v2.1.220",
+      "releaseNotesSha256": "dd490d3f4e93c8165c0322324024d1202fe097b1be5a232b6035fd40bfee97cc",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T02:53:06.162Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 415,
+        "completionTokens": 156,
+        "totalTokens": 571
+      },
+      "triage": {
+        "summary": "Bug fixes and reliability improvements.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "unknown",
+            "description": "Bug fixes and reliability improvements."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "Release notes are brief and do not detail specific changes or potential impacts."
+        ]
+      }
+    },
+    {
+      "key": "pi:v0.82.1",
+      "harnessId": "pi",
+      "version": "v0.82.1",
+      "releasedAt": "2026-07-25",
+      "releaseUrl": "https://github.com/earendil-works/pi/releases/tag/v0.82.1",
+      "sourceApiUrl": "https://api.github.com/repos/earendil-works/pi/releases/tags/v0.82.1",
+      "releaseTitle": "v0.82.1",
+      "releaseNotesSha256": "c84fff294a28a5b0b8d14ec59736c6bbe78fc2498362acbfe4a72e598b3b1e99",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T02:53:06.162Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1315,
+        "completionTokens": 526,
+        "totalTokens": 1841
+      },
+      "triage": {
+        "summary": "Release v0.82.1 adds new Claude Opus 5 support, bearer‑token auth for Anthropic‑compatible gateways, and faster model‑catalog handling. It exposes an outputPad setting, updates OAuth flows, improves error messages, and fixes several bugs around authentication, model visibility, and context file discovery.",
+        "reviewPriority": "review",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Introduces Claude Opus 5 with adaptive thinking, inference profiles, and prompt caching for Anthropic and Amazon Bedrock."
+          },
+          {
+            "category": "capability",
+            "description": "Adds bearer‑token authentication for Anthropic‑compatible gateways via ANTHROPIC_AUTH_TOKEN."
+          },
+          {
+            "category": "capability",
+            "description": "Enhances model‑catalog refresh to use If‑None‑Match, reducing bandwidth and improving resilience."
+          },
+          {
+            "category": "compatibility",
+            "description": "Changes OAuth device authorization to use the configured gateway directly."
+          },
+          {
+            "category": "compatibility",
+            "description": "Adds outputPad setting to custom message renderers."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the new bearer‑token auth affect existing authentication flows for all providers?",
+          "Are there any backward‑incompatible changes to the model‑catalog API or endpoints?",
+          "Will the updated error messages expose sensitive provider responses?",
+          "Is the outputPad setting fully documented for all custom renderers?"
+        ],
+        "limitations": [
+          "The notes do not detail whether the new Claude Opus 5 feature requires additional runtime resources or changes to the orchestration layer. The impact on existing user configurations is inferred but not explicitly stated."
+        ]
+      }
+    },
+    {
+      "key": "copilot-cli:v1.0.75",
+      "harnessId": "copilot-cli",
+      "version": "v1.0.75",
+      "releasedAt": "2026-07-24",
+      "releaseUrl": "https://github.com/github/copilot-cli/releases/tag/v1.0.75",
+      "sourceApiUrl": "https://api.github.com/repos/github/copilot-cli/releases/tags/v1.0.75",
+      "releaseTitle": "1.0.75",
+      "releaseNotesSha256": "f89381fe5ea1b64a95736243a0c3ba6a9f4f82246acc77763f688d01983191bd",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T02:53:06.162Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 419,
+        "completionTokens": 121,
+        "totalTokens": 540
+      },
+      "triage": {
+        "summary": "Added support for Claude Opus 5.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Introduces support for Claude Opus 5."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "No additional details on implementation or impact provided."
+        ]
+      }
+    },
+    {
+      "key": "forgecode:v2.13.19",
+      "harnessId": "forgecode",
+      "version": "v2.13.19",
+      "releasedAt": "2026-07-24",
+      "releaseUrl": "https://github.com/tailcallhq/forgecode/releases/tag/v2.13.19",
+      "sourceApiUrl": "https://api.github.com/repos/tailcallhq/forgecode/releases/tags/v2.13.19",
+      "releaseTitle": "v2.13.19",
+      "releaseNotesSha256": "538288b5f982c5d5b961a4804e11ba30af2aba46ad82904d61b73868d0dbef31",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T02:53:06.162Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 2402,
+        "completionTokens": 229,
+        "totalTokens": 2631
+      },
+      "triage": {
+        "summary": "This release mainly contains bug fixes for provider support and a large number of dependency updates across Rust crates and JavaScript packages.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Bug fix: added Claude Opus 5 support for claude_code and anthropic providers."
+          },
+          {
+            "category": "compatibility",
+            "description": "Bug fix: updated Kimi K3 model to provider configuration."
+          },
+          {
+            "category": "compatibility",
+            "description": "Dependency updates: numerous Rust crates (posthog-rs, gix, tokio, serde, etc.) and JavaScript packages (ai, @ai-sdk/google-vertex) updated to newer versions."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "The notes do not indicate any changes to runtime behavior, permissions, or isolation; only bug fixes and dependency updates are listed."
+        ]
+      }
+    },
+    {
+      "key": "goose:v1.44.0",
+      "harnessId": "goose",
+      "version": "v1.44.0",
+      "releasedAt": "2026-07-23",
+      "releaseUrl": "https://github.com/aaif-goose/goose/releases/tag/v1.44.0",
+      "sourceApiUrl": "https://api.github.com/repos/aaif-goose/goose/releases/tags/v1.44.0",
+      "releaseTitle": "v1.44.0",
+      "releaseNotesSha256": "73ebce9557d91d84e640a29724d35a1d4443596f61bf5e382119efb7aed8535a",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T02:53:06.162Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3407,
+        "completionTokens": 382,
+        "totalTokens": 3789
+      },
+      "triage": {
+        "summary": "Version 1.44.0 includes a security fix for arbitrary command execution in the CLI, new AI model and provider support, several UI and CLI enhancements, bug fixes around file operations, permissions, and tool handling, and documentation updates.",
+        "reviewPriority": "review",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Added support for latest Gemini models and new AI providers (Sakana, Fugu, Muse Spark, OllamaCloud, iFlytek Spark, Astron MaaS, Fireworks AI, OpenRouter)."
+          },
+          {
+            "category": "capability",
+            "description": "Introduced new CLI flag --edit for session editing and improved provider selection UI."
+          },
+          {
+            "category": "unknown",
+            "description": "Fixed arbitrary command execution via goose review when git core.fsmonitor is enabled."
+          },
+          {
+            "category": "compatibility",
+            "description": "Updated model interactions viewer, provider grid search, and locale support."
+          },
+          {
+            "category": "performance",
+            "description": "Improved per-message usage stats UI and context limit reporting."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the arbitrary command execution fix affect runtime control or isolation?",
+          "Are there any changes to permission handling or secret management?",
+          "Does the new provider support alter the tool invocation or context limits?",
+          "Are there any changes to the API for model selection or usage statistics?"
+        ],
+        "limitations": [
+          "The notes list many bug fixes and UI changes but do not detail underlying implementation changes beyond feature additions. Specifics on how security fix is applied are not provided."
+        ]
+      }
+    }
+  ]
+}

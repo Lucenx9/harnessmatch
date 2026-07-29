@@ -60,9 +60,11 @@ This command requires `OPENROUTER_API_KEY` for OpenRouter and uses `GITHUB_TOKEN
 
 ### Automatic usage maintenance
 
-`.github/workflows/daily-usage-refresh.yml` runs every day at 04:23 UTC and can also be started manually. It synchronizes every source-native usage feed, permits changes only to the two generated snapshot files, runs source health checks, dependency auditing, typecheck, tests, and the static build, then commits directly to `main` only when values changed. The workflow dispatches the quality gate for the published commit, waits for the matching Vercel production deployment, and smoke-tests the canonical site and redirects.
+`.github/workflows/daily-usage-refresh.yml` runs every day at 04:23 UTC and can also be started manually. It synchronizes every source-native usage feed, permits changes only to the two generated snapshot files and the repository-only release-review queue, runs source health checks, dependency auditing, typecheck, tests, and the static build, then commits directly to `main` only when values changed. The workflow dispatches the quality gate for the published commit, waits for the matching Vercel production deployment, and smoke-tests the canonical site and redirects.
 
-The workflow requires the repository Actions secret `OPENROUTER_API_KEY`. GitHub supplies the short-lived `GITHUB_TOKEN`; no personal access token is stored. A source, schema, identity, validation, concurrency, quality, deployment, or smoke-test failure stops the transaction and remains visible in the Actions run.
+The workflow requires the repository Actions secret `OPENROUTER_API_KEY`. GitHub supplies the short-lived `GITHUB_TOKEN`; no personal access token is stored. A factual source, generated-data schema, identity, validation, concurrency, quality, deployment, or smoke-test failure stops the transaction and remains visible in the Actions run.
+
+When a mapped stable GitHub version has not been seen before, `openai/gpt-oss-20b` receives a bounded copy of its official release notes and writes structured triage to `research/release-review-queue.json`. Release text is treated as untrusted input, model output is validated and cannot introduce links, and inference failure never blocks factual source synchronization. The queue is editorial assistance only: it is not imported by the site, is not evidence, and cannot update claims, categories, recommendation weights, or scores.
 
 ## Deployment
 

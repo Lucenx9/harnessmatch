@@ -9,6 +9,7 @@ import {
 describe("daily usage automation", () => {
   it("allows only generated usage snapshots", () => {
     expect(allowedUsageRefreshPaths).toEqual([
+      "research/release-review-queue.json",
       "src/data/ecosystem-signals.ts",
       "src/data/openrouter-attribution.ts",
     ]);
@@ -26,6 +27,9 @@ describe("daily usage automation", () => {
     expect(workflow).toContain("contents: write");
     expect(workflow).toContain("deployments: read");
     expect(workflow).toContain("npm run sync:usage");
+    expect(workflow).toContain("npm run triage:releases");
+    expect(workflow).toContain("continue-on-error: true");
+    expect(workflow).toContain("research/release-review-queue.json");
     expect(workflow).toContain("npm run verify:maintenance");
     expect(workflow).toContain("npm audit --audit-level=high");
     expect(workflow).toContain("node scripts/validate-usage-refresh-diff.mjs");
