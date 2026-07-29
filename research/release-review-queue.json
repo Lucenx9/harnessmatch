@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-07-29T20:10:06.514Z",
+  "updatedAt": "2026-07-29T20:37:17.000Z",
   "generatedBy": {
     "provider": "OpenRouter",
     "model": "openai/gpt-oss-20b",
@@ -19,11 +19,11 @@
       "releaseNotesSha256": "0f9f53aa889f797d3cbe58b97a528bf8c5383fe9873c3fe07b2315b55a2fbd96",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T14:24:45.467Z",
-      "status": "reviewed-no-catalog-change",
+      "status": "reviewed-catalog-updated",
       "editorialReview": {
         "reviewedAt": "2026-07-29",
-        "outcome": "no-catalog-change",
-        "rationale": "The official release notes describe maintenance, interface, compatibility, provider, or model-support changes that do not alter the harness mechanisms, taxonomy, or comparative limitations published by HarnessMatch.",
+        "outcome": "catalog-updated",
+        "rationale": "The official stable release and its artifacts are represented by the generated release feed. The version-pinned v7.4.16 evidence remains valid historical provenance, but its time-sensitive latest-release wording was corrected so it cannot conflict with the current feed; no capability, taxonomy, or operational-profile claim changed.",
         "evidenceUrls": [
           "https://github.com/Kilo-Org/kilocode/releases/tag/v7.4.17"
         ]
@@ -77,11 +77,11 @@
       "releaseNotesSha256": "413fc087626aa6a3e0321b4a7641c1fda0dac09597b30c4a2cd22ac2e33d1038",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T14:02:52.537Z",
-      "status": "reviewed-no-catalog-change",
+      "status": "reviewed-catalog-updated",
       "editorialReview": {
         "reviewedAt": "2026-07-29",
-        "outcome": "no-catalog-change",
-        "rationale": "The official release notes describe maintenance, interface, compatibility, provider, or model-support changes that do not alter the harness mechanisms, taxonomy, or comparative limitations published by HarnessMatch.",
+        "outcome": "catalog-updated",
+        "rationale": "The official stable release and its packaged desktop artifacts are represented by the generated release feed. The version-pinned 1.25.0 evidence remains valid historical provenance, but its time-sensitive latest-release wording was corrected so it cannot conflict with the current feed; no capability, taxonomy, or operational-profile claim changed.",
         "evidenceUrls": [
           "https://github.com/stagewise-io/stagewise/releases/tag/stagewise%401.26.0"
         ]

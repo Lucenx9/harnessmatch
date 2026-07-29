@@ -69,7 +69,7 @@ export const kiloCode = {
         title: "Kilo Code v7.4.16 release",
         topic: "releases-code-audit",
         url: "https://github.com/Kilo-Org/kilocode/releases/tag/v7.4.16",
-        covers: "Latest verified release, dated artifacts, CLI binaries, VSIX packages, and indexing package",
+        covers: "Verified v7.4.16 release artifacts, including CLI binaries, VSIX packages, and the indexing package; current stable version is sourced from the generated release feed",
         kind: "official-repository",
         verifiedAt: verifiedAt,
       },

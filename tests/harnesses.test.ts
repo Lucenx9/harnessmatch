@@ -1227,6 +1227,8 @@ describe("harness evidence ledger", () => {
       "https://kilo.ai/cli",
       "https://kilo.ai/docs/contributing/architecture/cloud-security",
     ]));
+    expect(kilo.evidence.find((source) => source.title === "Kilo Code v7.4.16 release")?.covers)
+      .toContain("current stable version is sourced from the generated release feed");
     expect(caveats).toContain("disabled by default");
     expect(caveats).toContain("unavailable on Windows");
     expect(caveats).toContain("rather than filesystem reads");
@@ -1352,6 +1354,8 @@ describe("harness evidence ledger", () => {
       "https://github.com/stagewise-io/stagewise/blob/cb38225c2b0de27e85c10f26ed46123f487fb6f8/apps/stagewise-cli/README.md",
       "https://github.com/stagewise-io/stagewise/blob/cb38225c2b0de27e85c10f26ed46123f487fb6f8/.agents/skills/copywriting/evals/evals.json",
     ]));
+    expect(stagewise.evidence.find((source) => source.title === "Stagewise 1.25.0 release")?.covers)
+      .toContain("current stable version is sourced from the generated release feed");
     expect(caveats).toContain("host filesystem");
     expect(caveats).toContain("private smoke-test CLI");
     expect(caveats).toContain("separate top-level agent sessions");

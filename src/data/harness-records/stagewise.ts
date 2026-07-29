@@ -131,7 +131,7 @@ export const stagewise = {
       {
         title: "Stagewise 1.25.0 release",
         url: "https://github.com/stagewise-io/stagewise/releases/tag/stagewise%401.25.0",
-        covers: "Latest stable version, publication date, packaged desktop artifacts, and current release provenance",
+        covers: "Verified 1.25.0 publication and packaged desktop artifacts; current stable version is sourced from the generated release feed",
         kind: "official-repository",
         verifiedAt: verifiedAt,
       },
