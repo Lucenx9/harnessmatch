@@ -9,7 +9,7 @@ import { buildUsageViewRecords } from "@/lib/usage-view";
 export const metadata: Metadata = pageMetadata({
   title: "Coding harness usage signals",
   description:
-    "Compare source-separated routing, package, release, editor-marketplace, and repository signals for AI coding harnesses.",
+    "Compare source-separated routing, package, release, editor-marketplace, and repository signals for AI coding harnesses over time.",
   path: "/usage",
 });
 
