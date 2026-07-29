@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   buildReleaseTriageMessages,
   emptyReleaseReviewQueue,
+  hashReleaseNotes,
   mergeReleaseReviewQueue,
   parseReleaseReviewQueue,
   pendingReleaseCandidates,
@@ -95,11 +96,16 @@ describe("GPT-OSS release triage", () => {
     expect(patternsFor("kilo-code").some((pattern) => pattern.test("jetbrains/v7.0.11"))).toBe(false);
   });
 
-  it("triages each stable version once", () => {
-    const queue = emptyReleaseReviewQueue(analyzedAt) as { items: Array<{ key: string }> };
-    expect(pendingReleaseCandidates([release], queue)).toEqual([release]);
-    queue.items.push({ key: "example:v1.2.3" });
-    expect(pendingReleaseCandidates([release], queue)).toEqual([]);
+  it("triages new releases and re-triages existing releases only when their notes change", () => {
+    const releaseWithDigest = { ...release, releaseNotesSha256: hashReleaseNotes({ body: "Original notes" }) };
+    const queue = emptyReleaseReviewQueue(analyzedAt) as {
+      items: Array<{ key: string; releaseNotesSha256: string }>;
+    };
+    expect(pendingReleaseCandidates([releaseWithDigest], queue)).toEqual([releaseWithDigest]);
+    queue.items.push({ key: "example:v1.2.3", releaseNotesSha256: releaseWithDigest.releaseNotesSha256 });
+    expect(pendingReleaseCandidates([releaseWithDigest], queue)).toEqual([]);
+    const changedNotes = { ...releaseWithDigest, releaseNotesSha256: hashReleaseNotes({ body: "Edited notes" }) };
+    expect(pendingReleaseCandidates([changedNotes], queue)).toEqual([changedNotes]);
   });
 
   it("treats release notes as bounded untrusted data", () => {

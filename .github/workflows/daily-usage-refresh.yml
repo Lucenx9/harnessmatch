@@ -91,7 +91,7 @@ jobs:
             sleep 20
           done
 
-      - name: Triage new stable releases with GPT-OSS
+      - name: Triage new or changed stable releases with GPT-OSS
         id: release_triage
         continue-on-error: true
         env:

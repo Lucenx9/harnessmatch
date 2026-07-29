@@ -1,4 +1,3 @@
-import { createHash } from "node:crypto";
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { appendWorkflowSummary, requiredEnvironment } from "./lib/github-automation.mjs";
@@ -6,6 +5,7 @@ import { parseHarnessReleaseSnapshots } from "./lib/release-signals.mjs";
 import {
   buildReleaseTriageMessages,
   emptyReleaseReviewQueue,
+  hashReleaseNotes,
   mergeReleaseReviewQueue,
   parseReleaseReviewQueue,
   pendingReleaseCandidates,
@@ -132,7 +132,6 @@ async function analyzeRelease(release, releasePayload, openRouterApiKey) {
     : null;
   return {
     triage,
-    releaseNotesSha256: createHash("sha256").update(releaseNotes).digest("hex"),
     releaseNotesTruncated: releaseNotes.length > limitedReleaseNotes.length,
     usage: normalizedUsage,
   };
@@ -160,11 +159,22 @@ const releases = parseHarnessReleaseSnapshots(JSON.parse(releaseSnapshotSource))
   releasedAt: snapshot.latestReleaseAt,
   releaseUrl: snapshot.latestReleaseUrl,
 }));
-const candidates = refreshAll ? releases : pendingReleaseCandidates(releases, queue);
+const releasesWithCurrentNotes = await mapWithConcurrency(releases, 2, async (release) => {
+  const { payload, sourceApiUrl } = await fetchOfficialRelease(release);
+  return {
+    ...release,
+    payload,
+    sourceApiUrl,
+    releaseNotesSha256: hashReleaseNotes(payload),
+  };
+});
+const candidates = refreshAll
+  ? releasesWithCurrentNotes
+  : pendingReleaseCandidates(releasesWithCurrentNotes, queue);
 
 if (candidates.length === 0) {
-  console.log("No untriaged stable releases were found.");
-  appendWorkflowSummary("GPT-OSS release triage: no new stable versions required review.");
+  console.log("No new or changed stable release notes were found.");
+  appendWorkflowSummary("GPT-OSS release triage: no new or changed stable release notes required review.");
   process.exit(0);
 }
 
@@ -174,17 +184,16 @@ if (candidates.length > maximumCandidates) {
 
 const openRouterApiKey = requiredEnvironment("OPENROUTER_API_KEY");
 const newItems = await mapWithConcurrency(candidates, 2, async (release) => {
-  const { payload, sourceApiUrl } = await fetchOfficialRelease(release);
-  const analysis = await analyzeRelease(release, payload, openRouterApiKey);
+  const analysis = await analyzeRelease(release, release.payload, openRouterApiKey);
   return {
     key: `${release.harnessId}:${release.version}`,
     harnessId: release.harnessId,
     version: release.version,
     releasedAt: release.releasedAt,
     releaseUrl: release.releaseUrl,
-    sourceApiUrl,
-    releaseTitle: typeof payload.name === "string" ? payload.name.slice(0, 300) : "",
-    releaseNotesSha256: analysis.releaseNotesSha256,
+    sourceApiUrl: release.sourceApiUrl,
+    releaseTitle: typeof release.payload.name === "string" ? release.payload.name.slice(0, 300) : "",
+    releaseNotesSha256: release.releaseNotesSha256,
     releaseNotesTruncated: analysis.releaseNotesTruncated,
     analyzedAt,
     status: "needs-editorial-review",
@@ -197,4 +206,4 @@ const newItems = await mapWithConcurrency(candidates, 2, async (release) => {
 const nextQueue = mergeReleaseReviewQueue(queue, newItems, analyzedAt);
 await writeFile(queuePath, renderReleaseReviewQueue(nextQueue), "utf8");
 console.log(`Triaged ${newItems.length} stable releases with ${releaseTriageModel}.`);
-appendWorkflowSummary(`GPT-OSS release triage: ${newItems.length} new stable releases added to the editorial queue.`);
+appendWorkflowSummary(`GPT-OSS release triage: ${newItems.length} new or changed stable releases added to the editorial queue.`);

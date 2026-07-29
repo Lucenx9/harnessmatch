@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { z } from "zod";
 
 export const releaseTriageModel = "openai/gpt-oss-20b";
@@ -183,13 +184,21 @@ export function parseReleaseReviewQueue(source) {
 }
 
 export function pendingReleaseCandidates(releases, queue) {
-  const existingKeys = new Set(queue.items.map(({ key }) => key));
+  const existingItems = new Map(queue.items.map((item) => [item.key, item]));
   return releases
-    .filter(({ harnessId, version }) => !existingKeys.has(`${harnessId}:${version}`))
+    .filter(({ harnessId, version, releaseNotesSha256 }) => {
+      const existing = existingItems.get(`${harnessId}:${version}`);
+      return !existing || existing.releaseNotesSha256 !== releaseNotesSha256;
+    })
     .toSorted((left, right) => (
       right.releasedAt.localeCompare(left.releasedAt)
       || left.harnessId.localeCompare(right.harnessId)
     ));
+}
+
+export function hashReleaseNotes(releasePayload) {
+  const releaseNotes = typeof releasePayload.body === "string" ? releasePayload.body : "";
+  return createHash("sha256").update(releaseNotes).digest("hex");
 }
 
 export function buildReleaseTriageMessages(release, releasePayload) {
