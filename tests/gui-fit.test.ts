@@ -54,6 +54,7 @@ describe("GUI workflow classification", () => {
           expect(existsSync(`${repositoryRoot}/public${product.preview.poster}`), product.name).toBe(true);
         }
       }
+      expect(product.evidence.every((source) => source.url.startsWith("https://")), product.name).toBe(true);
       expect(
         product.evidence.every((source) => firstPartyGuiHosts[product.id].includes(new URL(source.url).hostname)),
         product.name,
