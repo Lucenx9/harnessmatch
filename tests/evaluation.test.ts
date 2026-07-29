@@ -8,6 +8,7 @@ import {
 import {
   architectureProfileFor,
   benchmarkConfidenceInterval95,
+  benchmarkFamilyCount,
   benchmarkParetoFrontier,
   benchmarkTopIntervalGroup,
   evidenceStateFor,
@@ -361,6 +362,15 @@ describe("multi-axis evidence evaluation", () => {
       expect(run.runDate).toMatch(/^\d{4}-\d{2}-\d{2}$/);
       expect(run.verifiedAt).toMatch(/^\d{4}-\d{2}-\d{2}$/);
     }
+  });
+
+  it("counts benchmark families without treating configurations as independent suites", () => {
+    expect(benchmarkFamilyCount(benchmarkRuns)).toBe(1);
+    expect(benchmarkFamilyCount([
+      { benchmark: "Terminal-Bench", benchmarkVersion: "2.1" },
+      { benchmark: "Terminal-Bench", benchmarkVersion: "2.1" },
+      { benchmark: "SWE-bench", benchmarkVersion: "Verified" },
+    ])).toBe(2);
   });
 
   it("keeps every non-active product out of all benchmark records", () => {

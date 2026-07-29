@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { benchmarkRuns } from "@/data/benchmark-runs";
 import { ecosystemSignalSnapshots } from "@/data/ecosystem-signals";
 import { featureSupportFor } from "@/data/feature-claims";
 import { getHarnessMembershipAssessment } from "@/data/harness-membership";
@@ -16,6 +15,9 @@ import { buildUsageViewRecords } from "@/lib/usage-view";
 
 export default function HomePage() {
   const activeHarnesses = harnesses.filter((harness) => harness.status === "active");
+  const primarySourcePageCount = new Set(
+    activeHarnesses.flatMap((harness) => harness.evidence.map((source) => source.url)),
+  ).size;
   const peerReviewedStudyCount = researchSources.filter((source) => source.maturity === "peer-reviewed").length;
   const latestCheck = new Intl.DateTimeFormat("en-US", {
     month: "short",
@@ -77,7 +79,7 @@ export default function HomePage() {
             <div><dt>Active catalog entries</dt><dd>{activeHarnesses.length}</dd></div>
             <div><dt>Latest source check</dt><dd>{latestCheck}</dd></div>
             <div><dt>Peer-reviewed studies</dt><dd>{peerReviewedStudyCount}</dd></div>
-            <div><dt>Measured configurations</dt><dd>{benchmarkRuns.length}</dd></div>
+            <div><dt>Primary source pages</dt><dd>{primarySourcePageCount}</dd></div>
           </dl>
         </div>
       </section>

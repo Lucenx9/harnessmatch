@@ -13,7 +13,7 @@ const coreResources = [
   ["Coding agent GUIs", "/guis", "Workflow classification for native and multi-harness graphical interfaces"],
   ["Methodology", "/methodology", "Eligibility gates, visible weights, uncertainty, and evidence policy"],
   ["Data and sources", "/data", "Searchable ledger of dated first-party evidence"],
-  ["Measured systems", "/benchmarks", "Configuration-specific benchmark records and limitations"],
+  ["Benchmark archive", "/benchmarks", "Exploratory configuration-specific benchmark records and limitations"],
 ] as const;
 
 export function GET() {

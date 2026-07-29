@@ -179,6 +179,12 @@ export function benchmarkConfidenceInterval95(run: BenchmarkRun) {
   };
 }
 
+export function benchmarkFamilyCount(
+  runs: Array<{ benchmark: string; benchmarkVersion: string }>,
+) {
+  return new Set(runs.map((run) => `${run.benchmark}\u0000${run.benchmarkVersion}`)).size;
+}
+
 export function costPerSuccessfulTrial(run: BenchmarkRun) {
   const expectedSuccesses = run.totalTrials * (run.accuracy / 100);
   return expectedSuccesses === 0 ? null : run.totalCostUsd / expectedSuccesses;

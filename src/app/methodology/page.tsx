@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { benchmarkRuns } from "@/data/benchmark-runs";
 import { guiCapabilityLabels } from "@/data/gui-products";
 import { harnesses } from "@/data/harnesses";
@@ -21,7 +22,7 @@ import {
   modelPortabilityLabels,
   productLayerLabels,
 } from "@/lib/harness-classification";
-import { architectureAxisLabels } from "@/lib/evaluation";
+import { architectureAxisLabels, benchmarkFamilyCount } from "@/lib/evaluation";
 import { guiFitBandLabels, guiWorkflows } from "@/lib/gui-fit";
 import {
   capabilityAxisLabels,
@@ -45,7 +46,7 @@ export const metadata: Metadata = pageMetadata({
   path: "/methodology",
 });
 
-const methodologyVersion = "2.8 / 2026-07-29";
+const methodologyVersion = "2.9 / 2026-07-29";
 const capabilityLevels = [1, 2, 3, 4, 5] as const;
 const methodologySections = [
   ["decision-question", "Decision question"],
@@ -104,6 +105,8 @@ function WeightGroup({ title, values }: { title: string; values: Record<string, 
 }
 
 export default function MethodologyPage() {
+  const benchmarkFamilies = benchmarkFamilyCount(benchmarkRuns);
+  const benchmarkFamilyLabel = `${benchmarkFamilies} benchmark ${benchmarkFamilies === 1 ? "family" : "families"}`;
   return (
     <section className="section page-section">
       <div className="shell narrow-shell prose-page">
@@ -279,8 +282,9 @@ export default function MethodologyPage() {
         <section className="prose-section" id="measured-systems">
           <h2>9. Measured systems and uncertainty</h2>
           <p>No result is admitted without model, exact harness version, benchmark version, budget, sandbox/environment, attempts, date, cost, and primary source. A result belongs to model × harness × configuration × environment × budget.</p>
-          <p>The current view contains {benchmarkRuns.length} Terminal-Bench 2.1 configurations, each with 89 tasks, five attempts, and 445 trials. HarnessMatch shows a descriptive 95% interval calculated as accuracy ± 1.96 × the reported standard error, marks interval overlap with the leading configuration, and identifies the non-dominated accuracy/cost Pareto frontier.</p>
+          <p>The current archive contains {benchmarkFamilyLabel}: {benchmarkRuns.length} Terminal-Bench 2.1 configurations, each with 89 tasks, five attempts, and 445 trials. This is exploratory evidence, not a general harness leaderboard. HarnessMatch shows a descriptive 95% interval calculated as accuracy ± 1.96 × the reported standard error, marks interval overlap with the leading configuration, and identifies the non-dominated accuracy/cost Pareto frontier.</p>
           <p>The normal approximation does not model task clustering or benchmark sampling. Overlap is a visual uncertainty group, not a formal equivalence test. A task-cluster bootstrap or generalized mixed model remains the preferred future analysis when raw trial data is available.</p>
+          <p><Link className="text-link" href="/benchmarks">Inspect the benchmark archive</Link></p>
         </section>
 
         <section className="prose-section" id="classification">

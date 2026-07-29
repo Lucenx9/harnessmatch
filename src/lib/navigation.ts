@@ -51,9 +51,9 @@ export const searchablePageItems = [
   {
     label: "Benchmarks",
     href: "/benchmarks",
-    description: "Review admitted configuration-specific benchmark runs.",
+    description: "Review the exploratory archive of configuration-specific benchmark runs.",
     keywords: ["evaluation", "results", "terminal bench", "performance"],
-    primary: true,
+    primary: false,
   },
   {
     label: "Methodology",

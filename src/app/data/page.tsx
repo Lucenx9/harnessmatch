@@ -14,6 +14,7 @@ import { researchProcessDisclosure } from "@/data/research-process";
 import {
   architectureProfileFor,
   benchmarkConfidenceInterval95,
+  benchmarkFamilyCount,
   benchmarkParetoFrontier,
   benchmarkTopIntervalGroup,
 } from "@/lib/evaluation";
@@ -117,6 +118,7 @@ export default function DataPage() {
   });
   const benchmarkPareto = benchmarkParetoFrontier(benchmarkRuns);
   const benchmarkTopGroup = benchmarkTopIntervalGroup(benchmarkRuns);
+  const benchmarkFamilies = benchmarkFamilyCount(benchmarkRuns);
   const benchmarkRanking = benchmarkRuns.flatMap((run) => {
     const harness = harnessById.get(run.harnessId);
     if (!harness || harness.status !== "active") return [];
@@ -168,6 +170,7 @@ export default function DataPage() {
             operational={operationalRanking}
             auditability={auditabilityRanking}
             benchmarks={benchmarkRanking}
+            benchmarkFamilyCount={benchmarkFamilies}
             unrankedRepositoryCount={supportOnlyRepositories.length}
           />
         </section>

@@ -14,6 +14,15 @@ describe("usage surface", () => {
     expect(sitemap()).toContainEqual(expect.objectContaining({ url: `${siteUrl}/usage` }));
   });
 
+  it("keeps the benchmark archive secondary but discoverable", () => {
+    expect(primaryNavigationItems).not.toContainEqual({ label: "Benchmarks", href: "/benchmarks" });
+    expect(searchablePageItems).toContainEqual(expect.objectContaining({
+      href: "/benchmarks",
+      primary: false,
+    }));
+    expect(sitemap()).toContainEqual(expect.objectContaining({ url: `${siteUrl}/benchmarks` }));
+  });
+
   it("exports every active source record without combining their metrics", async () => {
     const activeHarnessById = new Map(
       harnesses.filter((harness) => harness.status === "active").map((harness) => [harness.id, harness]),

@@ -1006,6 +1006,8 @@ p { color: var(--muted); }
 .benchmark-grid .card { padding: 27px; }
 .benchmark-page { padding-bottom: 40px; }
 .benchmark-intro { max-width: 900px; }
+.benchmark-scope-note { max-width: 760px; margin-top: 24px; }
+.benchmark-scope-note p { margin: 0; }
 .benchmark-ranking, .benchmark-record-section { margin-top: 68px; }
 .benchmark-ranking { overflow: hidden; padding: 28px 30px 0; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--surface-strong); }
 .benchmark-ranking-heading { min-height: 86px; display: flex; align-items: start; justify-content: space-between; gap: 36px; }

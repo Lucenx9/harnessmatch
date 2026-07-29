@@ -21,7 +21,6 @@ export function SiteFooter() {
           <Link href="/compare">Compare</Link>
           <Link href="/usage">Usage</Link>
           <Link href="/guis">GUIs</Link>
-          <Link href="/benchmarks">Benchmarks</Link>
           <Link href="/privacy">Privacy</Link>
         </div>
       </div>

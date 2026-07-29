@@ -6,6 +6,7 @@ import { harnesses } from "@/data/harnesses";
 import { researchSources } from "@/data/research";
 import {
   benchmarkConfidenceInterval95,
+  benchmarkFamilyCount,
   benchmarkParetoFrontier,
   benchmarkTopIntervalGroup,
   costPerSuccessfulTrial,
@@ -13,9 +14,9 @@ import {
 import { pageMetadata } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Measured systems",
+  title: "Benchmark archive",
   description:
-    "Compare measured AI coding configurations with exact harness and model versions, budgets, environments, attempts, costs, and sources.",
+    "Inspect exploratory benchmark evidence with exact harness and model versions, budgets, environments, attempts, costs, and sources.",
   path: "/benchmarks",
 });
 
@@ -44,6 +45,8 @@ function formatNumber(value: number) {
 export default function BenchmarksPage() {
   const harnessById = new Map(harnesses.map((harness) => [harness.id, harness]));
   const sortedRuns = [...benchmarkRuns].sort((a, b) => b.accuracy - a.accuracy);
+  const benchmarkFamilies = benchmarkFamilyCount(sortedRuns);
+  const benchmarkFamilyLabel = `${benchmarkFamilies} benchmark ${benchmarkFamilies === 1 ? "family" : "families"}`;
   const paretoFrontier = benchmarkParetoFrontier(sortedRuns);
   const topIntervalGroup = benchmarkTopIntervalGroup(sortedRuns);
   const benchmarkResearch = researchSources.filter((source) => benchmarkResearchUrls.has(source.url));
@@ -52,15 +55,18 @@ export default function BenchmarksPage() {
     <section className="section page-section benchmark-page">
       <div className="wide-shell shell">
         <header className="page-intro benchmark-intro">
-          <h1>Compare measured configurations.</h1>
-          <p>Results belong to an exact model, harness version, environment, budget, and run policy.</p>
+          <h1>Benchmark archive.</h1>
+          <p>Inspect measured configurations without turning one task family into an overall harness ranking.</p>
+          <aside className="notice benchmark-scope-note" aria-label="Current benchmark coverage">
+            <p><strong>Exploratory evidence.</strong> {benchmarkFamilyLabel} and {sortedRuns.length} exact configurations are currently admitted. Results belong only to the recorded model, harness version, environment, budget, and run policy.</p>
+          </aside>
         </header>
 
         <section className="benchmark-ranking" aria-labelledby="benchmark-ranking-title">
           <div className="benchmark-ranking-heading">
             <div>
               <h2 id="benchmark-ranking-title">Terminal-Bench 2.1</h2>
-              <p>Accuracy after integrity review. 89 tasks, five attempts per task, 445 trials per configuration.</p>
+              <p>Accuracy within this benchmark after integrity review. 89 tasks, five attempts per task, 445 trials per configuration.</p>
             </div>
             <a className="text-link" href="https://www.tbench.ai/leaderboard/terminal-bench/2.1" target="_blank" rel="noreferrer">Official leaderboard</a>
           </div>
