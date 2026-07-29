@@ -56,7 +56,7 @@ Refresh the context-only usage datasets with:
 npm run sync:usage
 ```
 
-This command requires `OPENROUTER_API_KEY` for OpenRouter and uses `GITHUB_TOKEN` or the authenticated `gh` session for GitHub repository and release data. Homebrew, npm, VS Code, Open VSX, and JetBrains use public endpoints. Generated values are not recommendation inputs.
+This command requires `OPENROUTER_API_KEY` for OpenRouter and uses `GITHUB_TOKEN` or the authenticated `gh` session for GitHub repository and release data. The OpenRouter sync records source-native most-used windows plus 7-day and 30-day trending ranks; it never infers a growth percentage. Homebrew, npm, VS Code, Open VSX, and JetBrains use public endpoints. Generated values are not recommendation inputs.
 
 ### Automatic usage maintenance
 

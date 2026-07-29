@@ -28,12 +28,12 @@ describe("OpenRouter attribution sync", () => {
 
   it("joins ranking rows by stable app id instead of duplicate names", () => {
     const app = openRouterApps[0];
-    function rankingFor(startDate) {
+    function rankingFor(startDate, rank = 1) {
       return parseRankingResponses([{
         data: [{
           app_id: app.appId,
           app_name: app.appName,
-          rank: 1,
+          rank,
           total_tokens: "1000",
           total_requests: 20,
         }],
@@ -50,6 +50,10 @@ describe("OpenRouter attribution sync", () => {
       week: rankingFor("2026-07-21"),
       month: rankingFor("2026-06-28"),
     };
+    const trendingRankings = {
+      week: rankingFor("2026-07-21", 3),
+      month: rankingFor("2026-06-28", 2),
+    };
     const pageMetrics = new Map(openRouterApps.map((candidate) => [candidate.appId, {
       appId: candidate.appId,
       attributedTokens: 10,
@@ -57,10 +61,12 @@ describe("OpenRouter attribution sync", () => {
       modelsObserved: 1,
       observedAt: "2026-07-28",
     }]));
-    const snapshots = buildOpenRouterSnapshots(pageMetrics, rankings);
+    const snapshots = buildOpenRouterSnapshots(pageMetrics, rankings, trendingRankings);
 
     expect(snapshots[0].windows.month).toMatchObject({ days: 30, rank: 1, attributedTokens: 1_000, attributedRequests: 20 });
+    expect(snapshots[0].trendingWindows.week).toMatchObject({ days: 7, rank: 3, attributedTokens: 1_000, attributedRequests: 20 });
     expect(snapshots[1].windows.day).toMatchObject({ days: 1, rank: null, attributedTokens: null, attributedRequests: null });
-    expect(renderOpenRouterAttributionFile(snapshots)).toContain("ecosystem context only");
+    expect(snapshots[1].trendingWindows.month).toMatchObject({ days: 30, rank: null, attributedTokens: null, attributedRequests: null });
+    expect(renderOpenRouterAttributionFile(snapshots)).toContain("authenticated popular plus trending");
   });
 });

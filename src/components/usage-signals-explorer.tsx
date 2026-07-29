@@ -5,6 +5,7 @@ import Link from "next/link";
 import { HarnessLogo } from "@/components/harness-logo";
 import type {
   EcosystemSignalSnapshot,
+  OpenRouterTrendingWindowKey,
   OpenRouterUsageWindow,
   OpenRouterUsageWindowKey,
 } from "@/lib/types";
@@ -15,6 +16,7 @@ import type {
 } from "@/lib/usage-view";
 
 type UsageSource = "openrouter" | EcosystemSignalSnapshot["source"];
+type OpenRouterView = "popular" | "trending";
 
 type DisplayRow = UsageProduct & {
   rank: number | null;
@@ -42,6 +44,11 @@ const windowOptions: Array<{ key: OpenRouterUsageWindowKey; label: string }> = [
   { key: "month", label: "30 days" },
 ];
 
+const trendingWindowOptions: Array<{ key: OpenRouterTrendingWindowKey; label: string }> = [
+  { key: "week", label: "7 days" },
+  { key: "month", label: "30 days" },
+];
+
 const compactNumberFormatter = new Intl.NumberFormat("en", {
   notation: "compact",
   maximumFractionDigits: 2,
@@ -60,9 +67,9 @@ function formatDateRange(window: Pick<OpenRouterUsageWindow, "windowStart" | "wi
   return `${window.windowStart} to ${window.windowEnd}`;
 }
 
-function sourceTitle(source: UsageSource) {
+function sourceTitle(source: UsageSource, openRouterView: OpenRouterView) {
   switch (source) {
-    case "openrouter": return "OpenRouter attributed traffic";
+    case "openrouter": return openRouterView === "trending" ? "Trending on OpenRouter" : "Most used on OpenRouter";
     case "homebrew": return "Homebrew install events";
     case "npm": return "npm package downloads";
     case "github-releases": return "GitHub release asset downloads";
@@ -73,9 +80,11 @@ function sourceTitle(source: UsageSource) {
   }
 }
 
-function sourceSummary(source: UsageSource) {
+function sourceSummary(source: UsageSource, openRouterView: OpenRouterView) {
   switch (source) {
-    case "openrouter": return "Traffic attributed to public coding apps using OpenRouter's app-attribution mechanism.";
+    case "openrouter": return openRouterView === "trending"
+      ? "Apps ordered by excess attributed-token growth against the preceding three equal windows."
+      : "Traffic attributed to public coding apps using OpenRouter's app-attribution mechanism.";
     case "homebrew": return "Install-on-request events for mapped formulae and install events for mapped casks.";
     case "npm": return "Registry downloads for one mapped, user-facing package per harness.";
     case "github-releases": return "Cumulative downloads of explicitly matched stable CLI binaries and archives.";
@@ -86,9 +95,11 @@ function sourceSummary(source: UsageSource) {
   }
 }
 
-function sourceFootnote(source: UsageSource) {
+function sourceFootnote(source: UsageSource, openRouterView: OpenRouterView) {
   switch (source) {
-    case "openrouter": return "Token totals combine prompt and completion tokens. Tokenizers differ, attribution is opt-in, and this is not standardized work, users, or task success.";
+    case "openrouter": return openRouterView === "trending"
+      ? "Trending rank comes from OpenRouter. Bars show current-window attributed tokens because the API does not publish the excess amount or a growth percentage."
+      : "Token totals combine prompt and completion tokens. Tokenizers differ, attribution is opt-in, and this is not standardized work, users, or task success.";
     case "homebrew": return "Homebrew counts install events, not unique people or active installations. Formula and cask events share a source view but retain their artifact labels.";
     case "npm": return "Downloads include automated and repeated retrievals. They are not unique users, active installs, or completed coding tasks.";
     case "github-releases": return "Counts sum only mapped assets across stable published releases. Repeated, automated, and multi-platform downloads remain possible, so this is not a user count.";
@@ -169,13 +180,25 @@ export function UsageSignalsExplorer({
   activeHarnessCount: number;
 }) {
   const [selectedSource, setSelectedSource] = useState<UsageSource>("openrouter");
+  const [openRouterView, setOpenRouterView] = useState<OpenRouterView>("popular");
   const [selectedWindow, setSelectedWindow] = useState<OpenRouterUsageWindowKey>("week");
   const [expandedSources, setExpandedSources] = useState<UsageSource[]>([]);
   const sourceTabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const windowTabRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
+  const effectiveWindow = openRouterView === "trending" && selectedWindow === "day"
+    ? "week"
+    : selectedWindow;
+  const availableWindowOptions = openRouterView === "trending"
+    ? trendingWindowOptions
+    : windowOptions;
   const openRouterRows: DisplayRow[] = openRouterRecords
-    .map((record) => ({ ...record, usage: record.windows[selectedWindow] }))
+    .map((record) => ({
+      ...record,
+      usage: openRouterView === "trending"
+        ? record.trendingWindows[effectiveWindow as OpenRouterTrendingWindowKey]
+        : record.windows[effectiveWindow],
+    }))
     .sort((left, right) => {
       if (left.usage.rank === null) return right.usage.rank === null ? left.name.localeCompare(right.name) : 1;
       if (right.usage.rank === null) return -1;
@@ -204,7 +227,11 @@ export function UsageSignalsExplorer({
   const maxValue = Math.max(1, ...listedRows.map((row) => row.value ?? 0));
   const isExpanded = expandedSources.includes(selectedSource);
   const visibleRows = isExpanded ? rows : rows.slice(0, 12);
-  const openRouterWindow = openRouterRecords[0]?.windows[selectedWindow];
+  const openRouterWindow = openRouterRecords[0]
+    ? openRouterView === "trending"
+      ? openRouterRecords[0].trendingWindows[effectiveWindow as OpenRouterTrendingWindowKey]
+      : openRouterRecords[0].windows[effectiveWindow]
+    : undefined;
   const selectedSignal = selectedSource === "openrouter"
     ? null
     : ecosystemRecords.find((record) => record.signal.source === selectedSource)?.signal;
@@ -221,8 +248,8 @@ export function UsageSignalsExplorer({
   }
 
   function selectRelativeWindow(currentIndex: number, direction: -1 | 1) {
-    const nextIndex = (currentIndex + direction + windowOptions.length) % windowOptions.length;
-    setSelectedWindow(windowOptions[nextIndex].key);
+    const nextIndex = (currentIndex + direction + availableWindowOptions.length) % availableWindowOptions.length;
+    setSelectedWindow(availableWindowOptions[nextIndex].key);
     windowTabRefs.current[nextIndex]?.focus();
   }
 
@@ -231,29 +258,44 @@ export function UsageSignalsExplorer({
       <header className="usage-explorer-header">
         <div>
           <span className="usage-explorer-kicker">Source-separated rankings</span>
-          <h2 id="usage-explorer-heading">{sourceTitle(selectedSource)}</h2>
-          <p>{sourceSummary(selectedSource)}</p>
+          <h2 id="usage-explorer-heading">{sourceTitle(selectedSource, openRouterView)}</h2>
+          <p>{sourceSummary(selectedSource, openRouterView)}</p>
         </div>
         {selectedSource === "openrouter" && (
-          <div className="usage-window-tabs" role="tablist" aria-label="OpenRouter time window">
-            {windowOptions.map((option, index) => (
+          <div className="usage-openrouter-controls">
+            <div className="usage-view-tabs" role="group" aria-label="OpenRouter ranking view">
+              <button type="button" aria-pressed={openRouterView === "popular"} onClick={() => setOpenRouterView("popular")}>Most used</button>
               <button
                 type="button"
-                role="tab"
-                aria-selected={selectedWindow === option.key}
-                aria-controls="usage-ranking-panel"
-                tabIndex={selectedWindow === option.key ? 0 : -1}
-                key={option.key}
-                ref={(element) => { windowTabRefs.current[index] = element; }}
-                onClick={() => setSelectedWindow(option.key)}
-                onKeyDown={(event) => {
-                  if (event.key === "ArrowLeft") { event.preventDefault(); selectRelativeWindow(index, -1); }
-                  if (event.key === "ArrowRight") { event.preventDefault(); selectRelativeWindow(index, 1); }
+                aria-pressed={openRouterView === "trending"}
+                onClick={() => {
+                  setOpenRouterView("trending");
+                  if (selectedWindow === "day") setSelectedWindow("week");
                 }}
               >
-                {option.label}
+                Trending
               </button>
-            ))}
+            </div>
+            <div className="usage-window-tabs" role="tablist" aria-label="OpenRouter time window">
+              {availableWindowOptions.map((option, index) => (
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={effectiveWindow === option.key}
+                  aria-controls="usage-ranking-panel"
+                  tabIndex={effectiveWindow === option.key ? 0 : -1}
+                  key={option.key}
+                  ref={(element) => { windowTabRefs.current[index] = element; }}
+                  onClick={() => setSelectedWindow(option.key)}
+                  onKeyDown={(event) => {
+                    if (event.key === "ArrowLeft") { event.preventDefault(); selectRelativeWindow(index, -1); }
+                    if (event.key === "ArrowRight") { event.preventDefault(); selectRelativeWindow(index, 1); }
+                  }}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
           </div>
         )}
       </header>
@@ -294,17 +336,17 @@ export function UsageSignalsExplorer({
             <strong>{dateRange}</strong>
             <span>{coverageLabel}</span>
           </p>
-          <span>{selectedSource === "openrouter" ? "Global coding-app rank" : "Rank among mapped HarnessMatch products"}</span>
+          <span>{selectedSource === "openrouter" ? openRouterView === "trending" ? "OpenRouter growth rank" : "Global coding-app rank" : "Rank among mapped HarnessMatch products"}</span>
         </div>
 
         <div className="usage-column-labels" aria-hidden="true">
           <span>Rank</span>
           <span>Harness</span>
-          <span>{selectedSource === "github" ? "Repository interest" : "Observed volume"}</span>
+          <span>{selectedSource === "openrouter" && openRouterView === "trending" ? "Window volume" : selectedSource === "github" ? "Repository interest" : "Observed volume"}</span>
           <span>{selectedSource === "openrouter" ? "Requests" : selectedSource === "github" ? "Repository" : selectedSource === "github-releases" ? "Matched scope" : "Artifact"}</span>
         </div>
 
-        <ol className="usage-ranking" aria-label={`${sourceTitle(selectedSource)} ranking for ${dateRange}`}>
+        <ol className="usage-ranking" aria-label={`${sourceTitle(selectedSource, openRouterView)} ranking for ${dateRange}`}>
           {visibleRows.map((row) => {
             const barWidth = row.value === null ? 0 : Math.max(1.5, (row.value / maxValue) * 100);
             return (
@@ -354,7 +396,7 @@ export function UsageSignalsExplorer({
       </div>
 
       <footer className="usage-leaderboard-footer">
-        <p>{sourceFootnote(selectedSource)} Missing coverage means not mapped, never zero.</p>
+        <p>{sourceFootnote(selectedSource, openRouterView)} Missing coverage means not mapped, never zero.</p>
         <a href="/usage.csv" download>Download all signals (CSV)</a>
       </footer>
     </section>

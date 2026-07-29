@@ -35,7 +35,8 @@ describe("usage surface", () => {
 
     expect(response.headers.get("content-type")).toBe("text/csv; charset=utf-8");
     expect(response.headers.get("content-disposition")).toContain("harnessmatch-usage-signals.csv");
-    expect(rows).toHaveLength(1 + expectedSnapshots.length * 3 + expectedEcosystemSignals.length);
+    expect(rows).toHaveLength(1 + expectedSnapshots.length * 5 + expectedEcosystemSignals.length);
+    expect(rows[0]).toContain("ranking_mode");
     expect(rows[0]).toContain("rank_scope");
     expect(rows[0]).toContain("artifact_id");
     for (const snapshot of expectedSnapshots) {
@@ -47,6 +48,7 @@ describe("usage surface", () => {
       expect(csv).toContain(`${source},`);
     }
     expect(csv).toContain("global_coding_apps");
+    expect(csv).toContain("openrouter,attributed_tokens,trending");
     expect(csv).toContain("mapped_harnessmatch_products");
   });
 });

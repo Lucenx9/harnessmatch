@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { HarnessLogo } from "@/components/harness-logo";
-import type { EcosystemSignalSnapshot } from "@/lib/types";
+import type { OpenRouterTrendingWindowKey } from "@/lib/types";
 import type {
   EcosystemUsageRecord,
   OpenRouterUsageRecord,
@@ -11,6 +11,7 @@ import type {
 } from "@/lib/usage-view";
 
 type UsageSource = "openrouter" | "homebrew" | "npm" | "github-releases" | "vscode";
+type OpenRouterView = "popular" | "trending";
 
 type SummaryRow = UsageProduct & {
   rank: number;
@@ -27,6 +28,11 @@ const sourceOptions: Array<{ key: UsageSource; label: string }> = [
   { key: "vscode", label: "VS Code" },
 ];
 
+const openRouterWindowOptions: Array<{ key: OpenRouterTrendingWindowKey; label: string }> = [
+  { key: "week", label: "7 days" },
+  { key: "month", label: "30 days" },
+];
+
 const compactNumberFormatter = new Intl.NumberFormat("en", {
   notation: "compact",
   maximumFractionDigits: 2,
@@ -39,9 +45,9 @@ function dateRange(window: { windowStart: string; windowEnd: string }) {
     : `${window.windowStart} to ${window.windowEnd}`;
 }
 
-function sourceTitle(source: UsageSource) {
+function sourceTitle(source: UsageSource, openRouterView: OpenRouterView) {
   switch (source) {
-    case "openrouter": return "OpenRouter attributed traffic";
+    case "openrouter": return openRouterView === "trending" ? "Trending on OpenRouter" : "Most used on OpenRouter";
     case "homebrew": return "Homebrew install events";
     case "npm": return "npm package downloads";
     case "github-releases": return "GitHub release downloads";
@@ -49,9 +55,11 @@ function sourceTitle(source: UsageSource) {
   }
 }
 
-function sourceNote(source: UsageSource) {
+function sourceNote(source: UsageSource, openRouterView: OpenRouterView) {
   switch (source) {
-    case "openrouter": return "Opt-in traffic attributed to coding apps. Attributed volume does not measure users, task quality, or success.";
+    case "openrouter": return openRouterView === "trending"
+      ? "Order reflects excess attributed-token growth against the preceding three equal windows. Bars show current-window volume, not the growth amount."
+      : "Opt-in traffic attributed to coding apps. Attributed volume does not measure users, task quality, or success.";
     case "homebrew": return "Install events are not unique people or active installations.";
     case "npm": return "Downloads can include automated and repeated retrievals.";
     case "github-releases": return "Stable asset downloads can be repeated, automated, or split across platforms.";
@@ -106,11 +114,19 @@ export function HomeUsageSummary({
   activeHarnessCount: number;
 }) {
   const [selectedSource, setSelectedSource] = useState<UsageSource>("openrouter");
+  const [openRouterView, setOpenRouterView] = useState<OpenRouterView>("popular");
+  const [openRouterWindowKey, setOpenRouterWindowKey] = useState<OpenRouterTrendingWindowKey>("week");
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
-  const openRouterWindow = openRouterRecords[0]?.windows.week;
+  const openRouterWindow = openRouterRecords[0]
+    ? openRouterView === "trending"
+      ? openRouterRecords[0].trendingWindows[openRouterWindowKey]
+      : openRouterRecords[0].windows[openRouterWindowKey]
+    : undefined;
   const openRouterRows: SummaryRow[] = openRouterRecords
     .flatMap((record) => {
-      const usage = record.windows.week;
+      const usage = openRouterView === "trending"
+        ? record.trendingWindows[openRouterWindowKey]
+        : record.windows[openRouterWindowKey];
       if (usage.rank === null || usage.attributedTokens === null) return [];
       return [{
         id: record.id,
@@ -192,21 +208,53 @@ export function HomeUsageSummary({
         aria-live="polite"
       >
         <div className="home-usage-context">
-          <div>
-            <strong>{sourceTitle(selectedSource)}</strong>
+          <div className="home-usage-context-copy">
+            <strong>{sourceTitle(selectedSource, openRouterView)}</strong>
             <span>{observationRange}</span>
+            <span>{coverage}</span>
           </div>
-          <span>{coverage}</span>
+          {selectedSource === "openrouter" && (
+            <div className="home-usage-controls">
+              <div className="home-usage-control-group" role="group" aria-label="OpenRouter ranking view">
+                <button
+                  type="button"
+                  aria-pressed={openRouterView === "popular"}
+                  onClick={() => setOpenRouterView("popular")}
+                >
+                  Most used
+                </button>
+                <button
+                  type="button"
+                  aria-pressed={openRouterView === "trending"}
+                  onClick={() => setOpenRouterView("trending")}
+                >
+                  Trending
+                </button>
+              </div>
+              <div className="home-usage-control-group" role="group" aria-label="OpenRouter ranking window">
+                {openRouterWindowOptions.map((option) => (
+                  <button
+                    type="button"
+                    aria-pressed={openRouterWindowKey === option.key}
+                    key={option.key}
+                    onClick={() => setOpenRouterWindowKey(option.key)}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="home-usage-columns" aria-hidden="true">
           <span>Rank</span>
           <span>Harness</span>
-          <span>Observed volume</span>
+          <span>{selectedSource === "openrouter" && openRouterView === "trending" ? "Window volume" : "Observed volume"}</span>
         </div>
 
         {visibleRows.length > 0 ? (
-          <ol className="home-usage-ranking" aria-label={`${sourceTitle(selectedSource)} top five for ${observationRange}`}>
+          <ol className="home-usage-ranking" aria-label={`${sourceTitle(selectedSource, openRouterView)} top five for ${observationRange}`}>
             {visibleRows.map((row) => (
               <li key={row.id}>
                 <Link href={`/harnesses/${row.slug}`} className="home-usage-row">
@@ -233,7 +281,7 @@ export function HomeUsageSummary({
       </div>
 
       <footer className="home-usage-footer">
-        <p>{sourceNote(selectedSource)} Rankings stay source-specific and never affect recommendations.</p>
+        <p>{sourceNote(selectedSource, openRouterView)} Rankings stay source-specific and never affect recommendations.</p>
       </footer>
     </section>
   );

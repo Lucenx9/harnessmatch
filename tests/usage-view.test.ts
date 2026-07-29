@@ -34,6 +34,7 @@ describe("usage view records", () => {
     });
 
     expect(records.openRouterRecords[0]).toHaveProperty("windows.week.attributedTokens");
+    expect(records.openRouterRecords[0]).toHaveProperty("trendingWindows.week.attributedTokens");
     expect(records.ecosystemRecords.every((record) => "signal" in record)).toBe(true);
     expect(records.ecosystemRecords.some((record) => record.signal.metric === "install-events")).toBe(true);
     expect(records.ecosystemRecords.some((record) => record.signal.metric === "downloads")).toBe(true);

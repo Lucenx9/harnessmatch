@@ -7,6 +7,7 @@ import {
   parseRankingResponses,
   rankingWindows,
   renderOpenRouterAttributionFile,
+  trendingRankingWindows,
 } from "./lib/openrouter-sync.mjs";
 
 const projectRoot = process.cwd();
@@ -75,12 +76,12 @@ function utcDateBefore(isoDate, daysBefore) {
   return date.toISOString().slice(0, 10);
 }
 
-async function fetchRankingPages(apiKey, window) {
+async function fetchRankingPages(apiKey, window, sort = "popular") {
   const payloads = [];
   for (const offset of [0, 100]) {
     const url = new URL("https://openrouter.ai/api/v1/datasets/app-rankings");
     url.searchParams.set("category", "coding");
-    url.searchParams.set("sort", "popular");
+    url.searchParams.set("sort", sort);
     url.searchParams.set("limit", "100");
     url.searchParams.set("offset", String(offset));
     if (window.startDate) url.searchParams.set("start_date", window.startDate);
@@ -88,7 +89,7 @@ async function fetchRankingPages(apiKey, window) {
     const response = await fetchWithRetry(
       url,
       { headers: { Authorization: `Bearer ${apiKey}` } },
-      `${window.key} ranking page ${offset / 100 + 1}`,
+      `${sort} ${window.key} ranking page ${offset / 100 + 1}`,
     );
     payloads.push(await response.json());
   }
@@ -105,15 +106,24 @@ const [pageMetrics, monthRanking] = await Promise.all([
   fetchRankingPages(apiKey, { key: "month" }),
 ]);
 const resolvedEndDate = monthRanking.meta.windowEnd;
-const shorterWindows = await Promise.all(
-  rankingWindows
-    .filter(({ key }) => key !== "month")
-    .map(({ key, days }) => fetchRankingPages(apiKey, {
+const [shorterWindows, trendingWindows] = await Promise.all([
+  Promise.all(
+    rankingWindows
+      .filter(({ key }) => key !== "month")
+      .map(({ key, days }) => fetchRankingPages(apiKey, {
+        key,
+        startDate: utcDateBefore(resolvedEndDate, days - 1),
+        endDate: resolvedEndDate,
+      })),
+  ),
+  Promise.all(
+    trendingRankingWindows.map(({ key, days }) => fetchRankingPages(apiKey, {
       key,
       startDate: utcDateBefore(resolvedEndDate, days - 1),
       endDate: resolvedEndDate,
-    })),
-);
+    }, "trending")),
+  ),
+]);
 const rankings = {
   month: monthRanking,
   ...Object.fromEntries(
@@ -122,7 +132,10 @@ const rankings = {
       .map(({ key }, index) => [key, shorterWindows[index]]),
   ),
 };
-const snapshots = buildOpenRouterSnapshots(pageMetrics, rankings);
+const trendingRankings = Object.fromEntries(
+  trendingRankingWindows.map(({ key }, index) => [key, trendingWindows[index]]),
+);
+const snapshots = buildOpenRouterSnapshots(pageMetrics, rankings, trendingRankings);
 const nextContents = renderOpenRouterAttributionFile(snapshots);
 const previousContents = await readFile(outputPath, "utf8");
 
@@ -131,5 +144,6 @@ if (previousContents === nextContents) {
 } else {
   await writeFile(outputPath, nextContents, "utf8");
   const listed = snapshots.filter((snapshot) => snapshot.windows.month.rank !== null).length;
-  console.log(`Updated ${snapshots.length} OpenRouter app snapshots through ${resolvedEndDate}; ${listed} are listed in the 30-day coding window.`);
+  const trending = snapshots.filter((snapshot) => snapshot.trendingWindows.week.rank !== null).length;
+  console.log(`Updated ${snapshots.length} OpenRouter app snapshots through ${resolvedEndDate}; ${listed} are listed in the 30-day coding window and ${trending} in weekly trending.`);
 }

@@ -162,9 +162,11 @@ export type OpenRouterAttributionSnapshot = {
   modelsObserved: number;
   observedAt: string;
   windows: Record<OpenRouterUsageWindowKey, OpenRouterUsageWindow>;
+  trendingWindows: Record<OpenRouterTrendingWindowKey, OpenRouterUsageWindow>;
 };
 
 export type OpenRouterUsageWindowKey = "day" | "week" | "month";
+export type OpenRouterTrendingWindowKey = Exclude<OpenRouterUsageWindowKey, "day">;
 
 export type OpenRouterUsageWindow = {
   category: "coding";

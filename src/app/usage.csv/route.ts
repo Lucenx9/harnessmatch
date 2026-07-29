@@ -2,15 +2,21 @@ import { ecosystemSignalSnapshots } from "@/data/ecosystem-signals";
 import { harnesses } from "@/data/harnesses";
 import { openRouterAttributionSnapshots } from "@/data/openrouter-attribution";
 import { siteUrl } from "@/lib/site";
-import type { EcosystemSignalSnapshot, OpenRouterUsageWindowKey } from "@/lib/types";
+import type {
+  EcosystemSignalSnapshot,
+  OpenRouterTrendingWindowKey,
+  OpenRouterUsageWindowKey,
+} from "@/lib/types";
 
 export const dynamic = "force-static";
 
 const windowKeys: OpenRouterUsageWindowKey[] = ["day", "week", "month"];
+const trendingWindowKeys: OpenRouterTrendingWindowKey[] = ["week", "month"];
 
 const header = [
   "source",
   "metric",
+  "ranking_mode",
   "window_days",
   "window_start",
   "window_end",
@@ -48,30 +54,39 @@ export function GET() {
     harnesses.filter((harness) => harness.status === "active").map((harness) => [harness.id, harness]),
   );
 
-  const openRouterRows = windowKeys.flatMap((key) => openRouterAttributionSnapshots.flatMap((snapshot) => {
-    const harness = activeHarnessById.get(snapshot.harnessId);
-    if (!harness) return [];
-    const window = snapshot.windows[key];
-    return [[
-      "openrouter",
-      "attributed_tokens",
-      window.days,
-      window.windowStart,
-      window.windowEnd,
-      window.rank,
-      "global_coding_apps",
-      harness.id,
-      harness.name,
-      `${siteUrl}/harnesses/${harness.slug}`,
-      window.attributedTokens,
-      "attributed_requests",
-      window.attributedRequests,
-      window.observedAt,
-      snapshot.appSlug,
-      snapshot.sourceUrl,
-      window.sourceUrl,
-    ].map(csvCell).join(",")];
-  }));
+  const rankingWindows = [
+    ...windowKeys.map((key) => ({ mode: "popular", key, collection: "windows" as const })),
+    ...trendingWindowKeys.map((key) => ({ mode: "trending", key, collection: "trendingWindows" as const })),
+  ];
+  const openRouterRows = rankingWindows.flatMap(({ mode, key, collection }) => (
+    openRouterAttributionSnapshots.flatMap((snapshot) => {
+      const harness = activeHarnessById.get(snapshot.harnessId);
+      if (!harness) return [];
+      const window = collection === "windows"
+        ? snapshot.windows[key as OpenRouterUsageWindowKey]
+        : snapshot.trendingWindows[key as OpenRouterTrendingWindowKey];
+      return [[
+        "openrouter",
+        "attributed_tokens",
+        mode,
+        window.days,
+        window.windowStart,
+        window.windowEnd,
+        window.rank,
+        "global_coding_apps",
+        harness.id,
+        harness.name,
+        `${siteUrl}/harnesses/${harness.slug}`,
+        window.attributedTokens,
+        "attributed_requests",
+        window.attributedRequests,
+        window.observedAt,
+        snapshot.appSlug,
+        snapshot.sourceUrl,
+        window.sourceUrl,
+      ].map(csvCell).join(",")];
+    })
+  ));
 
   const activeSignals = ecosystemSignalSnapshots.filter((signal) => activeHarnessById.has(signal.harnessId));
   const rankBySignal = new Map<string, number>();
@@ -87,6 +102,7 @@ export function GET() {
     return [
       signal.source,
       signal.metric,
+      null,
       "windowDays" in signal ? signal.windowDays : null,
       "windowStart" in signal ? signal.windowStart : null,
       "windowEnd" in signal ? signal.windowEnd : null,

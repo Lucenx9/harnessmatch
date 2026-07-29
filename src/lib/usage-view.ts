@@ -3,6 +3,7 @@ import type {
   Harness,
   HarnessReleaseSnapshot,
   OpenRouterAttributionSnapshot,
+  OpenRouterTrendingWindowKey,
   OpenRouterUsageWindow,
   OpenRouterUsageWindowKey,
 } from "@/lib/types";
@@ -11,6 +12,7 @@ export type UsageProduct = Pick<Harness, "id" | "slug" | "name" | "tagline" | "l
 
 export type OpenRouterUsageRecord = UsageProduct & {
   windows: Record<OpenRouterUsageWindowKey, OpenRouterUsageWindow>;
+  trendingWindows: Record<OpenRouterTrendingWindowKey, OpenRouterUsageWindow>;
 };
 
 export type EcosystemUsageRecord = UsageProduct & {
@@ -82,7 +84,11 @@ export function buildUsageViewRecords({
 
   const openRouterRecords = openRouterSnapshots.flatMap((snapshot): OpenRouterUsageRecord[] => {
     const product = productFor(snapshot.harnessId);
-    return product ? [{ ...product, windows: snapshot.windows }] : [];
+    return product ? [{
+      ...product,
+      windows: snapshot.windows,
+      trendingWindows: snapshot.trendingWindows,
+    }] : [];
   });
   const ecosystemRecords = ecosystemSignals.flatMap((signal): EcosystemUsageRecord[] => {
     const product = productFor(signal.harnessId);

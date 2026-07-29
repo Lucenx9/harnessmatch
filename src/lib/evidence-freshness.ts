@@ -209,6 +209,14 @@ export function verifiedRecords(): VerifiedRecord[] {
         verifiedAt: window.observedAt,
       });
     }
+    for (const [windowKey, window] of Object.entries(snapshot.trendingWindows)) {
+      records.push({
+        scope: "openrouter-ranking",
+        subject: snapshot.harnessId,
+        detail: `${window.category}:trending:${windowKey}:${window.windowStart}:${window.windowEnd}`,
+        verifiedAt: window.observedAt,
+      });
+    }
   }
 
   for (const signal of ecosystemSignalSnapshots) {

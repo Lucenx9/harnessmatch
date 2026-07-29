@@ -2,10 +2,15 @@ import { describe, expect, it } from "vitest";
 import { harnesses } from "../src/data/harnesses";
 import { openRouterAttributionSnapshots } from "../src/data/openrouter-attribution";
 import { isValidVerificationDate } from "../src/lib/evidence-freshness";
-import type { OpenRouterUsageWindowKey } from "../src/lib/types";
+import type { OpenRouterTrendingWindowKey, OpenRouterUsageWindowKey } from "../src/lib/types";
 
 const expectedWindowDays: Record<OpenRouterUsageWindowKey, number> = {
   day: 1,
+  week: 7,
+  month: 30,
+};
+
+const expectedTrendingWindowDays: Record<OpenRouterTrendingWindowKey, number> = {
   week: 7,
   month: 30,
 };
@@ -60,6 +65,26 @@ describe("OpenRouter attribution snapshots", () => {
           if (value !== null) {
             expect(Number.isSafeInteger(value), `${snapshot.harnessId}:${key}`).toBe(true);
             expect(value, `${snapshot.harnessId}:${key}`).toBeGreaterThan(0);
+          }
+        }
+      }
+      for (const key of Object.keys(expectedTrendingWindowDays) as OpenRouterTrendingWindowKey[]) {
+        const window = snapshot.trendingWindows[key];
+        expect(window.category, `${snapshot.harnessId}:trending:${key}`).toBe("coding");
+        expect(window.days, `${snapshot.harnessId}:trending:${key}`).toBe(expectedTrendingWindowDays[key]);
+        expect(isValidVerificationDate(window.windowStart), `${snapshot.harnessId}:trending:${key}`).toBe(true);
+        expect(isValidVerificationDate(window.windowEnd), `${snapshot.harnessId}:trending:${key}`).toBe(true);
+        expect(isValidVerificationDate(window.observedAt), `${snapshot.harnessId}:trending:${key}`).toBe(true);
+        expect(window.windowEnd <= window.observedAt, `${snapshot.harnessId}:trending:${key}`).toBe(true);
+        expect(inclusiveDays(window.windowStart, window.windowEnd), `${snapshot.harnessId}:trending:${key}`).toBe(window.days);
+        const values = [window.rank, window.attributedTokens, window.attributedRequests];
+        const allMissing = values.every((value) => value === null);
+        const allPresent = values.every((value) => value !== null);
+        expect(allMissing || allPresent, `${snapshot.harnessId}:trending:${key}`).toBe(true);
+        for (const value of values) {
+          if (value !== null) {
+            expect(Number.isSafeInteger(value), `${snapshot.harnessId}:trending:${key}`).toBe(true);
+            expect(value, `${snapshot.harnessId}:trending:${key}`).toBeGreaterThan(0);
           }
         }
       }
