@@ -1,9 +1,15 @@
 name: Quality gate
+run-name: Quality gate ${{ inputs.commit_sha || github.sha }}
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: Exact repository commit to verify
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -19,6 +25,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.commit_sha || github.sha }}
       - name: Set up Node.js
         uses: actions/setup-node@v7
         with:

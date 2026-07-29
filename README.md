@@ -58,6 +58,12 @@ npm run sync:usage
 
 This command requires `OPENROUTER_API_KEY` for OpenRouter and uses `GITHUB_TOKEN` or the authenticated `gh` session for GitHub repository and release data. Homebrew, npm, VS Code, Open VSX, and JetBrains use public endpoints. Generated values are not recommendation inputs.
 
+### Automatic usage maintenance
+
+`.github/workflows/daily-usage-refresh.yml` runs every day at 04:23 UTC and can also be started manually. It synchronizes every source-native usage feed, permits changes only to the two generated snapshot files, runs source health checks, dependency auditing, typecheck, tests, and the static build, then commits directly to `main` only when values changed. The workflow dispatches the quality gate for the published commit, waits for the matching Vercel production deployment, and smoke-tests the canonical site and redirects.
+
+The workflow requires the repository Actions secret `OPENROUTER_API_KEY`. GitHub supplies the short-lived `GITHUB_TOKEN`; no personal access token is stored. A source, schema, identity, validation, concurrency, quality, deployment, or smoke-test failure stops the transaction and remains visible in the Actions run.
+
 ## Deployment
 
 The repository is connected to the existing Vercel project. Pushes to `main` create production deployments; other branches can create isolated preview deployments. Web Analytics is enabled on the production project.

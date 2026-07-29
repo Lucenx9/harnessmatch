@@ -1,0 +1,151 @@
+name: Daily usage refresh
+
+on:
+  schedule:
+    - cron: "23 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: write
+  deployments: read
+
+concurrency:
+  group: daily-usage-refresh-main
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      TZ: UTC
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Establish clean baseline
+        id: baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${OPENROUTER_API_KEY:-}" ]]; then
+            echo "OPENROUTER_API_KEY is not configured as a repository secret." >&2
+            exit 1
+          fi
+          git fetch origin main
+          git checkout main
+          git merge --ff-only origin/main
+          if [[ -n "$(git status --porcelain=v1 --untracked-files=all)" ]]; then
+            echo "The checkout is not clean before synchronization." >&2
+            git status --short
+            exit 1
+          fi
+          start_sha="$(git rev-parse HEAD)"
+          echo "start_sha=$start_sha" >> "$GITHUB_OUTPUT"
+          echo "Starting commit: \`$start_sha\`" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Install dependencies from lockfile
+        run: npm ci
+
+      - name: Synchronize usage sources
+        run: npm run sync:usage
+
+      - name: Inspect generated change
+        id: diff
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/validate-usage-refresh-diff.mjs
+          git diff --check
+          git status --short
+          git diff --stat
+          git diff
+          if git diff --quiet -- src/data/openrouter-attribution.ts src/data/ecosystem-signals.ts; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No source values changed; nothing will be published." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Review dependency advisories
+        if: steps.diff.outputs.changed == 'true'
+        run: npm audit --audit-level=high
+
+      - name: Verify sources, contracts, and static export
+        if: steps.diff.outputs.changed == 'true'
+        run: npm run verify:maintenance
+
+      - name: Re-review publish scope
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          node scripts/validate-usage-refresh-diff.mjs
+          git diff --check
+          git status --short
+          git diff --stat
+          git diff
+
+      - name: Confirm main has not advanced
+        if: steps.diff.outputs.changed == 'true'
+        shell: bash
+        env:
+          START_SHA: ${{ steps.baseline.outputs.start_sha }}
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          remote_sha="$(git rev-parse origin/main)"
+          if [[ "$remote_sha" != "$START_SHA" ]]; then
+            echo "origin/main advanced from $START_SHA to $remote_sha; refusing to push." >&2
+            exit 1
+          fi
+
+      - name: Commit and push generated data
+        if: steps.diff.outputs.changed == 'true'
+        id: publish
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/openrouter-attribution.ts src/data/ecosystem-signals.ts
+          git diff --cached --check
+          git commit -m "chore(data): refresh usage signals $(date -u +%F)"
+          published_sha="$(git rev-parse HEAD)"
+          git push origin HEAD:main
+          echo "published_sha=$published_sha" >> "$GITHUB_OUTPUT"
+          echo "Published commit: \`$published_sha\`" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Run quality gate for published commit
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          PUBLISHED_SHA: ${{ steps.publish.outputs.published_sha }}
+        run: node scripts/wait-for-quality-gate.mjs
+
+      - name: Wait for Vercel production deployment
+        if: steps.diff.outputs.changed == 'true'
+        id: deployment
+        env:
+          PUBLISHED_SHA: ${{ steps.publish.outputs.published_sha }}
+        run: node scripts/wait-for-production-deployment.mjs
+
+      - name: Smoke-test production
+        if: steps.diff.outputs.changed == 'true'
+        run: node scripts/smoke-test-production.mjs
+
+      - name: Record completion
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          echo "Usage data refreshed from source-native APIs." >> "$GITHUB_STEP_SUMMARY"
+          echo "Recommendation, capability, membership, methodology, and verification dates were not changed." >> "$GITHUB_STEP_SUMMARY"

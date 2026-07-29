@@ -134,6 +134,7 @@ Do not add a GUI only to the aggregate export. Each product belongs in its own r
 - Automated source refreshes may publish straightforward, first-party-supported corrections. Ambiguous classification, methodology, or scoring changes must be supported by explicit evidence and tests; otherwise leave a review note or watchlist record instead of guessing.
 - A successful push is not the end of deployment verification. Confirm that the Vercel production deployment is ready and smoke-test the canonical domain, sitemap, robots file, redirects, and the changed user path when tooling is available.
 - `.github/workflows/quality.yml` is the repository quality gate. Do not weaken or skip it to make an automated update pass.
+- `.github/workflows/daily-usage-refresh.yml` is the zero-touch daily usage transaction. It may commit only `src/data/openrouter-attribution.ts` and `src/data/ecosystem-signals.ts`, must dispatch the quality gate for the published commit, and must verify the matching production deployment before reporting success.
 - Review dependency advisories explicitly with `npm audit --json`. Record severity, direct or transitive status, affected runtime or build surface, fix availability, and the decision taken. Never run `npm audit fix --force`, accept an unrelated major downgrade suggested by npm, or silently ignore a high or critical finding. Framework or dependency upgrades require a scoped change, lockfile review, the full quality sequence, and production verification.
 
 ### Required update transaction
