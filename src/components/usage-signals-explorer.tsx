@@ -5,26 +5,14 @@ import Link from "next/link";
 import { HarnessLogo } from "@/components/harness-logo";
 import type {
   EcosystemSignalSnapshot,
-  HarnessLogo as HarnessLogoData,
   OpenRouterUsageWindow,
   OpenRouterUsageWindowKey,
 } from "@/lib/types";
-
-export type UsageProduct = {
-  id: string;
-  slug: string;
-  name: string;
-  tagline: string;
-  logo: HarnessLogoData;
-};
-
-export type OpenRouterUsageRecord = UsageProduct & {
-  windows: Record<OpenRouterUsageWindowKey, OpenRouterUsageWindow>;
-};
-
-export type EcosystemUsageRecord = UsageProduct & {
-  signal: EcosystemSignalSnapshot;
-};
+import type {
+  EcosystemUsageRecord,
+  OpenRouterUsageRecord,
+  UsageProduct,
+} from "@/lib/usage-view";
 
 type UsageSource = "openrouter" | EcosystemSignalSnapshot["source"];
 

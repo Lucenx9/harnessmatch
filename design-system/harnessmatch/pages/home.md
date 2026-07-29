@@ -6,23 +6,26 @@ The homepage is a working analysis surface. It should feel closer to a compact r
 
 - Let a user select a concrete coding workflow and compare harness fit immediately
 - Keep scenario assumptions, scoring weights, eligibility gates, evidence coverage, source dates, and methodology within one interaction path
-- Route users to evidence profiles without inserting promotional sections between the chart and catalog
+- Add source-separated adoption context without turning popularity into quality or a recommendation factor
+- Route users to evidence profiles without inserting promotional sections between the working tools and catalog
 
 ## Layout
 
 - Compact two-column intro: plain-language definition with recognizable product examples and utility actions on the left, dataset status on the right
 - Keep two immediate utility actions in the first viewport: answer the full seven-question recommender and jump to the catalog
 - Full-width workflow-fit explorer immediately below the intro
-- Label the workflow presets as a quick match and distinguish them from the personalized recommender
+- Label the workflow presets as “Match by workflow” and distinguish them from the personalized recommender
 - Include a plain-language Vibe coding preset for users who know the tools but not the evaluation vocabulary
 - Translate the selected preset into one immediate answer: starting product, main reason, and limitation to check
 - Show the match, reason, and limitation before the three visible preset assumptions; place the complete seven-factor setup in a disclosure
-- Full-width evidence-ranking explorer after workflow fit, introduced by three mutually exclusive highlight summaries
-- Each highlight exposes the leading value, the size of any tied or overlapping group, and opens its detailed ranking in place
+- Compact source-tab usage leaderboard after workflow fit
+- Default to the completed OpenRouter 7-day window; keep Homebrew, npm, VS Code, and GitHub in independent tabs
+- Show five rows, native units, direct values, observation dates, coverage, and a link to the complete Usage page
+- Keep the operational, auditability, and measured-system explorer on the Data page
 - Horizontal bars for the top three eligible harnesses in the first reading layer, ordered by reference fit and sized by top-three sensitivity frequency
 - Complete compatible ranking directly below the chart, followed by a disclosure for excluded products and their missing requirements
-- Three plain-language research rules between the ranking surfaces and catalog
 - Capability-filtered catalog after the chart
+- Keep the catalog's compact methodology note as the final research route, without separate research-card repetition
 - No testimonial, social proof, generic benefit, or conversion CTA sections
 
 ## Chart rules
@@ -40,6 +43,8 @@ The homepage is a working analysis surface. It should feel closer to a compact r
 - Public code audit ranks only full or client-source repositories at pinned commits
 - Measured systems show exact configuration labels and integrity-adjusted results
 - Every view prints exact values and exports its current dataset as CSV
+- Usage bars use a single muted-violet series without background tracks, and every row links directly to the harness profile
+- Usage tabs use native source names instead of implying a combined top-harness leaderboard
 
 ## Catalog rules
 
@@ -50,4 +55,5 @@ The homepage is a working analysis surface. It should feel closer to a compact r
 
 - At 1040px the intro stacks and disclosed scenario metadata moves from six to three columns
 - Below 720px disclosed metadata uses two columns, chart labels contract, and only 0, 50, and 100 scale labels remain
+- Below 720px usage source tabs become a two-column grid, ranking rows use two reading lines, and secondary context never forces horizontal scrolling
 - The page itself never scrolls horizontally

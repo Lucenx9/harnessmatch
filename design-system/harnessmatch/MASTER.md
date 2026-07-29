@@ -65,7 +65,8 @@ Semantic success, warning, and danger colors are reserved for actual state. They
 - Every decision surface uses progressive disclosure: recommendation first, practical comparison second, taxonomy and scientific detail on demand
 - A first reading layer should answer what to choose, why it fits, and what to check before choosing
 - The first interactive surface is a workflow-fit chart with explicit assumptions, direct labels, and published weights
-- A second analytical surface offers separate operational-readiness, public-code-auditability, and measured-system rankings
+- The second homepage surface is a compact, source-separated usage preview with five directly labeled rows
+- Operational-readiness, public-code-auditability, and measured-system rankings live on the dedicated Data page
 - Workflow-fit bars visualize top-three sensitivity frequency across published priority variations, never task success, model intelligence, or benchmark performance
 - Required workflow capabilities are eligibility gates. A compatible capability does not add a hidden score bonus
 - Capability cells state whether support is default, documented, optional, surface-specific, not documented, explicitly absent, or deprecated; every positive state links to first-party evidence
@@ -79,10 +80,11 @@ Semantic success, warning, and danger colors are reserved for actual state. They
 - Benchmark bars represent exact model-harness configurations and always expose effort, attempts, cost, date, integrity adjustment, and source
 - Missing public evidence is shown as unavailable, never converted into a zero
 - Every chart has a complete readable ranking and downloadable CSV data
+- Public usage signals keep native units, dates, coverage, and rank scope; they never combine into a popularity score or affect recommendations
 - Compatible products stay ranked; products that miss a hard requirement appear separately and remain unranked
 - The homepage directory uses capability lenses, visible result counts, an eight-profile initial view, and methodology copy next to the data
 - Catalog cards expose only role, interfaces, and model-access posture; the profile owns the complete technical record
-- Scientific findings are translated into plain-language decision rules with direct links to the underlying papers
+- Scientific findings are translated into plain-language decision rules on Methodology, while the homepage links to that detail without repeating research cards
 - AI-assisted research may accelerate discovery, extraction, and cross-checking, but model output never counts as evidence; every published product claim requires an admitted source and verification date
 - Research-product patterns may increase information density, but must never imply a generic model or harness leaderboard
 - Marketing proof, principle, and repeated CTA sections do not belong on the homepage

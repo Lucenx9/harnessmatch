@@ -1,12 +1,22 @@
 import type { Metadata } from "next";
+import { EvidenceRankingExplorer } from "@/components/evidence-ranking-explorer";
 import { EvidenceLedger } from "@/components/evidence-ledger";
 import { GuiEvidenceLedger } from "@/components/gui-evidence-ledger";
+import { benchmarkRuns } from "@/data/benchmark-runs";
 import { discoveryWatchlist } from "@/data/discovery-watchlist";
 import { guiProducts } from "@/data/gui-products";
 import { guiRepositoryAudits } from "@/data/gui-repository-audits";
 import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnesses } from "@/data/harnesses";
+import { getOperationalProfileRecord } from "@/data/operational-profiles";
+import { repositoryArtifactCount, repositoryAudits } from "@/data/repository-audits";
 import { researchProcessDisclosure } from "@/data/research-process";
+import {
+  architectureProfileFor,
+  benchmarkConfidenceInterval95,
+  benchmarkParetoFrontier,
+  benchmarkTopIntervalGroup,
+} from "@/lib/evaluation";
 import { pageMetadata } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
@@ -69,6 +79,69 @@ export default function DataPage() {
   }));
   const primarySourceCount = activeHarnesses.reduce((total, harness) => total + harness.evidence.length, 0)
     + guiProducts.reduce((total, product) => total + product.evidence.length, 0);
+  const harnessById = new Map(harnesses.map((harness) => [harness.id, harness]));
+  const operationalRanking = activeHarnesses.flatMap((harness) => {
+    const profile = architectureProfileFor(harness);
+    const record = getOperationalProfileRecord(harness.id);
+    const documentedAxes = Object.values(profile).filter((value) => value !== null).length;
+    if (documentedAxes === 0) return [];
+    return [{
+      id: harness.id,
+      slug: harness.slug,
+      name: harness.name,
+      logo: harness.logo,
+      levels: profile,
+      documentedAxes,
+      evidenceSources: record.sourceUrls.length,
+      verifiedAt: record.verifiedAt,
+    }];
+  });
+  const supportOnlyRepositories = repositoryAudits.filter((audit) => (
+    audit.sourceScope === "support-repository" && harnessById.get(audit.harnessId)?.status === "active"
+  ));
+  const auditabilityRanking = repositoryAudits.flatMap((audit) => {
+    const harness = harnessById.get(audit.harnessId);
+    const artifactCount = repositoryArtifactCount(audit);
+    if (!harness || harness.status !== "active" || artifactCount === null || audit.sourceScope === "support-repository") return [];
+    return [{
+      id: harness.id,
+      slug: harness.slug,
+      name: harness.name,
+      logo: harness.logo,
+      artifactCount,
+      sourceScope: audit.sourceScope,
+      passedSignals: Object.values(audit.signals).filter(Boolean).length,
+      repositoryUrl: audit.repositoryUrl,
+      inspectedRef: audit.inspectedRef,
+    }];
+  });
+  const benchmarkPareto = benchmarkParetoFrontier(benchmarkRuns);
+  const benchmarkTopGroup = benchmarkTopIntervalGroup(benchmarkRuns);
+  const benchmarkRanking = benchmarkRuns.flatMap((run) => {
+    const harness = harnessById.get(run.harnessId);
+    if (!harness || harness.status !== "active") return [];
+    const interval = benchmarkConfidenceInterval95(run);
+    return [{
+      id: run.id,
+      slug: harness.slug,
+      name: harness.name,
+      logo: harness.logo,
+      score: run.accuracy,
+      harnessVersion: run.harnessVersion,
+      model: run.model,
+      reasoningEffort: run.reasoningEffort,
+      totalCostUsd: run.totalCostUsd,
+      standardError: run.standardError,
+      intervalLower: interval.lower,
+      intervalUpper: interval.upper,
+      onParetoFrontier: benchmarkPareto.has(run.id),
+      inTopIntervalGroup: benchmarkTopGroup.has(run.id),
+      totalTrials: run.totalTrials,
+      integrityAdjustmentPercent: run.integrityAdjustmentPercent,
+      runDate: run.runDate,
+      resultSourceUrl: run.resultSourceUrl,
+    }];
+  });
 
   return (
     <section className="section page-section">
@@ -89,6 +162,15 @@ export default function DataPage() {
           <span><strong>{discoveryWatchlist.length}</strong> watchlist records</span>
           <span><strong>0</strong> affiliate sources</span>
         </div>
+
+        <section className="data-ranking-section" aria-label="Evidence-based rankings">
+          <EvidenceRankingExplorer
+            operational={operationalRanking}
+            auditability={auditabilityRanking}
+            benchmarks={benchmarkRanking}
+            unrankedRepositoryCount={supportOnlyRepositories.length}
+          />
+        </section>
 
         <section className="data-evidence-section" id="harness-evidence" aria-labelledby="harness-evidence-heading">
           <div className="section-heading stacked-heading">

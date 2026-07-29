@@ -195,8 +195,8 @@ export function WorkflowFitExplorer({ scenarios }: { scenarios: WorkflowFitScena
     <div className="workflow-tool">
       <div className="workflow-tool-header">
         <div>
-          <h2 id="workflow-fit-title">Start with a quick workflow match.</h2>
-          <p>Choose the setup closest to yours for an immediate starting point. Use the 7-question recommender when you want a result tailored to your constraints.</p>
+          <h2 id="workflow-fit-title">Match by workflow.</h2>
+          <p>Choose the setup closest to yours. Use the 7-question recommender when you need a result tailored to your constraints.</p>
         </div>
       </div>
 

@@ -4,6 +4,7 @@ import { ecosystemSignalSnapshots } from "@/data/ecosystem-signals";
 import { harnesses } from "@/data/harnesses";
 import { openRouterAttributionSnapshots } from "@/data/openrouter-attribution";
 import { pageMetadata } from "@/lib/site";
+import { buildUsageViewRecords } from "@/lib/usage-view";
 
 export const metadata: Metadata = pageMetadata({
   title: "Coding harness usage signals",
@@ -13,31 +14,10 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default function UsagePage() {
-  const harnessById = new Map(harnesses.map((harness) => [harness.id, harness]));
-  const activeHarnessCount = harnesses.filter((harness) => harness.status === "active").length;
-  const openRouterRecords = openRouterAttributionSnapshots.flatMap((snapshot) => {
-    const harness = harnessById.get(snapshot.harnessId);
-    if (!harness || harness.status !== "active") return [];
-    return [{
-      id: harness.id,
-      slug: harness.slug,
-      name: harness.name,
-      tagline: harness.tagline,
-      logo: harness.logo,
-      windows: snapshot.windows,
-    }];
-  });
-  const ecosystemRecords = ecosystemSignalSnapshots.flatMap((signal) => {
-    const harness = harnessById.get(signal.harnessId);
-    if (!harness || harness.status !== "active") return [];
-    return [{
-      id: harness.id,
-      slug: harness.slug,
-      name: harness.name,
-      tagline: harness.tagline,
-      logo: harness.logo,
-      signal,
-    }];
+  const { activeHarnessCount, openRouterRecords, ecosystemRecords } = buildUsageViewRecords({
+    harnesses,
+    openRouterSnapshots: openRouterAttributionSnapshots,
+    ecosystemSignals: ecosystemSignalSnapshots,
   });
 
   return (

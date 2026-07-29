@@ -1,26 +1,18 @@
 import Link from "next/link";
 import { benchmarkRuns } from "@/data/benchmark-runs";
+import { ecosystemSignalSnapshots } from "@/data/ecosystem-signals";
 import { featureSupportFor } from "@/data/feature-claims";
 import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnesses } from "@/data/harnesses";
-import { getOperationalProfileRecord } from "@/data/operational-profiles";
-import {
-  repositoryAudits,
-  repositoryArtifactCount,
-} from "@/data/repository-audits";
-import { researchInsights, researchSources } from "@/data/research";
+import { openRouterAttributionSnapshots } from "@/data/openrouter-attribution";
+import { researchSources } from "@/data/research";
 import { workflowScenarios } from "@/data/workflow-scenarios";
-import { EvidenceRankingExplorer } from "@/components/evidence-ranking-explorer";
 import { HarnessLensExplorer } from "@/components/harness-lens-explorer";
+import { HomeUsageSummary } from "@/components/home-usage-summary";
 import { WorkflowFitExplorer } from "@/components/workflow-fit-explorer";
-import {
-  architectureProfileFor,
-  benchmarkConfidenceInterval95,
-  benchmarkParetoFrontier,
-  benchmarkTopIntervalGroup,
-} from "@/lib/evaluation";
 import { eligibilityFailuresFor, recommendHarnesses } from "@/lib/recommendation";
 import { latestVerifiedAt } from "@/lib/evidence-freshness";
+import { buildUsageViewRecords } from "@/lib/usage-view";
 
 export default function HomePage() {
   const activeHarnesses = harnesses.filter((harness) => harness.status === "active");
@@ -63,71 +55,11 @@ export default function HomePage() {
         })),
     };
   });
-  const researchByUrl = new Map(researchSources.map((source) => [source.url, source]));
-  const harnessById = new Map(harnesses.map((harness) => [harness.id, harness]));
-  const operationalRanking = activeHarnesses.flatMap((harness) => {
-    const profile = architectureProfileFor(harness);
-    const record = getOperationalProfileRecord(harness.id);
-    const documentedAxes = Object.values(profile).filter((value) => value !== null).length;
-    if (documentedAxes === 0) return [];
-    return [{
-      id: harness.id,
-      slug: harness.slug,
-      name: harness.name,
-      logo: harness.logo,
-      levels: profile,
-      documentedAxes,
-      evidenceSources: record.sourceUrls.length,
-      verifiedAt: record.verifiedAt,
-    }];
+  const usageRecords = buildUsageViewRecords({
+    harnesses,
+    openRouterSnapshots: openRouterAttributionSnapshots,
+    ecosystemSignals: ecosystemSignalSnapshots,
   });
-  const supportOnlyRepositories = repositoryAudits.filter((audit) => (
-    audit.sourceScope === "support-repository" && harnessById.get(audit.harnessId)?.status === "active"
-  ));
-  const auditabilityRanking = repositoryAudits.flatMap((audit) => {
-    const harness = harnessById.get(audit.harnessId);
-    const artifactCount = repositoryArtifactCount(audit);
-    if (!harness || harness.status !== "active" || artifactCount === null || audit.sourceScope === "support-repository") return [];
-    return [{
-      id: harness.id,
-      slug: harness.slug,
-      name: harness.name,
-      logo: harness.logo,
-      artifactCount,
-      sourceScope: audit.sourceScope,
-      passedSignals: Object.values(audit.signals).filter(Boolean).length,
-      repositoryUrl: audit.repositoryUrl,
-      inspectedRef: audit.inspectedRef,
-    }];
-  });
-  const benchmarkRanking = benchmarkRuns.flatMap((run) => {
-    const harness = harnessById.get(run.harnessId);
-    if (!harness || harness.status !== "active") return [];
-    const interval = benchmarkConfidenceInterval95(run);
-    const pareto = benchmarkParetoFrontier(benchmarkRuns);
-    const topIntervalGroup = benchmarkTopIntervalGroup(benchmarkRuns);
-    return [{
-      id: run.id,
-      slug: harness.slug,
-      name: harness.name,
-      logo: harness.logo,
-      score: run.accuracy,
-      harnessVersion: run.harnessVersion,
-      model: run.model,
-      reasoningEffort: run.reasoningEffort,
-      totalCostUsd: run.totalCostUsd,
-      standardError: run.standardError,
-      intervalLower: interval.lower,
-      intervalUpper: interval.upper,
-      onParetoFrontier: pareto.has(run.id),
-      inTopIntervalGroup: topIntervalGroup.has(run.id),
-      totalTrials: run.totalTrials,
-      integrityAdjustmentPercent: run.integrityAdjustmentPercent,
-      runDate: run.runDate,
-      resultSourceUrl: run.resultSourceUrl,
-    }];
-  });
-  const homepageResearchInsights = researchInsights.slice(0, 3);
 
   return (
     <>
@@ -156,42 +88,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section evidence-ranking-section" aria-label="Evidence-based rankings">
+      <section className="section home-usage-section" aria-label="Observed usage signals">
         <div className="wide-shell shell">
-          <EvidenceRankingExplorer
-            operational={operationalRanking}
-            auditability={auditabilityRanking}
-            benchmarks={benchmarkRanking}
-            unrankedRepositoryCount={supportOnlyRepositories.length}
-          />
-        </div>
-      </section>
-
-      <section className="section research-translation-section">
-        <div className="shell">
-          <div className="section-heading stacked-heading">
-            <h2>Three rules behind the method.</h2>
-            <p>How research becomes a recommendation. Every rule links to its underlying papers.</p>
-          </div>
-          <div className="research-insight-grid">
-            {homepageResearchInsights.map((insight) => (
-              <article key={insight.title}>
-                <h3>{insight.title}</h3>
-                <p>{insight.summary}</p>
-                <div className="research-insight-sources">
-                  {insight.sourceUrls.map((url) => {
-                    const source = researchByUrl.get(url);
-                    return (
-                      <a href={url} key={url} target="_blank" rel="noreferrer">
-                        {source ? `${source.title.split(":")[0]}, ${source.venue}` : "Research source"}
-                      </a>
-                    );
-                  })}
-                </div>
-              </article>
-            ))}
-          </div>
-          <Link className="text-link research-methodology-link" href="/methodology">Open the full methodology</Link>
+          <HomeUsageSummary {...usageRecords} />
         </div>
       </section>
 
