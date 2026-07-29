@@ -70,7 +70,8 @@ The repository is connected to the existing Vercel project. Pushes to `main` cre
 
 ## Main extension points
 
-- Product and source records: `src/data/harnesses.ts`
+- Individual product and source records: `src/data/harness-records/`
+- Catalog assembly and claim attachment: `src/data/harnesses.ts`
 - Classification and comparison helpers: `src/lib/harness-classification.ts` and `src/lib/evaluation.ts`
 - Ordinal anchors and operational reference values: `src/lib/evaluation-config.ts`
 - Methodology: `src/app/methodology/page.tsx`

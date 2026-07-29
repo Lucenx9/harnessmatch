@@ -15,7 +15,7 @@ Keep the public interface in English until localization is explicitly reopened.
 - Next.js App Router with static export
 - React and TypeScript
 - Tailwind CSS v4 plus project-level CSS in `src/app/globals.css`
-- Repository-backed product, evidence, classification, and evaluation data
+- Repository-backed product, evidence, classification, and evaluation data, with one base harness record per file in `src/data/harness-records/`
 - Descriptive classification and evaluation helpers in `src/lib/harness-classification.ts` and `src/lib/evaluation.ts`
 - Visible ordinal anchors and operational reference values in `src/lib/evaluation-config.ts`
 - Separate repository-backed GUI records with non-numeric workflow classification in `src/lib/gui-fit.ts`
@@ -71,7 +71,7 @@ Keep the public interface in English until localization is explicitly reopened.
 
 Editing one product file is rarely sufficient. For every product addition, removal, archival, or source-backed capability change, review all affected records and tests:
 
-1. Base product, capabilities, trade-offs, first-party evidence, logo provenance, and overall verification date: `src/data/harnesses.ts`.
+1. Base product, capabilities, trade-offs, first-party evidence, logo provenance, and overall verification date: one file per product in `src/data/harness-records/`, exported from `src/data/harness-records/index.ts` and assembled with claim-level data by `src/data/harnesses.ts`.
 2. Claim-level support, contradiction, or unknown state: `src/data/feature-claims.ts`.
 3. Catalog layer and four membership criteria: `src/data/harness-membership.ts`.
 4. Context, permissions, verification, observability, and recovery posture: `src/data/operational-profiles.ts`.
@@ -127,7 +127,7 @@ Do not add a GUI only to the aggregate export. Each product belongs in its own r
 - The dedicated usage refresh runs daily. It may update generated OpenRouter, Homebrew, npm, filtered GitHub release, VS Code Marketplace, Open VSX, JetBrains Marketplace, and GitHub repository context data, the factual stable-release feed, derived public views, the static usage CSV, and the repository-only release-review queue. Release triage reads the already validated factual release feed rather than inferring coverage from downloadable assets or model output; it must never reinterpret popularity or model triage as capability, quality, task success, or product fit.
 - Every scheduled catalog run must execute `npm run sync:usage` before deciding that no data changed. OpenRouter most-used and trending rows must join by stable app id, retain their ranking mode, and preserve exact completed UTC windows. Every other source must join through the reviewed exact artifact mapping or the canonical repository audit. Sync must fail closed on an identity, schema, source, window, or API error. A missing source mapping remains missing; it is never emitted as zero.
 - The daily workflow may retry the complete usage transaction once after a transient source failure. Before retrying, restore only the four generated factual snapshots to the starting commit. Persistent failures remain fatal and must never publish a partial refresh.
-- Automation must fail closed. Before committing or pushing, run the same quality sequence as CI: `npm ci`, `npm run typecheck`, `npm test`, and `npm run build`.
+- Automation must fail closed. Before committing or pushing, run a clean install followed by the same quality sequence as CI: `npm ci` and `npm run verify` (strict TypeScript, Biome lint, tests, and static build).
 - Do not push when a validation step fails, evidence is conflicting, a required source cannot be verified, or the local worktree contains unrelated changes that cannot be preserved safely.
 - Start automated work from the current remote `main`, verify that `main` has not advanced before pushing, and never force-push or bypass branch protections and quality gates.
 - Preserve unrelated user changes. Do not overwrite, clean, reset, or reformat files outside the task.
@@ -177,7 +177,8 @@ The static export is written to `out/` after a successful build.
 
 ## Main extension points
 
-- Product records and first-party evidence: `src/data/harnesses.ts`
+- Individual product records and first-party evidence: `src/data/harness-records/`
+- Catalog assembly and claim attachment: `src/data/harnesses.ts`
 - Feature claims: `src/data/feature-claims.ts`
 - Coding-harness membership and catalog layer: `src/data/harness-membership.ts`
 - Operational mechanisms: `src/data/operational-profiles.ts`

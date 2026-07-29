@@ -3,7 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { HarnessLogo } from "@/components/harness-logo";
 import { FeatureClaimValue } from "@/components/feature-claim-value";
-import { ArchitectureLevelIndicator } from "@/components/architecture-level-indicator";
+import { HarnessArchitectureSection } from "@/components/harness-architecture-section";
+import { HarnessMembershipSection } from "@/components/harness-membership-section";
 import { VisualIcon } from "@/components/visual-icon";
 import { benchmarkRunsForHarness } from "@/data/benchmark-runs";
 import { ecosystemSignalsByHarness } from "@/data/ecosystem-signals";
@@ -20,8 +21,6 @@ import {
 import {
   formatIsolationModes,
   harnessRoleLabels,
-  membershipCriterionDescriptions,
-  membershipCriterionLabels,
   modelPortabilityFor,
   modelPortabilityLabels,
   orchestrationLabels,
@@ -30,19 +29,15 @@ import {
   stateModelLabels,
 } from "@/lib/harness-classification";
 import {
-  architectureAxisLabels,
-  architectureLevelAnchors,
   architectureProfileFor,
   benchmarkConfidenceInterval95,
   evidenceStateFor,
 } from "@/lib/evaluation";
 import { harnessProfileDescription, pageMetadata } from "@/lib/site";
 import type {
-  ArchitectureAxis,
   EcosystemSignalSnapshot,
   EvidenceSource,
   FeatureKey,
-  MembershipEvidenceState,
 } from "@/lib/types";
 
 export const dynamicParams = false;
@@ -75,12 +70,6 @@ const evidenceKindLabels = {
   "official-repository": "Official repository",
   "official-announcement": "Official announcement",
 } as const;
-
-const membershipEvidenceLabels: Record<MembershipEvidenceState, string> = {
-  documented: "Documented",
-  contradicted: "Contradicted",
-  unknown: "Not established",
-};
 
 type EvidenceTopic = NonNullable<EvidenceSource["topic"]> | "additional";
 
@@ -235,9 +224,9 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
     && totalMembershipCriteria > 0
     && documentedMembershipCriteria === totalMembershipCriteria;
   const evidenceByUrl = new Map(harness.evidence.map((source) => [source.url, source]));
+  const setupEvidence = harness.evidence.at(0);
   const operational = operationalRecord.profile;
   const architecture = architectureProfileFor(harness);
-  const documentedLayers = Object.values(architecture).filter((value) => value !== null).length;
   const repositoryAudit = repositoryAuditForHarness(harness.id);
   const openRouterSnapshot = openRouterAttributionByHarness.get(harness.id);
   const openRouterMonth = openRouterSnapshot?.windows.month;
@@ -361,7 +350,7 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
               </div>
               <div>
                 <dt>Local model path</dt>
-                <dd><FeatureClaimValue harness={harness} feature="localModels" compact /></dd>
+                <dd><FeatureClaimValue claim={harness.featureClaims.localModels} compact /></dd>
               </div>
             </dl>
             <details className="profile-technical-details">
@@ -443,7 +432,7 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
                 </div>
                 <div>
                   <dt>Local model path</dt>
-                  <dd><FeatureClaimValue harness={harness} feature="localModels" compact /></dd>
+                  <dd><FeatureClaimValue claim={harness.featureClaims.localModels} compact /></dd>
                 </div>
                 <div>
                   <dt>Claim boundary</dt>
@@ -455,89 +444,20 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
         </div>
 
         {membership && (
-          <section className="profile-membership" id="membership" aria-labelledby="membership-heading">
-            <div className="profile-section-heading">
-              <div className="profile-section-title-with-icon">
-                <VisualIcon name="membership" />
-                <div>
-                  <h2 id="membership-heading">Why it qualifies as a coding harness</h2>
-                  <p>This confirms category fit, not product quality. Every required criterion links back to first-party evidence.</p>
-                </div>
-              </div>
-              <div className={`profile-membership-verdict profile-membership-verdict--${qualifiesAsCodingHarness ? "qualified" : "unconfirmed"}`}>
-                <strong>{qualifiesAsCodingHarness ? "Qualifies" : "Not established"}</strong>
-                <span>{documentedMembershipCriteria} of {totalMembershipCriteria} required criteria evidenced</span>
-              </div>
-            </div>
-            <ul className="profile-membership-grid">
-              {Object.entries(membership.criteria).map(([criterion, assessment]) => (
-                <li className="profile-membership-criterion" key={criterion}>
-                  <h3>{membershipCriterionLabels[criterion as keyof typeof membership.criteria]}</h3>
-                  <span className={`profile-membership-state profile-membership-state--${assessment.state}`}>
-                    <i aria-hidden="true" />
-                    {membershipEvidenceLabels[assessment.state]}
-                  </span>
-                  <p>{membershipCriterionDescriptions[criterion as keyof typeof membership.criteria]}</p>
-                  <div className="profile-membership-sources" role="group" aria-label="First-party evidence">
-                    {assessment.sourceUrls.length > 0
-                      ? assessment.sourceUrls.map((url) => (
-                          <a href={url} target="_blank" rel="noreferrer" key={url}>
-                            <span>Evidence</span>
-                            {evidenceByUrl.get(url)?.title ?? "First-party source"}
-                          </a>
-                        ))
-                      : <span className="profile-membership-source-missing">No first-party source linked</span>}
-                  </div>
-                </li>
-              ))}
-            </ul>
-            <footer>
-              <p>
-                {membership.limitation} <time dateTime={membership.verifiedAt}>Checked {membership.verifiedAt}.</time>{" · "}
-                <Link className="text-link" href="/methodology#eligibility">Read the membership rule.</Link>
-              </p>
-            </footer>
-          </section>
+          <HarnessMembershipSection
+            membership={membership}
+            evidenceByUrl={evidenceByUrl}
+            documentedCriteria={documentedMembershipCriteria}
+            totalCriteria={totalMembershipCriteria}
+            qualifies={qualifiesAsCodingHarness}
+          />
         )}
 
-        <section className="profile-signals" aria-labelledby="operational-evidence-heading">
-          <div className="profile-section-heading">
-            <div className="profile-section-title-with-icon">
-              <VisualIcon name="operating-model" />
-              <div>
-                <h2 id="operational-evidence-heading">How it works under the hood</h2>
-                <p>Seven mechanisms mapped from first-party records. These labels describe what the harness provides, not how intelligent its model is.</p>
-              </div>
-            </div>
-            <div className="profile-operational-summary">
-              <strong>{documentedLayers}/7</strong>
-              <span>layers documented</span>
-            </div>
-          </div>
-
-          <ul className="profile-operational-grid">
-            {(Object.keys(architectureAxisLabels) as ArchitectureAxis[]).map((axis) => {
-              const level = architecture[axis];
-              return (
-                <li key={axis}>
-                  <span>{architectureAxisLabels[axis]}</span>
-                  <strong>{level === null ? "Not documented" : architectureLevelAnchors[axis][level]}</strong>
-                  <small>Documented mechanism, not a performance score.</small>
-                  <ArchitectureLevelIndicator axis={axis} level={level} />
-                </li>
-              );
-            })}
-          </ul>
-          <footer className="profile-operational-footer">
-            <p>{documentedLayers} of 7 layers documented. Mechanism sources checked {operationalRecord.verifiedAt}. Missing layers stay missing; they do not lower or inflate a total score.</p>
-            <div>
-              {operationalRecord.sourceUrls.map((url, index) => (
-                <a className="text-link" href={url} target="_blank" rel="noreferrer" key={url}>Operational source {index + 1}</a>
-              ))}
-              <Link className="text-link" href="/methodology">Rubric</Link>
-            </div>
-          </footer>
-        </section>
+        <HarnessArchitectureSection
+          architecture={architecture}
+          sourceUrls={operationalRecord.sourceUrls}
+          verifiedAt={operationalRecord.verifiedAt}
+        />
 
         {(releaseSnapshot || openRouterMonth || ecosystemSignals.length > 0) && (
           <section className="profile-ecosystem" id="ecosystem-signals" aria-labelledby="ecosystem-signals-heading">
@@ -651,7 +571,7 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
               return (
                 <div key={feature.key}>
                   <dt>{feature.label}</dt>
-                  <dd><FeatureClaimValue harness={harness} feature={feature.key} /></dd>
+                  <dd><FeatureClaimValue claim={harness.featureClaims[feature.key]} /></dd>
                 </div>
               );
             })}
@@ -700,9 +620,13 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
           <aside className="profile-setup" aria-labelledby="setup-heading">
             <h2 id="setup-heading">Getting started</h2>
             <p>{harness.setup}</p>
-            <a className="text-link" href={harness.evidence[0].url} target="_blank" rel="noreferrer">
-              Open official documentation
-            </a>
+            {setupEvidence
+              ? (
+                  <a className="text-link" href={setupEvidence.url} target="_blank" rel="noreferrer">
+                    Open official documentation
+                  </a>
+                )
+              : <span className="muted">No setup source is currently linked.</span>}
           </aside>
         </div>
       </div>

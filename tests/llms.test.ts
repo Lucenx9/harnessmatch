@@ -8,7 +8,8 @@ describe("llms.txt", () => {
   it("publishes a concise machine-readable guide on the canonical domain", async () => {
     const response = GET();
     const manifest = await response.text();
-    const links = [...manifest.matchAll(/\[[^\]]+\]\(([^)]+)\)/g)].map((match) => match[1]);
+    const links = [...manifest.matchAll(/\[[^\]]+\]\(([^)]+)\)/g)]
+      .flatMap((match) => match[1] ? [match[1]] : []);
 
     expect(response.headers.get("content-type")).toBe("text/plain; charset=utf-8");
     expect(manifest).toContain("# HarnessMatch");

@@ -162,7 +162,9 @@ export function HomeUsageSummary({
 
   function selectRelativeSource(index: number, direction: -1 | 1) {
     const nextIndex = (index + direction + sourceOptions.length) % sourceOptions.length;
-    setSelectedSource(sourceOptions[nextIndex].key);
+    const nextSource = sourceOptions[nextIndex];
+    if (!nextSource) return;
+    setSelectedSource(nextSource.key);
     tabRefs.current[nextIndex]?.focus();
   }
 
@@ -191,8 +193,18 @@ export function HomeUsageSummary({
             onKeyDown={(event) => {
               if (event.key === "ArrowLeft") { event.preventDefault(); selectRelativeSource(index, -1); }
               if (event.key === "ArrowRight") { event.preventDefault(); selectRelativeSource(index, 1); }
-              if (event.key === "Home") { event.preventDefault(); setSelectedSource(sourceOptions[0].key); tabRefs.current[0]?.focus(); }
-              if (event.key === "End") { event.preventDefault(); setSelectedSource(sourceOptions.at(-1)!.key); tabRefs.current.at(-1)?.focus(); }
+              if (event.key === "Home") {
+                event.preventDefault();
+                const firstSource = sourceOptions.at(0);
+                if (firstSource) setSelectedSource(firstSource.key);
+                tabRefs.current.at(0)?.focus();
+              }
+              if (event.key === "End") {
+                event.preventDefault();
+                const lastSource = sourceOptions.at(-1);
+                if (lastSource) setSelectedSource(lastSource.key);
+                tabRefs.current.at(-1)?.focus();
+              }
             }}
           >
             {option.label}
@@ -269,7 +281,7 @@ export function HomeUsageSummary({
                       style={{ transform: `scaleX(${row.value / maxValue})` }}
                       aria-hidden="true"
                     />
-                    <strong aria-label={row.valueAriaLabel} title={row.valueAriaLabel}>{row.valueLabel}</strong>
+                    <strong title={row.valueAriaLabel}>{row.valueLabel}</strong>
                   </span>
                 </Link>
               </li>

@@ -201,7 +201,8 @@ export function benchmarkParetoFrontier(runs: BenchmarkRun[]) {
 
 export function benchmarkTopIntervalGroup(runs: BenchmarkRun[]) {
   if (runs.length === 0) return new Set<string>();
-  const top = [...runs].sort((a, b) => b.accuracy - a.accuracy)[0];
+  const top = [...runs].sort((a, b) => b.accuracy - a.accuracy).at(0);
+  if (!top) return new Set<string>();
   const topInterval = benchmarkConfidenceInterval95(top);
   return new Set(runs.filter((run) => {
     const interval = benchmarkConfidenceInterval95(run);

@@ -18,21 +18,17 @@ export function SecondaryNavigation() {
   }
 
   useEffect(() => {
-    if (detailsRef.current) detailsRef.current.open = false;
-  }, [pathname]);
-
-  useEffect(() => {
     function handlePointerDown(event: PointerEvent) {
       const menu = detailsRef.current;
       if (menu?.open && event.target instanceof Node && !menu.contains(event.target)) {
-        closeMenu();
+        menu.open = false;
       }
     }
 
     function handleKeyDown(event: KeyboardEvent) {
       const menu = detailsRef.current;
       if (event.key === "Escape" && menu?.open) {
-        closeMenu();
+        menu.open = false;
         menu.querySelector("summary")?.focus();
       }
     }
@@ -46,7 +42,7 @@ export function SecondaryNavigation() {
   }, []);
 
   return (
-    <details className="desktop-more-menu" data-current={containsCurrentPage || undefined} ref={detailsRef}>
+    <details className="desktop-more-menu" data-current={containsCurrentPage || undefined} ref={detailsRef} key={pathname}>
       <summary>
         More
         <CaretDownIcon aria-hidden="true" size={13} weight="bold" />

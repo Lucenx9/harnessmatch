@@ -1,0 +1,125 @@
+import type { HarnessRecord } from "./types";
+
+const verifiedAt = "2026-07-28";
+
+export const kern = {
+    id: "kern",
+    slug: "kern",
+    name: "Kern",
+    tagline: "Self-hosted personal agent with coding tools, durable recall, channels, and subagents.",
+    summary:
+      "A young MIT-licensed personal agent that qualifies as a coding harness through its iterative tool loop, repository and shell mutation, persistent JSONL and vector recall, tool scopes, background runtime, MCP, local Ollama path, and parallel read-only subagents across terminal, web, desktop, and messaging clients.",
+    logo: {
+      src: "/harnesses/kern.svg",
+      sourceUrl: "https://github.com/oguzbilgic/kern-ai/blob/8f82a046833128b2bf5f67fdf85a76b35b0fe847/desktop/src-tauri/icons/logo.svg",
+      verifiedAt: verifiedAt,
+    },
+    status: "active",
+    license: "MIT",
+    classification: {
+      role: "general-agent",
+      orchestration: "delegated-subagents",
+      runtime: "host-first",
+      isolation: ["container"],
+      state: "persistent-memory",
+    },
+    interfaces: ["terminal", "web", "automation"],
+    providerStyle: "multi-provider",
+    supportsSubscription: false,
+    capabilities: {
+      simplicity: 3,
+      flexibility: 5,
+      security: 3,
+      autonomy: 5,
+      automation: 4,
+      largeRepo: 3,
+      humanControl: 3,
+    },
+    bestFor: [
+      "Self-hosters who want a personal agent that can also work directly in repositories",
+      "Long-running, multi-channel workflows with persistent local recall and scheduled tasks",
+      "Local Ollama users who want MCP and bounded parallel research subagents",
+    ],
+    tradeoffs: [
+      "Kern is a general personal agent rather than a coding-first product, so its defaults and documentation span many non-repository workflows",
+      "Tool control uses coarse full, write, or read scopes rather than a documented per-call approval system; normal local execution remains host-first",
+      "Docker is an optional deployment boundary for the whole service, not proof of a per-task disposable sandbox",
+      "Subagents are bounded read-only workers without the parent's MCP, notes, skills, or recall; running children do not survive restart and completed children are not reloaded into the live list",
+      "The project is young, has no repository security policy or contributor guide, and its engineering tests are not independent product evaluation",
+    ],
+    setup: "Install Kern from source or its documented distribution, start with read or write tool scope, configure a provider or Ollama, and use the Docker deployment when host separation is needed.",
+    verifiedAt: verifiedAt,
+    evidence: [
+      {
+        title: "Kern overview",
+        url: "https://github.com/oguzbilgic/kern-ai/blob/8f82a046833128b2bf5f67fdf85a76b35b0fe847/README.md",
+        covers: "Agent loop, coding and communication tools, clients, providers, background service, scheduled tasks, memory, and installation",
+        kind: "official-repository",
+        verifiedAt: verifiedAt,
+      },
+      {
+        title: "Kern tools",
+        url: "https://github.com/oguzbilgic/kern-ai/blob/8f82a046833128b2bf5f67fdf85a76b35b0fe847/docs/tools.md",
+        covers: "Repository read and mutation, shell, web, memory, scheduled tasks, subagent spawning, status, and cancellation",
+        kind: "official-repository",
+        verifiedAt: verifiedAt,
+      },
+      {
+        title: "Kern context management",
+        url: "https://github.com/oguzbilgic/kern-ai/blob/8f82a046833128b2bf5f67fdf85a76b35b0fe847/docs/context.md",
+        covers: "Context-window trimming, persistent transcripts, compaction, recall injection, and session continuity",
+        kind: "official-repository",
+        verifiedAt: verifiedAt,
+      },
+      {
+        title: "Kern durable memory",
+        url: "https://github.com/oguzbilgic/kern-ai/blob/8f82a046833128b2bf5f67fdf85a76b35b0fe847/docs/memory.md",
+        covers: "Local JSONL history, sqlite-vector recall, notes, segmentation, summaries, persistence, and retrieval limits",
+        kind: "official-repository",
+        verifiedAt: verifiedAt,
+      },
+      {
+        title: "Kern subagents",
+        url: "https://github.com/oguzbilgic/kern-ai/blob/8f82a046833128b2bf5f67fdf85a76b35b0fe847/docs/subagents.md",
+        covers: "Parallel read-only workers, isolated sessions, model selection, result delivery, lifecycle, and restart limitations",
+        kind: "official-repository",
+        verifiedAt: verifiedAt,
+      },
+      {
+        title: "Kern MCP",
+        url: "https://github.com/oguzbilgic/kern-ai/blob/8f82a046833128b2bf5f67fdf85a76b35b0fe847/docs/mcp.md",
+        covers: "MCP server configuration, namespaced tool discovery, connections, environment, and trust implications",
+        kind: "official-repository",
+        verifiedAt: verifiedAt,
+      },
+      {
+        title: "Kern configuration",
+        url: "https://github.com/oguzbilgic/kern-ai/blob/8f82a046833128b2bf5f67fdf85a76b35b0fe847/docs/config.md",
+        covers: "Provider and Ollama routes, token budgets, tool scopes, recall, subagent model, MCP, storage, and environment variables",
+        kind: "official-repository",
+        verifiedAt: verifiedAt,
+      },
+      {
+        title: "Kern Docker deployment",
+        url: "https://github.com/oguzbilgic/kern-ai/blob/8f82a046833128b2bf5f67fdf85a76b35b0fe847/docs/docker.md",
+        covers: "Optional container deployment, mounts, environment, service lifecycle, persistence, and boundary limitations",
+        kind: "official-repository",
+        verifiedAt: verifiedAt,
+      },
+      {
+        title: "Kern inspected source tree",
+        url: "https://github.com/oguzbilgic/kern-ai/tree/8f82a046833128b2bf5f67fdf85a76b35b0fe847",
+        covers: "Pinned source, CI, tests, desktop and web clients, documentation, license declaration, and absent security policy",
+        kind: "official-repository",
+        verifiedAt: verifiedAt,
+      },
+    ],
+    discovery: [
+      {
+        title: "OpenRouter coding app directory",
+        url: "https://openrouter.ai/apps/category/coding",
+        note: "Used to discover Kern; the classification is established from its official source and documentation.",
+        observedAt: verifiedAt,
+      },
+    ],
+  } satisfies HarnessRecord;

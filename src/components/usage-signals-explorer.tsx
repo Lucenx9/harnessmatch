@@ -243,13 +243,17 @@ export function UsageSignalsExplorer({
 
   function selectRelativeSource(currentIndex: number, direction: -1 | 1) {
     const nextIndex = (currentIndex + direction + sourceOptions.length) % sourceOptions.length;
-    setSelectedSource(sourceOptions[nextIndex].key);
+    const nextSource = sourceOptions[nextIndex];
+    if (!nextSource) return;
+    setSelectedSource(nextSource.key);
     sourceTabRefs.current[nextIndex]?.focus();
   }
 
   function selectRelativeWindow(currentIndex: number, direction: -1 | 1) {
     const nextIndex = (currentIndex + direction + availableWindowOptions.length) % availableWindowOptions.length;
-    setSelectedWindow(availableWindowOptions[nextIndex].key);
+    const nextWindow = availableWindowOptions[nextIndex];
+    if (!nextWindow) return;
+    setSelectedWindow(nextWindow.key);
     windowTabRefs.current[nextIndex]?.focus();
   }
 
@@ -366,11 +370,11 @@ export function UsageSignalsExplorer({
                     ) : (
                       <>
                         <span className="usage-bar" style={{ width: `${barWidth}%` }} aria-hidden="true" />
-                        <strong aria-label={row.valueAriaLabel} title={row.valueAriaLabel}>{row.valueLabel}</strong>
+                        <strong title={row.valueAriaLabel}>{row.valueLabel}</strong>
                       </>
                     )}
                   </span>
-                  <span className="usage-secondary" aria-label={row.secondaryAriaLabel} title={row.secondaryAriaLabel}>
+                  <span className="usage-secondary" title={row.secondaryAriaLabel}>
                     {row.secondary}
                   </span>
                 </Link>

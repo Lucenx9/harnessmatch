@@ -1,16 +1,13 @@
-import { featureClaimFor, featureClaimStateLabels } from "@/data/feature-claims";
-import type { FeatureKey, Harness } from "@/lib/types";
+import { featureClaimStateLabels } from "@/lib/feature-claim-labels";
+import type { FeatureClaim } from "@/lib/types";
 
 export function FeatureClaimValue({
-  harness,
-  feature,
+  claim,
   compact = false,
 }: {
-  harness: Harness;
-  feature: FeatureKey;
+  claim: FeatureClaim;
   compact?: boolean;
 }) {
-  const claim = featureClaimFor(harness, feature);
   const source = claim.sourceUrls[0];
   const accessibleDetail = `${featureClaimStateLabels[claim.state]}. ${claim.scope}. ${claim.limitation}`;
 

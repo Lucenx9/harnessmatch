@@ -23,7 +23,7 @@ This file is the visual source of truth for HarnessMatch. Page files in `pages/`
 - Primary asset: `/public/brand/harnessmatch-mark.svg`; light and dark favicon variants plus compact PNG fallbacks live beside it
 - The interface mark is monochrome with one restrained violet node; app icons use a neutral high-contrast tile and preserve a 12.5% safe margin
 - Wordmark: Geist, 720 weight, with the mark always preceding the name
-- Product logos: first-party assets from each vendor's official site or repository, with the asset source recorded in `src/data/harnesses.ts`
+- Product logos: first-party assets from each vendor's official site or repository, with the asset source recorded in the corresponding file under `src/data/harness-records/`
 - Product marks keep their original colors and sit on the same neutral light tile in both themes, avoiding trademark recoloring and dark-mode contrast failures
 - When a product name and logo appear together, the image is decorative and the adjacent text provides the accessible name
 

@@ -14,12 +14,6 @@ export function MobileNavigation() {
   }
 
   useEffect(() => {
-    if (detailsRef.current) {
-      detailsRef.current.open = false;
-    }
-  }, [pathname]);
-
-  useEffect(() => {
     function handlePointerDown(event: PointerEvent) {
       const menu = detailsRef.current;
       if (menu?.open && event.target instanceof Node && !menu.contains(event.target)) {
@@ -44,7 +38,7 @@ export function MobileNavigation() {
   }, []);
 
   return (
-    <details className="mobile-menu" ref={detailsRef}>
+    <details className="mobile-menu" ref={detailsRef} key={pathname}>
       <summary>Menu</summary>
       <nav aria-label="Mobile navigation">
         <div className="mobile-nav-group">

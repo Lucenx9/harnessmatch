@@ -1,0 +1,125 @@
+import type { HarnessRecord } from "./types";
+
+const verifiedAt = "2026-07-28";
+
+export const opensquilla = {
+    id: "opensquilla",
+    slug: "opensquilla",
+    name: "OpenSquilla",
+    tagline: "Broad open-source agent platform with policy modes, subagents, replay, and channels.",
+    summary:
+      "An Apache-licensed general agent platform that qualifies as a coding harness through its adaptive tool loop, repository and shell tools, managed session context, and runtime permission modes. It adds delegated sessions, MCP bridging, one-shot CLI runs, replay diagnostics, memory, web and desktop surfaces, and multiple messaging channels.",
+    logo: {
+      src: "/harnesses/opensquilla.png",
+      sourceUrl: "https://github.com/opensquilla/opensquilla/blob/f569e05de52dcc1e3954bbcbebe1b10106cdba6e/assets/opensquilla-long-logo.png",
+      verifiedAt: verifiedAt,
+    },
+    status: "active",
+    license: "Apache-2.0",
+    classification: {
+      role: "agent-platform",
+      orchestration: "delegated-subagents",
+      runtime: "host-first",
+      isolation: ["os-sandbox"],
+      state: "persistent-memory",
+    },
+    interfaces: ["terminal", "web", "automation"],
+    providerStyle: "multi-provider",
+    supportsSubscription: false,
+    capabilities: {
+      simplicity: 3,
+      flexibility: 5,
+      security: 4,
+      autonomy: 5,
+      automation: 5,
+      largeRepo: 3,
+      humanControl: 4,
+    },
+    bestFor: [
+      "Users who want one open agent runtime across terminal, web, desktop, and messaging channels",
+      "Automated workflows that need one-shot JSON output, durable sessions, and diagnostic replay",
+      "Teams that want explicit permission modes and platform-dependent sandbox enforcement",
+    ],
+    tradeoffs: [
+      "OpenSquilla is a broad general-agent platform rather than a coding-only tool, so setup and surface area are larger than a focused CLI",
+      "Sandbox enforcement is platform-dependent; bypass and full-access permission modes deliberately weaken policy controls and must not be treated as equivalent to restricted mode",
+      "Subagents use isolated session contexts and MCP is exposed as a bridge, but neither mechanism is evidence of task quality",
+      "Web-search tools do not establish full browser automation, and transcript or planning checkpoints are not represented as file rollback",
+      "The repository's tests, router experiments, and evaluation-like assets are project-owned; no comparative score is imported",
+    ],
+    setup: "Install OpenSquilla from its documented Python distribution, configure a provider and permission mode, verify sandbox availability on the target operating system, then start the TUI, gateway, or one-shot CLI surface.",
+    verifiedAt: verifiedAt,
+    evidence: [
+      {
+        title: "OpenSquilla overview",
+        url: "https://github.com/opensquilla/opensquilla/blob/f569e05de52dcc1e3954bbcbebe1b10106cdba6e/README.md",
+        covers: "Agent platform surfaces, providers, memory, coding tools, channels, installation, and product boundaries",
+        kind: "official-repository",
+        verifiedAt: verifiedAt,
+      },
+      {
+        title: "OpenSquilla tools and sandbox",
+        url: "https://github.com/opensquilla/opensquilla/blob/f569e05de52dcc1e3954bbcbebe1b10106cdba6e/docs/tools-and-sandbox.md",
+        covers: "Filesystem, shell, Git, web, memory and session tools plus platform-dependent sandbox behavior",
+        kind: "official-repository",
+        verifiedAt: verifiedAt,
+      },
+      {
+        title: "OpenSquilla approvals and permissions",
+        url: "https://github.com/opensquilla/opensquilla/blob/f569e05de52dcc1e3954bbcbebe1b10106cdba6e/docs/approvals-and-permissions.md",
+        covers: "Restricted, on-request, bypass and full-access modes, approval flow, workspace policy, and control limitations",
+        kind: "official-repository",
+        verifiedAt: verifiedAt,
+      },
+      {
+        title: "OpenSquilla sessions",
+        url: "https://github.com/opensquilla/opensquilla/blob/f569e05de52dcc1e3954bbcbebe1b10106cdba6e/docs/sessions.md",
+        covers: "Durable session records, resume, abort, export, delegated session handling, and operational state",
+        kind: "official-repository",
+        verifiedAt: verifiedAt,
+      },
+      {
+        title: "OpenSquilla agents",
+        url: "https://github.com/opensquilla/opensquilla/blob/f569e05de52dcc1e3954bbcbebe1b10106cdba6e/docs/agents.md",
+        covers: "Agent configuration, iterative execution, context, tools, skills, memory, and delegation",
+        kind: "official-repository",
+        verifiedAt: verifiedAt,
+      },
+      {
+        title: "OpenSquilla CLI",
+        url: "https://github.com/opensquilla/opensquilla/blob/f569e05de52dcc1e3954bbcbebe1b10106cdba6e/docs/cli.md",
+        covers: "Interactive terminal use, one-shot prompts, JSON output, remote access, and automation surfaces",
+        kind: "official-repository",
+        verifiedAt: verifiedAt,
+      },
+      {
+        title: "OpenSquilla MCP server",
+        url: "https://github.com/opensquilla/opensquilla/blob/f569e05de52dcc1e3954bbcbebe1b10106cdba6e/docs/mcp-server.md",
+        covers: "MCP bridge lifecycle, transports, exposed tools, client configuration, and security considerations",
+        kind: "official-repository",
+        verifiedAt: verifiedAt,
+      },
+      {
+        title: "OpenSquilla diagnostics and replay",
+        url: "https://github.com/opensquilla/opensquilla/blob/f569e05de52dcc1e3954bbcbebe1b10106cdba6e/docs/diagnostics-and-replay.md",
+        covers: "Structured diagnostic bundles, event timelines, replay, redaction, and troubleshooting boundaries",
+        kind: "official-repository",
+        verifiedAt: verifiedAt,
+      },
+      {
+        title: "OpenSquilla inspected source tree",
+        url: "https://github.com/opensquilla/opensquilla/tree/f569e05de52dcc1e3954bbcbebe1b10106cdba6e",
+        covers: "Pinned source, security and contributor policies, CI, tests, application surfaces, and project-owned evaluation assets",
+        kind: "official-repository",
+        verifiedAt: verifiedAt,
+      },
+    ],
+    discovery: [
+      {
+        title: "OpenRouter coding app directory",
+        url: "https://openrouter.ai/apps/category/coding",
+        note: "Used as a discovery lead only; capability and lifecycle claims are pinned to the official repository.",
+        observedAt: verifiedAt,
+      },
+    ],
+  } satisfies HarnessRecord;

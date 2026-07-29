@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { featureSupportFor } from "../src/data/feature-claims";
 import { harnesses } from "../src/data/harnesses";
 import { getHarnessMembershipAssessment } from "../src/data/harness-membership";
-import { getOperationalProfile, getOperationalProfileRecord } from "../src/data/operational-profiles";
+import { getOperationalProfileRecord } from "../src/data/operational-profiles";
 
 describe("harness classification", () => {
   it("keeps catalog layer and four membership criteria source-governed", () => {

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { CompareClient } from "@/components/compare-client";
+import { compareHarnessRecords } from "@/lib/compare-records";
 import { pageMetadata } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
@@ -17,7 +18,7 @@ export default function ComparePage() {
           <h1>Compare coding harnesses.</h1>
           <p>Start with workflow, control, model access, and trade-offs. Open the technical rows only when you need them.</p>
         </div>
-        <CompareClient />
+        <CompareClient harnesses={compareHarnessRecords()} />
       </div>
     </section>
   );

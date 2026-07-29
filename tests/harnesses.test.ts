@@ -1278,8 +1278,8 @@ describe("harness evidence ledger", () => {
     expect(caveats).toContain("release-level evidence until a fresh source audit");
     expect(caveats).toContain("no built-in browser automation");
     expect(vibe.bestFor.join(" ")).toContain("Vibe coders");
-    expect(vibe.discovery?.[0].note).toContain("modified Mistral Vibe fork");
-    expect(vibe.discovery?.[0].note).toContain("no score is imported");
+    expect(vibe.discovery?.at(0)?.note).toContain("modified Mistral Vibe fork");
+    expect(vibe.discovery?.at(0)?.note).toContain("no score is imported");
   });
 
   it("keeps Plandex researchable while excluding its dormant deployment path", () => {

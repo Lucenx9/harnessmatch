@@ -72,7 +72,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       suppressHydrationWarning
     >
       <head>
+        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: the inline theme bootstrap is a static, repository-owned constant */}
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
+        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: this static JSON-LD payload is escaped before insertion */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

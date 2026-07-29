@@ -28,7 +28,7 @@ function nodeRequestWithPeer(peerAddress?: string) {
           callback({
             statusCode: 200,
             rawHeaders: [],
-            socket: { remoteAddress: peerAddress ?? addresses[0].address },
+            socket: { remoteAddress: peerAddress ?? addresses.at(0)?.address },
             destroy: vi.fn(),
           });
         });

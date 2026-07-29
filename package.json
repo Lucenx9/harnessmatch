@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "lint": "biome lint . --diagnostic-level=error",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "check:sources": "node scripts/check-source-health.mjs",
@@ -15,7 +16,7 @@
     "sync:releases": "node scripts/sync-release-signals.mjs",
     "sync:usage": "npm run sync:openrouter && npm run sync:ecosystem && npm run sync:gui-signals && npm run sync:releases",
     "triage:releases": "node scripts/triage-release-updates.mjs",
-    "verify": "npm run typecheck && npm test && npm run build",
+    "verify": "npm run typecheck && npm run lint && npm test && npm run build",
     "verify:maintenance": "npm run check:sources && npm run verify"
   },
   "dependencies": {
@@ -27,6 +28,7 @@
     "zod": "^4.1.5"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.5.6",
     "@tailwindcss/postcss": "4.3.0",
     "@types/node": "latest",
     "@types/react": "latest",

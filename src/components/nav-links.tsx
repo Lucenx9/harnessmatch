@@ -22,7 +22,12 @@ export function NavLinks({
   return items.map(({ label, href }) => {
     const current = normalizedPath === href || (href !== "/" && normalizedPath.startsWith(`${href}/`));
     return (
-      <Link href={href} aria-current={current ? "page" : undefined} key={href} onClick={onNavigate}>
+      <Link
+        href={href}
+        aria-current={current ? "page" : undefined}
+        key={href}
+        {...(onNavigate ? { onClick: onNavigate } : {})}
+      >
         {label}
       </Link>
     );

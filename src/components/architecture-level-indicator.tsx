@@ -2,6 +2,7 @@ import { architectureAxisLabels, architectureLevelAnchors } from "@/lib/evaluati
 import type { ArchitectureAxis } from "@/lib/types";
 
 const architectureLevelCount = 4;
+const architectureLevels = [1, 2, 3, 4] as const;
 
 export function ArchitectureLevelIndicator({
   axis,
@@ -23,11 +24,11 @@ export function ArchitectureLevelIndicator({
       aria-label={accessibleLabel}
       title={accessibleLabel}
     >
-      {Array.from({ length: architectureLevelCount }, (_, index) => (
+      {architectureLevels.map((position) => (
         <span
-          className={level !== null && index + 1 === level ? "is-selected" : undefined}
+          className={level === position ? "is-selected" : undefined}
           aria-hidden="true"
-          key={index}
+          key={position}
         />
       ))}
     </span>

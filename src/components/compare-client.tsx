@@ -3,27 +3,10 @@
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { HarnessLogo } from "@/components/harness-logo";
 import { FeatureClaimValue } from "@/components/feature-claim-value";
-import { benchmarkRunsForHarness } from "@/data/benchmark-runs";
-import { getHarnessMembershipAssessment } from "@/data/harness-membership";
-import { harnesses } from "@/data/harnesses";
-import { getOperationalProfile } from "@/data/operational-profiles";
-import { repositoryArtifactCount, repositoryAuditForHarness } from "@/data/repository-audits";
-import {
-  formatIsolationModes,
-  harnessRoleLabels,
-  modelPortabilityFor,
-  modelPortabilityLabels,
-  orchestrationLabels,
-  productLayerLabels,
-  runtimePostureLabels,
-  stateModelLabels,
-} from "@/lib/harness-classification";
-import { architectureProfileFor } from "@/lib/evaluation";
-import type { FeatureKey, Harness } from "@/lib/types";
+import type { CompareHarnessRecord } from "@/lib/compare-types";
+import type { FeatureKey } from "@/lib/types";
 
 const DEFAULT_SELECTED = ["claude-code", "codex", "opencode"];
-const activeHarnesses = harnesses.filter((harness) => harness.status === "active");
-const activeHarnessIds = new Set(activeHarnesses.map((harness) => harness.id));
 
 const featureRows: Array<[FeatureKey, string]> = [
   ["mcp", "MCP"],
@@ -38,24 +21,8 @@ const practicalFeatureKeys = new Set<FeatureKey>(["localModels", "subagents", "h
 const practicalFeatureRows = featureRows.filter(([feature]) => practicalFeatureKeys.has(feature));
 const technicalFeatureRows = featureRows.filter(([feature]) => !practicalFeatureKeys.has(feature));
 
-const providerLabels = {
-  "single-vendor": "Single-vendor",
-  "multi-provider": "Multi-provider",
-  "enterprise-routing": "Enterprise routing",
-} as const;
-
-const interfaceLabels = {
-  terminal: "Terminal",
-  ide: "IDE",
-  web: "Web / desktop",
-  automation: "Automation",
-} as const;
-
-function postureLabel(value: string) {
-  return value.split("-").map((part) => part[0]?.toUpperCase() + part.slice(1)).join(" ");
-}
-
-export function CompareClient() {
+export function CompareClient({ harnesses }: { harnesses: CompareHarnessRecord[] }) {
+  const activeHarnessIds = useMemo(() => new Set(harnesses.map((harness) => harness.id)), [harnesses]);
   const [selected, setSelected] = useState(DEFAULT_SELECTED);
   const [query, setQuery] = useState("");
   const [urlReady, setUrlReady] = useState(false);
@@ -64,18 +31,18 @@ export function CompareClient() {
   const pickerDialogRef = useRef<HTMLDialogElement>(null);
   const chosen = useMemo(
     () => selected
-      .map((id) => activeHarnesses.find((harness) => harness.id === id))
-      .filter((harness): harness is Harness => Boolean(harness)),
-    [selected],
+      .map((id) => harnesses.find((harness) => harness.id === id))
+      .filter((harness): harness is CompareHarnessRecord => Boolean(harness)),
+    [harnesses, selected],
   );
   const filteredHarnesses = useMemo(() => {
-    if (!deferredQuery) return activeHarnesses;
-    return activeHarnesses.filter((harness) => [
+    if (!deferredQuery) return harnesses;
+    return harnesses.filter((harness) => [
       harness.name,
       harness.tagline,
-      harnessRoleLabels[harness.classification.role],
+      harness.productRole,
     ].some((value) => value.toLowerCase().includes(deferredQuery)));
-  }, [deferredQuery]);
+  }, [deferredQuery, harnesses]);
 
   useEffect(() => {
     const requested = new URLSearchParams(window.location.search)
@@ -86,7 +53,7 @@ export function CompareClient() {
 
     if (requested?.length) setSelected(requested);
     setUrlReady(true);
-  }, []);
+  }, [activeHarnessIds]);
 
   useEffect(() => {
     if (!urlReady) return;
@@ -131,7 +98,7 @@ export function CompareClient() {
               <HarnessLogo logo={harness.logo} name={harness.name} size="small" />
               <span className="picker-copy">
                 <strong>{harness.name}</strong>
-                <small>{harnessRoleLabels[harness.classification.role]}</small>
+                <small>{harness.productRole}</small>
               </span>
             </label>
           ))}
@@ -190,7 +157,8 @@ export function CompareClient() {
             <button className="button primary" type="button" onClick={() => pickerDialogRef.current?.showModal()}>Choose harnesses</button>
           </div>
         ) : (
-          <div className="comparison-scroll" tabIndex={0} role="region" aria-label="Harness comparison table">
+          // biome-ignore lint/a11y/noNoninteractiveTabindex: the focusable region lets keyboard users scroll the wide table
+          <section className="comparison-scroll" tabIndex={0} aria-label="Harness comparison table">
         <table className="comparison-table">
           <caption>
             {showTechnical
@@ -213,36 +181,36 @@ export function CompareClient() {
           <tbody>
             <tr>
               <th>Best fit</th>
-              {chosen.map((harness) => <td key={harness.id}>{harness.bestFor[0]}</td>)}
+              {chosen.map((harness) => <td key={harness.id}>{harness.bestFit}</td>)}
             </tr>
             <tr>
               <th>Interaction surfaces</th>
               {chosen.map((harness) => (
-                <td key={harness.id}>{harness.interfaces.map((item) => interfaceLabels[item]).join(", ")}</td>
+                <td key={harness.id}>{harness.interfaces}</td>
               ))}
             </tr>
             <tr>
               <th>Approval style</th>
               {chosen.map((harness) => (
-                <td key={harness.id}>{postureLabel(getOperationalProfile(harness.id).permissions)}</td>
+                <td key={harness.id}>{harness.approvalStyle}</td>
               ))}
             </tr>
             <tr>
               <th>Model portability</th>
-              {chosen.map((harness) => <td key={harness.id}>{modelPortabilityLabels[modelPortabilityFor(harness)]}</td>)}
+              {chosen.map((harness) => <td key={harness.id}>{harness.modelPortability}</td>)}
             </tr>
             {practicalFeatureRows.map(([feature, label]) => (
               <tr key={feature}>
                 <th>{label}</th>
                 {chosen.map((harness) => (
-                  <td key={harness.id}><FeatureClaimValue harness={harness} feature={feature} /></td>
+                  <td key={harness.id}><FeatureClaimValue claim={harness.featureClaims[feature]} /></td>
                 ))}
               </tr>
             ))}
             <tr>
               <th>Admitted measured configuration</th>
               {chosen.map((harness) => {
-                const runs = benchmarkRunsForHarness(harness.id);
+                const runs = harness.measuredRuns;
                 return (
                   <td key={harness.id}>
                     {runs.length === 0 ? "No admitted run" : runs.map((run) => (
@@ -257,7 +225,7 @@ export function CompareClient() {
             </tr>
             <tr>
               <th>Main trade-off</th>
-              {chosen.map((harness) => <td key={harness.id}>{harness.tradeoffs[0]}</td>)}
+              {chosen.map((harness) => <td key={harness.id}>{harness.mainTradeoff}</td>)}
             </tr>
             {showTechnical && (
               <>
@@ -266,60 +234,51 @@ export function CompareClient() {
                 </tr>
                 <tr>
                   <th>Catalog layer</th>
-                  {chosen.map((harness) => {
-                    const membership = getHarnessMembershipAssessment(harness);
-                    return <td key={harness.id}>{membership ? productLayerLabels[membership.layer] : "Not assessed"}</td>;
-                  })}
+                  {chosen.map((harness) => <td key={harness.id}>{harness.catalogLayer}</td>)}
                 </tr>
                 <tr>
                   <th>Harness membership</th>
-                  {chosen.map((harness) => {
-                    const membership = getHarnessMembershipAssessment(harness);
-                    const documented = membership
-                      ? Object.values(membership.criteria).filter((criterion) => criterion.state === "documented").length
-                      : 0;
-                    return <td key={harness.id}>{membership ? `${documented}/4 criteria documented` : "Not assessed"}</td>;
-                  })}
+                  {chosen.map((harness) => <td key={harness.id}>{harness.membershipSummary}</td>)}
                 </tr>
                 <tr>
                   <th>Product role</th>
-                  {chosen.map((harness) => <td key={harness.id}>{harnessRoleLabels[harness.classification.role]}</td>)}
+                  {chosen.map((harness) => <td key={harness.id}>{harness.productRole}</td>)}
                 </tr>
                 <tr>
                   <th>Agent organization</th>
-                  {chosen.map((harness) => <td key={harness.id}>{orchestrationLabels[harness.classification.orchestration]}</td>)}
+                  {chosen.map((harness) => <td key={harness.id}>{harness.orchestration}</td>)}
                 </tr>
                 <tr>
                   <th>Runtime posture</th>
-                  {chosen.map((harness) => <td key={harness.id}>{runtimePostureLabels[harness.classification.runtime]}</td>)}
+                  {chosen.map((harness) => <td key={harness.id}>{harness.runtimePosture}</td>)}
                 </tr>
                 <tr>
                   <th>Isolation options</th>
-                  {chosen.map((harness) => <td key={harness.id}>{formatIsolationModes(harness.classification.isolation)}</td>)}
+                  {chosen.map((harness) => <td key={harness.id}>{harness.isolation}</td>)}
                 </tr>
                 <tr>
                   <th>State model</th>
-                  {chosen.map((harness) => <td key={harness.id}>{stateModelLabels[harness.classification.state]}</td>)}
+                  {chosen.map((harness) => <td key={harness.id}>{harness.stateModel}</td>)}
                 </tr>
                 <tr>
                   <th>Context lifecycle</th>
-                  {chosen.map((harness) => <td key={harness.id}>{postureLabel(getOperationalProfile(harness.id).context)}</td>)}
+                  {chosen.map((harness) => <td key={harness.id}>{harness.contextLifecycle}</td>)}
                 </tr>
                 <tr>
                   <th>Verification</th>
-                  {chosen.map((harness) => <td key={harness.id}>{postureLabel(getOperationalProfile(harness.id).verification)}</td>)}
+                  {chosen.map((harness) => <td key={harness.id}>{harness.verification}</td>)}
                 </tr>
                 <tr>
                   <th>Observability</th>
-                  {chosen.map((harness) => <td key={harness.id}>{postureLabel(getOperationalProfile(harness.id).observability)}</td>)}
+                  {chosen.map((harness) => <td key={harness.id}>{harness.observability}</td>)}
                 </tr>
                 <tr>
                   <th>Recovery posture</th>
-                  {chosen.map((harness) => <td key={harness.id}>{postureLabel(getOperationalProfile(harness.id).recovery)}</td>)}
+                  {chosen.map((harness) => <td key={harness.id}>{harness.recovery}</td>)}
                 </tr>
                 <tr>
                   <th>Provider posture</th>
-                  {chosen.map((harness) => <td key={harness.id}>{providerLabels[harness.providerStyle]}</td>)}
+                  {chosen.map((harness) => <td key={harness.id}>{harness.providerPosture}</td>)}
                 </tr>
                 <tr>
                   <th>License</th>
@@ -329,31 +288,26 @@ export function CompareClient() {
                   <tr key={feature}>
                     <th>{label}</th>
                     {chosen.map((harness) => (
-                      <td key={harness.id}><FeatureClaimValue harness={harness} feature={feature} /></td>
+                      <td key={harness.id}><FeatureClaimValue claim={harness.featureClaims[feature]} /></td>
                     ))}
                   </tr>
                 ))}
                 <tr>
                   <th>Architecture evidence</th>
-                  {chosen.map((harness) => {
-                    const profile = architectureProfileFor(harness);
-                    const documented = Object.values(profile).filter((value) => value !== null).length;
-                    return <td key={harness.id}><strong>{documented}/7 layers</strong><br /><small>No aggregate product grade</small></td>;
-                  })}
+                  {chosen.map((harness) => <td key={harness.id}><strong>{harness.documentedArchitectureLayers}/7 layers</strong><br /><small>No aggregate product grade</small></td>)}
                 </tr>
                 <tr>
                   <th>Public code auditability</th>
                   {chosen.map((harness) => {
-                    const audit = repositoryAuditForHarness(harness.id);
-                    const count = audit ? repositoryArtifactCount(audit) : null;
-                    return <td key={harness.id}>{count === null ? "Not publicly auditable" : <><strong>{count}/5 artifacts</strong><br /><small>Commit {audit!.inspectedRef}</small></>}</td>;
+                    const audit = harness.repositoryAudit;
+                    return <td key={harness.id}>{audit?.artifactCount === null || !audit ? "Not publicly auditable" : <><strong>{audit.artifactCount}/5 artifacts</strong><br /><small>Commit {audit.inspectedRef}</small></>}</td>;
                   })}
                 </tr>
               </>
             )}
           </tbody>
         </table>
-          </div>
+          </section>
         )}
       </div>
 

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { EvidenceRankingExplorer } from "@/components/evidence-ranking-explorer";
-import { EvidenceLedger } from "@/components/evidence-ledger";
-import { GuiEvidenceLedger } from "@/components/gui-evidence-ledger";
+import { EvidenceLedger, type EvidenceLedgerRecord } from "@/components/evidence-ledger";
+import { GuiEvidenceLedger, type GuiEvidenceLedgerRecord } from "@/components/gui-evidence-ledger";
 import { HomeReleaseActivity } from "@/components/home-release-activity";
 import { benchmarkRuns } from "@/data/benchmark-runs";
 import { discoveryWatchlist } from "@/data/discovery-watchlist";
@@ -34,7 +34,7 @@ export default function DataPage() {
   const activeHarnesses = harnesses.filter((harness) => harness.status === "active");
   const guiAuditById = new Map(guiRepositoryAudits.map((audit) => [audit.guiId, audit]));
   const releaseActivity = buildRecentReleaseActivity({ harnesses, releaseSnapshots: harnessReleaseSnapshots });
-  const ledgerRecords = harnesses.map((harness) => ({
+  const ledgerRecords: EvidenceLedgerRecord[] = harnesses.map((harness) => ({
     id: harness.id,
     name: harness.name,
     summary: harness.summary,
@@ -54,34 +54,41 @@ export default function DataPage() {
       covers: source.covers,
       kind: source.kind,
     })),
-    discovery: harness.discovery?.map((source) => ({
-      title: source.title,
-      url: source.url,
-      note: source.note,
-    })),
+    ...(harness.discovery ? {
+      discovery: harness.discovery.map((source) => ({
+        title: source.title,
+        url: source.url,
+        note: source.note,
+      })),
+    } : {}),
   }));
-  const guiLedgerRecords = guiProducts.map((product) => ({
-    id: product.id,
-    name: product.name,
-    summary: product.summary,
-    logo: product.logo,
-    status: product.status,
-    layer: product.layer,
-    sourceAccess: product.sourceAccess,
-    license: product.license,
-    platforms: product.platforms,
-    supportedHarnesses: product.supportedHarnesses,
-    acceptsArbitraryCli: product.acceptsArbitraryCli,
-    verifiedAt: product.verifiedAt,
-    evidence: product.evidence,
-    preview: product.preview ? {
-      caption: product.preview.caption,
-      provenance: product.preview.provenance,
-      sourceUrl: product.preview.sourceUrl,
-      verifiedAt: product.preview.verifiedAt,
-    } : undefined,
-    audit: guiAuditById.get(product.id),
-  }));
+  const guiLedgerRecords: GuiEvidenceLedgerRecord[] = guiProducts.map((product) => {
+    const audit = guiAuditById.get(product.id);
+    return {
+      id: product.id,
+      name: product.name,
+      summary: product.summary,
+      logo: product.logo,
+      status: product.status,
+      layer: product.layer,
+      sourceAccess: product.sourceAccess,
+      license: product.license,
+      platforms: product.platforms,
+      supportedHarnesses: product.supportedHarnesses,
+      acceptsArbitraryCli: product.acceptsArbitraryCli,
+      verifiedAt: product.verifiedAt,
+      evidence: product.evidence,
+      ...(product.preview ? {
+        preview: {
+          caption: product.preview.caption,
+          provenance: product.preview.provenance,
+          sourceUrl: product.preview.sourceUrl,
+          verifiedAt: product.preview.verifiedAt,
+        },
+      } : {}),
+      ...(audit ? { audit } : {}),
+    };
+  });
   const primarySourceCount = activeHarnesses.reduce((total, harness) => total + harness.evidence.length, 0)
     + guiProducts.reduce((total, product) => total + product.evidence.length, 0);
   const harnessById = new Map(harnesses.map((harness) => [harness.id, harness]));

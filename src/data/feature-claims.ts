@@ -5,16 +5,7 @@ import type {
   FeatureKey,
   Harness,
 } from "@/lib/types";
-
-export const featureClaimStateLabels: Record<FeatureClaimState, string> = {
-  default: "Available by default",
-  documented: "Documented",
-  optional: "Optional",
-  "surface-specific": "Depends on surface",
-  "not-documented": "Not documented",
-  "explicitly-absent": "No built-in support",
-  deprecated: "Deprecated",
-};
+export { featureClaimStateLabels } from "@/lib/feature-claim-labels";
 
 export const featureKeys: FeatureKey[] = [
   "mcp",
@@ -59,7 +50,12 @@ const configuredClaim = (
   sourceTitles: string[],
   scope: string,
   limitation?: string,
-): FeatureClaimSeed => ({ state, sourceTitles, scope, limitation });
+): FeatureClaimSeed => ({
+  state,
+  sourceTitles,
+  scope,
+  ...(limitation ? { limitation } : {}),
+});
 
 /**
  * Native capability ledger. Source titles are explicit foreign keys into each
@@ -506,12 +502,13 @@ type FeatureClaimHarnessRecord = {
 function sourceUrlsForTitles(harness: FeatureClaimHarnessRecord, sourceTitles: string[]) {
   return sourceTitles.map((title) => {
     const matchingSources = harness.evidence.filter((source) => source.title === title);
-    if (matchingSources.length !== 1) {
+    const matchingSource = matchingSources.at(0);
+    if (matchingSources.length !== 1 || !matchingSource) {
       throw new Error(
         `${harness.id}: capability source title ${JSON.stringify(title)} matched ${matchingSources.length} evidence records`,
       );
     }
-    return matchingSources[0].url;
+    return matchingSource.url;
   });
 }
 

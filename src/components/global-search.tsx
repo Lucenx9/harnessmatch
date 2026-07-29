@@ -137,7 +137,7 @@ export function GlobalSearch({
         }}
       >
         <span>Search</span>
-        <kbd aria-hidden="true">/</kbd>
+        <kbd>/</kbd>
       </button>
 
       <dialog
@@ -192,8 +192,8 @@ export function GlobalSearch({
             <div
               className="global-search-results"
               id="global-search-results"
-              role={visibleResults.length > 0 ? "listbox" : undefined}
-              aria-labelledby={visibleResults.length > 0 ? "global-search-results-label" : undefined}
+              role="listbox"
+              aria-labelledby="global-search-results-label"
             >
               {visibleResults.map((item, index) => (
                 <Link

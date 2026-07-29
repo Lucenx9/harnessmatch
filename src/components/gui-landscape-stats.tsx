@@ -16,8 +16,8 @@ const workflowIcons: Record<GuiWorkflowId, VisualIconName> = {
 function CoverageCells({ documented, total, label }: { documented: number; total: number; label: string }) {
   return (
     <span className="gui-coverage-cells" role="img" aria-label={`${documented} of ${total} ${label}`}>
-      {Array.from({ length: total }, (_, index) => (
-        <i className={index < documented ? "is-documented" : undefined} aria-hidden="true" key={index} />
+      {Array.from({ length: total }, (_, index) => index + 1).map((position) => (
+        <i className={position <= documented ? "is-documented" : undefined} aria-hidden="true" key={`${label}-${position}`} />
       ))}
     </span>
   );

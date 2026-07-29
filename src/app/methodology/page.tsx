@@ -91,12 +91,12 @@ export default function MethodologyPage() {
           <p>HarnessMatch organizes source-backed facts for inspection and comparison. It does not select a winner or combine the catalog into one universal score.</p>
         </div>
 
-        <div className="methodology-plain-summary" aria-label="Method in four steps">
+        <section className="methodology-plain-summary" aria-label="Method in four steps">
           <div><span>1</span><strong>Define</strong><p>Category membership follows four documented harness criteria.</p></div>
           <div><span>2</span><strong>Record</strong><p>Every positive product claim links to a dated first-party source.</p></div>
           <div><span>3</span><strong>Separate</strong><p>Capabilities, popularity, code access, and benchmark results stay distinct.</p></div>
           <div><span>4</span><strong>Expose</strong><p>Unknowns, limitations, and verification dates remain visible.</p></div>
-        </div>
+        </section>
 
         <details className="methodology-toc">
           <summary>Browse the technical methodology</summary>

@@ -1,0 +1,52 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.5.6/schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"files": {
+		"includes": [
+			"**",
+			"!!**/dist",
+			"!!**/.next",
+			"!!**/.vercel",
+			"!!**/out",
+			"!!**/coverage",
+			"!!**/public",
+			"!!**/research"
+		]
+	},
+	"formatter": {
+		"enabled": false
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"preset": "recommended",
+			"a11y": {
+				"useSemanticElements": "off"
+			}
+		}
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
+	},
+	"overrides": [
+		{
+			"includes": ["src/app/layout.tsx"],
+			"linter": {
+				"rules": {
+					"security": {
+						"noDangerouslySetInnerHtml": "off"
+					}
+				}
+			}
+		}
+	],
+	"assist": {
+		"enabled": false
+	}
+}

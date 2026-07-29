@@ -136,7 +136,7 @@ export function EvidenceRankingExplorer({
         : <ArchitectureLevelIndicator axis={operationalLens} level={operationalLeaderLevel} />,
       unit: operationalLeaderLevel === undefined
         ? "no comparable record"
-        : architectureLevelAnchors[operationalLens][operationalLeaderLevel],
+        : architectureLevelAnchors[operationalLens][operationalLeaderLevel] ?? "unmapped rubric position",
       headline: operationalLeaders.length > 0
         ? `${compactLeaderNames(operationalLeaders)} ${operationalLeaders.length === 1 ? "leads" : "share the lead"}`
         : "No documented leader",

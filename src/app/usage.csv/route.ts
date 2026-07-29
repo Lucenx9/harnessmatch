@@ -94,7 +94,9 @@ export function GET() {
     activeSignals
       .filter((signal) => signal.source === source)
       .sort((left, right) => right.value - left.value || left.harnessId.localeCompare(right.harnessId))
-      .forEach((signal, index) => rankBySignal.set(`${source}:${signal.harnessId}`, index + 1));
+      .forEach((signal, index) => {
+        rankBySignal.set(`${source}:${signal.harnessId}`, index + 1);
+      });
   }
   const ecosystemRows = activeSignals.map((signal) => {
     const harness = activeHarnessById.get(signal.harnessId)!;
