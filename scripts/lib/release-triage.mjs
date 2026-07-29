@@ -45,6 +45,13 @@ const rawReleaseTriageOutputSchema = z.object({
   ]).optional().default([]),
 }).strict();
 
+const editorialReviewSchema = z.object({
+  reviewedAt: z.string().date(),
+  outcome: z.enum(["no-catalog-change", "catalog-updated"]),
+  rationale: z.string().min(1).max(500),
+  evidenceUrls: z.array(z.string().url().startsWith("https://")).min(1).max(8),
+}).strict();
+
 const queueItemSchema = z.object({
   key: z.string().min(3).max(300),
   harnessId: z.string().min(1).max(100),
@@ -56,7 +63,12 @@ const queueItemSchema = z.object({
   releaseNotesSha256: z.string().regex(/^[a-f0-9]{64}$/),
   releaseNotesTruncated: z.boolean(),
   analyzedAt: z.string().datetime(),
-  status: z.literal("needs-editorial-review"),
+  status: z.enum([
+    "needs-editorial-review",
+    "reviewed-no-catalog-change",
+    "reviewed-catalog-updated",
+  ]),
+  editorialReview: editorialReviewSchema.optional(),
   model: z.literal(releaseTriageModel),
   usage: z.object({
     promptTokens: z.number().int().nonnegative(),
@@ -64,10 +76,23 @@ const queueItemSchema = z.object({
     totalTokens: z.number().int().nonnegative(),
   }).strict().nullable(),
   triage: releaseTriageOutputSchema,
-}).strict();
+}).strict().superRefine((item, context) => {
+  const expectedStatus = item.editorialReview
+    ? item.editorialReview.outcome === "catalog-updated"
+      ? "reviewed-catalog-updated"
+      : "reviewed-no-catalog-change"
+    : "needs-editorial-review";
+  if (item.status !== expectedStatus) {
+    context.addIssue({
+      code: "custom",
+      message: `Release review status must be ${expectedStatus}`,
+      path: ["status"],
+    });
+  }
+});
 
 const releaseReviewQueueSchema = z.object({
-  schemaVersion: z.literal(1),
+  schemaVersion: z.literal(2),
   updatedAt: z.string().datetime(),
   generatedBy: z.object({
     provider: z.literal("OpenRouter"),
@@ -138,7 +163,7 @@ export const releaseTriageTool = {
 
 export function emptyReleaseReviewQueue(updatedAt) {
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     updatedAt,
     generatedBy: {
       provider: "OpenRouter",
@@ -244,8 +269,18 @@ export function validateReleaseTriageOutput(value) {
 }
 
 export function mergeReleaseReviewQueue(queue, newItems, updatedAt) {
-  const newKeys = new Set(newItems.map(({ key }) => key));
-  const merged = [...newItems, ...queue.items.filter(({ key }) => !newKeys.has(key))]
+  const existingItems = new Map(queue.items.map((item) => [item.key, item]));
+  const normalizedNewItems = newItems.map((item) => {
+    const existing = existingItems.get(item.key);
+    if (!existing?.editorialReview || existing.releaseNotesSha256 !== item.releaseNotesSha256) return item;
+    return {
+      ...item,
+      status: existing.status,
+      editorialReview: existing.editorialReview,
+    };
+  });
+  const newKeys = new Set(normalizedNewItems.map(({ key }) => key));
+  const merged = [...normalizedNewItems, ...queue.items.filter(({ key }) => !newKeys.has(key))]
     .toSorted((left, right) => (
       right.releasedAt.localeCompare(left.releasedAt)
       || right.analyzedAt.localeCompare(left.analyzedAt)
@@ -253,6 +288,24 @@ export function mergeReleaseReviewQueue(queue, newItems, updatedAt) {
     ))
     .slice(0, 500);
   return releaseReviewQueueSchema.parse({ ...queue, updatedAt, items: merged });
+}
+
+export function recordEditorialReleaseReview(queue, key, review, updatedAt) {
+  const editorialReview = editorialReviewSchema.parse(review);
+  let found = false;
+  const items = queue.items.map((item) => {
+    if (item.key !== key) return item;
+    found = true;
+    return {
+      ...item,
+      status: editorialReview.outcome === "catalog-updated"
+        ? "reviewed-catalog-updated"
+        : "reviewed-no-catalog-change",
+      editorialReview,
+    };
+  });
+  if (!found) throw new Error(`Release review queue does not contain ${key}`);
+  return releaseReviewQueueSchema.parse({ ...queue, updatedAt, items });
 }
 
 export function renderReleaseReviewQueue(queue) {

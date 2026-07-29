@@ -6,6 +6,7 @@ import {
   mergeReleaseReviewQueue,
   parseReleaseReviewQueue,
   pendingReleaseCandidates,
+  recordEditorialReleaseReview,
   releaseTriageModel,
   releaseTriageTool,
   validateReleaseTriageOutput,
@@ -181,6 +182,63 @@ describe("GPT-OSS release triage", () => {
     };
     expect(replaced.items).toHaveLength(1);
     expect(replaced.items[0]?.releaseTitle).toBe("Updated");
+  });
+
+  it("records human editorial outcomes and preserves them while release notes are unchanged", () => {
+    const queue = emptyReleaseReviewQueue(analyzedAt);
+    const item = {
+      key: "example:v1.2.3",
+      harnessId: "example",
+      version: "v1.2.3",
+      releasedAt: "2026-07-29",
+      releaseUrl: "https://github.com/example/example/releases/tag/v1.2.3",
+      sourceApiUrl: "https://api.github.com/repos/example/example/releases/tags/v1.2.3",
+      releaseTitle: "Example",
+      releaseNotesSha256: "a".repeat(64),
+      releaseNotesTruncated: false,
+      analyzedAt,
+      status: "needs-editorial-review",
+      model: releaseTriageModel,
+      usage: null,
+      triage: {
+        summary: "Routine maintenance release.",
+        reviewPriority: "routine",
+        capabilityReviewRecommended: false,
+        reportedChanges: [],
+        verificationQuestions: [],
+        limitations: [],
+      },
+    };
+    const merged = mergeReleaseReviewQueue(queue, [item], analyzedAt);
+    const reviewed = recordEditorialReleaseReview(merged, item.key, {
+      reviewedAt: "2026-07-29",
+      outcome: "no-catalog-change",
+      rationale: "The official notes report maintenance only.",
+      evidenceUrls: [item.releaseUrl],
+    }, analyzedAt) as { items: Array<{ status: string; editorialReview?: { outcome: string } }> };
+    expect(reviewed.items[0]).toEqual(expect.objectContaining({
+      status: "reviewed-no-catalog-change",
+      editorialReview: expect.objectContaining({ outcome: "no-catalog-change" }),
+    }));
+
+    const refreshed = mergeReleaseReviewQueue(reviewed, [{ ...item, releaseTitle: "Refreshed" }], analyzedAt) as {
+      items: Array<{ status: string; editorialReview?: { outcome: string } }>;
+    };
+    expect(refreshed.items[0]?.status).toBe("reviewed-no-catalog-change");
+    expect(refreshed.items[0]?.editorialReview?.outcome).toBe("no-catalog-change");
+
+    const changedNotes = mergeReleaseReviewQueue(reviewed, [{
+      ...item,
+      releaseNotesSha256: "b".repeat(64),
+    }], analyzedAt) as { items: Array<{ status: string; editorialReview?: unknown }> };
+    expect(changedNotes.items[0]?.status).toBe("needs-editorial-review");
+    expect(changedNotes.items[0]?.editorialReview).toBeUndefined();
+    expect(() => recordEditorialReleaseReview(reviewed, "missing:v1", {
+      reviewedAt: "2026-07-29",
+      outcome: "no-catalog-change",
+      rationale: "Not present.",
+      evidenceUrls: [item.releaseUrl],
+    }, analyzedAt)).toThrow(/does not contain/);
   });
 
   it("validates the committed queue contract", () => {

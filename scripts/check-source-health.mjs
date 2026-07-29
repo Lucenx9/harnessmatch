@@ -1,9 +1,7 @@
-import { readdir } from "node:fs/promises";
-import { createViteServer } from "vitest/node";
 import { safeFetch } from "./source-health-network.mjs";
 import { collectUrls } from "./source-health-urls.mjs";
+import { loadPublishedDataModules } from "./source-health-modules.mjs";
 
-const dataRoot = new URL("../src/data/", import.meta.url);
 const concurrency = Number.parseInt(process.env.SOURCE_CHECK_CONCURRENCY ?? "8", 10);
 const timeoutMs = Number.parseInt(process.env.SOURCE_CHECK_TIMEOUT_MS ?? "15000", 10);
 const restrictedStatuses = new Set([401, 403, 429]);
@@ -79,12 +77,7 @@ async function mapConcurrent(items, worker, limit) {
   return results;
 }
 
-const moduleFiles = (await readdir(dataRoot, { withFileTypes: true }))
-  .filter((entry) => entry.isFile() && entry.name.endsWith(".ts"))
-  .map((entry) => `/src/data/${entry.name}`);
-const vite = await createViteServer({ server: { middlewareMode: true }, appType: "custom", logLevel: "error" });
-const modules = await Promise.all(moduleFiles.map((path) => vite.ssrLoadModule(path)));
-await vite.close();
+const { moduleFiles, modules } = await loadPublishedDataModules();
 const urlSet = new Set();
 const seen = new WeakSet();
 for (const module of modules) collectUrls(module, urlSet, seen);

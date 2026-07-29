@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 1,
-  "updatedAt": "2026-07-29T14:24:45.467Z",
+  "schemaVersion": 2,
+  "updatedAt": "2026-07-29T20:10:06.514Z",
   "generatedBy": {
     "provider": "OpenRouter",
     "model": "openai/gpt-oss-20b",
@@ -19,7 +19,15 @@
       "releaseNotesSha256": "0f9f53aa889f797d3cbe58b97a528bf8c5383fe9873c3fe07b2315b55a2fbd96",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T14:24:45.467Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes describe maintenance, interface, compatibility, provider, or model-support changes that do not alter the harness mechanisms, taxonomy, or comparative limitations published by HarnessMatch.",
+        "evidenceUrls": [
+          "https://github.com/Kilo-Org/kilocode/releases/tag/v7.4.17"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 3388,
@@ -69,7 +77,15 @@
       "releaseNotesSha256": "413fc087626aa6a3e0321b4a7641c1fda0dac09597b30c4a2cd22ac2e33d1038",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T14:02:52.537Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes describe maintenance, interface, compatibility, provider, or model-support changes that do not alter the harness mechanisms, taxonomy, or comparative limitations published by HarnessMatch.",
+        "evidenceUrls": [
+          "https://github.com/stagewise-io/stagewise/releases/tag/stagewise%401.26.0"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 713,
@@ -105,7 +121,15 @@
       "releaseNotesSha256": "2a2cc7f382156a8b4e429c2d50ca7b28af152acd0050ea0e91d2255a6aea5464",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T03:42:01.689Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes describe maintenance, interface, compatibility, provider, or model-support changes that do not alter the harness mechanisms, taxonomy, or comparative limitations published by HarnessMatch.",
+        "evidenceUrls": [
+          "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai/kimi-code%400.30.0"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 1152,
@@ -159,7 +183,15 @@
       "releaseNotesSha256": "a2927b9d5cb9c25627eabce402448f2823da61cdcfc9e0e84b0c668af13bc3f5",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T03:34:32.052Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes describe maintenance, interface, compatibility, provider, or model-support changes that do not alter the harness mechanisms, taxonomy, or comparative limitations published by HarnessMatch.",
+        "evidenceUrls": [
+          "https://github.com/letta-ai/letta-code/releases/tag/v0.29.11"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 584,
@@ -203,7 +235,15 @@
       "releaseNotesSha256": "2145004993e992c9f19ca4229290b61fb8f575a18838c9ea64771423efe014b8",
       "releaseNotesTruncated": true,
       "analyzedAt": "2026-07-29T02:53:06.162Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release reports mechanisms already represented by the current first-party documentation and code audit; it does not justify a new taxonomy, operational-profile, or comparative scoring claim.",
+        "evidenceUrls": [
+          "https://github.com/openai/codex/releases/tag/rust-v0.146.0"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 3235,
@@ -253,7 +293,15 @@
       "releaseNotesSha256": "9d71e00d23b9e05caff6db378200846b73fbb0e02c613583c6b4fcd9131222af",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T14:24:45.467Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes describe maintenance, interface, compatibility, provider, or model-support changes that do not alter the harness mechanisms, taxonomy, or comparative limitations published by HarnessMatch.",
+        "evidenceUrls": [
+          "https://github.com/cline/cline/releases/tag/v4.0.12"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 511,
@@ -295,7 +343,15 @@
       "releaseNotesSha256": "0f28570b5aa1d628e6870b9e28a11f5cf572e5a3c15907157d7f7536cf942535",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T03:12:03.819Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release reports mechanisms already represented by the current first-party documentation and code audit; it does not justify a new taxonomy, operational-profile, or comparative scoring claim.",
+        "evidenceUrls": [
+          "https://github.com/oguzbilgic/kern-ai/releases/tag/v0.32.1"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 705,
@@ -341,7 +397,15 @@
       "releaseNotesSha256": "6d9ea786c817047b0b5d2a0febeb547c22c1b738c7a2b43b7d35c03d2346c69f",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T03:12:03.819Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release reports mechanisms already represented by the current first-party documentation and code audit; it does not justify a new taxonomy, operational-profile, or comparative scoring claim.",
+        "evidenceUrls": [
+          "https://github.com/letta-ai/letta-code/releases/tag/v0.29.10"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 588,
@@ -387,7 +451,15 @@
       "releaseNotesSha256": "2995191d1347880bec8f762b73ab2f15231654270f44fd790317158c7813d910",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T03:12:03.819Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes describe maintenance, interface, compatibility, provider, or model-support changes that do not alter the harness mechanisms, taxonomy, or comparative limitations published by HarnessMatch.",
+        "evidenceUrls": [
+          "https://github.com/mistralai/mistral-vibe/releases/tag/v2.23.1"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 427,
@@ -419,7 +491,15 @@
       "releaseNotesSha256": "c7f8b5fae72e90d73db29b68643278705ff9f7960b2bbbb10a41bbeba622fa27",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T03:12:03.819Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release reports mechanisms already represented by the current first-party documentation and code audit; it does not justify a new taxonomy, operational-profile, or comparative scoring claim.",
+        "evidenceUrls": [
+          "https://github.com/opensquilla/opensquilla/releases/tag/v0.5.1"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 2355,
@@ -475,7 +555,15 @@
       "releaseNotesSha256": "394b3355f730e66853716c9db4449597ea74045f6146ab924759f0de4ba56dc9",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T02:53:06.162Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release reports mechanisms already represented by the current first-party documentation and code audit; it does not justify a new taxonomy, operational-profile, or comparative scoring claim.",
+        "evidenceUrls": [
+          "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.8"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 807,
@@ -525,7 +613,15 @@
       "releaseNotesSha256": "4f13d31645289bedc1bfd0dd5d9df994b66e0edf573a648e7a022cb8fd52bd10",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T02:53:06.162Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release reports mechanisms already represented by the current first-party documentation and code audit; it does not justify a new taxonomy, operational-profile, or comparative scoring claim.",
+        "evidenceUrls": [
+          "https://github.com/google-gemini/gemini-cli/releases/tag/v0.53.0"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 734,
@@ -581,7 +677,15 @@
       "releaseNotesSha256": "246147c69effa3d6d4554214167930dd4f18ae425d73ca2d89d67c8a02397f0a",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T02:53:06.162Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes describe maintenance, interface, compatibility, provider, or model-support changes that do not alter the harness mechanisms, taxonomy, or comparative limitations published by HarnessMatch.",
+        "evidenceUrls": [
+          "https://github.com/JetBrains/junie/releases/tag/2470.4"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 430,
@@ -617,7 +721,15 @@
       "releaseNotesSha256": "26c6b379b2a494434a2be86c0c1cbfc7b021ca6fa5796e1c28c31ac775c6e588",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T02:53:06.162Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release reports mechanisms already represented by the current first-party documentation and code audit; it does not justify a new taxonomy, operational-profile, or comparative scoring claim.",
+        "evidenceUrls": [
+          "https://github.com/can1357/oh-my-pi/releases/tag/v17.1.8"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 2163,
@@ -667,7 +779,15 @@
       "releaseNotesSha256": "6effa794f19833349524501d1e5f4c36e8e12b3b5a419576329a84f26b1ca248",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T02:53:06.162Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes describe maintenance, interface, compatibility, provider, or model-support changes that do not alter the harness mechanisms, taxonomy, or comparative limitations published by HarnessMatch.",
+        "evidenceUrls": [
+          "https://github.com/anomalyco/opencode/releases/tag/v1.18.9"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 557,
@@ -715,7 +835,15 @@
       "releaseNotesSha256": "950a977e8f34190ea2d0502bc1705eaa88d7de331f2a6560b71c07fedd6b1ce3",
       "releaseNotesTruncated": true,
       "analyzedAt": "2026-07-29T02:53:06.162Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release reports mechanisms already represented by the current first-party documentation and code audit; it does not justify a new taxonomy, operational-profile, or comparative scoring claim.",
+        "evidenceUrls": [
+          "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.1"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 3796,
@@ -771,7 +899,15 @@
       "releaseNotesSha256": "f0b657b9d9a3e608ca7514139442faf5f37acdf76661e03b0ddb663d6addfd73",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T14:24:45.467Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes describe maintenance, interface, compatibility, provider, or model-support changes that do not alter the harness mechanisms, taxonomy, or comparative limitations published by HarnessMatch.",
+        "evidenceUrls": [
+          "https://github.com/langchain-ai/deepagents/releases/tag/deepagents-code%3D%3D0.1.49"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 1507,
@@ -821,7 +957,15 @@
       "releaseNotesSha256": "1369e3cf974e73dcf4856c290e5ae77972f886d3680a8895cba2497ae56f52df",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T03:12:03.819Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes describe maintenance, interface, compatibility, provider, or model-support changes that do not alter the harness mechanisms, taxonomy, or comparative limitations published by HarnessMatch.",
+        "evidenceUrls": [
+          "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai/kimi-code%400.29.2"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 1370,
@@ -871,7 +1015,15 @@
       "releaseNotesSha256": "7014b3df4cfc47b5781eeda95e432bca8e36af79e07ef3e6ad15131da307f3bd",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T03:12:03.819Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes describe maintenance, interface, compatibility, provider, or model-support changes that do not alter the harness mechanisms, taxonomy, or comparative limitations published by HarnessMatch.",
+        "evidenceUrls": [
+          "https://github.com/stagewise-io/stagewise/releases/tag/stagewise%401.25.0"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 453,
@@ -909,7 +1061,15 @@
       "releaseNotesSha256": "a171e2a09c20a61899074bf15719224c58014c770f060713dc747e6f6eb0b086",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T03:12:03.819Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes describe maintenance, interface, compatibility, provider, or model-support changes that do not alter the harness mechanisms, taxonomy, or comparative limitations published by HarnessMatch.",
+        "evidenceUrls": [
+          "https://github.com/Zoo-Code-Org/Zoo-Code/releases/tag/v3.72.0"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 1075,
@@ -965,7 +1125,15 @@
       "releaseNotesSha256": "dd490d3f4e93c8165c0322324024d1202fe097b1be5a232b6035fd40bfee97cc",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T02:53:06.162Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes describe maintenance, interface, compatibility, provider, or model-support changes that do not alter the harness mechanisms, taxonomy, or comparative limitations published by HarnessMatch.",
+        "evidenceUrls": [
+          "https://github.com/anthropics/claude-code/releases/tag/v2.1.220"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 415,
@@ -999,7 +1167,15 @@
       "releaseNotesSha256": "c84fff294a28a5b0b8d14ec59736c6bbe78fc2498362acbfe4a72e598b3b1e99",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T02:53:06.162Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes describe maintenance, interface, compatibility, provider, or model-support changes that do not alter the harness mechanisms, taxonomy, or comparative limitations published by HarnessMatch.",
+        "evidenceUrls": [
+          "https://github.com/earendil-works/pi/releases/tag/v0.82.1"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 1315,
@@ -1054,7 +1230,15 @@
       "releaseNotesSha256": "d89096c33db544df7b34fc6ae4e6c1e375da80b74eade62ee2d2f019b0a75a58",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T03:12:03.819Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release reports mechanisms already represented by the current first-party documentation and code audit; it does not justify a new taxonomy, operational-profile, or comparative scoring claim.",
+        "evidenceUrls": [
+          "https://github.com/charmbracelet/crush/releases/tag/v0.87.0"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 3117,
@@ -1104,7 +1288,15 @@
       "releaseNotesSha256": "9e70fd4c7ad09896ffbee5f15e24bdc5801f743ffba9b4d8a6aa47ad1a0e7f33",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T03:12:03.819Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release reports mechanisms already represented by the current first-party documentation and code audit; it does not justify a new taxonomy, operational-profile, or comparative scoring claim.",
+        "evidenceUrls": [
+          "https://github.com/coder/mux/releases/tag/v0.28.1"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 705,
@@ -1160,7 +1352,15 @@
       "releaseNotesSha256": "f89381fe5ea1b64a95736243a0c3ba6a9f4f82246acc77763f688d01983191bd",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T02:53:06.162Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes describe maintenance, interface, compatibility, provider, or model-support changes that do not alter the harness mechanisms, taxonomy, or comparative limitations published by HarnessMatch.",
+        "evidenceUrls": [
+          "https://github.com/github/copilot-cli/releases/tag/v1.0.75"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 419,
@@ -1194,7 +1394,15 @@
       "releaseNotesSha256": "538288b5f982c5d5b961a4804e11ba30af2aba46ad82904d61b73868d0dbef31",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T02:53:06.162Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes describe maintenance, interface, compatibility, provider, or model-support changes that do not alter the harness mechanisms, taxonomy, or comparative limitations published by HarnessMatch.",
+        "evidenceUrls": [
+          "https://github.com/tailcallhq/forgecode/releases/tag/v2.13.19"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 2402,
@@ -1236,7 +1444,15 @@
       "releaseNotesSha256": "970307dddfd95de343e6241f906699f606ae957d7cac6702ee180c4978c907ed",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T03:12:03.819Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes describe maintenance, interface, compatibility, provider, or model-support changes that do not alter the harness mechanisms, taxonomy, or comparative limitations published by HarnessMatch.",
+        "evidenceUrls": [
+          "https://github.com/SWE-agent/mini-swe-agent/releases/tag/v2.4.6"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 488,
@@ -1268,7 +1484,15 @@
       "releaseNotesSha256": "73ebce9557d91d84e640a29724d35a1d4443596f61bf5e382119efb7aed8535a",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T02:53:06.162Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release reports mechanisms already represented by the current first-party documentation and code audit; it does not justify a new taxonomy, operational-profile, or comparative scoring claim.",
+        "evidenceUrls": [
+          "https://github.com/aaif-goose/goose/releases/tag/v1.44.0"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 3407,
@@ -1323,7 +1547,15 @@
       "releaseNotesSha256": "29152fc12cb3a81ee6bead51aea8fd817f3df6fb182efec488335e8257117fee",
       "releaseNotesTruncated": true,
       "analyzedAt": "2026-07-29T03:12:03.819Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release reports mechanisms already represented by the current first-party documentation and code audit; it does not justify a new taxonomy, operational-profile, or comparative scoring claim.",
+        "evidenceUrls": [
+          "https://github.com/NousResearch/hermes-agent/releases/tag/v2026.7.20"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 3497,
@@ -1373,7 +1605,15 @@
       "releaseNotesSha256": "7d2cf836ac4b81c156eaef48d01b739fccfc3dd3fc524cbae1db1406d503ead9",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T03:12:03.819Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release reports mechanisms already represented by the current first-party documentation and code audit; it does not justify a new taxonomy, operational-profile, or comparative scoring claim.",
+        "evidenceUrls": [
+          "https://github.com/poolsideai/pool/releases/tag/v1.0.13"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 460,
@@ -1417,7 +1657,15 @@
       "releaseNotesSha256": "66945fe91cae1574ae5af7b6a67a3f7cb3348f1586be70353763d91517167329",
       "releaseNotesTruncated": true,
       "analyzedAt": "2026-07-29T03:12:03.819Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release reports mechanisms already represented by the current first-party documentation and code audit; it does not justify a new taxonomy, operational-profile, or comparative scoring claim.",
+        "evidenceUrls": [
+          "https://github.com/openclaw/openclaw/releases/tag/v2026.7.1"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 3794,
@@ -1467,7 +1715,15 @@
       "releaseNotesSha256": "a899b39da544746d7de2ed4e27f967ea0c8e26e159100dcabb7ff18aeb4dae53",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T03:17:44.202Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release reports mechanisms already represented by the current first-party documentation and code audit; it does not justify a new taxonomy, operational-profile, or comparative scoring claim.",
+        "evidenceUrls": [
+          "https://github.com/OpenHands/OpenHands/releases/tag/1.11.0"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 858,
@@ -1517,7 +1773,15 @@
       "releaseNotesSha256": "84c50ce88d1da2122ba49e1171799a44540a625f025c4b509a8e0bd4b62578bd",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-07-29T03:12:03.819Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-07-29",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes describe maintenance, interface, compatibility, provider, or model-support changes that do not alter the harness mechanisms, taxonomy, or comparative limitations published by HarnessMatch.",
+        "evidenceUrls": [
+          "https://github.com/Aider-AI/aider/releases/tag/v0.86.0"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 653,
