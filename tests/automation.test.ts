@@ -50,4 +50,31 @@ describe("daily usage automation", () => {
     expect(qualityWorkflow).toContain("inputs.commit_sha || github.sha");
     expect(qualityWorkflow).toContain("Exact repository commit to verify");
   });
+
+  it("pins workflow actions and limits credential exposure", () => {
+    const workflows = ["daily-usage-refresh.yml", "quality.yml"].map((name) => ({
+      name,
+      source: readFileSync(new URL(`../.github/workflows/${name}`, import.meta.url), "utf8"),
+    }));
+
+    for (const workflow of workflows) {
+      const actionReferences = [...workflow.source.matchAll(/^\s*uses:\s*[^@\s]+@([^\s#]+)/gm)];
+      expect(actionReferences.length, `${workflow.name} should use at least one action`).toBeGreaterThan(0);
+      for (const reference of actionReferences) {
+        expect(reference[1], `${workflow.name} contains a mutable action reference`).toMatch(/^[0-9a-f]{40}$/);
+      }
+      expect(workflow.source).toContain("persist-credentials: false");
+    }
+
+    const refreshWorkflow = workflows.find(({ name }) => name === "daily-usage-refresh.yml")?.source;
+    expect(refreshWorkflow).toBeDefined();
+    const refreshJobHeader = refreshWorkflow!.slice(
+      refreshWorkflow!.indexOf("  refresh:"),
+      refreshWorkflow!.indexOf("    steps:"),
+    );
+    expect(refreshJobHeader).not.toContain("secrets.");
+    expect(refreshJobHeader).not.toContain("GH_TOKEN:");
+    expect(refreshJobHeader).not.toContain("GITHUB_TOKEN:");
+    expect(refreshJobHeader).not.toContain("OPENROUTER_API_KEY:");
+  });
 });

@@ -19,32 +19,37 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
       TZ: UTC
     steps:
       - name: Check out main
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: main
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Set up Node.js
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 22
           cache: npm
 
-      - name: Establish clean baseline
-        id: baseline
+      - name: Confirm required secret configuration
         shell: bash
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: |
           set -euo pipefail
           if [[ -z "${OPENROUTER_API_KEY:-}" ]]; then
             echo "OPENROUTER_API_KEY is not configured as a repository secret." >&2
             exit 1
           fi
+
+      - name: Establish clean baseline
+        id: baseline
+        shell: bash
+        run: |
+          set -euo pipefail
           git fetch origin main
           git checkout main
           git merge --ff-only origin/main
@@ -62,6 +67,9 @@ jobs:
 
       - name: Synchronize usage sources
         shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: |
           set -euo pipefail
           generated_paths=(
@@ -86,6 +94,9 @@ jobs:
       - name: Triage new stable releases with GPT-OSS
         id: release_triage
         continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: npm run triage:releases
 
       - name: Record deferred release triage
@@ -146,6 +157,8 @@ jobs:
         if: steps.diff.outputs.changed == 'true'
         id: publish
         shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
@@ -157,6 +170,7 @@ jobs:
           git diff --cached --check
           git commit -m "chore(data): refresh usage signals and release triage $(date -u +%F)"
           published_sha="$(git rev-parse HEAD)"
+          gh auth setup-git
           git push origin HEAD:main
           echo "published_sha=$published_sha" >> "$GITHUB_OUTPUT"
           echo "Published commit: \`$published_sha\`" >> "$GITHUB_STEP_SUMMARY"
@@ -164,6 +178,7 @@ jobs:
       - name: Run quality gate for published commit
         if: steps.diff.outputs.changed == 'true'
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLISHED_SHA: ${{ steps.publish.outputs.published_sha }}
         run: node scripts/wait-for-quality-gate.mjs
 
@@ -171,6 +186,7 @@ jobs:
         if: steps.diff.outputs.changed == 'true'
         id: deployment
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLISHED_SHA: ${{ steps.publish.outputs.published_sha }}
         run: node scripts/wait-for-production-deployment.mjs
 
