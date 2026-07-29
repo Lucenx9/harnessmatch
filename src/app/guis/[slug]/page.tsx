@@ -6,6 +6,7 @@ import { GuiProductPreview } from "@/components/gui-product-preview";
 import { VisualIcon } from "@/components/visual-icon";
 import type { VisualIconName } from "@/components/visual-icon";
 import { guiCapabilityLabels, guiProductById, guiProducts } from "@/data/gui-products";
+import { guiEcosystemSignalsByProduct } from "@/data/gui-ecosystem-signals";
 import { guiRepositoryAuditFor } from "@/data/gui-repository-audits";
 import { guiProfileDescription, pageMetadata } from "@/lib/site";
 import type { GuiCapabilityKey, GuiClaimState, GuiLayer, GuiSourceAccess } from "@/lib/gui-types";
@@ -43,6 +44,12 @@ const capabilityIcons: Record<GuiCapabilityKey, VisualIconName> = {
   teamCollaboration: "team-workspace",
 };
 
+const activitySourceOrder = {
+  homebrew: 0,
+  "github-releases": 1,
+  github: 2,
+} as const;
+
 export function generateStaticParams() {
   return guiProducts.map((product) => ({ slug: product.id }));
 }
@@ -64,12 +71,14 @@ export default async function GuiProfilePage({ params }: { params: Promise<{ slu
   const product = guiProductById.get(slug);
   if (!product) notFound();
   const audit = guiRepositoryAuditFor(product.id);
+  const activitySignals = (guiEcosystemSignalsByProduct.get(product.id) ?? [])
+    .toSorted((left, right) => activitySourceOrder[left.source] - activitySourceOrder[right.source]);
 
   return (
     <section className="section profile-page gui-profile-page">
       <div className="shell wide-shell profile-shell">
         <header className="profile-header">
-          <Link className="gui-profile-back" href="/guis">← GUI workflow classification</Link>
+          <Link className="gui-profile-back" href="/guis">← GUI catalog</Link>
           <div className="profile-identity">
             <GuiLogo logo={product.logo} name={product.name} size="large" priority />
             <p>{layerLabels[product.layer]}</p>
@@ -120,6 +129,7 @@ export default async function GuiProfilePage({ params }: { params: Promise<{ slu
               <div><dt>GUI layer</dt><dd>{layerLabels[product.layer]}</dd></div>
               <div><dt>Named harnesses</dt><dd>{product.supportedHarnesses.length}</dd></div>
               <div><dt>Arbitrary CLI</dt><dd>{product.acceptsArbitraryCli ? "Documented" : "Not documented"}</dd></div>
+              <div><dt>Public activity feeds</dt><dd>{activitySignals.length}</dd></div>
               <div><dt>Code audit</dt><dd>{audit ? "Pinned commit inspected" : "No public implementation"}</dd></div>
               <div><dt>Logo provenance</dt><dd><a href={product.logo.sourceUrl} target="_blank" rel="noreferrer">Official asset</a></dd></div>
             </dl>
@@ -127,6 +137,35 @@ export default async function GuiProfilePage({ params }: { params: Promise<{ slu
         </div>
 
         {product.preview && <GuiProductPreview id={product.id} name={product.name} preview={product.preview} />}
+
+        {activitySignals.length > 0 && (
+          <section className="gui-profile-signals" aria-labelledby="gui-profile-signals-heading">
+            <div className="profile-section-heading">
+              <div>
+                <h2 id="gui-profile-signals-heading">Public activity signals</h2>
+                <p>Daily source snapshots provide ecosystem context only. They do not affect workflow fit or capability claims.</p>
+              </div>
+              <span>{activitySignals.length} mapped source{activitySignals.length === 1 ? "" : "s"}</span>
+            </div>
+            <ul>
+              {activitySignals.map((signal) => (
+                <li key={signal.source}>
+                  <span>{signal.source === "homebrew"
+                    ? "Homebrew distribution"
+                    : signal.source === "github-releases" ? "GitHub installers" : "GitHub repository"}</span>
+                  <strong>{new Intl.NumberFormat("en-US").format(signal.value)}</strong>
+                  <p>{signal.source === "homebrew"
+                    ? `install events over 30 days · v${signal.latestVersion.split(",")[0]}`
+                    : signal.source === "github-releases"
+                      ? `stable installer downloads · ${signal.recentReleaseCount} releases in ${signal.recentReleaseWindowDays} days`
+                      : `stars · ${new Intl.NumberFormat("en-US").format(signal.forks)} forks`}</p>
+                  <small>Observed <time dateTime={signal.observedAt}>{signal.observedAt}</time></small>
+                  <a href={signal.artifactUrl} target="_blank" rel="noreferrer">Open source record</a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         <section className="profile-support gui-profile-harnesses" aria-labelledby="gui-harnesses-heading">
           <div className="profile-section-heading">

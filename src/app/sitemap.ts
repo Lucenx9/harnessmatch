@@ -10,9 +10,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const siteCheckedAt = latestVerifiedAt();
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: siteUrl, lastModified: siteCheckedAt, changeFrequency: "weekly", priority: 1 },
-    { url: `${siteUrl}/recommend`, lastModified: siteCheckedAt, changeFrequency: "monthly", priority: 0.9 },
     { url: `${siteUrl}/compare`, lastModified: siteCheckedAt, changeFrequency: "monthly", priority: 0.8 },
     { url: `${siteUrl}/harnesses`, lastModified: siteCheckedAt, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${siteUrl}/usage`, lastModified: siteCheckedAt, changeFrequency: "daily", priority: 0.8 },
     { url: `${siteUrl}/guis`, lastModified: siteCheckedAt, changeFrequency: "weekly", priority: 0.8 },
     { url: `${siteUrl}/benchmarks`, lastModified: siteCheckedAt, changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/methodology`, lastModified: siteCheckedAt, changeFrequency: "monthly", priority: 0.7 },

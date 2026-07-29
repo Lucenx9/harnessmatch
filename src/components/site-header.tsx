@@ -3,6 +3,7 @@ import { BrandMark } from "@/components/brand-mark";
 import { GlobalSearch } from "@/components/global-search";
 import { MobileNavigation } from "@/components/mobile-navigation";
 import { NavLinks } from "@/components/nav-links";
+import { SecondaryNavigation } from "@/components/secondary-navigation";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { guiProducts } from "@/data/gui-products";
 import { getHarnessMembershipAssessment } from "@/data/harness-membership";
@@ -110,6 +111,7 @@ export function SiteHeader() {
         </Link>
         <nav className="desktop-nav" aria-label="Primary navigation">
           <NavLinks />
+          <SecondaryNavigation />
         </nav>
         <GlobalSearch recordCount={harnesses.length + guiProducts.length} items={globalSearchItems} />
         <MobileNavigation />

@@ -27,6 +27,7 @@ describe("evidence freshness", () => {
     expect(records.length).toBeGreaterThan(0);
     expect(scopes).toContain("harness");
     expect(scopes).toContain("evidence-source");
+    expect(scopes).toContain("discovery-source");
     expect(scopes).toContain("logo");
     expect(scopes).toContain("membership");
     expect(scopes).toContain("operational-profile");
@@ -37,6 +38,11 @@ describe("evidence freshness", () => {
     expect(scopes).toContain("gui-source");
     expect(scopes).toContain("gui-repository-audit");
     expect(scopes).toContain("gui-exclusion");
+    expect(scopes).toContain("openrouter-attribution");
+    expect(scopes).toContain("openrouter-ranking");
+    expect(scopes).toContain("ecosystem-signal");
+    expect(scopes).toContain("gui-ecosystem-signal");
+    expect(scopes).toContain("release-snapshot");
   });
 
   it("records every verification date as a real ISO calendar day", () => {

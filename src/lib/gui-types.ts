@@ -105,6 +105,50 @@ export type GuiRepositoryAudit = {
   limitation: string;
 };
 
+type GuiEcosystemSignalBase = {
+  guiId: string;
+  observedAt: string;
+  artifactId: string;
+  artifactUrl: string;
+  sourceUrl: string;
+};
+
+/**
+ * Public activity signals for coding-agent GUIs. Source-native units and
+ * populations stay separate and never enter workflow-fit classification.
+ */
+export type GuiEcosystemSignalSnapshot =
+  | (GuiEcosystemSignalBase & {
+      source: "homebrew";
+      metric: "install-events";
+      value: number;
+      latestVersion: string;
+      windowDays: 30;
+      windowStart: string;
+      windowEnd: string;
+    })
+  | (GuiEcosystemSignalBase & {
+      source: "github";
+      metric: "stars";
+      value: number;
+      forks: number;
+      repositoryScope: "full-source" | "client-source";
+    })
+  | (GuiEcosystemSignalBase & {
+      source: "github-releases";
+      metric: "asset-downloads";
+      value: number;
+      assetCount: number;
+      releaseCount: number;
+      recentReleaseCount: number;
+      recentReleaseWindowDays: number;
+      latestVersion: string;
+      latestReleaseAt: string;
+      latestReleaseUrl: string;
+      artifactScope: string;
+      repositoryScope: "full-source" | "client-source";
+    });
+
 export type GuiExclusion = {
   id: string;
   name: string;

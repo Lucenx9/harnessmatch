@@ -5,14 +5,14 @@ import { siteUrl } from "@/lib/site";
 export const dynamic = "force-static";
 
 const coreResources = [
-  ["Home", "/", "Product scope and the main workflow-fit views"],
-  ["Recommender", "/recommend", "Seven-question workflow-fit recommendation"],
+  ["Home", "/", "Product scope, current activity, and catalog entry points"],
   ["Compare harnesses", "/compare", "Side-by-side capability and operating-model comparison"],
   ["Harness catalog", "/harnesses", "Filterable catalog of coding harness profiles"],
+  ["Usage signals", "/usage", "Source-separated routing, package, release, editor-marketplace, and repository observations with explicit limits"],
   ["Coding agent GUIs", "/guis", "Workflow classification for native and multi-harness graphical interfaces"],
-  ["Methodology", "/methodology", "Eligibility gates, visible weights, uncertainty, and evidence policy"],
-  ["Data and sources", "/data", "Searchable ledger of dated first-party evidence"],
-  ["Measured systems", "/benchmarks", "Configuration-specific benchmark records and limitations"],
+  ["Methodology", "/methodology", "Catalog boundaries, classification rules, measurement limits, and evidence policy"],
+  ["Data and sources", "/data", "Current reviewed stable release feeds and a searchable ledger of dated first-party evidence"],
+  ["Benchmark archive", "/benchmarks", "Exploratory configuration-specific benchmark records and limitations"],
 ] as const;
 
 export function GET() {
@@ -24,13 +24,13 @@ export function GET() {
   const lines = [
     "# HarnessMatch",
     "",
-    "> HarnessMatch recommends AI coding harnesses by workflow fit using transparent scoring and dated first-party evidence.",
+    "> HarnessMatch is a source-backed catalog and comparison tool for AI coding harnesses.",
     "",
     "A model's capability is not treated as a harness capability. HarnessMatch evaluates the CLI, IDE extension, agent platform, or runtime mechanisms that turn model reasoning into coding work.",
     "",
     "HarnessMatch is not a generic model leaderboard or an affiliate ranking site. Capability claims require a first-party source and verification date; benchmark results belong only to the exact recorded model, harness version, environment, budget, attempts, and date.",
     "",
-    `Evidence records were most recently verified on ${latestVerifiedAt()}. Only active profiles appear below; dormant or archived tools may remain in the data ledger but are excluded from recommendations.`,
+    `Evidence records were most recently verified on ${latestVerifiedAt()}. Only active profiles appear below; dormant or archived tools may remain in the data ledger for research continuity.`,
     "",
     "## Core resources",
     "",

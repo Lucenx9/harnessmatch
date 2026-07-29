@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { benchmarkRuns } from "@/data/benchmark-runs";
 import { guiCapabilityLabels } from "@/data/gui-products";
 import { harnesses } from "@/data/harnesses";
@@ -11,7 +12,7 @@ import { researchProcessDisclosure } from "@/data/research-process";
 import {
   contentValidityPlan,
   interRaterValidationPlan,
-  userValidationPlan,
+  usabilityValidationPlan,
 } from "@/data/validation-plan";
 import {
   classificationAxes,
@@ -21,55 +22,43 @@ import {
   modelPortabilityLabels,
   productLayerLabels,
 } from "@/lib/harness-classification";
-import { architectureAxisLabels } from "@/lib/evaluation";
-import { guiFitBandLabels, guiWorkflows } from "@/lib/gui-fit";
+import {
+  architectureAxisLabels,
+  benchmarkFamilyCount,
+  operationalReadinessWeights,
+} from "@/lib/evaluation";
 import {
   capabilityAxisLabels,
   capabilityLevelAnchors,
-  capabilityValueFunction,
-  changeScopeWeights,
-  closeMatchScoreMargin,
-  controlStyleWeights,
-  evidenceCoverageThresholds,
-  operatingModeWeights,
   operationalPostureScores,
-  recommendationSensitivity,
-  recommendationWeights,
-} from "@/lib/recommendation-config";
+} from "@/lib/evaluation-config";
+import { guiFitBandLabels, guiWorkflows } from "@/lib/gui-fit";
 import { pageMetadata } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
   title: "Methodology",
   description:
-    "See how HarnessMatch gates requirements, scores workflow fit, separates model and harness evidence, handles uncertainty, and validates recommendations.",
+    "See how HarnessMatch defines catalog scope, classifies mechanisms, separates evidence from usage, and limits measured comparisons.",
   path: "/methodology",
 });
 
-const methodologyVersion = "2.6 / 2026-07-28";
+const methodologyVersion = "3.0 / 2026-07-29";
 const capabilityLevels = [1, 2, 3, 4, 5] as const;
 const methodologySections = [
-  ["decision-question", "Decision question"],
-  ["eligibility", "Scope and eligibility"],
+  ["scope", "Question and scope"],
+  ["eligibility", "Catalog membership"],
   ["gui-classification", "GUI classification"],
-  ["preference-model", "Preference model"],
-  ["sensitivity", "Sensitivity"],
+  ["capability-rubric", "Capability rubric"],
   ["architecture", "Architecture layers"],
   ["evidence-states", "Evidence states"],
   ["research-process", "Research process"],
   ["public-code", "Public-code artifacts"],
   ["measured-systems", "Measured systems"],
-  ["classification", "Classification"],
+  ["classification", "Classification axes"],
   ["validation", "Validation status"],
-  ["value-tables", "Internal value tables"],
+  ["operational-values", "Operational values"],
   ["scientific-basis", "Scientific basis"],
 ] as const;
-
-const weights = [
-  ["Top priority", `${recommendationWeights.priority}%`],
-  ["Control style", `${recommendationWeights.control}%`],
-  ["Change scope", `${recommendationWeights.changeScope}%`],
-  ["Operating mode", `${recommendationWeights.operatingMode}%`],
-];
 
 const validationSampleNames = interRaterValidationPlan.sampleHarnessIds.map((id) => (
   harnesses.find((harness) => harness.id === id)?.name ?? id
@@ -89,35 +78,24 @@ function maturityLabel(maturity: (typeof researchSources)[number]["maturity"], v
   return `${venue}, guidance`;
 }
 
-function WeightGroup({ title, values }: { title: string; values: Record<string, Record<string, number>> }) {
-  return (
-    <section className="method-weight-group">
-      <h3>{title}</h3>
-      {Object.entries(values).map(([mode, factors]) => (
-        <div className="method-weight-row" key={mode}>
-          <strong>{label(mode)}</strong>
-          <span>{Object.entries(factors).map(([factor, weight]) => `${label(factor)} ${weight}%`).join(", ")}</span>
-        </div>
-      ))}
-    </section>
-  );
-}
-
 export default function MethodologyPage() {
+  const benchmarkFamilies = benchmarkFamilyCount(benchmarkRuns);
+  const benchmarkFamilyLabel = `${benchmarkFamilies} benchmark ${benchmarkFamilies === 1 ? "family" : "families"}`;
+
   return (
     <section className="section page-section">
       <div className="shell narrow-shell prose-page">
         <div className="page-intro">
           <p className="methodology-version">Methodology {methodologyVersion}</p>
-          <h1>How recommendations are built.</h1>
-          <p>We first check whether a tool can meet your requirements, then compare workflow fit and show how stable the result is. Sources and measured configurations remain separate from editorial judgments.</p>
+          <h1>How the catalog is built.</h1>
+          <p>HarnessMatch organizes source-backed facts for inspection and comparison. It does not select a winner or combine the catalog into one universal score.</p>
         </div>
 
         <div className="methodology-plain-summary" aria-label="Method in four steps">
-          <div><span>1</span><strong>Scope</strong><p>Only products that own a documented coding loop enter the default ranking.</p></div>
-          <div><span>2</span><strong>Requirements</strong><p>Must-haves are gates. A strength elsewhere cannot cancel a missing requirement.</p></div>
-          <div><span>3</span><strong>Workflow fit</strong><p>Eligible tools are compared against your preferences, not a universal quality score.</p></div>
-          <div><span>4</span><strong>Uncertainty</strong><p>Sensitivity and evidence states show how much confidence to place in the order.</p></div>
+          <div><span>1</span><strong>Define</strong><p>Category membership follows four documented harness criteria.</p></div>
+          <div><span>2</span><strong>Record</strong><p>Every positive product claim links to a dated first-party source.</p></div>
+          <div><span>3</span><strong>Separate</strong><p>Capabilities, popularity, code access, and benchmark results stay distinct.</p></div>
+          <div><span>4</span><strong>Expose</strong><p>Unknowns, limitations, and verification dates remain visible.</p></div>
         </div>
 
         <details className="methodology-toc">
@@ -129,16 +107,15 @@ export default function MethodologyPage() {
           </nav>
         </details>
 
-        <section className="prose-section" id="decision-question">
-          <h2>1. Decision question: what should this person use?</h2>
-          <p><strong>Goal:</strong> select a coding harness for a declared workflow. <strong>Questions:</strong> can it satisfy the non-negotiable constraints; among eligible tools, which mechanisms fit the workflow; how stable is that ordering; and what evidence supports each claim? <strong>Metrics:</strong> eligibility, preference value, rank robustness, evidence state, and measured system outcomes.</p>
-          <p>Model intelligence is never treated as harness capability. Product mechanisms and benchmark configurations remain separate throughout the data model and interface.</p>
+        <section className="prose-section" id="scope">
+          <h2>1. Question and scope</h2>
+          <p><strong>Goal:</strong> make coding harnesses easier to inspect, filter, and compare without hiding editorial assumptions inside a personalized ranking. The catalog records what a product is, which mechanisms are documented, where it runs, which public signals are observable, and what remains unknown.</p>
+          <p>Model intelligence is never treated as harness capability. Product mechanisms, public activity, documentation breadth, source-code access, and benchmark configurations remain separate throughout the data model and interface.</p>
         </section>
 
         <section className="prose-section" id="eligibility">
-          <h2>2. Scope and eligibility before preference</h2>
-          <h3>Catalog membership test</h3>
-          <p>A product enters the default coding-harness recommender only when all four conditions below have current first-party evidence. The boundary is adapted from <a href="https://arxiv.org/abs/2606.10106" target="_blank" rel="noreferrer">What makes a harness a harness</a>. That source is a single-author conceptual preprint, so HarnessMatch uses it as a conservative catalog rule rather than an accepted standard or performance model.</p>
+          <h2>2. Catalog membership</h2>
+          <p>A product is classified as a coding harness only when all four conditions below have current first-party evidence. The boundary is adapted from <a href="https://arxiv.org/abs/2606.10106" target="_blank" rel="noreferrer">What makes a harness a harness</a>. That source is a single-author conceptual preprint, so HarnessMatch uses it as a conservative catalog rule rather than an accepted standard or performance model.</p>
           <div className="taxonomy-list membership-test-list">
             {Object.entries(membershipCriterionLabels).map(([criterion, criterionLabel]) => (
               <div key={criterion}>
@@ -147,7 +124,7 @@ export default function MethodologyPage() {
               </div>
             ))}
           </div>
-          <p>Each criterion is recorded as documented, contradicted, or unknown. Only four documented criteria pass. Unknown evidence is never converted into a negative capability claim, but it still blocks ranking because category membership has not been established.</p>
+          <p>Each criterion is recorded as documented, contradicted, or unknown. Four documented criteria establish category membership only. Unknown evidence is not converted into a negative capability claim.</p>
 
           <h3>Neighboring layers remain visible but separate</h3>
           <div className="taxonomy-list">
@@ -156,18 +133,18 @@ export default function MethodologyPage() {
             <div><strong>{productLayerLabels["framework-runtime"]}</strong><p>Supplies building blocks or durable execution for constructing agents rather than a ready-to-use coding harness.</p></div>
             <div><strong>{productLayerLabels["adjacent-tool"]}</strong><p>Covers gateways, pure editor assistance, evaluation harnesses, and other useful systems outside the coding-harness boundary.</p></div>
           </div>
-          <p>Layer and product role are independent. A platform can still qualify as a coding harness when it owns the loop; a control plane that only supervises external harnesses does not. Orchestrators, frameworks, and adjacent tools remain available to catalog and compare, but they do not enter the default recommendation ordering.</p>
+          <p>Layer and product role are independent. A platform can qualify as a coding harness when it owns the loop; a control plane that only supervises external harnesses does not. Every layer remains available in the catalog and comparison view.</p>
 
-          <h3>Workflow gates</h3>
-          <p>After membership, interface, model-access path, explicit required features, and mode-implied requirements are non-compensatory gates. Consumer subscription access, enterprise access, provider breadth, and local-model support are recorded independently: one never establishes another by inference. Choosing no model-access preference skips that gate instead of inventing a default constraint. CI requires headless execution; parallel work requires documented subagents. A high value elsewhere cannot compensate for a failed gate.</p>
-          <p>Each capability is stored once as a source-linked claim; catalog filters and eligibility gates are derived from that record rather than maintained as separate yes/no fields. Claims preserve operating state: available by default, documented, optional, surface-specific, not documented, explicitly absent, or deprecated. A supported gate must link to a first-party source and verification date. “Not documented” remains uncertainty; “no built-in support” is used only when an admitted source says so explicitly.</p>
-          <p>Only active products are eligible: dormant and archived products remain visible for research but are excluded from recommendations and benchmark rankings. OpenRouter and GitHub are discovery sources only: they can create a research candidate, but cannot establish a capability.</p>
-          <p>The current public status is deliberately conservative: “Eligible” means catalog membership and every declared workflow gate have current supporting documentation. “Not eligible on current evidence” can mean a neighboring product layer or at least one undocumented gate; it does not prove technical impossibility.</p>
+          <h3>Claims and public activity</h3>
+          <p>Capabilities are stored as source-linked claims rather than inferred from product names or model providers. Claim states preserve whether a mechanism is available by default, documented, optional, surface-specific, not documented, explicitly absent, or deprecated. “Not documented” remains uncertainty; “no built-in support” is used only when an admitted source says so explicitly.</p>
+          <p>Active, dormant, and archived product states remain explicit. Dormant and archived records may stay available for research continuity, while active catalog views and measured rankings exclude them where the page states that scope.</p>
+          <p>The Usage page records source-native observations from OpenRouter, Homebrew, npm, filtered GitHub release assets, VS Code Marketplace, Open VSX, JetBrains Marketplace, and GitHub repositories. Tokens, requests, downloads, installs, stars, forks, and release cadence observe different populations and denominators. They are never added together, used as capability evidence, or treated as a quality score. Missing coverage means no admitted mapping, not zero adoption.</p>
+          <p>The stable-release tracker is factual and separate. It joins reviewed product-specific tag patterns to canonical repositories, excludes drafts, prereleases, and unrelated release trains, and publishes the latest tag, date, official URL, repository scope, observation date, and trailing 90-day count. Release frequency is maintenance context rather than quality or task-success evidence.</p>
         </section>
 
         <section className="prose-section" id="gui-classification">
-          <h2>GUI workflow classification</h2>
-          <p>The GUI catalog answers a separate decision question from the harness recommender. A harness-native GUI exposes its own coding harness, while a multi-harness workspace supervises independent CLIs or agent runtimes. Neither layer is treated as universally better, and an external control plane does not inherit the capabilities of the harnesses it launches.</p>
+          <h2>3. GUI workflow classification</h2>
+          <p>The GUI catalog describes a different product layer. A harness-native GUI exposes its own coding harness, while a multi-harness workspace supervises independent CLIs or agent runtimes. Neither is universally better, and an external control plane does not inherit the capabilities of the harnesses it launches.</p>
           <div className="taxonomy-list">
             {guiWorkflows.map((workflow) => (
               <div key={workflow.id}>
@@ -176,27 +153,13 @@ export default function MethodologyPage() {
               </div>
             ))}
           </div>
-          <p>Every required claim documented and every preferred claim documented yields <strong>{guiFitBandLabels.strong}</strong>. Documented requirements with an unresolved preferred claim yield <strong>{guiFitBandLabels.good}</strong>. An unresolved requirement yields <strong>{guiFitBandLabels.conditional}</strong>, preserving unknown as uncertainty rather than converting it to absence. Inactive products or contradicted requirements are <strong>{guiFitBandLabels["not-eligible"]}</strong>.</p>
-          <p>Harness coverage records named integrations and separately identifies arbitrary terminal support. A listed provider does not imply feature parity: native chat, history, interruption, resume, authentication, and maturity can differ by provider. Existing CLI subscriptions or credentials remain distinct from the GUI product unless first-party sources say otherwise.</p>
-          <p>Products are alphabetical inside each band. No numeric value, source count, star count, price, or license contributes to fit. Public implementation at a pinned commit adds a code-verifiable evidence state only; proprietary GUIs remain eligible when first-party documentation establishes the same mechanisms.</p>
+          <p>Every required and preferred claim documented yields <strong>{guiFitBandLabels.strong}</strong>. Documented requirements with an unresolved preferred claim yield <strong>{guiFitBandLabels.good}</strong>. An unresolved requirement yields <strong>{guiFitBandLabels.conditional}</strong>. Inactive products or contradicted requirements are <strong>{guiFitBandLabels["not-eligible"]}</strong>.</p>
+          <p>Products are alphabetical inside each band. No numeric value, source count, popularity signal, price, or license contributes to GUI fit.</p>
         </section>
 
-        <section className="prose-section" id="preference-model">
-          <h2>3. Preference model and swing weights</h2>
-          <p>Eligible products are compared with a provisional linear additive MCDA model. Interface and model access are absent from the score because they were already used as gates. The published reference swing weights sum to 100:</p>
-          <div className="weight-list">
-            {weights.map(([weightLabel, value]) => (
-              <div key={weightLabel}><span>{weightLabel}</span><strong>{value}</strong></div>
-            ))}
-          </div>
-          <p>The editorial 1-5 rubric is mapped through the explicit provisional value function {Object.entries(capabilityValueFunction).map(([level, value]) => `${level}→${value}`).join(", ")}. These internal values enable ordering; the public interface reports preference bands and rank robustness instead of presenting them as measured “quality out of 100”.</p>
-          <div className="method-weight-groups">
-            <WeightGroup title="Control style" values={controlStyleWeights} />
-            <WeightGroup title="Change scope" values={changeScopeWeights} />
-            <WeightGroup title="Operating mode" values={operatingModeWeights} />
-          </div>
-          <h3>Provisional capability anchors</h3>
-          <p>Editors assign the most advanced level supported by first-party records. These anchors define the coding rule; they are not benchmark outcomes, model assessments, or validated performance scales.</p>
+        <section className="prose-section" id="capability-rubric">
+          <h2>4. Capability rubric</h2>
+          <p>The editorial capability rubric is an inspectable coding aid, not a product score. Each axis is ordinal and independent. Levels are never summed into a universal grade or presented as measured performance.</p>
           <div className="capability-rubric-list">
             {(Object.keys(capabilityLevelAnchors) as Array<keyof typeof capabilityLevelAnchors>).map((axis) => (
               <details key={axis}>
@@ -215,42 +178,32 @@ export default function MethodologyPage() {
               </details>
             ))}
           </div>
-          <p>Publishing an anchor makes an editorial judgment inspectable, not automatically reliable. Claim-level source mapping, independent dual coding, and external validity checks remain open work.</p>
-          <p>The additive model assumes the displayed criteria are sufficiently preference-independent for this use. That assumption is provisional and is listed as a validation target below.</p>
-        </section>
-
-        <section className="prose-section" id="sensitivity">
-          <h2>4. Sensitivity instead of false precision</h2>
-          <p>For each answer set, HarnessMatch evaluates {recommendationSensitivity.scenarios} deterministic sensitivity scenarios. Every reference weight is multiplied by a value between {recommendationSensitivity.weightMultiplierMin} and {recommendationSensitivity.weightMultiplierMax}, then renormalized; each provisional factor value is also stressed by up to ±{recommendationSensitivity.factorValueUncertainty} points, half of one rubric step. The interface reports top-rank frequency, top-three frequency, mean rank, and best-worst rank.</p>
-          <p>Any result within {closeMatchScoreMargin} internal preference points of the highest provisional value is presented as part of the leading group. This display rule does not change the calculation; it prevents a small editorial-value difference from being presented as a uniquely superior product.</p>
-          <p>A “top three in 90%” result means 90% of tested preference-and-rating stress scenarios place the harness in the top three. It is not a 90% chance of task success and is not a Bayesian posterior. The uncertainty ranges are methodological stress bounds, not empirically estimated rating-error distributions.</p>
-          <p>If any scored operational input is undocumented, the candidate remains unranked for that comparison. Missing values are not renormalized away and are never converted into evidence of absence.</p>
+          <p>Publishing anchors makes editorial judgment inspectable. It does not establish inter-rater reliability, construct validity, or predictive performance.</p>
         </section>
 
         <section className="prose-section" id="architecture">
           <h2>5. Seven architecture layers</h2>
           <p>Architecture is described one layer at a time and never summed into a universal readiness grade.</p>
           <div className="taxonomy-list">
-            {(Object.entries(architectureAxisLabels)).map(([axis, axisLabel]) => (
+            {Object.entries(architectureAxisLabels).map(([axis, axisLabel]) => (
               <div key={axis}>
                 <strong>{axisLabel}</strong>
                 <p>Source-backed ordinal description of the most advanced documented mechanism on this layer.</p>
               </div>
             ))}
           </div>
-          <p>Recovery is kept visible inside lifecycle; permissions are interpreted as governance; execution and tooling are now explicit instead of being inferred from a single “readiness” number.</p>
+          <p>Recovery remains visible inside lifecycle; permissions are interpreted as governance; execution and tooling are explicit instead of inferred from one overall label.</p>
         </section>
 
         <section className="prose-section" id="evidence-states">
-          <h2>6. Evidence states, not source-count confidence</h2>
+          <h2>6. Evidence states</h2>
           <div className="taxonomy-list">
             <div><strong>Documented</strong><p>A first-party document, repository, or announcement directly supports the claim and records a verification date.</p></div>
             <div><strong>Code-verifiable</strong><p>The relevant client or full source is public and inspected at a pinned commit.</p></div>
             <div><strong>Independently measured</strong><p>A complete external benchmark configuration passes the metadata admission policy.</p></div>
-            <div><strong>Replicated</strong><p>Two independent, compatible measurements reproduce the claim. No current harness is awarded this state by default.</p></div>
+            <div><strong>Replicated</strong><p>Two independent, compatible measurements reproduce the claim. No current harness receives this state by default.</p></div>
           </div>
-          <p>States are claim-specific and need not form a simple ladder. The legacy high/medium/limited coverage label only describes documentation breadth: high requires {evidenceCoverageThresholds.high.sources} sources across {evidenceCoverageThresholds.high.sourceKinds} kinds; it is not used as scientific confidence.</p>
-          <p>Compact result cards summarize evidence available for the product record. They do not upgrade every individual feature claim to the strongest product-level state; the source rows on each profile remain authoritative.</p>
+          <p>States are claim-specific and need not form a simple ladder. Documentation volume is shown as coverage context only; it does not increase capability or scientific confidence.</p>
         </section>
 
         <section className="prose-section" id="research-process">
@@ -277,9 +230,10 @@ export default function MethodologyPage() {
 
         <section className="prose-section" id="measured-systems">
           <h2>9. Measured systems and uncertainty</h2>
-          <p>No result is admitted without model, exact harness version, benchmark version, budget, sandbox/environment, attempts, date, cost, and primary source. A result belongs to model × harness × configuration × environment × budget.</p>
-          <p>The current view contains {benchmarkRuns.length} Terminal-Bench 2.1 configurations, each with 89 tasks, five attempts, and 445 trials. HarnessMatch shows a descriptive 95% interval calculated as accuracy ± 1.96 × the reported standard error, marks interval overlap with the leading configuration, and identifies the non-dominated accuracy/cost Pareto frontier.</p>
-          <p>The normal approximation does not model task clustering or benchmark sampling. Overlap is a visual uncertainty group, not a formal equivalence test. A task-cluster bootstrap or generalized mixed model remains the preferred future analysis when raw trial data is available.</p>
+          <p>No result is admitted without model, exact harness version, benchmark version, budget, sandbox or environment, attempts, date, cost, and primary source. A result belongs to model × harness × configuration × environment × budget.</p>
+          <p>The current archive contains {benchmarkFamilyLabel}: {benchmarkRuns.length} Terminal-Bench 2.1 configurations, each with 89 tasks, five attempts, and 445 trials. This is exploratory evidence, not a general harness leaderboard. HarnessMatch shows a descriptive 95% interval calculated as accuracy ± 1.96 × the reported standard error, marks interval overlap with the leading configuration, and identifies the non-dominated accuracy and cost Pareto frontier.</p>
+          <p>The normal approximation does not model task clustering or benchmark sampling. Overlap is a visual uncertainty group, not a formal equivalence test. A task-cluster bootstrap or generalized mixed model remains preferable when raw trial data is available.</p>
+          <p><Link className="text-link" href="/benchmarks">Inspect the benchmark archive</Link></p>
         </section>
 
         <section className="prose-section" id="classification">
@@ -290,8 +244,8 @@ export default function MethodologyPage() {
             ))}
           </div>
           <p>Runtime posture and available isolation remain separate. Multi-agent organization, autonomy, and a larger feature surface are not assumed to be universally better.</p>
-          <h3>Workflow fit × model portability</h3>
-          <p>The recommender result adds a two-dimensional reading aid, not another score. Rows reuse the user-specific workflow-fit bands. Columns derive a categorical model-portability posture from the separately documented provider style and local-model path:</p>
+          <h3>Model portability</h3>
+          <p>Model portability is a categorical posture derived from the documented provider style and local-model path. It remains independent from product capability:</p>
           <div className="taxonomy-list">
             {Object.entries(modelPortabilityLabels).map(([portability, portabilityLabel]) => (
               <div key={portability}>
@@ -300,15 +254,14 @@ export default function MethodologyPage() {
               </div>
             ))}
           </div>
-          <p>Column placement does not add points, change the ordering, or claim that provider freedom is universally preferable. It lets a user see the trade-off between the fit calculated from their answers and the model-access posture they are willing to accept.</p>
         </section>
 
         <section className="prose-section" id="validation">
           <h2>11. Validation status</h2>
           <div className="taxonomy-list">
-            <div><strong>Implemented</strong><p>Source-governed membership gates, catalog layers, workflow gates, explicit weights, public provisional capability anchors, deterministic sensitivity analysis, missing-data non-renormalization, source dates, pinned repository commits, complete benchmark metadata, descriptive intervals, and Pareto status.</p></div>
-            <div><strong>Protocol published</strong><p>A fixed stratified sample, independent coding procedure, agreement statistics, uncertainty reporting, and held-out recoding rule are now defined in the repository.</p></div>
-            <div><strong>Not yet established</strong><p>Inter-rater reliability, content-validity review by external experts, criterion validity against controlled harness outcomes, and predictive validity in real user adoption.</p></div>
+            <div><strong>Implemented</strong><p>Source-governed membership, explicit catalog layers, public ordinal anchors, dated claims, pinned repository commits, complete benchmark metadata, descriptive intervals, and Pareto status.</p></div>
+            <div><strong>Protocol published</strong><p>A fixed stratified sample, independent coding procedure, agreement statistics, uncertainty reporting, and held-out recoding rule are defined in the repository.</p></div>
+            <div><strong>Not yet established</strong><p>Inter-rater reliability, external content-validity review, criterion validity against controlled outcomes, and usability with real comparison tasks.</p></div>
           </div>
           <details className="validation-protocol">
             <summary>
@@ -337,16 +290,17 @@ export default function MethodologyPage() {
               <small>{contentValidityPlan.outputs.join("; ")}.</small>
             </div>
             <div>
-              <strong>Prospective user study</strong>
-              <p>{userValidationPlan.design}</p>
-              <small>{userValidationPlan.outcomes.join("; ")}.</small>
+              <strong>Comparison usability study</strong>
+              <p>{usabilityValidationPlan.design}</p>
+              <small>{usabilityValidationPlan.outcomes.join("; ")}.</small>
             </div>
           </div>
-          <p>{userValidationPlan.sampleSizePolicy}</p>
+          <p>{usabilityValidationPlan.sampleSizePolicy}</p>
         </section>
 
-        <section className="prose-section" id="value-tables">
-          <h2>Published internal value tables</h2>
+        <section className="prose-section" id="operational-values">
+          <h2>12. Operational reference values</h2>
+          <p>The Data page can order complete operational profiles using five equally weighted axes: {Object.entries(operationalReadinessWeights).map(([axis, weight]) => `${label(axis)} ${weight}%`).join(", ")}. If any axis is unknown, the profile remains unranked.</p>
           <div className="operational-score-table">
             {Object.entries(operationalPostureScores).map(([axis, values]) => (
               <div key={axis}>
@@ -355,12 +309,12 @@ export default function MethodologyPage() {
               </div>
             ))}
           </div>
-          <p>These are transparent provisional value functions used inside workflow preference calculations. They are not benchmark outcomes, probabilities, or universal quality grades.</p>
+          <p>These values describe documented operational posture for one analytical view. They are not probabilities, benchmark outcomes, or universal product-quality grades.</p>
         </section>
 
         <section className="prose-section" id="scientific-basis">
           <h2>Scientific basis</h2>
-          <p>{researchSources.length} methodological sources define measurement, MCDA, uncertainty, benchmark validity, harness architecture, and claim limits. Papers guide the method; current first-party records still control product claims.</p>
+          <p>{researchSources.length} methodological sources inform measurement, uncertainty, benchmark validity, harness architecture, and claim limits. Papers guide the method; current first-party records still control product claims.</p>
           <details className="scientific-ledger">
             <summary>Open all {researchSources.length} research sources</summary>
             <div className="evidence-list research-source-list">

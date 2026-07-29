@@ -70,6 +70,11 @@ describe("harness classification", () => {
       "hermes-agent",
       "openclaw",
       "plandex",
+      "wakil",
+      "deepagents-code",
+      "opensquilla",
+      "postqode",
+      "kern",
     ]);
   });
 

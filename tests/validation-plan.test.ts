@@ -4,7 +4,7 @@ import { repositoryAuditForHarness } from "../src/data/repository-audits";
 import {
   contentValidityPlan,
   interRaterValidationPlan,
-  userValidationPlan,
+  usabilityValidationPlan,
 } from "../src/data/validation-plan";
 
 describe("published validation protocol", () => {
@@ -24,13 +24,16 @@ describe("published validation protocol", () => {
     expect(sourceScopes.size).toBeGreaterThanOrEqual(3);
   });
 
-  it("separates reliability, content validity, and prospective usefulness", () => {
+  it("separates reliability, content validity, and usability", () => {
     expect(interRaterValidationPlan.status).toBe("protocol-published");
     expect(interRaterValidationPlan.independentRaters).toBeGreaterThanOrEqual(2);
     expect(interRaterValidationPlan.workingThreshold).toBe(0.8);
     expect(interRaterValidationPlan.thresholdCaveat).toContain("not a universal law");
     expect(contentValidityPlan.status).toBe("not-started");
-    expect(userValidationPlan.status).toBe("not-started");
-    expect(userValidationPlan.sampleSizePolicy).toContain("Pilot results alone do not establish predictive validity");
+    expect(usabilityValidationPlan.status).toBe("not-started");
+    expect(usabilityValidationPlan.outcomes).toContain(
+      "Decision confidence without implying that the site selected a winner",
+    );
+    expect(usabilityValidationPlan.sampleSizePolicy).toContain("Pilot results alone do not establish general usability");
   });
 });

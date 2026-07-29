@@ -2,7 +2,7 @@ import { getOperationalProfileRecord } from "../data/operational-profiles";
 import { benchmarkRuns } from "../data/benchmark-runs";
 import { featureClaimFor, featureClaimSupportsRequirement } from "../data/feature-claims";
 import { repositoryAuditForHarness } from "../data/repository-audits";
-import { operationalPostureScores } from "./recommendation-config";
+import { operationalPostureScores } from "./evaluation-config";
 import type { BenchmarkRun } from "../data/benchmark-runs";
 import type {
   ArchitectureAxis,
@@ -177,6 +177,12 @@ export function benchmarkConfidenceInterval95(run: BenchmarkRun) {
     upper: Math.min(100, run.accuracy + margin),
     method: "Normal approximation from the reported standard error" as const,
   };
+}
+
+export function benchmarkFamilyCount(
+  runs: Array<{ benchmark: string; benchmarkVersion: string }>,
+) {
+  return new Set(runs.map((run) => `${run.benchmark}\u0000${run.benchmarkVersion}`)).size;
 }
 
 export function costPerSuccessfulTrial(run: BenchmarkRun) {

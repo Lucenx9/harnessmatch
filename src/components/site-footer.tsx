@@ -13,14 +13,14 @@ export function SiteFooter() {
             <BrandMark />
             <strong>HarnessMatch</strong>
           </Link>
-          <p>Workflow fit, verified against first-party product evidence.</p>
+          <p>Source-backed records for inspecting AI coding harnesses.</p>
         </div>
         <div className="footer-links">
           <Link href="/data">Data</Link>
           <Link href="/methodology">Methodology</Link>
           <Link href="/compare">Compare</Link>
+          <Link href="/usage">Usage</Link>
           <Link href="/guis">GUIs</Link>
-          <Link href="/benchmarks">Benchmarks</Link>
           <Link href="/privacy">Privacy</Link>
         </div>
       </div>

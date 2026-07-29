@@ -98,7 +98,7 @@ export const classificationAxes = [
   {
     label: "Catalog layer",
     description:
-      "Whether the product owns a coding-agent loop, coordinates external harnesses, supplies a framework or runtime, or is an adjacent tool. Only the first layer enters the default recommender.",
+      "Whether the product owns a coding-agent loop, coordinates external harnesses, supplies a framework or runtime, or is an adjacent tool. Only the first layer qualifies as a coding harness.",
   },
   {
     label: "Product role",

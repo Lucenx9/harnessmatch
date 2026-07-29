@@ -56,6 +56,7 @@ type Props = {
   operational: OperationalRankingRow[];
   auditability: AuditabilityRankingRow[];
   benchmarks: BenchmarkRankingRow[];
+  benchmarkFamilyCount: number;
   unrankedRepositoryCount: number;
 };
 
@@ -65,7 +66,7 @@ type OperationalLens = ArchitectureAxis;
 const viewLabels: Record<ViewId, string> = {
   operational: "Operational mechanisms",
   auditability: "Public artifacts",
-  benchmarks: "Measured configurations",
+  benchmarks: "Benchmark evidence",
 };
 
 const operationalLensLabels = architectureAxisLabels;
@@ -86,6 +87,7 @@ export function EvidenceRankingExplorer({
   operational,
   auditability,
   benchmarks,
+  benchmarkFamilyCount,
   unrankedRepositoryCount,
 }: Props) {
   const [view, setView] = useState<ViewId>("operational");
@@ -118,12 +120,6 @@ export function EvidenceRankingExplorer({
     ? []
     : sortedAuditability.filter((row) => row.artifactCount === auditabilityLeaderCount);
   const topBenchmark = sortedBenchmarks[0];
-  const benchmarkTopGroup = sortedBenchmarks.filter((row) => row.inTopIntervalGroup);
-  const effectiveBenchmarkTopGroup = benchmarkTopGroup.length > 0
-    ? benchmarkTopGroup
-    : topBenchmark
-      ? [topBenchmark]
-      : [];
   const highlightViews: Array<{
     id: ViewId;
     label: string;
@@ -159,13 +155,13 @@ export function EvidenceRankingExplorer({
     {
       id: "benchmarks",
       label: viewLabels.benchmarks,
-      value: topBenchmark ? `${topBenchmark.score.toFixed(1)}%` : "N/A",
-      unit: "task accuracy",
-      headline: effectiveBenchmarkTopGroup.length > 0
-        ? `${effectiveBenchmarkTopGroup.length} ${effectiveBenchmarkTopGroup.length === 1 ? "configuration overlaps" : "configurations overlap"} the top interval`
+      value: benchmarkFamilyCount,
+      unit: benchmarkFamilyCount === 1 ? "benchmark family" : "benchmark families",
+      headline: topBenchmark
+        ? `Highest observed: ${topBenchmark.name}`
         : "No measured configuration",
       detail: topBenchmark
-        ? `${topBenchmark.name} with ${topBenchmark.model}, ${sortedBenchmarks.length} exact systems`
+        ? `${sortedBenchmarks.length} exact configurations. Not a general harness ranking.`
         : "No exact systems are available",
     },
   ];
@@ -220,7 +216,7 @@ export function EvidenceRankingExplorer({
     ? "How much documented runtime support each harness provides for the selected mechanism. These ordered levels are never summed into a universal product grade."
     : view === "auditability"
       ? "How many of five public engineering artifacts could be verified at a pinned commit. This measures inspectability, not product quality."
-      : "Observed Terminal-Bench 2.1 results for exact harness, version, model, effort, budget, and date combinations. They are not harness-only scores.";
+      : "Observed results for exact harness, version, model, effort, budget, and date combinations within one benchmark family. They do not measure overall harness quality.";
 
   const csvRows = view === "operational"
     ? [
@@ -273,10 +269,10 @@ export function EvidenceRankingExplorer({
     <div className="evidence-ranking-tool">
       <header className="evidence-ranking-header">
         <div>
-          <h2>Compare the evidence.</h2>
-          <p>The recommendation above is based on workflow fit. These views compare documented mechanisms, source auditability, and measured configurations separately, without combining them into one score.</p>
+          <h2>Evidence comparisons</h2>
+          <p>Compare documented operational mechanisms, repository auditability, and measured benchmark runs. Each view keeps its own unit; no composite score.</p>
         </div>
-        <Link className="text-link" href="/methodology">Definitions and weights</Link>
+        <Link className="text-link" href="/methodology">Methods and definitions</Link>
       </header>
 
       <div className="evidence-highlight-tabs" role="tablist" aria-label="Evidence highlights">

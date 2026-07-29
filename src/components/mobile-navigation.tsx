@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { NavLinks } from "@/components/nav-links";
+import { primaryNavigationItems, secondaryNavigationItems } from "@/lib/navigation";
 
 export function MobileNavigation() {
   const detailsRef = useRef<HTMLDetailsElement>(null);
@@ -46,7 +47,14 @@ export function MobileNavigation() {
     <details className="mobile-menu" ref={detailsRef}>
       <summary>Menu</summary>
       <nav aria-label="Mobile navigation">
-        <NavLinks onNavigate={closeMenu} />
+        <div className="mobile-nav-group">
+          <span>Explore data</span>
+          <NavLinks items={primaryNavigationItems} onNavigate={closeMenu} />
+        </div>
+        <div className="mobile-nav-group">
+          <span>More</span>
+          <NavLinks items={secondaryNavigationItems} onNavigate={closeMenu} />
+        </div>
       </nav>
     </details>
   );

@@ -6,8 +6,11 @@ import { FeatureClaimValue } from "@/components/feature-claim-value";
 import { ArchitectureLevelIndicator } from "@/components/architecture-level-indicator";
 import { VisualIcon } from "@/components/visual-icon";
 import { benchmarkRunsForHarness } from "@/data/benchmark-runs";
+import { ecosystemSignalsByHarness } from "@/data/ecosystem-signals";
 import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnessBySlug, harnesses } from "@/data/harnesses";
+import { openRouterAttributionByHarness } from "@/data/openrouter-attribution";
+import { releaseSnapshotByHarness } from "@/data/release-signals";
 import { getOperationalProfileRecord } from "@/data/operational-profiles";
 import {
   repositoryArtifactCount,
@@ -36,6 +39,7 @@ import {
 import { harnessProfileDescription, pageMetadata } from "@/lib/site";
 import type {
   ArchitectureAxis,
+  EcosystemSignalSnapshot,
   EvidenceSource,
   FeatureKey,
   MembershipEvidenceState,
@@ -99,6 +103,47 @@ const evidenceTopicOrder: EvidenceTopic[] = [
   "releases-code-audit",
   "additional",
 ];
+
+const compactNumberFormatter = new Intl.NumberFormat("en", {
+  notation: "compact",
+  maximumFractionDigits: 2,
+});
+
+const ecosystemSignalLabels: Record<EcosystemSignalSnapshot["source"], string> = {
+  homebrew: "Homebrew 30d events",
+  npm: "npm last-month downloads",
+  "github-releases": "Release asset downloads",
+  vscode: "VS Code installs",
+  openvsx: "Open VSX downloads",
+  jetbrains: "JetBrains downloads",
+  github: "GitHub stars",
+};
+
+const ecosystemSignalOrder: Record<EcosystemSignalSnapshot["source"], number> = {
+  homebrew: 0,
+  npm: 1,
+  "github-releases": 2,
+  vscode: 3,
+  openvsx: 4,
+  jetbrains: 5,
+  github: 6,
+};
+
+const repositoryScopeLabels = {
+  "full-source": "Full-source repository",
+  "client-source": "Client-source repository",
+  "support-repository": "Support repository",
+} as const;
+
+function ecosystemSignalUnit(signal: EcosystemSignalSnapshot) {
+  if (signal.source === "homebrew") return `${signal.artifactKind === "formula" ? "Formula" : "Cask"}: ${signal.artifactId}`;
+  if (signal.source === "npm") return `Package: ${signal.artifactId}`;
+  if (signal.source === "github-releases") return `${signal.releaseCount} stable releases; ${signal.assetCount} matched assets`;
+  if (signal.source === "vscode") return `Extension: ${signal.artifactId}`;
+  if (signal.source === "openvsx") return `Extension: ${signal.artifactId}; latest ${signal.latestVersion}`;
+  if (signal.source === "jetbrains") return `Plugin ${signal.pluginId}: ${signal.artifactId}`;
+  return `${repositoryScopeLabels[signal.repositoryScope]}; ${compactNumberFormatter.format(signal.forks)} forks`;
+}
 
 function EvidenceRows({ sources }: { sources: EvidenceSource[] }) {
   return (
@@ -194,6 +239,16 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
   const architecture = architectureProfileFor(harness);
   const documentedLayers = Object.values(architecture).filter((value) => value !== null).length;
   const repositoryAudit = repositoryAuditForHarness(harness.id);
+  const openRouterSnapshot = openRouterAttributionByHarness.get(harness.id);
+  const openRouterMonth = openRouterSnapshot?.windows.month;
+  const releaseSnapshot = releaseSnapshotByHarness.get(harness.id);
+  const ecosystemSignals = [...(ecosystemSignalsByHarness.get(harness.id) ?? [])]
+    .sort((left, right) => ecosystemSignalOrder[left.source] - ecosystemSignalOrder[right.source]);
+  const ecosystemCheckedAt = [
+    openRouterMonth?.observedAt,
+    releaseSnapshot?.observedAt,
+    ...ecosystemSignals.map((signal) => signal.observedAt),
+  ].filter((value): value is string => Boolean(value)).sort().at(-1);
   const artifactCount = repositoryAudit ? repositoryArtifactCount(repositoryAudit) : null;
   const measuredRuns = benchmarkRunsForHarness(harness.id);
   const evidenceState = evidenceStateFor(harness.id);
@@ -423,7 +478,7 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
                     {membershipEvidenceLabels[assessment.state]}
                   </span>
                   <p>{membershipCriterionDescriptions[criterion as keyof typeof membership.criteria]}</p>
-                  <div className="profile-membership-sources" aria-label="First-party evidence">
+                  <div className="profile-membership-sources" role="group" aria-label="First-party evidence">
                     {assessment.sourceUrls.length > 0
                       ? assessment.sourceUrls.map((url) => (
                           <a href={url} target="_blank" rel="noreferrer" key={url}>
@@ -483,6 +538,60 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
             </div>
           </footer>
         </section>
+
+        {(releaseSnapshot || openRouterMonth || ecosystemSignals.length > 0) && (
+          <section className="profile-ecosystem" id="ecosystem-signals" aria-labelledby="ecosystem-signals-heading">
+            <header>
+              <div>
+                <span>Context, not quality</span>
+                <h2 id="ecosystem-signals-heading">Public ecosystem signals</h2>
+                <p>Source-native observations for exact mapped artifacts and reviewed stable release trains. Different units and populations stay separate, and missing coverage is never treated as zero.</p>
+              </div>
+              <Link className="text-link" href="/usage">Compare all signals</Link>
+            </header>
+            <ul className="profile-ecosystem-metrics">
+              {releaseSnapshot && (
+                <li>
+                  <span className="profile-ecosystem-label">Latest stable release</span>
+                  <strong className="profile-ecosystem-value" title={`Latest stable version ${releaseSnapshot.latestVersion}`}>
+                    {releaseSnapshot.latestVersion}
+                  </strong>
+                  <small>
+                    Released {releaseSnapshot.latestReleaseAt}; {releaseSnapshot.recentReleaseCount} stable {releaseSnapshot.recentReleaseCount === 1 ? "release" : "releases"} in {releaseSnapshot.recentReleaseWindowDays} days
+                  </small>
+                  <a className="text-link" href={releaseSnapshot.latestReleaseUrl} target="_blank" rel="noreferrer">Open release</a>
+                </li>
+              )}
+              {openRouterSnapshot && openRouterMonth && (
+                <li>
+                  <span className="profile-ecosystem-label">OpenRouter 30d tokens</span>
+                  <strong className="profile-ecosystem-value" title={openRouterMonth.attributedTokens === null ? undefined : `${openRouterMonth.attributedTokens.toLocaleString("en-US")} attributed tokens`}>
+                    {openRouterMonth.attributedTokens === null ? "Not listed" : compactNumberFormatter.format(openRouterMonth.attributedTokens)}
+                  </strong>
+                  <small>{openRouterMonth.rank === null ? "Not ranked" : `#${openRouterMonth.rank} coding app`}; {openRouterMonth.windowStart} to {openRouterMonth.windowEnd}</small>
+                  <a className="text-link" href={openRouterSnapshot.sourceUrl} target="_blank" rel="noreferrer">Open app page</a>
+                </li>
+              )}
+              {ecosystemSignals.map((signal) => (
+                <li key={`${signal.source}:${signal.artifactId}`}>
+                  <span className="profile-ecosystem-label">{ecosystemSignalLabels[signal.source]}</span>
+                  <strong className="profile-ecosystem-value" title={`${signal.value.toLocaleString("en-US")} ${signal.metric}`}>{compactNumberFormatter.format(signal.value)}</strong>
+                  <small>{ecosystemSignalUnit(signal)}</small>
+                  <a className="text-link" href={signal.artifactUrl} target="_blank" rel="noreferrer">Open artifact</a>
+                </li>
+              ))}
+            </ul>
+            <footer>
+              <p>
+                Routing, package retrievals, release downloads, editor installs, and repository interest observe different populations. They are never added together and never affect capability evidence, classification, or measured results.
+              </p>
+              <div>
+                <Link className="text-link" href="/methodology#eligibility">Interpretation rules</Link>
+                {ecosystemCheckedAt && <span>Signals checked <time dateTime={ecosystemCheckedAt}>{ecosystemCheckedAt}</time></span>}
+              </div>
+            </footer>
+          </section>
+        )}
 
         <section className="profile-measurement-grid" aria-label="Public audit and measured configurations">
           <article>
@@ -577,7 +686,7 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
             )}
             {harness.discovery && harness.discovery.length > 0 && (
               <div className="profile-discovery-note">
-                <h3>Ecosystem discovery</h3>
+                <h3>Ecosystem context</h3>
                 {harness.discovery.map((source) => (
                   <p key={source.url}>
                     <a href={source.url} target="_blank" rel="noreferrer">{source.title}</a>

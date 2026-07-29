@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 
 export const siteUrl = "https://harnessmatch.dev";
 export const siteName = "HarnessMatch";
-export const defaultSiteTitle = "HarnessMatch - Coding harness workflow fit";
+export const defaultSiteTitle = "HarnessMatch - AI coding harness data and comparison";
 export const defaultSiteDescription =
-  "Explore source-backed workflow fit across AI coding harnesses with transparent scoring, verified capabilities, and documented trade-offs.";
+  "Compare AI coding harnesses using source-backed capability records, operating-model data, public usage signals, documented trade-offs, and transparent methodology.";
 
 const metaDescriptionLength = {
   min: 120,
@@ -15,7 +15,7 @@ const socialImage = {
   url: "/og.jpg",
   width: 1200,
   height: 630,
-  alt: "HarnessMatch coding harness workflow fit explorer.",
+  alt: "HarnessMatch source-backed AI coding harness data and comparison.",
 };
 
 export function canonicalMetadata(path: string): Pick<Metadata, "alternates"> {
@@ -70,9 +70,10 @@ export function pageMetadata({
 export function harnessProfileDescription(name: string, tagline: string): string {
   const prefix = `${name}: ${tagline}`;
   const candidates = [
-    `${prefix} Compare workflow fit, capabilities, controls, trade-offs, and verified first-party evidence.`,
-    `${prefix} Compare workflow fit, controls, trade-offs, and verified evidence.`,
-    `${prefix} Workflow fit, trade-offs, and verified evidence.`,
+    `${prefix} Inspect capabilities, controls, trade-offs, public activity, and verified first-party evidence.`,
+    `${prefix} Inspect controls, trade-offs, public activity, and verified evidence.`,
+    `${prefix} Capabilities, trade-offs, and verified first-party evidence.`,
+    `${prefix} Verified capabilities, controls, and evidence.`,
   ];
   const description = candidates.find((candidate) => (
     candidate.length >= metaDescriptionLength.min

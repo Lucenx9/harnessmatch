@@ -54,6 +54,14 @@ function productLayerLabelFor(record: EvidenceLedgerRecord) {
   return record.productLayer ? productLayerLabels[record.productLayer] : "Not assessed";
 }
 
+export function decodeHashFragment(hash: string) {
+  try {
+    return decodeURIComponent(hash.slice(1));
+  } catch {
+    return null;
+  }
+}
+
 export function EvidenceLedger({ records }: { records: EvidenceLedgerRecord[] }) {
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState<StatusFilter>("all");
@@ -73,7 +81,7 @@ export function EvidenceLedger({ records }: { records: EvidenceLedgerRecord[] })
 
   useEffect(() => {
     function openHashTarget() {
-      const id = decodeURIComponent(window.location.hash.slice(1));
+      const id = decodeHashFragment(window.location.hash);
       if (!id) return;
       const target = document.getElementById(id);
       if (target instanceof HTMLDetailsElement) target.open = true;

@@ -5,6 +5,10 @@ import { operationalProfileRecords } from "../data/operational-profiles";
 import { repositoryAudits } from "../data/repository-audits";
 import { guiExclusions, guiProducts } from "../data/gui-products";
 import { guiRepositoryAudits } from "../data/gui-repository-audits";
+import { openRouterAttributionSnapshots } from "../data/openrouter-attribution";
+import { ecosystemSignalSnapshots } from "../data/ecosystem-signals";
+import { guiEcosystemSignalSnapshots } from "../data/gui-ecosystem-signals";
+import { harnessReleaseSnapshots } from "../data/release-signals";
 
 /**
  * Published claims carry a verification date, so an unmaintained dataset keeps
@@ -27,6 +31,7 @@ export type FreshnessState = "current" | "due-for-review" | "stale";
 export type VerifiedRecordScope =
   | "harness"
   | "evidence-source"
+  | "discovery-source"
   | "logo"
   | "membership"
   | "operational-profile"
@@ -38,7 +43,12 @@ export type VerifiedRecordScope =
   | "gui-claim"
   | "gui-source"
   | "gui-repository-audit"
-  | "gui-exclusion";
+  | "gui-exclusion"
+  | "openrouter-attribution"
+  | "openrouter-ranking"
+  | "ecosystem-signal"
+  | "gui-ecosystem-signal"
+  | "release-snapshot";
 
 export type VerifiedRecord = {
   scope: VerifiedRecordScope;
@@ -97,6 +107,14 @@ export function verifiedRecords(): VerifiedRecord[] {
         subject: harness.id,
         detail: source.url,
         verifiedAt: source.verifiedAt,
+      });
+    }
+    for (const source of harness.discovery ?? []) {
+      records.push({
+        scope: "discovery-source",
+        subject: harness.id,
+        detail: source.url,
+        verifiedAt: source.observedAt,
       });
     }
 
@@ -175,6 +193,58 @@ export function verifiedRecords(): VerifiedRecord[] {
       subject: exclusion.id,
       detail: exclusion.sourceUrl,
       verifiedAt: exclusion.verifiedAt,
+    });
+  }
+
+  for (const snapshot of openRouterAttributionSnapshots) {
+    records.push({
+      scope: "openrouter-attribution",
+      subject: snapshot.harnessId,
+      detail: snapshot.sourceUrl,
+      verifiedAt: snapshot.observedAt,
+    });
+    for (const [windowKey, window] of Object.entries(snapshot.windows)) {
+      records.push({
+        scope: "openrouter-ranking",
+        subject: snapshot.harnessId,
+        detail: `${window.category}:${windowKey}:${window.windowStart}:${window.windowEnd}`,
+        verifiedAt: window.observedAt,
+      });
+    }
+    for (const [windowKey, window] of Object.entries(snapshot.trendingWindows)) {
+      records.push({
+        scope: "openrouter-ranking",
+        subject: snapshot.harnessId,
+        detail: `${window.category}:trending:${windowKey}:${window.windowStart}:${window.windowEnd}`,
+        verifiedAt: window.observedAt,
+      });
+    }
+  }
+
+  for (const signal of ecosystemSignalSnapshots) {
+    records.push({
+      scope: "ecosystem-signal",
+      subject: signal.harnessId,
+      detail: `${signal.source}:${signal.artifactId}:${signal.metric}`,
+      verifiedAt: signal.observedAt,
+    });
+  }
+
+  for (const signal of guiEcosystemSignalSnapshots) {
+    records.push({
+      scope: "gui-ecosystem-signal",
+      subject: signal.guiId,
+      detail: `${signal.source}:${signal.artifactId}:${signal.metric}`,
+      verifiedAt: signal.observedAt,
+    });
+  }
+
+  for (const snapshot of harnessReleaseSnapshots) {
+    records.push({
+      scope: "release-snapshot",
+      subject: snapshot.harnessId,
+      detail: `${snapshot.repository}:${snapshot.latestVersion}`,
+      verifiedAt: snapshot.observedAt,
     });
   }
 

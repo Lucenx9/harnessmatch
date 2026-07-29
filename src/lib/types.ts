@@ -1,9 +1,4 @@
 export type InterfaceType = "terminal" | "ide" | "web" | "automation";
-export type Priority = "simplicity" | "flexibility" | "security" | "autonomy";
-export type ModelAccess = "subscription" | "model-agnostic" | "local" | "enterprise" | "no-preference";
-export type ControlStyle = "approval-heavy" | "balanced" | "hands-off";
-export type ChangeScope = "focused" | "cross-file" | "large-repo";
-export type OperatingMode = "interactive" | "ci" | "parallel";
 export type HarnessRole =
   | "pair-programmer"
   | "coding-agent"
@@ -146,6 +141,137 @@ export type DiscoverySource = {
   observedAt: string;
 };
 
+/**
+ * A dated view of traffic publicly attributed to an app on OpenRouter.
+ * This is ecosystem context, not first-party capability evidence or a quality
+ * measure, and therefore lives outside the Harness record and classification.
+ */
+export type OpenRouterAttributionSnapshot = {
+  harnessId: string;
+  appSlug: string;
+  appId: number;
+  sourceUrl: string;
+  integrationUrl?: string;
+  attributedTokens: number;
+  dailyGlobalRank: number | null;
+  modelsObserved: number;
+  observedAt: string;
+  windows: Record<OpenRouterUsageWindowKey, OpenRouterUsageWindow>;
+  trendingWindows: Record<OpenRouterTrendingWindowKey, OpenRouterUsageWindow>;
+};
+
+export type OpenRouterUsageWindowKey = "day" | "week" | "month";
+export type OpenRouterTrendingWindowKey = Exclude<OpenRouterUsageWindowKey, "day">;
+
+export type OpenRouterUsageWindow = {
+  category: "coding";
+  days: 1 | 7 | 30;
+  rank: number | null;
+  attributedTokens: number | null;
+  attributedRequests: number | null;
+  windowStart: string;
+  windowEnd: string;
+  observedAt: string;
+  datasetVersion: string;
+  sourceUrl: string;
+};
+
+/**
+ * Public distribution and repository signals. Each source keeps its native
+ * unit and population; these records must never be combined into one score.
+ */
+export type EcosystemSignalSnapshot =
+  | HomebrewUsageSignal
+  | NpmUsageSignal
+  | VsCodeUsageSignal
+  | OpenVsxUsageSignal
+  | JetBrainsUsageSignal
+  | GitHubReleaseDownloadSignal
+  | GitHubInterestSignal;
+
+type EcosystemSignalBase = {
+  harnessId: string;
+  observedAt: string;
+  artifactId: string;
+  artifactUrl: string;
+  sourceUrl: string;
+};
+
+export type HomebrewUsageSignal = EcosystemSignalBase & {
+  source: "homebrew";
+  metric: "install-events";
+  artifactKind: "formula" | "cask";
+  value: number;
+  windowDays: 30;
+  windowStart: string;
+  windowEnd: string;
+};
+
+export type NpmUsageSignal = EcosystemSignalBase & {
+  source: "npm";
+  metric: "downloads";
+  value: number;
+  windowDays: 30;
+  windowStart: string;
+  windowEnd: string;
+};
+
+export type VsCodeUsageSignal = EcosystemSignalBase & {
+  source: "vscode";
+  metric: "installs";
+  value: number;
+};
+
+export type OpenVsxUsageSignal = EcosystemSignalBase & {
+  source: "openvsx";
+  metric: "downloads";
+  value: number;
+  latestVersion: string;
+};
+
+export type JetBrainsUsageSignal = EcosystemSignalBase & {
+  source: "jetbrains";
+  metric: "downloads";
+  value: number;
+  pluginId: number;
+};
+
+export type GitHubReleaseDownloadSignal = EcosystemSignalBase & {
+  source: "github-releases";
+  metric: "asset-downloads";
+  value: number;
+  assetCount: number;
+  releaseCount: number;
+  recentReleaseCount: number;
+  recentReleaseWindowDays: number;
+  latestVersion: string;
+  latestReleaseAt: string;
+  latestReleaseUrl: string;
+  artifactScope: string;
+  repositoryScope: "full-source" | "client-source" | "support-repository";
+};
+
+export type HarnessReleaseSnapshot = {
+  harnessId: string;
+  repository: string;
+  repositoryScope: "full-source" | "client-source" | "support-repository";
+  latestVersion: string;
+  latestReleaseAt: string;
+  latestReleaseUrl: string;
+  recentReleaseCount: number;
+  recentReleaseWindowDays: number;
+  observedAt: string;
+  sourceUrl: string;
+};
+
+export type GitHubInterestSignal = EcosystemSignalBase & {
+  source: "github";
+  metric: "stars";
+  value: number;
+  forks: number;
+  repositoryScope: "full-source" | "client-source" | "support-repository";
+};
+
 export type Harness = {
   id: string;
   slug: string;
@@ -175,45 +301,6 @@ export type Harness = {
   verifiedAt: string;
   evidence: EvidenceSource[];
   discovery?: DiscoverySource[];
-};
-
-export type RecommendationAnswers = {
-  interface: InterfaceType;
-  priority: Priority;
-  modelAccess: ModelAccess;
-  control: ControlStyle;
-  changeScope: ChangeScope;
-  operatingMode: OperatingMode;
-  requiredFeatures: FeatureKey[];
-};
-
-export type Recommendation = {
-  harness: Harness;
-  score: number;
-  fitBand: "strong" | "good" | "conditional" | "weak";
-  robustness: RankRobustness;
-  evidenceState: EvidenceStateSummary;
-  evidenceCoverage: "high" | "medium" | "limited";
-  evidenceSourceCount: number;
-  reasons: string[];
-  compromises: string[];
-  scoreBreakdown: Record<RecommendationFactor, number>;
-};
-
-
-export type RecommendationFactor =
-  | "priority"
-  | "control"
-  | "changeScope"
-  | "operatingMode";
-
-export type RankRobustness = {
-  scenarioCount: number;
-  topRankFrequency: number;
-  topThreeFrequency: number;
-  bestRank: number;
-  worstRank: number;
-  meanRank: number;
 };
 
 export type EvidenceState =

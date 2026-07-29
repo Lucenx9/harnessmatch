@@ -80,6 +80,7 @@ describe("canonical production domain", () => {
     expect(sitemap()).not.toHaveLength(0);
     expect(sitemap().every((entry) => entry.url === siteUrl || entry.url.startsWith(`${siteUrl}/`))).toBe(true);
     expect(sitemap()).toContainEqual(expect.objectContaining({ url: `${siteUrl}/guis` }));
+    expect(sitemap()).toContainEqual(expect.objectContaining({ url: `${siteUrl}/usage` }));
     for (const product of guiProducts) {
       expect(sitemap()).toContainEqual(expect.objectContaining({ url: `${siteUrl}/guis/${product.id}` }));
     }
@@ -90,7 +91,7 @@ describe("canonical production domain", () => {
       readFileSync(`${repositoryRoot}/vercel.json`, "utf8"),
     ) as {
       headers: Array<{ has: Array<{ value: string }>; headers: Array<{ key: string; value: string }> }>;
-      redirects: Array<{ has: Array<{ value: string }>; destination: string; permanent: boolean }>;
+      redirects: Array<{ source: string; has?: Array<{ value: string }>; destination: string; permanent: boolean }>;
     };
 
     expect(configuration.headers).toContainEqual(
@@ -101,6 +102,11 @@ describe("canonical production domain", () => {
     );
     expect(configuration.redirects).toEqual(
       expect.arrayContaining([
+        expect.objectContaining({
+          source: "/recommend",
+          destination: "https://harnessmatch.dev/compare",
+          permanent: true,
+        }),
         expect.objectContaining({
           has: [expect.objectContaining({ value: "www.harnessmatch.dev" })],
           destination: "https://harnessmatch.dev/$1",
