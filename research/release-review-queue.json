@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-07-29T03:34:32.052Z",
+  "updatedAt": "2026-07-29T03:42:01.689Z",
   "generatedBy": {
     "provider": "OpenRouter",
     "model": "openai/gpt-oss-20b",
@@ -8,6 +8,60 @@
     "purpose": "AI-assisted release-note triage for editorial review; never product evidence."
   },
   "items": [
+    {
+      "key": "kimi-code:@moonshot-ai/kimi-code@0.30.0",
+      "harnessId": "kimi-code",
+      "version": "@moonshot-ai/kimi-code@0.30.0",
+      "releasedAt": "2026-07-29",
+      "releaseUrl": "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai/kimi-code%400.30.0",
+      "sourceApiUrl": "https://api.github.com/repos/MoonshotAI/kimi-code/releases/tags/%40moonshot-ai%2Fkimi-code%400.30.0",
+      "releaseTitle": "@moonshot-ai/kimi-code@0.30.0",
+      "releaseNotesSha256": "2a2cc7f382156a8b4e429c2d50ca7b28af152acd0050ea0e91d2255a6aea5464",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-07-29T03:42:01.689Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1152,
+        "completionTokens": 385,
+        "totalTokens": 1537
+      },
+      "triage": {
+        "summary": "Minor and patch updates adding UI footer, handling of invalid tool calls, quota notices, plugin update alerts, fast failure on quota exhaustion, code block line number fix, and removal of 50 MB file‑upload limit.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Stops the turn after repeated invalid tool calls instead of retrying indefinitely."
+          },
+          {
+            "category": "capability",
+            "description": "Fails fast when account quota or balance is exhausted instead of silently retrying."
+          },
+          {
+            "category": "capability",
+            "description": "Shows a notice when an official plugin used in the session has an update available."
+          },
+          {
+            "category": "capability",
+            "description": "Shows a quota note after installing official plugins that bill against plan quota."
+          },
+          {
+            "category": "performance",
+            "description": "Removes the 50 MB size limit on file uploads to the built‑in server."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the change to stop after repeated invalid tool calls affect any existing tool integration workflows?",
+          "Is the fast failure on quota exhaustion behavior consistent with current error handling expectations?",
+          "Will the removal of the 50 MB file upload limit impact server resource usage or security?"
+        ],
+        "limitations": [
+          "The notes do not detail the exact conditions under which the new behaviors trigger, nor do they provide test coverage or rollback plans."
+        ]
+      }
+    },
     {
       "key": "letta-code:v0.29.11",
       "harnessId": "letta-code",
