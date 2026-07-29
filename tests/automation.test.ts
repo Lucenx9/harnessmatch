@@ -33,11 +33,16 @@ describe("daily usage automation", () => {
     expect(workflow).toContain("npm run verify:maintenance");
     expect(workflow).toContain("npm audit --audit-level=high");
     expect(workflow).toContain("node scripts/validate-usage-refresh-diff.mjs");
-    expect(workflow).toContain("git push origin HEAD:main");
+    expect(workflow).toContain("git push \"https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git\" HEAD:main");
     expect(workflow).toContain("node scripts/wait-for-quality-gate.mjs");
     expect(workflow).toContain("node scripts/wait-for-production-deployment.mjs");
     expect(workflow).toContain("node scripts/smoke-test-production.mjs");
     expect(workflow).not.toContain("pull_request");
+    expect(workflow).toContain("persist-credentials: false");
+    expect(workflow).toContain("permissions:\n  contents: read");
+    expect(workflow).not.toMatch(/env:\n\s+GH_TOKEN:[\s\S]*?OPENROUTER_API_KEY/);
+    expect(workflow.indexOf("npm ci")).toBeLessThan(workflow.indexOf("OPENROUTER_API_KEY"));
+    expect(workflow).toContain("name: usage-refresh-${{ steps.baseline.outputs.start_sha }}");
 
     const qualityWorkflow = readFileSync(new URL("../.github/workflows/quality.yml", import.meta.url), "utf8");
     expect(qualityWorkflow).toContain("inputs.commit_sha || github.sha");

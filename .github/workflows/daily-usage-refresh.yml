@@ -6,9 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  actions: write
-  contents: write
-  deployments: read
+  contents: read
 
 concurrency:
   group: daily-usage-refresh-main
@@ -18,10 +16,10 @@ jobs:
   refresh:
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    outputs:
+      changed: ${{ steps.diff.outputs.changed }}
+      start_sha: ${{ steps.baseline.outputs.start_sha }}
     env:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
       TZ: UTC
     steps:
       - name: Check out main
@@ -29,6 +27,7 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Set up Node.js
         uses: actions/setup-node@v7
@@ -41,10 +40,6 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [[ -z "${OPENROUTER_API_KEY:-}" ]]; then
-            echo "OPENROUTER_API_KEY is not configured as a repository secret." >&2
-            exit 1
-          fi
           git fetch origin main
           git checkout main
           git merge --ff-only origin/main
@@ -61,11 +56,15 @@ jobs:
         run: npm ci
 
       - name: Synchronize usage sources
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: npm run sync:usage
 
       - name: Triage new stable releases with GPT-OSS
         id: release_triage
         continue-on-error: true
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: npm run triage:releases
 
       - name: Record deferred release triage
@@ -108,11 +107,55 @@ jobs:
           git diff --stat
           git diff
 
-      - name: Confirm main has not advanced
+      - name: Prepare reviewed patch
         if: steps.diff.outputs.changed == 'true'
         shell: bash
+        run: |
+          set -euo pipefail
+          git diff --binary -- research/release-review-queue.json src/data/openrouter-attribution.ts src/data/ecosystem-signals.ts > usage-refresh.patch
+
+      - name: Upload reviewed patch
+        if: steps.diff.outputs.changed == 'true'
+        uses: actions/upload-artifact@v6
+        with:
+          name: usage-refresh-${{ steps.baseline.outputs.start_sha }}
+          path: usage-refresh.patch
+          if-no-files-found: error
+          retention-days: 1
+
+  publish:
+    needs: refresh
+    if: needs.refresh.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    outputs:
+      published_sha: ${{ steps.publish.outputs.published_sha }}
+    steps:
+      - name: Check out reviewed baseline
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.refresh.outputs.start_sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Download reviewed patch
+        uses: actions/download-artifact@v7
+        with:
+          name: usage-refresh-${{ needs.refresh.outputs.start_sha }}
+
+      - name: Apply and validate reviewed patch
+        run: |
+          set -euo pipefail
+          git apply --index usage-refresh.patch
+          rm usage-refresh.patch
+          node scripts/validate-usage-refresh-diff.mjs
+          git diff --cached --check
+
+      - name: Confirm main has not advanced
         env:
-          START_SHA: ${{ steps.baseline.outputs.start_sha }}
+          START_SHA: ${{ needs.refresh.outputs.start_sha }}
         run: |
           set -euo pipefail
           git fetch origin main
@@ -123,9 +166,10 @@ jobs:
           fi
 
       - name: Commit and push generated data
-        if: steps.diff.outputs.changed == 'true'
         id: publish
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
@@ -137,29 +181,51 @@ jobs:
           git diff --cached --check
           git commit -m "chore(data): refresh usage signals and release triage $(date -u +%F)"
           published_sha="$(git rev-parse HEAD)"
-          git push origin HEAD:main
+          git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:main
           echo "published_sha=$published_sha" >> "$GITHUB_OUTPUT"
           echo "Published commit: \`$published_sha\`" >> "$GITHUB_STEP_SUMMARY"
 
+  verify-published:
+    needs: publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      actions: write
+      contents: read
+      deployments: read
+    steps:
+      - name: Check out published commit
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.publish.outputs.published_sha }}
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies without credentials
+        run: npm ci
+
       - name: Run quality gate for published commit
-        if: steps.diff.outputs.changed == 'true'
         env:
-          PUBLISHED_SHA: ${{ steps.publish.outputs.published_sha }}
+          GH_TOKEN: ${{ github.token }}
+          PUBLISHED_SHA: ${{ needs.publish.outputs.published_sha }}
         run: node scripts/wait-for-quality-gate.mjs
 
       - name: Wait for Vercel production deployment
-        if: steps.diff.outputs.changed == 'true'
         id: deployment
         env:
-          PUBLISHED_SHA: ${{ steps.publish.outputs.published_sha }}
+          GH_TOKEN: ${{ github.token }}
+          PUBLISHED_SHA: ${{ needs.publish.outputs.published_sha }}
         run: node scripts/wait-for-production-deployment.mjs
 
       - name: Smoke-test production
-        if: steps.diff.outputs.changed == 'true'
         run: node scripts/smoke-test-production.mjs
 
       - name: Record completion
-        if: steps.diff.outputs.changed == 'true'
         run: |
           echo "Usage data refreshed from source-native APIs." >> "$GITHUB_STEP_SUMMARY"
           echo "GPT-OSS output, when present, is a repository-only editorial queue and not product evidence." >> "$GITHUB_STEP_SUMMARY"
