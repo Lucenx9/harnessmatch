@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { benchmarkRuns } from "@/data/benchmark-runs";
-import { guiCapabilityLabels } from "@/data/gui-products";
 import { harnesses } from "@/data/harnesses";
 import {
   repositoryArtifactLabels,
@@ -33,6 +32,7 @@ import {
   operationalPostureScores,
 } from "@/lib/evaluation-config";
 import { guiFitBandLabels, guiWorkflows } from "@/lib/gui-fit";
+import { guiCapabilityLabels } from "@/lib/gui-labels";
 import { pageMetadata } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({

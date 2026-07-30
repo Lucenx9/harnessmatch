@@ -5,7 +5,7 @@ import { useMemo, useRef, useState } from "react";
 import type { KeyboardEvent, ReactNode } from "react";
 import { ArchitectureLevelIndicator } from "@/components/architecture-level-indicator";
 import { HarnessLogo } from "@/components/harness-logo";
-import { architectureAxisLabels, architectureLevelAnchors } from "@/lib/evaluation";
+import { architectureAxisLabels, architectureLevelAnchors } from "@/lib/evaluation-labels";
 import type { ArchitectureAxis, ArchitectureProfile, HarnessLogo as HarnessLogoData } from "@/lib/types";
 
 export type OperationalRankingRow = {

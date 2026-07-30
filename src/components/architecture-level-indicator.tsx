@@ -1,4 +1,4 @@
-import { architectureAxisLabels, architectureLevelAnchors } from "@/lib/evaluation";
+import { architectureAxisLabels, architectureLevelAnchors } from "@/lib/evaluation-labels";
 import type { ArchitectureAxis } from "@/lib/types";
 
 const architectureLevelCount = 4;

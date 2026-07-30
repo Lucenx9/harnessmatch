@@ -2,7 +2,7 @@ import Image from "next/image";
 import type { GuiLogo as GuiLogoData } from "@/lib/gui-types";
 
 type GuiLogoProps = {
-  logo: GuiLogoData;
+  logo: Pick<GuiLogoData, "src">;
   name: string;
   size?: "small" | "large";
   priority?: boolean;

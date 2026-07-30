@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
+import { generateStaticParams as guiStaticParams } from "../src/app/guis/[slug]/page";
 import robots from "../src/app/robots";
 import sitemap from "../src/app/sitemap";
 import { guiProducts } from "../src/data/gui-products";
@@ -81,8 +82,25 @@ describe("canonical production domain", () => {
     expect(sitemap().every((entry) => entry.url === siteUrl || entry.url.startsWith(`${siteUrl}/`))).toBe(true);
     expect(sitemap()).toContainEqual(expect.objectContaining({ url: `${siteUrl}/guis` }));
     expect(sitemap()).toContainEqual(expect.objectContaining({ url: `${siteUrl}/usage` }));
-    for (const product of guiProducts) {
+    for (const product of guiProducts.filter((product) => product.status === "active")) {
       expect(sitemap()).toContainEqual(expect.objectContaining({ url: `${siteUrl}/guis/${product.id}` }));
+    }
+    for (const product of guiProducts.filter((product) => product.status !== "active")) {
+      expect(sitemap()).not.toContainEqual(
+        expect.objectContaining({ url: `${siteUrl}/guis/${product.id}` }),
+      );
+    }
+  });
+
+  it("exports only active GUI profiles and omits unsupported ranking hints", () => {
+    expect(guiStaticParams()).toEqual(
+      guiProducts
+        .filter((product) => product.status === "active")
+        .map((product) => ({ slug: product.id })),
+    );
+    for (const entry of sitemap()) {
+      expect(entry).not.toHaveProperty("priority");
+      expect(entry).not.toHaveProperty("changeFrequency");
     }
   });
 

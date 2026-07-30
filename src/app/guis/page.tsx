@@ -2,7 +2,14 @@ import type { Metadata } from "next";
 import { GuiLiveSignals } from "@/components/gui-live-signals";
 import { GuiLandscapeStats } from "@/components/gui-landscape-stats";
 import { GuiWorkflowMatcher } from "@/components/gui-workflow-matcher";
-import { guiExclusions } from "@/data/gui-products";
+import { guiEcosystemSignalSnapshots } from "@/data/gui-ecosystem-signals";
+import { guiExclusions, guiProducts } from "@/data/gui-products";
+import { guiRepositoryAudits } from "@/data/gui-repository-audits";
+import { guiWorkflows } from "@/lib/gui-fit";
+import {
+  buildGuiLiveSignalsViewModel,
+  buildGuiWorkflowMatcherViewModel,
+} from "@/lib/gui-view-models";
 import { pageMetadata } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
@@ -11,6 +18,16 @@ export const metadata: Metadata = pageMetadata({
     "Compare coding-agent GUIs with daily public activity signals and evidence-backed workflow, platform, source-access, and mechanism data.",
   path: "/guis",
 });
+
+const liveSignalsViewModel = buildGuiLiveSignalsViewModel(
+  guiProducts,
+  guiEcosystemSignalSnapshots,
+);
+const workflowMatcherViewModel = buildGuiWorkflowMatcherViewModel(
+  guiProducts,
+  guiRepositoryAudits,
+  guiWorkflows,
+);
 
 export default function GuisPage() {
   return (
@@ -22,11 +39,11 @@ export default function GuisPage() {
           <p>Inspect source-separated public activity, platform support, workflow fit, and documented mechanisms. Popularity and quality remain separate.</p>
         </div>
 
-        <GuiLiveSignals />
+        <GuiLiveSignals viewModel={liveSignalsViewModel} />
 
         <GuiLandscapeStats />
 
-        <GuiWorkflowMatcher />
+        <GuiWorkflowMatcher viewModel={workflowMatcherViewModel} />
 
         <details className="gui-exclusions">
           <summary>Inactive products excluded from matches</summary>

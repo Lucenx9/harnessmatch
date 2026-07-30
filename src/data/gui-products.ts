@@ -1,1 +1,1 @@
-export { guiCapabilityLabels, guiExclusions, guiProductById, guiProducts } from "./guis";
+export { guiExclusions, guiProductById, guiProducts } from "./guis";

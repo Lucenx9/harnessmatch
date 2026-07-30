@@ -4,7 +4,7 @@ import { VisualIcon } from "@/components/visual-icon";
 import {
   architectureAxisLabels,
   architectureLevelAnchors,
-} from "@/lib/evaluation";
+} from "@/lib/evaluation-labels";
 import type { ArchitectureAxis, ArchitectureProfile } from "@/lib/types";
 
 const architectureAxes = Object.keys(architectureAxisLabels) as ArchitectureAxis[];

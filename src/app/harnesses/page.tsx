@@ -12,6 +12,8 @@ export const metadata: Metadata = pageMetadata({
   path: "/harnesses",
 });
 
+const activeHarnesses = harnesses.filter((harness) => harness.status === "active");
+
 export default function HarnessesPage() {
   return (
     <section className="section page-section">
@@ -23,7 +25,7 @@ export default function HarnessesPage() {
         <HarnessLensExplorer
           initialVisibleCount={12}
           cardHeadingLevel={2}
-          harnesses={harnesses.map((harness) => ({
+          harnesses={activeHarnesses.map((harness) => ({
             id: harness.id,
             slug: harness.slug,
             name: harness.name,

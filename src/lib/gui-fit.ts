@@ -1,4 +1,4 @@
-import { guiCapabilityLabels } from "@/data/gui-products";
+import { guiCapabilityLabels } from "@/lib/gui-labels";
 import type {
   GuiCapabilityKey,
   GuiFitBand,

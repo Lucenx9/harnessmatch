@@ -1,6 +1,8 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
+import HarnessesPage from "../src/app/harnesses/page";
 import { HarnessLensExplorer } from "../src/components/harness-lens-explorer";
+import { harnesses } from "../src/data/harnesses";
 import { lensHarness } from "./component-fixtures";
 
 function catalog(size: number) {
@@ -15,6 +17,17 @@ function countOccurrences(html: string, needle: string) {
 }
 
 describe("harness lens explorer", () => {
+  it("keeps dormant and archived records out of the active catalog summary", () => {
+    const html = renderToStaticMarkup(<HarnessesPage />);
+    const activeHarnesses = harnesses.filter((harness) => harness.status === "active");
+    const inactiveHarnesses = harnesses.filter((harness) => harness.status !== "active");
+
+    expect(html).toContain(`<strong>${activeHarnesses.length}</strong> active profiles`);
+    for (const harness of inactiveHarnesses) {
+      expect(html).not.toContain(`>${harness.name}</a>`);
+    }
+  });
+
   it("renders only the initial page of profiles and offers the rest explicitly", () => {
     const html = renderToStaticMarkup(<HarnessLensExplorer harnesses={catalog(11)} />);
 

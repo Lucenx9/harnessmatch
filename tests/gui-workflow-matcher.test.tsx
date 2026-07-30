@@ -1,15 +1,22 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { GuiWorkflowMatcher } from "../src/components/gui-workflow-matcher";
-import { guiCapabilityLabels, guiProducts } from "../src/data/gui-products";
+import { guiProducts } from "../src/data/gui-products";
+import { guiRepositoryAudits } from "../src/data/gui-repository-audits";
 import { guiFitBandLabels, guiWorkflows } from "../src/lib/gui-fit";
+import { guiCapabilityLabels } from "../src/lib/gui-labels";
+import { buildGuiWorkflowMatcherViewModel } from "../src/lib/gui-view-models";
 
 /**
- * The matcher reads the published catalog directly, so these tests assert the
- * catalog-first contract rather than injected fixtures.
+ * The server-built view model is the matcher's published catalog contract.
  */
 const activeProducts = guiProducts.filter((product) => product.status === "active");
-const html = renderToStaticMarkup(<GuiWorkflowMatcher />);
+const viewModel = buildGuiWorkflowMatcherViewModel(
+  guiProducts,
+  guiRepositoryAudits,
+  guiWorkflows,
+);
+const html = renderToStaticMarkup(<GuiWorkflowMatcher viewModel={viewModel} />);
 
 describe("gui workflow matcher", () => {
   it("opens on the complete catalog rather than a preselected workflow", () => {

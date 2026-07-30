@@ -9,7 +9,7 @@ import {
   harnessRoleLabels,
   productLayerLabels,
   runtimePostureLabels,
-} from "@/lib/harness-classification";
+} from "@/lib/harness-labels";
 import type {
   FeatureKey,
   HarnessLogo as HarnessLogoData,

@@ -3,6 +3,7 @@ import { guiEcosystemSignalSnapshots } from "../src/data/gui-ecosystem-signals";
 import { guiProducts } from "../src/data/gui-products";
 import { guiRepositoryAudits } from "../src/data/gui-repository-audits";
 import { buildGuiEcosystemViewRecords } from "../src/lib/gui-ecosystem-view";
+import { buildGuiLiveSignalsViewModel } from "../src/lib/gui-view-models";
 
 describe("GUI ecosystem signals", () => {
   it("joins every signal to an active GUI without duplicate source identities", () => {
@@ -55,5 +56,30 @@ describe("GUI ecosystem signals", () => {
     }
     expect(records.homebrew.some((record) => record.product.id === "codex-desktop")).toBe(false);
     expect(records.githubReleases.some((record) => record.product.id === "webmux")).toBe(false);
+  });
+
+  it("builds a serializable client view without changing source-native units", () => {
+    const viewModel = buildGuiLiveSignalsViewModel(
+      guiProducts,
+      guiEcosystemSignalSnapshots,
+    );
+
+    expect(viewModel.observedAt).toBe(
+      guiEcosystemSignalSnapshots.map((signal) => signal.observedAt).toSorted().at(-1),
+    );
+    expect(viewModel.sources.map((source) => source.id)).toEqual([
+      "homebrew",
+      "github-releases",
+      "github",
+    ]);
+    expect(viewModel.sources.every((source) => (
+      source.rows.every((row) => row.barPercent >= 3 && row.barPercent <= 100)
+    ))).toBe(true);
+    expect(viewModel.sources.find((source) => source.id === "homebrew")?.rows[0]?.valueLabel)
+      .toMatch(/ installs$/);
+    expect(viewModel.sources.find((source) => source.id === "github-releases")?.rows[0]?.valueLabel)
+      .toMatch(/ downloads$/);
+    expect(viewModel.sources.find((source) => source.id === "github")?.rows[0]?.valueLabel)
+      .toMatch(/ stars$/);
   });
 });

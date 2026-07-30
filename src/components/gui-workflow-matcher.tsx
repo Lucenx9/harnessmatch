@@ -4,21 +4,13 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { GuiLogo } from "@/components/gui-logo";
 import { VisualIcon } from "@/components/visual-icon";
-import { guiProducts, guiCapabilityLabels } from "@/data/gui-products";
-import {
-  guiRepositoryAuditFor,
-} from "@/data/gui-repository-audits";
-import {
-  classifyGuiProducts,
-  guiFitBandLabels,
-  guiWorkflowById,
-  guiWorkflows,
-} from "@/lib/gui-fit";
-import { namedHarnesses } from "@/lib/gui-harness-coverage";
+import type {
+  GuiMatcherProduct,
+  GuiWorkflowMatcherViewModel,
+} from "@/lib/gui-view-models";
 import type {
   GuiFitBand,
   GuiPlatform,
-  GuiProduct,
   GuiSourceAccess,
   GuiWorkflowId,
 } from "@/lib/gui-types";
@@ -40,14 +32,11 @@ const sourceAccessLabels: Record<GuiSourceAccess, string> = {
 };
 
 const visibleFitBands: GuiFitBand[] = ["strong", "good", "conditional", "not-eligible"];
-const harnessFilterOptions = [...new Set(
-  guiProducts.flatMap((product) => namedHarnesses(product)),
-)].sort((left, right) => left.localeCompare(right));
 
-function matchesHarness(product: (typeof guiProducts)[number], filter: HarnessFilter) {
+function matchesHarness(product: GuiMatcherProduct, filter: HarnessFilter) {
   if (filter === "any") return true;
-  if (filter === "multi") return product.acceptsArbitraryCli || namedHarnesses(product).length > 1;
-  return product.acceptsArbitraryCli || product.supportedHarnesses.includes(filter);
+  if (filter === "multi") return product.supportsMultipleHarnesses;
+  return product.acceptsArbitraryCli || product.namedHarnesses.includes(filter);
 }
 
 function matchesSource(access: GuiSourceAccess, filter: SourceFilter) {
@@ -56,35 +45,40 @@ function matchesSource(access: GuiSourceAccess, filter: SourceFilter) {
   return access === "proprietary";
 }
 
-function compactHarnesses(product: (typeof guiProducts)[number]) {
-  if (product.acceptsArbitraryCli) return "Any CLI, with documented presets";
-  const named = namedHarnesses(product);
-  if (named.length <= 3) return named.join(", ");
-  return `${named.slice(0, 2).join(", ")} + ${named.length - 2} more`;
-}
-
-export function GuiWorkflowMatcher() {
+export function GuiWorkflowMatcher({
+  viewModel,
+}: {
+  viewModel: GuiWorkflowMatcherViewModel;
+}) {
   const [workflowId, setWorkflowId] = useState<WorkflowFilter>("any");
   const [harnessFilter, setHarnessFilter] = useState<HarnessFilter>("any");
   const [platformFilter, setPlatformFilter] = useState<PlatformFilter>("any");
   const [sourceFilter, setSourceFilter] = useState<SourceFilter>("any");
-  const workflow = workflowId === "any" ? null : guiWorkflowById(workflowId);
+  const workflow = workflowId === "any"
+    ? null
+    : viewModel.workflows.find((candidate) => candidate.id === workflowId) ?? null;
 
   const filteredProducts = useMemo(() => (
-    guiProducts.filter((product) => (
-      product.status === "active"
-      && matchesHarness(product, harnessFilter)
+    viewModel.products.filter((product) => (
+      matchesHarness(product, harnessFilter)
       && (platformFilter === "any" || product.platforms.includes(platformFilter))
       && matchesSource(product.sourceAccess, sourceFilter)
-    )).sort((left, right) => left.name.localeCompare(right.name))
-  ), [harnessFilter, platformFilter, sourceFilter]);
+    ))
+  ), [harnessFilter, platformFilter, sourceFilter, viewModel.products]);
 
   const classifiedResults = useMemo(() => (
-    workflow ? classifyGuiProducts(filteredProducts, workflow) : []
+    workflow
+      ? filteredProducts.flatMap((product) => {
+          const fit = product.workflowFits.find((candidate) => (
+            candidate.workflowId === workflow.id
+          ));
+          return fit ? [{ product, ...fit }] : [];
+        })
+      : []
   ), [filteredProducts, workflow]);
 
   type DisplayResult = {
-    product: GuiProduct;
+    product: GuiMatcherProduct;
     fitBand?: GuiFitBand;
     why?: string;
     watchOut?: string;
@@ -93,7 +87,7 @@ export function GuiWorkflowMatcher() {
   const resultGroups: Array<{ id: string; label: string; rows: DisplayResult[] }> = workflow
     ? visibleFitBands.map((band) => ({
       id: band,
-      label: guiFitBandLabels[band],
+      label: viewModel.fitBandLabels[band],
       rows: classifiedResults.filter((result) => result.fitBand === band),
     }))
     : [{
@@ -117,7 +111,7 @@ export function GuiWorkflowMatcher() {
             <span>Workflow</span>
             <select value={workflowId} onChange={(event) => setWorkflowId(event.target.value as WorkflowFilter)}>
               <option value="any">All workflows</option>
-              {guiWorkflows.map((candidate) => (
+              {viewModel.workflows.map((candidate) => (
                 <option value={candidate.id} key={candidate.id}>{candidate.label}</option>
               ))}
             </select>
@@ -127,7 +121,7 @@ export function GuiWorkflowMatcher() {
             <select value={harnessFilter} onChange={(event) => setHarnessFilter(event.target.value as HarnessFilter)}>
               <option value="any">Any harness</option>
               <option value="multi">Multiple harnesses</option>
-              {harnessFilterOptions.map((harness) => (
+              {viewModel.harnessOptions.map((harness) => (
                 <option value={harness} key={harness}>{harness}</option>
               ))}
             </select>
@@ -159,14 +153,14 @@ export function GuiWorkflowMatcher() {
               <VisualIcon name="required" />
               <span className="gui-criteria-copy">
                 <span>Required evidence</span>
-                <strong>{workflow.required.map((key) => guiCapabilityLabels[key]).join(" · ")}</strong>
+                <strong>{workflow.requiredLabels.join(" · ")}</strong>
               </span>
             </div>
             <div>
               <VisualIcon name="preferred" />
               <span className="gui-criteria-copy">
                 <span>Preferred evidence</span>
-                <strong>{workflow.preferred.map((key) => guiCapabilityLabels[key]).join(" · ")}</strong>
+                <strong>{workflow.preferredLabels.join(" · ")}</strong>
               </span>
             </div>
           </div>
@@ -192,7 +186,7 @@ export function GuiWorkflowMatcher() {
                 <div className="gui-result-list">
                   {rows.map((result) => {
                     const { product } = result;
-                    const audit = guiRepositoryAuditFor(product.id);
+                    const { audit } = product;
                     const evidenceState = audit ? "Code inspected" : "Documented";
                     return (
                       <article className="gui-result" id={`gui-${product.id}`} key={product.id}>
@@ -226,7 +220,7 @@ export function GuiWorkflowMatcher() {
                               <div>
                                 <dt>Harness coverage</dt>
                                 <dd>
-                                  {compactHarnesses(product)}
+                                  {product.harnessCoverage}
                                   <small>{product.harnessSupportNote}</small>
                                 </dd>
                               </div>
@@ -236,11 +230,11 @@ export function GuiWorkflowMatcher() {
                               <section>
                                 <h5>Capability claims</h5>
                                 <ul>
-                                  {Object.entries(product.capabilities).map(([key, claim]) => (
-                                    <li key={key}>
+                                  {product.capabilities.map((claim) => (
+                                    <li key={claim.key}>
                                       <span className={`gui-claim-state gui-claim-state--${claim.state}`}>{claim.state}</span>
                                       <div>
-                                        <strong>{guiCapabilityLabels[key as keyof typeof guiCapabilityLabels]}</strong>
+                                        <strong>{claim.label}</strong>
                                         <p>{claim.summary}</p>
                                       </div>
                                     </li>

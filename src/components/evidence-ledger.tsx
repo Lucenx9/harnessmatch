@@ -6,7 +6,7 @@ import { HarnessLogo } from "@/components/harness-logo";
 import {
   harnessRoleLabels,
   productLayerLabels,
-} from "@/lib/harness-classification";
+} from "@/lib/harness-labels";
 import type {
   Harness,
   HarnessLogo as HarnessLogoData,

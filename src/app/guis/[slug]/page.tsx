@@ -5,7 +5,8 @@ import { GuiLogo } from "@/components/gui-logo";
 import { GuiProductPreview } from "@/components/gui-product-preview";
 import { VisualIcon } from "@/components/visual-icon";
 import type { VisualIconName } from "@/components/visual-icon";
-import { guiCapabilityLabels, guiProductById, guiProducts } from "@/data/gui-products";
+import { guiProductById, guiProducts } from "@/data/gui-products";
+import { guiCapabilityLabels } from "@/lib/gui-labels";
 import { guiEcosystemSignalsByProduct } from "@/data/gui-ecosystem-signals";
 import { guiRepositoryAuditFor } from "@/data/gui-repository-audits";
 import { namedHarnesses } from "@/lib/gui-harness-coverage";
@@ -52,13 +53,15 @@ const activitySourceOrder = {
 } as const;
 
 export function generateStaticParams() {
-  return guiProducts.map((product) => ({ slug: product.id }));
+  return guiProducts
+    .filter((product) => product.status === "active")
+    .map((product) => ({ slug: product.id }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const product = guiProductById.get(slug);
-  if (!product) return {};
+  if (product?.status !== "active") return {};
 
   return pageMetadata({
     title: `${product.name} GUI`,
@@ -70,7 +73,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function GuiProfilePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const product = guiProductById.get(slug);
-  if (!product) notFound();
+  if (product?.status !== "active") notFound();
   const audit = guiRepositoryAuditFor(product.id);
   const namedIntegrations = namedHarnesses(product);
   const activitySignals = (guiEcosystemSignalsByProduct.get(product.id) ?? [])

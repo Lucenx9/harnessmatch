@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Harness } from "@/lib/types";
 import { HarnessLogo } from "@/components/harness-logo";
-import { harnessRoleLabels } from "@/lib/harness-classification";
+import { harnessRoleLabels } from "@/lib/harness-labels";
 
 export function HarnessCard({ harness, compact = false }: { harness: Harness; compact?: boolean }) {
   return (

@@ -1,6 +1,7 @@
 import { VisualIcon } from "@/components/visual-icon";
 import type { VisualIconName } from "@/components/visual-icon";
-import { guiCapabilityLabels, guiProducts } from "@/data/gui-products";
+import { guiProducts } from "@/data/gui-products";
+import { guiCapabilityLabels } from "@/lib/gui-labels";
 import { guiRepositoryAudits } from "@/data/gui-repository-audits";
 import { guiWorkflows } from "@/lib/gui-fit";
 import { summarizeGuiCatalog } from "@/lib/gui-stats";
