@@ -9,6 +9,7 @@
     "lint": "biome lint . --error-on-warnings",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "coverage": "vitest run --coverage",
     "check:output": "node scripts/check-static-output.mjs",
     "check:sources": "node scripts/check-source-health.mjs",
     "sync:openrouter": "node scripts/sync-openrouter-attribution.mjs",
@@ -17,7 +18,7 @@
     "sync:releases": "node scripts/sync-release-signals.mjs",
     "sync:usage": "npm run sync:openrouter && npm run sync:ecosystem && npm run sync:gui-signals && npm run sync:releases",
     "triage:releases": "node scripts/triage-release-updates.mjs",
-    "verify": "npm run typecheck && npm run lint && npm test && npm run build",
+    "verify": "npm run typecheck && npm run lint && npm run coverage && npm run build",
     "verify:maintenance": "npm run check:sources && npm run verify"
   },
   "dependencies": {
@@ -34,6 +35,7 @@
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "@vitest/coverage-v8": "^4.1.10",
     "agent-browser": "^0.33.0",
     "tailwindcss": "4.3.0",
     "typescript": "^6.0.3",
