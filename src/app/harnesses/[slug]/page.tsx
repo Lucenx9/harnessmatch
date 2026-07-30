@@ -239,7 +239,7 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
           </dl>
 
           <div className="button-row profile-actions">
-            <Link className="button primary" href="/compare">Compare harnesses</Link>
+            <Link className="button primary" href={{ pathname: "/compare", query: { ids: harness.id } }}>Compare harnesses</Link>
             <a className="button secondary" href="#evidence">Inspect sources</a>
           </div>
         </header>
