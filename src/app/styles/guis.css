@@ -60,7 +60,8 @@
 .gui-capability-coverage ul, .gui-catalog-composition ul { list-style: none; margin: 0; padding: 0; }
 .gui-capability-coverage li, .gui-catalog-composition li { min-height: 47px; display: grid; grid-template-columns: minmax(140px, .85fr) minmax(170px, 1.15fr); align-items: center; gap: 20px; border-top: 1px solid var(--line); }
 .gui-capability-coverage li > div, .gui-catalog-composition li > div { min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.gui-capability-coverage li strong, .gui-catalog-composition li strong { color: var(--muted-strong); font-size: .7rem; font-weight: 620; text-transform: capitalize; }
+.gui-capability-coverage li strong, .gui-catalog-composition li strong { color: var(--muted-strong); font-size: .7rem; font-weight: 620; }
+.gui-capability-coverage li strong::first-letter { text-transform: uppercase; }
 .gui-capability-coverage li > div > span, .gui-catalog-composition li > div > span { color: var(--text); font: 620 .64rem/1 var(--font-mono); }
 .gui-coverage-cells { display: grid; grid-template-columns: repeat(9, minmax(5px, 1fr)); gap: 5px; }
 .gui-coverage-cells i { height: 8px; border: 1px solid var(--line-strong); border-radius: 2px; background: transparent; }
@@ -84,6 +85,7 @@
 .gui-workflow-snapshot article dd { margin: 0; color: var(--text); font: 650 .72rem/1 var(--font-mono); }
 
 .gui-profile-signals { overflow: hidden; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--surface-strong); }
+.gui-profile-signals > .profile-section-heading { min-height: 122px; padding: 26px 28px 22px; }
 .gui-profile-signals > ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin: 0; padding: 0; border-top: 1px solid var(--line); list-style: none; }
 .gui-profile-signals > ul > li { min-width: 0; min-height: 206px; display: flex; flex-direction: column; align-items: flex-start; padding: 22px 26px; border-right: 1px solid var(--line); }
 .gui-profile-signals > ul > li:last-child { border-right: 0; }
@@ -229,7 +231,8 @@
 .gui-profile-capability-heading > div { min-width: 0; display: grid; gap: 9px; }
 .gui-profile-capability-heading .visual-icon { width: 34px; height: 34px; border-radius: 8px; }
 .gui-profile-capability-heading .visual-icon svg { width: 18px; height: 18px; }
-.gui-profile-capabilities h3 { min-height: 36px; margin: 0; color: var(--text); font-size: .76rem; line-height: 1.4; text-transform: capitalize; }
+.gui-profile-capabilities h3 { min-height: 36px; margin: 0; color: var(--text); font-size: .76rem; line-height: 1.4; }
+.gui-profile-capabilities h3::first-letter { text-transform: uppercase; }
 .gui-profile-capabilities li > p { margin: 16px 0 0; color: var(--muted); font-size: .7rem; line-height: 1.55; }
 .gui-profile-claim-sources { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 16px; }
 .gui-profile-claim-sources a { color: var(--accent-strong); font: 540 .59rem/1.3 var(--font-mono); }

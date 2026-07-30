@@ -8,6 +8,7 @@ import type { VisualIconName } from "@/components/visual-icon";
 import { guiCapabilityLabels, guiProductById, guiProducts } from "@/data/gui-products";
 import { guiEcosystemSignalsByProduct } from "@/data/gui-ecosystem-signals";
 import { guiRepositoryAuditFor } from "@/data/gui-repository-audits";
+import { namedHarnesses } from "@/lib/gui-harness-coverage";
 import { guiProfileDescription, pageMetadata } from "@/lib/site";
 import type { GuiCapabilityKey, GuiClaimState, GuiLayer, GuiSourceAccess } from "@/lib/gui-types";
 
@@ -71,6 +72,7 @@ export default async function GuiProfilePage({ params }: { params: Promise<{ slu
   const product = guiProductById.get(slug);
   if (!product) notFound();
   const audit = guiRepositoryAuditFor(product.id);
+  const namedIntegrations = namedHarnesses(product);
   const activitySignals = (guiEcosystemSignalsByProduct.get(product.id) ?? [])
     .toSorted((left, right) => activitySourceOrder[left.source] - activitySourceOrder[right.source]);
 
@@ -127,7 +129,7 @@ export default async function GuiProfilePage({ params }: { params: Promise<{ slu
             <dl className="profile-spec-list">
               <div><dt>Platforms</dt><dd>{product.platforms.join(", ")}</dd></div>
               <div><dt>GUI layer</dt><dd>{layerLabels[product.layer]}</dd></div>
-              <div><dt>Named harnesses</dt><dd>{product.supportedHarnesses.length}</dd></div>
+              <div><dt>Named harnesses</dt><dd>{namedIntegrations.length}</dd></div>
               <div><dt>Arbitrary CLI</dt><dd>{product.acceptsArbitraryCli ? "Documented" : "Not documented"}</dd></div>
               <div><dt>Public activity feeds</dt><dd>{activitySignals.length}</dd></div>
               <div><dt>Code audit</dt><dd>{audit ? "Pinned commit inspected" : "No public implementation"}</dd></div>
@@ -176,10 +178,12 @@ export default async function GuiProfilePage({ params }: { params: Promise<{ slu
                 <p>{product.harnessSupportNote}</p>
               </div>
             </div>
-            <span>{product.acceptsArbitraryCli ? "Custom CLI accepted" : `${product.supportedHarnesses.length} named integrations`}</span>
+            <span>{product.acceptsArbitraryCli
+              ? "Custom CLI accepted"
+              : `${namedIntegrations.length} named integration${namedIntegrations.length === 1 ? "" : "s"}`}</span>
           </div>
           <ul>
-            {product.supportedHarnesses.map((harness) => <li key={harness}>{harness}</li>)}
+            {namedIntegrations.map((harness) => <li key={harness}>{harness}</li>)}
           </ul>
         </section>
 
