@@ -30,9 +30,10 @@ export function ThemeToggle() {
       aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
       title={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
     >
-      {theme === "dark"
-        ? <SunIcon aria-hidden="true" size={18} weight="regular" />
-        : <MoonIcon aria-hidden="true" size={18} weight="regular" />}
+      {/* Both glyphs render on the server; the theme attribute set before first paint picks one,
+          so the icon never flashes the wrong state while hydration catches up. */}
+      <SunIcon className="theme-toggle-sun" aria-hidden="true" size={18} weight="regular" />
+      <MoonIcon className="theme-toggle-moon" aria-hidden="true" size={18} weight="regular" />
     </button>
   );
 }

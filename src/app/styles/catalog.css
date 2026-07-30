@@ -59,7 +59,7 @@
 .home-usage-footer { min-height: 70px; display: flex; align-items: center; padding: 13px 0; }
 .home-usage-footer p { max-width: 780px; margin: 0; font-size: .66rem; line-height: 1.5; }
 
-.catalog-explorer-section { padding: 64px 0; }
+.catalog-explorer-section { padding: 64px 0; scroll-margin-top: 82px; }
 .catalog-explorer-heading { margin-bottom: 34px; }
 .home-release-section { padding: 64px 0; border-block: 1px solid var(--line); background: var(--bg-soft); }
 .home-release-activity { border-block: 1px solid var(--line-strong); }

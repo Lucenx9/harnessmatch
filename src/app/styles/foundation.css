@@ -2,6 +2,7 @@
 /* Decision-state styles stay in this file so static exports and live previews share one source. */
 
 :root {
+  color-scheme: dark;
   --bg: #07070a;
   --bg-soft: #0b0b10;
   --surface: rgba(15, 15, 22, 0.86);
@@ -30,6 +31,7 @@
 }
 
 html[data-theme="light"] {
+  color-scheme: light;
   --bg: #fbfbfc;
   --bg-soft: #f4f4f7;
   --surface: rgba(255, 255, 255, 0.9);
@@ -89,6 +91,7 @@ p { color: var(--muted); }
 
 .skip-link { min-height: 44px; position: fixed; top: 10px; left: 10px; z-index: var(--z-skip); display: inline-flex; align-items: center; padding: 9px 12px; border-radius: 8px; background: var(--text); color: var(--bg); transform: translateY(-160%); }
 .skip-link:focus { transform: translateY(0); }
+#main-content { scroll-margin-top: 82px; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .shell { width: min(1180px, calc(100% - 48px)); margin-inline: auto; }
 .narrow-shell { width: min(920px, calc(100% - 48px)); }
@@ -173,6 +176,9 @@ p { color: var(--muted); }
 .global-search-footer { min-height: 46px; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 9px 18px; border-top: 1px solid var(--line); color: var(--muted); font: 500 .62rem/1.4 var(--font-mono); }
 .theme-toggle { width: 44px; height: 44px; display: grid; place-items: center; flex: 0 0 auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--muted-strong); cursor: pointer; transition: border-color .18s ease, background .18s ease, color .18s ease; }
 .theme-toggle:hover { border-color: var(--line-strong); background: var(--surface-hover); color: var(--text); }
+.theme-toggle-moon { display: none; }
+html[data-theme="light"] .theme-toggle-sun { display: none; }
+html[data-theme="light"] .theme-toggle-moon { display: block; }
 .mobile-menu { display: none; position: relative; margin-left: auto; }
 .mobile-menu summary { min-width: 44px; height: 44px; display: list-item; list-style: none; cursor: pointer; color: var(--muted); font-size: .82rem; line-height: 44px; text-align: center; }
 .mobile-menu summary::-webkit-details-marker { display: none; }

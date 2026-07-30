@@ -110,6 +110,8 @@
 .evidence-highlight-tabs button:hover { background: var(--surface-hover); }
 .evidence-highlight-tabs button:active { transform: translateY(1px); }
 .evidence-highlight-tabs button[aria-selected="true"] { background: var(--accent-soft); box-shadow: inset 0 2px var(--accent); }
+/* Edge tabs sit flush against the clipping panel, so the ring has to draw inside the button. */
+.evidence-highlight-tabs button:focus-visible { outline-offset: -2px; }
 .evidence-highlight-label { color: var(--muted); font: 560 .7rem/1.2 var(--font-mono); }
 .evidence-highlight-reading { min-width: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: end; gap: 15px; }
 .evidence-highlight-value { display: grid; align-content: end; gap: 6px; }
@@ -258,6 +260,8 @@
 .usage-source-tabs button:hover { color: var(--text); background: var(--surface-hover); }
 .usage-source-tabs button:active { background: var(--accent-soft); }
 .usage-source-tabs button[aria-selected="true"] { background: var(--surface-selected); color: var(--text); box-shadow: inset 0 0 0 1px var(--line-strong); }
+/* The strip scrolls horizontally inside a clipping shell, so the ring has to draw inside the button. */
+.usage-source-tabs button:focus-visible { outline-offset: -2px; }
 .usage-leaderboard-panel { border-top: 1px solid var(--line); }
 .usage-leaderboard-context { min-height: 62px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
 .usage-leaderboard-context p { display: flex; align-items: baseline; gap: 14px; margin: 0; }

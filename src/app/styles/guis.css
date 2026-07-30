@@ -12,6 +12,8 @@
 .gui-live-tabs button:hover { color: var(--text); background: var(--surface-hover); }
 .gui-live-tabs button:active { background: var(--accent-soft); }
 .gui-live-tabs button[aria-selected="true"] { color: var(--text); background: var(--surface-selected); box-shadow: inset 0 -2px var(--accent); }
+/* Edge tabs sit flush against the clipping panel, so the ring has to draw inside the button. */
+.gui-live-tabs button:focus-visible { outline-offset: -2px; }
 .gui-live-panel > header { min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 14px 22px; border-top: 1px solid var(--line); }
 .gui-live-panel > header h3 { margin: 0; font-size: .92rem; }
 .gui-live-panel > header > strong { color: var(--muted); font: 570 .59rem/1.3 var(--font-mono); }
