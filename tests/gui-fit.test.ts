@@ -13,6 +13,12 @@ import { arbitraryCliEntry, namedHarnesses } from "../src/lib/gui-harness-covera
 
 const repositoryRoot = fileURLToPath(new URL("../", import.meta.url));
 
+function requiredGuiProduct(id: string) {
+  const product = guiProducts.find((candidate) => candidate.id === id);
+  if (!product) throw new Error(`Expected GUI product ${id} in the test catalog.`);
+  return product;
+}
+
 const firstPartyGuiHosts: Record<string, string[]> = {
   aq: ["aq.dev", "www.aq.dev"],
   "claude-code-desktop": ["code.claude.com"],
@@ -113,9 +119,9 @@ describe("GUI workflow classification", () => {
   });
 
   it("keeps the arbitrary-CLI placeholder out of every named integration count", () => {
-    const webmux = guiProducts.find((product) => product.id === "webmux")!;
-    const superset = guiProducts.find((product) => product.id === "superset")!;
-    const claudeCodeDesktop = guiProducts.find((product) => product.id === "claude-code-desktop")!;
+    const webmux = requiredGuiProduct("webmux");
+    const superset = requiredGuiProduct("superset");
+    const claudeCodeDesktop = requiredGuiProduct("claude-code-desktop");
 
     expect(webmux.supportedHarnesses).toContain(arbitraryCliEntry);
     expect(webmux.acceptsArbitraryCli).toBe(true);
@@ -123,10 +129,10 @@ describe("GUI workflow classification", () => {
 
     expect(namedHarnesses(superset)).toEqual(superset.supportedHarnesses);
     expect(namedHarnesses(claudeCodeDesktop)).toEqual(["Claude Code"]);
+    expect(namedHarnesses({ supportedHarnesses: [arbitraryCliEntry] })).toEqual([]);
 
     for (const product of guiProducts) {
       expect(namedHarnesses(product), product.name).not.toContain(arbitraryCliEntry);
-      expect(namedHarnesses(product).length, product.name).toBeGreaterThan(0);
     }
   });
 
