@@ -25,7 +25,7 @@
 .gui-live-row:active { background: var(--accent-soft); }
 .gui-live-rank { color: var(--muted); font: 620 .61rem/1 var(--font-mono); }
 .gui-live-product { min-width: 0; display: flex; align-items: center; gap: 9px; }
-.gui-live-product .gui-logo { width: 34px; height: 34px; border-radius: 8px; }
+.gui-live-product .gui-logo { width: 34px; height: 34px; }
 .gui-live-product > span:last-child { min-width: 0; }
 .gui-live-product strong, .gui-live-product small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .gui-live-product strong { color: var(--text); font-size: .73rem; }
@@ -133,7 +133,7 @@
 .gui-fit-group:last-child .gui-result:last-child { border-bottom: 0; }
 .gui-result-identity { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 14px; }
 .gui-logo--small { width: 42px; height: 42px; }
-.gui-logo--large { width: 72px; height: 72px; border-radius: 16px; }
+.gui-logo--large { width: 72px; height: 72px; border-radius: var(--radius); }
 .gui-result-title { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .gui-result-title h4 { margin: 0; font-size: 1rem; }
 .gui-result-title h4 a:hover { color: var(--accent-strong); }
@@ -253,4 +253,3 @@
 .footer-inner p { margin: 9px 0 0; }
 .footer-links { max-width: 470px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px 22px; color: var(--muted); font-size: .82rem; }
 .footer-meta { min-height: 56px; display: flex; justify-content: space-between; align-items: center; gap: 20px; border-top: 1px solid var(--line); color: var(--muted); font: 500 .7rem/1.4 var(--font-mono); }
-

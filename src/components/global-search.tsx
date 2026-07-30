@@ -141,7 +141,7 @@ export function GlobalSearch({
       </button>
 
       <dialog
-        className="global-search-dialog"
+        className="dialog-surface global-search-dialog"
         ref={dialogRef}
         aria-labelledby="global-search-title"
         onCancel={() => setOpen(false)}

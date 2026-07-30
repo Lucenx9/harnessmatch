@@ -311,7 +311,7 @@ export function CompareClient({ harnesses }: { harnesses: CompareHarnessRecord[]
         )}
       </div>
 
-      <dialog className="compare-picker-dialog" ref={pickerDialogRef} aria-labelledby="compare-picker-dialog-title">
+      <dialog className="dialog-surface compare-picker-dialog" ref={pickerDialogRef} aria-labelledby="compare-picker-dialog-title">
         <div className="compare-picker-dialog-shell">
           <div className="compare-picker-dialog-head">
             <div>

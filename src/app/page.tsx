@@ -59,8 +59,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section home-usage-section" aria-label="Observed usage signals">
-        <div className="wide-shell shell">
+      <section className="home-usage-section" aria-label="Observed usage signals">
+        <div className="shell">
           <HomeUsageSummary {...usageRecords} />
         </div>
       </section>
@@ -93,7 +93,7 @@ export default function HomePage() {
       </section>
 
       <section className="home-release-section" aria-label="Latest stable harness releases">
-        <div className="wide-shell shell">
+        <div className="shell">
           <HomeReleaseActivity
             records={recentReleaseActivity}
             limit={8}
