@@ -1,6 +1,6 @@
 import type { HarnessRecord } from "./types";
 
-const verifiedAt = "2026-07-27";
+const verifiedAt = "2026-07-30";
 
 export const commandCode = {
     id: "command-code",
@@ -85,16 +85,8 @@ export const commandCode = {
       {
         title: "Headless mode",
         topic: "automation-extensions",
-        url: "https://commandcode.ai/docs/core-concepts/headless",
-        covers: "Read-only automation default, explicit yolo mutation mode, ten-turn default, exit codes, transcript persistence, and deterministic resume flags",
-        kind: "official-docs",
-        verifiedAt: verifiedAt,
-      },
-      {
-        title: "File checkpoints",
-        topic: "orchestration-state",
-        url: "https://commandcode.ai/docs/core-concepts/checkpoints",
-        covers: "Automatic per-message backups, file and conversation restore modes, 10 MB exclusion, per-session scope, and all-or-nothing restore validation",
+        url: "https://commandcode.ai/docs/headless",
+        covers: "Read-only automation default, explicit yolo mutation mode, 100-turn default, exit codes, transcript persistence, and deterministic resume flags",
         kind: "official-docs",
         verifiedAt: verifiedAt,
       },
@@ -134,7 +126,7 @@ export const commandCode = {
         title: "Sessions and checkpoints",
         topic: "orchestration-state",
         url: "https://commandcode.ai/docs/sessions",
-        covers: "Durable JSONL transcripts, resume, fork, clone, scratchpad, sharing, export, compaction, checkpointing, and rewind behavior",
+        covers: "Durable JSONL transcripts, resume, fork, sharing, compaction, automatic per-message backups, restore modes, 10 MB exclusion, and rewind validation",
         kind: "official-docs",
         verifiedAt: verifiedAt,
       },

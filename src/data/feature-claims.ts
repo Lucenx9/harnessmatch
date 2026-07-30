@@ -216,13 +216,13 @@ const featureClaimSeedsByHarness = {
   "factory-droid": {
     mcp: documented("Droid CLI reference", "Droid settings"),
     localModels: documented("Bring Your Own Key"),
-    subagents: documented("Custom Droids", "Droid hooks"),
+    subagents: documented("Subagents", "Droid hooks"),
     headless: documented("Droid CLI reference", "Droid hooks"),
     browser: documented("Droid Control"),
     sandbox: configuredClaim(
       "optional",
       ["OS sandbox", "Terminal-Bench methodology"],
-      "Beta OS sandbox; opt-in",
+      "Private Preview OS sandbox; opt-in",
       "Per-command mode contains shell children while the main Droid process remains outside the boundary.",
     ),
     checkpoints: configuredClaim(
@@ -297,7 +297,7 @@ const featureClaimSeedsByHarness = {
     mcp: documented("MCP integration", "Settings and configuration"),
     subagents: documented("Custom agents", "Background tasks and scheduling"),
     headless: documented("CLI reference", "Permissions"),
-    checkpoints: documented("File checkpoints", "Sessions and checkpoints"),
+    checkpoints: documented("Sessions and checkpoints"),
   },
   codebuff: {
     mcp: documented("Pinned browser agent", "Pinned MCP client"),
@@ -411,8 +411,8 @@ const featureClaimSeedsByHarness = {
     headless: documented("Poolside Agent CLI", "Automated mode"),
     sandbox: configuredClaim(
       "surface-specific",
-      ["Tool and path policy reference", "Managed sandboxes"],
-      "Isolation depends on the managed or configured execution surface",
+      ["Tool and path policy reference", "Local sandboxes"],
+      "Configured local container isolation for user-managed runs",
     ),
   },
   plandex: {

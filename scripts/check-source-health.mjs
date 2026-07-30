@@ -1,4 +1,4 @@
-import { safeFetch } from "./source-health-network.mjs";
+import { isAccessRestrictedLanding, safeFetch } from "./source-health-network.mjs";
 import { collectUrls } from "./source-health-urls.mjs";
 import { loadPublishedDataModules } from "./source-health-modules.mjs";
 
@@ -36,10 +36,10 @@ async function probe(url) {
         status: response.status,
         finalUrl,
         redirected,
-        state: response.ok || (response.status >= 300 && response.status < 400)
-          ? "healthy"
-          : restrictedStatuses.has(response.status)
+        state: restrictedStatuses.has(response.status) || isAccessRestrictedLanding(finalUrl)
             ? "access-restricted"
+          : response.ok || (response.status >= 300 && response.status < 400)
+            ? "healthy"
             : response.status >= 400 && response.status < 500
               ? "broken"
               : "inconclusive",

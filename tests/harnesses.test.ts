@@ -7,7 +7,7 @@ import { isValidVerificationDate } from "../src/lib/evidence-freshness";
 
 const firstPartyHosts: Record<string, string[]> = {
   "claude-code": ["code.claude.com", "claude.com", "www.anthropic.com", "github.com"],
-  codex: ["developers.openai.com", "github.com"],
+  codex: ["learn.chatgpt.com", "github.com"],
   opencode: ["opencode.ai", "github.com"],
   pi: ["github.com", "pi.dev"],
   omp: ["github.com", "omp.sh"],
@@ -412,40 +412,40 @@ describe("harness evidence ledger", () => {
     const urls = codex.evidence.map((source) => source.url);
     const caveats = codex.tradeoffs.join(" ");
 
-    expect(codex.verifiedAt).toBe("2026-07-27");
+    expect(codex.verifiedAt).toBe("2026-07-30");
     expect(codex.evidence).toHaveLength(46);
     expect(codex.evidence.every((source) => source.verifiedAt === codex.verifiedAt)).toBe(true);
     expect(codex.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(featureSupportFor(codex)).toMatchObject({ mcp: true, localModels: true, subagents: true, headless: true, browser: true, sandbox: true, checkpoints: false });
     expect(urls).toEqual(expect.arrayContaining([
-      "https://developers.openai.com/codex/agent-approvals-security",
-      "https://developers.openai.com/codex/sandboxing",
-      "https://developers.openai.com/codex/sandboxing/auto-review",
-      "https://developers.openai.com/codex/permissions",
-      "https://developers.openai.com/codex/permission-modes",
-      "https://developers.openai.com/codex/agent-configuration/rules",
-      "https://developers.openai.com/codex/agent-configuration/subagents",
-      "https://developers.openai.com/codex/agent-configuration/agents-md",
-      "https://developers.openai.com/codex/customization/memories",
-      "https://developers.openai.com/codex/environments/local-environment",
-      "https://developers.openai.com/codex/environments/cloud-environment",
-      "https://developers.openai.com/codex/environments/git-worktrees",
-      "https://developers.openai.com/codex/windows/windows-sandbox",
-      "https://developers.openai.com/codex/app",
-      "https://developers.openai.com/codex/auth",
-      "https://developers.openai.com/codex/remote-connections",
-      "https://developers.openai.com/codex/hooks",
-      "https://developers.openai.com/codex/skills-and-plugins",
-      "https://developers.openai.com/codex/plugins",
-      "https://developers.openai.com/codex/automations",
-      "https://developers.openai.com/codex/code-review",
-      "https://developers.openai.com/codex/third-party/github",
-      "https://developers.openai.com/codex/security",
-      "https://developers.openai.com/codex/enterprise/admin-setup",
-      "https://developers.openai.com/codex/amazon-bedrock",
-      "https://developers.openai.com/codex/feature-maturity",
-      "https://developers.openai.com/codex/whats-new",
+      "https://learn.chatgpt.com/docs/agent-approvals-security",
+      "https://learn.chatgpt.com/docs/sandboxing",
+      "https://learn.chatgpt.com/docs/sandboxing/auto-review",
+      "https://learn.chatgpt.com/docs/permissions",
+      "https://learn.chatgpt.com/docs/permission-modes",
+      "https://learn.chatgpt.com/docs/agent-configuration/rules",
+      "https://learn.chatgpt.com/docs/agent-configuration/subagents",
+      "https://learn.chatgpt.com/docs/agent-configuration/agents-md",
+      "https://learn.chatgpt.com/docs/customization/memories",
+      "https://learn.chatgpt.com/docs/environments/local-environment",
+      "https://learn.chatgpt.com/docs/environments/cloud-environment",
+      "https://learn.chatgpt.com/docs/environments/git-worktrees",
+      "https://learn.chatgpt.com/docs/windows/windows-sandbox",
+      "https://learn.chatgpt.com/docs/app",
+      "https://learn.chatgpt.com/docs/auth",
+      "https://learn.chatgpt.com/docs/remote-connections",
+      "https://learn.chatgpt.com/docs/hooks",
+      "https://learn.chatgpt.com/docs/skills-and-plugins",
+      "https://learn.chatgpt.com/docs/plugins",
+      "https://learn.chatgpt.com/docs/automations",
+      "https://learn.chatgpt.com/docs/code-review",
+      "https://learn.chatgpt.com/docs/third-party/github",
+      "https://learn.chatgpt.com/docs/security",
+      "https://learn.chatgpt.com/docs/enterprise/admin-setup",
+      "https://learn.chatgpt.com/docs/amazon-bedrock",
+      "https://learn.chatgpt.com/docs/feature-maturity",
+      "https://learn.chatgpt.com/docs/whats-new",
       "https://github.com/openai/codex/tree/25af12f7e61572b0bc18ddb1008be543b91519b0",
     ]));
     expect(caveats).toContain("permission profiles are beta");
@@ -471,7 +471,7 @@ describe("harness evidence ledger", () => {
     const urls = openCode.evidence.map((source) => source.url);
     const caveats = openCode.tradeoffs.join(" ");
 
-    expect(openCode.verifiedAt).toBe("2026-07-28");
+    expect(openCode.verifiedAt).toBe("2026-07-30");
     expect(openCode.evidence).toHaveLength(25);
     expect(openCode.evidence.every((source) => source.verifiedAt === openCode.verifiedAt)).toBe(true);
     expect(openCode.evidence.every((source) => source.topic !== undefined)).toBe(true);
@@ -482,7 +482,7 @@ describe("harness evidence ledger", () => {
       "https://opencode.ai/docs/agents/",
       "https://opencode.ai/docs/server",
       "https://opencode.ai/docs/github",
-      "https://github.com/anomalyco/opencode/releases/tag/v1.18.8",
+      "https://github.com/anomalyco/opencode/releases/tag/v1.18.9",
       "https://github.com/anomalyco/opencode/blob/e5cc278dec9294a627a7b05f47ce6a564408c1a2/packages/opencode/src/snapshot/index.ts",
       "https://github.com/anomalyco/opencode/tree/e5cc278dec9294a627a7b05f47ce6a564408c1a2",
       "https://github.com/anomalyco/opencode/blob/e5cc278dec9294a627a7b05f47ce6a564408c1a2/SECURITY.md",
@@ -558,7 +558,7 @@ describe("harness evidence ledger", () => {
     const urls = grokBuild.evidence.map((source) => source.url);
     const caveats = grokBuild.tradeoffs.join(" ");
 
-    expect(grokBuild.verifiedAt).toBe("2026-07-27");
+    expect(grokBuild.verifiedAt).toBe("2026-07-30");
     expect(grokBuild.evidence).toHaveLength(24);
     expect(grokBuild.evidence.every((source) => source.verifiedAt === grokBuild.verifiedAt)).toBe(true);
     expect(grokBuild.evidence.every((source) => source.topic !== undefined)).toBe(true);
@@ -573,6 +573,7 @@ describe("harness evidence ledger", () => {
       "https://docs.x.ai/build/enterprise",
       "https://github.com/xai-org/grok-build/tree/b41c75a578f98bddbd326ab02cd53618451d97ee",
     ]));
+    expect(grokBuild.evidence.find((source) => source.title === "Grok Build changelog")?.covers).toContain("0.2.112");
     expect(caveats).toContain("OS sandbox is off by default");
     expect(caveats).toContain("Browser review is supplied through plugins or MCP");
     expect(caveats).toContain("model branding, not evidence of harness quality");
@@ -626,19 +627,21 @@ describe("harness evidence ledger", () => {
     const urls = factory.evidence.map((source) => source.url);
     const caveats = factory.tradeoffs.join(" ");
 
-    expect(factory.verifiedAt).toBe("2026-07-27");
+    expect(factory.verifiedAt).toBe("2026-07-30");
     expect(factory.evidence).toHaveLength(17);
     expect(factory.evidence.every((source) => source.verifiedAt === factory.verifiedAt)).toBe(true);
     expect(factory.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([
-      "https://docs.factory.ai/cli/configuration/settings",
-      "https://docs.factory.ai/cli/configuration/mcp",
-      "https://docs.factory.ai/cli/configuration/hooks-guide",
+      "https://docs.factory.ai/droid-cli/settings",
+      "https://docs.factory.ai/harness/mcp",
+      "https://docs.factory.ai/harness/hooks",
+      "https://docs.factory.ai/harness/agents-md",
+      "https://docs.factory.ai/autonomy-and-safety/sandbox",
       "https://docs.factory.ai/enterprise/llm-safety-and-agent-controls",
       "https://docs.factory.ai/changelog/release-notes",
     ]));
-    expect(caveats).toContain("Beta OS sandbox is opt-in");
+    expect(caveats).toContain("Private Preview OS sandbox is opt-in");
     expect(caveats).toContain("cloudSessionSync");
     expect(caveats).toContain("enabled by default");
     expect(caveats).toContain("current environment's credentials");
@@ -875,13 +878,13 @@ describe("harness evidence ledger", () => {
     const urls = pool.evidence.map((source) => source.url);
     const caveats = pool.tradeoffs.join(" ");
 
-    expect(pool.verifiedAt).toBe("2026-07-27");
-    expect(pool.evidence.length).toBeGreaterThanOrEqual(18);
+    expect(pool.verifiedAt).toBe("2026-07-30");
+    expect(pool.evidence.length).toBeGreaterThanOrEqual(15);
     expect(pool.evidence.every((source) => source.verifiedAt === pool.verifiedAt)).toBe(true);
     expect(pool.providerStyle).toBe("multi-provider");
     expect(featureSupportFor(pool).localModels).toBe(true);
     expect(featureSupportFor(pool)).toMatchObject({ localModels: true, sandbox: true, checkpoints: false, subagents: false });
-    expect(pool.classification.isolation).toEqual(expect.arrayContaining(["container", "managed-sandbox", "worktree"]));
+    expect(pool.classification.isolation).toEqual(["container", "worktree"]);
     expect(pool.capabilities).toMatchObject({ flexibility: 5, security: 4, automation: 4, humanControl: 4 });
     expect(urls).toEqual(expect.arrayContaining([
       "https://docs.poolside.ai/cli/interactive-mode",
@@ -890,10 +893,13 @@ describe("harness evidence ledger", () => {
       "https://github.com/poolsideai/pool/releases/tag/v1.0.13",
       "https://github.com/poolsideai/pool/blob/39e9094bd5d49d2dc4df780753cc6da37fc88eb6/README.md",
     ]));
-    expect(caveats).toContain("local environment is enabled by default");
+    expect(caveats).toContain("Local container sandbox isolation must be explicitly configured");
     expect(caveats).toContain("Remote HTTP or SSE MCP servers");
     expect(caveats).toContain("does not restore files");
     expect(caveats).toContain("v1.0.13 tag points to a tree whose changelog still says 1.0.12");
+    expect(urls).not.toContain("https://docs.poolside.ai/organization/permissions-reference");
+    expect(urls).not.toContain("https://docs.poolside.ai/managed-agents");
+    expect(urls).not.toContain("https://docs.poolside.ai/repositories");
   });
 
   it("keeps goose claims granular and qualifies its default execution posture", () => {
@@ -1022,8 +1028,8 @@ describe("harness evidence ledger", () => {
     const urls = command.evidence.map((source) => source.url);
     const caveats = command.tradeoffs.join(" ");
 
-    expect(command.verifiedAt).toBe("2026-07-27");
-    expect(command.evidence).toHaveLength(21);
+    expect(command.verifiedAt).toBe("2026-07-30");
+    expect(command.evidence).toHaveLength(20);
     expect(command.evidence.every((source) => source.verifiedAt === command.verifiedAt)).toBe(true);
     expect(command.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
@@ -1041,6 +1047,7 @@ describe("harness evidence ledger", () => {
       "https://commandcode.ai/docs/mods",
       "https://commandcode.ai/docs/studio",
     ]));
+    expect(command.evidence.find((source) => source.title === "Headless mode")?.covers).toContain("100-turn default");
     expect(caveats).toContain("do not provide an OS security boundary");
     expect(caveats).toContain("Goal completion is judged inside the product workflow");
     expect(caveats).toContain("inherit the host execution boundary");

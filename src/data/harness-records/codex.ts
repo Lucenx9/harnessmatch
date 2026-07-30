@@ -1,6 +1,6 @@
 import type { HarnessRecord } from "./types";
 
-const verifiedAt = "2026-07-27";
+const verifiedAt = "2026-07-30";
 
 export const codex = {
     id: "codex",
@@ -57,7 +57,7 @@ export const codex = {
       {
         title: "Codex CLI",
         topic: "product-surfaces",
-        url: "https://developers.openai.com/codex/cli",
+        url: "https://learn.chatgpt.com/docs/codex/cli",
         covers: "Interactive terminal client, installation, authentication, sessions, and supported workflows",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -65,7 +65,7 @@ export const codex = {
       {
         title: "Developer command reference",
         topic: "product-surfaces",
-        url: "https://developers.openai.com/codex/cli/reference/",
+        url: "https://learn.chatgpt.com/docs/developer-commands?surface=cli",
         covers: "CLI, exec mode, approvals, sandbox flags, and local providers",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -73,7 +73,7 @@ export const codex = {
       {
         title: "Approvals and security",
         topic: "execution-control",
-        url: "https://developers.openai.com/codex/agent-approvals-security",
+        url: "https://learn.chatgpt.com/docs/agent-approvals-security",
         covers: "Default local sandbox, approval policies, cloud isolation, network controls, and threat boundaries",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -81,7 +81,7 @@ export const codex = {
       {
         title: "Sandboxing",
         topic: "execution-control",
-        url: "https://developers.openai.com/codex/sandboxing",
+        url: "https://learn.chatgpt.com/docs/sandboxing",
         covers: "Native command isolation across desktop, CLI, and IDE, filesystem and network boundaries, and approval escalation",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -89,7 +89,7 @@ export const codex = {
       {
         title: "Auto-review",
         topic: "execution-control",
-        url: "https://developers.openai.com/codex/sandboxing/auto-review",
+        url: "https://learn.chatgpt.com/docs/sandboxing/auto-review",
         covers: "Reviewer-agent handling of eligible sandbox escalations, unchanged boundaries, circuit breakers, overrides, and non-deterministic limits",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -97,7 +97,7 @@ export const codex = {
       {
         title: "Permission profiles",
         topic: "execution-control",
-        url: "https://developers.openai.com/codex/permissions",
+        url: "https://learn.chatgpt.com/docs/permissions",
         covers: "Beta least-privilege filesystem and network profiles plus legacy-mode incompatibility",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -105,7 +105,7 @@ export const codex = {
       {
         title: "Permission modes",
         topic: "execution-control",
-        url: "https://developers.openai.com/codex/permission-modes",
+        url: "https://learn.chatgpt.com/docs/permission-modes",
         covers: "Approval-oriented, automatic, full-access, and custom local action modes across desktop, CLI, and IDE surfaces",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -113,7 +113,7 @@ export const codex = {
       {
         title: "Command rules",
         topic: "execution-control",
-        url: "https://developers.openai.com/codex/agent-configuration/rules",
+        url: "https://learn.chatgpt.com/docs/agent-configuration/rules",
         covers: "Experimental prefix rules for allow, prompt, or forbid decisions when commands request execution outside the sandbox",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -121,7 +121,7 @@ export const codex = {
       {
         title: "Windows sandbox",
         topic: "execution-control",
-        url: "https://developers.openai.com/codex/windows/windows-sandbox",
+        url: "https://learn.chatgpt.com/docs/windows/windows-sandbox",
         covers: "Native Windows filesystem and network isolation, PowerShell operation, setup, protected paths, and troubleshooting",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -129,7 +129,7 @@ export const codex = {
       {
         title: "Subagents",
         topic: "orchestration-state",
-        url: "https://developers.openai.com/codex/agent-configuration/subagents",
+        url: "https://learn.chatgpt.com/docs/agent-configuration/subagents",
         covers: "Default parallel delegation, custom agent roles, tools, models, and token overhead",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -137,7 +137,7 @@ export const codex = {
       {
         title: "Codex memories",
         topic: "orchestration-state",
-        url: "https://developers.openai.com/codex/customization/memories",
+        url: "https://learn.chatgpt.com/docs/customization/memories",
         covers: "Local persistent memory store, controls, scopes, and distinction from required project rules",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -145,7 +145,7 @@ export const codex = {
       {
         title: "AGENTS.md instructions",
         topic: "orchestration-state",
-        url: "https://developers.openai.com/codex/agent-configuration/agents-md",
+        url: "https://learn.chatgpt.com/docs/agent-configuration/agents-md",
         covers: "Global and project instruction discovery, nested overrides, precedence, size limits, and code-review guidance",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -153,7 +153,7 @@ export const codex = {
       {
         title: "Execution environments",
         topic: "orchestration-state",
-        url: "https://developers.openai.com/codex/environments/modes",
+        url: "https://learn.chatgpt.com/docs/environments/modes",
         covers: "Local, Git-worktree, and cloud execution modes in the desktop app",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -161,7 +161,7 @@ export const codex = {
       {
         title: "Git worktrees",
         topic: "orchestration-state",
-        url: "https://developers.openai.com/codex/environments/git-worktrees",
+        url: "https://learn.chatgpt.com/docs/environments/git-worktrees",
         covers: "Parallel checkout isolation, scheduled-task worktrees, handoff, and Git-only constraints",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -169,7 +169,7 @@ export const codex = {
       {
         title: "Local environments",
         topic: "orchestration-state",
-        url: "https://developers.openai.com/codex/environments/local-environment",
+        url: "https://learn.chatgpt.com/docs/environments/local-environment",
         covers: "Desktop worktree setup scripts, shared project actions, generated configuration, and execution timing",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -177,7 +177,7 @@ export const codex = {
       {
         title: "Codex cloud",
         topic: "product-surfaces",
-        url: "https://developers.openai.com/codex/cloud",
+        url: "https://learn.chatgpt.com/docs/cloud",
         covers: "Delegated cloud tasks, isolated environments, repository workflows, and review surface",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -185,7 +185,7 @@ export const codex = {
       {
         title: "Cloud environments",
         topic: "orchestration-state",
-        url: "https://developers.openai.com/codex/environments/cloud-environment",
+        url: "https://learn.chatgpt.com/docs/environments/cloud-environment",
         covers: "Container creation, dependency setup, default-off agent internet, AGENTS.md use, validation loop, and diff handoff",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -193,7 +193,7 @@ export const codex = {
       {
         title: "Cloud internet access",
         topic: "execution-control",
-        url: "https://developers.openai.com/codex/cloud/internet-access",
+        url: "https://learn.chatgpt.com/docs/cloud/internet-access",
         covers: "Default offline agent phase, domain allowlists, methods, secrets, and exfiltration risks",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -201,7 +201,7 @@ export const codex = {
       {
         title: "Browser",
         topic: "product-surfaces",
-        url: "https://developers.openai.com/codex/browser",
+        url: "https://learn.chatgpt.com/docs/browser",
         covers: "Shared browser surface, separate profile, site interaction, downloads, and safety guidance",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -209,7 +209,7 @@ export const codex = {
       {
         title: "Computer Use",
         topic: "product-surfaces",
-        url: "https://developers.openai.com/codex/computer-use",
+        url: "https://learn.chatgpt.com/docs/computer-use",
         covers: "Desktop GUI control, plugin setup, OS permissions, attended review, and external side effects",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -217,7 +217,7 @@ export const codex = {
       {
         title: "Remote connections",
         topic: "product-surfaces",
-        url: "https://developers.openai.com/codex/remote-connections",
+        url: "https://learn.chatgpt.com/docs/remote-connections",
         covers: "Mobile and desktop steering of connected hosts, inherited credentials and permissions, SSH projects, approvals, and review",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -225,7 +225,7 @@ export const codex = {
       {
         title: "Non-interactive mode",
         topic: "automation-extensions",
-        url: "https://developers.openai.com/codex/non-interactive-mode",
+        url: "https://learn.chatgpt.com/docs/non-interactive-mode",
         covers: "codex exec scripting, CI operation, structured output, sandbox, and approval settings",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -233,7 +233,7 @@ export const codex = {
       {
         title: "Lifecycle hooks",
         topic: "automation-extensions",
-        url: "https://developers.openai.com/codex/hooks",
+        url: "https://learn.chatgpt.com/docs/hooks",
         covers: "Pre and post tool gates, validation, logging, subagent events, trust, and side-effect limits",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -241,7 +241,7 @@ export const codex = {
       {
         title: "Model Context Protocol",
         topic: "automation-extensions",
-        url: "https://developers.openai.com/codex/extend/mcp",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
         covers: "Local and remote MCP server support",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -249,7 +249,7 @@ export const codex = {
       {
         title: "Skills and plugins",
         topic: "automation-extensions",
-        url: "https://developers.openai.com/codex/skills-and-plugins",
+        url: "https://learn.chatgpt.com/docs/skills-and-plugins",
         covers: "Reusable instruction packages, installable bundles, connector-backed MCP tools, resources, and supported surfaces",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -257,7 +257,7 @@ export const codex = {
       {
         title: "Plugins",
         topic: "automation-extensions",
-        url: "https://developers.openai.com/codex/plugins",
+        url: "https://learn.chatgpt.com/docs/plugins",
         covers: "Plugin discovery, installation, supported ChatGPT and Codex surfaces, connected tools, and availability controls",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -265,7 +265,7 @@ export const codex = {
       {
         title: "IDE extension",
         topic: "product-surfaces",
-        url: "https://developers.openai.com/codex/ide/",
+        url: "https://learn.chatgpt.com/docs/codex/ide",
         covers: "VS Code-compatible, Xcode, and JetBrains integrations",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -273,7 +273,7 @@ export const codex = {
       {
         title: "ChatGPT desktop app",
         topic: "product-surfaces",
-        url: "https://developers.openai.com/codex/app",
+        url: "https://learn.chatgpt.com/docs/app",
         covers: "Desktop project, file, long-running work, parallel chat, worktree, browser, plugin, and scheduled-task surface",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -281,7 +281,7 @@ export const codex = {
       {
         title: "Authentication",
         topic: "enterprise-operations",
-        url: "https://developers.openai.com/codex/auth",
+        url: "https://learn.chatgpt.com/docs/auth",
         covers: "ChatGPT, API-key, and enterprise access-token authentication, surface availability, credential storage, and managed restrictions",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -289,7 +289,7 @@ export const codex = {
       {
         title: "Codex GitHub Action",
         topic: "automation-extensions",
-        url: "https://developers.openai.com/codex/github-action",
+        url: "https://learn.chatgpt.com/docs/github-action",
         covers: "CI installation, codex exec, patch and review workflows, secrets, and safety strategy",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -297,7 +297,7 @@ export const codex = {
       {
         title: "Code review",
         topic: "automation-extensions",
-        url: "https://developers.openai.com/codex/code-review",
+        url: "https://learn.chatgpt.com/docs/code-review",
         covers: "Read-only review of local or branch changes, prioritized findings, review pane, and user-controlled staging or revert",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -305,7 +305,7 @@ export const codex = {
       {
         title: "GitHub code review",
         topic: "automation-extensions",
-        url: "https://developers.openai.com/codex/third-party/github",
+        url: "https://learn.chatgpt.com/docs/third-party/github",
         covers: "Pull-request review setup, manual and automatic triggers, AGENTS.md rules, permissions, and posted GitHub findings",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -313,7 +313,7 @@ export const codex = {
       {
         title: "Codex Security",
         topic: "automation-extensions",
-        url: "https://developers.openai.com/codex/security",
+        url: "https://learn.chatgpt.com/docs/security",
         covers: "Optional security plugin and cloud workflows for repository scans, code-change review, finding triage, fixes, and reports",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -321,7 +321,7 @@ export const codex = {
       {
         title: "Codex SDK",
         topic: "automation-extensions",
-        url: "https://developers.openai.com/codex/codex-sdk",
+        url: "https://learn.chatgpt.com/docs/codex-sdk",
         covers: "Programmatic threads, structured events, CI integration, and server-side constraints",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -329,7 +329,7 @@ export const codex = {
       {
         title: "Codex App Server",
         topic: "automation-extensions",
-        url: "https://developers.openai.com/codex/app-server",
+        url: "https://learn.chatgpt.com/docs/app-server",
         covers: "Embeddable protocol, persistent JSONL threads, streaming events, and deprecated context rollback",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -337,7 +337,7 @@ export const codex = {
       {
         title: "Scheduled tasks",
         topic: "automation-extensions",
-        url: "https://developers.openai.com/codex/automations",
+        url: "https://learn.chatgpt.com/docs/automations",
         covers: "Recurring background tasks, local projects, dedicated worktrees, status, and run history",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -345,7 +345,7 @@ export const codex = {
       {
         title: "Managed configuration",
         topic: "enterprise-operations",
-        url: "https://developers.openai.com/codex/enterprise/managed-configuration",
+        url: "https://learn.chatgpt.com/docs/enterprise/managed-configuration",
         covers: "Admin-enforced requirements for permissions, sandbox, hooks, MCP, plugins, and precedence",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -353,7 +353,7 @@ export const codex = {
       {
         title: "Admin rollout guide",
         topic: "enterprise-operations",
-        url: "https://developers.openai.com/codex/enterprise/admin-setup",
+        url: "https://learn.chatgpt.com/docs/enterprise/admin-setup",
         covers: "Enterprise rollout boundaries for workspace access, local runtime policy, cloud, APIs, plugins, connectors, and source systems",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -361,7 +361,7 @@ export const codex = {
       {
         title: "Advanced configuration",
         topic: "enterprise-operations",
-        url: "https://developers.openai.com/codex/config-file/config-advanced",
+        url: "https://learn.chatgpt.com/docs/config-file/config-advanced",
         covers: "Custom and local providers, OpenTelemetry, profiles, network proxy, and configuration scope",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -369,7 +369,7 @@ export const codex = {
       {
         title: "Amazon Bedrock provider",
         topic: "enterprise-operations",
-        url: "https://developers.openai.com/codex/amazon-bedrock",
+        url: "https://learn.chatgpt.com/docs/amazon-bedrock",
         covers: "OpenAI models through Bedrock, AWS-native authentication, compatible local surfaces, request path, and policy boundaries",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -377,7 +377,7 @@ export const codex = {
       {
         title: "Feature maturity",
         topic: "releases-code-audit",
-        url: "https://developers.openai.com/codex/feature-maturity",
+        url: "https://learn.chatgpt.com/docs/feature-maturity",
         covers: "Official under-development, experimental, beta, and stable labels with change and production-use expectations",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -385,7 +385,7 @@ export const codex = {
       {
         title: "What's new",
         topic: "releases-code-audit",
-        url: "https://developers.openai.com/codex/whats-new",
+        url: "https://learn.chatgpt.com/docs/whats-new",
         covers: "Weekly dated digest of ChatGPT and Codex surface changes with links to current product documentation",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -393,15 +393,15 @@ export const codex = {
       {
         title: "Open-source component map",
         topic: "releases-code-audit",
-        url: "https://developers.openai.com/codex/open-source",
+        url: "https://learn.chatgpt.com/docs/open-source",
         covers: "Public CLI, SDK, app server, universal cloud image, and proprietary surface boundaries",
         kind: "official-docs",
         verifiedAt: verifiedAt,
       },
       {
-        title: "Codex CLI 0.145.0 release",
+        title: "Codex CLI 0.146.0 release",
         topic: "releases-code-audit",
-        url: "https://github.com/openai/codex/releases/tag/rust-v0.145.0",
+        url: "https://github.com/openai/codex/releases/tag/rust-v0.146.0",
         covers: "Current stable CLI distribution release used for product-version verification",
         kind: "official-announcement",
         verifiedAt: verifiedAt,

@@ -132,7 +132,7 @@ const membershipDefinitions: Record<string, MembershipDefinition> = {
   "factory-droid": documentedCodingHarness({
     adaptiveLoop: "Droid Exec",
     environmentMutation: "Droid CLI reference",
-    activeContextManagement: "Session memory management",
+    activeContextManagement: "AGENTS.md instructions",
     runtimeControl: "Autonomy levels",
   }),
   forgecode: documentedCodingHarness({

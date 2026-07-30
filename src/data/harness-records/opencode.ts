@@ -1,6 +1,6 @@
 import type { HarnessRecord } from "./types";
 
-const verifiedAt = "2026-07-28";
+const verifiedAt = "2026-07-30";
 
 export const opencode = {
     id: "opencode",
@@ -228,10 +228,10 @@ export const opencode = {
         verifiedAt: verifiedAt,
       },
       {
-        title: "OpenCode 1.18.8 release",
+        title: "OpenCode 1.18.9 release",
         topic: "releases-code-audit",
-        url: "https://github.com/anomalyco/opencode/releases/tag/v1.18.8",
-        covers: "Current stable distribution release, including newer MCP OAuth compatibility and session-reconnect fixes; the code audit remains pinned separately to 1.18.5",
+        url: "https://github.com/anomalyco/opencode/releases/tag/v1.18.9",
+        covers: "Current stable distribution release and legacy MCP SDK compatibility fix; the code audit remains pinned separately to 1.18.5",
         kind: "official-announcement",
         verifiedAt: verifiedAt,
       },

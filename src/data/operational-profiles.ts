@@ -2,6 +2,7 @@ import type { OperationalProfile, OperationalProfileRecord } from "../lib/types"
 
 const verifiedAt = "2026-07-27";
 const refreshedAt = "2026-07-28";
+const sourceAuditAt = "2026-07-30";
 const defaultLimitation =
   "Documentation-derived posture. It describes exposed harness mechanisms, not task success or model capability.";
 
@@ -45,19 +46,20 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
   codex: record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },
     [
-      "https://developers.openai.com/codex/customization/memories",
-      "https://developers.openai.com/codex/agent-approvals-security",
-      "https://developers.openai.com/codex/permissions",
-      "https://developers.openai.com/codex/permission-modes",
-      "https://developers.openai.com/codex/sandboxing",
-      "https://developers.openai.com/codex/sandboxing/auto-review",
-      "https://developers.openai.com/codex/agent-configuration/agents-md",
-      "https://developers.openai.com/codex/hooks",
-      "https://developers.openai.com/codex/code-review",
-      "https://developers.openai.com/codex/config-file/config-advanced",
+      "https://learn.chatgpt.com/docs/customization/memories",
+      "https://learn.chatgpt.com/docs/agent-approvals-security",
+      "https://learn.chatgpt.com/docs/permissions",
+      "https://learn.chatgpt.com/docs/permission-modes",
+      "https://learn.chatgpt.com/docs/sandboxing",
+      "https://learn.chatgpt.com/docs/sandboxing/auto-review",
+      "https://learn.chatgpt.com/docs/agent-configuration/agents-md",
+      "https://learn.chatgpt.com/docs/hooks",
+      "https://learn.chatgpt.com/docs/code-review",
+      "https://learn.chatgpt.com/docs/config-file/config-advanced",
       "https://github.com/openai/codex/tree/25af12f7e61572b0bc18ddb1008be543b91519b0/codex-rs/rollout-trace",
     ],
     "Local memories and AGENTS.md persist project context; JSONL rollouts, lifecycle hooks, and optional OpenTelemetry expose trace-level evidence. Sandbox and permission modes provide technical and policy boundaries, but optional Auto-review is a non-deterministic reviewer for requested escalations rather than a security guarantee. Code review remains tool-assisted, and recovery is session resume plus Git review/revert rather than a harness checkpoint, so shell and external side effects remain outside rollback.",
+    sourceAuditAt,
   ),
   opencode: record(
     { context: "managed", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "checkpoint" },
@@ -70,6 +72,7 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://github.com/anomalyco/opencode/blob/e5cc278dec9294a627a7b05f47ce6a564408c1a2/SECURITY.md",
     ],
     "Sessions, child-agent navigation, server events, and logs expose execution history; granular permission rules are configurable policy but most defaults are permissive and no OS sandbox is present. Git snapshot recovery excludes ignored files, large untracked files, and external side effects.",
+    sourceAuditAt,
   ),
   pi: record(
     { context: "managed", permissions: "host", verification: "manual", observability: "session", recovery: "session-resume" },
@@ -99,6 +102,7 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://github.com/xai-org/grok-build/blob/b41c75a578f98bddbd326ab02cd53618451d97ee/crates/codegen/xai-grok-pager/docs/user-guide/24-monitoring-usage.md",
     ],
     "Optional cross-session memory and rewind checkpoints are available; external OpenTelemetry is opt-in and session artifacts remain local by default. The OS sandbox is off by default and macOS child-network enforcement is incomplete, while recovery cannot undo external side effects.",
+    sourceAuditAt,
   ),
   aider: record(
     { context: "managed", permissions: "approval", verification: "tool-assisted", observability: "session", recovery: "checkpoint" },
@@ -200,14 +204,15 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
   "factory-droid": record(
     { context: "managed", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "checkpoint" },
     [
-      "https://docs.factory.ai/cli/configuration/sandbox",
-      "https://docs.factory.ai/cli/user-guides/auto-run",
-      "https://docs.factory.ai/reference/cli-reference",
-      "https://docs.factory.ai/enterprise/telemetry-export",
-      "https://docs.factory.ai/cli/configuration/settings",
-      "https://docs.factory.ai/cli/configuration/mcp",
+      "https://docs.factory.ai/autonomy-and-safety/sandbox",
+      "https://docs.factory.ai/autonomy-and-safety/auto-run",
+      "https://docs.factory.ai/droid-cli/cli-reference",
+      "https://docs.factory.ai/enterprise/telemetry-and-analytics",
+      "https://docs.factory.ai/droid-cli/settings",
+      "https://docs.factory.ai/harness/mcp",
     ],
     "Autonomy policy, opt-in fail-closed OS isolation, read-only headless defaults, tool-assisted verification, OTLP export, session rewind, and file snapshots are documented. The default per-command sandbox leaves the main Droid process outside the OS boundary, CLI-to-web session sync defaults on, MCP servers add local or remote tool trust, and recovery excludes external side effects.",
+    sourceAuditAt,
   ),
   forgecode: record(
     { context: "managed", permissions: "host", verification: "tool-assisted", observability: "logs", recovery: "session-resume" },
@@ -298,15 +303,15 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
     [
       "https://commandcode.ai/docs/reference/cli",
       "https://commandcode.ai/docs/resources/security",
-      "https://commandcode.ai/docs/core-concepts/headless",
-      "https://commandcode.ai/docs/core-concepts/checkpoints",
-      "https://commandcode.ai/docs/hooks",
+      "https://commandcode.ai/docs/headless",
       "https://commandcode.ai/docs/sessions",
+      "https://commandcode.ai/docs/hooks",
       "https://commandcode.ai/docs/goal",
       "https://commandcode.ai/docs/memory",
       "https://commandcode.ai/docs/background-tasks",
     ],
     "Local taste and AGENTS.md rules persist preferences and instructions, and durable JSONL sessions are resumable. Interactive writes and shell require approval by default, while headless runs deny both unless yolo grants both. Goal verification is product-internal; monitors, cron, and background agents remain host processes. Pre-tool and stop hooks can enforce deterministic checks but remain user-authored local processes. Per-session checkpoints omit files over 10 MB and cannot reverse shell or external-service effects; the closed implementation is not source-auditable.",
+    sourceAuditAt,
   ),
   codebuff: record(
     { context: "managed", permissions: "host", verification: "tool-assisted", observability: "logs", recovery: "session-resume" },
@@ -468,10 +473,9 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://docs.poolside.ai/cli/automated-mode",
       "https://docs.poolside.ai/settings-file-reference",
       "https://docs.poolside.ai/sandboxes",
-      "https://docs.poolside.ai/organization/permissions-reference",
-      "https://docs.poolside.ai/managed-agents",
     ],
-    "Poolside exposes scoped tool and path rules, structured local and web trajectories, resumable sessions, and optional managed sandboxes. The local environment remains enabled by default, remote HTTP or SSE MCP calls bypass local sandbox egress restrictions, and conversation rewind is not file rollback. No product checkpoint is claimed.",
+    "Poolside exposes scoped tool and path rules, structured local and web trajectories, resumable sessions, and optional local container sandboxes. Sandbox isolation must be configured for user-managed runs, remote HTTP or SSE MCP calls bypass local sandbox egress restrictions, and conversation rewind is not file rollback. No product checkpoint is claimed.",
+    sourceAuditAt,
   ),
   plandex: record(
     { context: "persistent", permissions: "approval", verification: "tool-assisted", observability: "session", recovery: "checkpoint" },

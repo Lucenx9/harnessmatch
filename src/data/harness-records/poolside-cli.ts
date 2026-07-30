@@ -1,6 +1,6 @@
 import type { HarnessRecord } from "./types";
 
-const verifiedAt = "2026-07-27";
+const verifiedAt = "2026-07-30";
 
 export const poolsideCli = {
     id: "poolside-cli",
@@ -8,7 +8,7 @@ export const poolsideCli = {
     name: "Poolside Agent CLI",
     tagline: "Provider-flexible terminal and ACP client with explicit policy, traces, and optional sandboxes.",
     summary:
-      "Poolside's proprietary-distribution CLI combines interactive and JSONL automation modes, ACP client and server roles, OpenRouter and local OpenAI-compatible models, MCP, skills, worktrees, structured trajectories, and optional local or managed sandbox environments.",
+      "Poolside's proprietary-distribution CLI combines interactive and JSONL automation modes, ACP client and server roles, OpenRouter and local OpenAI-compatible models, MCP, skills, worktrees, structured trajectories, and optional local container sandboxes.",
     logo: {
       src: "/harnesses/poolside-agent-cli.png",
       sourceUrl: "https://github.com/poolsideai/pool",
@@ -20,7 +20,7 @@ export const poolsideCli = {
       role: "coding-agent",
       orchestration: "single-agent",
       runtime: "host-first",
-      isolation: ["container", "managed-sandbox", "worktree"],
+      isolation: ["container", "worktree"],
       state: "session-based",
     },
     interfaces: ["terminal", "ide", "automation"],
@@ -37,17 +37,17 @@ export const poolsideCli = {
     },
     bestFor: [
       "Developers who want one TUI to drive Poolside, OpenRouter, Ollama, local OpenAI-compatible models, or other ACP agents",
-      "Enterprise workflows that need reviewable policies, trajectories, and managed sandbox definitions",
+      "Self-managed workflows that need reviewable local policies, trajectories, and container sandbox definitions",
       "Scripts and ACP-compatible editors that need structured output, resumable sessions, MCP, and skills",
     ],
     tradeoffs: [
-      "The local environment is enabled by default; container or managed sandbox isolation must be selected and configured",
+      "Local container sandbox isolation must be explicitly configured for user-managed runs",
       "Remote HTTP or SSE MCP servers are outside local sandbox network restrictions",
       "Rewind removes conversation turns but does not restore files, so no harness checkpoint or file rollback is claimed",
       "No delegated subagent workflow was verified; parallel isolation is limited to manually launched worktrees or separate sessions",
       "The public repository distributes binaries, documentation, and a changelog rather than the proprietary client source, and its v1.0.13 tag points to a tree whose changelog still says 1.0.12",
     ],
-    setup: "Install Poolside Agent CLI 1.0.13, then authenticate to Poolside or OpenRouter, launch through Ollama or an OpenAI-compatible endpoint, or select another ACP server; configure policies and require a sandbox explicitly for untrusted work.",
+    setup: "Install Poolside Agent CLI 1.0.13, then authenticate to Poolside or OpenRouter, launch through Ollama or an OpenAI-compatible endpoint, or select another ACP server; configure local policies and a container sandbox explicitly for untrusted work.",
     verifiedAt: verifiedAt,
     evidence: [
       {
@@ -87,7 +87,7 @@ export const poolsideCli = {
       },
       {
         title: "ACP editor integration",
-        url: "https://docs.poolside.ai/cli/editor-integration",
+        url: "https://docs.poolside.ai/tools#editors",
         covers: "Poolside as an ACP server for compatible editors and session configuration",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -100,37 +100,16 @@ export const poolsideCli = {
         verifiedAt: verifiedAt,
       },
       {
-        title: "Managed sandboxes",
+        title: "Local sandboxes",
         url: "https://docs.poolside.ai/sandboxes",
-        covers: "Default local environment, managed local and deployment-dependent remote sandboxes, role access, filesystem and egress boundaries, and remote-MCP exception",
-        kind: "official-docs",
-        verifiedAt: verifiedAt,
-      },
-      {
-        title: "Organization permissions",
-        url: "https://docs.poolside.ai/organization/permissions-reference",
-        covers: "RBAC for agents, auto approval, credentials, MCP, repositories, sandboxes, and cross-user trajectories",
-        kind: "official-docs",
-        verifiedAt: verifiedAt,
-      },
-      {
-        title: "Managed agents",
-        url: "https://docs.poolside.ai/managed-agents",
-        covers: "Reusable model, instruction, tool, repository, credential, skill, MCP, and sandbox configurations with runtime access intersection",
+        covers: "Local container execution, workspace access, filesystem mounts, egress allowlists, session lifecycle, and remote-MCP network exception",
         kind: "official-docs",
         verifiedAt: verifiedAt,
       },
       {
         title: "Agent skills",
         url: "https://docs.poolside.ai/skills",
-        covers: "Local, project, and organization-managed skills, access controls, and sandbox mount limitations",
-        kind: "official-docs",
-        verifiedAt: verifiedAt,
-      },
-      {
-        title: "Indexed repositories",
-        url: "https://docs.poolside.ai/repositories",
-        covers: "Organization-managed repository indexing and agent access controls for broader code context",
+        covers: "Personal and project skill directories, Agent Skills format, automatic and explicit use, and local-sandbox mount limitations",
         kind: "official-docs",
         verifiedAt: verifiedAt,
       },

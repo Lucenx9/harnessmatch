@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 // @ts-expect-error The production helper is a directly executable JavaScript module.
-import { assertPublicHttpUrl, isBlockedAddress, safeFetch } from "../scripts/source-health-network.mjs";
+import { assertPublicHttpUrl, isAccessRestrictedLanding, isBlockedAddress, safeFetch } from "../scripts/source-health-network.mjs";
 // @ts-expect-error The production helper is a directly executable JavaScript module.
 import { collectUrls, sourceUrlFields } from "../scripts/source-health-urls.mjs";
 
@@ -39,6 +39,22 @@ function nodeRequestWithPeer(peerAddress?: string) {
 }
 
 describe("source health network safety", () => {
+  it.each([
+    "https://docs.example.com/login?redirect=%2Fprivate-doc",
+    "https://docs.example.com/auth/signin?return_to=%2Fprivate-doc",
+    "https://docs.example.com/sign-in?next=%2Fprivate-doc",
+  ])("recognizes an access-controlled redirect landing at %s", (url) => {
+    expect(isAccessRestrictedLanding(url)).toBe(true);
+  });
+
+  it.each([
+    "https://docs.example.com/login",
+    "https://docs.example.com/guides/sign-in",
+    "https://docs.example.com/source?redirect=%2Fother",
+  ])("does not misclassify a public source URL at %s", (url) => {
+    expect(isAccessRestrictedLanding(url)).toBe(false);
+  });
+
   it.each([
     "0.1.2.3",
     "10.2.3.4",

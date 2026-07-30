@@ -1,6 +1,6 @@
 import type { HarnessRecord } from "./types";
 
-const verifiedAt = "2026-07-27";
+const verifiedAt = "2026-07-30";
 
 export const factoryDroid = {
     id: "factory-droid",
@@ -41,12 +41,12 @@ export const factoryDroid = {
       "Teams combining Factory-hosted models, BYOK providers, local Ollama, MCP, and IDE context",
     ],
     tradeoffs: [
-      "The Beta OS sandbox is opt-in; its default per-command mode confines shell children while the main Droid process remains outside the OS boundary",
+      "The Private Preview OS sandbox is opt-in; its default per-command mode confines shell children while the main Droid process remains outside the OS boundary",
       "Sandbox file reads allow all paths unless explicitly denied, allowed network domains remain exfiltration channels, and Factory recommends a container or VM for untrusted code",
       "Git worktrees isolate file changes, not processes; dirty headless worktrees are preserved for review rather than silently removed",
       "Droid Control provides browser and desktop automation through a plugin rather than the minimal core tool set",
       "Hooks run automatically with the current environment's credentials and may block tools or merge in plugin-provided code, so project and plugin hooks must be reviewed as trusted execution",
-      "Session rewind and file snapshots do not reverse external side effects, and persistent knowledge relies on explicit AGENTS.md or memory files rather than learned product memory",
+      "Session rewind and file snapshots do not reverse external side effects, and persistent project knowledge relies on explicit AGENTS.md instructions rather than learned product memory",
       "CLI session mirroring to Factory web is enabled by default and must be disabled with cloudSessionSync when local-only conversation storage is required",
       "Factory publishes selected benchmark scorecards, but its public repository does not expose the closed agent implementation or a complete immutable evaluation corpus",
     ],
@@ -56,7 +56,7 @@ export const factoryDroid = {
       {
         title: "Droid CLI reference",
         topic: "product-surfaces",
-        url: "https://docs.factory.ai/reference/cli-reference",
+        url: "https://docs.factory.ai/droid-cli/cli-reference",
         covers: "Interactive and headless modes, output formats, permissions, worktrees, sessions, conversation rewind, MCP, and CI",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -64,7 +64,7 @@ export const factoryDroid = {
       {
         title: "Droid Exec",
         topic: "automation-extensions",
-        url: "https://docs.factory.ai/cli/droid-exec/overview",
+        url: "https://docs.factory.ai/droid-exec/overview",
         covers: "Read-only default, autonomy tiers, structured JSON-RPC, model selection, parallel worktrees, and sessions",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -72,15 +72,15 @@ export const factoryDroid = {
       {
         title: "Bring Your Own Key",
         topic: "product-surfaces",
-        url: "https://docs.factory.ai/cli/byok/overview",
+        url: "https://docs.factory.ai/model-independence/byok",
         covers: "Hosted providers, custom endpoints, open-source models, Ollama, vLLM, and local execution",
         kind: "official-docs",
         verifiedAt: verifiedAt,
       },
       {
-        title: "Custom Droids",
+        title: "Subagents",
         topic: "orchestration-state",
-        url: "https://docs.factory.ai/cli/configuration/custom-droids",
+        url: "https://docs.factory.ai/harness/subagents",
         covers: "Delegated subagents, isolated contexts, prompt and model selection, and per-agent tool policies",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -88,7 +88,7 @@ export const factoryDroid = {
       {
         title: "IDE integrations",
         topic: "product-surfaces",
-        url: "https://docs.factory.ai/integrations/ide-integrations",
+        url: "https://docs.factory.ai/ide-integrations",
         covers: "VS Code and JetBrains plugins, diff viewing, editor selection context, and shared diagnostics",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -96,15 +96,15 @@ export const factoryDroid = {
       {
         title: "OS sandbox",
         topic: "execution-control",
-        url: "https://docs.factory.ai/cli/configuration/sandbox",
-        covers: "Beta opt-in OS isolation, per-command and whole-process modes, defaults, fail-closed behavior, coverage, and limits",
+        url: "https://docs.factory.ai/autonomy-and-safety/sandbox",
+        covers: "Private Preview opt-in OS isolation, per-command and whole-process modes, defaults, fail-closed behavior, coverage, and limits",
         kind: "official-docs",
         verifiedAt: verifiedAt,
       },
       {
         title: "Autonomy levels",
         topic: "execution-control",
-        url: "https://docs.factory.ai/cli/user-guides/auto-run",
+        url: "https://docs.factory.ai/autonomy-and-safety/auto-run",
         covers: "Off, low, medium, and high approval postures, allow and block rules, organization caps, and risk",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -112,29 +112,29 @@ export const factoryDroid = {
       {
         title: "Droid Control",
         topic: "product-surfaces",
-        url: "https://docs.factory.ai/cli/features/droid-control",
+        url: "https://docs.factory.ai/software-factory/droid-control",
         covers: "Plugin-provided browser, terminal, Electron, and desktop control plus verification and demo workflows",
         kind: "official-docs",
         verifiedAt: verifiedAt,
       },
       {
-        title: "Session memory management",
+        title: "AGENTS.md instructions",
         topic: "orchestration-state",
-        url: "https://docs.factory.ai/guides/power-user/memory-management",
-        covers: "Explicit memory files, AGENTS.md, compaction, sessions, context practices, and cross-session limitations",
+        url: "https://docs.factory.ai/harness/agents-md",
+        covers: "Durable project instructions, repository guidance, dynamic discovery, precedence, and context-budget limits",
         kind: "official-docs",
         verifiedAt: verifiedAt,
       },
       {
         title: "Telemetry export",
         topic: "enterprise-operations",
-        url: "https://docs.factory.ai/enterprise/telemetry-export",
+        url: "https://docs.factory.ai/enterprise/telemetry-and-analytics",
         covers: "Enterprise OpenTelemetry export, OTLP configuration, events, attributes, security, and observability scope",
         kind: "official-docs",
         verifiedAt: verifiedAt,
       },
       {
-        title: "Factory v0.180.0 release notes",
+        title: "Factory v0.183.0 release notes",
         topic: "releases-code-audit",
         url: "https://docs.factory.ai/changelog/release-notes",
         covers: "Current binary version, dated feature and hardening changes, compatibility, and product-surface distinctions",
@@ -160,7 +160,7 @@ export const factoryDroid = {
       {
         title: "Droid settings",
         topic: "enterprise-operations",
-        url: "https://docs.factory.ai/cli/configuration/settings",
+        url: "https://docs.factory.ai/droid-cli/settings",
         covers: "User and project settings hierarchy, local overrides, autonomy defaults, command policy, cloud session sync, hooks, MCP timeouts, and mission settings",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -168,7 +168,7 @@ export const factoryDroid = {
       {
         title: "Droid MCP configuration",
         topic: "automation-extensions",
-        url: "https://docs.factory.ai/cli/configuration/mcp",
+        url: "https://docs.factory.ai/harness/mcp",
         covers: "Interactive and scripted MCP management, registry, HTTP, SSE, and stdio transports, OAuth, credentials, package pinning, and tool trust",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -176,7 +176,7 @@ export const factoryDroid = {
       {
         title: "Droid hooks",
         topic: "automation-extensions",
-        url: "https://docs.factory.ai/cli/configuration/hooks-guide",
+        url: "https://docs.factory.ai/harness/hooks",
         covers: "Lifecycle hooks, pre-tool blocking, subagent and session events, deterministic automation, credential scope, and trust risks",
         kind: "official-docs",
         verifiedAt: verifiedAt,

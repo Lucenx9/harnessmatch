@@ -1,6 +1,6 @@
 import type { HarnessRecord } from "./types";
 
-const verifiedAt = "2026-07-27";
+const verifiedAt = "2026-07-30";
 
 export const grokBuild = {
     id: "grok-build",
@@ -183,7 +183,7 @@ export const grokBuild = {
         title: "Grok Build changelog",
         topic: "releases-code-audit",
         url: "https://x.ai/build/changelog",
-        covers: "Beta status and current 0.2.111 product release verification",
+        covers: "Beta status and current 0.2.112 product release verification",
         kind: "official-announcement",
         verifiedAt: verifiedAt,
       },

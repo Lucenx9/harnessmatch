@@ -154,6 +154,17 @@ export function isBlockedAddress(address) {
   return true;
 }
 
+export function isAccessRestrictedLanding(input) {
+  const url = new URL(input);
+  const pathSegments = url.pathname.split("/").filter(Boolean);
+  const finalSegment = pathSegments.at(-1)?.toLowerCase();
+  const isLoginPath = finalSegment === "login" || finalSegment === "signin" || finalSegment === "sign-in";
+  const hasReturnTarget = ["redirect", "return", "return_to", "returnTo", "next"].some((key) =>
+    url.searchParams.has(key)
+  );
+  return isLoginPath && hasReturnTarget;
+}
+
 export async function resolvePublicHttpUrl(input, resolve = lookup) {
   const url = new URL(input);
   if (!["http:", "https:"].includes(url.protocol)) {
