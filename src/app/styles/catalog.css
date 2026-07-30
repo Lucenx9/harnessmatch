@@ -232,12 +232,15 @@
 .compare-picker-dialog-head h2 { margin: 0; font-size: 1.7rem; }
 .compare-picker-dialog .picker-list { max-height: none; min-height: 0; flex: 1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .compare-picker-done { width: 100%; margin-top: 16px; }
-.comparison-scroll { max-width: 100%; overflow-x: auto; contain: layout paint; border: 1px solid var(--line); border-radius: var(--radius); }
-.comparison-table { width: 100%; min-width: 820px; border-collapse: collapse; background: var(--surface); }
+.comparison-scroll-hint { display: none; }
+.comparison-scroll { max-width: 100%; max-height: calc(100dvh - 96px); overflow: auto; contain: layout paint; border: 1px solid var(--line); border-radius: var(--radius); }
+.comparison-table { width: 100%; min-width: 100%; border-collapse: separate; border-spacing: 0; background: var(--surface); }
 .comparison-table caption { caption-side: top; padding: 13px 16px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: .72rem; line-height: 1.45; text-align: left; }
 .comparison-table th, .comparison-table td { padding: 15px 17px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
-.comparison-table thead th { position: sticky; top: 66px; z-index: var(--z-table); background: var(--surface-strong); }
+.comparison-table thead th { position: sticky; top: 0; z-index: var(--z-table); background: var(--surface-strong); }
+.comparison-table thead th:first-child { left: 0; z-index: calc(var(--z-table) + 1); }
 .comparison-table tbody th { width: 180px; color: var(--muted); font-weight: 620; }
+.comparison-table tbody tr:not(.comparison-group-row) > th { position: sticky; left: 0; z-index: 1; background: var(--surface); box-shadow: 1px 0 var(--line); }
 .comparison-table td { min-width: 180px; color: var(--muted); }
 .comparison-group-row th { padding-block: 12px; background: var(--bg-soft); color: var(--text); font: 620 .68rem/1.35 var(--font-mono); text-transform: uppercase; letter-spacing: .045em; }
 .comparison-brand { display: flex; align-items: center; gap: 11px; min-width: 150px; color: var(--text); }

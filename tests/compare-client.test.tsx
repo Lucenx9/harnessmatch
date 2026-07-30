@@ -3,7 +3,6 @@ import { describe, expect, it } from "vitest";
 import { CompareClient } from "../src/components/compare-client";
 import { compareRecord } from "./component-fixtures";
 
-/** The ids the component preselects before the URL query string is applied. */
 const defaultIds = ["claude-code", "codex", "opencode"] as const;
 
 function countOccurrences(html: string, needle: string) {
@@ -11,10 +10,11 @@ function countOccurrences(html: string, needle: string) {
 }
 
 describe("compare client", () => {
-  it("builds one column per preselected harness", () => {
+  it("builds one column per initial harness", () => {
     const html = renderToStaticMarkup(
       <CompareClient
         harnesses={defaultIds.map((id) => compareRecord({ id, name: `Product ${id}` }))}
+        initialSelected={defaultIds}
       />,
     );
 
@@ -31,6 +31,7 @@ describe("compare client", () => {
           compareRecord({ id: "claude-code", name: "Retained Harness" }),
           compareRecord({ id: "some-other-harness", name: "Unselected Harness" }),
         ]}
+        initialSelected={defaultIds}
       />,
     );
 
@@ -42,7 +43,10 @@ describe("compare client", () => {
 
   it("keeps technical rows collapsed until they are requested", () => {
     const html = renderToStaticMarkup(
-      <CompareClient harnesses={[compareRecord({ id: "claude-code", name: "Only Harness" })]} />,
+      <CompareClient
+        harnesses={[compareRecord({ id: "claude-code", name: "Only Harness" })]}
+        initialSelected={["claude-code"]}
+      />,
     );
 
     expect(html).toContain('aria-pressed="false"');
@@ -56,7 +60,10 @@ describe("compare client", () => {
 
   it("states the absence of an admitted run rather than leaving the cell blank", () => {
     const html = renderToStaticMarkup(
-      <CompareClient harnesses={[compareRecord({ id: "claude-code", name: "Unmeasured" })]} />,
+      <CompareClient
+        harnesses={[compareRecord({ id: "claude-code", name: "Unmeasured" })]}
+        initialSelected={["claude-code"]}
+      />,
     );
 
     expect(html).toContain("No admitted run");
@@ -78,6 +85,7 @@ describe("compare client", () => {
             }],
           }),
         ]}
+        initialSelected={["claude-code"]}
       />,
     );
 
@@ -88,7 +96,9 @@ describe("compare client", () => {
   });
 
   it("prompts for a selection instead of rendering an empty table", () => {
-    const html = renderToStaticMarkup(<CompareClient harnesses={[]} />);
+    const html = renderToStaticMarkup(
+      <CompareClient harnesses={[compareRecord({ id: "claude-code", name: "Available Harness" })]} />,
+    );
 
     expect(html).toContain("Choose at least one harness");
     expect(html).toContain("Choose harnesses");
@@ -99,6 +109,7 @@ describe("compare client", () => {
     const many = renderToStaticMarkup(
       <CompareClient
         harnesses={defaultIds.map((id) => compareRecord({ id, name: `Product ${id}` }))}
+        initialSelected={defaultIds}
       />,
     );
     const one = renderToStaticMarkup(
@@ -118,5 +129,8 @@ describe("compare client", () => {
     expect(html).toContain('aria-labelledby="compare-picker-dialog-title"');
     expect(html).toContain('id="compare-picker-dialog-title"');
     expect(html).toContain("Choose up to four harnesses");
+    expect(html).toContain("Cancel");
+    expect(html).toContain("Clear comparison");
+    expect(html).not.toContain(">Close<");
   });
 });

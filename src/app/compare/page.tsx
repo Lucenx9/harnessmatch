@@ -16,7 +16,7 @@ export default function ComparePage() {
       <div className="shell wide-shell">
         <div className="page-intro">
           <h1>Compare coding harnesses.</h1>
-          <p>Start with workflow, control, model access, and trade-offs. Open the technical rows only when you need them.</p>
+          <p>Choose up to four harnesses, then compare workflow, control, model access, and trade-offs. Open technical rows only when needed.</p>
         </div>
         <CompareClient harnesses={compareHarnessRecords()} />
       </div>

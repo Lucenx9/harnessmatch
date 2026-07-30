@@ -1,12 +1,15 @@
 "use client";
 
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
-import { HarnessLogo } from "@/components/harness-logo";
 import { FeatureClaimValue } from "@/components/feature-claim-value";
+import { HarnessLogo } from "@/components/harness-logo";
+import {
+  MAX_COMPARE_SELECTION,
+  normalizeCompareSelection,
+  parseCompareSelection,
+} from "@/lib/compare-selection";
 import type { CompareHarnessRecord } from "@/lib/compare-types";
 import type { FeatureKey } from "@/lib/types";
-
-const DEFAULT_SELECTED = ["claude-code", "codex", "opencode"];
 
 const featureRows: Array<[FeatureKey, string]> = [
   ["mcp", "MCP"],
@@ -21,14 +24,23 @@ const practicalFeatureKeys = new Set<FeatureKey>(["localModels", "subagents", "h
 const practicalFeatureRows = featureRows.filter(([feature]) => practicalFeatureKeys.has(feature));
 const technicalFeatureRows = featureRows.filter(([feature]) => !practicalFeatureKeys.has(feature));
 
-export function CompareClient({ harnesses }: { harnesses: CompareHarnessRecord[] }) {
+type CompareClientProps = {
+  harnesses: CompareHarnessRecord[];
+  initialSelected?: readonly string[];
+};
+
+export function CompareClient({ harnesses, initialSelected = [] }: CompareClientProps) {
   const activeHarnessIds = useMemo(() => new Set(harnesses.map((harness) => harness.id)), [harnesses]);
-  const [selected, setSelected] = useState(DEFAULT_SELECTED);
+  const [selected, setSelected] = useState(() => (
+    normalizeCompareSelection(initialSelected, activeHarnessIds)
+  ));
+  const [draftSelected, setDraftSelected] = useState<string[]>([]);
   const [query, setQuery] = useState("");
   const [urlReady, setUrlReady] = useState(false);
   const [showTechnical, setShowTechnical] = useState(false);
   const deferredQuery = useDeferredValue(query.trim().toLowerCase());
   const pickerDialogRef = useRef<HTMLDialogElement>(null);
+  const pickerSearchRef = useRef<HTMLInputElement>(null);
   const chosen = useMemo(
     () => selected
       .map((id) => harnesses.find((harness) => harness.id === id))
@@ -45,29 +57,49 @@ export function CompareClient({ harnesses }: { harnesses: CompareHarnessRecord[]
   }, [deferredQuery, harnesses]);
 
   useEffect(() => {
-    const requested = new URLSearchParams(window.location.search)
-      .get("ids")
-      ?.split(",")
-      .filter((id) => activeHarnessIds.has(id))
-      .slice(0, 4);
+    const requested = parseCompareSelection(window.location.search, activeHarnessIds);
 
-    if (requested?.length) setSelected(requested);
+    if (requested !== null) setSelected(requested);
     setUrlReady(true);
   }, [activeHarnessIds]);
 
   useEffect(() => {
     if (!urlReady) return;
     const url = new URL(window.location.href);
-    url.searchParams.set("ids", selected.join(","));
+    if (selected.length > 0) {
+      url.searchParams.set("ids", selected.join(","));
+    } else {
+      url.searchParams.delete("ids");
+    }
     window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
   }, [selected, urlReady]);
 
-  function toggle(id: string) {
-    setSelected((current) => {
+  function toggleDraft(id: string) {
+    setDraftSelected((current) => {
       if (current.includes(id)) return current.filter((item) => item !== id);
-      if (current.length >= 4) return current;
+      if (current.length >= MAX_COMPARE_SELECTION) return current;
       return [...current, id];
     });
+  }
+
+  function removeSelected(id: string) {
+    setSelected((current) => current.filter((item) => item !== id));
+  }
+
+  function openPicker() {
+    setDraftSelected(selected);
+    setQuery("");
+    pickerDialogRef.current?.showModal();
+    requestAnimationFrame(() => pickerSearchRef.current?.focus());
+  }
+
+  function closePicker() {
+    pickerDialogRef.current?.close();
+  }
+
+  function applyPicker() {
+    setSelected(draftSelected);
+    closePicker();
   }
 
   function renderPicker(inputId: string) {
@@ -77,6 +109,7 @@ export function CompareClient({ harnesses }: { harnesses: CompareHarnessRecord[]
           Search harnesses
           <input
             id={inputId}
+            ref={pickerSearchRef}
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
@@ -84,16 +117,16 @@ export function CompareClient({ harnesses }: { harnesses: CompareHarnessRecord[]
           />
         </label>
         <div className="picker-result-count" aria-live="polite">
-          {filteredHarnesses.length} {filteredHarnesses.length === 1 ? "match" : "matches"}, {selected.length} of 4 selected
+          {filteredHarnesses.length} {filteredHarnesses.length === 1 ? "match" : "matches"}, {draftSelected.length} of {MAX_COMPARE_SELECTION} selected
         </div>
         <div className="picker-list">
           {filteredHarnesses.map((harness) => (
             <label key={harness.id} className="picker-row">
               <input
                 type="checkbox"
-                checked={selected.includes(harness.id)}
-                onChange={() => toggle(harness.id)}
-                disabled={!selected.includes(harness.id) && selected.length >= 4}
+                checked={draftSelected.includes(harness.id)}
+                onChange={() => toggleDraft(harness.id)}
+                disabled={!draftSelected.includes(harness.id) && draftSelected.length >= MAX_COMPARE_SELECTION}
               />
               <HarnessLogo logo={harness.logo} name={harness.name} size="small" />
               <span className="picker-copy">
@@ -124,7 +157,7 @@ export function CompareClient({ harnesses }: { harnesses: CompareHarnessRecord[]
               <button
                 type="button"
                 key={harness.id}
-                onClick={() => toggle(harness.id)}
+                onClick={() => removeSelected(harness.id)}
                 aria-label={`Remove ${harness.name} from comparison`}
               >
                 <HarnessLogo logo={harness.logo} name={harness.name} size="small" />
@@ -135,8 +168,8 @@ export function CompareClient({ harnesses }: { harnesses: CompareHarnessRecord[]
           </div>
         </div>
         <div className="compare-summary-actions">
-          <button className="button secondary compare-picker-button" type="button" onClick={() => pickerDialogRef.current?.showModal()}>
-            Change harnesses ({selected.length}/4)
+          <button className="button secondary compare-picker-button" type="button" onClick={openPicker}>
+            Change harnesses ({selected.length}/{MAX_COMPARE_SELECTION})
           </button>
           <button
             className="button ghost"
@@ -154,11 +187,22 @@ export function CompareClient({ harnesses }: { harnesses: CompareHarnessRecord[]
           <div className="compare-empty card">
             <h2>Choose at least one harness</h2>
             <p>Open the selector and add up to four products to inspect their architecture and evidence side by side.</p>
-            <button className="button primary" type="button" onClick={() => pickerDialogRef.current?.showModal()}>Choose harnesses</button>
+            <button className="button primary" type="button" onClick={openPicker}>Choose harnesses</button>
           </div>
         ) : (
-          // biome-ignore lint/a11y/noNoninteractiveTabindex: the focusable region lets keyboard users scroll the wide table
-          <section className="comparison-scroll" tabIndex={0} aria-label="Harness comparison table">
+          <>
+            {chosen.length > 1 && (
+              <p className="comparison-scroll-hint" id="comparison-scroll-hint">
+                Swipe or scroll horizontally to inspect every harness.
+              </p>
+            )}
+            <section
+              className="comparison-scroll"
+              // biome-ignore lint/a11y/noNoninteractiveTabindex: the focusable region lets keyboard users scroll the wide table
+              tabIndex={0}
+              aria-label="Harness comparison table"
+              aria-describedby={chosen.length > 1 ? "comparison-scroll-hint" : undefined}
+            >
         <table className="comparison-table">
           <caption>
             {showTechnical
@@ -307,7 +351,8 @@ export function CompareClient({ harnesses }: { harnesses: CompareHarnessRecord[]
             )}
           </tbody>
         </table>
-          </section>
+            </section>
+          </>
         )}
       </div>
 
@@ -317,11 +362,13 @@ export function CompareClient({ harnesses }: { harnesses: CompareHarnessRecord[]
             <div>
               <h2 id="compare-picker-dialog-title">Choose up to four harnesses</h2>
             </div>
-            <button className="button ghost" type="button" onClick={() => pickerDialogRef.current?.close()}>Close</button>
+            <button className="button ghost" type="button" onClick={closePicker}>Cancel</button>
           </div>
           {renderPicker("compare-dialog-search")}
-          <button className="button primary compare-picker-done" type="button" onClick={() => pickerDialogRef.current?.close()}>
-            Compare {selected.length} {selected.length === 1 ? "harness" : "harnesses"}
+          <button className="button primary compare-picker-done" type="button" onClick={applyPicker}>
+            {draftSelected.length === 0
+              ? "Clear comparison"
+              : `Compare ${draftSelected.length} ${draftSelected.length === 1 ? "harness" : "harnesses"}`}
           </button>
         </div>
       </dialog>

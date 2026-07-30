@@ -335,6 +335,7 @@
   .compare-picker-dialog-head h2 { font-size: 1.45rem; }
   .compare-picker-dialog .picker-list { grid-template-columns: 1fr; }
   .compare-empty { min-height: 280px; padding: 28px 20px; }
+  .comparison-scroll-hint { display: block; margin: 0 0 8px; color: var(--muted); font: 500 .62rem/1.4 var(--font-mono); }
   .evidence-ledger-controls { grid-template-columns: 1fr; }
   .evidence-ledger-controls p { justify-content: flex-start; }
   .evidence-record > summary { align-items: flex-start; flex-direction: column; gap: 12px; padding: 18px 0; }
