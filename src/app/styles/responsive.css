@@ -276,6 +276,10 @@
   .profile-evidence > .profile-section-heading { margin-bottom: 20px; }
   .profile-evidence-list > a { align-items: start; flex-direction: column; gap: 11px; padding: 16px 0; }
   .profile-evidence-meta { flex: 0 0 auto; grid-auto-flow: column; gap: 12px; text-align: left; }
+  .harness-evidence-overview { padding: 3px 0 0; text-align: left; }
+  .harness-evidence-group { padding: 20px 0 22px; }
+  .harness-evidence-link { grid-template-columns: 1fr; align-items: start; gap: 9px; margin: 0 -10px; padding: 13px 10px; }
+  .harness-evidence-meta { display: flex; flex-wrap: wrap; gap: 5px 12px; text-align: left; }
   .profile-setup { margin-top: 40px; padding: 30px 0 0; border-top: 1px solid var(--line); border-left: 0; }
   .evidence-row { grid-template-columns: 1fr; gap: 16px; padding: 30px 0; }
   .evidence-list a { align-items: start; }

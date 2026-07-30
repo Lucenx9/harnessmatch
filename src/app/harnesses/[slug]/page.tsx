@@ -5,6 +5,7 @@ import { HarnessLogo } from "@/components/harness-logo";
 import { FeatureClaimValue } from "@/components/feature-claim-value";
 import { HarnessArchitectureSection } from "@/components/harness-architecture-section";
 import { HarnessEcosystemSection } from "@/components/harness-ecosystem-section";
+import { HarnessEvidenceLedger } from "@/components/harness-evidence-ledger";
 import { HarnessMeasurementSection } from "@/components/harness-measurement-section";
 import { HarnessMembershipSection } from "@/components/harness-membership-section";
 import { VisualIcon } from "@/components/visual-icon";
@@ -33,7 +34,7 @@ import {
   evidenceStateFor,
 } from "@/lib/evaluation";
 import { harnessProfileDescription, pageMetadata } from "@/lib/site";
-import type { EvidenceSource, FeatureKey } from "@/lib/types";
+import type { FeatureKey } from "@/lib/types";
 
 export const dynamicParams = false;
 
@@ -60,34 +61,6 @@ const interfaceLabels = {
   automation: "Automation",
 } as const;
 
-const evidenceKindLabels = {
-  "official-docs": "Official docs",
-  "official-repository": "Official repository",
-  "official-announcement": "Official announcement",
-} as const;
-
-type EvidenceTopic = NonNullable<EvidenceSource["topic"]> | "additional";
-
-const primaryEvidenceLimit = 8;
-const evidenceTopicLabels: Record<EvidenceTopic, string> = {
-  "product-surfaces": "Product and interfaces",
-  "execution-control": "Execution and control",
-  "orchestration-state": "Agents, state and recovery",
-  "automation-extensions": "Automation and extensions",
-  "enterprise-operations": "Enterprise and operations",
-  "releases-code-audit": "Releases and public code audit",
-  additional: "Additional first-party evidence",
-};
-const evidenceTopicOrder: EvidenceTopic[] = [
-  "product-surfaces",
-  "execution-control",
-  "orchestration-state",
-  "automation-extensions",
-  "enterprise-operations",
-  "releases-code-audit",
-  "additional",
-];
-
 const ecosystemSignalOrder = {
   homebrew: 0,
   npm: 1,
@@ -97,25 +70,6 @@ const ecosystemSignalOrder = {
   jetbrains: 5,
   github: 6,
 } as const;
-
-function EvidenceRows({ sources }: { sources: EvidenceSource[] }) {
-  return (
-    <div className="profile-evidence-list">
-      {sources.map((source) => (
-        <a href={source.url} target="_blank" rel="noreferrer" key={source.url}>
-          <span>
-            <strong>{source.title}</strong>
-            <small>{source.covers}</small>
-          </span>
-          <span className="profile-evidence-meta">
-            <span>{evidenceKindLabels[source.kind]}</span>
-            <time dateTime={source.verifiedAt}>Source checked {source.verifiedAt}</time>
-          </span>
-        </a>
-      ))}
-    </div>
-  );
-}
 
 const operationalLabels = {
   context: {
@@ -195,17 +149,6 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
   ].filter((value): value is string => Boolean(value)).sort().at(-1);
   const measuredRuns = benchmarkRunsForHarness(harness.id);
   const evidenceState = evidenceStateFor(harness.id);
-  const primaryEvidence = harness.evidence.slice(0, primaryEvidenceLimit);
-  const additionalEvidence = harness.evidence.slice(primaryEvidenceLimit);
-  const groupedAdditionalEvidence = additionalEvidence.reduce((groups, source) => {
-    const topic: EvidenceTopic = source.topic ?? "additional";
-    groups.set(topic, [...(groups.get(topic) ?? []), source]);
-    return groups;
-  }, new Map<EvidenceTopic, EvidenceSource[]>());
-  const additionalEvidenceGroups = evidenceTopicOrder.flatMap((topic) => {
-    const sources = groupedAdditionalEvidence.get(topic);
-    return sources ? [[topic, sources] as const] : [];
-  });
 
   return (
     <section className="section profile-page">
@@ -446,30 +389,7 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
 
         <div className="profile-record-grid">
           <section className="profile-evidence" id="evidence" aria-labelledby="evidence-heading">
-            <div className="profile-section-heading">
-              <div>
-                <h2 id="evidence-heading">Primary evidence</h2>
-                <p>Each capability claim is tied to a first-party record and a verification date.</p>
-              </div>
-              <span>Product record checked {harness.verifiedAt}</span>
-            </div>
-            <EvidenceRows sources={primaryEvidence} />
-            {additionalEvidence.length > 0 && (
-              <details className="profile-evidence-more">
-                <summary>View {additionalEvidence.length} additional sources</summary>
-                <div className="profile-evidence-groups">
-                  {additionalEvidenceGroups.map(([topic, sources]) => (
-                    <details className="profile-evidence-group" key={topic}>
-                      <summary>
-                        <span>{evidenceTopicLabels[topic]}</span>
-                        <span>{sources.length} sources</span>
-                      </summary>
-                      <EvidenceRows sources={sources} />
-                    </details>
-                  ))}
-                </div>
-              </details>
-            )}
+            <HarnessEvidenceLedger sources={harness.evidence} recordVerifiedAt={harness.verifiedAt} />
             {harness.discovery && harness.discovery.length > 0 && (
               <div className="profile-discovery-note">
                 <h3>Ecosystem context</h3>
