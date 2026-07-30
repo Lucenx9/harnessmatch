@@ -15,7 +15,7 @@ export default function PrivacyPage() {
     <section className="section page-section">
       <div className="shell narrow-shell prose-page privacy-page">
         <header className="page-intro">
-          <p className="privacy-updated">Last updated July 27, 2026</p>
+          <p className="privacy-updated">Last updated July 30, 2026</p>
           <h1>Privacy, in plain language.</h1>
           <p>
             HarnessMatch uses limited technical data to run the site and understand aggregate traffic.
@@ -57,16 +57,39 @@ export default function PrivacyPage() {
           <p>
             This processing supports the legitimate interests of operating, protecting, and improving the
             site. Vercel Inc. provides the hosting and analytics infrastructure and may process service data
-            in the United States and other locations. Technical data and aggregate reports follow Vercel&apos;s
-            applicable retention and transfer safeguards.
+            in the United States and other locations.
+          </p>
+          <p>
+            For Web Analytics, Vercel states that the visitor session created from a request hash is
+            discarded after 24 hours. The available reporting window depends on the site&apos;s current Vercel
+            plan, and Vercel may retain analytics data beyond that window so it remains available after a
+            plan upgrade. Hosting, security, and other service data follow Vercel&apos;s applicable retention
+            policies and transfer safeguards.
           </p>
           <p className="privacy-source-links">
             <a href="https://vercel.com/docs/analytics/privacy-policy" target="_blank" rel="noreferrer">
               Vercel Web Analytics privacy
             </a>
+            <a
+              href="https://vercel.com/docs/analytics/limits-and-pricing"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Vercel analytics retention
+            </a>
             <a href="https://vercel.com/legal/privacy-notice" target="_blank" rel="noreferrer">
               Vercel Privacy Notice
             </a>
+          </p>
+        </section>
+
+        <section className="prose-section">
+          <h2>External links</h2>
+          <p>
+            HarnessMatch links to GitHub, product websites, documentation, repositories, and other
+            first-party sources. Ordinary outbound links do not connect your browser to those destinations
+            unless you follow them. If you do, the destination may receive technical request data and
+            process it under its own privacy terms. HarnessMatch does not control that processing.
           </p>
         </section>
 
