@@ -14,6 +14,7 @@ import {
   guiWorkflowById,
   guiWorkflows,
 } from "@/lib/gui-fit";
+import { namedHarnesses } from "@/lib/gui-harness-coverage";
 import type {
   GuiFitBand,
   GuiPlatform,
@@ -40,14 +41,12 @@ const sourceAccessLabels: Record<GuiSourceAccess, string> = {
 
 const visibleFitBands: GuiFitBand[] = ["strong", "good", "conditional", "not-eligible"];
 const harnessFilterOptions = [...new Set(
-  guiProducts.flatMap((product) => product.supportedHarnesses),
-)]
-  .filter((harness) => harness !== "Custom CLI")
-  .sort((left, right) => left.localeCompare(right));
+  guiProducts.flatMap((product) => namedHarnesses(product)),
+)].sort((left, right) => left.localeCompare(right));
 
 function matchesHarness(product: (typeof guiProducts)[number], filter: HarnessFilter) {
   if (filter === "any") return true;
-  if (filter === "multi") return product.acceptsArbitraryCli || product.supportedHarnesses.length > 1;
+  if (filter === "multi") return product.acceptsArbitraryCli || namedHarnesses(product).length > 1;
   return product.acceptsArbitraryCli || product.supportedHarnesses.includes(filter);
 }
 
@@ -59,8 +58,9 @@ function matchesSource(access: GuiSourceAccess, filter: SourceFilter) {
 
 function compactHarnesses(product: (typeof guiProducts)[number]) {
   if (product.acceptsArbitraryCli) return "Any CLI, with documented presets";
-  if (product.supportedHarnesses.length <= 3) return product.supportedHarnesses.join(", ");
-  return `${product.supportedHarnesses.slice(0, 2).join(", ")} + ${product.supportedHarnesses.length - 2} more`;
+  const named = namedHarnesses(product);
+  if (named.length <= 3) return named.join(", ");
+  return `${named.slice(0, 2).join(", ")} + ${named.length - 2} more`;
 }
 
 export function GuiWorkflowMatcher() {

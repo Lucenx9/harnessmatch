@@ -124,6 +124,7 @@ export function GuiLandscapeStats() {
                 <div><dt>Strong</dt><dd>{workflow.counts.strong}</dd></div>
                 {workflow.counts.good > 0 && <div><dt>Good</dt><dd>{workflow.counts.good}</dd></div>}
                 {workflow.counts.conditional > 0 && <div><dt>Conditional</dt><dd>{workflow.counts.conditional}</dd></div>}
+                {workflow.counts["not-eligible"] > 0 && <div><dt>Not eligible</dt><dd>{workflow.counts["not-eligible"]}</dd></div>}
               </dl>
             </article>
           ))}
