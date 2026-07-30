@@ -19,7 +19,7 @@ const logo: HarnessLogo = {
   verifiedAt: "2026-07-30",
 };
 
-const featureKeys: FeatureKey[] = [
+const featureKeys = [
   "mcp",
   "localModels",
   "subagents",
@@ -27,7 +27,7 @@ const featureKeys: FeatureKey[] = [
   "browser",
   "sandbox",
   "checkpoints",
-];
+] satisfies readonly FeatureKey[];
 
 const documentedClaim: FeatureClaim = {
   state: "documented",
@@ -38,15 +38,27 @@ const documentedClaim: FeatureClaim = {
 };
 
 function fullyDocumentedClaims(): Record<FeatureKey, FeatureClaim> {
-  return Object.fromEntries(
-    featureKeys.map((feature) => [feature, documentedClaim]),
-  ) as Record<FeatureKey, FeatureClaim>;
+  return {
+    mcp: documentedClaim,
+    localModels: documentedClaim,
+    subagents: documentedClaim,
+    headless: documentedClaim,
+    browser: documentedClaim,
+    sandbox: documentedClaim,
+    checkpoints: documentedClaim,
+  };
 }
 
-function featureSupport(supported: FeatureKey[]): Record<FeatureKey, boolean> {
-  return Object.fromEntries(
-    featureKeys.map((feature) => [feature, supported.includes(feature)]),
-  ) as Record<FeatureKey, boolean>;
+function featureSupport(supported: readonly FeatureKey[]): Record<FeatureKey, boolean> {
+  return {
+    mcp: supported.includes("mcp"),
+    localModels: supported.includes("localModels"),
+    subagents: supported.includes("subagents"),
+    headless: supported.includes("headless"),
+    browser: supported.includes("browser"),
+    sandbox: supported.includes("sandbox"),
+    checkpoints: supported.includes("checkpoints"),
+  };
 }
 
 /** Every architecture layer documented at the same rubric position. */
