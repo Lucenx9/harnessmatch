@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { GuiLiveSignals } from "@/components/gui-live-signals";
-import { GuiLandscapeStats } from "@/components/gui-landscape-stats";
 import { GuiWorkflowMatcher } from "@/components/gui-workflow-matcher";
 import { guiEcosystemSignalSnapshots } from "@/data/gui-ecosystem-signals";
 import { guiExclusions, guiProducts } from "@/data/gui-products";
@@ -40,8 +39,6 @@ export default function GuisPage() {
         </div>
 
         <GuiLiveSignals viewModel={liveSignalsViewModel} />
-
-        <GuiLandscapeStats />
 
         <GuiWorkflowMatcher viewModel={workflowMatcherViewModel} />
 
