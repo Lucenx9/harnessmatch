@@ -60,7 +60,7 @@ export const pi = {
       {
         title: "Pi 0.82.1 release",
         url: "https://github.com/earendil-works/pi/releases/tag/v0.82.1",
-        covers: "Current stable package release and distribution version verification",
+        covers: "Verified 0.82.1 package and distribution artifacts; current stable version is sourced from the generated release feed",
         kind: "official-announcement",
         verifiedAt: verifiedAt,
       },

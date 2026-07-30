@@ -192,7 +192,7 @@ export const goose = {
         title: "goose v1.44.0 release",
         topic: "releases-code-audit",
         url: "https://github.com/aaif-goose/goose/releases/tag/v1.44.0",
-        covers: "Current release pin with security fixes, manual approval enforcement, scoped approvals, classifier hardening, and provider updates",
+        covers: "Version-pinned security fixes, manual approval enforcement, scoped approvals, classifier hardening, and provider updates; current stable version is sourced from the generated release feed",
         kind: "official-announcement",
         verifiedAt: verifiedAt,
       },

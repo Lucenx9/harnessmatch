@@ -68,10 +68,10 @@ export const lettaCode = {
         verifiedAt: verifiedAt,
       },
       {
-        title: "Letta Code 0.29.9 current release",
+        title: "Letta Code 0.29.9 strict-mode release",
         topic: "releases-code-audit",
         url: "https://github.com/letta-ai/letta-code/releases/tag/v0.29.9",
-        covers: "Current stable distribution boundary and newly released strict permission mode that forces every tool through approval; the inspected client source remains pinned to 0.29.4",
+        covers: "Version-pinned strict permission mode that forces every tool through approval; the inspected client source remains pinned to 0.29.4 and the current stable version comes from the generated release feed",
         kind: "official-announcement",
         verifiedAt: verifiedAt,
       },

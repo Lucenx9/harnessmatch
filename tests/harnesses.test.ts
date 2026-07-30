@@ -519,6 +519,8 @@ describe("harness evidence ledger", () => {
       "https://pi.dev/docs/latest/sdk",
       "https://github.com/earendil-works/pi/tree/b4f293684bba718d59cc1157679bcf6157b3a7f5/packages/evals",
     ]));
+    expect(pi.evidence.find((source) => source.title === "Pi 0.82.1 release")?.covers)
+      .toContain("current stable version is sourced from the generated release feed");
     expect(caveats).toContain("project trust only gates project extensions");
     expect(caveats).toContain("do not roll back files");
     expect(caveats).toContain("not an independent product benchmark");
@@ -924,6 +926,8 @@ describe("harness evidence ledger", () => {
     expect(caveats).toContain("fails open");
     expect(caveats).toContain("configured classifier endpoint");
     expect(caveats).toContain("before 1.44.0");
+    expect(goose.evidence.find((source) => source.title === "goose v1.44.0 release")?.covers)
+      .toContain("current stable version is sourced from the generated release feed");
     expect(goose.capabilities).toEqual({
       simplicity: 4,
       flexibility: 5,
@@ -1199,6 +1203,8 @@ describe("harness evidence ledger", () => {
     expect(caveats).toContain("MCP tools bypass it");
     expect(caveats).toContain("rather than a project checkpoint");
     expect(forgeCode.bestFor.join(" ")).toContain("Vibe coders");
+    expect(forgeCode.evidence.find((source) => source.title === "ForgeCode v2.13.19 release")?.covers)
+      .toContain("current stable version is sourced from the generated release feed");
   });
 
   it("keeps Kilo Code claims granular and separates shipped controls from their defaults", () => {
@@ -1410,6 +1416,8 @@ describe("harness evidence ledger", () => {
     const letta = byId.get("letta-code")!;
     expect(letta.summary).not.toContain("hooks");
     expect(letta.tradeoffs.join(" ")).toContain("starts in unrestricted mode");
+    expect(letta.evidence.find((source) => source.title === "Letta Code 0.29.9 strict-mode release")?.covers)
+      .toContain("current stable version comes from the generated release feed");
     expect(urlsFor("letta-code")).toEqual(expect.arrayContaining([
       "https://docs.letta.com/concepts/memfs",
       "https://docs.letta.com/configuration/permissions",

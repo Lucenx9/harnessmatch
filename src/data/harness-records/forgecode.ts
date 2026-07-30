@@ -64,9 +64,9 @@ export const forgecode = {
         verifiedAt: verifiedAt,
       },
       {
-        title: "Latest verified release",
+        title: "ForgeCode v2.13.19 release",
         url: "https://github.com/tailcallhq/forgecode/releases/tag/v2.13.19",
-        covers: "Release recency, signed release commit, current provider fixes, and versioned distribution artifacts",
+        covers: "Verified v2.13.19 signed release commit, provider fixes, and versioned distribution artifacts; current stable version is sourced from the generated release feed",
         kind: "official-announcement",
         verifiedAt: verifiedAt,
       },
