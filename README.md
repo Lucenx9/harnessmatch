@@ -85,3 +85,13 @@ The repository is connected to the existing Vercel project. Pushes to `main` cre
 - Classification and measurement changes require tests describing the intended outcome.
 - Do not add a personalized recommender, universal product score, or composite popularity score.
 - Verification dates decay: `src/lib/evidence-freshness.ts` sets the review and maximum-age windows, and the freshness test fails the build once a published claim exceeds the maximum age. Re-verify the sources rather than widening the window.
+
+## License
+
+HarnessMatch uses separate licenses for different material:
+
+- software is licensed under the [Apache License 2.0](LICENSE);
+- original catalog compilation rights and editorial content are licensed under [CC BY 4.0](LICENSE-DATA); and
+- the HarnessMatch brand, third-party product marks, logos, screenshots, videos, cited source material, and other identified third-party assets are excluded from those grants.
+
+See [LICENSING.md](LICENSING.md) for the exact scope, exclusions, attribution guidance, and contribution terms.
