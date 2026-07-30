@@ -10,9 +10,36 @@ import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnesses } from "@/data/harnesses";
 import { searchablePageItems } from "@/lib/navigation";
 import type { GlobalSearchItem } from "@/lib/search";
-import type { FeatureKey, ProductLayer } from "@/lib/types";
+import type { FeatureKey, InterfaceType, ProductLayer } from "@/lib/types";
 
 const supportedFeatureStates = new Set(["default", "documented", "optional", "surface-specific"]);
+
+/**
+ * Interface names are taxonomy values; these are the words a reader types for
+ * the same surface. Lexical synonyms only: none of them widens a claim beyond
+ * the interface the record already documents.
+ */
+const interfaceSearchTerms: Record<InterfaceType, string[]> = {
+  terminal: ["terminal", "cli", "command line"],
+  ide: ["ide", "editor"],
+  web: ["web"],
+  automation: ["automation"],
+};
+
+/**
+ * Identifiers, slugs, and taxonomy values overlap often (`claude-code` is both
+ * id and slug). Ranking folds case anyway, so the duplicates would only add
+ * weight to the payload serialized into every page.
+ */
+function dedupeKeywords(values: readonly string[]) {
+  const seen = new Set<string>();
+  return values.filter((value) => {
+    const key = value.toLowerCase();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
 
 const featureSearchTerms: Record<FeatureKey, string[]> = {
   mcp: ["mcp", "external tools", "integrations"],
@@ -43,7 +70,7 @@ const harnessSearchItems: GlobalSearchItem[] = harnesses.map((harness) => {
     title: harness.name,
     description: harness.tagline,
     href: `/harnesses/${harness.slug}`,
-    keywords: [
+    keywords: dedupeKeywords([
       harness.id,
       harness.slug,
       harness.license,
@@ -53,11 +80,11 @@ const harnessSearchItems: GlobalSearchItem[] = harnesses.map((harness) => {
       harness.classification.orchestration,
       harness.classification.runtime,
       ...harness.classification.isolation,
-      ...harness.interfaces,
+      ...harness.interfaces.flatMap((surface) => interfaceSearchTerms[surface]),
       ...(harness.supportsSubscription ? ["subscription"] : []),
       ...(harness.supportsEnterpriseAccess ? ["enterprise access"] : []),
       ...documentedFeatures,
-    ],
+    ]),
     imageSrc: harness.logo.src,
     meta: harness.status === "active"
       ? membership
@@ -75,7 +102,7 @@ const guiSearchItems: GlobalSearchItem[] = guiProducts.map((product) => ({
   title: product.name,
   description: product.summary,
   href: `/guis/${product.id}`,
-  keywords: [
+  keywords: dedupeKeywords([
     "gui",
     "coding agent interface",
     product.layer,
@@ -84,7 +111,7 @@ const guiSearchItems: GlobalSearchItem[] = guiProducts.map((product) => ({
     ...product.platforms,
     ...product.supportedHarnesses,
     ...(product.acceptsArbitraryCli ? ["any cli", "multiple harnesses"] : []),
-  ],
+  ]),
   imageSrc: product.logo.src,
   meta: product.layer === "harness-native" ? "Native GUI" : "Agent workspace",
 }));

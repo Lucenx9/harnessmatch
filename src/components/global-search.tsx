@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { KeyboardEvent as ReactKeyboardEvent } from "react";
-import { rankSearchItems } from "@/lib/search";
+import { createSearchIndex, highlightSearchMatch, rankSearchItems } from "@/lib/search";
 import type { GlobalSearchItem } from "@/lib/search";
 
 const maxVisibleSearchResults = 10;
@@ -13,6 +13,18 @@ const maxVisibleSearchResults = 10;
 function isTextEntryTarget(target: EventTarget | null) {
   if (!(target instanceof HTMLElement)) return false;
   return target.isContentEditable || target.matches("input, textarea, select");
+}
+
+function HighlightedTitle({ title, query }: { title: string; query: string }) {
+  return (
+    <>
+      {highlightSearchMatch(title, query).map((segment) => (
+        segment.matched
+          ? <mark key={segment.start}>{segment.value}</mark>
+          : <span key={segment.start}>{segment.value}</span>
+      ))}
+    </>
+  );
 }
 
 export function GlobalSearch({
@@ -29,7 +41,8 @@ export function GlobalSearch({
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const rankedResults = useMemo(() => rankSearchItems(items, query), [items, query]);
+  const searchIndex = useMemo(() => createSearchIndex(items), [items]);
+  const rankedResults = useMemo(() => rankSearchItems(searchIndex, query), [searchIndex, query]);
   const quickAccess = useMemo(() => items.filter((item) => item.kind === "page").slice(0, 6), [items]);
   const visibleResults = query.trim()
     ? rankedResults.slice(0, maxVisibleSearchResults)
@@ -164,7 +177,7 @@ export function GlobalSearch({
             role="combobox"
             aria-autocomplete="list"
             aria-controls="global-search-results"
-            aria-expanded={open}
+            aria-expanded={visibleResults.length > 0}
             aria-activedescendant={activeOptionId}
             aria-describedby="global-search-help"
             autoComplete="off"
@@ -215,7 +228,7 @@ export function GlobalSearch({
                     <span className="global-search-page-glyph" aria-hidden="true">/</span>
                   )}
                   <span className="global-search-result-copy">
-                    <strong>{item.title}</strong>
+                    <strong><HighlightedTitle title={item.title} query={query} /></strong>
                     <small>{item.description}</small>
                   </span>
                   <span className="global-search-result-meta">{item.meta}</span>

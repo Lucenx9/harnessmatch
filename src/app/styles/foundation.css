@@ -164,6 +164,7 @@ p { color: var(--muted); }
 .global-search-result-copy { min-width: 0; }
 .global-search-result-copy strong, .global-search-result-copy small { display: block; }
 .global-search-result-copy strong { margin-bottom: 2px; overflow: hidden; color: var(--text); font-size: .82rem; text-overflow: ellipsis; white-space: nowrap; }
+.global-search-result-copy mark { border-radius: 3px; background: var(--accent-soft); color: var(--accent-strong); font-weight: 700; }
 .global-search-result-copy small { overflow: hidden; color: var(--muted); font-size: .7rem; line-height: 1.4; text-overflow: ellipsis; white-space: nowrap; }
 .global-search-result-meta { color: var(--muted); font: 560 .62rem/1 var(--font-mono); text-transform: capitalize; }
 .global-search-empty { min-height: 116px; display: flex; flex-direction: column; justify-content: center; padding: 20px 16px; }
