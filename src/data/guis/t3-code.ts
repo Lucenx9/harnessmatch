@@ -43,8 +43,8 @@ export const t3Code: GuiProduct = {
     teamCollaboration: unknown("The current official record does not establish shared live teammate access to one thread."),
   },
   evidence: [
-    source("T3 Code product documentation", docs, "official-docs", "Five supported providers, bring-your-own subscriptions, authentication commands, platforms, and remote access."),
-    source("T3 Code official repository", repository, "official-repository", "Built-in provider drivers, installation, worktrees, diffs, remote access, and MIT license."),
+    source("T3 Code product documentation", docs, "official-docs", "harness-integrations", "Five supported providers, bring-your-own subscriptions, authentication commands, platforms, and remote access."),
+    source("T3 Code official repository", repository, "official-repository", "public-code", "Built-in provider drivers, installation, worktrees, diffs, remote access, and MIT license."),
   ],
   verifiedAt: guiVerifiedAt,
 };

@@ -38,8 +38,8 @@ export const emdash: GuiProduct = {
     teamCollaboration: unknown("The current official record does not establish multiple teammates sharing one live workspace."),
   },
   evidence: [
-    source("Emdash provider documentation", providerDocs, "official-docs", "Named CLI integrations, provider-specific capabilities, authentication prerequisites, and unsupported-provider requests."),
-    source("Emdash official repository", repository, "official-repository", "Current provider registry, platforms, worktrees, review, issue integrations, SSH projects, privacy, and license."),
+    source("Emdash provider documentation", providerDocs, "official-docs", "harness-integrations", "Named CLI integrations, provider-specific capabilities, authentication prerequisites, and unsupported-provider requests."),
+    source("Emdash official repository", repository, "official-repository", "public-code", "Current provider registry, platforms, worktrees, review, issue integrations, SSH projects, privacy, and license."),
   ],
   verifiedAt: guiVerifiedAt,
 };

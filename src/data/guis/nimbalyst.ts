@@ -48,11 +48,11 @@ export const nimbalyst: GuiProduct = {
     teamCollaboration: unknown("Team invites, project sharing, and real-time collaborative documents are implemented, but current evidence does not establish teammates sharing or steering the same live coding-agent session."),
   },
   evidence: [
-    source("Nimbalyst official repository", repository, "official-repository", "Visual editors, agent sessions, worktrees, mobile app, supported agents, collaboration client mechanisms, telemetry, and MIT licensing."),
-    source("Nimbalyst quickstart", quickstart, "official-docs", "Project persistence, Claude Code and Codex setup, visual editors, diff review, parallel windows, and mobile controls."),
-    source("Nimbalyst session manager", sessions, "official-docs", "Parallel Claude Code and Codex sessions, status tracking, grouping, and workstream management."),
-    source("Nimbalyst Git tools", gitTools, "official-docs", "Worktree isolation, per-session file tracking, visual diffs, review, staging, and assisted commits."),
-    source("Nimbalyst mobile agent management", mobile, "official-docs", "iOS session monitoring, diff review, prompts, approvals, notifications, and desktop-host execution boundary."),
+    source("Nimbalyst official repository", repository, "official-repository", "public-code", "Visual editors, agent sessions, worktrees, mobile app, supported agents, collaboration client mechanisms, telemetry, and MIT licensing."),
+    source("Nimbalyst quickstart", quickstart, "official-docs", "product-workflow", "Project persistence, Claude Code and Codex setup, visual editors, diff review, parallel windows, and mobile controls."),
+    source("Nimbalyst session manager", sessions, "official-docs", "sessions-isolation-review", "Parallel Claude Code and Codex sessions, status tracking, grouping, and workstream management."),
+    source("Nimbalyst Git tools", gitTools, "official-docs", "sessions-isolation-review", "Worktree isolation, per-session file tracking, visual diffs, review, staging, and assisted commits."),
+    source("Nimbalyst mobile agent management", mobile, "official-docs", "remote-collaboration", "iOS session monitoring, diff review, prompts, approvals, notifications, and desktop-host execution boundary."),
   ],
   verifiedAt: guiVerifiedAt,
 };

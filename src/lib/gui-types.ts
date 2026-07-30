@@ -32,6 +32,16 @@ export type GuiCapabilityKey =
 
 export type GuiClaimState = "documented" | "unknown" | "contradicted";
 
+export const guiEvidenceTopics = [
+  "product-workflow",
+  "harness-integrations",
+  "sessions-isolation-review",
+  "remote-collaboration",
+  "public-code",
+] as const;
+
+export type GuiEvidenceTopic = (typeof guiEvidenceTopics)[number];
+
 export type GuiCapabilityClaim = {
   state: GuiClaimState;
   summary: string;
@@ -41,6 +51,7 @@ export type GuiCapabilityClaim = {
 
 export type GuiEvidenceSource = {
   title: string;
+  topic: GuiEvidenceTopic;
   url: string;
   kind: "official-docs" | "official-repository" | "official-announcement";
   covers: string;

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { GuiProfileEvidenceLedger } from "@/components/gui-profile-evidence-ledger";
 import { GuiLogo } from "@/components/gui-logo";
 import { GuiProductPreview } from "@/components/gui-product-preview";
 import { VisualIcon } from "@/components/visual-icon";
@@ -31,12 +32,6 @@ const claimStateLabels: Record<GuiClaimState, string> = {
   unknown: "Not established",
   contradicted: "Contradicted",
 };
-
-const evidenceKindLabels = {
-  "official-docs": "Official docs",
-  "official-repository": "Official repository",
-  "official-announcement": "Official announcement",
-} as const;
 
 const capabilityIcons: Record<GuiCapabilityKey, VisualIconName> = {
   parallelSessions: "parallel-local",
@@ -223,24 +218,7 @@ export default async function GuiProfilePage({ params }: { params: Promise<{ slu
 
         <div className="gui-profile-record-grid">
           <section className="profile-evidence" id="evidence" aria-labelledby="gui-evidence-heading">
-            <div className="profile-section-heading">
-              <div>
-                <h2 id="gui-evidence-heading">First-party evidence</h2>
-                <p>Sources establish specific current claims; their count does not add fit points.</p>
-              </div>
-              <span>{product.evidence.length} source{product.evidence.length === 1 ? "" : "s"}</span>
-            </div>
-            <div className="profile-evidence-list">
-              {product.evidence.map((evidence) => (
-                <a href={evidence.url} target="_blank" rel="noreferrer" key={evidence.url}>
-                  <span><strong>{evidence.title}</strong><small>{evidence.covers}</small></span>
-                  <span className="profile-evidence-meta">
-                    <span>{evidenceKindLabels[evidence.kind]}</span>
-                    <time dateTime={evidence.verifiedAt}>Checked {evidence.verifiedAt}</time>
-                  </span>
-                </a>
-              ))}
-            </div>
+            <GuiProfileEvidenceLedger sources={product.evidence} recordVerifiedAt={product.verifiedAt} />
           </section>
 
           <aside className="gui-profile-code-record" aria-labelledby="gui-code-record-heading">

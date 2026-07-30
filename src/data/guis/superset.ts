@@ -33,9 +33,9 @@ export const superset: GuiProduct = {
     teamCollaboration: documented("Host owners can grant organization teammates access to the same remote workspaces.", remoteDocs),
   },
   evidence: [
-    source("Superset agent integration", agentDocs, "official-docs", "Fourteen built-in agent presets, arbitrary terminal agents, launch behavior, parallel tasks, and provider configuration."),
-    source("Superset remote workspaces", remoteDocs, "official-docs", "Remote hosts, relay access, organization membership, shared workspaces, terminals, agent runs, ports, and diffs."),
-    source("Superset official repository", repository, "official-repository", "Parallel execution, worktrees, monitoring, review, agent catalog, platform scope, and ELv2 license."),
+    source("Superset agent integration", agentDocs, "official-docs", "harness-integrations", "Fourteen built-in agent presets, arbitrary terminal agents, launch behavior, parallel tasks, and provider configuration."),
+    source("Superset remote workspaces", remoteDocs, "official-docs", "remote-collaboration", "Remote hosts, relay access, organization membership, shared workspaces, terminals, agent runs, ports, and diffs."),
+    source("Superset official repository", repository, "official-repository", "public-code", "Parallel execution, worktrees, monitoring, review, agent catalog, platform scope, and ELv2 license."),
   ],
   verifiedAt: guiVerifiedAt,
 };

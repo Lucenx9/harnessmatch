@@ -45,9 +45,9 @@ export const codexDesktop: GuiProduct = {
     teamCollaboration: unknown("Current first-party desktop documentation does not establish shared live teammate access to one task."),
   },
   evidence: [
-    source("ChatGPT desktop app", appDocs, "official-docs", "Codex surface, developer details, diffs, PR review, and platform availability."),
-    source("Codex worktrees", worktreeDocs, "official-docs", "Parallel desktop chats, managed worktree isolation, handoff, and cleanup."),
-    source("Remote connections", remoteDocs, "official-docs", "Remote-host handoff and Git worktree transfer."),
+    source("ChatGPT desktop app", appDocs, "official-docs", "product-workflow", "Codex surface, developer details, diffs, PR review, and platform availability."),
+    source("Codex worktrees", worktreeDocs, "official-docs", "sessions-isolation-review", "Parallel desktop chats, managed worktree isolation, handoff, and cleanup."),
+    source("Remote connections", remoteDocs, "official-docs", "remote-collaboration", "Remote-host handoff and Git worktree transfer."),
   ],
   verifiedAt: guiVerifiedAt,
 };

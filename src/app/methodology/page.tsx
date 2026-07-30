@@ -36,6 +36,11 @@ import {
   evidenceTopicLabels,
   evidenceTopicOrder,
 } from "@/lib/evidence-topics";
+import {
+  guiEvidencePreviewLimit,
+  guiEvidenceTopicLabels,
+  guiEvidenceTopicOrder,
+} from "@/lib/gui-evidence-topics";
 import { guiFitBandLabels, guiWorkflows } from "@/lib/gui-fit";
 import { guiCapabilityLabels } from "@/lib/gui-labels";
 import { pageMetadata } from "@/lib/site";
@@ -160,6 +165,7 @@ export default function MethodologyPage() {
           </div>
           <p>Every required and preferred claim documented yields <strong>{guiFitBandLabels.strong}</strong>. Documented requirements with an unresolved preferred claim yield <strong>{guiFitBandLabels.good}</strong>. An unresolved requirement yields <strong>{guiFitBandLabels.conditional}</strong>. Inactive products or contradicted requirements are <strong>{guiFitBandLabels["not-eligible"]}</strong>.</p>
           <p>Products are alphabetical inside each band. No numeric value, source count, popularity signal, price, or license contributes to GUI fit.</p>
+          <p>GUI profiles group each source by one primary presentation topic in this fixed order: {guiEvidenceTopicOrder.map((topic) => guiEvidenceTopicLabels[topic]).join(", ")}. Each group shows the first {guiEvidencePreviewLimit} sources in record order and keeps every remaining source available behind a disclosure. Topic placement organizes the ledger only; it does not transfer harness capability, rank sources, or change workflow fit.</p>
         </section>
 
         <section className="prose-section" id="capability-rubric">

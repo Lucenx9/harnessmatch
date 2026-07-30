@@ -34,10 +34,10 @@ export const aq: GuiProduct = {
     teamCollaboration: documented("Teammates can enter the same live terminal, editor, and preview.", docs, product),
   },
   evidence: [
-    source("How AQ works", docs, "official-docs", "Worktrees, persistent sessions, supported agents, shared access, previews, and runners."),
-    source("AQ product surface", product, "official-docs", "Browser workspace, team access, agent CLIs, previews, runner choices, and bring-your-own credentials."),
-    source("Parallel Claude Code sessions", parallelGuide, "official-docs", "Per-task worktrees, persistent tmux sessions, automatic setup, preview ports, collaboration, and cleanup."),
-    source("Persistent remote sessions", remoteGuide, "official-docs", "Runner custody, persistent terminals, remote reconnection, per-user authentication, worktrees, and shared steering."),
+    source("How AQ works", docs, "official-docs", "product-workflow", "Worktrees, persistent sessions, supported agents, shared access, previews, and runners."),
+    source("AQ product surface", product, "official-docs", "harness-integrations", "Browser workspace, team access, agent CLIs, previews, runner choices, and bring-your-own credentials."),
+    source("Parallel Claude Code sessions", parallelGuide, "official-docs", "sessions-isolation-review", "Per-task worktrees, persistent tmux sessions, automatic setup, preview ports, collaboration, and cleanup."),
+    source("Persistent remote sessions", remoteGuide, "official-docs", "remote-collaboration", "Runner custody, persistent terminals, remote reconnection, per-user authentication, worktrees, and shared steering."),
   ],
   verifiedAt: guiVerifiedAt,
 };

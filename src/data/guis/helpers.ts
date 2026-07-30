@@ -14,7 +14,8 @@ export function source(
   title: string,
   url: string,
   kind: GuiEvidenceSource["kind"],
+  topic: GuiEvidenceSource["topic"],
   covers: string,
 ): GuiEvidenceSource {
-  return { title, url, kind, covers, verifiedAt: guiVerifiedAt };
+  return { title, url, kind, topic, covers, verifiedAt: guiVerifiedAt };
 }

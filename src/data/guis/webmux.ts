@@ -49,10 +49,10 @@ export const webmux: GuiProduct = {
     teamCollaboration: unknown("The current official record does not establish multi-user access controls or shared steering."),
   },
   evidence: [
-    source("webmux inspected source snapshot", snapshot, "official-repository", "Pinned implementation boundary for worktrees, terminals, browser and mobile UI, review state, containers, agents, and MIT licensing."),
-    source("webmux worktree service", worktreeService, "official-repository", "Worktree and tmux lifecycle, rollback handling, workspace services, and optional container setup."),
-    source("webmux agent registry", agentRegistry, "official-repository", "First-class Codex and Claude adapters plus command-configurable custom agent definitions."),
-    source("webmux agent UI service", agentUiService, "official-repository", "Chat-capability checks, persistent session state, interrupt and resume integration, and terminal-first custom-agent boundary."),
+    source("webmux inspected source snapshot", snapshot, "official-repository", "public-code", "Pinned implementation boundary for worktrees, terminals, browser and mobile UI, review state, containers, agents, and MIT licensing."),
+    source("webmux worktree service", worktreeService, "official-repository", "sessions-isolation-review", "Worktree and tmux lifecycle, rollback handling, workspace services, and optional container setup."),
+    source("webmux agent registry", agentRegistry, "official-repository", "harness-integrations", "First-class Codex and Claude adapters plus command-configurable custom agent definitions."),
+    source("webmux agent UI service", agentUiService, "official-repository", "product-workflow", "Chat-capability checks, persistent session state, interrupt and resume integration, and terminal-first custom-agent boundary."),
   ],
   verifiedAt: guiVerifiedAt,
 };

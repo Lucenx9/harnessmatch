@@ -46,9 +46,9 @@ export const claudeCodeDesktop: GuiProduct = {
     teamCollaboration: unknown("The current desktop reference does not establish a shared live coding session for multiple teammates."),
   },
   evidence: [
-    source("Claude Code desktop application", docs, "official-docs", "macOS and Windows availability, Code-tab scope, parallel sessions, review panes, permissions, cloud, and SSH."),
-    source("Claude Code worktrees", worktreeDocs, "official-docs", "Automatic desktop worktrees, parallel-session isolation, branch selection, ignored-file handling, and cleanup."),
-    source("Claude Code cloud sessions", webDocs, "official-docs", "Managed remote execution, repository access, session continuation, parallel usage, and cloud-environment boundaries."),
+    source("Claude Code desktop application", docs, "official-docs", "product-workflow", "macOS and Windows availability, Code-tab scope, parallel sessions, review panes, permissions, cloud, and SSH."),
+    source("Claude Code worktrees", worktreeDocs, "official-docs", "sessions-isolation-review", "Automatic desktop worktrees, parallel-session isolation, branch selection, ignored-file handling, and cleanup."),
+    source("Claude Code cloud sessions", webDocs, "official-docs", "remote-collaboration", "Managed remote execution, repository access, session continuation, parallel usage, and cloud-environment boundaries."),
   ],
   verifiedAt: guiVerifiedAt,
 };

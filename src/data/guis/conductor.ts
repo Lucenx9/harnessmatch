@@ -32,8 +32,8 @@ export const conductor: GuiProduct = {
     teamCollaboration: unknown("Current first-party documentation does not establish shared live workspace access."),
   },
   evidence: [
-    source("Conductor documentation", docs, "official-docs", "Four supported agents, Mac scope, parallel workspaces, worktrees, review, and merge."),
-    source("Conductor Cloud early access", cloud, "official-announcement", "The cloud team-agent product is announced as early access rather than admitted as a current desktop capability."),
+    source("Conductor documentation", docs, "official-docs", "product-workflow", "Four supported agents, Mac scope, parallel workspaces, worktrees, review, and merge."),
+    source("Conductor Cloud early access", cloud, "official-announcement", "remote-collaboration", "The cloud team-agent product is announced as early access rather than admitted as a current desktop capability."),
   ],
   verifiedAt: guiVerifiedAt,
 };

@@ -9,9 +9,11 @@ import {
   guiWorkflowById,
   guiWorkflows,
 } from "../src/lib/gui-fit";
+import { guiEvidenceTopicOrder } from "../src/lib/gui-evidence-topics";
 import { arbitraryCliEntry, namedHarnesses } from "../src/lib/gui-harness-coverage";
 
 const repositoryRoot = fileURLToPath(new URL("../", import.meta.url));
+const guiEvidenceTopics = new Set(guiEvidenceTopicOrder);
 
 function requiredGuiProduct(id: string) {
   const product = guiProducts.find((candidate) => candidate.id === id);
@@ -62,6 +64,7 @@ describe("GUI workflow classification", () => {
         }
       }
       expect(product.evidence.every((source) => source.url.startsWith("https://")), product.name).toBe(true);
+      expect(product.evidence.every((source) => guiEvidenceTopics.has(source.topic)), product.name).toBe(true);
       expect(
         product.evidence.every((source) => (firstPartyGuiHosts[product.id] ?? []).includes(new URL(source.url).hostname)),
         product.name,
