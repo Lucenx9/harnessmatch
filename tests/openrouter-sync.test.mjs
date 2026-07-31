@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   buildOpenRouterSnapshots,
   openRouterApps,
+  openRouterAppUrl,
   parseOpenRouterAppPage,
   parseRankingResponses,
   renderOpenRouterAttributionFile,
@@ -10,19 +11,48 @@ import { openRouterAttributionSnapshots } from "../src/data/openrouter-attributi
 
 describe("OpenRouter attribution sync", () => {
   it("keeps the generated dataset aligned with the stable app mapping", () => {
-    expect(openRouterAttributionSnapshots.map(({ harnessId, appSlug, appId }) => ({ harnessId, appSlug, appId }))).toEqual(
-      openRouterApps.map(({ harnessId, appSlug, appId }) => ({ harnessId, appSlug, appId })),
+    expect(openRouterAttributionSnapshots.map(({ harnessId, artifactId, appId, sourceUrl }) => (
+      { harnessId, artifactId, appId, sourceUrl }
+    ))).toEqual(
+      openRouterApps.map((app) => ({
+        harnessId: app.harnessId,
+        artifactId: app.appName,
+        appId: app.appId,
+        sourceUrl: openRouterAppUrl(app),
+      })),
     );
   });
 
-  it("extracts only the canonical app payload", () => {
+  it("validates the complete canonical app identity, including slugless pages", () => {
     const app = openRouterApps[0];
-    const html = `noise \\"id\\":42 ${`\\"id\\":${app.appId}`} \\"slug\\":\\"${app.appSlug}\\"},\\"totalTokens\\":29665059035281,\\"rank\\":1,\\"modelsUsed\\":394 tail`;
+    const html = `noise \\"id\\":42 ${`\\"id\\":${app.appId}`},\\"origin_url\\":\\"${app.originUrl}\\",\\"slug\\":\\"${app.slug}\\",\\"title\\":\\"${app.appName}\\"},\\"totalTokens\\":29665059035281,\\"rank\\":1,\\"modelsUsed\\":394 tail`;
     expect(parseOpenRouterAppPage(html, app)).toEqual({
       appId: app.appId,
       attributedTokens: 29_665_059_035_281,
       dailyGlobalRank: 1,
       modelsObserved: 394,
+    });
+
+    const sluglessApp = openRouterApps.find((candidate) => candidate.slug === null);
+    const sluglessHtml = `\\"id\\":${sluglessApp.appId},\\"origin_url\\":\\"${sluglessApp.originUrl}\\",\\"slug\\":null,\\"title\\":\\"${sluglessApp.appName}\\"},\\"totalTokens\\":10,\\"rank\\":null,\\"modelsUsed\\":2`;
+    expect(parseOpenRouterAppPage(sluglessHtml, sluglessApp)).toMatchObject({
+      appId: sluglessApp.appId,
+      attributedTokens: 10,
+      dailyGlobalRank: null,
+    });
+    expect(openRouterAppUrl(sluglessApp)).toContain("/apps/url/");
+  });
+
+  it("uses the current Goose and Oh-My-Pi identities", () => {
+    expect(openRouterApps.find(({ harnessId }) => harnessId === "goose")).toMatchObject({
+      appId: 3_248_223,
+      originUrl: "https://goose-docs.ai/",
+      slug: null,
+    });
+    expect(openRouterApps.find(({ harnessId }) => harnessId === "omp")).toMatchObject({
+      appId: 3_682_314,
+      originUrl: "https://omp.sh/",
+      slug: null,
     });
   });
 

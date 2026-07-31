@@ -148,7 +148,7 @@ export type DiscoverySource = {
  */
 export type OpenRouterAttributionSnapshot = {
   harnessId: string;
-  appSlug: string;
+  artifactId: string;
   appId: number;
   sourceUrl: string;
   integrationUrl?: string;

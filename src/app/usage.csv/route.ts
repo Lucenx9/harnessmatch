@@ -81,7 +81,7 @@ export function GET() {
         "attributed_requests",
         window.attributedRequests,
         window.observedAt,
-        snapshot.appSlug,
+        snapshot.artifactId,
         snapshot.sourceUrl,
         window.sourceUrl,
       ].map(csvCell).join(",")];

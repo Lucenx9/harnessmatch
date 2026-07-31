@@ -133,6 +133,7 @@ describe("ecosystem signal sync", () => {
       },
     ], {
       harnessId: "tool",
+      includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`],
       includePatterns: [String.raw`^tool-.+\.(?:tar\.gz|zip)$`],
       artifactScope: "Stable tool platform archives",
     }, {
@@ -151,6 +152,27 @@ describe("ecosystem signal sync", () => {
       latestReleaseAt: "2026-07-01",
       latestReleaseUrl: "https://github.com/example/tool/releases/tag/v1.0.0",
     });
+  });
+
+  it("rejects stable-looking assets from non-admitted release trains", () => {
+    expect(() => parseGitHubReleaseDownloads([{
+      tag_name: "nightly",
+      name: "Nightly",
+      published_at: "2026-07-20T10:00:00Z",
+      html_url: "https://github.com/example/tool/releases/tag/nightly",
+      draft: false,
+      prerelease: false,
+      assets: [{ id: 1, name: "tool-linux-x64.tar.gz", download_count: 100 }],
+    }], {
+      harnessId: "tool",
+      includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`],
+      includePatterns: [String.raw`^tool-.+\.tar\.gz$`],
+      artifactScope: "Stable tool platform archives",
+    }, {
+      harnessId: "tool",
+      repositoryUrl: "https://github.com/example/tool",
+      sourceScope: "full-source",
+    }, observedAt)).toThrow(/No stable GitHub release assets match/);
   });
 
   it("renders an explicitly context-only generated file", () => {

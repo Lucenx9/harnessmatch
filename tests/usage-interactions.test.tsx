@@ -103,8 +103,29 @@ describe("usage component interactions", () => {
   });
 
   it("switches to a deep-linkable per-harness source ledger", async () => {
+    const ompRecord = usageRecords.openRouterRecords.find(({ id }) => id === "omp");
+    if (!ompRecord) throw new Error("Expected an OpenRouter record for Oh My Pi.");
+    const interactionRecords = {
+      ...usageRecords,
+      openRouterRecords: usageRecords.openRouterRecords.map((record) => (
+        record.id === "omp"
+          ? {
+            ...record,
+            windows: {
+              ...record.windows,
+              week: {
+                ...record.windows.week,
+                rank: null,
+                attributedTokens: null,
+                attributedRequests: null,
+              },
+            },
+          }
+          : record
+      )),
+    };
     const { container } = render(
-      <UsageSignalsExplorer {...usageRecords} />,
+      <UsageSignalsExplorer {...interactionRecords} />,
     );
     const explorer = container.querySelector(".usage-explorer");
     if (!(explorer instanceof HTMLElement)) {

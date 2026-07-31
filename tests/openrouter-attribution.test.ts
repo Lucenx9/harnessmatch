@@ -30,7 +30,8 @@ describe("OpenRouter attribution snapshots", () => {
     expect(new Set(snapshotIds).size).toBe(snapshotIds.length);
     for (const snapshot of openRouterAttributionSnapshots) {
       expect(harnessIds.has(snapshot.harnessId), snapshot.harnessId).toBe(true);
-      expect(snapshot.sourceUrl).toBe(`https://openrouter.ai/apps/${snapshot.appSlug}`);
+      expect(snapshot.sourceUrl).toMatch(/^https:\/\/openrouter\.ai\/apps\/(?:url\/)?/);
+      expect(snapshot.artifactId.length, snapshot.harnessId).toBeGreaterThan(0);
       expect(Number.isSafeInteger(snapshot.appId), snapshot.harnessId).toBe(true);
       expect(snapshot.appId, snapshot.harnessId).toBeGreaterThan(0);
     }

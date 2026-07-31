@@ -214,23 +214,29 @@ export function parseJetBrainsPlugin(payload, artifact, observedAt) {
   };
 }
 
-function matchingReleaseAssets(release, patterns) {
+function matchingReleaseAssets(release, assetPatterns, tagPatterns, namePatterns) {
   if (release?.draft === true || release?.prerelease === true) return [];
   if (!Array.isArray(release?.assets) || typeof release?.tag_name !== "string" || typeof release?.published_at !== "string") {
     throw new Error("GitHub release schema is incomplete");
   }
-  return release.assets.filter((asset) => patterns.some((pattern) => pattern.test(asset.name)));
+  if (!tagPatterns.some((pattern) => pattern.test(release.tag_name))) return [];
+  if (namePatterns.length > 0 && (
+    typeof release.name !== "string" || !namePatterns.some((pattern) => pattern.test(release.name))
+  )) return [];
+  return release.assets.filter((asset) => assetPatterns.some((pattern) => pattern.test(asset.name)));
 }
 
 export function parseGitHubReleaseDownloads(releases, artifact, audit, observedAt) {
   if (!Array.isArray(releases)) throw new Error(`GitHub releases are missing for ${artifact.harnessId}`);
   if (audit?.harnessId !== artifact.harnessId) throw new Error(`GitHub release audit identity changed for ${artifact.harnessId}`);
-  const patterns = artifact.includePatterns.map((pattern) => new RegExp(pattern));
+  const assetPatterns = artifact.includePatterns.map((pattern) => new RegExp(pattern));
+  const tagPatterns = (artifact.includeTagPatterns ?? ["^.+$"]).map((pattern) => new RegExp(pattern));
+  const namePatterns = (artifact.includeNamePatterns ?? []).map((pattern) => new RegExp(pattern));
   const matchedReleases = [];
   const matchedAssets = [];
   const assetIds = new Set();
   for (const release of releases) {
-    const assets = matchingReleaseAssets(release, patterns);
+    const assets = matchingReleaseAssets(release, assetPatterns, tagPatterns, namePatterns);
     if (assets.length === 0) continue;
     matchedReleases.push(release);
     for (const asset of assets) {

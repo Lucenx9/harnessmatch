@@ -13,16 +13,25 @@ describe("usage signals explorer", () => {
       openRouterSnapshots: openRouterAttributionSnapshots,
       ecosystemSignals: ecosystemSignalSnapshots,
     });
-    const unlistedRecord = records.openRouterRecords.find(
-      (record) => record.windows.week.attributedTokens === null,
-    );
-
-    expect(unlistedRecord).toBeDefined();
+    const record = records.openRouterRecords[0];
+    if (!record) throw new Error("Expected at least one OpenRouter usage record.");
+    const unlistedRecord = {
+      ...record,
+      windows: {
+        ...record.windows,
+        week: {
+          ...record.windows.week,
+          rank: null,
+          attributedTokens: null,
+          attributedRequests: null,
+        },
+      },
+    };
 
     const html = renderToStaticMarkup(
       <UsageSignalsExplorer
         products={records.products}
-        openRouterRecords={[unlistedRecord!]}
+        openRouterRecords={[unlistedRecord]}
         ecosystemRecords={[]}
         activeHarnessCount={records.activeHarnessCount}
       />,

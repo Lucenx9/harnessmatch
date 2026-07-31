@@ -255,7 +255,7 @@ function harnessSignalRows({
             : `#${usage.rank} global`,
         windowLabel: formatDateRange(usage),
         observedAt: `Observed ${usage.observedAt}`,
-        artifactId: record.appSlug,
+        artifactId: record.artifactId,
         artifactUrl: record.appUrl,
       };
     }

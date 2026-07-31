@@ -1,18 +1,27 @@
 const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
 
 export const openRouterApps = [
-  { harnessId: "hermes-agent", appSlug: "hermes-agent", appId: 3_067_167, appName: "Hermes Agent", integrationUrl: "https://openrouter.ai/docs/cookbook/coding-agents/hermes-integration" },
-  { harnessId: "kilo-code", appSlug: "kilo-code", appId: 2_262_242, appName: "Kilo Code", integrationUrl: "https://kilo.ai/docs/providers/openrouter" },
-  { harnessId: "openclaw", appSlug: "openclaw", appId: 2_725_608, appName: "OpenClaw", integrationUrl: "https://openrouter.ai/docs/cookbook/coding-agents/openclaw-integration" },
-  { harnessId: "claude-code", appSlug: "claude-code", appId: 2_627_404, appName: "Claude Code", integrationUrl: "https://openrouter.ai/docs/cookbook/coding-agents/claude-code-integration" },
-  { harnessId: "openhands", appSlug: "openhands", appId: 189_563, appName: "OpenHands" },
-  { harnessId: "omp", appSlug: "oh-my-pi", appId: 2_929_093, appName: "Oh My Pi" },
-  { harnessId: "cline", appSlug: "cline", appId: 190_604, appName: "Cline", integrationUrl: "https://docs.cline.bot/provider-config/openrouter" },
-  { harnessId: "pi", appSlug: "pi", appId: 2_853_275, appName: "pi" },
-  { harnessId: "aider", appSlug: "aider", appId: 143_418, appName: "Aider", integrationUrl: "https://aider.chat/docs/llms/openrouter.html" },
-  { harnessId: "goose", appSlug: "goose", appId: 2_236_657, appName: "Goose" },
-  { harnessId: "codex", appSlug: "codex", appId: 2_668_297, appName: "Codex" },
-  { harnessId: "qwen-code", appSlug: "qwen-code", appId: 2_354_934, appName: "Qwen Code" },
+  { harnessId: "hermes-agent", appId: 3_067_167, appName: "Hermes Agent", originUrl: "https://hermes-agent.nousresearch.com/", slug: "hermes-agent", integrationUrl: "https://openrouter.ai/docs/cookbook/coding-agents/hermes-integration" },
+  { harnessId: "kilo-code", appId: 2_262_242, appName: "Kilo Code", originUrl: "https://kilocode.ai/", slug: "kilo-code", integrationUrl: "https://kilo.ai/docs/providers/openrouter" },
+  { harnessId: "openclaw", appId: 2_725_608, appName: "OpenClaw", originUrl: "https://openclaw.ai/", slug: "openclaw", integrationUrl: "https://openrouter.ai/docs/cookbook/coding-agents/openclaw-integration" },
+  { harnessId: "claude-code", appId: 2_627_404, appName: "Claude Code", originUrl: "https://claude.ai/code", slug: "claude-code", integrationUrl: "https://openrouter.ai/docs/cookbook/coding-agents/claude-code-integration" },
+  { harnessId: "openhands", appId: 189_563, appName: "OpenHands", originUrl: "https://docs.all-hands.dev/", slug: "openhands" },
+  { harnessId: "omp", appId: 3_682_314, appName: "Oh-My-Pi", originUrl: "https://omp.sh/", slug: null },
+  { harnessId: "cline", appId: 190_604, appName: "Cline", originUrl: "https://cline.bot/", slug: "cline", integrationUrl: "https://docs.cline.bot/provider-config/openrouter" },
+  { harnessId: "pi", appId: 2_853_275, appName: "pi", originUrl: "https://pi.dev/", slug: "pi" },
+  { harnessId: "command-code", appId: 3_909_382, appName: "Command Code", originUrl: "https://commandcode.ai/", slug: null },
+  { harnessId: "aider", appId: 143_418, appName: "Aider", originUrl: "https://aider.chat/", slug: "aider", integrationUrl: "https://aider.chat/docs/llms/openrouter.html" },
+  { harnessId: "codebuff", appId: 1_275_184, appName: "Codebuff", originUrl: "https://codebuff.com/", slug: null },
+  { harnessId: "opensquilla", appId: 3_451_751, appName: "OpenSquilla", originUrl: "https://opensquilla.ai/", slug: null },
+  { harnessId: "goose", appId: 3_248_223, appName: "goose", originUrl: "https://goose-docs.ai/", slug: null },
+  { harnessId: "poolside-cli", appId: 2_697_020, appName: "Poolside", originUrl: "https://poolside.ai/", slug: "pool", integrationUrl: "https://github.com/poolsideai/pool#openrouter" },
+  { harnessId: "crush", appId: 2_351_296, appName: "Crush", originUrl: "https://charm.land/", slug: null },
+  { harnessId: "codex", appId: 2_668_297, appName: "Codex", originUrl: "https://openai.com/codex/", slug: "codex" },
+  { harnessId: "qwen-code", appId: 2_354_934, appName: "Qwen Code", originUrl: "https://github.com/QwenLM/qwen-code.git", slug: "qwen-code" },
+  { harnessId: "postqode", appId: 2_304_560, appName: "PostQode", originUrl: "https://postqode.ai/", slug: null },
+  { harnessId: "kern", appId: 3_149_465, appName: "Kern Agent", originUrl: "https://github.com/oguzbilgic/kern-ai", slug: null },
+  { harnessId: "junie-cli", appId: 3_053_821, appName: "Junie", originUrl: "https://www.jetbrains.com/junie", slug: "junie" },
+  { harnessId: "wakil", appId: 4_397_443, appName: "wakil", originUrl: "https://github.com/treeol/wakil", slug: null },
 ];
 
 export const rankingDatasetSourceUrl = "https://openrouter.ai/docs/agent-sdk/typescript/api-reference/datasets";
@@ -24,6 +33,12 @@ export const rankingWindows = [
 ];
 
 export const trendingRankingWindows = rankingWindows.filter(({ key }) => key !== "day");
+
+export function openRouterAppUrl(app) {
+  return app.slug === null
+    ? `https://openrouter.ai/apps/url/${encodeURIComponent(app.originUrl)}`
+    : `https://openrouter.ai/apps/${app.slug}`;
+}
 
 function assertSafePositiveInteger(value, label) {
   if (!Number.isSafeInteger(value) || value <= 0) {
@@ -50,30 +65,33 @@ function inclusiveUtcDays(startDate, endDate) {
 }
 
 export function parseOpenRouterAppPage(html, app) {
-  const marker = `\\"slug\\":\\"${app.appSlug}\\"`;
-  const markerIndex = html.indexOf(marker);
+  const idMarker = `\\"id\\":${app.appId},`;
+  const markerIndex = html.indexOf(idMarker);
   if (markerIndex === -1) {
-    throw new Error(`${app.appSlug}: canonical app payload was not found`);
+    throw new Error(`${app.harnessId}: canonical app payload was not found`);
   }
 
-  const beforeMarker = html.slice(Math.max(0, markerIndex - 2_000), markerIndex);
-  const afterMarker = html.slice(markerIndex, markerIndex + 3_000);
-  const idMatches = [...beforeMarker.matchAll(/\\"id\\":(\d+)/g)];
-  const appId = Number(idMatches.at(-1)?.[1]);
-  const stats = afterMarker.match(/\\"totalTokens\\":(\d+),\\"rank\\":(null|\d+),\\"modelsUsed\\":(\d+)/);
-
-  if (!Number.isSafeInteger(appId) || !stats) {
-    throw new Error(`${app.appSlug}: app identity or public metrics could not be parsed`);
+  const payload = html.slice(markerIndex, markerIndex + 3_000);
+  const escapedJsonString = (value) => JSON.stringify(value).replaceAll('"', String.raw`\"`);
+  const expectedIdentity = [
+    `\\"origin_url\\":${escapedJsonString(app.originUrl)}`,
+    `\\"slug\\":${app.slug === null ? "null" : escapedJsonString(app.slug)}`,
+    `\\"title\\":${escapedJsonString(app.appName)}`,
+  ];
+  if (expectedIdentity.some((field) => !payload.includes(field))) {
+    throw new Error(`${app.harnessId}: canonical app identity changed`);
   }
-  if (appId !== app.appId) {
-    throw new Error(`${app.appSlug}: canonical app id changed from ${app.appId} to ${appId}`);
+
+  const stats = payload.match(/\\"totalTokens\\":(\d+),\\"rank\\":(null|\d+),\\"modelsUsed\\":(\d+)/);
+  if (!stats) {
+    throw new Error(`${app.harnessId}: public app metrics could not be parsed`);
   }
 
   return {
-    appId,
-    attributedTokens: parseInteger(stats[1], `${app.appSlug} attributed tokens`),
-    dailyGlobalRank: stats[2] === "null" ? null : parseInteger(stats[2], `${app.appSlug} daily global rank`),
-    modelsObserved: parseInteger(stats[3], `${app.appSlug} models observed`),
+    appId: app.appId,
+    attributedTokens: parseInteger(stats[1], `${app.harnessId} attributed tokens`),
+    dailyGlobalRank: stats[2] === "null" ? null : parseInteger(stats[2], `${app.harnessId} daily global rank`),
+    modelsObserved: parseInteger(stats[3], `${app.harnessId} models observed`),
   };
 }
 
@@ -150,12 +168,12 @@ export function buildOpenRouterSnapshots(pageMetrics, rankings, trendingRankings
 
   return openRouterApps.map((app) => {
     const page = pageMetrics.get(app.appId);
-    if (!page) throw new Error(`${app.appSlug}: public app metrics are missing`);
+    if (!page) throw new Error(`${app.harnessId}: public app metrics are missing`);
     const windows = Object.fromEntries(rankingWindows.map(({ key, days }) => {
       const ranking = rankings[key];
       const ranked = ranking.rowsByAppId.get(app.appId) ?? null;
       if (ranked && ranked.appName !== app.appName) {
-        throw new Error(`${app.appSlug}: ranking name changed from ${app.appName} to ${ranked.appName}`);
+        throw new Error(`${app.harnessId}: ranking name changed from ${app.appName} to ${ranked.appName}`);
       }
 
       return [key, {
@@ -172,7 +190,7 @@ export function buildOpenRouterSnapshots(pageMetrics, rankings, trendingRankings
       const ranking = trendingRankings[key];
       const ranked = ranking.rowsByAppId.get(app.appId) ?? null;
       if (ranked && ranked.appName !== app.appName) {
-        throw new Error(`${app.appSlug}: trending ranking name changed from ${app.appName} to ${ranked.appName}`);
+        throw new Error(`${app.harnessId}: trending ranking name changed from ${app.appName} to ${ranked.appName}`);
       }
 
       return [key, {
@@ -188,9 +206,9 @@ export function buildOpenRouterSnapshots(pageMetrics, rankings, trendingRankings
 
     return {
       harnessId: app.harnessId,
-      appSlug: app.appSlug,
+      artifactId: app.appName,
       appId: app.appId,
-      sourceUrl: `https://openrouter.ai/apps/${app.appSlug}`,
+      sourceUrl: openRouterAppUrl(app),
       ...(app.integrationUrl ? { integrationUrl: app.integrationUrl } : {}),
       ...page,
       windows,
@@ -230,7 +248,7 @@ export function renderOpenRouterAttributionFile(snapshots) {
     const lines = [
       "  {",
       `    harnessId: ${quote(snapshot.harnessId)},`,
-      `    appSlug: ${quote(snapshot.appSlug)},`,
+      `    artifactId: ${quote(snapshot.artifactId)},`,
       `    appId: ${formatInteger(snapshot.appId)},`,
       `    sourceUrl: ${quote(snapshot.sourceUrl)},`,
     ];

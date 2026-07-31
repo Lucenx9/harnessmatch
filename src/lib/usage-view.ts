@@ -11,7 +11,7 @@ import type {
 export type UsageProduct = Pick<Harness, "id" | "slug" | "name" | "tagline" | "logo">;
 
 export type OpenRouterUsageRecord = UsageProduct & {
-  appSlug: string;
+  artifactId: string;
   appUrl: string;
   windows: Record<OpenRouterUsageWindowKey, OpenRouterUsageWindow>;
   trendingWindows: Record<OpenRouterTrendingWindowKey, OpenRouterUsageWindow>;
@@ -89,7 +89,7 @@ export function buildUsageViewRecords({
     const product = productFor(snapshot.harnessId);
     return product ? [{
       ...product,
-      appSlug: snapshot.appSlug,
+      artifactId: snapshot.artifactId,
       appUrl: snapshot.sourceUrl,
       windows: snapshot.windows,
       trendingWindows: snapshot.trendingWindows,

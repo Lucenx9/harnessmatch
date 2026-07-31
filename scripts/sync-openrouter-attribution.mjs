@@ -2,6 +2,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import {
   buildOpenRouterSnapshots,
+  openRouterAppUrl,
   openRouterApps,
   parseOpenRouterAppPage,
   parseRankingResponses,
@@ -55,7 +56,7 @@ async function mapWithConcurrency(items, concurrency, task) {
 
 async function fetchAppMetrics() {
   const records = await mapWithConcurrency(openRouterApps, 4, async (app) => {
-    const response = await fetchWithRetry(`https://openrouter.ai/apps/${app.appSlug}`, {}, app.appSlug);
+    const response = await fetchWithRetry(openRouterAppUrl(app), {}, app.harnessId);
     const parsed = parseOpenRouterAppPage(await response.text(), app);
     return [app.appId, { ...parsed, observedAt: runObservedAt }];
   });
