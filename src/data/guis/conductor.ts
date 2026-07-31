@@ -2,6 +2,7 @@ import type { GuiProduct } from "@/lib/gui-types";
 import { documented, guiVerifiedAt, source } from "./helpers";
 
 const docs = "https://www.conductor.build/docs";
+const worktreeDocs = "https://www.conductor.build/docs/concepts/git-worktrees";
 const cloudAnnouncement = "https://www.conductor.build/changelog/0.78.0-introducing-conductor-cloud";
 const conductorVerifiedAt = "2026-07-31";
 
@@ -27,7 +28,12 @@ export const conductor: GuiProduct = {
   limitation: "The desktop product is Mac-only, Conductor Cloud requires Pro, and the programmatic API remains beta. Named integrations do not establish arbitrary-CLI support.",
   capabilities: {
     parallelSessions: documented("The app runs Claude Code, Codex, Cursor Agent, and OpenCode in parallel.", docs),
-    workspaceIsolation: documented("Each Conductor workspace is a separate Git worktree.", docs),
+    workspaceIsolation: {
+      state: "documented",
+      summary: "Local workspaces use separate Git worktrees for development isolation, not a security boundary; Conductor Cloud uses isolated microVM sandboxes.",
+      sourceUrls: [worktreeDocs, cloudAnnouncement],
+      verifiedAt: conductorVerifiedAt,
+    },
     visualReview: documented("The product documents agent monitoring followed by review and merge.", docs),
     remoteExecution: {
       state: "documented",
@@ -44,6 +50,14 @@ export const conductor: GuiProduct = {
   },
   evidence: [
     source("Conductor documentation", docs, "official-docs", "product-workflow", "Four supported agents, Mac scope, parallel workspaces, worktrees, review, and merge."),
+    source(
+      "Conductor Git worktrees",
+      worktreeDocs,
+      "official-docs",
+      "sessions-isolation-review",
+      "Local workspaces use separate Git working trees for development isolation rather than as a security boundary.",
+      conductorVerifiedAt,
+    ),
     source(
       "Conductor 0.78.0 Cloud launch",
       cloudAnnouncement,

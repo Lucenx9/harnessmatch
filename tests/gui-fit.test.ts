@@ -11,6 +11,7 @@ import {
 } from "../src/lib/gui-fit";
 import { guiEvidenceTopicOrder } from "../src/lib/gui-evidence-topics";
 import { arbitraryCliEntry, namedHarnesses } from "../src/lib/gui-harness-coverage";
+import type { GuiProduct } from "../src/lib/gui-types";
 
 const repositoryRoot = fileURLToPath(new URL("../", import.meta.url));
 const guiEvidenceTopics = new Set(guiEvidenceTopicOrder);
@@ -121,17 +122,33 @@ describe("GUI workflow classification", () => {
     ]);
   });
 
-  it("uses a stable, reopened first-party source for Conductor Cloud status", () => {
+  it("uses reopened first-party sources for Conductor local and cloud isolation", () => {
     const conductor = requiredGuiProduct("conductor");
+    const worktreeSource = conductor.evidence.find((source) => (
+      source.url === "https://www.conductor.build/docs/concepts/git-worktrees"
+    ));
     const cloudSource = conductor.evidence.find((source) => (
       source.topic === "remote-collaboration"
     ));
 
+    expect(worktreeSource).toEqual(expect.objectContaining({
+      topic: "sessions-isolation-review",
+      verifiedAt: "2026-07-31",
+    }));
     expect(cloudSource).toEqual(expect.objectContaining({
       url: "https://www.conductor.build/changelog/0.78.0-introducing-conductor-cloud",
       verifiedAt: "2026-07-31",
     }));
     expect(conductor.evidence.some((source) => source.url === "https://www.conductor.build/cloud")).toBe(false);
+    expect(conductor.capabilities.workspaceIsolation).toEqual(expect.objectContaining({
+      state: "documented",
+      summary: expect.stringContaining("Local workspaces use separate Git worktrees"),
+      sourceUrls: [
+        "https://www.conductor.build/docs/concepts/git-worktrees",
+        "https://www.conductor.build/changelog/0.78.0-introducing-conductor-cloud",
+      ],
+      verifiedAt: "2026-07-31",
+    }));
     expect(conductor.capabilities.remoteExecution.state).toBe("documented");
     expect(conductor.capabilities.teamCollaboration.state).toBe("documented");
     expect(classifyGuiFit(conductor, guiWorkflowById("remote-control"))).toEqual(expect.objectContaining({
@@ -197,11 +214,34 @@ describe("GUI workflow classification", () => {
 
   it("uses unresolved evidence as conditional fit instead of evidence of absence", () => {
     const teamWorkflow = guiWorkflowById("team-workspace");
-    const conductor = guiProducts.find((product) => product.id === "conductor")!;
-    const t3Code = guiProducts.find((product) => product.id === "t3-code")!;
-    const aq = guiProducts.find((product) => product.id === "aq")!;
-    const superset = guiProducts.find((product) => product.id === "superset")!;
+    const conductor = requiredGuiProduct("conductor");
+    const t3Code = requiredGuiProduct("t3-code");
+    const aq = requiredGuiProduct("aq");
+    const superset = requiredGuiProduct("superset");
+    const unresolvedTeamProduct: GuiProduct = {
+      ...t3Code,
+      id: "unresolved-team-fixture",
+      capabilities: {
+        ...t3Code.capabilities,
+        remoteExecution: {
+          state: "unknown",
+          summary: "The synthetic fixture leaves remote execution unresolved.",
+          sourceUrls: [],
+          verifiedAt: t3Code.verifiedAt,
+        },
+        teamCollaboration: {
+          state: "unknown",
+          summary: "The synthetic fixture leaves team collaboration unresolved.",
+          sourceUrls: [],
+          verifiedAt: t3Code.verifiedAt,
+        },
+      },
+    };
 
+    expect(classifyGuiFit(unresolvedTeamProduct, teamWorkflow)).toEqual(expect.objectContaining({
+      fitBand: "conditional",
+      missingRequired: ["remoteExecution", "teamCollaboration"],
+    }));
     expect(classifyGuiFit(t3Code, teamWorkflow)).toEqual(expect.objectContaining({
       fitBand: "conditional",
       missingRequired: ["teamCollaboration"],
