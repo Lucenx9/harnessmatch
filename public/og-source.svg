@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <title>HarnessMatch source-backed AI coding harness data</title>
+  <rect width="1200" height="630" fill="#0b0b0f"/>
+  <rect x="72" width="120" height="6" fill="#7c6ee6"/>
+
+  <g transform="translate(72 56)">
+    <svg width="40" height="40" viewBox="0 0 64 64" aria-hidden="true">
+      <path d="M10 8h12v17l7 4v6l-7 4v17H10V8Z" fill="#f5f5f7"/>
+      <path d="M54 8H42v17l-7 4v6l7 4v17h12V8Z" fill="#f5f5f7"/>
+      <rect x="27" y="27" width="10" height="10" rx="2" fill="#7c6ee6"/>
+    </svg>
+    <text x="56" y="29" fill="#f5f5f7" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="26" font-weight="650" letter-spacing="-0.6">HarnessMatch</text>
+  </g>
+
+  <text x="1128" y="82" fill="#9898a6" font-family="SFMono-Regular, Menlo, Consolas, monospace" font-size="17" text-anchor="end">harnessmatch.dev</text>
+  <path d="M72 126H1128" stroke="#2a2a33" stroke-width="1"/>
+
+  <text x="72" y="255" fill="#f5f5f7" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="67" font-weight="690" letter-spacing="-2.8">
+    <tspan x="72">Source-backed data on</tspan>
+    <tspan x="72" dy="78">AI coding harnesses.</tspan>
+  </text>
+
+  <path d="M846 182V446" stroke="#2a2a33" stroke-width="1"/>
+  <g transform="translate(906 210) scale(3.2)">
+    <path d="M10 8h12v17l7 4v6l-7 4v17H10V8Z" fill="#f5f5f7"/>
+    <path d="M54 8H42v17l-7 4v6l7 4v17h12V8Z" fill="#f5f5f7"/>
+    <rect x="27" y="27" width="10" height="10" rx="2" fill="#7c6ee6"/>
+  </g>
+  <text x="1008" y="432" fill="#9898a6" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="17" text-anchor="middle">Independent research catalog</text>
+
+  <path d="M72 500H1128" stroke="#2a2a33" stroke-width="1"/>
+  <g fill="#b9b9c3" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18">
+    <text x="72" y="558">Capabilities</text>
+    <text x="270" y="558">Operating models</text>
+    <text x="504" y="558">Usage signals</text>
+    <text x="690" y="558">First-party evidence</text>
+  </g>
+</svg>

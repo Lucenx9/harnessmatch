@@ -15,7 +15,7 @@ const socialImage = {
   url: "/og.jpg",
   width: 1200,
   height: 630,
-  alt: "HarnessMatch source-backed AI coding harness data and comparison.",
+  alt: "HarnessMatch: source-backed data on AI coding harnesses.",
 };
 
 export function canonicalMetadata(path: string): Pick<Metadata, "alternates"> {
