@@ -78,3 +78,22 @@ describe("daily usage automation", () => {
     expect(refreshJobHeader).not.toContain("OPENROUTER_API_KEY:");
   });
 });
+
+describe("local TypeScript toolchain", () => {
+  it("generates Next.js route types without tracking generated declarations", () => {
+    const packageJson = JSON.parse(
+      readFileSync(new URL("../package.json", import.meta.url), "utf8"),
+    ) as {
+      scripts: { typecheck: string };
+      devDependencies: { "@types/node": string };
+    };
+    const gitignore = readFileSync(
+      new URL("../.gitignore", import.meta.url),
+      "utf8",
+    ).split("\n");
+
+    expect(packageJson.scripts.typecheck).toBe("next typegen && tsc --noEmit");
+    expect(packageJson.devDependencies["@types/node"]).toMatch(/^\^20\./);
+    expect(gitignore).toContain("next-env.d.ts");
+  });
+});

@@ -36,7 +36,7 @@ const visibleFitBands: GuiFitBand[] = ["strong", "good", "conditional", "not-eli
 function matchesHarness(product: GuiMatcherProduct, filter: HarnessFilter) {
   if (filter === "any") return true;
   if (filter === "multi") return product.supportsMultipleHarnesses;
-  return product.acceptsArbitraryCli || product.namedHarnesses.includes(filter);
+  return product.namedHarnesses.includes(filter);
 }
 
 function matchesSource(access: GuiSourceAccess, filter: SourceFilter) {

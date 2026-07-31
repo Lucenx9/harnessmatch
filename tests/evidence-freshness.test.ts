@@ -107,7 +107,7 @@ describe("evidence freshness", () => {
     }
   });
 
-  it("states the checked date in the sitemap and footer without hardcoding it", async () => {
+  it("uses record dates only for profile sitemap entries and keeps the footer dynamic", async () => {
     const [{ default: sitemap }, footerSource] = await Promise.all([
       import("../src/app/sitemap"),
       readFile(new URL("../src/components/site-footer.tsx", import.meta.url), "utf8"),
@@ -116,13 +116,16 @@ describe("evidence freshness", () => {
       new URL("../src/app/sitemap.ts", import.meta.url),
       "utf8",
     );
-    const latest = latestVerifiedAt();
-
     for (const entry of sitemap()) {
-      expect(entry.lastModified, entry.url).toBeDefined();
-      expect(String(entry.lastModified) <= latest, entry.url).toBe(true);
+      const pathname = new URL(entry.url).pathname;
+      const isProfile = /^\/(?:guis|harnesses)\/[^/]+$/.test(pathname);
+      if (isProfile) {
+        expect(entry.lastModified, entry.url).toBeDefined();
+      } else {
+        expect(entry, entry.url).not.toHaveProperty("lastModified");
+      }
     }
-    expect(sitemap().some((entry) => entry.lastModified === latest)).toBe(true);
+    expect(sitemapSource).not.toContain("latestVerifiedAt");
     expect(sitemapSource).not.toMatch(/"20\d\d-\d\d-\d\d"/);
     expect(footerSource).not.toMatch(/20\d\d-\d\d-\d\d/);
   });
