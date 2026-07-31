@@ -1,6 +1,7 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
+const releaseVerifiedAt = "2026-07-31";
 
 export const cline = {
     id: "cline",
@@ -44,13 +45,14 @@ export const cline = {
       "The normal IDE and CLI runtimes execute on the host without a documented OS or container sandbox; Kanban worktrees isolate file trees, not processes, credentials, or network access",
       "IDE use begins approval-oriented, but the CLI prompt path defaults to auto-approve=true and YOLO can remove all prompts, so unattended use needs an explicit command policy",
       "Agent teams, the SDK, and Kanban are powerful but fast-moving; teams do not yet apply to the VS Code or JetBrains extensions and Kanban is a research preview",
+      "The 4.1.x stable VSIX contains legacy and SDK-based extension bundles behind a staged remote rollout; assignments apply on reload, and tasks created on the new extension are hidden while the legacy bundle is active",
       "Read-only subagents are experimental and intentionally cannot edit files or run arbitrary write workflows",
       "Shadow-Git checkpoints restore files and conversation state but do not reverse external side effects; large repositories can incur storage and snapshot overhead",
       "SDK, CLI, and Kanban plugins can install executable JavaScript or TypeScript plus npm or Git dependencies; they require source review and do not currently extend the VS Code or JetBrains products",
       "OpenTelemetry exports logs and metrics rather than proving task correctness, and the checked-in evaluation framework has disabled or unfinished CI layers with no immutable result record",
     ],
     setup: "Install the IDE extension or CLI, authenticate a provider, and review approval settings before enabling automation.",
-    verifiedAt: verifiedAt,
+    verifiedAt: releaseVerifiedAt,
     evidence: [
       {
         title: "Cline overview",
@@ -195,6 +197,14 @@ export const cline = {
         covers: "Optional OTLP log and metric export, configuration, backends, and data-governance controls",
         kind: "official-docs",
         verifiedAt: verifiedAt,
+      },
+      {
+        title: "Cline v4.1.0 combined rollout package",
+        topic: "product-surfaces",
+        url: "https://github.com/cline/cline/releases/tag/v4.1.0",
+        covers: "Stable combined VSIX, legacy and SDK-based bundles, staged remote assignment, fallback behavior, shared settings, and cross-bundle task-visibility limits",
+        kind: "official-announcement",
+        verifiedAt: releaseVerifiedAt,
       },
       {
         title: "Cline v4.0.11 source",

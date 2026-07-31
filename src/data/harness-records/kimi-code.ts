@@ -1,6 +1,7 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
+const recordVerifiedAt = "2026-07-31";
 
 export const kimiCode = {
     id: "kimi-code",
@@ -46,10 +47,10 @@ export const kimiCode = {
       "Hooks fail open on errors or timeouts and must not be the sole barrier for high-risk actions",
       "AgentSwarm can ramp without a configured concurrency cap, while delegated agents inherit the caller's allowed permission rules",
       "The local web service uses loopback and bearer authentication by default, but --dangerous-bypass-auth exposes sessions, files, and shell access to anyone who can reach the port",
-      "Plugins may add skills and start MCP servers; third-party and custom sources require explicit trust and user-global installs are not project-scoped",
+      "Plugins may inject system-prompt instructions, custom agents, skills, hooks, and MCP servers; third-party and custom sources require explicit trust and user-global installs are not project-scoped",
     ],
     setup: "Install the Kimi Code binary, log in or configure providers, then use `kimi`, `kimi -p`, `kimi acp`, or `kimi web` for the required surface.",
-    verifiedAt: verifiedAt,
+    verifiedAt: recordVerifiedAt,
     evidence: [
       {
         title: "Kimi Code 0.29.2 source snapshot",
@@ -139,9 +140,9 @@ export const kimiCode = {
         title: "Plugins",
         topic: "automation-extensions",
         url: "https://moonshotai.github.io/kimi-code/en/customization/plugins.html",
-        covers: "Official and third-party marketplaces, trust labels, Git and ZIP installation, plugin skills, MCP servers, managed copies, and user-global scope",
+        covers: "Official and third-party marketplaces, trust labels, Git and ZIP installation, system-prompt injection, custom agents, skills, hooks, MCP servers, managed copies, and user-global scope",
         kind: "official-docs",
-        verifiedAt: verifiedAt,
+        verifiedAt: recordVerifiedAt,
       },
       {
         title: "Data locations",

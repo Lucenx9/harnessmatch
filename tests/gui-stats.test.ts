@@ -10,7 +10,7 @@ describe("GUI catalog statistics", () => {
   it("derives catalog totals from evidence-backed records", () => {
     expect(stats).toEqual(expect.objectContaining({
       activeProducts: 9,
-      documentedClaims: 37,
+      documentedClaims: 39,
       totalClaims: 45,
       codeAudits: 5,
       previews: 5,
@@ -25,8 +25,8 @@ describe("GUI catalog statistics", () => {
   it("keeps evidence gaps visible in capability coverage", () => {
     expect(stats.capabilityCoverage.find((item) => item.key === "teamCollaboration")).toEqual({
       key: "teamCollaboration",
-      documented: 2,
-      unknown: 7,
+      documented: 3,
+      unknown: 6,
       contradicted: 0,
       total: 9,
     });
@@ -41,9 +41,9 @@ describe("GUI catalog statistics", () => {
       "not-eligible": 0,
     });
     expect(stats.workflowCoverage.find((item) => item.id === "remote-control")?.counts).toEqual({
-      strong: 2,
+      strong: 3,
       good: 6,
-      conditional: 1,
+      conditional: 0,
       "not-eligible": 0,
     });
   });

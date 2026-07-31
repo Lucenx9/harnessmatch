@@ -128,12 +128,22 @@ describe("GUI workflow classification", () => {
     ));
 
     expect(cloudSource).toEqual(expect.objectContaining({
-      url: "https://www.conductor.build/changelog/0.77.0-early-access-multiplayer-api-background-tasks-performance",
+      url: "https://www.conductor.build/changelog/0.78.0-introducing-conductor-cloud",
       verifiedAt: "2026-07-31",
     }));
     expect(conductor.evidence.some((source) => source.url === "https://www.conductor.build/cloud")).toBe(false);
-    expect(conductor.capabilities.remoteExecution.state).toBe("unknown");
-    expect(conductor.capabilities.teamCollaboration.state).toBe("unknown");
+    expect(conductor.capabilities.remoteExecution.state).toBe("documented");
+    expect(conductor.capabilities.teamCollaboration.state).toBe("documented");
+    expect(classifyGuiFit(conductor, guiWorkflowById("remote-control"))).toEqual(expect.objectContaining({
+      fitBand: "strong",
+      missingRequired: [],
+      missingPreferred: [],
+    }));
+    expect(classifyGuiFit(conductor, guiWorkflowById("team-workspace"))).toEqual(expect.objectContaining({
+      fitBand: "strong",
+      missingRequired: [],
+      missingPreferred: [],
+    }));
   });
 
   it("keeps the arbitrary-CLI placeholder out of every named integration count", () => {
@@ -188,13 +198,15 @@ describe("GUI workflow classification", () => {
   it("uses unresolved evidence as conditional fit instead of evidence of absence", () => {
     const teamWorkflow = guiWorkflowById("team-workspace");
     const conductor = guiProducts.find((product) => product.id === "conductor")!;
+    const t3Code = guiProducts.find((product) => product.id === "t3-code")!;
     const aq = guiProducts.find((product) => product.id === "aq")!;
     const superset = guiProducts.find((product) => product.id === "superset")!;
 
-    expect(classifyGuiFit(conductor, teamWorkflow)).toEqual(expect.objectContaining({
+    expect(classifyGuiFit(t3Code, teamWorkflow)).toEqual(expect.objectContaining({
       fitBand: "conditional",
-      missingRequired: expect.arrayContaining(["remoteExecution", "teamCollaboration"]),
+      missingRequired: ["teamCollaboration"],
     }));
+    expect(classifyGuiFit(conductor, teamWorkflow).fitBand).toBe("strong");
     expect(classifyGuiFit(aq, teamWorkflow).fitBand).toBe("strong");
     expect(classifyGuiFit(superset, teamWorkflow).fitBand).toBe("strong");
   });

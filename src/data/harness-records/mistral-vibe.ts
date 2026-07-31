@@ -1,6 +1,7 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-28";
+const releaseVerifiedAt = "2026-07-31";
 
 export const mistralVibe = {
     id: "mistral-vibe",
@@ -45,11 +46,11 @@ export const mistralVibe = {
     tradeoffs: [
       "The local CLI executes on the host: permissions and Git worktrees are controls, not an OS sandbox; Vibe Code Web's managed sandbox is a separate surface",
       "Anonymous telemetry, update checks, and auto-update are enabled by default; a fully offline setup requires disabling them and any networked tools",
-      "The source audit remains pinned to v2.22.0; v2.23.x release notes document new MCP commands and a JSON-RPC app-server refactor, but those newer implementation changes remain release-level evidence until a fresh source audit",
+      "The source audit remains pinned to v2.22.0; v2.23.x release notes document new MCP commands, a JSON-RPC app-server refactor, and a standalone app-server binary, but those newer implementation changes remain release-level evidence until a fresh source audit",
       "There is no built-in browser automation; web search and fetch tools are not a browser agent",
     ],
     setup: "Install `mistral-vibe`, use a Mistral plan or API key, or configure a local/OpenAI-compatible provider. Then run `vibe`; the default agent asks before tool execution.",
-    verifiedAt: verifiedAt,
+    verifiedAt: releaseVerifiedAt,
     evidence: [
       {
         title: "Pinned Mistral Vibe source tree",
@@ -81,12 +82,12 @@ export const mistralVibe = {
         verifiedAt: verifiedAt,
       },
       {
-        title: "Mistral Vibe v2.23.1 current release",
+        title: "Mistral Vibe v2.23.2 current release",
         topic: "releases-code-audit",
-        url: "https://github.com/mistralai/mistral-vibe/releases/tag/v2.23.1",
-        covers: "Current stable distribution boundary and file-mention crash fix; the inspected implementation remains pinned to v2.22.0",
+        url: "https://github.com/mistralai/mistral-vibe/releases/tag/v2.23.2",
+        covers: "Current stable distribution boundary, built-in skill creator, standalone app-server binary, provider cache statistics, and ACP fixes; the inspected implementation remains pinned to v2.22.0",
         kind: "official-announcement",
-        verifiedAt: verifiedAt,
+        verifiedAt: releaseVerifiedAt,
       },
       {
         title: "Install and setup",

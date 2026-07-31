@@ -1,6 +1,7 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-28";
+const releaseVerifiedAt = "2026-07-31";
 
 export const antigravityCli = {
     id: "antigravity-cli",
@@ -44,13 +45,14 @@ export const antigravityCli = {
     tradeoffs: [
       "Model access is managed by Google plans or Google Cloud; the documentation does not offer BYOK endpoints or local-model execution",
       "Native OS sandboxing is available but off by default, while workspace file reads and writes are auto-allowed by the permission engine unless stricter policy is configured",
+      "Since 1.1.9, a permission pattern accepted at a prompt persists for the rest of the conversation rather than one turn, so an interactive approval can become a session-scoped rule",
       "Always-proceed modes and one-command sandbox escapes can remove review or containment boundaries",
       "Conversation rewind and fork operate on session history, not the local Git checkout, so they do not provide file rollback or worktree isolation",
       "Telemetry is enabled by default and must be changed in settings when that collection is not desired",
       "The public GitHub repository distributes releases and support material but does not expose the core harness source, engineering tests, security policy, or evaluation suite",
     ],
     setup: "Install the native Antigravity CLI, run `agy`, sign in with an eligible Google account or Google Cloud project, then choose permission and sandbox settings before delegated work.",
-    verifiedAt: verifiedAt,
+    verifiedAt: releaseVerifiedAt,
     evidence: [
       {
         title: "Antigravity CLI overview",
@@ -144,11 +146,19 @@ export const antigravityCli = {
         verifiedAt: verifiedAt,
       },
       {
-        title: "Antigravity CLI 1.1.8 release",
+        title: "Antigravity CLI 1.1.8 structured-output release",
         url: "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.8",
-        covers: "Pinned shipped version, typed NDJSON traces, tool and subagent trajectory fields, JSON-schema output, token accounting, and public support-repository boundary",
+        covers: "Typed NDJSON traces, tool and subagent trajectory fields, JSON-schema output, token accounting, and public support-repository boundary",
         kind: "official-repository",
         verifiedAt: verifiedAt,
+      },
+      {
+        title: "Antigravity CLI 1.1.9 control update",
+        topic: "execution-control",
+        url: "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.9",
+        covers: "Conversation-scoped prompt grants, background interactive MCP startup, headless skill expansion, temporary-directory writes, and bounded stop-hook continuation",
+        kind: "official-announcement",
+        verifiedAt: releaseVerifiedAt,
       },
       {
         title: "Artifact review",

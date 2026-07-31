@@ -104,7 +104,8 @@ describe("harness evidence ledger", () => {
       expect(harness.verifiedAt).toMatch(/^\d{4}-\d{2}-\d{2}$/);
 
       for (const source of harness.evidence) {
-        expect(source.verifiedAt).toBe(harness.verifiedAt);
+        expect(isValidVerificationDate(source.verifiedAt)).toBe(true);
+        expect(source.verifiedAt <= harness.verifiedAt).toBe(true);
         expect(source.covers.length).toBeGreaterThan(12);
         expect(firstPartyHosts[harness.id]).toContain(new URL(source.url).hostname);
       }
@@ -293,7 +294,7 @@ describe("harness evidence ledger", () => {
       "https://geminicli.com/docs/admin/enterprise-controls/",
     ]));
     expect(gemini.tradeoffs.join(" ")).toContain("Workspace tier is currently non-functional");
-    expect(antigravity.verifiedAt).toBe("2026-07-28");
+    expect(antigravity.verifiedAt).toBe("2026-07-31");
     expect(antigravity.evidence.length).toBeGreaterThanOrEqual(12);
     expect(antigravity.classification).toMatchObject({
       orchestration: "multi-agent-runtime",
@@ -310,8 +311,10 @@ describe("harness evidence ledger", () => {
       "https://antigravity.google/docs/cli/artifacts",
       "https://antigravity.google/docs/cli/projects",
       "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.8",
+      "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.9",
     ]));
     expect(caveats).toContain("sandboxing is available but off by default");
+    expect(caveats).toContain("persists for the rest of the conversation");
     expect(caveats).toContain("not the local Git checkout");
     expect(caveats).toContain("Telemetry is enabled by default");
     expect(caveats).toContain("does not expose the core harness source");
@@ -531,9 +534,10 @@ describe("harness evidence ledger", () => {
     const urls = omp.evidence.map((source) => source.url);
     const caveats = omp.tradeoffs.join(" ");
 
-    expect(omp.verifiedAt).toBe("2026-07-28");
+    expect(omp.verifiedAt).toBe("2026-07-31");
     expect(omp.evidence.length).toBeGreaterThanOrEqual(14);
-    expect(omp.evidence.every((source) => source.verifiedAt === omp.verifiedAt)).toBe(true);
+    expect(omp.evidence.find((source) => source.url.endsWith("/v17.2.1"))?.verifiedAt).toBe("2026-07-31");
+    expect(omp.evidence.find((source) => source.url.includes("/tree/d16c6168"))?.verifiedAt).toBe("2026-07-28");
     expect(featureSupportFor(omp)).toMatchObject({ mcp: true, subagents: true, browser: true, sandbox: false, checkpoints: false });
     expect(urls).toEqual(expect.arrayContaining([
       "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/approval-mode.md",
@@ -543,7 +547,7 @@ describe("harness evidence ledger", () => {
       "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/hooks.md",
       "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/extensions.md",
       "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/secrets.md",
-      "https://github.com/can1357/oh-my-pi/releases/tag/v17.1.8",
+      "https://github.com/can1357/oh-my-pi/releases/tag/v17.2.1",
     ]));
     expect(caveats).toContain("subagents also run yolo");
     expect(caveats).toContain("prune conversation context only");
@@ -1266,9 +1270,10 @@ describe("harness evidence ledger", () => {
     const urls = vibe.evidence.map((source) => source.url);
     const caveats = vibe.tradeoffs.join(" ");
 
-    expect(vibe.verifiedAt).toBe("2026-07-28");
+    expect(vibe.verifiedAt).toBe("2026-07-31");
     expect(vibe.evidence.length).toBeGreaterThanOrEqual(24);
-    expect(vibe.evidence.every((source) => source.verifiedAt === vibe.verifiedAt)).toBe(true);
+    expect(vibe.evidence.find((source) => source.url.endsWith("/v2.23.2"))?.verifiedAt).toBe("2026-07-31");
+    expect(vibe.evidence.find((source) => source.url.includes("/tree/89350a4"))?.verifiedAt).toBe("2026-07-28");
     expect(vibe.interfaces).toEqual(expect.arrayContaining(["terminal", "ide", "automation"]));
     expect(vibe.interfaces).not.toContain("web");
     expect(vibe.providerStyle).toBe("multi-provider");
@@ -1282,7 +1287,7 @@ describe("harness evidence ledger", () => {
       "https://docs.mistral.ai/vibe/code/vibe-code-web/sandbox-environment",
       "https://github.com/mistralai/mistral-vibe/releases/tag/v2.22.0",
       "https://github.com/mistralai/mistral-vibe/releases/tag/v2.23.0",
-      "https://github.com/mistralai/mistral-vibe/releases/tag/v2.23.1",
+      "https://github.com/mistralai/mistral-vibe/releases/tag/v2.23.2",
       "https://github.com/mistralai/mistral-vibe/blob/89350a4064ca90e4732271dcc27688e5d684871d/vibe/core/config/vibe_schema.py",
       "https://github.com/mistralai/mistral-vibe/blob/89350a4064ca90e4732271dcc27688e5d684871d/vibe/core/rewind/manager.py",
       "https://github.com/mistralai/mistral-vibe/blob/89350a4064ca90e4732271dcc27688e5d684871d/.github/workflows/ci.yml",
@@ -1464,7 +1469,9 @@ describe("harness evidence ledger", () => {
       "https://docs.cline.bot/customization/plugins",
       "https://docs.cline.bot/enterprise-solutions/configuration/infrastructure-configuration/control-other-cline-features/mcp-server-controls",
       "https://docs.cline.bot/enterprise-solutions/configuration/infrastructure-configuration/control-other-cline-features/yolo-mode",
+      "https://github.com/cline/cline/releases/tag/v4.1.0",
     ]));
+    expect(byId.get("cline")!.tradeoffs.join(" ")).toContain("staged remote rollout");
     expect(urlsFor("kimi-code")).toEqual(expect.arrayContaining([
       "https://github.com/MoonshotAI/kimi-code/tree/8a45f10eddbb35c317047e82e567cdb59a220b4f",
       "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai%2Fkimi-code%400.29.2",
@@ -1475,6 +1482,7 @@ describe("harness evidence ledger", () => {
       "https://moonshotai.github.io/kimi-code/en/configuration/data-locations.html",
       "https://moonshotai.github.io/kimi-code/en/configuration/env-vars.html",
     ]));
+    expect(byId.get("kimi-code")!.tradeoffs.join(" ")).toContain("system-prompt instructions");
   });
 
   it("keeps every product logo local and traceable to a first-party asset", () => {

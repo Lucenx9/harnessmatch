@@ -3,6 +3,7 @@ import type { OperationalProfile, OperationalProfileRecord } from "../lib/types"
 const verifiedAt = "2026-07-27";
 const refreshedAt = "2026-07-28";
 const sourceAuditAt = "2026-07-30";
+const releaseReviewAt = "2026-07-31";
 const defaultLimitation =
   "Documentation-derived posture. It describes exposed harness mechanisms, not task success or model capability.";
 
@@ -169,9 +170,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://antigravity.google/docs/cli/conversations",
       "https://antigravity.google/docs/cli/reference",
       "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.8",
+      "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.9",
     ],
-    "Workspace-scoped history, an opt-in typed NDJSON stream with tool and child-agent trajectory fields, artifact review, and policy rules support inspection and session resume. Native sandboxing is off by default, workspace file access is auto-allowed by default, and rewind or fork changes conversation state rather than restoring the filesystem.",
-    refreshedAt,
+    "Workspace-scoped history, an opt-in typed NDJSON stream with tool and child-agent trajectory fields, artifact review, and policy rules support inspection and session resume. Native sandboxing is off by default, workspace file access is auto-allowed by default, and a pattern approved at a prompt persists for the rest of the conversation as of 1.1.9. Stop hooks are bounded after repeated continuations, while rewind or fork changes conversation state rather than restoring the filesystem.",
+    releaseReviewAt,
   ),
   "copilot-cli": record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "checkpoint" },
@@ -267,7 +269,8 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://moonshotai.github.io/kimi-code/en/customization/agents",
       "https://moonshotai.github.io/kimi-code/en/customization/mcp",
     ],
-    "Interactive sessions default to manual approval and persist structured Wire event streams with subagent histories and a session visualizer, but this is resumable state rather than learned memory or file rollback. Print mode uses unattended auto permission, can leave background work effectively unbounded, anonymous telemetry defaults on, hooks fail open, plugins and MCP servers add trust boundaries, and all local tools remain host-privileged. The web service is loopback and bearer-authenticated by default; its explicit bypass removes that boundary.",
+    "Interactive sessions default to manual approval and persist structured Wire event streams with subagent histories and a session visualizer, but this is resumable state rather than learned memory or file rollback. Print mode uses unattended auto permission, can leave background work effectively unbounded, anonymous telemetry defaults on, hooks fail open, and all local tools remain host-privileged. Plugins can inject system prompts, custom agents, skills, hooks, and MCP servers across user-global installs, expanding the trust boundary. The web service is loopback and bearer-authenticated by default; its explicit bypass removes that boundary.",
+    releaseReviewAt,
   ),
   "letta-code": record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "managed-recovery" },
