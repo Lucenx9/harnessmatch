@@ -11,6 +11,8 @@ import type {
 export type UsageProduct = Pick<Harness, "id" | "slug" | "name" | "tagline" | "logo">;
 
 export type OpenRouterUsageRecord = UsageProduct & {
+  appSlug: string;
+  appUrl: string;
   windows: Record<OpenRouterUsageWindowKey, OpenRouterUsageWindow>;
   trendingWindows: Record<OpenRouterTrendingWindowKey, OpenRouterUsageWindow>;
 };
@@ -69,23 +71,26 @@ export function buildUsageViewRecords({
   ecosystemSignals: EcosystemSignalSnapshot[];
 }) {
   const activeHarnesses = harnesses.filter((harness) => harness.status === "active");
-  const harnessById = new Map(activeHarnesses.map((harness) => [harness.id, harness]));
-  const productFor = (harnessId: string): UsageProduct | null => {
-    const harness = harnessById.get(harnessId);
-    if (!harness) return null;
-    return {
+  const products = activeHarnesses
+    .map((harness): UsageProduct => ({
       id: harness.id,
       slug: harness.slug,
       name: harness.name,
       tagline: harness.tagline,
       logo: harness.logo,
-    };
+    }))
+    .sort((left, right) => left.name.localeCompare(right.name));
+  const productById = new Map(products.map((product) => [product.id, product]));
+  const productFor = (harnessId: string): UsageProduct | null => {
+    return productById.get(harnessId) ?? null;
   };
 
   const openRouterRecords = openRouterSnapshots.flatMap((snapshot): OpenRouterUsageRecord[] => {
     const product = productFor(snapshot.harnessId);
     return product ? [{
       ...product,
+      appSlug: snapshot.appSlug,
+      appUrl: snapshot.sourceUrl,
       windows: snapshot.windows,
       trendingWindows: snapshot.trendingWindows,
     }] : [];
@@ -96,7 +101,8 @@ export function buildUsageViewRecords({
   });
 
   return {
-    activeHarnessCount: activeHarnesses.length,
+    activeHarnessCount: products.length,
+    products,
     openRouterRecords,
     ecosystemRecords,
   };

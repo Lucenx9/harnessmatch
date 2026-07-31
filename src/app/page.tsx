@@ -61,7 +61,11 @@ export default function HomePage() {
 
       <section className="home-usage-section" aria-label="Observed usage signals">
         <div className="shell">
-          <HomeUsageSummary {...usageRecords} />
+          <HomeUsageSummary
+            openRouterRecords={usageRecords.openRouterRecords}
+            ecosystemRecords={usageRecords.ecosystemRecords}
+            activeHarnessCount={usageRecords.activeHarnessCount}
+          />
         </div>
       </section>
 

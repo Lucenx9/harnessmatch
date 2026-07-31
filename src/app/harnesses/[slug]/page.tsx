@@ -357,6 +357,8 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
         />
 
         <HarnessEcosystemSection
+          harnessId={harness.id}
+          inUsageLedger={harness.status === "active"}
           releaseSnapshot={releaseSnapshot}
           openRouterSnapshot={openRouterSnapshot}
           ecosystemSignals={ecosystemSignals}
