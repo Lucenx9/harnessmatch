@@ -11,6 +11,7 @@ describe("harness ecosystem section", () => {
     const html = renderToStaticMarkup(
       <HarnessEcosystemSection
         harnessId="codex"
+        inUsageLedger
         releaseSnapshot={undefined}
         openRouterSnapshot={snapshot}
         ecosystemSignals={[]}
@@ -20,5 +21,25 @@ describe("harness ecosystem section", () => {
 
     expect(html).toContain('href="/usage?mode=harness&amp;id=codex"');
     expect(html).toContain("View this harness in Usage");
+  });
+
+  it("does not deep-link harnesses the usage ledger excludes", () => {
+    const snapshot = openRouterAttributionSnapshots.find((candidate) => candidate.harnessId === "codex");
+    if (!snapshot) throw new Error("Expected the Codex OpenRouter snapshot.");
+
+    const html = renderToStaticMarkup(
+      <HarnessEcosystemSection
+        harnessId="continue-cli"
+        inUsageLedger={false}
+        releaseSnapshot={undefined}
+        openRouterSnapshot={snapshot}
+        ecosystemSignals={[]}
+        checkedAt={snapshot.observedAt}
+      />,
+    );
+
+    expect(html).not.toContain("mode=harness");
+    expect(html).toContain('href="/usage"');
+    expect(html).toContain("Compare all signals");
   });
 });

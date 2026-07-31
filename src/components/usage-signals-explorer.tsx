@@ -318,8 +318,9 @@ export function UsageSignalsExplorer({
     const requestedHarnessId = searchParams.get("id");
     const matchedSource = sourceOptions.find((option) => option.key === requestedSource);
     const matchedHarness = products.find((product) => product.id === requestedHarnessId);
+    const requestedHarnessUnavailable = requestedHarnessId !== null && !matchedHarness;
 
-    if (requestedMode === "harness") setMode("harness");
+    if (requestedMode === "harness" && !requestedHarnessUnavailable) setMode("harness");
     if (matchedSource) setSelectedSource(matchedSource.key);
     if (requestedView === "trending") setOpenRouterView("trending");
     if (requestedWindow === "day" || requestedWindow === "week" || requestedWindow === "month") {

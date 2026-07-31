@@ -159,4 +159,23 @@ describe("usage component interactions", () => {
     });
     expect(view.getByRole("combobox", { name: "Harness" })).toHaveProperty("value", "aider");
   });
+
+  it("does not substitute another harness when the requested id is unavailable", async () => {
+    window.history.replaceState(null, "", "/usage?mode=harness&id=continue-cli");
+
+    const { container } = render(
+      <UsageSignalsExplorer {...usageRecords} />,
+    );
+    const explorer = container.querySelector(".usage-explorer");
+    if (!(explorer instanceof HTMLElement)) {
+      throw new Error("Expected the usage signals explorer.");
+    }
+    const view = within(explorer);
+
+    await waitFor(() => {
+      expect(window.location.search).toBe("");
+    });
+    expect(view.queryByRole("combobox", { name: "Harness" })).toBeNull();
+    expect(view.queryByRole("heading", { name: /usage signals$/ })).toBeNull();
+  });
 });
