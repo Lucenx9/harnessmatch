@@ -38,7 +38,7 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "@vitest/coverage-v8": "^4.1.10",
-    "jsdom": "^30.0.1",
+    "jsdom": "^26.1.0",
     "tailwindcss": "4.3.0",
     "typescript": "^6.0.3",
     "vitest": "^4.1.10"
@@ -50,6 +50,6 @@
     }
   },
   "engines": {
-    "node": ">=20.9.0"
+    "node": "^20.19.0 || ^22.12.0 || >=24.0.0"
   }
 }
