@@ -121,6 +121,21 @@ describe("GUI workflow classification", () => {
     ]);
   });
 
+  it("uses a stable, reopened first-party source for Conductor Cloud status", () => {
+    const conductor = requiredGuiProduct("conductor");
+    const cloudSource = conductor.evidence.find((source) => (
+      source.topic === "remote-collaboration"
+    ));
+
+    expect(cloudSource).toEqual(expect.objectContaining({
+      url: "https://www.conductor.build/changelog/0.77.0-early-access-multiplayer-api-background-tasks-performance",
+      verifiedAt: "2026-07-31",
+    }));
+    expect(conductor.evidence.some((source) => source.url === "https://www.conductor.build/cloud")).toBe(false);
+    expect(conductor.capabilities.remoteExecution.state).toBe("unknown");
+    expect(conductor.capabilities.teamCollaboration.state).toBe("unknown");
+  });
+
   it("keeps the arbitrary-CLI placeholder out of every named integration count", () => {
     const webmux = requiredGuiProduct("webmux");
     const superset = requiredGuiProduct("superset");

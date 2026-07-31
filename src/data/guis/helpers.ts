@@ -6,8 +6,11 @@ export function documented(summary: string, ...sourceUrls: string[]): GuiCapabil
   return { state: "documented", summary, sourceUrls, verifiedAt: guiVerifiedAt };
 }
 
-export function unknown(summary: string): GuiCapabilityClaim {
-  return { state: "unknown", summary, sourceUrls: [], verifiedAt: guiVerifiedAt };
+export function unknown(
+  summary: string,
+  verifiedAt = guiVerifiedAt,
+): GuiCapabilityClaim {
+  return { state: "unknown", summary, sourceUrls: [], verifiedAt };
 }
 
 export function source(
@@ -16,6 +19,7 @@ export function source(
   kind: GuiEvidenceSource["kind"],
   topic: GuiEvidenceSource["topic"],
   covers: string,
+  verifiedAt = guiVerifiedAt,
 ): GuiEvidenceSource {
-  return { title, url, kind, topic, covers, verifiedAt: guiVerifiedAt };
+  return { title, url, kind, topic, covers, verifiedAt };
 }

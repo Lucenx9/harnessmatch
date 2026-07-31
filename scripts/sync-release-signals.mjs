@@ -3,6 +3,7 @@ import { promisify } from "node:util";
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { parseRepositoryAudits } from "./lib/ecosystem-signals.mjs";
+import { fetchJsonWithRetry as fetchJsonResponseWithRetry } from "./lib/fetch-with-retry.mjs";
 import { githubReleaseWatches } from "./lib/release-watch-mappings.mjs";
 import {
   buildHarnessReleaseSnapshot,
@@ -20,24 +21,12 @@ const releaseWindowStart = new Date(
 ).toISOString().slice(0, 10);
 const maximumPages = 20;
 
-class NonRetryableHttpError extends Error {}
-
 async function fetchJsonWithRetry(url, init, label) {
-  for (let attempt = 1; attempt <= 3; attempt += 1) {
-    try {
-      const response = await fetch(url, { ...init, signal: AbortSignal.timeout(45_000) });
-      if (response.ok) return await response.json();
-      const body = await response.text();
-      if (![408, 429, 500, 502, 503, 504].includes(response.status) || attempt === 3) {
-        throw new NonRetryableHttpError(`${label}: HTTP ${response.status} ${body.slice(0, 300)}`);
-      }
-    } catch (error) {
-      if (error instanceof NonRetryableHttpError) throw error;
-      if (attempt === 3) throw new Error(`${label}: request failed after ${attempt} attempts`, { cause: error });
-    }
-    await new Promise((resolveDelay) => setTimeout(resolveDelay, attempt * 1_000));
-  }
-  throw new Error(`${label}: retry budget exhausted`);
+  return fetchJsonResponseWithRetry(url, init, {
+    label,
+    timeoutMs: 45_000,
+    retryDelayMs: 1_000,
+  });
 }
 
 async function mapWithConcurrency(items, concurrency, task) {

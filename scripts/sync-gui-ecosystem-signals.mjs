@@ -13,6 +13,7 @@ import {
   parseGuiRepositoryAuditSource,
   renderGuiEcosystemSignalsFile,
 } from "./lib/gui-ecosystem-signals.mjs";
+import { fetchResponseWithRetry } from "./lib/fetch-with-retry.mjs";
 
 const execFile = promisify(execFileCallback);
 const projectRoot = process.cwd();
@@ -20,20 +21,11 @@ const outputPath = resolve(projectRoot, "src/data/gui-ecosystem-signals.ts");
 const observedAt = new Date().toISOString().slice(0, 10);
 
 async function fetchWithRetry(url, init, label) {
-  for (let attempt = 1; attempt <= 3; attempt += 1) {
-    try {
-      const response = await fetch(url, { ...init, signal: AbortSignal.timeout(25_000) });
-      if (response.ok) return response;
-      const body = await response.text();
-      if (![408, 429, 500, 502, 503, 504].includes(response.status) || attempt === 3) {
-        throw new Error(`${label}: HTTP ${response.status} ${body.slice(0, 240)}`);
-      }
-    } catch (error) {
-      if (attempt === 3) throw error;
-    }
-    await new Promise((resolveDelay) => setTimeout(resolveDelay, attempt * 700));
-  }
-  throw new Error(`${label}: retry budget exhausted`);
+  return fetchResponseWithRetry(url, init, {
+    label,
+    timeoutMs: 25_000,
+    retryDelayMs: 700,
+  });
 }
 
 async function mapWithConcurrency(items, concurrency, task) {

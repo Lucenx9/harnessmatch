@@ -9,6 +9,7 @@ import {
   renderOpenRouterAttributionFile,
   trendingRankingWindows,
 } from "./lib/openrouter-sync.mjs";
+import { fetchResponseWithRetry } from "./lib/fetch-with-retry.mjs";
 
 const projectRoot = process.cwd();
 const outputPath = resolve(projectRoot, "src/data/openrouter-attribution.ts");
@@ -31,20 +32,11 @@ async function localApiKey() {
 }
 
 async function fetchWithRetry(url, init, label) {
-  for (let attempt = 1; attempt <= 3; attempt += 1) {
-    try {
-      const response = await fetch(url, { ...init, signal: AbortSignal.timeout(20_000) });
-      if (response.ok) return response;
-      const body = await response.text();
-      if (![408, 429, 500, 502, 503, 504].includes(response.status) || attempt === 3) {
-        throw new Error(`${label}: HTTP ${response.status} ${body.slice(0, 240)}`);
-      }
-    } catch (error) {
-      if (attempt === 3) throw error;
-    }
-    await new Promise((resolveDelay) => setTimeout(resolveDelay, attempt * 750));
-  }
-  throw new Error(`${label}: retry budget exhausted`);
+  return fetchResponseWithRetry(url, init, {
+    label,
+    timeoutMs: 20_000,
+    retryDelayMs: 750,
+  });
 }
 
 async function mapWithConcurrency(items, concurrency, task) {
