@@ -17,6 +17,10 @@ describe("usage view records", () => {
     const expectedEcosystem = ecosystemSignalSnapshots.filter((signal) => activeIds.has(signal.harnessId));
 
     expect(records.activeHarnessCount).toBe(activeIds.size);
+    expect(records.products).toHaveLength(activeIds.size);
+    expect(records.products.map((product) => product.name)).toEqual(
+      records.products.map((product) => product.name).toSorted((left, right) => left.localeCompare(right)),
+    );
     expect(records.openRouterRecords).toHaveLength(expectedOpenRouter.length);
     expect(records.ecosystemRecords).toHaveLength(expectedEcosystem.length);
     expect(new Set(records.ecosystemRecords.map((record) => record.signal.source))).toEqual(
@@ -35,6 +39,7 @@ describe("usage view records", () => {
 
     expect(records.openRouterRecords[0]).toHaveProperty("windows.week.attributedTokens");
     expect(records.openRouterRecords[0]).toHaveProperty("trendingWindows.week.attributedTokens");
+    expect(records.openRouterRecords[0]).toHaveProperty("appUrl");
     expect(records.ecosystemRecords.every((record) => "signal" in record)).toBe(true);
     expect(records.ecosystemRecords.some((record) => record.signal.metric === "install-events")).toBe(true);
     expect(records.ecosystemRecords.some((record) => record.signal.metric === "downloads")).toBe(true);

@@ -14,7 +14,12 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default function UsagePage() {
-  const { activeHarnessCount, openRouterRecords, ecosystemRecords } = buildUsageViewRecords({
+  const {
+    activeHarnessCount,
+    products,
+    openRouterRecords,
+    ecosystemRecords,
+  } = buildUsageViewRecords({
     harnesses,
     openRouterSnapshots: openRouterAttributionSnapshots,
     ecosystemSignals: ecosystemSignalSnapshots,
@@ -25,10 +30,11 @@ export default function UsagePage() {
       <div className="shell wide-shell">
         <div className="page-intro usage-page-intro">
           <h1>Coding harness usage signals</h1>
-          <p>Compare public signals from eight source views. Each keeps its own unit, time window, coverage, and limitations, so you can inspect adoption context without confusing it with quality.</p>
+          <p>Explore public activity across eight source views, by source or by harness. Each keeps its own unit, time window, coverage, and limitations, so adoption context never becomes a quality score.</p>
         </div>
 
         <UsageSignalsExplorer
+          products={products}
           openRouterRecords={openRouterRecords}
           ecosystemRecords={ecosystemRecords}
           activeHarnessCount={activeHarnessCount}

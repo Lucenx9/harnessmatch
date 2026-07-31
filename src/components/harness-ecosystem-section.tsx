@@ -37,6 +37,7 @@ function signalUnit(signal: EcosystemSignalSnapshot) {
 }
 
 type HarnessEcosystemSectionProps = {
+  harnessId: string;
   releaseSnapshot: HarnessReleaseSnapshot | undefined;
   openRouterSnapshot: OpenRouterAttributionSnapshot | undefined;
   ecosystemSignals: EcosystemSignalSnapshot[];
@@ -44,6 +45,7 @@ type HarnessEcosystemSectionProps = {
 };
 
 export function HarnessEcosystemSection({
+  harnessId,
   releaseSnapshot,
   openRouterSnapshot,
   ecosystemSignals,
@@ -60,7 +62,7 @@ export function HarnessEcosystemSection({
           <h2 id="ecosystem-signals-heading">Public ecosystem signals</h2>
           <p>Source-native observations for exact mapped artifacts and reviewed stable release trains. Different units and populations stay separate, and missing coverage is never treated as zero.</p>
         </div>
-        <Link className="text-link" href="/usage">Compare all signals</Link>
+        <Link className="text-link" href={`/usage?mode=harness&id=${harnessId}`}>View this harness in Usage</Link>
       </header>
       <ul className="profile-ecosystem-metrics">
         {releaseSnapshot && (

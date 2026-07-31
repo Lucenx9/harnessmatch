@@ -21,6 +21,7 @@ describe("usage signals explorer", () => {
 
     const html = renderToStaticMarkup(
       <UsageSignalsExplorer
+        products={records.products}
         openRouterRecords={[unlistedRecord!]}
         ecosystemRecords={[]}
         activeHarnessCount={records.activeHarnessCount}
