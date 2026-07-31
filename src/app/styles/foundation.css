@@ -176,9 +176,11 @@ p { color: var(--muted); }
 .global-search-footer { min-height: 46px; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 9px 18px; border-top: 1px solid var(--line); color: var(--muted); font: 500 .62rem/1.4 var(--font-mono); }
 .theme-toggle { width: 44px; height: 44px; display: grid; place-items: center; flex: 0 0 auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--muted-strong); cursor: pointer; transition: border-color .18s ease, background .18s ease, color .18s ease; }
 .theme-toggle:hover { border-color: var(--line-strong); background: var(--surface-hover); color: var(--text); }
-.theme-toggle-moon { display: none; }
-html[data-theme="light"] .theme-toggle-sun { display: none; }
-html[data-theme="light"] .theme-toggle-moon { display: block; }
+.theme-toggle-sun, .theme-toggle-moon { grid-area: 1 / 1; transition: opacity .16s ease, transform .16s ease; }
+.theme-toggle-sun { opacity: 1; transform: none; }
+.theme-toggle-moon { opacity: 0; transform: rotate(-90deg) scale(.6); }
+html[data-theme="light"] .theme-toggle-sun { opacity: 0; transform: rotate(90deg) scale(.6); }
+html[data-theme="light"] .theme-toggle-moon { opacity: 1; transform: none; }
 .mobile-menu { display: none; position: relative; margin-left: auto; }
 .mobile-menu summary { min-width: 44px; height: 44px; display: list-item; list-style: none; cursor: pointer; color: var(--muted); font-size: .82rem; line-height: 44px; text-align: center; }
 .mobile-menu summary::-webkit-details-marker { display: none; }
