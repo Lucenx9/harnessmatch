@@ -16,26 +16,26 @@ const changeCategories = [
   "unknown",
 ];
 
-export const releaseTriageOutputSchema = z.object({
+export const releaseTriageOutputSchema = z.strictObject({
   summary: z.string().min(1).max(360),
   reviewPriority: z.enum(["routine", "review", "urgent"]),
   capabilityReviewRecommended: z.boolean(),
-  reportedChanges: z.array(z.object({
+  reportedChanges: z.array(z.strictObject({
     category: z.enum(changeCategories),
     description: z.string().min(1).max(220),
-  }).strict()).max(5),
+  })).max(5),
   verificationQuestions: z.array(z.string().min(1).max(220)).max(5),
   limitations: z.array(z.string().min(1).max(220)).max(3),
-}).strict();
+});
 
-const rawReleaseTriageOutputSchema = z.object({
+const rawReleaseTriageOutputSchema = z.strictObject({
   summary: z.string().min(1).max(4_000),
   reviewPriority: z.enum(["routine", "review", "urgent"]),
   capabilityReviewRecommended: z.boolean(),
-  reportedChanges: z.array(z.object({
+  reportedChanges: z.array(z.strictObject({
     category: z.string().min(1).max(100),
     description: z.string().min(1).max(4_000),
-  }).strict()).max(20).optional().default([]),
+  })).max(20).optional().default([]),
   verificationQuestions: z.union([
     z.array(z.string().min(1).max(4_000)).max(20),
     z.string().min(1).max(4_000),
@@ -44,26 +44,26 @@ const rawReleaseTriageOutputSchema = z.object({
     z.array(z.string().min(1).max(4_000)).max(20),
     z.string().min(1).max(4_000),
   ]).optional().default([]),
-}).strict();
+});
 
-const editorialReviewSchema = z.object({
-  reviewedAt: z.string().date(),
+const editorialReviewSchema = z.strictObject({
+  reviewedAt: z.iso.date(),
   outcome: z.enum(["no-catalog-change", "catalog-updated"]),
   rationale: z.string().min(1).max(500),
-  evidenceUrls: z.array(z.string().url().startsWith("https://")).min(1).max(8),
-}).strict();
+  evidenceUrls: z.array(z.url().startsWith("https://")).min(1).max(8),
+});
 
-const queueItemSchema = z.object({
+const queueItemSchema = z.strictObject({
   key: z.string().min(3).max(300),
   harnessId: z.string().min(1).max(100),
   version: z.string().min(1).max(200),
-  releasedAt: z.string().date(),
-  releaseUrl: z.string().url().startsWith("https://github.com/"),
-  sourceApiUrl: z.string().url().startsWith("https://api.github.com/"),
+  releasedAt: z.iso.date(),
+  releaseUrl: z.url().startsWith("https://github.com/"),
+  sourceApiUrl: z.url().startsWith("https://api.github.com/"),
   releaseTitle: z.string().max(300),
   releaseNotesSha256: z.string().regex(/^[a-f0-9]{64}$/),
   releaseNotesTruncated: z.boolean(),
-  analyzedAt: z.string().datetime(),
+  analyzedAt: z.iso.datetime(),
   status: z.enum([
     "needs-editorial-review",
     "reviewed-no-catalog-change",
@@ -71,13 +71,13 @@ const queueItemSchema = z.object({
   ]),
   editorialReview: editorialReviewSchema.optional(),
   model: z.literal(releaseTriageModel),
-  usage: z.object({
+  usage: z.strictObject({
     promptTokens: z.number().int().nonnegative(),
     completionTokens: z.number().int().nonnegative(),
     totalTokens: z.number().int().nonnegative(),
-  }).strict().nullable(),
+  }).nullable(),
   triage: releaseTriageOutputSchema,
-}).strict().superRefine((item, context) => {
+}).superRefine((item, context) => {
   const expectedStatus = item.editorialReview
     ? item.editorialReview.outcome === "catalog-updated"
       ? "reviewed-catalog-updated"
@@ -92,17 +92,17 @@ const queueItemSchema = z.object({
   }
 });
 
-const releaseReviewQueueSchema = z.object({
+const releaseReviewQueueSchema = z.strictObject({
   schemaVersion: z.literal(2),
-  updatedAt: z.string().datetime(),
-  generatedBy: z.object({
+  updatedAt: z.iso.datetime(),
+  generatedBy: z.strictObject({
     provider: z.literal("OpenRouter"),
     model: z.literal(releaseTriageModel),
     authority: z.literal(false),
     purpose: z.literal("AI-assisted release-note triage for editorial review; never product evidence."),
-  }).strict(),
+  }),
   items: z.array(queueItemSchema).max(500),
-}).strict();
+});
 
 export const releaseTriageResponseFormat = {
   type: "json_schema",

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { UsageSignalsExplorer } from "@/components/usage-signals-explorer";
 import { ecosystemSignalSnapshots } from "@/data/ecosystem-signals";
 import { harnesses } from "@/data/harnesses";
@@ -76,7 +77,7 @@ export default function UsagePage() {
             <a href="https://github.com/eclipse-openvsx/openvsx" target="_blank" rel="noreferrer">Open VSX registry</a>
             <a href="https://plugins.jetbrains.com/docs/marketplace/api-reference.html" target="_blank" rel="noreferrer">JetBrains API</a>
             <a href="https://docs.github.com/en/rest/activity/starring" target="_blank" rel="noreferrer">GitHub stars API</a>
-            <a href="/methodology#eligibility">Evidence policy</a>
+            <Link href="/methodology#eligibility">Evidence policy</Link>
           </div>
         </aside>
       </div>

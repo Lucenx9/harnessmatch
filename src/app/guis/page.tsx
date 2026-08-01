@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { GuiLiveSignals } from "@/components/gui-live-signals";
 import { GuiWorkflowMatcher } from "@/components/gui-workflow-matcher";
 import { guiEcosystemSignalSnapshots } from "@/data/gui-ecosystem-signals";
@@ -60,7 +61,7 @@ export default function GuisPage() {
             <p>Public source can make a claim code-verifiable, but it never adds fit points. Proprietary GUIs can be a strong fit when first-party documentation establishes the required workflow mechanisms.</p>
             <p>General chat surfaces stay outside this catalog. A coding-agent GUI must expose repository work, execution, or review.</p>
           </div>
-          <a href="/methodology#gui-classification">Read the classification rules</a>
+          <Link href="/methodology#gui-classification">Read the classification rules</Link>
         </aside>
       </div>
     </section>

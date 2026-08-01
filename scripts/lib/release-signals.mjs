@@ -4,18 +4,18 @@ export const recentReleaseWindowDays = 90;
 
 const repositoryScopeSchema = z.enum(["full-source", "client-source", "support-repository"]);
 
-const harnessReleaseSnapshotSchema = z.object({
+const harnessReleaseSnapshotSchema = z.strictObject({
   harnessId: z.string().min(1).max(100),
   repository: z.string().regex(/^[^/]+\/[^/]+$/),
   repositoryScope: repositoryScopeSchema,
   latestVersion: z.string().min(1).max(200),
-  latestReleaseAt: z.string().date(),
-  latestReleaseUrl: z.string().url().startsWith("https://github.com/"),
+  latestReleaseAt: z.iso.date(),
+  latestReleaseUrl: z.url().startsWith("https://github.com/"),
   recentReleaseCount: z.number().int().nonnegative(),
   recentReleaseWindowDays: z.literal(recentReleaseWindowDays),
-  observedAt: z.string().date(),
-  sourceUrl: z.string().url().startsWith("https://api.github.com/"),
-}).strict();
+  observedAt: z.iso.date(),
+  sourceUrl: z.url().startsWith("https://api.github.com/"),
+});
 
 const harnessReleaseSnapshotsSchema = z.array(harnessReleaseSnapshotSchema).max(200);
 

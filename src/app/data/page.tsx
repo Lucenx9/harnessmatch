@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { EvidenceRankingExplorer } from "@/components/evidence-ranking-explorer";
 import { EvidenceLedger, type EvidenceLedgerRecord } from "@/components/evidence-ledger";
 import { GuiEvidenceLedger, type GuiEvidenceLedgerRecord } from "@/components/gui-evidence-ledger";
@@ -154,7 +155,7 @@ export default function DataPage() {
         </div>
         <aside className="notice prominent research-disclosure" aria-label="Research process disclosure">
           <p><strong>{researchProcessDisclosure.label}:</strong> {researchProcessDisclosure.short}</p>
-          <a href="/methodology#research-process">Read how the research process is governed</a>
+          <Link href="/methodology#research-process">Read how the research process is governed</Link>
         </aside>
         <div className="ledger-summary">
           <span><strong>{activeHarnesses.length}</strong> active products</span>
