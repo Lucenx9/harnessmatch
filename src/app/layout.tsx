@@ -26,11 +26,12 @@ const geistMono = Geist_Mono({
 });
 
 const themeInit = `
+  const preferred = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+  let saved = null;
   try {
-    const saved = localStorage.getItem("harnessmatch-theme");
-    const preferred = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-    document.documentElement.dataset.theme = saved === "light" || saved === "dark" ? saved : preferred;
+    saved = localStorage.getItem("harnessmatch-theme");
   } catch {}
+  document.documentElement.dataset.theme = saved === "light" || saved === "dark" ? saved : preferred;
 `;
 
 export const metadata: Metadata = {

@@ -4,13 +4,33 @@ import { MoonIcon } from "@phosphor-icons/react/dist/icons/Moon";
 import { SunIcon } from "@phosphor-icons/react/dist/icons/Sun";
 import { useEffect, useState } from "react";
 
+type Theme = "dark" | "light";
+
+const themeStorageKey = "harnessmatch-theme";
+
+function storedTheme(): Theme | null {
+  try {
+    const stored = window.localStorage.getItem(themeStorageKey);
+    return stored === "light" || stored === "dark" ? stored : null;
+  } catch {
+    return null;
+  }
+}
+
+function persistTheme(theme: Theme) {
+  try {
+    window.localStorage.setItem(themeStorageKey, theme);
+  } catch {
+    // Storage can be unavailable in restricted browsing contexts; the in-page theme still works.
+  }
+}
+
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [theme, setTheme] = useState<Theme>("dark");
 
   useEffect(() => {
-    const stored = window.localStorage.getItem("harnessmatch-theme");
     const preferred = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-    const initial = stored === "light" || stored === "dark" ? stored : preferred;
+    const initial = storedTheme() ?? preferred;
     setTheme(initial);
     document.documentElement.dataset.theme = initial;
   }, []);
@@ -19,7 +39,7 @@ export function ThemeToggle() {
     const next = theme === "dark" ? "light" : "dark";
     setTheme(next);
     document.documentElement.dataset.theme = next;
-    window.localStorage.setItem("harnessmatch-theme", next);
+    persistTheme(next);
   }
 
   return (

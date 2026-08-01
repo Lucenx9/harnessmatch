@@ -16,6 +16,19 @@ const { routerPush } = vi.hoisted(() => ({
 
 let storedValues = new Map<string, string>();
 
+function mediaQueryList(matches: boolean): MediaQueryList {
+  return {
+    matches,
+    media: "(prefers-color-scheme: light)",
+    onchange: null,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    dispatchEvent: vi.fn(() => true),
+  };
+}
+
 vi.mock("next/navigation", () => ({
   usePathname: () => "/guis",
   useRouter: () => ({ push: routerPush }),
@@ -52,11 +65,7 @@ beforeEach(() => {
   delete document.documentElement.dataset.theme;
   Object.defineProperty(window, "matchMedia", {
     configurable: true,
-    value: vi.fn().mockReturnValue({
-      matches: false,
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-    }),
+    value: vi.fn().mockReturnValue(mediaQueryList(false)),
   });
 });
 
@@ -91,5 +100,26 @@ describe("site header interactions", () => {
     menu.open = true;
     fireEvent.pointerDown(document.body);
     expect(menu.open).toBe(false);
+  });
+
+  it("keeps theme switching available when local storage is blocked", async () => {
+    vi.spyOn(window.localStorage, "getItem").mockImplementation(() => {
+      throw new DOMException("Storage access denied", "SecurityError");
+    });
+    vi.spyOn(window.localStorage, "setItem").mockImplementation(() => {
+      throw new DOMException("Storage access denied", "SecurityError");
+    });
+    vi.mocked(window.matchMedia).mockReturnValue(mediaQueryList(true));
+
+    render(<SiteHeader />);
+
+    await waitFor(() => {
+      expect(document.documentElement.dataset.theme).toBe("light");
+    });
+
+    fireEvent.click(screen.getByRole("button", {
+      name: "Switch to dark theme",
+    }));
+    expect(document.documentElement.dataset.theme).toBe("dark");
   });
 });
