@@ -55,26 +55,31 @@
   .usage-harness-table tbody th { grid-column: 1 / -1; padding-top: 0; border-bottom: 1px solid var(--line); }
   .usage-harness-table tbody td::before { content: attr(data-label); display: block; margin-bottom: 6px; color: var(--muted); font: 520 .58rem/1.2 var(--font-mono); }
   .usage-harness-table tbody td:last-child { grid-column: 1 / -1; padding-bottom: 0; }
-  .usage-source-note { align-items: flex-start; flex-direction: column; gap: 8px; }
-  .usage-source-note > div { justify-content: flex-start; }
+  .usage-source-note-body { grid-template-columns: 1fr; gap: 18px; }
+  .usage-source-note-body > div { justify-content: flex-start; }
 }
 
 @media (max-width: 720px) {
-  .usage-page-intro { margin-bottom: 42px; }
-  .usage-mode-bar { align-items: stretch; flex-direction: column; gap: 8px; padding: 12px 0; }
+  .usage-page-intro { margin-bottom: 26px; }
+  .usage-reading-guide { grid-template-columns: 1fr; margin-bottom: 24px; }
+  .usage-reading-guide > div, .usage-reading-guide > div:first-child, .usage-reading-guide > div:last-child { display: grid; grid-template-columns: 118px minmax(0, 1fr); gap: 14px; padding: 11px 0; border-right: 0; border-bottom: 1px solid var(--line); }
+  .usage-reading-guide > div:last-child { border-bottom: 0; }
+  .usage-reading-guide dt { margin: 0; }
+  .usage-mode-bar { align-items: stretch; padding: 12px 0; }
   .usage-mode-tabs { width: 100%; }
   .usage-mode-tabs button { flex: 1 1 0; }
+  .usage-source-switcher { padding: 15px 0; }
+  .usage-source-tabs-shell { display: none; }
+  .usage-source-picker { min-width: 0; display: grid; }
+  .usage-source-picker select { font-size: 1rem; }
   .usage-explorer-header { min-height: 0; align-items: stretch; flex-direction: column; gap: 20px; padding: 24px 0; }
+  .usage-explorer-meta { display: grid; gap: 4px; margin-top: 14px; }
   .usage-header-controls { width: 100%; justify-items: stretch; }
   .usage-harness-picker { min-width: 0; }
   .usage-harness-picker select { font-size: 1rem; }
   .usage-openrouter-controls { width: 100%; align-items: stretch; flex-direction: column; }
   .usage-view-tabs, .usage-window-tabs { width: 100%; }
   .usage-view-tabs button, .usage-window-tabs button { flex: 1 1 0; padding-inline: 8px; }
-  .usage-source-tabs { gap: 1px; }
-  .usage-source-tabs button { padding-inline: 6px; font-size: .7rem; }
-  .usage-leaderboard-context { min-height: 76px; align-items: flex-start; flex-direction: column; justify-content: center; gap: 4px; }
-  .usage-leaderboard-context p { align-items: flex-start; flex-direction: column; gap: 3px; }
   .usage-column-labels { display: none; }
   .usage-ranking-row { min-height: 94px; grid-template-columns: 64px minmax(0, 1fr) 64px; grid-template-rows: auto auto; gap: 9px 12px; padding: 12px 0; }
   .usage-rank { grid-column: 1; grid-row: 1; }
@@ -87,8 +92,12 @@
   .usage-harness-table caption { padding-block: 15px; }
   .usage-harness-table tbody tr { gap: 0 14px; }
   .usage-harness-table tbody strong { font-size: .68rem; }
-  .usage-scope { grid-template-columns: 1fr; gap: 27px; margin-top: 68px; }
-  .usage-scope dl div { grid-template-columns: 1fr; gap: 6px; }
+  .usage-methodology { margin-top: 54px; }
+  .usage-methodology > summary, .usage-source-note summary { align-items: flex-start; flex-wrap: wrap; gap: 5px 14px; padding: 15px 0; }
+  .usage-methodology > summary small, .usage-source-note summary small { width: calc(100% - 28px); margin-left: 0; order: 3; }
+  .usage-methodology-body { grid-template-columns: 1fr; gap: 27px; padding-block: 26px 31px; }
+  .usage-methodology-body dl div { grid-template-columns: 1fr; gap: 6px; }
+  .usage-source-note-body { padding-top: 17px; }
   .gui-page-intro { margin-bottom: 30px; }
   .gui-live-header { min-height: 0; align-items: flex-start; flex-direction: column; gap: 14px; padding: 22px 18px; }
   .gui-live-panel > header, .gui-live-panel > footer { padding-inline: 18px; }
@@ -396,7 +405,6 @@
 }
 
 @media (max-width: 340px) {
-  .usage-source-tabs button { padding-inline: 2px; font-size: .7rem; }
   .profile-ecosystem-metrics { grid-template-columns: 1fr; }
   .profile-ecosystem-metrics > li, .profile-ecosystem-metrics > li:nth-child(2n) { padding-inline: 0; border-right: 0; }
   .site-header .brand > span { display: none; }

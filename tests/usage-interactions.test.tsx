@@ -91,6 +91,12 @@ describe("usage component interactions", () => {
       expect(view.getByRole("heading", { name: title })).toBeDefined();
     }
 
+    fireEvent.change(view.getByRole("combobox", { name: "Signal source" }), {
+      target: { value: "homebrew" },
+    });
+    expect(view.getByRole("heading", { name: "Homebrew install events" })).toBeDefined();
+
+    fireEvent.click(view.getByRole("tab", { name: "GitHub" }));
     const githubTab = view.getByRole("tab", { name: "GitHub" });
     fireEvent.keyDown(githubTab, { key: "ArrowRight" });
     expect(document.activeElement).toBe(view.getByRole("tab", { name: "OpenRouter" }));
