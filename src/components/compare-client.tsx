@@ -13,6 +13,7 @@ import type { FeatureKey } from "@/lib/types";
 
 const featureRows: Array<[FeatureKey, string]> = [
   ["mcp", "MCP"],
+  ["skills", "Reusable skills"],
   ["localModels", "Local models"],
   ["subagents", "Agent parallelism"],
   ["headless", "Headless"],

@@ -1,6 +1,8 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
+const skillsVerifiedAt = "2026-08-01";
+const recordVerifiedAt = skillsVerifiedAt;
 
 export const geminiCli = {
     id: "gemini-cli",
@@ -8,7 +10,7 @@ export const geminiCli = {
     name: "Gemini CLI",
     tagline: "Google's open terminal agent with sandboxing, subagents, and rollback.",
     summary:
-      "An Apache-2.0 terminal agent for Gemini with interactive and non-interactive modes, MCP, policy controls, optional OS or container sandboxing, specialized subagents, worktrees, and file-aware rewind and restore.",
+      "An Apache-2.0 terminal agent for Gemini with interactive and non-interactive modes, MCP, Agent Skills, policy controls, optional OS or container sandboxing, specialized subagents, worktrees, and file-aware rewind and restore.",
     logo: {
       src: "/harnesses/gemini-cli.png",
       sourceUrl: "https://github.com/google-gemini/gemini-cli/blob/main/packages/vscode-ide-companion/assets/icon.png",
@@ -52,7 +54,7 @@ export const geminiCli = {
       "The repository contains extensive project-owned eval assets, but no complete independent harness benchmark result is imported",
     ],
     setup: "For supported enterprise or paid API access, install `@google/gemini-cli`, authenticate through Google Cloud or an eligible API key, then configure sandbox and checkpointing policy.",
-    verifiedAt: verifiedAt,
+    verifiedAt: recordVerifiedAt,
     evidence: [
       {
         title: "Gemini CLI consumer transition",
@@ -123,6 +125,13 @@ export const geminiCli = {
         covers: "Default-off transcript mining, review inbox, candidate memory and skills, data flow, privacy, and limitations",
         kind: "official-docs",
         verifiedAt: verifiedAt,
+      },
+      {
+        title: "Agent Skills",
+        url: "https://geminicli.com/docs/cli/skills/",
+        covers: "Open Agent Skills format, SKILL.md activation, built-in, extension, user and workspace scopes, consent, and installation",
+        kind: "official-docs",
+        verifiedAt: skillsVerifiedAt,
       },
       {
         title: "MCP integration",

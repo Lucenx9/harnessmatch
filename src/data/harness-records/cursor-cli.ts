@@ -1,6 +1,8 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
+const skillsVerifiedAt = "2026-08-01";
+const recordVerifiedAt = skillsVerifiedAt;
 
 export const cursorCli = {
     id: "cursor-cli",
@@ -8,7 +10,7 @@ export const cursorCli = {
     name: "Cursor CLI",
     tagline: "Cursor's familiar agent loop in the terminal and in automation.",
     summary:
-      "A proprietary terminal surface for Cursor Agent with interactive and print modes, subscription model selection, MCP, project rules, structured output, and allow or deny policies for shell commands and file access.",
+      "A proprietary terminal surface for Cursor Agent with interactive and print modes, subscription model selection, MCP, Agent Skills, project rules, structured output, and allow or deny policies for shell commands and file access.",
     logo: {
       src: "/harnesses/cursor-cli.png",
       sourceUrl: "https://cursor.com/docs-static/icon-512x512.png",
@@ -49,7 +51,7 @@ export const cursorCli = {
       "No public product evaluation suite or complete harness benchmark record is available",
     ],
     setup: "Install `cursor-agent`, sign in to Cursor, and define project permissions before combining print mode with `--force` in automation.",
-    verifiedAt: verifiedAt,
+    verifiedAt: recordVerifiedAt,
     evidence: [
       {
         title: "Cursor CLI overview",
@@ -106,6 +108,14 @@ export const cursorCli = {
         covers: "Editor integration, session protocol, model and mode selection, tools, MCP, and streaming events",
         kind: "official-docs",
         verifiedAt: verifiedAt,
+      },
+      {
+        title: "Agent Skills",
+        topic: "automation-extensions",
+        url: "https://cursor.com/docs/skills",
+        covers: "SKILL.md loading, project and user scopes, nested discovery, Claude and Codex directory compatibility, and automatic or explicit invocation",
+        kind: "official-docs",
+        verifiedAt: skillsVerifiedAt,
       },
       {
         title: "GitHub Actions",

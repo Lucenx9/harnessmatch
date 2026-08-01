@@ -9,6 +9,7 @@ export { featureClaimStateLabels } from "@/lib/feature-claim-labels";
 
 export const featureKeys: FeatureKey[] = [
   "mcp",
+  "skills",
   "localModels",
   "subagents",
   "headless",
@@ -19,6 +20,7 @@ export const featureKeys: FeatureKey[] = [
 
 const featureScopes: Record<FeatureKey, string> = {
   mcp: "Product-supported MCP integration",
+  skills: "Product-supported reusable skill packages",
   localModels: "Local or self-hosted model path",
   subagents: "Delegated or parallel agent workflow",
   headless: "Non-interactive or automation surface",
@@ -29,6 +31,8 @@ const featureScopes: Record<FeatureKey, string> = {
 
 const documentedLimitation =
   "The source establishes the mechanism, not its quality or availability in every mode.";
+const documentedSkillsLimitation =
+  "Support does not establish portability, package quality, safety, or adoption.";
 const undocumentedScope = "No first-class support established by the current record";
 const undocumentedLimitation =
   "Absence of current documentation is not proof that the capability is impossible.";
@@ -36,6 +40,7 @@ const undocumentedLimitation =
 type FeatureClaimSeed = {
   state: Exclude<FeatureClaimState, "not-documented">;
   sourceTitles: string[];
+  verifiedAt?: string;
   scope?: string;
   limitation?: string;
 };
@@ -43,6 +48,12 @@ type FeatureClaimSeed = {
 const documented = (...sourceTitles: string[]): FeatureClaimSeed => ({
   state: "documented",
   sourceTitles,
+});
+
+const documentedAt = (verifiedAt: string, ...sourceTitles: string[]): FeatureClaimSeed => ({
+  state: "documented",
+  sourceTitles,
+  verifiedAt,
 });
 
 const configuredClaim = (
@@ -64,6 +75,7 @@ const configuredClaim = (
 const featureClaimSeedsByHarness = {
   "claude-code": {
     mcp: documented("Claude Code overview", "CLI reference"),
+    skills: documentedAt("2026-08-01", "Agent Skills"),
     subagents: documented("Parallel agents", "Subagents"),
     headless: documented("Claude Code overview", "Platforms and integrations"),
     browser: documented("Chrome integration", "Computer use"),
@@ -77,6 +89,7 @@ const featureClaimSeedsByHarness = {
   },
   codex: {
     mcp: documented("Model Context Protocol", "Skills and plugins"),
+    skills: documented("Skills and plugins"),
     localModels: documented("Developer command reference", "Admin rollout guide"),
     subagents: documented("Subagents", "Codex cloud"),
     headless: documented("Non-interactive mode", "Codex GitHub Action"),
@@ -90,6 +103,7 @@ const featureClaimSeedsByHarness = {
   },
   opencode: {
     mcp: documented("Built-in and custom tools", "MCP servers"),
+    skills: documented("Skills"),
     localModels: documented("Providers", "Models"),
     subagents: documented("Agents and permissions"),
     headless: documented("Command-line interface", "Headless server"),
@@ -102,6 +116,7 @@ const featureClaimSeedsByHarness = {
     checkpoints: documented("Terminal interface", "Session revert implementation"),
   },
   pi: {
+    skills: documented("Skills"),
     localModels: documented("Providers", "Local llama.cpp models"),
     headless: documented("JSON event stream", "RPC mode"),
     sandbox: configuredClaim(
@@ -120,6 +135,7 @@ const featureClaimSeedsByHarness = {
   },
   "grok-build": {
     mcp: documented("Subagents and extensions", "Settings reference"),
+    skills: documented("Subagents and extensions"),
     localModels: documented("Grok Build overview", "Open-source announcement"),
     subagents: documented("Worktrees", "Subagents and extensions"),
     headless: documented("Grok Build overview", "Headless and scripting"),
@@ -162,6 +178,7 @@ const featureClaimSeedsByHarness = {
   },
   "gemini-cli": {
     mcp: documented("Trusted folders", "MCP integration"),
+    skills: documentedAt("2026-08-01", "Agent Skills"),
     subagents: documented("Subagents and browser agent", "Experimental Git worktrees"),
     headless: documented("Headless mode", "Policy engine"),
     browser: documented("Subagents and browser agent"),
@@ -175,6 +192,7 @@ const featureClaimSeedsByHarness = {
   },
   "antigravity-cli": {
     mcp: documented("Fine-grained permissions", "Plugins and skills"),
+    skills: documented("Plugins and skills"),
     subagents: documented("Execution modes", "Background tasks and subagents"),
     headless: documented("Antigravity CLI overview", "CLI settings reference"),
     browser: documented("Fine-grained permissions"),
@@ -186,6 +204,7 @@ const featureClaimSeedsByHarness = {
   },
   "copilot-cli": {
     mcp: documented("About GitHub Copilot CLI", "MCP configuration"),
+    skills: documented("CLI customization overview"),
     localModels: documented("About GitHub Copilot CLI", "Custom providers"),
     subagents: documented("Fleet subagents", "Copilot hooks"),
     headless: documented("Programmatic reference"),
@@ -198,6 +217,7 @@ const featureClaimSeedsByHarness = {
   },
   "cursor-cli": {
     mcp: documented("Cursor CLI overview", "Parameters and isolation controls"),
+    skills: documentedAt("2026-08-01", "Agent Skills"),
     subagents: documented("CLI changelog"),
     headless: documented("Headless mode", "Parameters and isolation controls"),
     sandbox: configuredClaim(
@@ -209,6 +229,7 @@ const featureClaimSeedsByHarness = {
   },
   "junie-cli": {
     mcp: documented("Action Allowlist", "MCP configuration"),
+    skills: documented("Agent Skills"),
     localModels: documented("Ollama integration"),
     subagents: documented("Custom subagents"),
     headless: documented("Headless mode", "Junie CLI configuration"),
@@ -234,12 +255,19 @@ const featureClaimSeedsByHarness = {
   },
   forgecode: {
     mcp: documented("Audited ForgeCode readme", "MCP integration"),
+    skills: documented("Reusable skills"),
     localModels: documented("Installation and setup", "Custom and local providers"),
     subagents: documented("Delegated task tool"),
     headless: documented("Audited ForgeCode readme", "CLI implementation"),
   },
   "qwen-code": {
     mcp: documented("Built-in Computer Use release", "MCP server integration"),
+    skills: configuredClaim(
+      "optional",
+      ["Qwen Code Extensions"],
+      "Skills bundled through optional Qwen Code extensions",
+      "Extension support does not establish compatibility or safety for every third-party package.",
+    ),
     localModels: documented("Model providers"),
     subagents: documented("OpenTelemetry observability", "Nested subagent release"),
     headless: documented("Headless safety and budgets"),
@@ -258,6 +286,7 @@ const featureClaimSeedsByHarness = {
   },
   "mistral-vibe": {
     mcp: documented("MCP servers", "Pinned changelog"),
+    skills: documented("Skills"),
     localModels: documented("Offline and local models", "Pinned shipped defaults"),
     subagents: documented("Agents and subagents", "Lifecycle hooks"),
     headless: documented("Work with the CLI", "Pinned CLI entrypoint"),
@@ -265,12 +294,14 @@ const featureClaimSeedsByHarness = {
   },
   "kimi-code": {
     mcp: documented("Kimi Code documentation", "Model Context Protocol"),
+    skills: documented("Agent Skills"),
     localModels: documented("Providers and models"),
     subagents: documented("Kimi Code documentation", "Configuration defaults"),
     headless: documented("Command reference"),
   },
   "letta-code": {
     mcp: documented("MCP tool execution model", "Pinned CLI MCP implementation"),
+    skills: documented("Agent skills"),
     localModels: documented("Supported model-provider types"),
     subagents: documented("Subagents"),
     headless: documented("Letta Code quickstart", "Headless mode"),
@@ -295,6 +326,7 @@ const featureClaimSeedsByHarness = {
   },
   "command-code": {
     mcp: documented("MCP integration", "Settings and configuration"),
+    skills: documented("Agent skills"),
     subagents: documented("Custom agents", "Background tasks and scheduling"),
     headless: documented("CLI reference", "Permissions"),
     checkpoints: documented("Sessions and checkpoints"),
@@ -307,6 +339,7 @@ const featureClaimSeedsByHarness = {
   },
   crush: {
     mcp: documented("Pinned Crush overview", "Crush configuration schema"),
+    skills: documented("Pinned Crush overview"),
     localModels: documented("Pinned Crush overview"),
     subagents: documented("Pinned task-agent implementation", "Pinned task-agent instructions"),
     headless: documented("Pinned non-interactive run command", "Pinned cross-platform CI workflow"),
@@ -324,6 +357,7 @@ const featureClaimSeedsByHarness = {
   },
   "coder-agents": {
     mcp: documented("Platform controls", "MCP server controls"),
+    skills: documented("Workspace skills and MCP"),
     localModels: documented("Coder Agents overview", "Models and providers"),
     subagents: documented("Coder Agents overview", "Virtual desktop"),
     headless: documented("Coder Agents getting started", "Workspace execution implementation at inspected commit"),
@@ -346,12 +380,14 @@ const featureClaimSeedsByHarness = {
   },
   zcode: {
     mcp: documented("MCP servers", "Plugin system"),
+    skills: documented("Agent Skills"),
     subagents: documented("Subagents", "Plugin system"),
     browser: documented("ZCode Agent workflow", "ADE tools"),
     sandbox: documented("ADE tools", "Remote development"),
     checkpoints: documented("Safety confirmation"),
   },
   stagewise: {
+    skills: documented("Skills and plugins"),
     localModels: documented("Models and providers", "Custom providers"),
     subagents: documented("stagewise product overview", "Product chat agent at inspected commit"),
     browser: documented("Install stagewise", "Browser and agent"),
@@ -407,6 +443,7 @@ const featureClaimSeedsByHarness = {
   },
   "poolside-cli": {
     mcp: documented("CLI reference", "Tool and path policy reference"),
+    skills: documented("Agent skills"),
     localModels: documented("Release repository readme at inspected commit"),
     headless: documented("Poolside Agent CLI", "Automated mode"),
     sandbox: configuredClaim(
@@ -547,8 +584,9 @@ export function featureClaimsForHarness(
       state: seed.state,
       scope: seed.scope ?? featureScopes[feature],
       sourceUrls: sourceUrlsForTitles(harness, seed.sourceTitles),
-      verifiedAt: harness.verifiedAt,
-      limitation: seed.limitation ?? documentedLimitation,
+      verifiedAt: seed.verifiedAt ?? harness.verifiedAt,
+      limitation: seed.limitation
+        ?? (feature === "skills" ? documentedSkillsLimitation : documentedLimitation),
     } satisfies FeatureClaim];
   })) as Record<FeatureKey, FeatureClaim>;
 }

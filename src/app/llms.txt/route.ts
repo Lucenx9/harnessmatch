@@ -30,6 +30,8 @@ export function GET() {
     "",
     "HarnessMatch is not a generic model leaderboard or an affiliate ranking site. Capability claims require a first-party source and verification date; benchmark results belong only to the exact recorded model, harness version, environment, budget, attempts, and date.",
     "",
+    "Reusable-skill support is recorded as a source-linked harness capability. HarnessMatch does not catalog or rank individual skills, plugins, hooks, commands, or MCP servers, and support does not imply package quality, safety, portability, or adoption.",
+    "",
     `Evidence records were most recently verified on ${latestVerifiedAt()}. Only active profiles appear below; dormant or archived tools may remain in the data ledger for research continuity.`,
     "",
     "## Core resources",

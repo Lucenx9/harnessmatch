@@ -1,6 +1,8 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
+const skillsVerifiedAt = "2026-08-01";
+const recordVerifiedAt = skillsVerifiedAt;
 
 export const claudeCode = {
     id: "claude-code",
@@ -8,7 +10,7 @@ export const claudeCode = {
     name: "Claude Code",
     tagline: "Polished Claude-first agent across terminal, IDE, desktop, and web.",
     summary:
-      "A Claude-centric coding agent with interactive and non-interactive workflows, explicit permissions, native sandboxing, MCP, hooks, plugins, delegated agents, background sessions, and subscription or API authentication.",
+      "A Claude-centric coding agent with interactive and non-interactive workflows, explicit permissions, native sandboxing, MCP, skills, hooks, plugins, delegated agents, background sessions, and subscription or API authentication.",
     logo: {
       src: "/harnesses/claude-code.png",
       sourceUrl: "https://code.claude.com/docs/_mintlify/favicons/claude-code/pLsy-mRpNksna2sx/_generated/favicon/android-chrome-192x192.png",
@@ -55,7 +57,7 @@ export const claudeCode = {
       "The public GitHub repository exposes releases, plugins, examples, and issue automation rather than the proprietary core implementation or product test suite",
     ],
     setup: "Install Claude Code, authenticate with Claude or an enterprise platform, then run `claude` in a repository.",
-    verifiedAt: verifiedAt,
+    verifiedAt: recordVerifiedAt,
     evidence: [
       {
         title: "Claude Code overview",
@@ -208,6 +210,14 @@ export const claudeCode = {
         covers: "Specialized delegated contexts, per-agent tools, permissions, hooks, and worktrees",
         kind: "official-docs",
         verifiedAt: verifiedAt,
+      },
+      {
+        title: "Agent Skills",
+        topic: "automation-extensions",
+        url: "https://code.claude.com/docs/en/skills",
+        covers: "Open Agent Skills format, SKILL.md loading, project and user scopes, direct or automatic invocation, and Claude-specific extensions",
+        kind: "official-docs",
+        verifiedAt: skillsVerifiedAt,
       },
       {
         title: "Agent teams",

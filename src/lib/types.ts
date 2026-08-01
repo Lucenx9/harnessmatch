@@ -46,6 +46,7 @@ export type HarnessMembershipAssessment = {
 };
 export type FeatureKey =
   | "mcp"
+  | "skills"
   | "localModels"
   | "subagents"
   | "headless"

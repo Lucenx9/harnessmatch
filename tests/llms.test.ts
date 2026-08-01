@@ -14,6 +14,7 @@ describe("llms.txt", () => {
     expect(response.headers.get("content-type")).toBe("text/plain; charset=utf-8");
     expect(manifest).toContain("# HarnessMatch");
     expect(manifest).toContain("A model's capability is not treated as a harness capability.");
+    expect(manifest).toContain("does not catalog or rank individual skills");
     expect(manifest).toContain(`Evidence records were most recently verified on ${latestVerifiedAt()}.`);
     expect(manifest).toContain("## Core resources");
     expect(manifest).toContain("## Active harness profiles");

@@ -52,7 +52,7 @@ export const metadata: Metadata = pageMetadata({
   path: "/methodology",
 });
 
-const methodologyVersion = "3.0 / 2026-07-30";
+const methodologyVersion = "3.1 / 2026-08-01";
 const capabilityLevels = [1, 2, 3, 4, 5] as const;
 const methodologySections = [
   ["scope", "Question and scope"],
@@ -147,6 +147,7 @@ export default function MethodologyPage() {
 
           <h3>Claims and public activity</h3>
           <p>Capabilities are stored as source-linked claims rather than inferred from product names or model providers. Claim states preserve whether a mechanism is available by default, documented, optional, surface-specific, not documented, explicitly absent, or deprecated. “Not documented” remains uncertainty; “no built-in support” is used only when an admitted source says so explicitly.</p>
+          <p>Reusable-skill support records whether the harness itself documents loading task-specific instruction packages such as <a href="https://agentskills.io/specification" target="_blank" rel="noreferrer">Agent Skills</a> or SKILL.md. It does not catalog individual skills, plugins, hooks, commands, or MCP servers. Support does not establish portability, package quality, safety, or adoption; third-party skills remain executable or trusted content to review separately.</p>
           <p>Active, dormant, and archived product states remain explicit. Dormant and archived records may stay available for research continuity, while active catalog views and measured rankings exclude them where the page states that scope.</p>
           <p>The Usage page records source-native observations from OpenRouter, Homebrew, npm, filtered GitHub release assets, VS Code Marketplace, Open VSX, JetBrains Marketplace, and GitHub repositories. Tokens, requests, downloads, installs, stars, forks, and release cadence observe different populations and denominators. They are never added together, used as capability evidence, or treated as a quality score. Missing coverage means no admitted mapping, not zero adoption. A source-coverage contract requires every active harness to be either exactly mapped or explicitly retained as unmapped for each of the eight source views.</p>
           <p>The stable-release tracker is factual and separate. It joins reviewed product-specific tag patterns to canonical repositories, excludes drafts, prereleases, and unrelated release trains, and publishes the latest tag, date, official URL, repository scope, observation date, and trailing 90-day count. Release frequency is maintenance context rather than quality or task-success evidence.</p>

@@ -7,6 +7,7 @@ import {
   featureSupportFor,
 } from "../src/data/feature-claims";
 import { harnesses } from "../src/data/harnesses";
+import { isValidVerificationDate } from "../src/lib/evidence-freshness";
 
 describe("feature claim ledger", () => {
   it("keeps every supported capability traceable to the harness evidence ledger", () => {
@@ -16,7 +17,7 @@ describe("feature claim ledger", () => {
 
       for (const feature of featureKeys) {
         const claim = featureClaimFor(harness, feature);
-        expect(claim.verifiedAt).toBe(harness.verifiedAt);
+        expect(isValidVerificationDate(claim.verifiedAt), `${harness.id}.${feature}`).toBe(true);
         expect(claim.scope.length).toBeGreaterThan(12);
         expect(claim.limitation.length).toBeGreaterThan(12);
 
@@ -60,5 +61,17 @@ describe("feature claim ledger", () => {
     expect(featureClaimFor(byId.get("claude-code")!, "sandbox").state).toBe("optional");
     expect(featureClaimFor(byId.get("codex")!, "sandbox").state).toBe("default");
     expect(featureClaimFor(byId.get("amp")!, "sandbox").state).toBe("surface-specific");
+  });
+
+  it("records reusable skills without inferring them from generic extensibility", () => {
+    const byId = new Map(harnesses.map((harness) => [harness.id, harness]));
+
+    expect(featureClaimFor(byId.get("claude-code")!, "skills").state).toBe("documented");
+    expect(featureClaimFor(byId.get("codex")!, "skills").state).toBe("documented");
+    expect(featureClaimFor(byId.get("gemini-cli")!, "skills").state).toBe("documented");
+    expect(featureClaimFor(byId.get("cursor-cli")!, "skills").state).toBe("documented");
+    expect(featureClaimFor(byId.get("qwen-code")!, "skills").state).toBe("optional");
+    expect(featureClaimFor(byId.get("aider")!, "skills").state).toBe("not-documented");
+    expect(featureClaimFor(byId.get("factory-droid")!, "skills").state).toBe("not-documented");
   });
 });

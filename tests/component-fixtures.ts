@@ -21,6 +21,7 @@ const logo: HarnessLogo = {
 
 const featureKeys = [
   "mcp",
+  "skills",
   "localModels",
   "subagents",
   "headless",
@@ -40,6 +41,7 @@ const documentedClaim: FeatureClaim = {
 function fullyDocumentedClaims(): Record<FeatureKey, FeatureClaim> {
   return {
     mcp: documentedClaim,
+    skills: documentedClaim,
     localModels: documentedClaim,
     subagents: documentedClaim,
     headless: documentedClaim,
@@ -52,6 +54,7 @@ function fullyDocumentedClaims(): Record<FeatureKey, FeatureClaim> {
 function featureSupport(supported: readonly FeatureKey[]): Record<FeatureKey, boolean> {
   return {
     mcp: supported.includes("mcp"),
+    skills: supported.includes("skills"),
     localModels: supported.includes("localModels"),
     subagents: supported.includes("subagents"),
     headless: supported.includes("headless"),

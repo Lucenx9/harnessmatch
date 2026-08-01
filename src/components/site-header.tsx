@@ -43,6 +43,7 @@ function dedupeKeywords(values: readonly string[]) {
 
 const featureSearchTerms: Record<FeatureKey, string[]> = {
   mcp: ["mcp", "external tools", "integrations"],
+  skills: ["agent skills", "skills", "skill.md", "reusable workflows"],
   localModels: ["local models", "ollama", "self hosted models"],
   subagents: ["subagents", "parallel agents", "delegation"],
   headless: ["headless", "ci", "automation"],

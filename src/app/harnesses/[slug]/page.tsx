@@ -40,6 +40,7 @@ export const dynamicParams = false;
 
 const featureSupport: Array<{ key: FeatureKey; label: string }> = [
   { key: "mcp", label: "External tools (MCP)" },
+  { key: "skills", label: "Reusable skills" },
   { key: "localModels", label: "Local models" },
   { key: "subagents", label: "Agent parallelism" },
   { key: "headless", label: "Runs without an open UI" },

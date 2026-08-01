@@ -266,6 +266,7 @@ describe("harness evidence ledger", () => {
     });
     expect(featureSupportFor(byId.get("ggcode"))).toEqual({
       mcp: true,
+      skills: false,
       localModels: true,
       subagents: true,
       headless: true,
@@ -307,6 +308,7 @@ describe("harness evidence ledger", () => {
       "https://developers.googleblog.com/an-important-update-transitioning-gemini-cli-to-antigravity-cli/",
     );
     expect(geminiUrls).toEqual(expect.arrayContaining([
+      "https://geminicli.com/docs/cli/skills/",
       "https://geminicli.com/docs/reference/policy-engine/",
       "https://geminicli.com/docs/hooks/",
       "https://geminicli.com/docs/cli/git-worktrees/",
@@ -344,9 +346,9 @@ describe("harness evidence ledger", () => {
     const urls = claude.evidence.map((source) => source.url);
     const caveats = claude.tradeoffs.join(" ");
 
-    expect(claude.verifiedAt).toBe("2026-07-27");
-    expect(claude.evidence).toHaveLength(56);
-    expect(claude.evidence.every((source) => source.verifiedAt === claude.verifiedAt)).toBe(true);
+    expect(claude.verifiedAt).toBe("2026-08-01");
+    expect(claude.evidence).toHaveLength(57);
+    expect(claude.evidence.find((source) => source.title === "Agent Skills")?.verifiedAt).toBe(claude.verifiedAt);
     expect(claude.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([
@@ -357,6 +359,7 @@ describe("harness evidence ledger", () => {
       "https://code.claude.com/docs/en/cli-reference",
       "https://code.claude.com/docs/en/headless",
       "https://code.claude.com/docs/en/tools-reference",
+      "https://code.claude.com/docs/en/skills",
       "https://code.claude.com/docs/en/security",
       "https://code.claude.com/docs/en/sandboxing",
       "https://code.claude.com/docs/en/sandbox-environments",
@@ -1019,9 +1022,9 @@ describe("harness evidence ledger", () => {
     const urls = cursor.evidence.map((source) => source.url);
     const caveats = cursor.tradeoffs.join(" ");
 
-    expect(cursor.verifiedAt).toBe("2026-07-27");
-    expect(cursor.evidence).toHaveLength(15);
-    expect(cursor.evidence.every((source) => source.verifiedAt === cursor.verifiedAt)).toBe(true);
+    expect(cursor.verifiedAt).toBe("2026-08-01");
+    expect(cursor.evidence).toHaveLength(16);
+    expect(cursor.evidence.find((source) => source.title === "Agent Skills")?.verifiedAt).toBe(cursor.verifiedAt);
     expect(cursor.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([
@@ -1030,6 +1033,7 @@ describe("harness evidence ledger", () => {
       "https://cursor.com/docs/cli/mcp",
       "https://cursor.com/docs/cli/shell-mode",
       "https://cursor.com/docs/cli/reference/authentication",
+      "https://cursor.com/docs/skills",
     ]));
     expect(urls).not.toContain("https://cursor.com/docs/cli/capabilities");
     expect(caveats).toContain("worktrees isolate files only");
