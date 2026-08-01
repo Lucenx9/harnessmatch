@@ -70,8 +70,24 @@ describe("feature claim ledger", () => {
     expect(featureClaimFor(byId.get("codex")!, "skills").state).toBe("documented");
     expect(featureClaimFor(byId.get("gemini-cli")!, "skills").state).toBe("documented");
     expect(featureClaimFor(byId.get("cursor-cli")!, "skills").state).toBe("documented");
+    expect(featureClaimFor(byId.get("goose")!, "skills")).toMatchObject({
+      state: "documented",
+      verifiedAt: "2026-08-01",
+      sourceUrls: ["https://github.com/aaif-goose/goose/releases/tag/v1.45.0"],
+    });
     expect(featureClaimFor(byId.get("qwen-code")!, "skills").state).toBe("optional");
     expect(featureClaimFor(byId.get("aider")!, "skills").state).toBe("not-documented");
     expect(featureClaimFor(byId.get("factory-droid")!, "skills").state).toBe("not-documented");
+  });
+
+  it("records Copilot autopilot as a conditional sandbox bypass", () => {
+    const copilot = harnesses.find((harness) => harness.id === "copilot-cli")!;
+    const sandbox = featureClaimFor(copilot, "sandbox");
+
+    expect(sandbox.state).toBe("optional");
+    expect(sandbox.verifiedAt).toBe("2026-08-01");
+    expect(sandbox.sourceUrls).toContain("https://github.com/github/copilot-cli/releases/tag/v1.0.77");
+    expect(sandbox.limitation).toContain("disables the sandbox for the current session");
+    expect(sandbox.limitation).toContain("MDM policy");
   });
 });

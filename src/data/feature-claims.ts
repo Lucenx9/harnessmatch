@@ -61,11 +61,13 @@ const configuredClaim = (
   sourceTitles: string[],
   scope: string,
   limitation?: string,
+  verifiedAt?: string,
 ): FeatureClaimSeed => ({
   state,
   sourceTitles,
   scope,
   ...(limitation ? { limitation } : {}),
+  ...(verifiedAt ? { verifiedAt } : {}),
 });
 
 /**
@@ -161,12 +163,13 @@ const featureClaimSeedsByHarness = {
     sandbox: documented("Sandbox overview", "Docker sandbox"),
   },
   goose: {
-    mcp: documented("Computer Controller extension", "Security guide"),
-    localModels: documented("Supported LLM providers", "Classification API specification"),
-    subagents: documented("Subagents", "Codebase analysis"),
-    headless: documented("Headless goose", "Session recipes"),
-    browser: documented("Computer Controller extension"),
-    sandbox: documented("goose v1.25.0 sandbox"),
+    mcp: documentedAt("2026-07-27", "Computer Controller extension", "Security guide"),
+    skills: documentedAt("2026-08-01", "goose v1.45.0 release"),
+    localModels: documentedAt("2026-07-27", "Supported LLM providers", "Classification API specification"),
+    subagents: documentedAt("2026-07-27", "Subagents", "Codebase analysis"),
+    headless: documentedAt("2026-07-27", "Headless goose", "Session recipes"),
+    browser: documentedAt("2026-07-27", "Computer Controller extension"),
+    sandbox: documentedAt("2026-07-27", "goose v1.25.0 sandbox"),
   },
   cline: {
     mcp: documented("CLI reference", "MCP"),
@@ -203,17 +206,19 @@ const featureClaimSeedsByHarness = {
     ),
   },
   "copilot-cli": {
-    mcp: documented("About GitHub Copilot CLI", "MCP configuration"),
-    skills: documented("CLI customization overview"),
-    localModels: documented("About GitHub Copilot CLI", "Custom providers"),
-    subagents: documented("Fleet subagents", "Copilot hooks"),
-    headless: documented("Programmatic reference"),
+    mcp: documentedAt("2026-07-27", "About GitHub Copilot CLI", "MCP configuration"),
+    skills: documentedAt("2026-07-27", "CLI customization overview"),
+    localModels: documentedAt("2026-07-27", "About GitHub Copilot CLI", "Custom providers"),
+    subagents: documentedAt("2026-07-27", "Fleet subagents", "Copilot hooks"),
+    headless: documentedAt("2026-07-27", "Programmatic reference"),
     sandbox: configuredClaim(
       "optional",
-      ["Cloud and local sandboxes", "Fleet subagents"],
+      ["Cloud and local sandboxes", "Fleet subagents", "Copilot CLI 1.0.77 release"],
       "Optional sandboxed execution mode",
+      "Unconditional approval in autopilot disables the sandbox for the current session when bypass is allowed; administrators can separately enforce sandbox use through native MDM policy.",
+      "2026-08-01",
     ),
-    checkpoints: documented("Session rollback"),
+    checkpoints: documentedAt("2026-07-27", "Session rollback"),
   },
   "cursor-cli": {
     mcp: documented("Cursor CLI overview", "Parameters and isolation controls"),

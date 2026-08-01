@@ -4,6 +4,7 @@ const verifiedAt = "2026-07-27";
 const refreshedAt = "2026-07-28";
 const sourceAuditAt = "2026-07-30";
 const releaseReviewAt = "2026-07-31";
+const currentReleaseReviewAt = "2026-08-01";
 const defaultLimitation =
   "Documentation-derived posture. It describes exposed harness mechanisms, not task success or model capability.";
 
@@ -177,8 +178,9 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
   ),
   "copilot-cli": record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "checkpoint" },
-    ["https://docs.github.com/en/copilot/concepts/agents/copilot-memory", "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-programmatic-reference", "https://docs.github.com/en/copilot/concepts/about-cloud-and-local-sandboxes", "https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/roll-back-changes", "https://docs.github.com/en/copilot/concepts/agents/copilot-cli/autopilot", "https://docs.github.com/en/copilot/concepts/agents/hooks"],
-    "Copilot Memory provides hosted, preview repository facts and user preferences with retention rules. Granular policy, pre-tool hooks, optional preview sandboxes, usage/session logs, bounded autopilot continuation, and Git or tools-based rewind are documented; the closed product exposes no independent product eval suite.",
+    ["https://docs.github.com/en/copilot/concepts/agents/copilot-memory", "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-programmatic-reference", "https://docs.github.com/en/copilot/concepts/about-cloud-and-local-sandboxes", "https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/roll-back-changes", "https://docs.github.com/en/copilot/concepts/agents/copilot-cli/autopilot", "https://docs.github.com/en/copilot/concepts/agents/hooks", "https://github.com/github/copilot-cli/releases/tag/v1.0.77"],
+    "Copilot Memory provides hosted, preview repository facts and user preferences with retention rules. Granular policy, pre-tool hooks, optional preview sandboxes, usage/session logs, bounded autopilot continuation, and Git or tools-based rewind are documented. In 1.0.77, unconditional autopilot approval disables the sandbox for the current session when bypass is allowed, while native MDM policy can separately enforce sandbox use; the closed product exposes no independent product eval suite.",
+    currentReleaseReviewAt,
   ),
   "cursor-cli": record(
     { context: "managed", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "checkpoint" },

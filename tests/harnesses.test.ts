@@ -933,9 +933,9 @@ describe("harness evidence ledger", () => {
     const urls = goose.evidence.map((source) => source.url);
     const caveats = goose.tradeoffs.join(" ");
 
-    expect(goose.verifiedAt).toBe("2026-07-27");
-    expect(goose.evidence).toHaveLength(19);
-    expect(goose.evidence.every((source) => source.verifiedAt === goose.verifiedAt)).toBe(true);
+    expect(goose.verifiedAt).toBe("2026-08-01");
+    expect(goose.evidence).toHaveLength(20);
+    expect(goose.evidence.find((source) => source.title === "goose v1.45.0 release")?.verifiedAt).toBe(goose.verifiedAt);
     expect(goose.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([
@@ -951,6 +951,7 @@ describe("harness evidence ledger", () => {
       "https://goose-docs.ai/docs/guides/security/classification-api-spec/",
       "https://github.com/aaif-goose/goose/blob/main/SECURITY.md",
       "https://github.com/aaif-goose/goose/releases/tag/v1.44.0",
+      "https://github.com/aaif-goose/goose/releases/tag/v1.45.0",
       "https://github.com/aaif-goose/goose/security/advisories/GHSA-r5pp-p5r8-466r",
     ]));
     expect(caveats).toContain("user privileges by default");
@@ -958,6 +959,8 @@ describe("harness evidence ledger", () => {
     expect(caveats).toContain("fails open");
     expect(caveats).toContain("configured classifier endpoint");
     expect(caveats).toContain("before 1.44.0");
+    expect(caveats).toContain("Built-in skills can be disabled");
+    expect(featureSupportFor(goose).skills).toBe(true);
     expect(goose.evidence.find((source) => source.title === "goose v1.44.0 release")?.covers)
       .toContain("current stable version is sourced from the generated release feed");
     expect(goose.capabilities).toEqual({
@@ -1472,7 +1475,9 @@ describe("harness evidence ledger", () => {
       "https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/overview",
       "https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-custom-agents",
       "https://docs.github.com/en/copilot/reference/hooks-reference",
+      "https://github.com/github/copilot-cli/releases/tag/v1.0.77",
     ]));
+    expect(byId.get("copilot-cli")!.tradeoffs.join(" ")).toContain("unconditional approval in autopilot disables the sandbox");
     expect(urlsFor("cursor-cli")).toContain(
       "https://github.com/cursor/cursor/tree/654b1b4775ca67aef473bd31a14c8c04a1abde2d",
     );

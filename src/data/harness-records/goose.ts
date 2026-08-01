@@ -1,6 +1,8 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
+const releaseReviewAt = "2026-08-01";
+const recordVerifiedAt = releaseReviewAt;
 
 export const goose = {
     id: "goose",
@@ -8,7 +10,7 @@ export const goose = {
     name: "goose",
     tagline: "Open standards, native apps, and broad workflow automation.",
     summary:
-      "An open-source general agent with desktop, CLI, and headless use, broad provider, subscription, and local-model access, plus MCP extensions, recipes, subagents, browser control, configurable approvals, and platform-specific isolation.",
+      "An open-source general agent with desktop, CLI, and headless use, broad provider, subscription, and local-model access, plus built-in skills, MCP extensions, recipes, subagents, browser control, configurable approvals, and platform-specific isolation.",
     logo: {
       src: "/harnesses/goose.svg",
       sourceUrl: "https://github.com/aaif-goose/goose/blob/main/ui/desktop/src/images/icon.svg",
@@ -38,7 +40,7 @@ export const goose = {
     bestFor: [
       "Open-standard and MCP-heavy workflows",
       "Users who want desktop, CLI, headless, local-model, and subscription choices",
-      "Reusable automation through recipes, extensions, and subagents",
+      "Reusable automation through built-in skills, recipes, extensions, and subagents",
     ],
     tradeoffs: [
       "Broader than a code-only specialist",
@@ -47,10 +49,11 @@ export const goose = {
       "Adversary Mode is optional, reviews only configured tools, and fails open when its reviewer fails; prompt-injection detection is also optional and cannot catch every threat",
       "ML-based prompt-injection detection can send tool-call content and recent messages to the configured classifier endpoint, while allowed commands still run with the user's full permissions",
       "goose CLI versions before 1.44.0 are affected by a high-severity arbitrary-command-execution advisory in goose review and should not be treated as equivalent to the verified release",
+      "Built-in skills can be disabled, but enabled skill instructions remain content to review separately from the harness capability",
       "Large-repository support uses analysis tools and context guards, not a documented persistent repository index or scale guarantee",
     ],
     setup: "Install the desktop app or CLI, select a provider, configure approval or sandbox controls, and enable only the extensions needed for the workflow.",
-    verifiedAt: verifiedAt,
+    verifiedAt: recordVerifiedAt,
     evidence: [
       {
         title: "Supported LLM providers",
@@ -195,6 +198,14 @@ export const goose = {
         covers: "Version-pinned security fixes, manual approval enforcement, scoped approvals, classifier hardening, and provider updates; current stable version is sourced from the generated release feed",
         kind: "official-announcement",
         verifiedAt: verifiedAt,
+      },
+      {
+        title: "goose v1.45.0 release",
+        topic: "releases-code-audit",
+        url: "https://github.com/aaif-goose/goose/releases/tag/v1.45.0",
+        covers: "Built-in skill disablement, stable agent-event identities, structured compaction summaries, air-gapped documentation roots, provider updates, and fixes",
+        kind: "official-announcement",
+        verifiedAt: releaseReviewAt,
       },
       {
         title: "GHSA-r5pp-p5r8-466r",

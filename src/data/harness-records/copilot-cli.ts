@@ -1,6 +1,8 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
+const releaseReviewAt = "2026-08-01";
+const recordVerifiedAt = releaseReviewAt;
 
 export const copilotCli = {
     id: "copilot-cli",
@@ -43,13 +45,14 @@ export const copilotCli = {
     tradeoffs: [
       "A Copilot plan or compatible custom provider configuration is required",
       "Local and cloud sandbox features are in public preview, opt-in, and have documented platform and lifecycle limits",
+      "As of 1.0.77, unconditional approval in autopilot disables the sandbox for the current session when bypass is allowed; administrators can separately enforce sandbox use through native MDM policy",
       "Git-based rewind can restore the entire workspace and delete later files or manual edits; tools-based restoration is experimental and cannot reverse external side effects",
       "Copilot Memory is a hosted public-preview feature with a 28-day unused-item retention policy rather than local durable project state",
       "Fleet increases GitHub AI Credit use because each subagent calls a model independently",
       "The public repository is a support and binary-distribution surface, not the proprietary agent implementation or product evaluation suite",
     ],
     setup: "Install `@github/copilot`, authenticate with GitHub, then configure model access, permission rules, and sandboxing before enabling autopilot or fleet workflows.",
-    verifiedAt: verifiedAt,
+    verifiedAt: recordVerifiedAt,
     evidence: [
       {
         title: "About GitHub Copilot CLI",
@@ -155,6 +158,14 @@ export const copilotCli = {
         covers: "Lifecycle event schemas, pre-tool and permission decisions, stop controls, matcher filtering, outputs, and failure behavior",
         kind: "official-docs",
         verifiedAt: verifiedAt,
+      },
+      {
+        title: "Copilot CLI 1.0.77 release",
+        topic: "execution-control",
+        url: "https://github.com/github/copilot-cli/releases/tag/v1.0.77",
+        covers: "Autopilot approval disabling the current-session sandbox when bypass is allowed, native MDM sandbox enforcement, browser OAuth defaults, and reasoning controls",
+        kind: "official-announcement",
+        verifiedAt: releaseReviewAt,
       },
       {
         title: "Copilot CLI v1.0.75 support repository",
