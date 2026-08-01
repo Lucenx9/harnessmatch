@@ -216,7 +216,7 @@ export default function MethodologyPage() {
             <div><strong>Replicated</strong><p>Two independent, compatible measurements reproduce the claim. No current harness receives this state by default.</p></div>
           </div>
           <p>States are claim-specific and need not form a simple ladder. Documentation volume is shown as coverage context only; it does not increase capability or scientific confidence.</p>
-          <p>Harness profiles group first-party sources in this fixed presentation order: {evidenceTopicOrder.map((topic) => evidenceTopicLabels[topic]).join(", ")}. Each group shows the first {evidencePreviewLimit} sources in record order and keeps every remaining source available behind a disclosure. This layout does not rank, weight, or increase the confidence of any source.</p>
+          <p>Harness profiles group first-party sources in this fixed presentation order: {evidenceTopicOrder.map((topic) => evidenceTopicLabels[topic]).join(", ")}. Each group shows {evidencePreviewLimit === 1 ? "one source" : `the first ${evidencePreviewLimit} sources`} in record order and keeps every remaining source available behind a disclosure. This layout does not rank, weight, or increase the confidence of any source.</p>
         </section>
 
         <section className="prose-section" id="research-process">

@@ -2,7 +2,7 @@ import type { EvidenceSource } from "@/lib/types";
 
 export type EvidenceTopic = NonNullable<EvidenceSource["topic"]> | "additional";
 
-export const evidencePreviewLimit = 3;
+export const evidencePreviewLimit = 1;
 export const evidenceTopicLabels: Record<EvidenceTopic, string> = {
   "product-surfaces": "Product and interfaces",
   "execution-control": "Execution and control",

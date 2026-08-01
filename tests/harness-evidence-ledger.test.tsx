@@ -34,7 +34,7 @@ describe("harness evidence ledger", () => {
 
     expect(html).toContain("First-party evidence");
     expect(html).toContain("6 first-party sources");
-    expect(html).toContain("View 1 more source");
+    expect(html).toContain("View 3 more sources");
     expect(html).toContain("Opens in a new tab");
     expect(html).not.toContain("Primary evidence");
     expect(html.indexOf("Product and interfaces")).toBeLessThan(html.indexOf("Execution and control"));

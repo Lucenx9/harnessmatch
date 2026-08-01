@@ -150,9 +150,10 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
   ].filter((value): value is string => Boolean(value)).sort().at(-1);
   const measuredRuns = benchmarkRunsForHarness(harness.id);
   const evidenceState = evidenceStateFor(harness.id);
+  const documentedArchitectureLayers = Object.values(architecture).filter((level) => level !== null).length;
 
   return (
-    <section className="section profile-page">
+    <section className="section profile-page harness-profile-page">
       <div className="shell wide-shell profile-shell">
         <header className="profile-header">
           <div className="profile-identity">
@@ -341,33 +342,6 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
           </aside>
         </div>
 
-        {membership && (
-          <HarnessMembershipSection
-            membership={membership}
-            evidenceByUrl={evidenceByUrl}
-            documentedCriteria={documentedMembershipCriteria}
-            totalCriteria={totalMembershipCriteria}
-            qualifies={qualifiesAsCodingHarness}
-          />
-        )}
-
-        <HarnessArchitectureSection
-          architecture={architecture}
-          sourceUrls={operationalRecord.sourceUrls}
-          verifiedAt={operationalRecord.verifiedAt}
-        />
-
-        <HarnessEcosystemSection
-          harnessId={harness.id}
-          inUsageLedger={harness.status === "active"}
-          releaseSnapshot={releaseSnapshot}
-          openRouterSnapshot={openRouterSnapshot}
-          ecosystemSignals={ecosystemSignals}
-          checkedAt={ecosystemCheckedAt}
-        />
-
-        <HarnessMeasurementSection repositoryAudit={repositoryAudit} measuredRuns={measuredRuns} />
-
         <section className="profile-support" aria-labelledby="support-heading">
           <div className="profile-section-heading">
             <div className="profile-section-title-with-icon">
@@ -390,34 +364,111 @@ export default async function HarnessPage({ params }: { params: Promise<{ slug: 
           </dl>
         </section>
 
-        <div className="profile-record-grid">
-          <section className="profile-evidence" id="evidence" aria-labelledby="evidence-heading">
-            <HarnessEvidenceLedger sources={harness.evidence} recordVerifiedAt={harness.verifiedAt} />
-            {harness.discovery && harness.discovery.length > 0 && (
-              <div className="profile-discovery-note">
-                <h3>Ecosystem context</h3>
-                {harness.discovery.map((source) => (
-                  <p key={source.url}>
-                    <a href={source.url} target="_blank" rel="noreferrer">{source.title}</a>
-                    {" "}{source.note} Observed {source.observedAt}.
-                  </p>
-                ))}
-              </div>
-            )}
-          </section>
-
-          <aside className="profile-setup" aria-labelledby="setup-heading">
+        <section className="profile-setup-brief" aria-labelledby="setup-heading">
+          <div>
             <h2 id="setup-heading">Getting started</h2>
             <p>{harness.setup}</p>
-            {setupEvidence
-              ? (
-                  <a className="text-link" href={setupEvidence.url} target="_blank" rel="noreferrer">
-                    Open official documentation
-                  </a>
-                )
-              : <span className="muted">No setup source is currently linked.</span>}
-          </aside>
-        </div>
+          </div>
+          {setupEvidence
+            ? (
+                <a className="text-link" href={setupEvidence.url} target="_blank" rel="noreferrer">
+                  Open official documentation
+                </a>
+              )
+            : <span className="muted">No setup source is currently linked.</span>}
+        </section>
+
+        <section className="profile-deep-dive" aria-labelledby="technical-record-heading">
+          <div className="profile-section-heading">
+            <div>
+              <h2 id="technical-record-heading">Classification and operating model</h2>
+              <p>Category fit and technical mechanisms are evidence records, not product-quality scores.</p>
+            </div>
+            <dl className="profile-deep-dive-facts" aria-label="Classification summary">
+              <div>
+                <dt>Category fit</dt>
+                <dd>
+                  {membership
+                    ? qualifiesAsCodingHarness
+                      ? `Qualifies, ${documentedMembershipCriteria}/${totalMembershipCriteria} criteria`
+                      : `Not established, ${documentedMembershipCriteria}/${totalMembershipCriteria} criteria`
+                    : "Not assessed"}
+                </dd>
+              </div>
+              <div>
+                <dt>Operating model</dt>
+                <dd>{documentedArchitectureLayers}/7 layers documented</dd>
+              </div>
+            </dl>
+          </div>
+
+          <details className="profile-disclosure">
+            <summary>
+              <span>Inspect category criteria and operating mechanisms</span>
+              <small>First-party records</small>
+            </summary>
+            <div className="profile-disclosure-body">
+              {membership && (
+                <HarnessMembershipSection
+                  membership={membership}
+                  evidenceByUrl={evidenceByUrl}
+                  documentedCriteria={documentedMembershipCriteria}
+                  totalCriteria={totalMembershipCriteria}
+                  qualifies={qualifiesAsCodingHarness}
+                />
+              )}
+
+              <HarnessArchitectureSection
+                architecture={architecture}
+                sourceUrls={operationalRecord.sourceUrls}
+                verifiedAt={operationalRecord.verifiedAt}
+              />
+            </div>
+          </details>
+        </section>
+
+        <section className="profile-secondary-records" aria-labelledby="secondary-records-heading">
+          <div className="profile-section-heading">
+            <div>
+              <h2 id="secondary-records-heading">Measured and public context</h2>
+              <p>Configuration-specific measurements and source-native activity stay separate from general product capability.</p>
+            </div>
+          </div>
+
+          <details className="profile-disclosure">
+            <summary>
+              <span>Inspect code audit, measured configurations, and ecosystem signals</span>
+              <small>Context, not a product score</small>
+            </summary>
+            <div className="profile-disclosure-body">
+              <HarnessMeasurementSection repositoryAudit={repositoryAudit} measuredRuns={measuredRuns} />
+
+              <HarnessEcosystemSection
+                harnessId={harness.id}
+                inUsageLedger={harness.status === "active"}
+                releaseSnapshot={releaseSnapshot}
+                openRouterSnapshot={openRouterSnapshot}
+                ecosystemSignals={ecosystemSignals}
+                checkedAt={ecosystemCheckedAt}
+              />
+            </div>
+          </details>
+        </section>
+
+        <section className="profile-evidence profile-evidence--full" id="evidence" aria-labelledby="evidence-heading">
+          <HarnessEvidenceLedger sources={harness.evidence} recordVerifiedAt={harness.verifiedAt} />
+          {harness.discovery && harness.discovery.length > 0 && (
+            <div className="profile-discovery-note">
+              <h3>Ecosystem context</h3>
+              {harness.discovery.map((source) => (
+                <p key={source.url}>
+                  <a href={source.url} target="_blank" rel="noreferrer">{source.title}</a>
+                  {" "}{source.note} Observed {source.observedAt}.
+                </p>
+              ))}
+            </div>
+          )}
+        </section>
       </div>
     </section>
   );
