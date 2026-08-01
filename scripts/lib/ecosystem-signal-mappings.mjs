@@ -218,4 +218,10 @@ export const githubReleaseArtifacts = [
     includePatterns: [String.raw`^zoo-code-\d+\.\d+\.\d+\.vsix$`],
     artifactScope: "Stable Zoo Code VSIX extension archives",
   },
+  {
+    harnessId: "ggcode",
+    includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`],
+    includePatterns: [String.raw`^ggcode_(?:darwin|linux|windows)_(?:arm64|x86_64)\.(?:tar\.gz|zip)$`],
+    artifactScope: "Stable GGCode CLI platform archives",
+  },
 ];

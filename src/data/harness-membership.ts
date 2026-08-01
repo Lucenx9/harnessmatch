@@ -297,6 +297,12 @@ const membershipDefinitions: Record<string, MembershipDefinition> = {
     activeContextManagement: ["Kern context management", "Kern durable memory"],
     runtimeControl: "Kern configuration",
   }),
+  ggcode: documentedCodingHarness({
+    adaptiveLoop: "Agent loop implementation",
+    environmentMutation: "Built-in tool registry",
+    activeContextManagement: ["Context manager implementation", "Project memory"],
+    runtimeControl: ["Permission modes", "Providers and endpoints"],
+  }),
 };
 
 export function getHarnessMembershipAssessment(

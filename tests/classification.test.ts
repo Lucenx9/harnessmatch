@@ -75,6 +75,7 @@ describe("harness classification", () => {
       "opensquilla",
       "postqode",
       "kern",
+      "ggcode",
     ]);
   });
 

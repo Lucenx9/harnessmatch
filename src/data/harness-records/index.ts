@@ -41,6 +41,7 @@ import { deepagentsCode } from "./deepagents-code";
 import { opensquilla } from "./opensquilla";
 import { postqode } from "./postqode";
 import { kern } from "./kern";
+import { ggcode } from "./ggcode";
 import type { HarnessRecord } from "./types";
 
 export const harnessRecords: HarnessRecord[] = [
@@ -87,4 +88,5 @@ export const harnessRecords: HarnessRecord[] = [
   opensquilla,
   postqode,
   kern,
+  ggcode,
 ];

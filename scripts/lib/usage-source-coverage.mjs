@@ -12,13 +12,13 @@ export const unmappedHarnessIdsByUsageSource = {
   ],
   homebrew: [
     "amp", "codebuff", "coder-agents", "command-code", "crush",
-    "deepagents-code", "junie-cli", "kern", "kilo-code", "mini-swe-agent", "mux",
+    "deepagents-code", "ggcode", "junie-cli", "kern", "kilo-code", "mini-swe-agent", "mux",
     "omp", "openhands", "opensquilla", "poolside-cli", "postqode", "stagewise",
     "wakil", "zcode", "zoo-code",
   ],
   npm: [
     "aider", "antigravity-cli", "coder-agents", "command-code", "cursor-cli",
-    "deepagents-code", "forgecode", "goose", "grok-build", "hermes-agent",
+    "deepagents-code", "forgecode", "ggcode", "goose", "grok-build", "hermes-agent",
     "junie-cli", "kern", "kiro-cli", "mini-swe-agent", "mistral-vibe", "mux",
     "openhands", "opensquilla", "poolside-cli", "stagewise", "wakil", "zcode",
     "zoo-code",
@@ -26,7 +26,7 @@ export const unmappedHarnessIdsByUsageSource = {
   vscode: [
     "aider", "amp", "antigravity-cli", "codebuff", "coder-agents", "command-code",
     "copilot-cli", "crush", "cursor-cli", "deepagents-code", "forgecode", "goose",
-    "grok-build", "hermes-agent", "junie-cli", "kern", "kimi-code", "kiro-cli",
+    "ggcode", "grok-build", "hermes-agent", "junie-cli", "kern", "kimi-code", "kiro-cli",
     "letta-code", "mini-swe-agent", "mux", "omp", "openclaw", "opencode",
     "openhands", "opensquilla", "pi", "poolside-cli", "postqode", "stagewise",
     "wakil", "zcode",
@@ -34,7 +34,7 @@ export const unmappedHarnessIdsByUsageSource = {
   openvsx: [
     "aider", "amp", "antigravity-cli", "codebuff", "coder-agents", "command-code",
     "copilot-cli", "crush", "cursor-cli", "deepagents-code", "factory-droid",
-    "forgecode", "goose", "grok-build", "hermes-agent", "junie-cli", "kern",
+    "forgecode", "ggcode", "goose", "grok-build", "hermes-agent", "junie-cli", "kern",
     "kimi-code", "kiro-cli", "letta-code", "mini-swe-agent", "mux", "omp",
     "openclaw", "opencode", "openhands", "opensquilla", "pi", "poolside-cli",
     "postqode", "stagewise", "wakil", "zcode",
@@ -42,7 +42,7 @@ export const unmappedHarnessIdsByUsageSource = {
   jetbrains: [
     "aider", "amp", "antigravity-cli", "codebuff", "coder-agents", "codex",
     "command-code", "copilot-cli", "crush", "cursor-cli", "deepagents-code",
-    "forgecode", "gemini-cli", "goose", "grok-build", "hermes-agent", "kern",
+    "forgecode", "gemini-cli", "ggcode", "goose", "grok-build", "hermes-agent", "kern",
     "kimi-code", "kiro-cli", "letta-code", "mini-swe-agent", "mistral-vibe",
     "mux", "omp", "openclaw", "opencode", "openhands", "opensquilla", "pi",
     "poolside-cli", "postqode", "qwen-code", "stagewise", "wakil", "zcode",

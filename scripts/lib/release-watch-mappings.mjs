@@ -19,6 +19,7 @@ export const githubReleaseWatches = [
   { harnessId: "forgecode", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },
   { harnessId: "gemini-cli", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },
   { harnessId: "goose", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },
+  { harnessId: "ggcode", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },
   { harnessId: "hermes-agent", includeTagPatterns: [String.raw`^v\d{4}\.\d+\.\d+$`] },
   {
     harnessId: "junie-cli",

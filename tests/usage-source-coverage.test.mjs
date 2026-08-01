@@ -49,6 +49,7 @@ describe("usage source coverage", () => {
     expect(openRouterApps.map(({ harnessId }) => harnessId)).toEqual(expect.arrayContaining([
       "command-code", "codebuff", "opensquilla", "poolside-cli", "crush",
       "postqode", "kern", "junie-cli", "wakil",
+      "ggcode",
     ]));
     expect(homebrewArtifacts).toEqual(expect.arrayContaining([
       expect.objectContaining({ harnessId: "antigravity-cli", artifactId: "antigravity-cli" }),
@@ -71,7 +72,7 @@ describe("usage source coverage", () => {
     ]));
     expect(githubReleaseArtifacts.map(({ harnessId }) => harnessId)).toEqual(expect.arrayContaining([
       "cline", "crush", "deepagents-code", "kilo-code", "kimi-code",
-      "mistral-vibe", "opensquilla", "poolside-cli", "zoo-code",
+      "mistral-vibe", "opensquilla", "poolside-cli", "zoo-code", "ggcode",
     ]));
   });
 });

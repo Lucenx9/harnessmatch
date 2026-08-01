@@ -545,6 +545,19 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
     "Kern persists JSONL transcripts, local vector recall, notes, logs, and subagent records. Runtime control is a coarse read, write, or full tool scope rather than per-call approval; optional Docker wraps the service rather than each task, and running subagents do not recover across process restarts.",
     refreshedAt,
   ),
+  ggcode: record(
+    { context: "persistent", permissions: "policy", verification: "workflow-gated", observability: "traces", recovery: "checkpoint" },
+    [
+      "https://github.com/topcheer/ggcode/blob/f99a960149c6d93b8b64e4e08abfc341fbaf7ca2/internal/context/manager.go",
+      "https://github.com/topcheer/ggcode/blob/f99a960149c6d93b8b64e4e08abfc341fbaf7ca2/docs/guide/project-memory.md",
+      "https://github.com/topcheer/ggcode/blob/f99a960149c6d93b8b64e4e08abfc341fbaf7ca2/docs/guide/modes.md",
+      "https://github.com/topcheer/ggcode/blob/f99a960149c6d93b8b64e4e08abfc341fbaf7ca2/docs/guide/harness.md",
+      "https://github.com/topcheer/ggcode/blob/f99a960149c6d93b8b64e4e08abfc341fbaf7ca2/internal/metrics/trace_export.go",
+      "https://github.com/topcheer/ggcode/blob/f99a960149c6d93b8b64e4e08abfc341fbaf7ca2/internal/checkpoint/checkpoint.go",
+    ],
+    "GGCode persists repository instructions and JSONL sessions, compacts live context, exports LLM and tool traces, and offers a governed worktree workflow with configured checks, delivery reports, review, approval, and promotion. The strongest verification gate applies to harness tasks rather than every interactive run. Normal execution remains on the host; bypass and autopilot weaken approvals, worktrees and path rules are not OS isolation, and file checkpoints cannot reverse shell or external side effects.",
+    "2026-08-01",
+  ),
 };
 
 const unknownRecord: OperationalProfileRecord = {

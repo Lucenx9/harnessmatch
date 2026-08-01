@@ -49,6 +49,7 @@ const firstPartyHosts: Record<string, string[]> = {
   opensquilla: ["github.com"],
   postqode: ["postqode.ai", "www.postqode.ai", "www.npmjs.com"],
   kern: ["github.com"],
+  ggcode: ["github.com"],
 };
 
 const firstPartyLogoHosts: Record<string, string> = {
@@ -95,6 +96,7 @@ const firstPartyLogoHosts: Record<string, string> = {
   opensquilla: "github.com",
   postqode: "postqode.ai",
   kern: "github.com",
+  ggcode: "github.com",
 };
 
 describe("harness evidence ledger", () => {
@@ -255,11 +257,27 @@ describe("harness evidence ledger", () => {
       sandbox: true,
       checkpoints: false,
     });
+    expect(byId.get("ggcode")?.classification).toEqual({
+      role: "coding-agent",
+      orchestration: "multi-agent-runtime",
+      runtime: "host-first",
+      isolation: ["worktree"],
+      state: "persistent-memory",
+    });
+    expect(featureSupportFor(byId.get("ggcode"))).toEqual({
+      mcp: true,
+      localModels: true,
+      subagents: true,
+      headless: true,
+      browser: true,
+      sandbox: false,
+      checkpoints: true,
+    });
   });
 
   it("admits the OpenRouter-discovered wave only through first-party membership evidence", () => {
     const byId = new Map(harnesses.map((harness) => [harness.id, harness]));
-    for (const id of ["wakil", "deepagents-code", "opensquilla", "postqode", "kern"]) {
+    for (const id of ["wakil", "deepagents-code", "opensquilla", "postqode", "kern", "ggcode"]) {
       const harness = byId.get(id);
       expect(harness, id).toBeDefined();
       expect(harness?.status).toBe("active");
@@ -273,6 +291,7 @@ describe("harness evidence ledger", () => {
     expect(featureSupportFor(byId.get("postqode")).sandbox).toBe(false);
     expect(featureSupportFor(byId.get("postqode")).subagents).toBe(false);
     expect(featureSupportFor(byId.get("kern")).localModels).toBe(true);
+    expect(featureSupportFor(byId.get("ggcode")).sandbox).toBe(false);
   });
 
   it("separates Gemini CLI enterprise continuity from the Antigravity consumer successor", () => {

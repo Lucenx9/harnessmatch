@@ -54,6 +54,12 @@ describe("OpenRouter attribution sync", () => {
       originUrl: "https://omp.sh/",
       slug: null,
     });
+    expect(openRouterApps.find(({ harnessId }) => harnessId === "ggcode")).toMatchObject({
+      appId: 4_434_691,
+      appName: "GGCode",
+      originUrl: "https://ggcode.dev/",
+      slug: null,
+    });
   });
 
   it("joins ranking rows by stable app id instead of duplicate names", () => {

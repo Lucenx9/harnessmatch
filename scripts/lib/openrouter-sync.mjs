@@ -22,6 +22,7 @@ export const openRouterApps = [
   { harnessId: "kern", appId: 3_149_465, appName: "Kern Agent", originUrl: "https://github.com/oguzbilgic/kern-ai", slug: null },
   { harnessId: "junie-cli", appId: 3_053_821, appName: "Junie", originUrl: "https://www.jetbrains.com/junie", slug: "junie" },
   { harnessId: "wakil", appId: 4_397_443, appName: "wakil", originUrl: "https://github.com/treeol/wakil", slug: null },
+  { harnessId: "ggcode", appId: 4_434_691, appName: "GGCode", originUrl: "https://ggcode.dev/", slug: null },
 ];
 
 export const rankingDatasetSourceUrl = "https://openrouter.ai/docs/agent-sdk/typescript/api-reference/datasets";

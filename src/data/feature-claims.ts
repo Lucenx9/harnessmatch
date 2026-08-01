@@ -489,6 +489,19 @@ const featureClaimSeedsByHarness = {
       "Docker isolates the deployed service; it is not a disposable per-task sandbox.",
     ),
   },
+  ggcode: {
+    mcp: documented("MCP servers"),
+    localModels: documented("Providers and endpoints"),
+    subagents: documented("Multi-agent execution modes"),
+    headless: documented("CLI and daemon modes"),
+    browser: documented("Built-in tool registry", "Browser tool implementation"),
+    checkpoints: configuredClaim(
+      "documented",
+      ["File checkpoints and undo"],
+      "In-process checkpoints for file edits made through GGCode tools",
+      "File checkpoints do not reverse shell, Git, browser, messaging, or external-service side effects.",
+    ),
+  },
 } satisfies Record<string, Partial<Record<FeatureKey, FeatureClaimSeed>>>;
 
 export const featureClaimHarnessIds = Object.keys(featureClaimSeedsByHarness);
