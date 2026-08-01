@@ -81,7 +81,7 @@ export default function UsagePage() {
               </div>
               <div>
                 <dt>Repository interest</dt>
-                <dd>GitHub stars and forks for the repository already audited by HarnessMatch, with full, client, or support scope preserved.</dd>
+                <dd>GitHub stars for the repository already audited by HarnessMatch, with full, client, or support scope preserved.</dd>
               </div>
             </dl>
           </div>

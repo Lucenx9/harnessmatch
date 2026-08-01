@@ -16,6 +16,8 @@ describe("usage signals explorer", () => {
     expect(html).toContain("Context, not quality");
     expect(html).toContain("How to read the source views");
     expect(html).toContain("Sources and API records");
+    expect(html).toContain("GitHub stars for the repository already audited by HarnessMatch");
+    expect(html).not.toContain("GitHub stars and forks for the repository already audited by HarnessMatch");
     expect(html).not.toContain("Explore usage");
     expect(html).not.toContain("Source-separated rankings");
   });
