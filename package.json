@@ -20,7 +20,8 @@
     "sync:usage": "npm run sync:openrouter && npm run sync:ecosystem && npm run sync:gui-signals && npm run sync:releases",
     "triage:releases": "node scripts/triage-release-updates.mjs",
     "verify": "npm run typecheck && npm run lint && npm run coverage && npm run build",
-    "verify:maintenance": "npm run check:sources && npm run verify"
+    "verify:maintenance": "npm run check:sources && npm run verify",
+    "doctor": "npx --yes react-doctor@0.9.3"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

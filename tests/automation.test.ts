@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
   allowedUsageRefreshPaths,
@@ -49,21 +49,30 @@ describe("daily usage automation", () => {
     const qualityWorkflow = readFileSync(new URL("../.github/workflows/quality.yml", import.meta.url), "utf8");
     expect(qualityWorkflow).toContain("inputs.commit_sha || github.sha");
     expect(qualityWorkflow).toContain("Exact repository commit to verify");
+    expect(qualityWorkflow).toContain("pull_request:");
+    expect(qualityWorkflow).toContain("npm audit --audit-level=high");
+    expect(qualityWorkflow).toContain("actions/dependency-review-action@");
+    expect(qualityWorkflow).toContain("fail-on-severity: high");
+    expect(qualityWorkflow).toContain("node-version: 24");
   });
 
   it("pins workflow actions and limits credential exposure", () => {
-    const workflows = ["daily-usage-refresh.yml", "quality.yml"].map((name) => ({
+    const workflowNames = readdirSync(new URL("../.github/workflows/", import.meta.url))
+      .filter((name) => name.endsWith(".yml"));
+    const workflows = workflowNames.map((name) => ({
       name,
       source: readFileSync(new URL(`../.github/workflows/${name}`, import.meta.url), "utf8"),
     }));
 
     for (const workflow of workflows) {
-      const actionReferences = [...workflow.source.matchAll(/^\s*uses:\s*[^@\s]+@([^\s#]+)/gm)];
+      const actionReferences = [...workflow.source.matchAll(/^\s*(?:-\s*)?uses:\s*[^@\s]+@([^\s#]+)/gm)];
       expect(actionReferences.length, `${workflow.name} should use at least one action`).toBeGreaterThan(0);
       for (const reference of actionReferences) {
         expect(reference[1], `${workflow.name} contains a mutable action reference`).toMatch(/^[0-9a-f]{40}$/);
       }
-      expect(workflow.source).toContain("persist-credentials: false");
+      if (workflow.source.includes("actions/checkout@")) {
+        expect(workflow.source).toContain("persist-credentials: false");
+      }
     }
 
     const refreshWorkflow = workflows.find(({ name }) => name === "daily-usage-refresh.yml")?.source;
@@ -77,6 +86,13 @@ describe("daily usage automation", () => {
     expect(refreshJobHeader).not.toContain("GITHUB_TOKEN:");
     expect(refreshJobHeader).not.toContain("OPENROUTER_API_KEY:");
   });
+
+  it("keeps dependency updates scheduled for packages and workflow actions", () => {
+    const dependabot = readFileSync(new URL("../.github/dependabot.yml", import.meta.url), "utf8");
+    expect(dependabot).toContain("package-ecosystem: npm");
+    expect(dependabot).toContain("package-ecosystem: github-actions");
+    expect(dependabot.match(/interval: weekly/g)).toHaveLength(2);
+  });
 });
 
 describe("local TypeScript toolchain", () => {
@@ -84,7 +100,7 @@ describe("local TypeScript toolchain", () => {
     const packageJson = JSON.parse(
       readFileSync(new URL("../package.json", import.meta.url), "utf8"),
     ) as {
-      scripts: { typecheck: string };
+      scripts: { doctor: string; typecheck: string };
       devDependencies: { "@types/node": string };
     };
     const gitignore = readFileSync(
@@ -93,6 +109,7 @@ describe("local TypeScript toolchain", () => {
     ).split("\n");
 
     expect(packageJson.scripts.typecheck).toBe("next typegen && tsc --noEmit");
+    expect(packageJson.scripts.doctor).toBe("npx --yes react-doctor@0.9.3");
     expect(packageJson.devDependencies["@types/node"]).toMatch(/^\^20\./);
     expect(gitignore).toContain("next-env.d.ts");
   });
