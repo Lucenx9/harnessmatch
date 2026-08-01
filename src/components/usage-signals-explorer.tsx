@@ -443,11 +443,15 @@ export function UsageSignalsExplorer({
   }
 
   const showOpenRouterControls = mode === "harness" || selectedSource === "openrouter";
+  const rankScopeLabel = selectedSource === "openrouter"
+    ? openRouterView === "trending"
+      ? "OpenRouter growth rank"
+      : "Global coding-app rank"
+    : "Rank among mapped HarnessMatch products";
 
   return (
     <section className="usage-explorer" aria-labelledby="usage-explorer-heading">
       <div className="usage-mode-bar">
-        <span>Explore usage</span>
         <div className="usage-mode-tabs" role="group" aria-label="Usage explorer view">
           <button
             type="button"
@@ -468,11 +472,52 @@ export function UsageSignalsExplorer({
         </div>
       </div>
 
+      {mode === "source" && (
+        <div className="usage-source-switcher">
+          <div className="usage-source-tabs-shell">
+            <div className="usage-source-tabs" role="tablist" aria-label="Usage signal source">
+              {sourceOptions.map((option, index) => (
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={selectedSource === option.key}
+                  aria-controls="usage-ranking-panel"
+                  id={`usage-source-tab-${option.key}`}
+                  tabIndex={selectedSource === option.key ? 0 : -1}
+                  key={option.key}
+                  ref={(element) => { sourceTabRefs.current[index] = element; }}
+                  onClick={() => setSelectedSource(option.key)}
+                  onKeyDown={(event) => {
+                    if (event.key === "ArrowLeft") { event.preventDefault(); selectRelativeSource(index, -1); }
+                    if (event.key === "ArrowRight") { event.preventDefault(); selectRelativeSource(index, 1); }
+                  }}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <label className="usage-source-picker" htmlFor="usage-source-select">
+            <span>Signal source</span>
+            <select
+              id="usage-source-select"
+              value={selectedSource}
+              onChange={(event) => {
+                const source = sourceOptions.find((option) => option.key === event.target.value);
+                if (source) setSelectedSource(source.key);
+              }}
+            >
+              {sourceOptions.map((option) => (
+                <option key={option.key} value={option.key}>{option.label}</option>
+              ))}
+            </select>
+          </label>
+        </div>
+      )}
+
       <header className="usage-explorer-header">
         <div>
-          <span className="usage-explorer-kicker">
-            {mode === "source" ? "Source-separated rankings" : "Source-by-source product ledger"}
-          </span>
           <h2 id="usage-explorer-heading">
             {mode === "source"
               ? sourceTitle(selectedSource, openRouterView)
@@ -485,6 +530,13 @@ export function UsageSignalsExplorer({
               ? sourceSummary(selectedSource, openRouterView)
               : "Inspect one harness across independent public signals without combining their units or populations."}
           </p>
+          {mode === "source" && (
+            <div className="usage-explorer-meta">
+              <strong>{dateRange}</strong>
+              <span>{coverageLabel}</span>
+              <span>{rankScopeLabel}</span>
+            </div>
+          )}
         </div>
         {showOpenRouterControls && (
           <div className="usage-header-controls">
@@ -549,30 +601,6 @@ export function UsageSignalsExplorer({
 
       {mode === "source" ? (
         <div id="usage-ranking-mode">
-          <div className="usage-source-tabs-shell">
-            <div className="usage-source-tabs" role="tablist" aria-label="Usage signal source">
-              {sourceOptions.map((option, index) => (
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={selectedSource === option.key}
-                  aria-controls="usage-ranking-panel"
-                  id={`usage-source-tab-${option.key}`}
-                  tabIndex={selectedSource === option.key ? 0 : -1}
-                  key={option.key}
-                  ref={(element) => { sourceTabRefs.current[index] = element; }}
-                  onClick={() => setSelectedSource(option.key)}
-                  onKeyDown={(event) => {
-                    if (event.key === "ArrowLeft") { event.preventDefault(); selectRelativeSource(index, -1); }
-                    if (event.key === "ArrowRight") { event.preventDefault(); selectRelativeSource(index, 1); }
-                  }}
-                >
-                  {option.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
           <div
             className="usage-leaderboard-panel"
             id="usage-ranking-panel"
@@ -580,14 +608,6 @@ export function UsageSignalsExplorer({
             aria-labelledby={`usage-source-tab-${selectedSource}`}
             aria-live="polite"
           >
-            <div className="usage-leaderboard-context">
-              <p>
-                <strong>{dateRange}</strong>
-                <span>{coverageLabel}</span>
-              </p>
-              <span>{selectedSource === "openrouter" ? openRouterView === "trending" ? "OpenRouter growth rank" : "Global coding-app rank" : "Rank among mapped HarnessMatch products"}</span>
-            </div>
-
             <div className="usage-column-labels" aria-hidden="true">
               <span>Rank</span>
               <span>Harness</span>
