@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-08-01T06:46:06.618Z",
+  "updatedAt": "2026-08-01T11:49:51Z",
   "generatedBy": {
     "provider": "OpenRouter",
     "model": "openai/gpt-oss-20b",
@@ -73,7 +73,18 @@
       "releaseNotesSha256": "99f8baed9249b482cdaab731eb11a87c2a1bd8f6dcbd1b5009fe24597ed1c7b8",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-01T06:46:06.618Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-01",
+        "outcome": "no-catalog-change",
+        "rationale": "The official v0.30.0 notes and merged PR #3609 were reopened. They establish a non-persistent request-scoped toolset override whose additions remain bounded by exclusions and the existing client-tool allowlist. PRs #3600 and #3611 fix Windows shim launching and accidental implicit headless prompts without changing permission defaults, host execution, isolation, persistent state, published feature claims, membership, or operational posture; no catalog change is required.",
+        "evidenceUrls": [
+          "https://github.com/letta-ai/letta-code/releases/tag/v0.30.0",
+          "https://github.com/letta-ai/letta-code/pull/3609",
+          "https://github.com/letta-ai/letta-code/pull/3600",
+          "https://github.com/letta-ai/letta-code/pull/3611"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 688,
