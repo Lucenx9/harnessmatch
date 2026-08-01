@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-08-01T01:40:20.076Z",
+  "updatedAt": "2026-08-01T06:46:06.618Z",
   "generatedBy": {
     "provider": "OpenRouter",
     "model": "openai/gpt-oss-20b",
@@ -8,6 +8,164 @@
     "purpose": "AI-assisted release-note triage for editorial review; never product evidence."
   },
   "items": [
+    {
+      "key": "ggcode:v1.3.188",
+      "harnessId": "ggcode",
+      "version": "v1.3.188",
+      "releasedAt": "2026-08-01",
+      "releaseUrl": "https://github.com/topcheer/ggcode/releases/tag/v1.3.188",
+      "sourceApiUrl": "https://api.github.com/repos/topcheer/ggcode/releases/tags/v1.3.188",
+      "releaseTitle": "v1.3.188",
+      "releaseNotesSha256": "53ecad4a8af272cc28d1630b7e63039aff8b1c0ee6fa448a8df68424b7cd585c",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-01T06:46:06.618Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1118,
+        "completionTokens": 268,
+        "totalTokens": 1386
+      },
+      "triage": {
+        "summary": "v1.3.188 includes fixes to verification UX, metrics accuracy, cron reliability, and new git workflow tools. Adds git_checkout tool with safety checks and multi‑VCS checkout support.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "performance",
+            "description": "Improved TPS calculation for LLM calls."
+          },
+          {
+            "category": "compatibility",
+            "description": "Added git_checkout tool with branch validation and multi‑VCS checkout support."
+          },
+          {
+            "category": "safety",
+            "description": "git_checkout tool blocks shell injection and warns on uncommitted changes."
+          },
+          {
+            "category": "documentation",
+            "description": "None reported."
+          },
+          {
+            "category": "installation",
+            "description": "None reported."
+          }
+        ],
+        "verificationQuestions": [
+          "Is the TPS calculation change fully backward compatible with existing metrics consumers?",
+          "Does the new git_checkout tool affect existing git tool behavior or permissions?",
+          "Are there any hidden race conditions in the cron double‑fire fix that could impact scheduled job reliability?"
+        ],
+        "limitations": [
+          "The release notes do not detail whether the TPS fix changes historical metric values or how it is exposed to users."
+        ]
+      }
+    },
+    {
+      "key": "letta-code:v0.30.0",
+      "harnessId": "letta-code",
+      "version": "v0.30.0",
+      "releasedAt": "2026-08-01",
+      "releaseUrl": "https://github.com/letta-ai/letta-code/releases/tag/v0.30.0",
+      "sourceApiUrl": "https://api.github.com/repos/letta-ai/letta-code/releases/tags/v0.30.0",
+      "releaseTitle": "Release v0.30.0",
+      "releaseNotesSha256": "99f8baed9249b482cdaab731eb11a87c2a1bd8f6dcbd1b5009fe24597ed1c7b8",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-01T06:46:06.618Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 688,
+        "completionTokens": 316,
+        "totalTokens": 1004
+      },
+      "triage": {
+        "summary": "Release v0.30.0 includes several bug fixes and a new SDK feature that adds support for request‑scoped client toolsets. The changes also address Windows package manager shims, memory block counts, stream reconnects, and headless prompts. CI updates propagate stable releases to Agent SDK and ACP.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "SDK now supports request‑scoped client toolsets."
+          },
+          {
+            "category": "unknown",
+            "description": "Fixed Windows package manager shim launch safety."
+          },
+          {
+            "category": "unknown",
+            "description": "Omitted unavailable memory block counts in CLI."
+          },
+          {
+            "category": "unknown",
+            "description": "Recovered stalled split stream reconnects."
+          },
+          {
+            "category": "unknown",
+            "description": "Rejected implicit headless positional prompts in CLI."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the request‑scoped client toolset feature alter runtime control or isolation?",
+          "Are there any changes to permissions or state handling in the SDK?",
+          "Is the Windows shim fix related to security or execution context?"
+        ],
+        "limitations": [
+          "The notes do not detail the internal implementation of the new SDK feature or its impact on runtime behavior."
+        ]
+      }
+    },
+    {
+      "key": "zoo-code:v3.74.0",
+      "harnessId": "zoo-code",
+      "version": "v3.74.0",
+      "releasedAt": "2026-08-01",
+      "releaseUrl": "https://github.com/Zoo-Code-Org/Zoo-Code/releases/tag/v3.74.0",
+      "sourceApiUrl": "https://api.github.com/repos/Zoo-Code-Org/Zoo-Code/releases/tags/v3.74.0",
+      "releaseTitle": "Zoo Code v3.74.0",
+      "releaseNotesSha256": "85e032be07115f5ab67fe28ccc7ed5dd571190087c87cc3499b8673dfb132bdc",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-01T06:46:06.618Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1322,
+        "completionTokens": 384,
+        "totalTokens": 1706
+      },
+      "triage": {
+        "summary": "Minor changes to Zoo Code v3.74.0 including new priority modes, reasoning options, provider metadata handling, model refresh reliability, DNS fix, provider identifier canonicalization, task scheduler, API service tiers, security updates, and various bug fixes.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "performance",
+            "description": "Add Fast priority mode for OpenAI Codex and higher reasoning-effort options for OpenAI-compatible models."
+          },
+          {
+            "category": "compatibility",
+            "description": "Fetch router-provider model metadata before context decisions; use base URL for Ollama refreshes; fix Amazon Bedrock DNS with corporate proxy."
+          },
+          {
+            "category": "documentation",
+            "description": "Replace Roo branding with Zoo branding."
+          },
+          {
+            "category": "performance",
+            "description": "Introduce semaphore-based task scheduler and TaskRegistry for controlled task execution."
+          },
+          {
+            "category": "compatibility",
+            "description": "Migrate to canonical provider identifiers across API, defaults, caches, settings, flows, webview."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "Unclear if any changes affect runtime control, state, or permissions; no explicit mention of new capabilities or deprecations."
+        ]
+      }
+    },
     {
       "key": "antigravity-cli:1.1.9",
       "harnessId": "antigravity-cli",
