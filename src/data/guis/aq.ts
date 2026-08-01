@@ -2,7 +2,7 @@ import type { GuiProduct } from "@/lib/gui-types";
 import { documented, guiVerifiedAt, source } from "./helpers";
 
 const docs = "https://aq.dev/docs/";
-const product = "https://www.aq.dev/";
+const product = "https://aq.dev/";
 const parallelGuide = "https://aq.dev/guides/run-multiple-claude-code-sessions-in-parallel/";
 const remoteGuide = "https://aq.dev/guides/keep-claude-code-running-after-closing-laptop/";
 

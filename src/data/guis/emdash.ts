@@ -12,7 +12,7 @@ export const emdash: GuiProduct = {
     sourceUrl: "https://emdash.ai/icon.svg?icon.ccc521cf.svg",
     verifiedAt: guiVerifiedAt,
   },
-  url: "https://emdash.sh/",
+  url: "https://emdash.ai/",
   status: "active",
   layer: "multi-harness-workspace",
   sourceAccess: "open-source",
