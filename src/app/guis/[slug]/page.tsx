@@ -10,6 +10,7 @@ import { guiProductById, guiProducts } from "@/data/gui-products";
 import { guiCapabilityLabels } from "@/lib/gui-labels";
 import { guiEcosystemSignalsByProduct } from "@/data/gui-ecosystem-signals";
 import { guiRepositoryAuditFor } from "@/data/gui-repository-audits";
+import { classifyGuiFit, guiFitBandLabels, guiWorkflows } from "@/lib/gui-fit";
 import { namedHarnesses } from "@/lib/gui-harness-coverage";
 import { guiProfileDescription, pageMetadata } from "@/lib/site";
 import type { GuiCapabilityKey, GuiClaimState, GuiLayer, GuiSourceAccess } from "@/lib/gui-types";
@@ -73,6 +74,12 @@ export default async function GuiProfilePage({ params }: { params: Promise<{ slu
   const namedIntegrations = namedHarnesses(product);
   const activitySignals = (guiEcosystemSignalsByProduct.get(product.id) ?? [])
     .toSorted((left, right) => activitySourceOrder[left.source] - activitySourceOrder[right.source]);
+  const workflowFits = guiWorkflows.map((workflow) => ({
+    workflow,
+    fit: classifyGuiFit(product, workflow),
+  }));
+  const documentedCapabilityCount = Object.values(product.capabilities)
+    .filter((claim) => claim.state === "documented").length;
 
   return (
     <section className="section profile-page gui-profile-page">
@@ -102,7 +109,7 @@ export default async function GuiProfilePage({ params }: { params: Promise<{ slu
 
         <div className="profile-analysis-grid">
           <article className="profile-summary-panel">
-            <h2>Workflow record</h2>
+            <h2>At a glance</h2>
             <p className="profile-summary">{product.bestFor}</p>
             <div className="profile-considerations-grid">
               <section>
@@ -126,46 +133,37 @@ export default async function GuiProfilePage({ params }: { params: Promise<{ slu
             <h2 id="gui-quick-facts-heading">Quick facts</h2>
             <dl className="profile-spec-list">
               <div><dt>Platforms</dt><dd>{product.platforms.join(", ")}</dd></div>
-              <div><dt>GUI layer</dt><dd>{layerLabels[product.layer]}</dd></div>
+              <div><dt>Harness access</dt><dd>{product.acceptsArbitraryCli ? "Arbitrary CLI and named presets" : "Named integrations only"}</dd></div>
               <div><dt>Named harnesses</dt><dd>{namedIntegrations.length}</dd></div>
-              <div><dt>Arbitrary CLI</dt><dd>{product.acceptsArbitraryCli ? "Documented" : "Not documented"}</dd></div>
-              <div><dt>Public activity feeds</dt><dd>{activitySignals.length}</dd></div>
-              <div><dt>Code audit</dt><dd>{audit ? "Pinned commit inspected" : "No public implementation"}</dd></div>
-              <div><dt>Logo provenance</dt><dd><a href={product.logo.sourceUrl} target="_blank" rel="noreferrer">Official asset</a></dd></div>
+              <div><dt>Mechanisms</dt><dd>{documentedCapabilityCount}/5 documented</dd></div>
+              <div><dt>Evidence basis</dt><dd>{audit ? "Docs and pinned code audit" : "First-party documentation"}</dd></div>
             </dl>
           </aside>
         </div>
 
-        {product.preview && <GuiProductPreview id={product.id} name={product.name} preview={product.preview} />}
-
-        {activitySignals.length > 0 && (
-          <section className="gui-profile-signals" aria-labelledby="gui-profile-signals-heading">
-            <div className="profile-section-heading">
-              <div>
-                <h2 id="gui-profile-signals-heading">Public activity signals</h2>
-                <p>Daily source snapshots provide ecosystem context only. They do not affect workflow fit or capability claims.</p>
-              </div>
-              <span>{activitySignals.length} mapped source{activitySignals.length === 1 ? "" : "s"}</span>
+        <section className="gui-profile-workflows" aria-labelledby="gui-workflows-heading">
+          <div className="profile-section-heading">
+            <div>
+              <h2 id="gui-workflows-heading">Workflow fit</h2>
+              <p>Existing evidence gates classify four predefined workflows. Bands are non-numeric and do not rank product quality.</p>
             </div>
-            <ul>
-              {activitySignals.map((signal) => (
-                <li key={signal.source}>
-                  <span>{signal.source === "homebrew"
-                    ? "Homebrew distribution"
-                    : signal.source === "github-releases" ? "GitHub installers" : "GitHub repository"}</span>
-                  <strong>{new Intl.NumberFormat("en-US").format(signal.value)}</strong>
-                  <p>{signal.source === "homebrew"
-                    ? `install events over 30 days · v${signal.latestVersion.split(",")[0]}`
-                    : signal.source === "github-releases"
-                      ? `stable installer downloads · ${signal.recentReleaseCount} releases in ${signal.recentReleaseWindowDays} days`
-                      : `stars · ${new Intl.NumberFormat("en-US").format(signal.forks)} forks`}</p>
-                  <small>Observed <time dateTime={signal.observedAt}>{signal.observedAt}</time></small>
-                  <a href={signal.artifactUrl} target="_blank" rel="noreferrer">Open source record</a>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
+          </div>
+          <ul>
+            {workflowFits.map(({ workflow, fit }) => (
+              <li className={`gui-profile-workflow gui-profile-workflow--${fit.fitBand}`} key={workflow.id}>
+                <div className="gui-profile-workflow-heading">
+                  <VisualIcon name={workflow.id} />
+                  <div>
+                    <h3>{workflow.label}</h3>
+                    <span>{guiFitBandLabels[fit.fitBand]}</span>
+                  </div>
+                </div>
+                <p>{workflow.description}</p>
+                <small>{fit.why}</small>
+              </li>
+            ))}
+          </ul>
+        </section>
 
         <section className="profile-support gui-profile-harnesses" aria-labelledby="gui-harnesses-heading">
           <div className="profile-section-heading">
@@ -191,7 +189,7 @@ export default async function GuiProfilePage({ params }: { params: Promise<{ slu
               <h2 id="gui-capabilities-heading">Workflow mechanisms</h2>
               <p>Unknown means the current first-party record does not establish the mechanism; it is not converted into evidence of absence.</p>
             </div>
-            <span>{Object.values(product.capabilities).filter((claim) => claim.state === "documented").length} of 5 documented</span>
+            <span>{documentedCapabilityCount} of 5 documented</span>
           </div>
           <ul>
             {Object.entries(product.capabilities).map(([key, claim]) => (
@@ -216,28 +214,74 @@ export default async function GuiProfilePage({ params }: { params: Promise<{ slu
           </ul>
         </section>
 
-        <div className="gui-profile-record-grid">
-          <section className="profile-evidence" id="evidence" aria-labelledby="gui-evidence-heading">
-            <GuiProfileEvidenceLedger sources={product.evidence} recordVerifiedAt={product.verifiedAt} />
-          </section>
+        {product.preview && <GuiProductPreview id={product.id} name={product.name} preview={product.preview} />}
 
-          <aside className="gui-profile-code-record" aria-labelledby="gui-code-record-heading">
-            <h2 id="gui-code-record-heading">Implementation record</h2>
-            {audit ? (
-              <>
-                <p>Inspected at commit <a href={`${audit.repositoryUrl}/tree/${audit.inspectedRef}`} target="_blank" rel="noreferrer"><code>{audit.inspectedRef.slice(0, 12)}</code></a>.</p>
-                <ul>{audit.established.map((finding) => <li key={finding}>{finding}</li>)}</ul>
-                <details>
-                  <summary>Inspected paths</summary>
-                  <ul>{audit.inspectedPaths.map((path) => <li key={path}><code>{path}</code></li>)}</ul>
-                </details>
-                <p className="gui-audit-limitation">{audit.limitation}</p>
-              </>
-            ) : (
-              <p>The GUI implementation is proprietary. Current claims rely on first-party product documentation rather than a public-code inspection.</p>
-            )}
-          </aside>
-        </div>
+        <section className="profile-secondary-records gui-profile-secondary-records" aria-labelledby="gui-secondary-records-heading">
+          <div className="profile-section-heading">
+            <div>
+              <h2 id="gui-secondary-records-heading">Technical and public context</h2>
+              <p>Implementation inspection and source-native activity provide investigation context. Neither changes workflow fit.</p>
+            </div>
+          </div>
+
+          <details className="profile-disclosure">
+            <summary>
+              <span>Inspect implementation record and public activity</span>
+              <small>Context, not workflow fit</small>
+            </summary>
+            <div className="profile-disclosure-body">
+              {activitySignals.length > 0 && (
+                <section className="gui-profile-signals" aria-labelledby="gui-profile-signals-heading">
+                  <div className="profile-section-heading">
+                    <div>
+                      <h2 id="gui-profile-signals-heading">Public activity signals</h2>
+                      <p>Daily source snapshots provide ecosystem context only. They do not affect workflow fit or capability claims.</p>
+                    </div>
+                    <span>{activitySignals.length} mapped source{activitySignals.length === 1 ? "" : "s"}</span>
+                  </div>
+                  <ul>
+                    {activitySignals.map((signal) => (
+                      <li key={signal.source}>
+                        <span>{signal.source === "homebrew"
+                          ? "Homebrew distribution"
+                          : signal.source === "github-releases" ? "GitHub installers" : "GitHub repository"}</span>
+                        <strong>{new Intl.NumberFormat("en-US").format(signal.value)}</strong>
+                        <p>{signal.source === "homebrew"
+                          ? `install events over 30 days · v${signal.latestVersion.split(",")[0]}`
+                          : signal.source === "github-releases"
+                            ? `stable installer downloads · ${signal.recentReleaseCount} releases in ${signal.recentReleaseWindowDays} days`
+                            : `stars · ${new Intl.NumberFormat("en-US").format(signal.forks)} forks`}</p>
+                        <small>Observed <time dateTime={signal.observedAt}>{signal.observedAt}</time></small>
+                        <a href={signal.artifactUrl} target="_blank" rel="noreferrer">Open source record</a>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
+
+              <section className="gui-profile-code-record gui-profile-code-record--full" aria-labelledby="gui-code-record-heading">
+                <h2 id="gui-code-record-heading">Implementation record</h2>
+                {audit ? (
+                  <>
+                    <p>Inspected at commit <a href={`${audit.repositoryUrl}/tree/${audit.inspectedRef}`} target="_blank" rel="noreferrer"><code>{audit.inspectedRef.slice(0, 12)}</code></a>.</p>
+                    <ul>{audit.established.map((finding) => <li key={finding}>{finding}</li>)}</ul>
+                    <details>
+                      <summary>Inspected paths</summary>
+                      <ul>{audit.inspectedPaths.map((path) => <li key={path}><code>{path}</code></li>)}</ul>
+                    </details>
+                    <p className="gui-audit-limitation">{audit.limitation}</p>
+                  </>
+                ) : (
+                  <p>The GUI implementation is proprietary. Current claims rely on first-party product documentation rather than a public-code inspection.</p>
+                )}
+              </section>
+            </div>
+          </details>
+        </section>
+
+        <section className="profile-evidence profile-evidence--full" id="evidence" aria-labelledby="gui-evidence-heading">
+          <GuiProfileEvidenceLedger sources={product.evidence} recordVerifiedAt={product.verifiedAt} />
+        </section>
       </div>
     </section>
   );

@@ -143,6 +143,7 @@
 
 .gui-profile-back { width: fit-content; display: inline-flex; margin-bottom: 22px; color: var(--muted); font: 560 .68rem/1.3 var(--font-mono); }
 .gui-profile-back:hover { color: var(--accent-strong); }
+.gui-profile-page .profile-shell { gap: 44px; }
 .gui-profile-page .profile-identity { margin-bottom: 18px; }
 .gui-profile-page .profile-considerations-grid p { margin: 0; color: var(--muted-strong); font-size: .84rem; line-height: 1.65; }
 .profile-consideration-heading { display: flex; align-items: center; gap: 10px; margin-bottom: 17px; }
@@ -153,7 +154,7 @@
 .profile-consideration-heading .visual-icon--check-first { color: var(--warning); background: color-mix(in srgb, var(--warning) 7%, var(--surface)); }
 .gui-profile-page .profile-spec-list a { color: var(--accent-strong); text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
 .gui-product-preview { width: min(100%, 1180px); overflow: hidden; margin: 0 auto; border: 1px solid var(--line-strong); border-radius: var(--radius); background: #08080a; }
-.gui-product-preview-media { position: relative; display: grid; place-items: center; width: 100%; height: min(68dvh, 680px); overflow: hidden; background: #08080a; }
+.gui-product-preview-media { position: relative; display: grid; place-items: center; width: 100%; height: min(54dvh, 560px); overflow: hidden; background: #08080a; }
 .gui-product-preview-media img, .gui-product-preview-media video { width: auto; max-width: 100%; height: 100%; display: block; object-fit: contain; }
 .gui-product-preview figcaption { min-height: 62px; display: flex; align-items: center; justify-content: space-between; gap: 28px; padding: 13px 16px; border-top: 1px solid var(--line-strong); background: var(--surface-strong); color: var(--muted-strong); font-size: .7rem; line-height: 1.5; }
 .gui-product-preview-meta { flex: none; display: flex; align-items: center; gap: 14px; color: var(--muted); font: 520 .6rem/1.3 var(--font-mono); }
@@ -172,6 +173,24 @@
 .gui-preview-dialog header button:active { background: var(--surface-pressed); }
 .gui-preview-dialog-media { min-width: 0; min-height: 0; display: grid; place-items: center; padding: 16px; overflow: auto; }
 .gui-preview-dialog-media img, .gui-preview-dialog-media video { width: auto; max-width: 100%; height: auto; max-height: 100%; display: block; object-fit: contain; }
+.gui-profile-workflows { padding-top: 34px; border-top: 1px solid var(--line-strong); }
+.gui-profile-workflows > .profile-section-heading { margin-bottom: 23px; }
+.gui-profile-workflows > ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; padding: 0; border-block: 1px solid var(--line); list-style: none; }
+.gui-profile-workflow { min-width: 0; min-height: 188px; display: flex; flex-direction: column; padding: 20px 22px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.gui-profile-workflow:nth-child(even) { border-right: 0; }
+.gui-profile-workflow:nth-last-child(-n+2) { border-bottom: 0; }
+.gui-profile-workflow-heading { display: flex; align-items: flex-start; gap: 11px; }
+.gui-profile-workflow-heading .visual-icon { width: 34px; height: 34px; border-radius: 8px; }
+.gui-profile-workflow-heading .visual-icon svg { width: 18px; height: 18px; }
+.gui-profile-workflow-heading > div { min-width: 0; display: grid; gap: 6px; }
+.gui-profile-workflow h3 { margin: 0; color: var(--text); font-size: .82rem; line-height: 1.35; }
+.gui-profile-workflow-heading span { width: fit-content; font: 590 .59rem/1.3 var(--font-mono); }
+.gui-profile-workflow--strong .gui-profile-workflow-heading span { color: var(--success); }
+.gui-profile-workflow--good .gui-profile-workflow-heading span { color: var(--accent-strong); }
+.gui-profile-workflow--conditional .gui-profile-workflow-heading span { color: var(--warning); }
+.gui-profile-workflow--not-eligible .gui-profile-workflow-heading span { color: var(--danger); }
+.gui-profile-workflow > p { margin: 17px 0 8px; color: var(--muted-strong); font-size: .72rem; line-height: 1.5; }
+.gui-profile-workflow > small { margin-top: auto; color: var(--muted); font-size: .64rem; line-height: 1.5; }
 .profile-section-title-with-icon { display: flex; align-items: flex-start; gap: 13px; }
 .profile-section-title-with-icon > div { min-width: 0; }
 .profile-section-title-with-icon .visual-icon { margin-top: 2px; }
@@ -203,6 +222,8 @@
 .gui-profile-code-record details { margin: 18px 0; border-block: 1px solid var(--line); }
 .gui-profile-code-record details > summary { min-height: 46px; display: flex; align-items: center; color: var(--muted-strong); font-size: .7rem; font-weight: 650; cursor: pointer; }
 .gui-profile-code-record details ul { display: grid; gap: 7px; padding: 0 0 16px 17px; }
+.gui-profile-code-record.gui-profile-code-record--full { margin: 0; padding: 0; border: 0; }
+.gui-profile-secondary-records .profile-disclosure-body { gap: 38px; }
 
 .site-footer { margin-top: 72px; border-top: 1px solid var(--line); }
 .footer-inner { min-height: 178px; display: flex; justify-content: space-between; align-items: center; gap: 30px; }

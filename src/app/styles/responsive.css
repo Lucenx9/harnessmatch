@@ -119,6 +119,7 @@
   .gui-profile-capabilities h3 { min-height: 0; }
   .gui-profile-claim-sources { margin-top: 13px; padding-top: 0; }
   .gui-profile-code-record { margin-top: 32px; padding-top: 30px; }
+  .gui-profile-code-record.gui-profile-code-record--full { margin-top: 0; padding-top: 0; }
   .gui-profile-page .profile-header h1 { font-size: clamp(2.65rem, 13.5vw, 4rem); overflow-wrap: anywhere; }
   .gui-product-preview-media { height: auto; }
   .gui-product-preview-media img, .gui-product-preview-media video { width: 100%; height: auto; }
@@ -231,6 +232,7 @@
   .picker-list { grid-template-columns: 1fr; }
   .profile-shell { gap: 48px; }
   .harness-profile-page .profile-shell { gap: 40px; }
+  .gui-profile-page .profile-shell { gap: 40px; }
   .profile-identity { min-height: 60px; margin-bottom: 20px; }
   .profile-identity .harness-logo-large, .profile-identity .gui-logo--large { width: 60px; height: 60px; border-radius: var(--radius); }
   .profile-header h1 { font-size: clamp(3rem, 16vw, 4.6rem); }
@@ -290,6 +292,13 @@
   .profile-support-grid div:nth-child(even) { padding-right: 0; border-right: 0; }
   .profile-support-grid div:nth-last-child(-n+2) { border-bottom: 0; }
   .profile-support-grid div:last-child { border-right: 0; }
+  .gui-profile-workflows { padding-top: 29px; }
+  .gui-profile-workflows > .profile-section-heading { margin-bottom: 20px; }
+  .gui-profile-workflows > ul { grid-template-columns: 1fr; }
+  .gui-profile-workflow, .gui-profile-workflow:nth-last-child(-n+2) { min-height: 0; padding: 17px 0; border-right: 0; border-bottom: 1px solid var(--line); }
+  .gui-profile-workflow:last-child { border-bottom: 0; }
+  .gui-profile-workflow > p { margin-top: 14px; }
+  .gui-profile-workflow > small { margin-top: 8px; }
   .profile-setup-brief { min-height: 0; align-items: flex-start; flex-direction: column; gap: 14px; padding: 23px 0; }
   .profile-setup-brief > .text-link { margin-bottom: -6px; }
   .profile-deep-dive, .profile-secondary-records { padding-top: 29px; }

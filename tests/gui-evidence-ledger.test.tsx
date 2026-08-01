@@ -33,7 +33,7 @@ describe("GUI evidence ledger", () => {
     expect(html).toContain("First-party evidence");
     expect(html).toContain("7 first-party sources");
     expect(html).toContain("GUI record checked");
-    expect(html).toContain("View 1 more source");
+    expect(html).toContain("View 3 more sources");
     expect(html).toContain("Opens in a new tab");
     expect(html.indexOf("Product and workflow")).toBeLessThan(html.indexOf("Harness integrations"));
     expect(html.indexOf("Harness integrations")).toBeLessThan(html.indexOf("Sessions, isolation and review"));
