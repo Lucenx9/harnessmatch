@@ -15,13 +15,6 @@ export const discoveryWatchlist: WatchlistCandidate[] = [
     observedAt: "2026-07-27",
   },
   {
-    name: "MiMo Code",
-    status: "needs-more-evidence",
-    reason: "The official product page documents a CLI and context features, but detailed first-party permission, runtime, and recovery documentation is still limited.",
-    sourceUrl: "https://mimo.xiaomi.com/coder",
-    observedAt: "2026-07-26",
-  },
-  {
     name: "Roo Code",
     status: "archived-lineage",
     reason: "The first-party repository was archived in May 2026. Active lineage is represented by Zoo Code and archived tools are excluded from active catalog summaries.",

@@ -6,6 +6,7 @@ export const homebrewArtifacts = [
   { harnessId: "gemini-cli", artifactId: "gemini-cli", artifactKind: "formula" },
   { harnessId: "hermes-agent", artifactId: "hermes-agent", artifactKind: "formula" },
   { harnessId: "kimi-code", artifactId: "kimi-code", artifactKind: "formula" },
+  { harnessId: "mimo-code", artifactId: "mimo-code", artifactKind: "formula" },
   { harnessId: "letta-code", artifactId: "letta-code", artifactKind: "formula" },
   { harnessId: "mistral-vibe", artifactId: "mistral-vibe", artifactKind: "formula" },
   { harnessId: "openclaw", artifactId: "openclaw-cli", artifactKind: "formula" },
@@ -31,6 +32,7 @@ export const npmPackages = [
   { harnessId: "letta-code", artifactId: "@letta-ai/letta-code", identity: { kind: "repository", value: "https://github.com/letta-ai/letta-code" } },
   { harnessId: "kilo-code", artifactId: "@kilocode/cli", identity: { kind: "repository", value: "https://github.com/Kilo-Org/kilocode" } },
   { harnessId: "kimi-code", artifactId: "@moonshot-ai/kimi-code", identity: { kind: "repository", value: "https://github.com/MoonshotAI/kimi-code" } },
+  { harnessId: "mimo-code", artifactId: "@mimo-ai/cli", identity: { kind: "repository", value: "https://github.com/XiaomiMiMo/MiMo-Code" } },
   { harnessId: "opencode", artifactId: "opencode-ai", identity: { kind: "install-page", value: "https://opencode.ai/docs/", contains: "npm install -g opencode-ai" } },
   { harnessId: "openclaw", artifactId: "openclaw", identity: { kind: "repository", value: "https://github.com/openclaw/openclaw" } },
   { harnessId: "cline", artifactId: "cline", identity: { kind: "repository", value: "https://github.com/cline/cline" } },
@@ -193,6 +195,12 @@ export const githubReleaseArtifacts = [
     includeTagPatterns: [String.raw`^@moonshot-ai/kimi-code@\d+\.\d+\.\d+$`],
     includePatterns: [String.raw`^kimi-code-(?:darwin|linux|win32)-(?:arm64|x64)\.zip$`],
     artifactScope: "Stable Kimi Code CLI platform archives",
+  },
+  {
+    harnessId: "mimo-code",
+    includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`],
+    includePatterns: [String.raw`^mimocode-(?:darwin|linux|windows)-.+\.(?:zip|tar\.gz)$`],
+    artifactScope: "Stable MiMo Code platform archives",
   },
   {
     harnessId: "mistral-vibe",

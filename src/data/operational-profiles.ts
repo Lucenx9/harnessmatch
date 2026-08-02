@@ -279,6 +279,21 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
     "Interactive sessions default to manual approval and persist structured Wire event streams with subagent histories and a session visualizer, but this is resumable state rather than learned memory or file rollback. Print mode uses unattended auto permission, can leave background work effectively unbounded, anonymous telemetry defaults on, hooks fail open, and all local tools remain host-privileged. Plugins can inject system prompts, custom agents, skills, hooks, and MCP servers across user-global installs, expanding the trust boundary. The web service is loopback and bearer-authenticated by default; its explicit bypass removes that boundary.",
     releaseReviewAt,
   ),
+  "mimo-code": record(
+    { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "checkpoint" },
+    [
+      "https://github.com/XiaomiMiMo/MiMo-Code/tree/c045a9891069000b112079bb10bdc8828d75eb6e",
+      "https://mimo.xiaomi.com/mimocode/permissions",
+      "https://mimo.xiaomi.com/mimocode/cli-options",
+      "https://mimo.xiaomi.com/mimocode/sessions",
+      "https://mimo.xiaomi.com/mimocode/agents",
+      "https://mimo.xiaomi.com/mimocode/slash-commands",
+      "https://github.com/XiaomiMiMo/MiMo-Code/blob/c045a9891069000b112079bb10bdc8828d75eb6e/packages/opencode/src/snapshot/index.ts",
+      "https://github.com/XiaomiMiMo/MiMo-Code/blob/c045a9891069000b112079bb10bdc8828d75eb6e/SECURITY.md",
+    ],
+    "Persistent project memory, session compaction, structured event output, logs, per-agent policy, and Git-backed undo support inspection and recovery. Most permissions default to allow, headless execution can bypass checks, and the official security policy states that no process sandbox exists. Workflow QuickJS contains control code only; host tools and external effects remain outside that boundary. Git recovery requires a repository and excludes ignored files, untracked files over 2 MiB, and non-file side effects.",
+    "2026-08-02",
+  ),
   "letta-code": record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "managed-recovery" },
     [

@@ -12,23 +12,31 @@ import { HomeUsageSummary } from "@/components/home-usage-summary";
 import { latestVerifiedAt } from "@/lib/evidence-freshness";
 import { buildRecentReleaseActivity, buildUsageViewRecords } from "@/lib/usage-view";
 
+const latestCheckFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
 export default function HomePage() {
   const activeHarnesses = harnesses.filter((harness) => harness.status === "active");
   const primarySourcePageCount = new Set(
     activeHarnesses.flatMap((harness) => harness.evidence.map((source) => source.url)),
   ).size;
   const peerReviewedStudyCount = researchSources.filter((source) => source.maturity === "peer-reviewed").length;
-  const latestCheck = new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-    timeZone: "UTC",
-  }).format(new Date(`${latestVerifiedAt()}T00:00:00Z`));
+  const latestCheck = latestCheckFormatter.format(new Date(`${latestVerifiedAt()}T00:00:00Z`));
   const usageRecords = buildUsageViewRecords({
     harnesses,
     openRouterSnapshots: openRouterAttributionSnapshots,
     ecosystemSignals: ecosystemSignalSnapshots,
   });
+  const homeEcosystemRecords = usageRecords.ecosystemRecords.filter(({ signal }) => (
+    signal.source === "homebrew"
+    || signal.source === "npm"
+    || signal.source === "github-releases"
+    || signal.source === "vscode"
+  ));
   const recentReleaseActivity = buildRecentReleaseActivity({
     harnesses,
     releaseSnapshots: harnessReleaseSnapshots,
@@ -63,7 +71,7 @@ export default function HomePage() {
         <div className="shell">
           <HomeUsageSummary
             openRouterRecords={usageRecords.openRouterRecords}
-            ecosystemRecords={usageRecords.ecosystemRecords}
+            ecosystemRecords={homeEcosystemRecords}
             activeHarnessCount={usageRecords.activeHarnessCount}
           />
         </div>

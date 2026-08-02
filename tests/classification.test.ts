@@ -64,6 +64,7 @@ describe("harness classification", () => {
       "gemini-cli",
       "copilot-cli",
       "qwen-code",
+      "mimo-code",
       "letta-code",
       "command-code",
       "mux",

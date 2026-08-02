@@ -304,6 +304,20 @@ const featureClaimSeedsByHarness = {
     subagents: documented("Kimi Code documentation", "Configuration defaults"),
     headless: documented("Command reference"),
   },
+  "mimo-code": {
+    mcp: documented("MCP servers"),
+    skills: documented("Agent skills"),
+    localModels: documented("Model providers"),
+    subagents: documented("MiMo Code 0.1.9 source snapshot", "Agents"),
+    headless: documented("CLI options"),
+    sandbox: configuredClaim(
+      "explicitly-absent",
+      ["Pinned security policy"],
+      "Host execution; permission rules and workflow scripting are not process isolation",
+      "The official security policy explicitly states that MiMo Code has no sandbox and recommends a container or virtual machine for isolation.",
+    ),
+    checkpoints: documented("Slash commands", "Pinned Git snapshot implementation"),
+  },
   "letta-code": {
     mcp: documented("MCP tool execution model", "Pinned CLI MCP implementation"),
     skills: documented("Agent skills"),

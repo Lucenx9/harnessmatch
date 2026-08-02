@@ -50,10 +50,15 @@ describe("feature claim ledger", () => {
     expect(featureClaimFor(byId.get("aider")!, "sandbox").state).toBe("not-documented");
     const openCodeSandbox = featureClaimFor(byId.get("opencode")!, "sandbox");
     const piSandbox = featureClaimFor(byId.get("pi")!, "sandbox");
+    const mimoSandbox = featureClaimFor(byId.get("mimo-code")!, "sandbox");
     expect(openCodeSandbox.state).toBe("explicitly-absent");
     expect(piSandbox.state).toBe("explicitly-absent");
+    expect(mimoSandbox.state).toBe("explicitly-absent");
     expect(openCodeSandbox.sourceUrls).toHaveLength(1);
     expect(piSandbox.sourceUrls).toHaveLength(1);
+    expect(mimoSandbox.sourceUrls).toEqual([
+      "https://github.com/XiaomiMiMo/MiMo-Code/blob/c045a9891069000b112079bb10bdc8828d75eb6e/SECURITY.md",
+    ]);
   });
 
   it("makes mode-dependent isolation visible instead of treating it as an unconditional yes", () => {
@@ -76,6 +81,7 @@ describe("feature claim ledger", () => {
       sourceUrls: ["https://github.com/aaif-goose/goose/releases/tag/v1.45.0"],
     });
     expect(featureClaimFor(byId.get("qwen-code")!, "skills").state).toBe("optional");
+    expect(featureClaimFor(byId.get("mimo-code")!, "skills").state).toBe("documented");
     expect(featureClaimFor(byId.get("aider")!, "skills").state).toBe("not-documented");
     expect(featureClaimFor(byId.get("factory-droid")!, "skills").state).toBe("not-documented");
   });

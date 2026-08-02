@@ -49,17 +49,19 @@ describe("usage source coverage", () => {
     expect(openRouterApps.map(({ harnessId }) => harnessId)).toEqual(expect.arrayContaining([
       "command-code", "codebuff", "opensquilla", "poolside-cli", "crush",
       "postqode", "kern", "junie-cli", "wakil",
-      "ggcode",
+      "ggcode", "mimo-code",
     ]));
     expect(homebrewArtifacts).toEqual(expect.arrayContaining([
       expect.objectContaining({ harnessId: "antigravity-cli", artifactId: "antigravity-cli" }),
       expect.objectContaining({ harnessId: "grok-build", artifactId: "grok-build" }),
       expect.objectContaining({ harnessId: "kiro-cli", artifactId: "kiro-cli" }),
+      expect.objectContaining({ harnessId: "mimo-code", artifactId: "mimo-code", artifactKind: "formula" }),
     ]));
     expect(npmPackages).toEqual(expect.arrayContaining([
       expect.objectContaining({ harnessId: "amp", artifactId: "@ampcode/cli" }),
       expect.objectContaining({ harnessId: "factory-droid", artifactId: "@factory/cli" }),
       expect.objectContaining({ harnessId: "crush", artifactId: "@charmland/crush" }),
+      expect.objectContaining({ harnessId: "mimo-code", artifactId: "@mimo-ai/cli" }),
     ]));
     expect(vsCodeExtensions.map(({ harnessId }) => harnessId)).toEqual(expect.arrayContaining([
       "factory-droid", "qwen-code", "gemini-cli", "mistral-vibe", "zoo-code",
@@ -72,7 +74,7 @@ describe("usage source coverage", () => {
     ]));
     expect(githubReleaseArtifacts.map(({ harnessId }) => harnessId)).toEqual(expect.arrayContaining([
       "cline", "crush", "deepagents-code", "kilo-code", "kimi-code",
-      "mistral-vibe", "opensquilla", "poolside-cli", "zoo-code", "ggcode",
+      "mimo-code", "mistral-vibe", "opensquilla", "poolside-cli", "zoo-code", "ggcode",
     ]));
   });
 });

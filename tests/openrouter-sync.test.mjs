@@ -44,7 +44,7 @@ describe("OpenRouter attribution sync", () => {
     expect(openRouterAppUrl(sluglessApp)).toContain("/apps/url/");
   });
 
-  it("uses the current Goose and Oh-My-Pi identities", () => {
+  it("uses the current slugless app identities", () => {
     expect(openRouterApps.find(({ harnessId }) => harnessId === "goose")).toMatchObject({
       appId: 3_248_223,
       originUrl: "https://goose-docs.ai/",
@@ -59,6 +59,12 @@ describe("OpenRouter attribution sync", () => {
       appId: 4_434_691,
       appName: "GGCode",
       originUrl: "https://ggcode.dev/",
+      slug: null,
+    });
+    expect(openRouterApps.find(({ harnessId }) => harnessId === "mimo-code")).toMatchObject({
+      appId: 3_980_383,
+      appName: "mimocode",
+      originUrl: "https://mimo.xiaomi.com/coder",
       slug: null,
     });
   });

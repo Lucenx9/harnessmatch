@@ -123,10 +123,10 @@
     "harnessId": "ggcode",
     "repository": "topcheer/ggcode",
     "repositoryScope": "full-source",
-    "latestVersion": "v1.3.188",
-    "latestReleaseAt": "2026-08-01",
-    "latestReleaseUrl": "https://github.com/topcheer/ggcode/releases/tag/v1.3.188",
-    "recentReleaseCount": 211,
+    "latestVersion": "v1.3.189",
+    "latestReleaseAt": "2026-08-02",
+    "latestReleaseUrl": "https://github.com/topcheer/ggcode/releases/tag/v1.3.189",
+    "recentReleaseCount": 212,
     "recentReleaseWindowDays": 90,
     "observedAt": "2026-08-02",
     "sourceUrl": "https://api.github.com/repos/topcheer/ggcode/releases"
@@ -214,6 +214,18 @@
     "recentReleaseWindowDays": 90,
     "observedAt": "2026-08-02",
     "sourceUrl": "https://api.github.com/repos/letta-ai/letta-code/releases"
+  },
+  {
+    "harnessId": "mimo-code",
+    "repository": "XiaomiMiMo/MiMo-Code",
+    "repositoryScope": "full-source",
+    "latestVersion": "v0.1.9",
+    "latestReleaseAt": "2026-07-24",
+    "latestReleaseUrl": "https://github.com/XiaomiMiMo/MiMo-Code/releases/tag/v0.1.9",
+    "recentReleaseCount": 9,
+    "recentReleaseWindowDays": 90,
+    "observedAt": "2026-08-02",
+    "sourceUrl": "https://api.github.com/repos/XiaomiMiMo/MiMo-Code/releases"
   },
   {
     "harnessId": "mini-swe-agent",

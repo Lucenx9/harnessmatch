@@ -142,6 +142,25 @@ describe("multi-axis evidence evaluation", () => {
     expect(kimi.limitation).toContain("No dedicated coding-harness evaluation suite");
   });
 
+  it("treats MiMo Code's bundled eval fixtures as project assets rather than benchmark evidence", () => {
+    const audit = repositoryAudits.find((item) => item.harnessId === "mimo-code")!;
+    const evidence = evidenceStateFor("mimo-code");
+
+    expect(audit.inspectedRef).toBe("c045a9891069000b112079bb10bdc8828d75eb6e");
+    expect(audit.sourceScope).toBe("full-source");
+    expect(audit.signals).toEqual({
+      securityPolicy: true,
+      continuousIntegration: true,
+      automatedTests: true,
+      evaluationAssets: true,
+      contributorDocumentation: true,
+    });
+    expect(audit.limitation).toContain("bundled project-owned evaluation fixtures");
+    expect(audit.limitation).toContain("no product score is imported");
+    expect(evidence.states).toContain("code-verifiable");
+    expect(benchmarkRuns.some((run) => run.harnessId === "mimo-code")).toBe(false);
+  });
+
   it("treats Crush engineering tests as auditable artifacts, not benchmark evidence", () => {
     const audit = repositoryAudits.find((item) => item.harnessId === "crush")!;
 

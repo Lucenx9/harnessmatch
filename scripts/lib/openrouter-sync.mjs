@@ -18,6 +18,7 @@ export const openRouterApps = [
   { harnessId: "crush", appId: 2_351_296, appName: "Crush", originUrl: "https://charm.land/", slug: null },
   { harnessId: "codex", appId: 2_668_297, appName: "Codex", originUrl: "https://openai.com/codex/", slug: "codex" },
   { harnessId: "qwen-code", appId: 2_354_934, appName: "Qwen Code", originUrl: "https://github.com/QwenLM/qwen-code.git", slug: "qwen-code" },
+  { harnessId: "mimo-code", appId: 3_980_383, appName: "mimocode", originUrl: "https://mimo.xiaomi.com/coder", slug: null },
   { harnessId: "postqode", appId: 2_304_560, appName: "PostQode", originUrl: "https://postqode.ai/", slug: null },
   { harnessId: "kern", appId: 3_149_465, appName: "Kern Agent", originUrl: "https://github.com/oguzbilgic/kern-ai", slug: null },
   { harnessId: "junie-cli", appId: 3_053_821, appName: "Junie", originUrl: "https://www.jetbrains.com/junie", slug: "junie" },

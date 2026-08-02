@@ -19,6 +19,7 @@ import { qwenCode } from "./qwen-code";
 import { continueCli } from "./continue-cli";
 import { mistralVibe } from "./mistral-vibe";
 import { kimiCode } from "./kimi-code";
+import { mimoCode } from "./mimo-code";
 import { lettaCode } from "./letta-code";
 import { kiloCode } from "./kilo-code";
 import { commandCode } from "./command-code";
@@ -66,6 +67,7 @@ export const harnessRecords: HarnessRecord[] = [
   continueCli,
   mistralVibe,
   kimiCode,
+  mimoCode,
   lettaCode,
   kiloCode,
   commandCode,

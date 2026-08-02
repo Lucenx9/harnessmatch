@@ -27,6 +27,7 @@ const firstPartyHosts: Record<string, string[]> = {
   "continue-cli": ["docs.continue.dev", "github.com"],
   "mistral-vibe": ["docs.mistral.ai", "github.com", "mistral.ai"],
   "kimi-code": ["moonshotai.github.io", "github.com"],
+  "mimo-code": ["mimo.xiaomi.com", "github.com"],
   "letta-code": ["docs.letta.com", "github.com", "arxiv.org"],
   "kilo-code": ["github.com", "kilo.ai", "blog.kilo.ai"],
   "command-code": ["commandcode.ai", "github.com"],
@@ -74,6 +75,7 @@ const firstPartyLogoHosts: Record<string, string> = {
   "continue-cli": "github.com",
   "mistral-vibe": "github.com",
   "kimi-code": "github.com",
+  "mimo-code": "github.com",
   "letta-code": "github.com",
   "kilo-code": "github.com",
   "command-code": "commandcode.ai",
@@ -204,6 +206,23 @@ describe("harness evidence ledger", () => {
     expect(featureSupportFor(byId.get("mistral-vibe")).checkpoints).toBe(true);
     expect(featureSupportFor(byId.get("kimi-code")).subagents).toBe(true);
     expect(featureSupportFor(byId.get("kimi-code")).sandbox).toBe(false);
+    expect(featureSupportFor(byId.get("mimo-code"))).toMatchObject({
+      mcp: true,
+      skills: true,
+      localModels: true,
+      subagents: true,
+      headless: true,
+      browser: false,
+      sandbox: false,
+      checkpoints: true,
+    });
+    expect(byId.get("mimo-code")?.classification).toEqual({
+      role: "coding-agent",
+      orchestration: "multi-agent-runtime",
+      runtime: "host-first",
+      isolation: ["worktree"],
+      state: "persistent-memory",
+    });
     expect(featureSupportFor(byId.get("letta-code")).sandbox).toBe(true);
     expect(byId.get("letta-code")?.classification.runtime).toBe("host-first");
     expect(byId.get("letta-code")?.classification.isolation).toContain("managed-sandbox");
@@ -278,7 +297,7 @@ describe("harness evidence ledger", () => {
 
   it("admits the OpenRouter-discovered wave only through first-party membership evidence", () => {
     const byId = new Map(harnesses.map((harness) => [harness.id, harness]));
-    for (const id of ["wakil", "deepagents-code", "opensquilla", "postqode", "kern", "ggcode"]) {
+    for (const id of ["wakil", "deepagents-code", "opensquilla", "postqode", "kern", "ggcode", "mimo-code"]) {
       const harness = byId.get(id);
       expect(harness, id).toBeDefined();
       expect(harness?.status).toBe("active");
@@ -293,6 +312,36 @@ describe("harness evidence ledger", () => {
     expect(featureSupportFor(byId.get("postqode")).subagents).toBe(false);
     expect(featureSupportFor(byId.get("kern")).localModels).toBe(true);
     expect(featureSupportFor(byId.get("ggcode")).sandbox).toBe(false);
+    expect(featureSupportFor(byId.get("mimo-code")).sandbox).toBe(false);
+  });
+
+  it("adds MiMo Code from first-party evidence while keeping discovery and capability evidence separate", () => {
+    const mimo = harnesses.find((harness) => harness.id === "mimo-code")!;
+    const urls = mimo.evidence.map((source) => source.url);
+    const caveats = mimo.tradeoffs.join(" ");
+
+    expect(mimo.status).toBe("active");
+    expect(mimo.verifiedAt).toBe("2026-08-02");
+    expect(mimo.license).toBe("MIT with use restrictions");
+    expect(mimo.evidence).toHaveLength(14);
+    expect(mimo.evidence.every((source) => source.verifiedAt === mimo.verifiedAt)).toBe(true);
+    expect(new Set(urls).size).toBe(urls.length);
+    expect(urls).toEqual(expect.arrayContaining([
+      "https://github.com/XiaomiMiMo/MiMo-Code/tree/c045a9891069000b112079bb10bdc8828d75eb6e",
+      "https://mimo.xiaomi.com/mimocode/tools",
+      "https://mimo.xiaomi.com/mimocode/permissions",
+      "https://mimo.xiaomi.com/mimocode/sessions",
+      "https://mimo.xiaomi.com/mimocode/agents",
+      "https://github.com/XiaomiMiMo/MiMo-Code/blob/c045a9891069000b112079bb10bdc8828d75eb6e/SECURITY.md",
+    ]));
+    expect(mimo.discovery).toEqual([
+      expect.objectContaining({
+        url: "https://openrouter.ai/apps/url/https%3A%2F%2Fmimo.xiaomi.com%2Fcoder",
+      }),
+    ]);
+    expect(urls.some((url) => url.includes("openrouter.ai"))).toBe(false);
+    expect(caveats).toContain("no built-in process sandbox");
+    expect(caveats).toContain("untracked files larger than 2 MiB");
   });
 
   it("separates Gemini CLI enterprise continuity from the Antigravity consumer successor", () => {
