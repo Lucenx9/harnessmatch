@@ -229,6 +229,13 @@ describe("usage component interactions", () => {
     )).every((checkbox) => checkbox.hasAttribute("disabled"))).toBe(true);
     expect(view.getByText(/Linear bars use the largest mapped value in this source as 100%/)).toBeDefined();
 
+    fireEvent.change(view.getByRole("searchbox", { name: "Find harness" }), {
+      target: { value: "Aider" },
+    });
+    expect(view.getAllByRole("checkbox", { checked: true })).toHaveLength(4);
+    expect(view.getAllByRole("checkbox")).toHaveLength(4);
+    expect(explorer.querySelectorAll(".usage-ranking-row")).toHaveLength(4);
+
     await waitFor(() => {
       expect(window.location.search).toContain("mode=compare");
       expect(window.location.search).toContain("ids=");

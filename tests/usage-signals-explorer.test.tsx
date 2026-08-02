@@ -17,6 +17,10 @@ describe("usage signals explorer", () => {
     expect(html).toContain("How to read the source views");
     expect(html).toContain("focused comparison");
     expect(html).toContain("largest mapped value in the selected source is 100%");
+    expect(html).toContain("usage-bar-track");
+    expect(html).not.toContain('aria-controls="usage-ranking-mode"');
+    expect(html).not.toContain('aria-controls="usage-harness-mode"');
+    expect(html).not.toContain('aria-controls="usage-compare-mode"');
     expect(html).toContain("Sources and API records");
     expect(html).toContain("GitHub stars for the repository already audited by HarnessMatch");
     expect(html).not.toContain("GitHub stars and forks for the repository already audited by HarnessMatch");
@@ -56,6 +60,7 @@ describe("usage signals explorer", () => {
 
     expect(html).toContain("Not listed");
     expect(html).toContain("Linear bars use the largest mapped value in this source as 100%");
+    expect(html).not.toContain("usage-bar-track");
     expect(html).not.toContain("No attributed traffic");
     expect(html).not.toContain("No attributed requests");
   });

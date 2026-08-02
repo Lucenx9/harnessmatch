@@ -85,7 +85,7 @@ export default function UsagePage() {
               </div>
               <div>
                 <dt>Visual scale</dt>
-                <dd>Every bar uses a linear zero-based scale where the largest mapped value in the selected source is 100%. Exact labels, not bar length, are authoritative.</dd>
+                <dd>Every bar uses a linear zero-based scale where the largest mapped value in the selected source is 100%. Positive subpixel values retain a 1 px origin marker; exact labels remain authoritative.</dd>
               </div>
             </dl>
           </div>

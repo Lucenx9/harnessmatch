@@ -353,8 +353,10 @@
 .usage-product strong { color: var(--text); font-size: .82rem; }
 .usage-product small { margin-top: 3px; color: var(--muted); font-size: .65rem; }
 .usage-bar-cell { min-width: 0; display: grid; grid-template-rows: 11px 18px; align-content: center; gap: 7px; }
-.usage-bar { height: 11px; display: block; border-radius: 3px; background: var(--accent); transition: background .16s ease; }
-.usage-ranking-row:hover .usage-bar { background: var(--accent-strong); }
+.usage-bar-track { height: 11px; position: relative; display: block; }
+.usage-bar-track::before { content: ""; width: 1px; position: absolute; inset: 0 auto 0 0; border-radius: 1px; background: var(--accent); transition: background .16s ease; }
+.usage-bar { height: 11px; position: relative; display: block; border-radius: 3px; background: var(--accent); transition: background .16s ease; }
+.usage-ranking-row:hover .usage-bar, .usage-ranking-row:hover .usage-bar-track::before { background: var(--accent-strong); }
 .usage-bar-cell > strong { overflow: hidden; color: var(--text); font: 620 .68rem/1.2 var(--font-mono); text-overflow: ellipsis; white-space: nowrap; }
 .usage-missing { align-self: center; color: var(--muted); font: 500 .63rem/1.4 var(--font-mono); }
 .usage-secondary { min-width: 0; color: var(--muted-strong); font-variant-numeric: tabular-nums; text-align: right; }

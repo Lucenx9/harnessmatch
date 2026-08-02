@@ -24,7 +24,7 @@ Use `design-system/harnessmatch/MASTER.md` as the base. This page is a technical
 
 - Tabs use semantic `tablist`/`tab` roles, arrow-key navigation, visible focus, and at least 44px hit targets.
 - Bars communicate relative magnitude only; exact values remain visible text and screen-reader labels.
-- Bars use a linear zero-based scale anchored to the largest mapped value in the full selected source, including in focused comparisons.
+- Bars use a linear zero-based scale anchored to the largest mapped value in the full selected source, including in focused comparisons. Preserve the calculated width and use a documented 1 px origin marker for positive subpixel values rather than a misleading minimum bar length.
 - Avoid entrance animation and width transitions. Respect reduced motion globally.
 - Show at most 12 rows initially, then offer an explicit show-all control.
 - Allow a deep-linked comparison of up to four harnesses only within the same source, metric, and window. Never normalize across sources.

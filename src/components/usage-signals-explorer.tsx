@@ -326,7 +326,7 @@ function UsageRankingList({
   return (
     <>
       <p className="usage-scale-note">
-        Linear bars use the largest mapped value in this source as 100%. Exact values remain authoritative.
+        Linear bars use the largest mapped value in this source as 100%. Positive values below one display pixel retain a 1 px origin marker. Exact values remain authoritative.
         {source === "openrouter" && openRouterView === "trending"
           ? " Order follows OpenRouter excess-growth rank; bars show current-window attributed tokens."
           : ""}
@@ -362,7 +362,9 @@ function UsageRankingList({
                     <span className="usage-missing">{row.valueLabel}</span>
                   ) : (
                     <>
-                      <span className="usage-bar" style={{ width: `${barWidth}%` }} aria-hidden="true" />
+                      <span className="usage-bar-track" aria-hidden="true">
+                        <span className="usage-bar" style={{ width: `${barWidth}%` }} />
+                      </span>
                       <strong>{row.valueLabel}</strong>
                     </>
                   )}
@@ -646,10 +648,14 @@ export function UsageSignalsExplorer({
   const harnessPickerProducts = selectedProduct && !filteredHarnessProducts.some((product) => product.id === selectedProduct.id)
     ? [selectedProduct, ...filteredHarnessProducts]
     : filteredHarnessProducts;
-  const filteredCompareProducts = [...filterProducts(products, compareQuery)].sort((left, right) => {
-    const selectionOrder = Number(comparedHarnessIdSet.has(right.id)) - Number(comparedHarnessIdSet.has(left.id));
-    return selectionOrder || left.name.localeCompare(right.name);
+  const selectedCompareProducts = comparedHarnessIds.flatMap((id) => {
+    const product = products.find((candidate) => candidate.id === id);
+    return product ? [product] : [];
   });
+  const comparePickerProducts = [
+    ...selectedCompareProducts,
+    ...filterProducts(products, compareQuery).filter((product) => !comparedHarnessIdSet.has(product.id)),
+  ];
   const selectedHarnessRows = mode === "harness" && selectedProduct
     ? harnessSignalRows({
       harnessId: selectedProduct.id,
@@ -718,7 +724,6 @@ export function UsageSignalsExplorer({
           <button
             type="button"
             aria-pressed={mode === "source"}
-            aria-controls="usage-ranking-mode"
             onClick={() => setMode("source")}
           >
             By source
@@ -726,7 +731,6 @@ export function UsageSignalsExplorer({
           <button
             type="button"
             aria-pressed={mode === "harness"}
-            aria-controls="usage-harness-mode"
             onClick={() => setMode("harness")}
           >
             By harness
@@ -734,7 +738,6 @@ export function UsageSignalsExplorer({
           <button
             type="button"
             aria-pressed={mode === "compare"}
-            aria-controls="usage-compare-mode"
             onClick={() => {
               setMode("compare");
               if (comparedHarnessIds.length === 0) {
@@ -912,7 +915,7 @@ export function UsageSignalsExplorer({
             />
           </label>
           <div className="usage-compare-options">
-            {filteredCompareProducts.length > 0 ? filteredCompareProducts.map((product) => {
+            {comparePickerProducts.length > 0 ? comparePickerProducts.map((product) => {
               const isSelected = comparedHarnessIdSet.has(product.id);
               const selectionLimitReached = comparedHarnessIds.length >= maxComparedHarnesses;
               return (
