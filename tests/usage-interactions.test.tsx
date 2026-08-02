@@ -7,7 +7,7 @@ import {
   waitFor,
   within,
 } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { HomeUsageSummary } from "../src/components/home-usage-summary";
 import { UsageSignalsExplorer } from "../src/components/usage-signals-explorer";
 import { ecosystemSignalSnapshots } from "../src/data/ecosystem-signals";
@@ -20,9 +20,15 @@ const usageRecords = buildUsageViewRecords({
   openRouterSnapshots: openRouterAttributionSnapshots,
   ecosystemSignals: ecosystemSignalSnapshots,
 });
+const clipboardWriteText = vi.fn(async (_value: string) => {});
 
 beforeEach(() => {
   window.history.replaceState(null, "", "/usage");
+  clipboardWriteText.mockClear();
+  Object.defineProperty(navigator, "clipboard", {
+    configurable: true,
+    value: { writeText: clipboardWriteText },
+  });
 });
 
 afterEach(cleanup);
@@ -140,11 +146,19 @@ describe("usage component interactions", () => {
     const view = within(explorer);
 
     fireEvent.click(view.getByRole("button", { name: "By harness" }));
+    fireEvent.change(view.getByRole("searchbox", { name: "Find harness" }), {
+      target: { value: "Oh My" },
+    });
+    expect(view.getByRole("option", { name: "Oh My Pi" })).toBeDefined();
     fireEvent.change(view.getByRole("combobox", { name: "Harness" }), {
       target: { value: "omp" },
     });
     expect(view.getByText("Mapped but unlisted")).toBeDefined();
 
+    fireEvent.change(view.getByRole("searchbox", { name: "Find harness" }), {
+      target: { value: "Codex" },
+    });
+    expect(view.getByRole("option", { name: "Codex" })).toBeDefined();
     fireEvent.change(view.getByRole("combobox", { name: "Harness" }), {
       target: { value: "codex" },
     });
@@ -185,6 +199,74 @@ describe("usage component interactions", () => {
       expect(view.getByRole("heading", { name: "Aider usage signals" })).toBeDefined();
     });
     expect(view.getByRole("combobox", { name: "Harness" })).toHaveProperty("value", "aider");
+  });
+
+  it("compares at most four harnesses within one deep-linked source view", async () => {
+    const { container } = render(
+      <UsageSignalsExplorer {...usageRecords} />,
+    );
+    const explorer = container.querySelector(".usage-explorer");
+    if (!(explorer instanceof HTMLElement)) {
+      throw new Error("Expected the usage signals explorer.");
+    }
+    const view = within(explorer);
+
+    fireEvent.click(view.getByRole("button", { name: "Compare" }));
+    expect(view.getByText("2 selected")).toBeDefined();
+
+    const initiallyUnselected = view.getAllByRole("checkbox").filter((checkbox) => (
+      checkbox instanceof HTMLInputElement && !checkbox.checked
+    ));
+    const third = initiallyUnselected[0];
+    const fourth = initiallyUnselected[1];
+    if (!third || !fourth) throw new Error("Expected at least four active harnesses.");
+    fireEvent.click(third);
+    fireEvent.click(fourth);
+
+    expect(view.getByText("4 selected")).toBeDefined();
+    expect(view.getAllByRole("checkbox").filter((checkbox) => (
+      checkbox instanceof HTMLInputElement && !checkbox.checked
+    )).every((checkbox) => checkbox.hasAttribute("disabled"))).toBe(true);
+    expect(view.getByText(/Linear bars use the largest mapped value in this source as 100%/)).toBeDefined();
+
+    await waitFor(() => {
+      expect(window.location.search).toContain("mode=compare");
+      expect(window.location.search).toContain("ids=");
+    });
+
+    const currentViewCsv = view.getByRole("link", { name: "Download current view (CSV)" });
+    const csvHref = currentViewCsv.getAttribute("href");
+    if (!csvHref) throw new Error("Expected a current-view CSV data URL.");
+    const csv = decodeURIComponent(csvHref.replace("data:text/csv;charset=utf-8,", ""));
+    expect(csv).toContain("rank_scope");
+    expect(csv).toContain("harness_id");
+
+    fireEvent.click(view.getByRole("button", { name: "Copy view link" }));
+    await waitFor(() => {
+      expect(clipboardWriteText).toHaveBeenCalledWith(window.location.href);
+      expect(view.getByRole("button", { name: "Link copied" })).toBeDefined();
+    });
+  });
+
+  it("restores and validates a focused comparison URL", async () => {
+    window.history.replaceState(null, "", "/usage?mode=compare&source=github&ids=codex,aider,unknown");
+
+    const { container } = render(
+      <UsageSignalsExplorer {...usageRecords} />,
+    );
+    const explorer = container.querySelector(".usage-explorer");
+    if (!(explorer instanceof HTMLElement)) {
+      throw new Error("Expected the usage signals explorer.");
+    }
+    const view = within(explorer);
+
+    await waitFor(() => {
+      expect(view.getByRole("heading", { name: "GitHub repository interest comparison" })).toBeDefined();
+      expect(view.getByText("2 selected")).toBeDefined();
+      expect(window.location.search).toBe("?mode=compare&ids=codex%2Caider&source=github");
+    });
+    expect(view.getByText("Forks / scope")).toBeDefined();
+    expect(view.getAllByText(/repository/).length).toBeGreaterThan(0);
   });
 
   it("does not substitute another harness when the requested id is unavailable", async () => {

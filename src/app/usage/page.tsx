@@ -10,7 +10,7 @@ import { buildUsageViewRecords } from "@/lib/usage-view";
 export const metadata: Metadata = pageMetadata({
   title: "Coding harness usage signals",
   description:
-    "Compare source-separated routing, package, release, editor-marketplace, and repository signals for AI coding harnesses over time.",
+    "Compare source-separated routing, distribution, marketplace, and repository signals for AI coding harnesses with explicit scope and coverage.",
   path: "/usage",
 });
 
@@ -31,7 +31,7 @@ export default function UsagePage() {
       <div className="shell wide-shell">
         <div className="page-intro usage-page-intro">
           <h1>Coding harness usage signals</h1>
-          <p>Inspect source-separated activity by signal or harness. Every view preserves its own unit, window, coverage, and limitations.</p>
+          <p>Inspect source-separated activity by signal, harness, or focused comparison. Every view preserves its own unit, window, coverage, and limitations.</p>
         </div>
 
         <dl className="usage-reading-guide" aria-label="How to interpret usage signals">
@@ -82,6 +82,10 @@ export default function UsagePage() {
               <div>
                 <dt>Repository interest</dt>
                 <dd>GitHub stars for the repository already audited by HarnessMatch, with full, client, or support scope preserved.</dd>
+              </div>
+              <div>
+                <dt>Visual scale</dt>
+                <dd>Every bar uses a linear zero-based scale where the largest mapped value in the selected source is 100%. Exact labels, not bar length, are authoritative.</dd>
               </div>
             </dl>
           </div>
