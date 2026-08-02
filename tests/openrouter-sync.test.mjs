@@ -11,14 +11,15 @@ import { openRouterAttributionSnapshots } from "../src/data/openrouter-attributi
 
 describe("OpenRouter attribution sync", () => {
   it("keeps the generated dataset aligned with the stable app mapping", () => {
-    expect(openRouterAttributionSnapshots.map(({ harnessId, artifactId, appId, sourceUrl }) => (
-      { harnessId, artifactId, appId, sourceUrl }
+    expect(openRouterAttributionSnapshots.map(({ harnessId, artifactId, appId, sourceUrl, integrationUrl }) => (
+      { harnessId, artifactId, appId, sourceUrl, integrationUrl }
     ))).toEqual(
       openRouterApps.map((app) => ({
         harnessId: app.harnessId,
         artifactId: app.appName,
         appId: app.appId,
         sourceUrl: openRouterAppUrl(app),
+        integrationUrl: app.integrationUrl,
       })),
     );
   });

@@ -2,7 +2,7 @@ const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
 
 export const openRouterApps = [
   { harnessId: "hermes-agent", appId: 3_067_167, appName: "Hermes Agent", originUrl: "https://hermes-agent.nousresearch.com/", slug: "hermes-agent", integrationUrl: "https://openrouter.ai/docs/cookbook/coding-agents/hermes-integration" },
-  { harnessId: "kilo-code", appId: 2_262_242, appName: "Kilo Code", originUrl: "https://kilocode.ai/", slug: "kilo-code", integrationUrl: "https://kilo.ai/docs/providers/openrouter" },
+  { harnessId: "kilo-code", appId: 2_262_242, appName: "Kilo Code", originUrl: "https://kilocode.ai/", slug: "kilo-code", integrationUrl: "https://kilo.ai/docs/ai-providers/openrouter" },
   { harnessId: "openclaw", appId: 2_725_608, appName: "OpenClaw", originUrl: "https://openclaw.ai/", slug: "openclaw", integrationUrl: "https://openrouter.ai/docs/cookbook/coding-agents/openclaw-integration" },
   { harnessId: "claude-code", appId: 2_627_404, appName: "Claude Code", originUrl: "https://claude.ai/code", slug: "claude-code", integrationUrl: "https://openrouter.ai/docs/cookbook/coding-agents/claude-code-integration" },
   { harnessId: "openhands", appId: 189_563, appName: "OpenHands", originUrl: "https://docs.all-hands.dev/", slug: "openhands" },

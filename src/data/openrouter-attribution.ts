@@ -86,7 +86,7 @@ export const openRouterAttributionSnapshots: OpenRouterAttributionSnapshot[] = [
     artifactId: "Kilo Code",
     appId: 2_262_242,
     sourceUrl: "https://openrouter.ai/apps/kilo-code",
-    integrationUrl: "https://kilo.ai/docs/providers/openrouter",
+    integrationUrl: "https://kilo.ai/docs/ai-providers/openrouter",
     attributedTokens: 7_260_262_607_074,
     dailyGlobalRank: 2,
     modelsObserved: 353,
