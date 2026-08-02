@@ -93,6 +93,31 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
     "Optional memory persists project knowledge and per-tool policy is granular, but memory is off and approval defaults to yolo; subagents also run yolo. Logs, stats, and session JSONL aid inspection. Checkpoint/rewind only reshapes transcript context, so recovery remains session resume.",
     refreshedAt,
   ),
+  codewhale: record(
+    { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "checkpoint" },
+    [
+      "https://github.com/Hmbown/CodeWhale/blob/4f2c97b0d75c039a9b6069ebcf210cc499583376/docs/MEMORY.md",
+      "https://github.com/Hmbown/CodeWhale/blob/4f2c97b0d75c039a9b6069ebcf210cc499583376/docs/AUTHORIZATION_ORDER.md",
+      "https://github.com/Hmbown/CodeWhale/blob/4f2c97b0d75c039a9b6069ebcf210cc499583376/docs/SANDBOX.md",
+      "https://github.com/Hmbown/CodeWhale/blob/4f2c97b0d75c039a9b6069ebcf210cc499583376/docs/FLEET.md",
+      "https://github.com/Hmbown/CodeWhale/blob/4f2c97b0d75c039a9b6069ebcf210cc499583376/README.md",
+    ],
+    "CodeWhale persists memory and fleet events, exposes detailed turn and worker records, gates execution through ordered policy layers, checks work through tools, and supports turn restore. Local execution remains host-first when no wrapper is active; Linux sandboxing is opt-in, Windows has no advertised local OS wrapper, Full Access weakens approvals, TUI hooks do not cover headless commands, and rollback cannot reverse external side effects.",
+    latestReleaseReviewAt,
+  ),
+  openharness: record(
+    { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "session-resume" },
+    [
+      "https://github.com/HKUDS/OpenHarness/blob/9b2efd795c6aa09f88b0c257d269a9e518da6ae7/README.md",
+      "https://github.com/HKUDS/OpenHarness/blob/9b2efd795c6aa09f88b0c257d269a9e518da6ae7/src/openharness/engine/query_engine.py",
+      "https://github.com/HKUDS/OpenHarness/blob/9b2efd795c6aa09f88b0c257d269a9e518da6ae7/src/openharness/config/settings.py",
+      "https://github.com/HKUDS/OpenHarness/blob/9b2efd795c6aa09f88b0c257d269a9e518da6ae7/src/openharness/permissions/checker.py",
+      "https://github.com/HKUDS/OpenHarness/blob/9b2efd795c6aa09f88b0c257d269a9e518da6ae7/src/openharness/sandbox/adapter.py",
+      "https://github.com/HKUDS/OpenHarness/blob/9b2efd795c6aa09f88b0c257d269a9e518da6ae7/src/openharness/sandbox/docker_backend.py",
+    ],
+    "OpenHarness persists memory and session history, compacts live context, applies permission and hook policy, exposes structured headless events and debug logs, and resumes saved sessions. Its optional OS and Docker sandboxes are disabled by default, fail-open behavior is the default, full-auto bypasses confirmations, and resume restores conversational state rather than files or external side effects.",
+    latestReleaseReviewAt,
+  ),
   "grok-build": record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "checkpoint" },
     [

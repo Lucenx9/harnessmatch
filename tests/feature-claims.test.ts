@@ -67,6 +67,16 @@ describe("feature claim ledger", () => {
     expect(featureClaimFor(byId.get("codex")!, "sandbox").state).toBe("default");
     expect(featureClaimFor(byId.get("amp")!, "sandbox").state).toBe("surface-specific");
     expect(featureClaimFor(byId.get("reasonix")!, "sandbox").state).toBe("surface-specific");
+    expect(featureClaimFor(byId.get("codewhale")!, "sandbox").state).toBe("optional");
+    expect(featureClaimFor(byId.get("openharness")!, "sandbox").state).toBe("optional");
+  });
+
+  it("keeps local control surfaces separate from browser automation and rollback", () => {
+    const byId = new Map(harnesses.map((harness) => [harness.id, harness]));
+    expect(featureClaimFor(byId.get("codewhale")!, "browser").state).toBe("not-documented");
+    expect(featureClaimFor(byId.get("codewhale")!, "checkpoints").state).toBe("documented");
+    expect(featureClaimFor(byId.get("openharness")!, "browser").state).toBe("not-documented");
+    expect(featureClaimFor(byId.get("openharness")!, "checkpoints").state).toBe("not-documented");
   });
 
   it("keeps Ante browser support build-dependent and does not invent isolation or rollback", () => {

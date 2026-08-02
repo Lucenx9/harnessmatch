@@ -53,6 +53,8 @@ const firstPartyHosts: Record<string, string[]> = {
   ggcode: ["github.com"],
   ante: ["docs.antigma.ai", "github.com"],
   reasonix: ["reasonix.io", "github.com"],
+  codewhale: ["github.com"],
+  openharness: ["github.com"],
 };
 
 const firstPartyLogoHosts: Record<string, string> = {
@@ -103,6 +105,8 @@ const firstPartyLogoHosts: Record<string, string> = {
   ggcode: "github.com",
   ante: "github.com",
   reasonix: "github.com",
+  codewhale: "github.com",
+  openharness: "github.com",
 };
 
 describe("harness evidence ledger", () => {

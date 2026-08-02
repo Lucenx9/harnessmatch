@@ -63,6 +63,7 @@ describe("usage source coverage", () => {
       expect.objectContaining({ harnessId: "crush", artifactId: "@charmland/crush" }),
       expect.objectContaining({ harnessId: "mimo-code", artifactId: "@mimo-ai/cli" }),
       expect.objectContaining({ harnessId: "reasonix", artifactId: "reasonix" }),
+      expect.objectContaining({ harnessId: "codewhale", artifactId: "codewhale" }),
     ]));
     expect(vsCodeExtensions.map(({ harnessId }) => harnessId)).toEqual(expect.arrayContaining([
       "factory-droid", "qwen-code", "gemini-cli", "mistral-vibe", "zoo-code", "reasonix",
@@ -76,6 +77,7 @@ describe("usage source coverage", () => {
     expect(githubReleaseArtifacts.map(({ harnessId }) => harnessId)).toEqual(expect.arrayContaining([
       "cline", "crush", "deepagents-code", "kilo-code", "kimi-code",
       "mimo-code", "mistral-vibe", "opensquilla", "poolside-cli", "zoo-code", "ggcode", "ante", "reasonix",
+      "codewhale", "openharness",
     ]));
   });
 });

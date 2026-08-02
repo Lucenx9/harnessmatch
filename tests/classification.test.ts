@@ -79,7 +79,21 @@ describe("harness classification", () => {
       "ggcode",
       "ante",
       "reasonix",
+      "codewhale",
+      "openharness",
     ]);
+  });
+
+  it("admits CodeWhale and OpenHarness only through their own four-part runtime evidence", () => {
+    for (const id of ["codewhale", "openharness"]) {
+      const harness = harnesses.find((candidate) => candidate.id === id);
+      expect(harness, id).toBeDefined();
+      const assessment = getHarnessMembershipAssessment(harness!);
+      expect(assessment?.layer).toBe("coding-harness");
+      expect(Object.values(assessment!.criteria).every((criterion) => criterion.state === "documented")).toBe(true);
+    }
+    expect(harnesses.find((candidate) => candidate.id === "openharness")?.tradeoffs.join(" "))
+      .toContain("do not transfer the capabilities");
   });
 
   it("keeps orchestration labels consistent with documented subagent support", () => {

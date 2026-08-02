@@ -60,6 +60,18 @@
     "sourceUrl": "https://api.github.com/repos/cline/cline/releases"
   },
   {
+    "harnessId": "codewhale",
+    "repository": "Hmbown/CodeWhale",
+    "repositoryScope": "full-source",
+    "latestVersion": "v0.9.3",
+    "latestReleaseAt": "2026-07-31",
+    "latestReleaseUrl": "https://github.com/Hmbown/CodeWhale/releases/tag/v0.9.3",
+    "recentReleaseCount": 61,
+    "recentReleaseWindowDays": 90,
+    "observedAt": "2026-08-02",
+    "sourceUrl": "https://api.github.com/repos/Hmbown/CodeWhale/releases"
+  },
+  {
     "harnessId": "codex",
     "repository": "openai/codex",
     "repositoryScope": "client-source",
@@ -322,6 +334,18 @@
     "recentReleaseWindowDays": 90,
     "observedAt": "2026-08-02",
     "sourceUrl": "https://api.github.com/repos/OpenHands/OpenHands/releases"
+  },
+  {
+    "harnessId": "openharness",
+    "repository": "HKUDS/OpenHarness",
+    "repositoryScope": "full-source",
+    "latestVersion": "v0.1.9",
+    "latestReleaseAt": "2026-05-07",
+    "latestReleaseUrl": "https://github.com/HKUDS/OpenHarness/releases/tag/v0.1.9",
+    "recentReleaseCount": 2,
+    "recentReleaseWindowDays": 90,
+    "observedAt": "2026-08-02",
+    "sourceUrl": "https://api.github.com/repos/HKUDS/OpenHarness/releases"
   },
   {
     "harnessId": "opensquilla",

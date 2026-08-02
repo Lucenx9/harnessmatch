@@ -29,6 +29,7 @@ const firstPartyGuiHosts: Record<string, string[]> = {
   conductor: ["www.conductor.build"],
   emdash: ["emdash.ai", "github.com"],
   nimbalyst: ["docs.nimbalyst.com", "github.com", "nimbalyst.com"],
+  qm: ["github.com"],
   superset: ["docs.superset.sh", "github.com"],
   "t3-code": ["github.com", "t3.codes"],
   webmux: ["github.com"],
@@ -120,6 +121,17 @@ describe("GUI workflow classification", () => {
       "macOS",
       "Windows",
     ]);
+  });
+
+  it("keeps QM remote collaboration separate from unresolved visual review", () => {
+    const qm = requiredGuiProduct("qm");
+    expect(qm.supportedHarnesses).toEqual(["Claude Code", "Codex", "OpenCode", "Pi"]);
+    expect(qm.acceptsArbitraryCli).toBe(false);
+    expect(qm.capabilities.visualReview.state).toBe("unknown");
+    expect(classifyGuiFit(qm, guiWorkflowById("focused-review")).fitBand).toBe("conditional");
+    expect(classifyGuiFit(qm, guiWorkflowById("parallel-local")).fitBand).toBe("good");
+    expect(classifyGuiFit(qm, guiWorkflowById("remote-control")).fitBand).toBe("strong");
+    expect(classifyGuiFit(qm, guiWorkflowById("team-workspace")).fitBand).toBe("good");
   });
 
   it("uses reopened first-party sources for Conductor local and cloud isolation", () => {

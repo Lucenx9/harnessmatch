@@ -45,6 +45,8 @@ import { kern } from "./kern";
 import { ggcode } from "./ggcode";
 import { ante } from "./ante";
 import { reasonix } from "./reasonix";
+import { codewhale } from "./codewhale";
+import { openHarness } from "./openharness";
 import type { HarnessRecord } from "./types";
 
 export const harnessRecords: HarnessRecord[] = [
@@ -95,4 +97,6 @@ export const harnessRecords: HarnessRecord[] = [
   ggcode,
   ante,
   reasonix,
+  codewhale,
+  openHarness,
 ];

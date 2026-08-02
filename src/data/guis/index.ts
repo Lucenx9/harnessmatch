@@ -5,6 +5,7 @@ import { codexDesktop } from "./codex-desktop";
 import { conductor } from "./conductor";
 import { emdash } from "./emdash";
 import { nimbalyst } from "./nimbalyst";
+import { qm } from "./qm";
 import { superset } from "./superset";
 import { t3Code } from "./t3-code";
 import { webmux } from "./webmux";
@@ -18,6 +19,7 @@ export const guiProducts: GuiProduct[] = [
   conductor,
   emdash,
   nimbalyst,
+  qm,
   superset,
   t3Code,
   webmux,

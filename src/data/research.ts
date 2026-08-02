@@ -506,6 +506,36 @@ export const researchSources: ResearchSource[] = [
     limitation:
       "It is a living observational dataset and recent preprint; public-session selection, attribution, and survival into commits do not establish causal product quality or safety rankings.",
   },
+  {
+    title: "Harness engineering: leveraging Codex in an agent-first world",
+    venue: "OpenAI Engineering 2026",
+    maturity: "guidance",
+    url: "https://openai.com/index/harness-engineering/",
+    supports:
+      "Describes repository knowledge as a versioned system of record, short navigation-first AGENTS.md guidance, worktree-local application observability, mechanically enforced architecture, executable plans, and recurring maintenance as parts of an agent-legible engineering environment.",
+    limitation:
+      "This is a self-reported five-month internal Codex case study without a matched control or independent replication. Its throughput and time estimates cannot be generalized into product capability or comparative performance claims.",
+  },
+  {
+    title: "Effective harnesses for long-running agents",
+    venue: "Anthropic Engineering 2025",
+    maturity: "guidance",
+    url: "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+    supports:
+      "Motivates explicit initialization, feature decomposition, progress artifacts, Git history, end-to-end testing, and clean handoffs so fresh sessions can continue work across context windows instead of relying on compaction alone.",
+    limitation:
+      "This is an Anthropic internal engineering experiment around the Claude Agent SDK, not a controlled cross-product benchmark. It publishes design observations rather than a replicated success-rate estimate.",
+  },
+  {
+    title: "Harness design for long-running application development",
+    venue: "Anthropic Engineering 2026",
+    maturity: "guidance",
+    url: "https://www.anthropic.com/engineering/harness-design-long-running-apps",
+    supports:
+      "Explores planner, generator, and evaluator separation; negotiated completion contracts; browser-based verification; structured handoffs; context resets versus compaction; and removing harness components as model capability changes.",
+    limitation:
+      "The reported solo and full-harness comparison used one prompt with radically different duration and cost, plus qualitative manual assessment. It does not isolate causality, supply a product benchmark, or justify a universal multi-agent advantage.",
+  },
 ];
 
 export const researchInsights: ResearchInsight[] = [

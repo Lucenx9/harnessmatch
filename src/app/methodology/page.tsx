@@ -52,7 +52,7 @@ export const metadata: Metadata = pageMetadata({
   path: "/methodology",
 });
 
-const methodologyVersion = "3.1 / 2026-08-01";
+const methodologyVersion = "3.2 / 2026-08-02";
 const capabilityLevels = [1, 2, 3, 4, 5] as const;
 const methodologySections = [
   ["scope", "Question and scope"],
@@ -144,6 +144,7 @@ export default function MethodologyPage() {
             <div><strong>{productLayerLabels["adjacent-tool"]}</strong><p>Covers gateways, pure editor assistance, evaluation harnesses, and other useful systems outside the coding-harness boundary.</p></div>
           </div>
           <p>Layer and product role are independent. A platform can qualify as a coding harness when it owns the loop; a control plane that only supervises external harnesses does not. Every layer remains available in the catalog and comparison view.</p>
+          <p>Repository-local instructions, specifications, plans, progress files, handoff artifacts, skills, hooks, and verification scripts can form a valuable harness configuration around an agent. They remain adjacent artifacts for membership purposes unless the named product itself also owns the adaptive loop, repository tool execution, active context management, and model-independent runtime control.</p>
 
           <h3>Claims and public activity</h3>
           <p>Capabilities are stored as source-linked claims rather than inferred from product names or model providers. Claim states preserve whether a mechanism is available by default, documented, optional, surface-specific, not documented, explicitly absent, or deprecated. “Not documented” remains uncertainty; “no built-in support” is used only when an admitted source says so explicitly.</p>

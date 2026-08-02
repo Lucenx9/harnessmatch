@@ -44,6 +44,7 @@ export const npmPackages = [
   { harnessId: "factory-droid", artifactId: "@factory/cli", identity: { kind: "repository", value: "https://github.com/Factory-AI/factory" } },
   { harnessId: "crush", artifactId: "@charmland/crush", identity: { kind: "repository", value: "https://github.com/charmbracelet/crush" } },
   { harnessId: "reasonix", artifactId: "reasonix", identity: { kind: "repository", value: "https://github.com/esengine/DeepSeek-Reasonix" } },
+  { harnessId: "codewhale", artifactId: "codewhale", identity: { kind: "repository", value: "https://github.com/Hmbown/CodeWhale" } },
 ];
 
 export const vsCodeExtensions = [
@@ -250,5 +251,17 @@ export const githubReleaseArtifacts = [
       String.raw`^reasonix-windows-(?:amd64|arm64)\.zip$`,
     ],
     artifactScope: "Stable Reasonix CLI platform archives",
+  },
+  {
+    harnessId: "codewhale",
+    includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`],
+    includePatterns: [String.raw`^codewhale-tui-(?:android|linux|macos|windows)-(?:arm64|x64)(?:\.exe)?$`],
+    artifactScope: "Stable CodeWhale TUI platform binaries",
+  },
+  {
+    harnessId: "openharness",
+    includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`],
+    includePatterns: [String.raw`^openharness_ai-\d+\.\d+\.\d+-py3-none-any\.whl$`],
+    artifactScope: "Stable OpenHarness Python wheels",
   },
 ];

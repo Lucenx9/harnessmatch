@@ -69,6 +69,18 @@ const membershipDefinitions: Record<string, MembershipDefinition> = {
     activeContextManagement: "Settings reference",
     runtimeControl: "Approval modes",
   }),
+  codewhale: documentedCodingHarness({
+    adaptiveLoop: "CodeWhale 0.9.3 source snapshot",
+    environmentMutation: "CodeWhale 0.9.3 source snapshot",
+    activeContextManagement: "Persistent memory",
+    runtimeControl: "Authorization order",
+  }),
+  openharness: documentedCodingHarness({
+    adaptiveLoop: "Agent loop implementation",
+    environmentMutation: "Repository tool registry",
+    activeContextManagement: ["Agent loop implementation", "Runtime settings"],
+    runtimeControl: ["Runtime settings", "Permission checker"],
+  }),
   "grok-build": documentedCodingHarness({
     adaptiveLoop: "Grok Build overview",
     environmentMutation: "CLI reference",
