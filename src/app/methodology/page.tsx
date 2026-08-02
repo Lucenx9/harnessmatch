@@ -52,7 +52,7 @@ export const metadata: Metadata = pageMetadata({
   path: "/methodology",
 });
 
-const methodologyVersion = "3.2 / 2026-08-02";
+const methodologyVersion = "3.3 / 2026-08-02";
 const capabilityLevels = [1, 2, 3, 4, 5] as const;
 const methodologySections = [
   ["scope", "Question and scope"],
@@ -121,6 +121,9 @@ export default function MethodologyPage() {
           <h2>1. Question and scope</h2>
           <p><strong>Goal:</strong> make coding harnesses easier to inspect, filter, and compare without hiding editorial assumptions inside a personalized ranking. The catalog records what a product is, which mechanisms are documented, where it runs, which public signals are observable, and what remains unknown.</p>
           <p>Model intelligence is never treated as harness capability. Product mechanisms, public activity, documentation breadth, source-code access, and benchmark configurations remain separate throughout the data model and interface.</p>
+          <h3>Monthly editorial spotlight</h3>
+          <p>The homepage may feature up to three active harnesses chosen by HarnessMatch to expose contrasting product approaches worth investigating. The selection is editorial, alphabetical, and independent of popularity, source count, capability levels, or benchmark results. It is not a ranking, an overall recommendation, or evidence from comparative HarnessMatch product trials.</p>
+          <p>The month identifies the publication period, not a source-verification date. The quality gate rejects a build once the edition no longer matches the current UTC month. Names, descriptions, limitations, and check dates come from the current catalog records, while each linked profile retains the supporting first-party evidence and its scope.</p>
         </section>
 
         <section className="prose-section" id="eligibility">
