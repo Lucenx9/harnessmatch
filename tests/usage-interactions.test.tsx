@@ -79,7 +79,9 @@ describe("usage component interactions", () => {
     }
     const view = within(explorer);
 
+    fireEvent.click(view.getByRole("tab", { name: "Latest day" }));
     fireEvent.click(view.getByRole("button", { name: "Trending" }));
+    expect(view.getByRole("tab", { name: "7 days" }).getAttribute("aria-selected")).toBe("true");
     fireEvent.click(view.getByRole("tab", { name: "30 days" }));
     expect(view.getByRole("heading", { name: "Trending on OpenRouter" })).toBeDefined();
 
@@ -114,6 +116,33 @@ describe("usage component interactions", () => {
     }
   });
 
+  it("distinguishes true zero values from positive origin markers", async () => {
+    const zeroRecord = usageRecords.ecosystemRecords.find(
+      (record) => record.signal.source === "github" && record.signal.value === 0,
+    );
+    const positiveRecord = usageRecords.ecosystemRecords.find(
+      (record) => record.signal.source === "github" && record.signal.value > 0,
+    );
+    if (!zeroRecord || !positiveRecord) throw new Error("Expected zero and positive GitHub usage records.");
+    window.history.replaceState(null, "", "/usage?source=github");
+
+    const { container } = render(
+      <UsageSignalsExplorer
+        {...usageRecords}
+        ecosystemRecords={[positiveRecord, zeroRecord]}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(container.querySelector(`a[href="/harnesses/${zeroRecord.slug}"]`)).not.toBeNull();
+    });
+    const zeroTrack = container.querySelector(`a[href="/harnesses/${zeroRecord.slug}"] .usage-bar-track`);
+    const positiveTrack = container.querySelector(`a[href="/harnesses/${positiveRecord.slug}"] .usage-bar-track`);
+    expect(zeroTrack).not.toBeNull();
+    expect(zeroTrack?.classList.contains("usage-bar-track-positive")).toBe(false);
+    expect(positiveTrack?.classList.contains("usage-bar-track-positive")).toBe(true);
+  });
+
   it("switches to a deep-linkable per-harness source ledger", async () => {
     const ompRecord = usageRecords.openRouterRecords.find(({ id }) => id === "omp");
     if (!ompRecord) throw new Error("Expected an OpenRouter record for Oh My Pi.");
@@ -146,6 +175,7 @@ describe("usage component interactions", () => {
     const view = within(explorer);
 
     fireEvent.click(view.getByRole("button", { name: "By harness" }));
+    expect(view.getByRole("tabpanel", { name: "7 days" }).getAttribute("id")).toBe("usage-harness-panel");
     fireEvent.change(view.getByRole("searchbox", { name: "Find harness" }), {
       target: { value: "Oh My" },
     });

@@ -76,6 +76,10 @@ const trendingWindowOptions: Array<{ key: OpenRouterTrendingWindowKey; label: st
   { key: "month", label: "30 days" },
 ];
 
+function trendingWindowKey(windowKey: OpenRouterUsageWindowKey): OpenRouterTrendingWindowKey {
+  return windowKey === "day" ? "week" : windowKey;
+}
+
 const compactNumberFormatter = new Intl.NumberFormat("en", {
   notation: "compact",
   maximumFractionDigits: 2,
@@ -362,7 +366,10 @@ function UsageRankingList({
                     <span className="usage-missing">{row.valueLabel}</span>
                   ) : (
                     <>
-                      <span className="usage-bar-track" aria-hidden="true">
+                      <span
+                        className={`usage-bar-track${row.value > 0 ? " usage-bar-track-positive" : ""}`}
+                        aria-hidden="true"
+                      >
                         <span className="usage-bar" style={{ width: `${barWidth}%` }} />
                       </span>
                       <strong>{row.valueLabel}</strong>
@@ -520,7 +527,7 @@ function initialExplorerState(search: string, products: UsageProduct[]): UsageEx
     .slice(0, maxComparedHarnesses);
   const openRouterView = requestedView === "trending" ? "trending" : "popular";
   const selectedWindow = requestedWindow === "day" || requestedWindow === "week" || requestedWindow === "month"
-    ? requestedView === "trending" && requestedWindow === "day" ? "week" : requestedWindow
+    ? requestedView === "trending" ? trendingWindowKey(requestedWindow) : requestedWindow
     : "week";
 
   return {
@@ -780,6 +787,7 @@ function UsageExplorerToolbar({
                     role="tab"
                     aria-selected={effectiveWindow === option.key}
                     aria-controls={mode === "source" ? "usage-ranking-panel" : mode === "compare" ? "usage-compare-panel" : "usage-harness-panel"}
+                    id={`usage-window-tab-${option.key}`}
                     tabIndex={effectiveWindow === option.key ? 0 : -1}
                     key={option.key}
                     ref={(element) => registerWindowTab(index, element)}
@@ -805,6 +813,7 @@ function UsageExplorerResults({
   mode,
   selectedSource,
   openRouterView,
+  effectiveWindow,
   comparedRows,
   visibleRows,
   maxValue,
@@ -822,6 +831,7 @@ function UsageExplorerResults({
   mode: UsageMode;
   selectedSource: UsageSource;
   openRouterView: OpenRouterView;
+  effectiveWindow: OpenRouterUsageWindowKey;
   comparedRows: DisplayRow[];
   visibleRows: DisplayRow[];
   maxValue: number;
@@ -839,7 +849,13 @@ function UsageExplorerResults({
   if (mode === "harness") {
     return (
       <div id="usage-harness-mode">
-        <div className="usage-harness-panel" id="usage-harness-panel" aria-live="polite">
+        <div
+          className="usage-harness-panel"
+          id="usage-harness-panel"
+          role="tabpanel"
+          aria-labelledby={`usage-window-tab-${effectiveWindow}`}
+          aria-live="polite"
+        >
           {selectedProduct ? (
             <>
               <div className="usage-harness-product">
@@ -1015,8 +1031,8 @@ function UsageSignalsExplorer({
 
   function updateExplorerState(update: Partial<UsageExplorerState>) {
     const nextState = { ...explorerState, ...update };
-    if (nextState.openRouterView === "trending" && nextState.selectedWindow === "day") {
-      nextState.selectedWindow = "week";
+    if (nextState.openRouterView === "trending") {
+      nextState.selectedWindow = trendingWindowKey(nextState.selectedWindow);
     }
     setExplorerState(nextState);
     if (synchronizeUrl) replaceExplorerLocation(explorerLocationSearch(nextState));
@@ -1029,7 +1045,7 @@ function UsageSignalsExplorer({
     .map((record) => ({
       ...record,
       usage: openRouterView === "trending"
-        ? record.trendingWindows[effectiveWindow as OpenRouterTrendingWindowKey]
+        ? record.trendingWindows[trendingWindowKey(effectiveWindow)]
         : record.windows[effectiveWindow],
     }))
     .sort((left, right) => {
@@ -1083,7 +1099,7 @@ function UsageSignalsExplorer({
     });
   const openRouterWindow = openRouterRecords[0]
     ? openRouterView === "trending"
-      ? openRouterRecords[0].trendingWindows[effectiveWindow as OpenRouterTrendingWindowKey]
+      ? openRouterRecords[0].trendingWindows[trendingWindowKey(effectiveWindow)]
       : openRouterRecords[0].windows[effectiveWindow]
     : undefined;
   const selectedSignal = selectedSource === "openrouter"
@@ -1244,6 +1260,7 @@ function UsageSignalsExplorer({
         mode={mode}
         selectedSource={selectedSource}
         openRouterView={openRouterView}
+        effectiveWindow={effectiveWindow}
         comparedRows={comparedRows}
         visibleRows={visibleRows}
         maxValue={maxValue}
