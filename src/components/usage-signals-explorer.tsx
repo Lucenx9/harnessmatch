@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { HarnessLogo } from "@/components/harness-logo";
 import type {
@@ -474,102 +474,553 @@ function harnessSignalRows({
   });
 }
 
-export function UsageSignalsExplorer({
-  products,
-  openRouterRecords,
-  ecosystemRecords,
-  activeHarnessCount,
-}: {
+type UsageSignalsExplorerProps = {
   products: UsageProduct[];
   openRouterRecords: OpenRouterUsageRecord[];
   ecosystemRecords: EcosystemUsageRecord[];
   activeHarnessCount: number;
+};
+
+type UsageExplorerState = {
+  mode: UsageMode;
+  selectedSource: UsageSource;
+  openRouterView: OpenRouterView;
+  selectedWindow: OpenRouterUsageWindowKey;
+  selectedHarnessId: string;
+  comparedHarnessIds: string[];
+};
+
+function subscribeToLocationSearch(onStoreChange: () => void) {
+  window.addEventListener("popstate", onStoreChange);
+  return () => window.removeEventListener("popstate", onStoreChange);
+}
+
+function locationSearchSnapshot(): string | null {
+  return window.location.search;
+}
+
+function serverLocationSearchSnapshot(): string | null {
+  return null;
+}
+
+function initialExplorerState(search: string, products: UsageProduct[]): UsageExplorerState {
+  const searchParams = new URLSearchParams(search);
+  const requestedMode = searchParams.get("mode");
+  const requestedSource = searchParams.get("source");
+  const requestedView = searchParams.get("view");
+  const requestedWindow = searchParams.get("window");
+  const requestedHarnessId = searchParams.get("id");
+  const matchedSource = sourceOptions.find((option) => option.key === requestedSource);
+  const matchedHarness = products.find((product) => product.id === requestedHarnessId);
+  const requestedHarnessUnavailable = requestedHarnessId !== null && !matchedHarness;
+  const comparedHarnessIds = (searchParams.get("ids") ?? "")
+    .split(",")
+    .filter((id, index, ids) => id && ids.indexOf(id) === index)
+    .filter((id) => products.some((product) => product.id === id))
+    .slice(0, maxComparedHarnesses);
+  const openRouterView = requestedView === "trending" ? "trending" : "popular";
+  const selectedWindow = requestedWindow === "day" || requestedWindow === "week" || requestedWindow === "month"
+    ? requestedView === "trending" && requestedWindow === "day" ? "week" : requestedWindow
+    : "week";
+
+  return {
+    mode: requestedMode === "compare"
+      ? "compare"
+      : requestedMode === "harness" && !requestedHarnessUnavailable
+        ? "harness"
+        : "source",
+    selectedSource: matchedSource?.key ?? "openrouter",
+    openRouterView,
+    selectedWindow,
+    selectedHarnessId: matchedHarness?.id ?? products[0]?.id ?? "",
+    comparedHarnessIds,
+  };
+}
+
+function explorerLocationSearch(state: UsageExplorerState) {
+  const searchParams = new URLSearchParams();
+
+  if (state.mode === "harness") {
+    searchParams.set("mode", "harness");
+    if (state.selectedHarnessId) searchParams.set("id", state.selectedHarnessId);
+  } else {
+    if (state.mode === "compare") {
+      searchParams.set("mode", "compare");
+      if (state.comparedHarnessIds.length > 0) searchParams.set("ids", state.comparedHarnessIds.join(","));
+    }
+    if (state.selectedSource !== "openrouter") searchParams.set("source", state.selectedSource);
+  }
+
+  if (state.mode === "harness" || state.selectedSource === "openrouter") {
+    if (state.openRouterView !== "popular") searchParams.set("view", state.openRouterView);
+    if (state.selectedWindow !== "week") searchParams.set("window", state.selectedWindow);
+  }
+
+  const search = searchParams.toString();
+  return search ? `?${search}` : "";
+}
+
+function replaceExplorerLocation(search: string) {
+  const url = new URL(window.location.href);
+  window.history.replaceState(null, "", `${url.pathname}${search}${url.hash}`);
+}
+
+function UsageSignalsExplorerWithLocation(props: UsageSignalsExplorerProps) {
+  const locationSearch = useSyncExternalStore(
+    subscribeToLocationSearch,
+    locationSearchSnapshot,
+    serverLocationSearchSnapshot,
+  );
+  const initialState = initialExplorerState(locationSearch ?? "", props.products);
+  const canonicalSearch = explorerLocationSearch(initialState);
+
+  useEffect(() => {
+    if (locationSearch === null || locationSearch === canonicalSearch) return;
+    replaceExplorerLocation(canonicalSearch);
+  }, [canonicalSearch, locationSearch]);
+
+  return (
+    <UsageSignalsExplorer
+      key={locationSearch ?? "server"}
+      {...props}
+      initialState={initialState}
+      synchronizeUrl={locationSearch !== null}
+    />
+  );
+}
+
+type UpdateExplorerState = (update: Partial<UsageExplorerState>) => void;
+
+function UsageExplorerToolbar({
+  mode,
+  selectedSource,
+  openRouterView,
+  effectiveWindow,
+  selectedHarnessId,
+  comparedHarnessIds,
+  products,
+  selectedProduct,
+  harnessQuery,
+  harnessPickerProducts,
+  availableWindowOptions,
+  showOpenRouterControls,
+  dateRange,
+  comparedRowCount,
+  coverageLabel,
+  rankScopeLabel,
+  updateExplorerState,
+  setHarnessQuery,
+  registerSourceTab,
+  registerWindowTab,
+  selectRelativeSource,
+  selectRelativeWindow,
+}: {
+  mode: UsageMode;
+  selectedSource: UsageSource;
+  openRouterView: OpenRouterView;
+  effectiveWindow: OpenRouterUsageWindowKey;
+  selectedHarnessId: string;
+  comparedHarnessIds: string[];
+  products: UsageProduct[];
+  selectedProduct: UsageProduct | undefined;
+  harnessQuery: string;
+  harnessPickerProducts: UsageProduct[];
+  availableWindowOptions: ReadonlyArray<{ key: OpenRouterUsageWindowKey; label: string }>;
+  showOpenRouterControls: boolean;
+  dateRange: string;
+  comparedRowCount: number;
+  coverageLabel: string;
+  rankScopeLabel: string;
+  updateExplorerState: UpdateExplorerState;
+  setHarnessQuery: (query: string) => void;
+  registerSourceTab: (index: number, element: HTMLButtonElement | null) => void;
+  registerWindowTab: (index: number, element: HTMLButtonElement | null) => void;
+  selectRelativeSource: (currentIndex: number, direction: -1 | 1) => void;
+  selectRelativeWindow: (currentIndex: number, direction: -1 | 1) => void;
 }) {
-  const [mode, setMode] = useState<UsageMode>("source");
-  const [selectedSource, setSelectedSource] = useState<UsageSource>("openrouter");
-  const [openRouterView, setOpenRouterView] = useState<OpenRouterView>("popular");
-  const [selectedWindow, setSelectedWindow] = useState<OpenRouterUsageWindowKey>("week");
-  const [selectedHarnessId, setSelectedHarnessId] = useState(products[0]?.id ?? "");
-  const [comparedHarnessIds, setComparedHarnessIds] = useState<string[]>([]);
+  return (
+    <>
+      <div className="usage-mode-bar">
+        <div className="usage-mode-tabs" role="group" aria-label="Usage explorer view">
+          <button type="button" aria-pressed={mode === "source"} onClick={() => updateExplorerState({ mode: "source" })}>
+            By source
+          </button>
+          <button type="button" aria-pressed={mode === "harness"} onClick={() => updateExplorerState({ mode: "harness" })}>
+            By harness
+          </button>
+          <button
+            type="button"
+            aria-pressed={mode === "compare"}
+            onClick={() => {
+              const nextComparedHarnessIds = comparedHarnessIds.length > 0
+                ? comparedHarnessIds
+                : [selectedHarnessId, ...products.map((product) => product.id)]
+                  .filter((id, index, ids) => id && ids.indexOf(id) === index)
+                  .slice(0, 2);
+              updateExplorerState({ mode: "compare", comparedHarnessIds: nextComparedHarnessIds });
+            }}
+          >
+            Compare
+          </button>
+        </div>
+      </div>
+
+      {mode !== "harness" && (
+        <div className="usage-source-switcher">
+          <div className="usage-source-tabs-shell">
+            <div className="usage-source-tabs" role="tablist" aria-label="Usage signal source">
+              {sourceOptions.map((option, index) => (
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={selectedSource === option.key}
+                  aria-controls={mode === "compare" ? "usage-compare-panel" : "usage-ranking-panel"}
+                  id={`usage-source-tab-${option.key}`}
+                  tabIndex={selectedSource === option.key ? 0 : -1}
+                  key={option.key}
+                  ref={(element) => registerSourceTab(index, element)}
+                  onClick={() => updateExplorerState({ selectedSource: option.key })}
+                  onKeyDown={(event) => {
+                    if (event.key === "ArrowLeft") { event.preventDefault(); selectRelativeSource(index, -1); }
+                    if (event.key === "ArrowRight") { event.preventDefault(); selectRelativeSource(index, 1); }
+                  }}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <label className="usage-source-picker" htmlFor="usage-source-select">
+            <span>Signal source</span>
+            <select
+              id="usage-source-select"
+              value={selectedSource}
+              onChange={(event) => {
+                const source = sourceOptions.find((option) => option.key === event.target.value);
+                if (source) updateExplorerState({ selectedSource: source.key });
+              }}
+            >
+              {sourceOptions.map((option) => (
+                <option key={option.key} value={option.key}>{option.label}</option>
+              ))}
+            </select>
+          </label>
+        </div>
+      )}
+
+      <header className="usage-explorer-header">
+        <div>
+          <h2 id="usage-explorer-heading">
+            {mode === "source"
+              ? sourceTitle(selectedSource, openRouterView)
+              : mode === "compare"
+                ? `${sourceTitle(selectedSource, openRouterView)} comparison`
+                : selectedProduct
+                ? `${selectedProduct.name} usage signals`
+                : "Harness usage signals"}
+          </h2>
+          <p>
+            {mode === "source"
+              ? sourceSummary(selectedSource, openRouterView)
+              : mode === "compare"
+                ? "Compare up to four harnesses inside one source, metric, and observation window. Unmapped coverage remains explicit."
+                : "Inspect one harness across independent public signals without combining their units or populations."}
+          </p>
+          {mode !== "harness" && (
+            <div className="usage-explorer-meta">
+              <strong>{dateRange}</strong>
+              <span>{mode === "compare" ? `${comparedRowCount} of ${maxComparedHarnesses} selected` : coverageLabel}</span>
+              <span>{rankScopeLabel}</span>
+            </div>
+          )}
+        </div>
+        {showOpenRouterControls && (
+          <div className="usage-header-controls">
+            {mode === "harness" && (
+              <div className="usage-harness-picker-group">
+                <label className="usage-harness-search" htmlFor="usage-harness-search">
+                  <span>Find harness</span>
+                  <input
+                    id="usage-harness-search"
+                    type="search"
+                    value={harnessQuery}
+                    placeholder="Search by name"
+                    onChange={(event) => setHarnessQuery(event.target.value)}
+                  />
+                </label>
+                <label className="usage-harness-picker" htmlFor="usage-harness-select">
+                  <span>Harness</span>
+                  <select
+                    id="usage-harness-select"
+                    value={selectedProduct?.id ?? ""}
+                    onChange={(event) => {
+                      const product = products.find((candidate) => candidate.id === event.target.value);
+                      if (product) updateExplorerState({ selectedHarnessId: product.id });
+                    }}
+                  >
+                    {harnessPickerProducts.map((product) => (
+                      <option key={product.id} value={product.id}>{product.name}</option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+            )}
+
+            <div className="usage-openrouter-controls">
+              <span className="usage-control-label">OpenRouter controls</span>
+              <div className="usage-view-tabs" role="group" aria-label="OpenRouter ranking view">
+                <button type="button" aria-pressed={openRouterView === "popular"} onClick={() => updateExplorerState({ openRouterView: "popular" })}>Most used</button>
+                <button type="button" aria-pressed={openRouterView === "trending"} onClick={() => updateExplorerState({ openRouterView: "trending" })}>Trending</button>
+              </div>
+              <div className="usage-window-tabs" role="tablist" aria-label="OpenRouter time window">
+                {availableWindowOptions.map((option, index) => (
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={effectiveWindow === option.key}
+                    aria-controls={mode === "source" ? "usage-ranking-panel" : mode === "compare" ? "usage-compare-panel" : "usage-harness-panel"}
+                    tabIndex={effectiveWindow === option.key ? 0 : -1}
+                    key={option.key}
+                    ref={(element) => registerWindowTab(index, element)}
+                    onClick={() => updateExplorerState({ selectedWindow: option.key })}
+                    onKeyDown={(event) => {
+                      if (event.key === "ArrowLeft") { event.preventDefault(); selectRelativeWindow(index, -1); }
+                      if (event.key === "ArrowRight") { event.preventDefault(); selectRelativeWindow(index, 1); }
+                    }}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </header>
+    </>
+  );
+}
+
+function UsageExplorerResults({
+  mode,
+  selectedSource,
+  openRouterView,
+  comparedRows,
+  visibleRows,
+  maxValue,
+  dateRange,
+  rows,
+  isExpanded,
+  setExpandedSources,
+  selectedProduct,
+  selectedHarnessRows,
+  copyCurrentViewLink,
+  copyStatus,
+  currentViewHref,
+  currentViewFilename,
+}: {
+  mode: UsageMode;
+  selectedSource: UsageSource;
+  openRouterView: OpenRouterView;
+  comparedRows: DisplayRow[];
+  visibleRows: DisplayRow[];
+  maxValue: number;
+  dateRange: string;
+  rows: DisplayRow[];
+  isExpanded: boolean;
+  setExpandedSources: React.Dispatch<React.SetStateAction<UsageSource[]>>;
+  selectedProduct: UsageProduct | undefined;
+  selectedHarnessRows: HarnessSignalRow[];
+  copyCurrentViewLink: () => Promise<void>;
+  copyStatus: "copied" | "failed" | "idle";
+  currentViewHref: string;
+  currentViewFilename: string;
+}) {
+  if (mode === "harness") {
+    return (
+      <div id="usage-harness-mode">
+        <div className="usage-harness-panel" id="usage-harness-panel" aria-live="polite">
+          {selectedProduct ? (
+            <>
+              <div className="usage-harness-product">
+                <div>
+                  <HarnessLogo logo={selectedProduct.logo} name={selectedProduct.name} />
+                  <span>
+                    <strong>{selectedProduct.name}</strong>
+                    <small>{selectedProduct.tagline}</small>
+                  </span>
+                </div>
+                <Link href={`/harnesses/${selectedProduct.slug}`}>Open harness profile</Link>
+              </div>
+              <table className="usage-harness-table">
+                <caption>
+                  Source-separated usage signals for {selectedProduct.name}. Values retain their native units and cannot be added together.
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Source</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Observed value</th>
+                    <th scope="col">Position</th>
+                    <th scope="col">Window</th>
+                    <th scope="col">Artifact</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {selectedHarnessRows.map((row) => (
+                    <tr key={row.source}>
+                      <th scope="row">
+                        <strong>{row.sourceLabel}</strong>
+                        <small>{row.metricLabel}</small>
+                      </th>
+                      <td data-label="Status">
+                        <span className={`usage-harness-status usage-harness-status-${row.status}`}>
+                          {statusLabels[row.status]}
+                        </span>
+                      </td>
+                      <td data-label="Observed value">
+                        <strong>{row.valueLabel}</strong>
+                        <small>{row.secondaryLabel}</small>
+                      </td>
+                      <td data-label="Position">
+                        <strong>{row.positionLabel}</strong>
+                      </td>
+                      <td data-label="Window">
+                        <strong>{row.windowLabel}</strong>
+                        <small>{row.observedAt}</small>
+                      </td>
+                      <td data-label="Artifact">
+                        {row.artifactId && row.artifactUrl ? (
+                          <a href={row.artifactUrl} target="_blank" rel="noreferrer">{row.artifactId}</a>
+                        ) : (
+                          <span>No mapped artifact</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
+          ) : (
+            <div className="usage-harness-empty">
+              <strong>No active harnesses</strong>
+              <span>The source ledger needs at least one active catalog record.</span>
+            </div>
+          )}
+        </div>
+        <footer className="usage-leaderboard-footer">
+          <p>Positions compare products only within the named source. Missing coverage means not mapped, never zero. OpenRouter controls affect only its row.</p>
+          <div className="usage-footer-actions">
+            <button type="button" onClick={copyCurrentViewLink}>
+              {copyStatus === "copied" ? "Link copied" : "Copy view link"}
+            </button>
+            <span className="usage-copy-status" role="status">
+              {copyStatus === "failed" ? "Copy failed; use the browser address bar." : ""}
+            </span>
+            <a href="/usage.csv" download>Download all signals (CSV)</a>
+          </div>
+        </footer>
+      </div>
+    );
+  }
+
+  return (
+    <div id={mode === "compare" ? "usage-compare-results" : "usage-ranking-mode"}>
+      <div
+        className="usage-leaderboard-panel"
+        id={mode === "compare" ? "usage-compare-panel" : "usage-ranking-panel"}
+        role="tabpanel"
+        aria-labelledby={`usage-source-tab-${selectedSource}`}
+        aria-live="polite"
+      >
+        {mode === "compare" && comparedRows.length === 0 ? (
+          <div className="usage-compare-empty">
+            <strong>Select at least one harness</strong>
+            <span>The comparison will show the source rank, exact value, and mapping status here.</span>
+          </div>
+        ) : (
+          <UsageRankingList
+            rows={mode === "compare" ? comparedRows : visibleRows}
+            maxValue={maxValue}
+            source={selectedSource}
+            openRouterView={openRouterView}
+            rankingLabel={mode === "compare"
+              ? `${sourceTitle(selectedSource, openRouterView)} comparison for ${dateRange}`
+              : `${sourceTitle(selectedSource, openRouterView)} ranking for ${dateRange}`}
+          />
+        )}
+        {mode === "source" && rows.length > 12 && (
+          <button
+            className="usage-show-all"
+            type="button"
+            aria-expanded={isExpanded}
+            onClick={() => setExpandedSources((current) => (
+              current.includes(selectedSource)
+                ? current.filter((source) => source !== selectedSource)
+                : [...current, selectedSource]
+            ))}
+          >
+            {isExpanded ? "Show top 12" : `Show all ${rows.length}`}
+          </button>
+        )}
+      </div>
+      <footer className="usage-leaderboard-footer">
+        <p>{sourceFootnote(selectedSource, openRouterView)} Missing coverage means not mapped, never zero.</p>
+        <div className="usage-footer-actions">
+          <button type="button" onClick={copyCurrentViewLink}>
+            {copyStatus === "copied" ? "Link copied" : "Copy view link"}
+          </button>
+          <span className="usage-copy-status" role="status">
+            {copyStatus === "failed" ? "Copy failed; use the browser address bar." : ""}
+          </span>
+          <a href={currentViewHref} download={currentViewFilename}>Download current view (CSV)</a>
+          <a href="/usage.csv" download>Download all signals (CSV)</a>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+function UsageSignalsExplorer({
+  products,
+  openRouterRecords,
+  ecosystemRecords,
+  activeHarnessCount,
+  initialState,
+  synchronizeUrl,
+}: UsageSignalsExplorerProps & {
+  initialState: UsageExplorerState;
+  synchronizeUrl: boolean;
+}) {
+  const [explorerState, setExplorerState] = useState<UsageExplorerState>(initialState);
+  const {
+    mode,
+    selectedSource,
+    openRouterView,
+    selectedWindow,
+    selectedHarnessId,
+    comparedHarnessIds,
+  } = explorerState;
   const [harnessQuery, setHarnessQuery] = useState("");
   const [compareQuery, setCompareQuery] = useState("");
   const [copyResult, setCopyResult] = useState<{
     viewKey: string;
     status: "copied" | "failed";
   } | null>(null);
-  const [urlReady, setUrlReady] = useState(false);
   const [expandedSources, setExpandedSources] = useState<UsageSource[]>([]);
   const sourceTabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const windowTabRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
-  useEffect(() => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const requestedMode = searchParams.get("mode");
-    const requestedSource = searchParams.get("source");
-    const requestedView = searchParams.get("view");
-    const requestedWindow = searchParams.get("window");
-    const requestedHarnessId = searchParams.get("id");
-    const requestedComparedIds = (searchParams.get("ids") ?? "")
-      .split(",")
-      .filter((id, index, ids) => id && ids.indexOf(id) === index)
-      .filter((id) => products.some((product) => product.id === id))
-      .slice(0, maxComparedHarnesses);
-    const matchedSource = sourceOptions.find((option) => option.key === requestedSource);
-    const matchedHarness = products.find((product) => product.id === requestedHarnessId);
-    const requestedHarnessUnavailable = requestedHarnessId !== null && !matchedHarness;
+  const effectiveWindow = selectedWindow;
 
-    if (requestedMode === "harness" && !requestedHarnessUnavailable) setMode("harness");
-    if (requestedMode === "compare") {
-      setMode("compare");
-      setComparedHarnessIds(requestedComparedIds);
+  function updateExplorerState(update: Partial<UsageExplorerState>) {
+    const nextState = { ...explorerState, ...update };
+    if (nextState.openRouterView === "trending" && nextState.selectedWindow === "day") {
+      nextState.selectedWindow = "week";
     }
-    if (matchedSource) setSelectedSource(matchedSource.key);
-    if (requestedView === "trending") setOpenRouterView("trending");
-    if (requestedWindow === "day" || requestedWindow === "week" || requestedWindow === "month") {
-      setSelectedWindow(requestedView === "trending" && requestedWindow === "day" ? "week" : requestedWindow);
-    }
-    if (matchedHarness) setSelectedHarnessId(matchedHarness.id);
-    setUrlReady(true);
-  }, [products]);
-
-  const effectiveWindow = openRouterView === "trending" && selectedWindow === "day"
-    ? "week"
-    : selectedWindow;
-
-  useEffect(() => {
-    if (!urlReady) return;
-
-    const url = new URL(window.location.href);
-    for (const key of ["mode", "id", "ids", "source", "view", "window"]) {
-      url.searchParams.delete(key);
-    }
-
-    if (mode === "harness") {
-      url.searchParams.set("mode", "harness");
-      if (selectedHarnessId) url.searchParams.set("id", selectedHarnessId);
-    } else {
-      if (mode === "compare") {
-        url.searchParams.set("mode", "compare");
-        if (comparedHarnessIds.length > 0) url.searchParams.set("ids", comparedHarnessIds.join(","));
-      }
-      if (selectedSource !== "openrouter") url.searchParams.set("source", selectedSource);
-    }
-
-    if (mode === "harness" || selectedSource === "openrouter") {
-      if (openRouterView !== "popular") url.searchParams.set("view", openRouterView);
-      if (effectiveWindow !== "week") url.searchParams.set("window", effectiveWindow);
-    }
-
-    window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
-  }, [
-    effectiveWindow,
-    comparedHarnessIds,
-    mode,
-    openRouterView,
-    selectedHarnessId,
-    selectedSource,
-    urlReady,
-  ]);
+    setExplorerState(nextState);
+    if (synchronizeUrl) replaceExplorerLocation(explorerLocationSearch(nextState));
+  }
 
   const availableWindowOptions = openRouterView === "trending"
     ? trendingWindowOptions
@@ -670,7 +1121,7 @@ export function UsageSignalsExplorer({
     const nextIndex = (currentIndex + direction + sourceOptions.length) % sourceOptions.length;
     const nextSource = sourceOptions[nextIndex];
     if (!nextSource) return;
-    setSelectedSource(nextSource.key);
+    updateExplorerState({ selectedSource: nextSource.key });
     sourceTabRefs.current[nextIndex]?.focus();
   }
 
@@ -678,7 +1129,7 @@ export function UsageSignalsExplorer({
     const nextIndex = (currentIndex + direction + availableWindowOptions.length) % availableWindowOptions.length;
     const nextWindow = availableWindowOptions[nextIndex];
     if (!nextWindow) return;
-    setSelectedWindow(nextWindow.key);
+    updateExplorerState({ selectedWindow: nextWindow.key });
     windowTabRefs.current[nextIndex]?.focus();
   }
 
@@ -719,183 +1170,30 @@ export function UsageSignalsExplorer({
 
   return (
     <section className="usage-explorer" aria-labelledby="usage-explorer-heading">
-      <div className="usage-mode-bar">
-        <div className="usage-mode-tabs" role="group" aria-label="Usage explorer view">
-          <button
-            type="button"
-            aria-pressed={mode === "source"}
-            onClick={() => setMode("source")}
-          >
-            By source
-          </button>
-          <button
-            type="button"
-            aria-pressed={mode === "harness"}
-            onClick={() => setMode("harness")}
-          >
-            By harness
-          </button>
-          <button
-            type="button"
-            aria-pressed={mode === "compare"}
-            onClick={() => {
-              setMode("compare");
-              if (comparedHarnessIds.length === 0) {
-                const seededIds = [selectedHarnessId, ...products.map((product) => product.id)]
-                  .filter((id, index, ids) => id && ids.indexOf(id) === index)
-                  .slice(0, 2);
-                setComparedHarnessIds(seededIds);
-              }
-            }}
-          >
-            Compare
-          </button>
-        </div>
-      </div>
-
-      {mode !== "harness" && (
-        <div className="usage-source-switcher">
-          <div className="usage-source-tabs-shell">
-            <div className="usage-source-tabs" role="tablist" aria-label="Usage signal source">
-              {sourceOptions.map((option, index) => (
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={selectedSource === option.key}
-                  aria-controls={mode === "compare" ? "usage-compare-panel" : "usage-ranking-panel"}
-                  id={`usage-source-tab-${option.key}`}
-                  tabIndex={selectedSource === option.key ? 0 : -1}
-                  key={option.key}
-                  ref={(element) => { sourceTabRefs.current[index] = element; }}
-                  onClick={() => setSelectedSource(option.key)}
-                  onKeyDown={(event) => {
-                    if (event.key === "ArrowLeft") { event.preventDefault(); selectRelativeSource(index, -1); }
-                    if (event.key === "ArrowRight") { event.preventDefault(); selectRelativeSource(index, 1); }
-                  }}
-                >
-                  {option.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <label className="usage-source-picker" htmlFor="usage-source-select">
-            <span>Signal source</span>
-            <select
-              id="usage-source-select"
-              value={selectedSource}
-              onChange={(event) => {
-                const source = sourceOptions.find((option) => option.key === event.target.value);
-                if (source) setSelectedSource(source.key);
-              }}
-            >
-              {sourceOptions.map((option) => (
-                <option key={option.key} value={option.key}>{option.label}</option>
-              ))}
-            </select>
-          </label>
-        </div>
-      )}
-
-      <header className="usage-explorer-header">
-        <div>
-          <h2 id="usage-explorer-heading">
-            {mode === "source"
-              ? sourceTitle(selectedSource, openRouterView)
-              : mode === "compare"
-                ? `${sourceTitle(selectedSource, openRouterView)} comparison`
-                : selectedProduct
-                ? `${selectedProduct.name} usage signals`
-                : "Harness usage signals"}
-          </h2>
-          <p>
-            {mode === "source"
-              ? sourceSummary(selectedSource, openRouterView)
-              : mode === "compare"
-                ? "Compare up to four harnesses inside one source, metric, and observation window. Unmapped coverage remains explicit."
-                : "Inspect one harness across independent public signals without combining their units or populations."}
-          </p>
-          {mode !== "harness" && (
-            <div className="usage-explorer-meta">
-              <strong>{dateRange}</strong>
-              <span>{mode === "compare" ? `${comparedRows.length} of ${maxComparedHarnesses} selected` : coverageLabel}</span>
-              <span>{rankScopeLabel}</span>
-            </div>
-          )}
-        </div>
-        {showOpenRouterControls && (
-          <div className="usage-header-controls">
-            {mode === "harness" && (
-              <div className="usage-harness-picker-group">
-                <label className="usage-harness-search" htmlFor="usage-harness-search">
-                  <span>Find harness</span>
-                  <input
-                    id="usage-harness-search"
-                    type="search"
-                    value={harnessQuery}
-                    placeholder="Search by name"
-                    onChange={(event) => setHarnessQuery(event.target.value)}
-                  />
-                </label>
-                <label className="usage-harness-picker" htmlFor="usage-harness-select">
-                  <span>Harness</span>
-                  <select
-                    id="usage-harness-select"
-                    value={selectedProduct?.id ?? ""}
-                    onChange={(event) => {
-                      const product = products.find((candidate) => candidate.id === event.target.value);
-                      if (product) setSelectedHarnessId(product.id);
-                    }}
-                  >
-                    {harnessPickerProducts.map((product) => (
-                      <option key={product.id} value={product.id}>{product.name}</option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-            )}
-
-            {showOpenRouterControls && (
-              <div className="usage-openrouter-controls">
-                <span className="usage-control-label">OpenRouter controls</span>
-                <div className="usage-view-tabs" role="group" aria-label="OpenRouter ranking view">
-                  <button type="button" aria-pressed={openRouterView === "popular"} onClick={() => setOpenRouterView("popular")}>Most used</button>
-                  <button
-                    type="button"
-                    aria-pressed={openRouterView === "trending"}
-                    onClick={() => {
-                      setOpenRouterView("trending");
-                      if (selectedWindow === "day") setSelectedWindow("week");
-                    }}
-                  >
-                    Trending
-                  </button>
-                </div>
-                <div className="usage-window-tabs" role="tablist" aria-label="OpenRouter time window">
-                  {availableWindowOptions.map((option, index) => (
-                    <button
-                      type="button"
-                      role="tab"
-                      aria-selected={effectiveWindow === option.key}
-                      aria-controls={mode === "source" ? "usage-ranking-panel" : mode === "compare" ? "usage-compare-panel" : "usage-harness-panel"}
-                      tabIndex={effectiveWindow === option.key ? 0 : -1}
-                      key={option.key}
-                      ref={(element) => { windowTabRefs.current[index] = element; }}
-                      onClick={() => setSelectedWindow(option.key)}
-                      onKeyDown={(event) => {
-                        if (event.key === "ArrowLeft") { event.preventDefault(); selectRelativeWindow(index, -1); }
-                        if (event.key === "ArrowRight") { event.preventDefault(); selectRelativeWindow(index, 1); }
-                      }}
-                    >
-                      {option.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-      </header>
+      <UsageExplorerToolbar
+        mode={mode}
+        selectedSource={selectedSource}
+        openRouterView={openRouterView}
+        effectiveWindow={effectiveWindow}
+        selectedHarnessId={selectedHarnessId}
+        comparedHarnessIds={comparedHarnessIds}
+        products={products}
+        selectedProduct={selectedProduct}
+        harnessQuery={harnessQuery}
+        harnessPickerProducts={harnessPickerProducts}
+        availableWindowOptions={availableWindowOptions}
+        showOpenRouterControls={showOpenRouterControls}
+        dateRange={dateRange}
+        comparedRowCount={comparedRows.length}
+        coverageLabel={coverageLabel}
+        rankScopeLabel={rankScopeLabel}
+        updateExplorerState={updateExplorerState}
+        setHarnessQuery={setHarnessQuery}
+        registerSourceTab={(index, element) => { sourceTabRefs.current[index] = element; }}
+        registerWindowTab={(index, element) => { windowTabRefs.current[index] = element; }}
+        selectRelativeSource={selectRelativeSource}
+        selectRelativeWindow={selectRelativeWindow}
+      />
 
       {mode === "compare" && (
         <fieldset className="usage-compare-picker" id="usage-compare-mode">
@@ -925,9 +1223,10 @@ export function UsageSignalsExplorer({
                     checked={isSelected}
                     disabled={!isSelected && selectionLimitReached}
                     onChange={(event) => {
-                      setComparedHarnessIds((current) => event.target.checked
-                        ? [...current, product.id].slice(0, maxComparedHarnesses)
-                        : current.filter((id) => id !== product.id));
+                      const nextComparedHarnessIds = event.target.checked
+                        ? [...comparedHarnessIds, product.id].slice(0, maxComparedHarnesses)
+                        : comparedHarnessIds.filter((id) => id !== product.id);
+                      updateExplorerState({ comparedHarnessIds: nextComparedHarnessIds });
                     }}
                   />
                   <HarnessLogo logo={product.logo} name={product.name} size="small" />
@@ -941,155 +1240,26 @@ export function UsageSignalsExplorer({
         </fieldset>
       )}
 
-      {mode !== "harness" ? (
-        <div id={mode === "compare" ? "usage-compare-results" : "usage-ranking-mode"}>
-          <div
-            className="usage-leaderboard-panel"
-            id={mode === "compare" ? "usage-compare-panel" : "usage-ranking-panel"}
-            role="tabpanel"
-            aria-labelledby={`usage-source-tab-${selectedSource}`}
-            aria-live="polite"
-          >
-            {mode === "compare" && comparedRows.length === 0 ? (
-              <div className="usage-compare-empty">
-                <strong>Select at least one harness</strong>
-                <span>The comparison will show the source rank, exact value, and mapping status here.</span>
-              </div>
-            ) : (
-              <UsageRankingList
-                rows={mode === "compare" ? comparedRows : visibleRows}
-                maxValue={maxValue}
-                source={selectedSource}
-                openRouterView={openRouterView}
-                rankingLabel={mode === "compare"
-                  ? `${sourceTitle(selectedSource, openRouterView)} comparison for ${dateRange}`
-                  : `${sourceTitle(selectedSource, openRouterView)} ranking for ${dateRange}`}
-              />
-            )}
-
-            {mode === "source" && rows.length > 12 && (
-              <button
-                className="usage-show-all"
-                type="button"
-                aria-expanded={isExpanded}
-                onClick={() => setExpandedSources((current) => (
-                  current.includes(selectedSource)
-                    ? current.filter((source) => source !== selectedSource)
-                    : [...current, selectedSource]
-                ))}
-              >
-                {isExpanded ? "Show top 12" : `Show all ${rows.length}`}
-              </button>
-            )}
-          </div>
-
-          <footer className="usage-leaderboard-footer">
-            <p>{sourceFootnote(selectedSource, openRouterView)} Missing coverage means not mapped, never zero.</p>
-            <div className="usage-footer-actions">
-              <button type="button" onClick={copyCurrentViewLink}>
-                {copyStatus === "copied" ? "Link copied" : "Copy view link"}
-              </button>
-              <span className="usage-copy-status" role="status">
-                {copyStatus === "failed" ? "Copy failed; use the browser address bar." : ""}
-              </span>
-              <a href={currentViewHref} download={currentViewFilename}>Download current view (CSV)</a>
-              <a href="/usage.csv" download>Download all signals (CSV)</a>
-            </div>
-          </footer>
-        </div>
-      ) : (
-        <div id="usage-harness-mode">
-          <div
-            className="usage-harness-panel"
-            id="usage-harness-panel"
-            aria-live="polite"
-          >
-            {selectedProduct ? (
-              <>
-                <div className="usage-harness-product">
-                  <div>
-                    <HarnessLogo logo={selectedProduct.logo} name={selectedProduct.name} />
-                    <span>
-                      <strong>{selectedProduct.name}</strong>
-                      <small>{selectedProduct.tagline}</small>
-                    </span>
-                  </div>
-                  <Link href={`/harnesses/${selectedProduct.slug}`}>Open harness profile</Link>
-                </div>
-
-                <table className="usage-harness-table">
-                  <caption>
-                    Source-separated usage signals for {selectedProduct.name}. Values retain their native units and cannot be added together.
-                  </caption>
-                  <thead>
-                    <tr>
-                      <th scope="col">Source</th>
-                      <th scope="col">Status</th>
-                      <th scope="col">Observed value</th>
-                      <th scope="col">Position</th>
-                      <th scope="col">Window</th>
-                      <th scope="col">Artifact</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {selectedHarnessRows.map((row) => (
-                      <tr key={row.source}>
-                        <th scope="row">
-                          <strong>{row.sourceLabel}</strong>
-                          <small>{row.metricLabel}</small>
-                        </th>
-                        <td data-label="Status">
-                          <span className={`usage-harness-status usage-harness-status-${row.status}`}>
-                            {statusLabels[row.status]}
-                          </span>
-                        </td>
-                        <td data-label="Observed value">
-                          <strong>{row.valueLabel}</strong>
-                          <small>{row.secondaryLabel}</small>
-                        </td>
-                        <td data-label="Position">
-                          <strong>{row.positionLabel}</strong>
-                        </td>
-                        <td data-label="Window">
-                          <strong>{row.windowLabel}</strong>
-                          <small>{row.observedAt}</small>
-                        </td>
-                        <td data-label="Artifact">
-                          {row.artifactId && row.artifactUrl ? (
-                            <a href={row.artifactUrl} target="_blank" rel="noreferrer">{row.artifactId}</a>
-                          ) : (
-                            <span>No mapped artifact</span>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </>
-            ) : (
-              <div className="usage-harness-empty">
-                <strong>No active harnesses</strong>
-                <span>The source ledger needs at least one active catalog record.</span>
-              </div>
-            )}
-          </div>
-
-          <footer className="usage-leaderboard-footer">
-            <p>
-              Positions compare products only within the named source. Missing coverage means not mapped, never zero. OpenRouter controls affect only its row.
-            </p>
-            <div className="usage-footer-actions">
-              <button type="button" onClick={copyCurrentViewLink}>
-                {copyStatus === "copied" ? "Link copied" : "Copy view link"}
-              </button>
-              <span className="usage-copy-status" role="status">
-                {copyStatus === "failed" ? "Copy failed; use the browser address bar." : ""}
-              </span>
-              <a href="/usage.csv" download>Download all signals (CSV)</a>
-            </div>
-          </footer>
-        </div>
-      )}
+      <UsageExplorerResults
+        mode={mode}
+        selectedSource={selectedSource}
+        openRouterView={openRouterView}
+        comparedRows={comparedRows}
+        visibleRows={visibleRows}
+        maxValue={maxValue}
+        dateRange={dateRange}
+        rows={rows}
+        isExpanded={isExpanded}
+        setExpandedSources={setExpandedSources}
+        selectedProduct={selectedProduct}
+        selectedHarnessRows={selectedHarnessRows}
+        copyCurrentViewLink={copyCurrentViewLink}
+        copyStatus={copyStatus}
+        currentViewHref={currentViewHref}
+        currentViewFilename={currentViewFilename}
+      />
     </section>
   );
 }
+
+export { UsageSignalsExplorerWithLocation as UsageSignalsExplorer };
