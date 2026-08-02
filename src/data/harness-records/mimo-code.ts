@@ -11,8 +11,8 @@ export const mimoCode = {
   summary:
     "A multi-provider terminal coding harness with repository tools, persistent project memory, automatic context compaction, primary and delegated agents, bounded workflow orchestration, headless and local web surfaces, MCP, skills, and Git-backed undo. It runs tools on the host: its permission policy and workflow runtime are controls, not an operating-system sandbox.",
   logo: {
-    src: "/harnesses/mimo-code.svg",
-    sourceUrl: `https://github.com/XiaomiMiMo/MiMo-Code/blob/${inspectedRef}/packages/ui/src/assets/favicon/favicon-v3.svg`,
+    src: "/harnesses/mimo-code.jpg",
+    sourceUrl: "https://github.com/XiaomiMiMo.png",
     verifiedAt,
   },
   status: "active",
