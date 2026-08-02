@@ -3,6 +3,7 @@
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { GlobalSearch } from "../src/components/global-search";
+import { serializeGlobalSearchItem } from "../src/lib/search";
 import type { GlobalSearchItem } from "../src/lib/search";
 
 const { routerPush } = vi.hoisted(() => ({
@@ -33,6 +34,7 @@ const items: GlobalSearchItem[] = [
     meta: "Page",
   },
 ];
+const serializedItems = items.map(serializeGlobalSearchItem);
 
 beforeEach(() => {
   routerPush.mockReset();
@@ -67,7 +69,7 @@ afterEach(() => {
 
 describe("global search interactions", () => {
   it("opens, focuses, filters, and navigates with the keyboard", async () => {
-    render(<GlobalSearch items={items} recordCount={1} />);
+    render(<GlobalSearch items={serializedItems} recordCount={1} />);
 
     fireEvent.click(screen.getByRole("button", { name: "Search HarnessMatch" }));
 

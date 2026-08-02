@@ -2,7 +2,7 @@ export type GuiLayer = "harness-native" | "multi-harness-workspace";
 
 export type GuiSourceAccess = "open-source" | "source-available" | "proprietary";
 
-export type GuiPlatform = "macOS" | "Windows" | "Linux" | "Browser" | "iOS";
+export type GuiPlatform = "macOS" | "Windows" | "Linux" | "Browser" | "iOS" | "Android";
 
 export type GuiLogo = {
   src: string;

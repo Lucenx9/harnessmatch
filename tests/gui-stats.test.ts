@@ -9,15 +9,15 @@ describe("GUI catalog statistics", () => {
 
   it("derives catalog totals from evidence-backed records", () => {
     expect(stats).toEqual(expect.objectContaining({
-      activeProducts: 10,
-      documentedClaims: 43,
-      totalClaims: 50,
-      codeAudits: 6,
+      activeProducts: 18,
+      documentedClaims: 71,
+      totalClaims: 90,
+      codeAudits: 14,
       previews: 5,
-      publicCodeProducts: 6,
+      publicCodeProducts: 14,
       proprietaryProducts: 4,
-      nativeProducts: 2,
-      multiHarnessProducts: 8,
+      nativeProducts: 5,
+      multiHarnessProducts: 13,
     }));
     expect(stats.evidenceSources).toBeGreaterThanOrEqual(guiProducts.length);
   });
@@ -25,26 +25,26 @@ describe("GUI catalog statistics", () => {
   it("keeps evidence gaps visible in capability coverage", () => {
     expect(stats.capabilityCoverage.find((item) => item.key === "teamCollaboration")).toEqual({
       key: "teamCollaboration",
-      documented: 4,
-      unknown: 6,
+      documented: 5,
+      unknown: 13,
       contradicted: 0,
-      total: 10,
+      total: 18,
     });
-    expect(stats.capabilityCoverage.find((item) => item.key === "visualReview")?.documented).toBe(9);
+    expect(stats.capabilityCoverage.find((item) => item.key === "visualReview")?.documented).toBe(17);
   });
 
   it("summarizes workflow bands without creating an overall score", () => {
     expect(stats.workflowCoverage.find((item) => item.id === "parallel-local")?.counts).toEqual({
-      strong: 9,
+      strong: 15,
       good: 1,
-      conditional: 0,
+      conditional: 2,
       "not-eligible": 0,
     });
     expect(stats.workflowCoverage.find((item) => item.id === "remote-control")?.counts).toEqual({
-      strong: 4,
-      good: 6,
-      conditional: 0,
-      "not-eligible": 0,
+      strong: 5,
+      good: 10,
+      conditional: 1,
+      "not-eligible": 2,
     });
   });
 });

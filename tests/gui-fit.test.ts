@@ -23,13 +23,21 @@ function requiredGuiProduct(id: string) {
 }
 
 const firstPartyGuiHosts: Record<string, string[]> = {
+  agetor: ["github.com", "www.agetor.dev"],
+  aionui: ["github.com"],
   aq: ["aq.dev", "www.aq.dev"],
+  blackcrab: ["github.com", "www.blackcrab.app"],
   "claude-code-desktop": ["code.claude.com"],
+  codeg: ["github.com"],
   "codex-desktop": ["learn.chatgpt.com"],
   conductor: ["www.conductor.build"],
   emdash: ["emdash.ai", "github.com"],
+  hapi: ["github.com"],
   nimbalyst: ["docs.nimbalyst.com", "github.com", "nimbalyst.com"],
+  openchamber: ["github.com", "openchamber.dev"],
+  "openhands-agent-canvas": ["docs.openhands.dev", "github.com", "www.openhands.dev"],
   qm: ["github.com"],
+  "qwen-code-desktop": ["docs.qwencloud.com", "github.com"],
   superset: ["docs.superset.sh", "github.com"],
   "t3-code": ["github.com", "t3.codes"],
   webmux: ["github.com"],
@@ -73,7 +81,7 @@ describe("GUI workflow classification", () => {
       ).toBe(true);
 
       for (const [capability, claim] of Object.entries(product.capabilities)) {
-        if (claim.state === "documented") {
+        if (claim.state === "documented" || claim.state === "contradicted") {
           expect(claim.sourceUrls.length, `${product.name}: ${capability}`).toBeGreaterThan(0);
           expect(claim.sourceUrls.every((url) => url.startsWith("https://"))).toBe(true);
           expect(
@@ -121,6 +129,63 @@ describe("GUI workflow classification", () => {
       "macOS",
       "Windows",
     ]);
+  });
+
+  it("preserves the source-backed boundaries of the newly admitted GUI records", () => {
+    const agetor = requiredGuiProduct("agetor");
+    const aionUi = requiredGuiProduct("aionui");
+    const blackcrab = requiredGuiProduct("blackcrab");
+    const codeg = requiredGuiProduct("codeg");
+    const hapi = requiredGuiProduct("hapi");
+    const openChamber = requiredGuiProduct("openchamber");
+    const openHands = requiredGuiProduct("openhands-agent-canvas");
+    const qwenDesktop = requiredGuiProduct("qwen-code-desktop");
+
+    expect(agetor.supportedHarnesses).toEqual(["Claude Code", "Codex"]);
+    expect(agetor.harnessSupportNote).toContain("public site still labels Codex as coming soon");
+    expect(agetor.capabilities.remoteExecution.state).toBe("contradicted");
+
+    expect(aionUi.supportedHarnesses).toHaveLength(18);
+    expect(aionUi.acceptsArbitraryCli).toBe(false);
+    expect(aionUi.capabilities.workspaceIsolation.state).toBe("unknown");
+    expect(aionUi.capabilities.teamCollaboration.state).toBe("unknown");
+
+    expect(blackcrab.layer).toBe("harness-native");
+    expect(blackcrab.supportedHarnesses).toEqual(["Claude Code"]);
+    expect(blackcrab.capabilities.remoteExecution.state).toBe("unknown");
+
+    expect(codeg.supportedHarnesses).toHaveLength(12);
+    expect(codeg.platforms).toEqual(expect.arrayContaining(["iOS", "Android"]));
+    expect(codeg.acceptsArbitraryCli).toBe(false);
+    expect(codeg.harnessSupportNote).toContain("ACP-compatible");
+
+    expect(hapi.supportedHarnesses).toEqual([
+      "Claude Code",
+      "Codex",
+      "Cursor Agent",
+      "Grok Build",
+      "OpenCode",
+    ]);
+    expect(hapi.capabilities.workspaceIsolation.state).toBe("unknown");
+
+    expect(openChamber.layer).toBe("harness-native");
+    expect(openChamber.supportedHarnesses).toEqual(["OpenCode"]);
+
+    expect(openHands.supportedHarnesses).toEqual([
+      "Claude Code",
+      "Codex",
+      "Gemini CLI",
+      "OpenHands",
+    ]);
+    expect(Object.values(openHands.capabilities).every((claim) => claim.state === "documented")).toBe(true);
+
+    expect(qwenDesktop.layer).toBe("harness-native");
+    expect(qwenDesktop.supportedHarnesses).toEqual(["Qwen Code"]);
+    expect(qwenDesktop.capabilities.remoteExecution.state).toBe("contradicted");
+
+    for (const product of [agetor, aionUi, blackcrab, codeg, hapi, openChamber, openHands, qwenDesktop]) {
+      expect(product.acceptsArbitraryCli, product.name).toBe(false);
+    }
   });
 
   it("keeps QM remote collaboration separate from unresolved visual review", () => {
@@ -285,6 +350,8 @@ describe("GUI workflow classification", () => {
   });
 
   it("keeps sunset products outside active workflow matches", () => {
+    expect(guiExclusions.some((product) => product.id === "1code")).toBe(true);
+    expect(guiProducts.some((product) => product.id === "1code")).toBe(false);
     expect(guiExclusions.some((product) => product.id === "vibe-kanban")).toBe(true);
     expect(guiProducts.some((product) => product.id === "vibe-kanban")).toBe(false);
   });

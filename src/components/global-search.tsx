@@ -5,8 +5,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { KeyboardEvent as ReactKeyboardEvent } from "react";
-import { createSearchIndex, highlightSearchMatch, rankSearchItems } from "@/lib/search";
-import type { GlobalSearchItem } from "@/lib/search";
+import {
+  createSearchIndex,
+  deserializeGlobalSearchItem,
+  highlightSearchMatch,
+  rankSearchItems,
+} from "@/lib/search";
+import type { SerializedGlobalSearchItem } from "@/lib/search";
 
 const maxVisibleSearchResults = 10;
 
@@ -32,7 +37,7 @@ export function GlobalSearch({
   items,
 }: {
   recordCount: number;
-  items: GlobalSearchItem[];
+  items: SerializedGlobalSearchItem[];
 }) {
   const router = useRouter();
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -41,9 +46,13 @@ export function GlobalSearch({
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const searchIndex = useMemo(() => createSearchIndex(items), [items]);
+  const searchItems = useMemo(() => items.map(deserializeGlobalSearchItem), [items]);
+  const searchIndex = useMemo(() => createSearchIndex(searchItems), [searchItems]);
   const rankedResults = useMemo(() => rankSearchItems(searchIndex, query), [searchIndex, query]);
-  const quickAccess = useMemo(() => items.filter((item) => item.kind === "page").slice(0, 6), [items]);
+  const quickAccess = useMemo(
+    () => searchItems.filter((item) => item.kind === "page").slice(0, 6),
+    [searchItems],
+  );
   const visibleResults = query.trim()
     ? rankedResults.slice(0, maxVisibleSearchResults)
     : quickAccess;
