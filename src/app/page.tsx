@@ -3,11 +3,13 @@ import { ecosystemSignalSnapshots } from "@/data/ecosystem-signals";
 import { featureSupportFor } from "@/data/feature-claims";
 import { requireHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnesses } from "@/data/harnesses";
+import { buildHomeSpotlightRecords, homeSpotlight } from "@/data/home-spotlight";
 import { openRouterAttributionSnapshots } from "@/data/openrouter-attribution";
 import { harnessReleaseSnapshots } from "@/data/release-signals";
 import { researchSources } from "@/data/research";
 import { HarnessLensExplorer } from "@/components/harness-lens-explorer";
 import { HomeReleaseActivity } from "@/components/home-release-activity";
+import { HomeSpotlight } from "@/components/home-spotlight";
 import { HomeUsageSummary } from "@/components/home-usage-summary";
 import { latestVerifiedAt } from "@/lib/evidence-freshness";
 import { buildRecentReleaseActivity, buildUsageViewRecords } from "@/lib/usage-view";
@@ -41,6 +43,7 @@ export default function HomePage() {
     harnesses,
     releaseSnapshots: harnessReleaseSnapshots,
   });
+  const spotlightRecords = buildHomeSpotlightRecords(harnesses);
 
   return (
     <>
@@ -74,6 +77,12 @@ export default function HomePage() {
             ecosystemRecords={homeEcosystemRecords}
             activeHarnessCount={usageRecords.activeHarnessCount}
           />
+        </div>
+      </section>
+
+      <section className="home-spotlight-section" aria-labelledby="home-spotlight-heading">
+        <div className="shell">
+          <HomeSpotlight period={homeSpotlight.period} records={spotlightRecords} />
         </div>
       </section>
 
