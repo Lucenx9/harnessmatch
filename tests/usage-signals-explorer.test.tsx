@@ -1,5 +1,6 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
+import UsagePage from "../src/app/usage/page";
 import { UsageSignalsExplorer } from "../src/components/usage-signals-explorer";
 import { ecosystemSignalSnapshots } from "../src/data/ecosystem-signals";
 import { harnesses } from "../src/data/harnesses";
@@ -7,6 +8,26 @@ import { openRouterAttributionSnapshots } from "../src/data/openrouter-attributi
 import { buildUsageViewRecords } from "../src/lib/usage-view";
 
 describe("usage signals explorer", () => {
+  it("puts interpretation rules before the explorer and keeps methodology secondary", () => {
+    const html = renderToStaticMarkup(<UsagePage />);
+
+    expect(html.indexOf("Different units")).toBeLessThan(html.indexOf("Usage explorer view"));
+    expect(html).toContain("Missing is not zero");
+    expect(html).toContain("Context, not quality");
+    expect(html).toContain("How to read the source views");
+    expect(html).toContain("focused comparison");
+    expect(html).toContain("largest mapped value in the selected source is 100%");
+    expect(html).toContain("usage-bar-track");
+    expect(html).not.toContain('aria-controls="usage-ranking-mode"');
+    expect(html).not.toContain('aria-controls="usage-harness-mode"');
+    expect(html).not.toContain('aria-controls="usage-compare-mode"');
+    expect(html).toContain("Sources and API records");
+    expect(html).toContain("GitHub stars for the repository already audited by HarnessMatch");
+    expect(html).not.toContain("GitHub stars and forks for the repository already audited by HarnessMatch");
+    expect(html).not.toContain("Explore usage");
+    expect(html).not.toContain("Source-separated rankings");
+  });
+
   it("renders missing OpenRouter window data as not listed rather than zero traffic", () => {
     const records = buildUsageViewRecords({
       harnesses,
@@ -38,6 +59,8 @@ describe("usage signals explorer", () => {
     );
 
     expect(html).toContain("Not listed");
+    expect(html).toContain("Linear bars use the largest mapped value in this source as 100%");
+    expect(html).not.toContain("usage-bar-track");
     expect(html).not.toContain("No attributed traffic");
     expect(html).not.toContain("No attributed requests");
   });

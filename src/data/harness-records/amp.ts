@@ -1,6 +1,7 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
+const latestReleaseVerifiedAt = "2026-08-02";
 
 export const amp = {
     id: "amp",
@@ -8,7 +9,7 @@ export const amp = {
     name: "Amp",
     tagline: "Opinionated hosted agent for local work, durable cloud orbs, and scheduled automation.",
     summary:
-      "A proprietary multi-model coding agent with terminal, editor, and web control, non-interactive and runner modes, durable cloud orbs, schedules, MCP, skills, plugins, and built-in or programmable subagents.",
+      "A proprietary multi-model coding agent with terminal, editor, and web control, non-interactive and runner modes, durable cloud orbs, schedules, event-driven webhooks, live multiplayer threads, MCP, skills, plugins, and built-in or programmable subagents.",
     logo: {
       src: "/harnesses/amp.ico",
       sourceUrl: "https://ampcode.com/manual",
@@ -37,7 +38,7 @@ export const amp = {
     },
     bestFor: [
       "Hands-off vibe coding in disposable managed cloud orbs",
-      "Long-running, scheduled, or remotely controlled agent work",
+      "Long-running, scheduled, event-triggered, collaborative, or remotely controlled agent work",
       "Teams extending one hosted thread system with MCP, skills, plugins, SDK calls, and delegated agents",
     ],
     tradeoffs: [
@@ -46,9 +47,10 @@ export const amp = {
       "No harness checkpoint or file rollback was verified; diff review, Git, and durable thread resume are different mechanisms",
       "The service is proprietary and not self-hostable, with no documented local open-weight model path",
       "Workspace thread visibility and administrator access require deliberate governance for sensitive code and prompts",
+      "Multiplayer exposes the thread, portal, file changes, and shared terminal to joined workspace members until it expires; webhook URLs are credentials, and event payloads remain untrusted input",
     ],
     setup: "Install the Amp CLI, sign in, then run `amp` locally, `amp -x` for one-shot execution, `amp -ox` in a managed orb, or `amp --no-tui` as a remote runner; add policies before trusting unattended local work.",
-    verifiedAt: verifiedAt,
+    verifiedAt: latestReleaseVerifiedAt,
     evidence: [
       {
         title: "Amp owner’s manual",
@@ -182,6 +184,20 @@ export const amp = {
         covers: "Subscription tiers, included orb hours, mode access, linked model subscriptions, and pay-as-you-go continuation",
         kind: "official-announcement",
         verifiedAt: verifiedAt,
+      },
+      {
+        title: "Event-driven orbs",
+        url: "https://ampcode.com/news/event-driven-orbs",
+        covers: "Durable webhook endpoints, external-event wakeups, verification, deduplication, credential handling, and untrusted event-input boundaries",
+        kind: "official-announcement",
+        verifiedAt: latestReleaseVerifiedAt,
+      },
+      {
+        title: "Multiplayer orbs",
+        url: "https://ampcode.com/news/multiplayer",
+        covers: "Workspace-member invitations, shared thread messages, portal and file visibility, shared terminal access, and expiry boundaries",
+        kind: "official-announcement",
+        verifiedAt: latestReleaseVerifiedAt,
       },
     ],
   } satisfies HarnessRecord;

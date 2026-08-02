@@ -2,6 +2,7 @@ import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
 const releaseVerifiedAt = "2026-07-31";
+const latestReleaseVerifiedAt = "2026-08-02";
 
 export const cline = {
     id: "cline",
@@ -52,7 +53,7 @@ export const cline = {
       "OpenTelemetry exports logs and metrics rather than proving task correctness, and the checked-in evaluation framework has disabled or unfinished CI layers with no immutable result record",
     ],
     setup: "Install the IDE extension or CLI, authenticate a provider, and review approval settings before enabling automation.",
-    verifiedAt: releaseVerifiedAt,
+    verifiedAt: latestReleaseVerifiedAt,
     evidence: [
       {
         title: "Cline overview",
@@ -205,6 +206,14 @@ export const cline = {
         covers: "Stable combined VSIX, legacy and SDK-based bundles, staged remote assignment, fallback behavior, shared settings, and cross-bundle task-visibility limits",
         kind: "official-announcement",
         verifiedAt: releaseVerifiedAt,
+      },
+      {
+        title: "Cline v4.1.3 reliability release",
+        topic: "releases-code-audit",
+        url: "https://github.com/cline/cline/releases/tag/v4.1.3",
+        covers: "Current stable release, reliable whole-workspace checkpoint restoration, terminal completion fixes, and combined-rollout authentication repairs",
+        kind: "official-announcement",
+        verifiedAt: latestReleaseVerifiedAt,
       },
       {
         title: "Cline v4.0.11 source",

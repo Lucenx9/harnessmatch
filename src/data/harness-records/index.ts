@@ -19,6 +19,7 @@ import { qwenCode } from "./qwen-code";
 import { continueCli } from "./continue-cli";
 import { mistralVibe } from "./mistral-vibe";
 import { kimiCode } from "./kimi-code";
+import { mimoCode } from "./mimo-code";
 import { lettaCode } from "./letta-code";
 import { kiloCode } from "./kilo-code";
 import { commandCode } from "./command-code";
@@ -42,6 +43,8 @@ import { opensquilla } from "./opensquilla";
 import { postqode } from "./postqode";
 import { kern } from "./kern";
 import { ggcode } from "./ggcode";
+import { ante } from "./ante";
+import { reasonix } from "./reasonix";
 import type { HarnessRecord } from "./types";
 
 export const harnessRecords: HarnessRecord[] = [
@@ -66,6 +69,7 @@ export const harnessRecords: HarnessRecord[] = [
   continueCli,
   mistralVibe,
   kimiCode,
+  mimoCode,
   lettaCode,
   kiloCode,
   commandCode,
@@ -89,4 +93,6 @@ export const harnessRecords: HarnessRecord[] = [
   postqode,
   kern,
   ggcode,
+  ante,
+  reasonix,
 ];

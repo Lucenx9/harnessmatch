@@ -60,7 +60,7 @@ export const researchSources: ResearchSource[] = [
     title: "krippendorffsalpha: An R Package for Measuring Agreement Using Krippendorff's Alpha Coefficient",
     venue: "The R Journal 2021",
     maturity: "peer-reviewed",
-    url: "https://journal.r-project.org/archive/2021/RJ-2021-046/index.html",
+    url: "https://journal.r-project.org/articles/RJ-2021-046/index.html",
     supports:
       "Supports agreement analysis for ordinal ratings, missing assignments, and more than two coders while emphasizing that interpretation thresholds depend on context.",
     limitation:

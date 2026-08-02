@@ -1,6 +1,7 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
+const releaseVerifiedAt = "2026-08-02";
 
 export const kiroCli = {
     id: "kiro-cli",
@@ -48,16 +49,16 @@ export const kiroCli = {
       "CLI 3.0 is early access, opt-in, changes the permission and session formats, removes supervised mode, and cannot use the classic non-TUI path; its declarative permission rules are therefore not treated as the stable 2.x default",
       "The goal loop's completion check is agent-driven vendor functionality, not independent evidence that acceptance criteria were actually satisfied",
     ],
-    setup: "Install Kiro CLI 2.14.0, authenticate, and run `kiro-cli`; configure narrowly trusted tools for headless use and enable classic checkpoints explicitly if needed. Treat `kiro-cli --v3` as an early-access migration choice.",
-    verifiedAt: verifiedAt,
+    setup: "Install Kiro CLI 2.15.0, authenticate, and run `kiro-cli`; configure narrowly trusted tools for headless use and enable classic checkpoints explicitly if needed. Treat `kiro-cli --v3` as an early-access migration choice.",
+    verifiedAt: releaseVerifiedAt,
     evidence: [
       {
-        title: "Kiro CLI 2.14.0 release",
+        title: "Kiro CLI 2.15.0 release",
         topic: "releases-code-audit",
-        url: "https://kiro.dev/changelog/cli/2-14/",
-        covers: "Current release, interrupted-response retries, and opt-in V2-to-V3 agent migration",
+        url: "https://kiro.dev/changelog/cli/2-15/",
+        covers: "Current release, guided spec creation, and Plan mode auto-execution after explicit plan approval",
         kind: "official-announcement",
-        verifiedAt: verifiedAt,
+        verifiedAt: releaseVerifiedAt,
       },
       {
         title: "CLI quickstart",

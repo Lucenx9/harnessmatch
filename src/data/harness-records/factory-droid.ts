@@ -1,6 +1,7 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-30";
+const releaseVerifiedAt = "2026-08-02";
 
 export const factoryDroid = {
     id: "factory-droid",
@@ -51,7 +52,7 @@ export const factoryDroid = {
       "Factory publishes selected benchmark scorecards, but its public repository does not expose the closed agent implementation or a complete immutable evaluation corpus",
     ],
     setup: "Install `droid`, authenticate with Factory or configure BYOK, then begin in read-only mode and raise autonomy only inside a reviewed environment.",
-    verifiedAt: verifiedAt,
+    verifiedAt: releaseVerifiedAt,
     evidence: [
       {
         title: "Droid CLI reference",
@@ -134,12 +135,12 @@ export const factoryDroid = {
         verifiedAt: verifiedAt,
       },
       {
-        title: "Factory v0.183.0 release notes",
+        title: "Factory v0.185.0 release notes",
         topic: "releases-code-audit",
         url: "https://docs.factory.ai/changelog/release-notes",
-        covers: "Current binary version, dated feature and hardening changes, compatibility, and product-surface distinctions",
+        covers: "Latest documented changelog release, per-server MCP connection timeouts, and approval, spec, and sign-in reliability fixes",
         kind: "official-announcement",
-        verifiedAt: verifiedAt,
+        verifiedAt: releaseVerifiedAt,
       },
       {
         title: "Factory public support repository",

@@ -70,7 +70,9 @@ describe("multi-axis evidence evaluation", () => {
 
   it("keeps the new source-audit wave pinned and does not invent a public PostQode repository", () => {
     const audits = new Map(repositoryAudits.map((audit) => [audit.harnessId, audit]));
-    expect(audits.get("wakil")?.inspectedRef).toBe("4d2e4f9d38860905fb41593beca87dc40f28fe51");
+    expect(audits.get("wakil")?.inspectedRef).toBe("25ff56085007d8e8bdbc4d2f8c74ee4f994a0ed9");
+    expect(audits.get("wakil")?.signals.evaluationAssets).toBe(false);
+    expect(audits.get("ggcode")?.inspectedRef).toBe("b878385bfd4d0edab137e8d48c18fad512d49f21");
     expect(audits.get("deepagents-code")?.inspectedRef).toBe("43eb196cf7faa993f2fa372dcc1fa65572d8a301");
     expect(audits.get("opensquilla")?.inspectedRef).toBe("f569e05de52dcc1e3954bbcbebe1b10106cdba6e");
     expect(audits.get("kern")?.repositoryUrl).toBe("https://github.com/oguzbilgic/kern-ai");
@@ -140,6 +142,45 @@ describe("multi-axis evidence evaluation", () => {
     expect(kimi.signals).toMatchObject({ securityPolicy: true, continuousIntegration: true, automatedTests: true });
     expect(kimi.limitation).toContain("1,256 test-like files");
     expect(kimi.limitation).toContain("No dedicated coding-harness evaluation suite");
+  });
+
+  it("treats MiMo Code's bundled eval fixtures as project assets rather than benchmark evidence", () => {
+    const audit = repositoryAudits.find((item) => item.harnessId === "mimo-code")!;
+    const evidence = evidenceStateFor("mimo-code");
+
+    expect(audit.inspectedRef).toBe("c045a9891069000b112079bb10bdc8828d75eb6e");
+    expect(audit.sourceScope).toBe("full-source");
+    expect(audit.signals).toEqual({
+      securityPolicy: true,
+      continuousIntegration: true,
+      automatedTests: true,
+      evaluationAssets: true,
+      contributorDocumentation: true,
+    });
+    expect(audit.limitation).toContain("bundled project-owned evaluation fixtures");
+    expect(audit.limitation).toContain("no product score is imported");
+    expect(evidence.states).toContain("code-verifiable");
+    expect(benchmarkRuns.some((run) => run.harnessId === "mimo-code")).toBe(false);
+  });
+
+  it("keeps Ante's private core out of code-verifiable and benchmark evidence", () => {
+    const audit = repositoryAudits.find((item) => item.harnessId === "ante")!;
+    const evidence = evidenceStateFor("ante");
+
+    expect(audit.inspectedRef).toBe("8ce59518ed8a2ddda46c07cbb0b6fb1f528438a3");
+    expect(audit.sourceScope).toBe("support-repository");
+    expect(audit.signals).toEqual({
+      securityPolicy: false,
+      continuousIntegration: true,
+      automatedTests: true,
+      evaluationAssets: true,
+      contributorDocumentation: false,
+    });
+    expect(repositoryArtifactCount(audit)).toBeNull();
+    expect(audit.limitation).toContain("core harness remains private");
+    expect(audit.limitation).toContain("no product score is imported");
+    expect(evidence.states).toEqual(["documented"]);
+    expect(benchmarkRuns.some((run) => run.harnessId === "ante")).toBe(false);
   });
 
   it("treats Crush engineering tests as auditable artifacts, not benchmark evidence", () => {

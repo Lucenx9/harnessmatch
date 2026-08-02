@@ -165,6 +165,18 @@ const membershipDefinitions: Record<string, MembershipDefinition> = {
     activeContextManagement: "Sessions and context",
     runtimeControl: "Command reference",
   }),
+  "mimo-code": documentedCodingHarness({
+    adaptiveLoop: "MiMo Code 0.1.9 source snapshot",
+    environmentMutation: "Built-in tools",
+    activeContextManagement: ["MiMo Code 0.1.9 source snapshot", "Sessions and context"],
+    runtimeControl: "Permission policy",
+  }),
+  ante: documentedCodingHarness({
+    adaptiveLoop: "Goal-driven sessions",
+    environmentMutation: "Tool reference",
+    activeContextManagement: "Core concepts and protocol",
+    runtimeControl: "Permission configuration",
+  }),
   "letta-code": documentedCodingHarness({
     adaptiveLoop: "Letta Code quickstart",
     environmentMutation: "Client tool execution model",
@@ -302,6 +314,12 @@ const membershipDefinitions: Record<string, MembershipDefinition> = {
     environmentMutation: "Built-in tool registry",
     activeContextManagement: ["Context manager implementation", "Project memory"],
     runtimeControl: ["Permission modes", "Providers and endpoints"],
+  }),
+  reasonix: documentedCodingHarness({
+    adaptiveLoop: "Reasonix engineering specification",
+    environmentMutation: "Built-in tool contract",
+    activeContextManagement: ["Reasonix engineering specification", "Context Engine v2"],
+    runtimeControl: ["Permissions and sandbox", "Provider and model routes"],
   }),
 };
 

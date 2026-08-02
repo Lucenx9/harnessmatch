@@ -5,6 +5,7 @@ const refreshedAt = "2026-07-28";
 const sourceAuditAt = "2026-07-30";
 const releaseReviewAt = "2026-07-31";
 const currentReleaseReviewAt = "2026-08-01";
+const latestReleaseReviewAt = "2026-08-02";
 const defaultLimitation =
   "Documentation-derived posture. It describes exposed harness mechanisms, not task success or model capability.";
 
@@ -239,8 +240,12 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://qwenlm.github.io/qwen-code-docs/en/users/features/checkpointing/",
       "https://qwenlm.github.io/qwen-code-docs/en/developers/development/telemetry/",
       "https://qwenlm.github.io/qwen-code-docs/en/users/qwen-serve/",
+      "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.3",
+      "https://github.com/QwenLM/qwen-code/pull/8303",
+      "https://github.com/QwenLM/qwen-code/pull/8056",
     ],
-    "Default-on auto-memory persists reviewed user and project knowledge, while optional OpenTelemetry exposes logs, metrics, and spans. Approval policy is granular, but the OS/container sandbox and shadow-Git checkpoints are both disabled by default; yolo does not enable isolation, and rollback cannot undo external side effects. The alpha daemon is unauthenticated on loopback, requires a bearer token for non-loopback binds, and does not claim production-grade multi-client guarantees.",
+    "Default-on auto-memory persists reviewed user and project knowledge; qwen serve keeps managed project memory Git-root-scoped unless exact-workspace storage is explicitly enabled. Approval policy is granular and named fork profiles can constrain delegated tools. Opt-in background workflows remain TUI-only, approval-gated, process-scoped, and lack pause, resume, restart recovery, remote execution, and tracing. The OS/container sandbox and shadow-Git checkpoints are both disabled by default; yolo does not enable isolation, and rollback cannot undo external side effects. The alpha daemon is unauthenticated on loopback, requires a bearer token for non-loopback binds, and does not claim production-grade multi-client guarantees.",
+    latestReleaseReviewAt,
   ),
   "continue-cli": record(
     { context: "managed", permissions: "approval", verification: "tool-assisted", observability: "logs", recovery: "session-resume" },
@@ -273,6 +278,35 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
     ],
     "Interactive sessions default to manual approval and persist structured Wire event streams with subagent histories and a session visualizer, but this is resumable state rather than learned memory or file rollback. Print mode uses unattended auto permission, can leave background work effectively unbounded, anonymous telemetry defaults on, hooks fail open, and all local tools remain host-privileged. Plugins can inject system prompts, custom agents, skills, hooks, and MCP servers across user-global installs, expanding the trust boundary. The web service is loopback and bearer-authenticated by default; its explicit bypass removes that boundary.",
     releaseReviewAt,
+  ),
+  "mimo-code": record(
+    { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "checkpoint" },
+    [
+      "https://github.com/XiaomiMiMo/MiMo-Code/tree/c045a9891069000b112079bb10bdc8828d75eb6e",
+      "https://mimo.xiaomi.com/mimocode/permissions",
+      "https://mimo.xiaomi.com/mimocode/cli-options",
+      "https://mimo.xiaomi.com/mimocode/sessions",
+      "https://mimo.xiaomi.com/mimocode/agents",
+      "https://mimo.xiaomi.com/mimocode/slash-commands",
+      "https://github.com/XiaomiMiMo/MiMo-Code/blob/c045a9891069000b112079bb10bdc8828d75eb6e/packages/opencode/src/snapshot/index.ts",
+      "https://github.com/XiaomiMiMo/MiMo-Code/blob/c045a9891069000b112079bb10bdc8828d75eb6e/SECURITY.md",
+    ],
+    "Persistent project memory, session compaction, structured event output, logs, per-agent policy, and Git-backed undo support inspection and recovery. Most permissions default to allow, headless execution can bypass checks, and the official security policy states that no process sandbox exists. Workflow QuickJS contains control code only; host tools and external effects remain outside that boundary. Git recovery requires a repository and excludes ignored files, untracked files over 2 MiB, and non-file side effects.",
+    "2026-08-02",
+  ),
+  ante: record(
+    { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },
+    [
+      "https://docs.antigma.ai/reference/core-concepts",
+      "https://docs.antigma.ai/configuration/permission",
+      "https://docs.antigma.ai/usage/goal-sessions",
+      "https://docs.antigma.ai/usage/headless",
+      "https://docs.antigma.ai/extend/memory",
+      "https://docs.antigma.ai/extend/mcp",
+      "https://docs.antigma.ai/usage/serve",
+    ],
+    "Ante persists project memory and resumable sessions, emits structured protocol and headless events, and exposes ordered permission policy plus tool filters. Goal evaluation and the optional verification pass are model-driven aids rather than independent workflow gates. Local tools remain host-privileged, headless mode always implies yolo, and MCP tools require no approval by default. Session resume restores agent state rather than project files or external side effects; the core implementation is private during the alpha preview.",
+    "2026-08-02",
   ),
   "letta-code": record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "managed-recovery" },
@@ -391,7 +425,8 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://zcode.z.ai/en/docs/remote-development",
       "https://zcode.z.ai/en/changelog",
     ],
-    "Vendor-documented posture for ZCode 3.5.2. Goal Mode records model trajectories and applies an independent failed-closed completion check, but no independent validation establishes its accuracy. Docker isolation requires an existing user-provided container; ordinary local and SSH workspaces execute with the target account, file undo does not reverse external side effects, and no headless CLI or CI API was found.",
+    "Vendor-documented posture for ZCode 3.5.3, with the operative mechanisms introduced and reviewed in 3.5.2. Goal Mode records model trajectories and applies an independent failed-closed completion check, but no independent validation establishes its accuracy. Docker isolation requires an existing user-provided container; ordinary local and SSH workspaces execute with the target account, file undo does not reverse external side effects, and no headless CLI or CI API was found.",
+    latestReleaseReviewAt,
   ),
   stagewise: record(
     { context: "managed", permissions: "approval", verification: "tool-assisted", observability: "logs", recovery: "checkpoint" },
@@ -453,8 +488,11 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://ampcode.com/manual/sdk/typescript",
       "https://ampcode.com/security",
       "https://ampcode.com/news/agents-everywhere",
+      "https://ampcode.com/news/event-driven-orbs",
+      "https://ampcode.com/news/multiplayer",
     ],
-    "Amp preserves thread context and tool-call history and now uses durable execution, schedules, and sleeping orbs. This is vendor-documented recovery, not independent task-success evidence. Local tools still run with host privileges and no approval by default; policy plugins are optional, and orb SDK calls ignore local-only policy options in favor of project configuration.",
+    "Amp preserves thread context and tool-call history and now uses durable execution, schedules, sleeping orbs, event webhooks, and temporary multiplayer access. This is vendor-documented recovery and collaboration, not independent task-success evidence. Local tools still run with host privileges and no approval by default; policy plugins are optional, orb SDK calls ignore local-only policy options in favor of project configuration, webhook payloads remain untrusted input, and joined members can access the shared thread, portal, files, and terminal until multiplayer expires.",
+    latestReleaseReviewAt,
   ),
   "kiro-cli": record(
     { context: "managed", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "checkpoint" },
@@ -496,12 +534,13 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
   wakil: record(
     { context: "persistent", permissions: "approval", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },
     [
-      "https://github.com/treeol/wakil/blob/4d2e4f9d38860905fb41593beca87dc40f28fe51/README.md",
-      "https://github.com/treeol/wakil/blob/4d2e4f9d38860905fb41593beca87dc40f28fe51/docs/memory.md",
-      "https://github.com/treeol/wakil/blob/4d2e4f9d38860905fb41593beca87dc40f28fe51/config.example.json",
+      "https://github.com/treeol/wakil/blob/25ff56085007d8e8bdbc4d2f8c74ee4f994a0ed9/README.md",
+      "https://github.com/treeol/wakil/blob/25ff56085007d8e8bdbc4d2f8c74ee4f994a0ed9/docs/memory.md",
+      "https://github.com/treeol/wakil/blob/25ff56085007d8e8bdbc4d2f8c74ee4f994a0ed9/config.example.json",
+      "https://github.com/treeol/wakil/blob/25ff56085007d8e8bdbc4d2f8c74ee4f994a0ed9/internal/counsel/oracle.go",
     ],
     "Wakil combines resumable sessions, optional JSONL traces, a confirmation gate, a default hardened container, and a provenance-aware durable store. Direct execution, host browser opening, Docker-socket access, and ungated memory proposals remain outside a simple fail-closed interpretation; verification is tool-assisted rather than a required test gate.",
-    refreshedAt,
+    latestReleaseReviewAt,
   ),
   "deepagents-code": record(
     { context: "persistent", permissions: "approval", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },
@@ -550,15 +589,27 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
   ggcode: record(
     { context: "persistent", permissions: "policy", verification: "workflow-gated", observability: "traces", recovery: "checkpoint" },
     [
-      "https://github.com/topcheer/ggcode/blob/f99a960149c6d93b8b64e4e08abfc341fbaf7ca2/internal/context/manager.go",
-      "https://github.com/topcheer/ggcode/blob/f99a960149c6d93b8b64e4e08abfc341fbaf7ca2/docs/guide/project-memory.md",
-      "https://github.com/topcheer/ggcode/blob/f99a960149c6d93b8b64e4e08abfc341fbaf7ca2/docs/guide/modes.md",
-      "https://github.com/topcheer/ggcode/blob/f99a960149c6d93b8b64e4e08abfc341fbaf7ca2/docs/guide/harness.md",
-      "https://github.com/topcheer/ggcode/blob/f99a960149c6d93b8b64e4e08abfc341fbaf7ca2/internal/metrics/trace_export.go",
-      "https://github.com/topcheer/ggcode/blob/f99a960149c6d93b8b64e4e08abfc341fbaf7ca2/internal/checkpoint/checkpoint.go",
+      "https://github.com/topcheer/ggcode/blob/b878385bfd4d0edab137e8d48c18fad512d49f21/internal/context/manager.go",
+      "https://github.com/topcheer/ggcode/blob/b878385bfd4d0edab137e8d48c18fad512d49f21/docs/guide/project-memory.md",
+      "https://github.com/topcheer/ggcode/blob/b878385bfd4d0edab137e8d48c18fad512d49f21/docs/guide/modes.md",
+      "https://github.com/topcheer/ggcode/blob/b878385bfd4d0edab137e8d48c18fad512d49f21/docs/guide/harness.md",
+      "https://github.com/topcheer/ggcode/blob/b878385bfd4d0edab137e8d48c18fad512d49f21/internal/metrics/trace_export.go",
+      "https://github.com/topcheer/ggcode/blob/b878385bfd4d0edab137e8d48c18fad512d49f21/internal/checkpoint/checkpoint.go",
     ],
     "GGCode persists repository instructions and JSONL sessions, compacts live context, exports LLM and tool traces, and offers a governed worktree workflow with configured checks, delivery reports, review, approval, and promotion. The strongest verification gate applies to harness tasks rather than every interactive run. Normal execution remains on the host; bypass and autopilot weaken approvals, worktrees and path rules are not OS isolation, and file checkpoints cannot reverse shell or external side effects.",
-    "2026-08-01",
+    latestReleaseReviewAt,
+  ),
+  reasonix: record(
+    { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "checkpoint" },
+    [
+      "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/docs/SESSION_MEMORY_RETRIEVAL.md",
+      "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/docs/GUIDE.md#permissions--sandbox",
+      "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/docs/CLI.md",
+      "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/docs/CHECKPOINTS.md",
+      "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/docs/RECOVERY.md",
+    ],
+    "Reasonix persists hierarchical instructions, durable memory, sessions, structured event streams, and edit checkpoints while exposing ordered permission policy and platform-specific shell isolation. Verification remains tool-assisted rather than an enforced completion gate. Windows shell execution is unconfined, headless auto mode removes interactive approval, MCP tools bypass per-tool approval, and checkpoints cannot reverse Bash, move, network, or other external side effects.",
+    "2026-08-02",
   ),
 };
 

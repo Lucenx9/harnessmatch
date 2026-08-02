@@ -1,6 +1,7 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
+const releaseVerifiedAt = "2026-08-02";
 
 export const qwenCode = {
     id: "qwen-code",
@@ -38,16 +39,17 @@ export const qwenCode = {
     bestFor: [
       "Terminal and CI workflows that can explicitly enable a first-party sandbox path",
       "Teams switching among Qwen, OpenAI-compatible, Anthropic, Gemini, and local endpoints",
-      "Delegated coding tasks that benefit from subagents, MCP, skills, and IDE integrations",
+      "Delegated coding tasks that benefit from constrained fork profiles, background workflows, MCP, skills, and IDE integrations",
     ],
     tradeoffs: [
       "The sandbox is off by default; `--yolo` does not enable it, and the default macOS profile allows network access while mainly restricting writes",
       "Checkpointing is also opt-in and restores tracked project state and conversation, not shell-created external side effects",
-      "Auto-memory is enabled by default and can persist user or project knowledge, so teams should review what is retained and synchronized",
+      "Auto-memory is enabled by default and can persist user or project knowledge; managed project memory in qwen serve remains Git-root-scoped by default, while exact-workspace isolation is opt-in",
+      "Opt-in background workflow runs are limited to interactive TUI sessions, remain blocked on parent approval, are cancelled when the owning process exits, and do not yet support pause, resume, restart recovery, remote workflows, or tracing",
       "The qwen serve daemon is an alpha local API: loopback starts without authentication, non-loopback binding fails closed without a bearer token, and the docs do not yet claim production-grade multi-client or network-failure guarantees",
     ],
     setup: "Install `@qwen-code/qwen-code`, configure a provider, and enable Seatbelt, Docker, or Podman before running unattended tasks.",
-    verifiedAt: verifiedAt,
+    verifiedAt: releaseVerifiedAt,
     evidence: [
       {
         title: "Qwen Code 0.21.0 source snapshot",
@@ -184,6 +186,30 @@ export const qwenCode = {
         covers: "Dated release notes for nested subagent spawning, default depth controls, tree visibility, parameter-level permissions, and Web Shell sessions",
         kind: "official-announcement",
         verifiedAt: verifiedAt,
+      },
+      {
+        title: "Qwen Code 0.21.3 release",
+        topic: "orchestration-state",
+        url: "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.3",
+        covers: "Stable release notes for named fork profiles, workflow approval propagation, opt-in background runs, workspace-qualified managed memory, and related orchestration changes",
+        kind: "official-announcement",
+        verifiedAt: releaseVerifiedAt,
+      },
+      {
+        title: "Background workflow runs",
+        topic: "orchestration-state",
+        url: "https://github.com/QwenLM/qwen-code/pull/8303",
+        covers: "Opt-in interactive-TUI background execution, run handles, cancellation, parent-session approval bubbling, completion delivery, process-lifetime scope, and unsupported recovery or remote modes",
+        kind: "official-repository",
+        verifiedAt: releaseVerifiedAt,
+      },
+      {
+        title: "Workspace-scoped managed memory",
+        topic: "orchestration-state",
+        url: "https://github.com/QwenLM/qwen-code/pull/8056",
+        covers: "Workspace-qualified memory operations, opt-in exact-workspace storage, Git-root default behavior, trusted-runtime routing, and fail-closed workspace resolution",
+        kind: "official-repository",
+        verifiedAt: releaseVerifiedAt,
       },
     ],
   } satisfies HarnessRecord;

@@ -2,7 +2,7 @@ const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
 
 export const openRouterApps = [
   { harnessId: "hermes-agent", appId: 3_067_167, appName: "Hermes Agent", originUrl: "https://hermes-agent.nousresearch.com/", slug: "hermes-agent", integrationUrl: "https://openrouter.ai/docs/cookbook/coding-agents/hermes-integration" },
-  { harnessId: "kilo-code", appId: 2_262_242, appName: "Kilo Code", originUrl: "https://kilocode.ai/", slug: "kilo-code", integrationUrl: "https://kilo.ai/docs/providers/openrouter" },
+  { harnessId: "kilo-code", appId: 2_262_242, appName: "Kilo Code", originUrl: "https://kilocode.ai/", slug: "kilo-code", integrationUrl: "https://kilo.ai/docs/ai-providers/openrouter" },
   { harnessId: "openclaw", appId: 2_725_608, appName: "OpenClaw", originUrl: "https://openclaw.ai/", slug: "openclaw", integrationUrl: "https://openrouter.ai/docs/cookbook/coding-agents/openclaw-integration" },
   { harnessId: "claude-code", appId: 2_627_404, appName: "Claude Code", originUrl: "https://claude.ai/code", slug: "claude-code", integrationUrl: "https://openrouter.ai/docs/cookbook/coding-agents/claude-code-integration" },
   { harnessId: "openhands", appId: 189_563, appName: "OpenHands", originUrl: "https://docs.all-hands.dev/", slug: "openhands" },
@@ -18,6 +18,10 @@ export const openRouterApps = [
   { harnessId: "crush", appId: 2_351_296, appName: "Crush", originUrl: "https://charm.land/", slug: null },
   { harnessId: "codex", appId: 2_668_297, appName: "Codex", originUrl: "https://openai.com/codex/", slug: "codex" },
   { harnessId: "qwen-code", appId: 2_354_934, appName: "Qwen Code", originUrl: "https://github.com/QwenLM/qwen-code.git", slug: "qwen-code" },
+  { harnessId: "mimo-code", appId: 3_980_383, appName: "mimocode", originUrl: "https://mimo.xiaomi.com/coder", slug: null },
+  { harnessId: "cursor-cli", appId: 2_237_546, appName: "Cursor", originUrl: "https://cursor.com/", slug: null },
+  { harnessId: "deepagents-code", appId: 3_687_500, appName: "Deep Agents Code", originUrl: "https://pypi.org/project/deepagents-code", slug: null },
+  { harnessId: "ante", appId: 3_067_206, appName: "Ante", originUrl: "https://docs.antigma.ai/", slug: null },
   { harnessId: "postqode", appId: 2_304_560, appName: "PostQode", originUrl: "https://postqode.ai/", slug: null },
   { harnessId: "kern", appId: 3_149_465, appName: "Kern Agent", originUrl: "https://github.com/oguzbilgic/kern-ai", slug: null },
   { harnessId: "junie-cli", appId: 3_053_821, appName: "Junie", originUrl: "https://www.jetbrains.com/junie", slug: "junie" },

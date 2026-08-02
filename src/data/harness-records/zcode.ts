@@ -1,6 +1,7 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
+const releaseVerifiedAt = "2026-08-02";
 
 export const zcode = {
     id: "zcode",
@@ -47,8 +48,8 @@ export const zcode = {
       "Goal verification and trajectory auditing are vendor-described mechanisms, not independent proof of task success",
       "Custom self-hosted compatible endpoints are supported, but the reviewed docs do not establish a packaged local-model runtime",
     ],
-    setup: "Install ZCode 3.5.2, connect a Z.ai plan or compatible API provider, open a local, SSH, or existing Docker workspace, then choose the permission mode before starting tasks or schedules.",
-    verifiedAt: verifiedAt,
+    setup: "Install ZCode 3.5.3, connect a Z.ai plan or compatible API provider, open a local, SSH, or existing Docker workspace, then choose the permission mode before starting tasks or schedules.",
+    verifiedAt: releaseVerifiedAt,
     evidence: [
       {
         title: "ZCode Agent workflow",
@@ -163,11 +164,11 @@ export const zcode = {
         verifiedAt: verifiedAt,
       },
       {
-        title: "Release 3.5.2 and recent automation changes",
+        title: "Release 3.5.3 and recent automation changes",
         url: "https://zcode.z.ai/en/changelog",
-        covers: "Version and release date, scheduled tasks, background subagents and shell tasks, built-in web integration, and session recovery fixes",
+        covers: "Current 3.5.3 maintenance release plus the recent scheduled-task, background-subagent, web-integration, and session-recovery changes introduced in 3.5.2",
         kind: "official-docs",
-        verifiedAt: verifiedAt,
+        verifiedAt: releaseVerifiedAt,
       },
     ],
     discovery: [

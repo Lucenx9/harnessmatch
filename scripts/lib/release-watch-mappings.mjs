@@ -29,6 +29,12 @@ export const githubReleaseWatches = [
   { harnessId: "kern", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },
   { harnessId: "kilo-code", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },
   { harnessId: "kimi-code", includeTagPatterns: [String.raw`^@moonshot-ai/kimi-code@\d+\.\d+\.\d+$`] },
+  { harnessId: "mimo-code", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },
+  {
+    harnessId: "ante",
+    includeTagPatterns: [String.raw`^v0\.preview\.\d+$`],
+    includeNamePatterns: [String.raw`^v0\.preview\.\d+$`],
+  },
   { harnessId: "letta-code", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },
   { harnessId: "mini-swe-agent", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },
   { harnessId: "mistral-vibe", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },
@@ -41,6 +47,7 @@ export const githubReleaseWatches = [
   { harnessId: "pi", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },
   { harnessId: "poolside-cli", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },
   { harnessId: "qwen-code", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },
+  { harnessId: "reasonix", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },
   { harnessId: "stagewise", includeTagPatterns: [String.raw`^stagewise@\d+\.\d+\.\d+$`] },
   { harnessId: "zoo-code", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },
 ];

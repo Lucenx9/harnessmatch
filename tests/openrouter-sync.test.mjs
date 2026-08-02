@@ -11,14 +11,15 @@ import { openRouterAttributionSnapshots } from "../src/data/openrouter-attributi
 
 describe("OpenRouter attribution sync", () => {
   it("keeps the generated dataset aligned with the stable app mapping", () => {
-    expect(openRouterAttributionSnapshots.map(({ harnessId, artifactId, appId, sourceUrl }) => (
-      { harnessId, artifactId, appId, sourceUrl }
+    expect(openRouterAttributionSnapshots.map(({ harnessId, artifactId, appId, sourceUrl, integrationUrl }) => (
+      { harnessId, artifactId, appId, sourceUrl, integrationUrl }
     ))).toEqual(
       openRouterApps.map((app) => ({
         harnessId: app.harnessId,
         artifactId: app.appName,
         appId: app.appId,
         sourceUrl: openRouterAppUrl(app),
+        integrationUrl: app.integrationUrl,
       })),
     );
   });
@@ -43,7 +44,7 @@ describe("OpenRouter attribution sync", () => {
     expect(openRouterAppUrl(sluglessApp)).toContain("/apps/url/");
   });
 
-  it("uses the current Goose and Oh-My-Pi identities", () => {
+  it("uses the current slugless app identities", () => {
     expect(openRouterApps.find(({ harnessId }) => harnessId === "goose")).toMatchObject({
       appId: 3_248_223,
       originUrl: "https://goose-docs.ai/",
@@ -58,6 +59,30 @@ describe("OpenRouter attribution sync", () => {
       appId: 4_434_691,
       appName: "GGCode",
       originUrl: "https://ggcode.dev/",
+      slug: null,
+    });
+    expect(openRouterApps.find(({ harnessId }) => harnessId === "mimo-code")).toMatchObject({
+      appId: 3_980_383,
+      appName: "mimocode",
+      originUrl: "https://mimo.xiaomi.com/coder",
+      slug: null,
+    });
+    expect(openRouterApps.find(({ harnessId }) => harnessId === "cursor-cli")).toMatchObject({
+      appId: 2_237_546,
+      appName: "Cursor",
+      originUrl: "https://cursor.com/",
+      slug: null,
+    });
+    expect(openRouterApps.find(({ harnessId }) => harnessId === "deepagents-code")).toMatchObject({
+      appId: 3_687_500,
+      appName: "Deep Agents Code",
+      originUrl: "https://pypi.org/project/deepagents-code",
+      slug: null,
+    });
+    expect(openRouterApps.find(({ harnessId }) => harnessId === "ante")).toMatchObject({
+      appId: 3_067_206,
+      appName: "Ante",
+      originUrl: "https://docs.antigma.ai/",
       slug: null,
     });
   });
