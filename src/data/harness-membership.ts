@@ -315,6 +315,12 @@ const membershipDefinitions: Record<string, MembershipDefinition> = {
     activeContextManagement: ["Context manager implementation", "Project memory"],
     runtimeControl: ["Permission modes", "Providers and endpoints"],
   }),
+  reasonix: documentedCodingHarness({
+    adaptiveLoop: "Reasonix engineering specification",
+    environmentMutation: "Built-in tool contract",
+    activeContextManagement: ["Reasonix engineering specification", "Context Engine v2"],
+    runtimeControl: ["Permissions and sandbox", "Provider and model routes"],
+  }),
 };
 
 export function getHarnessMembershipAssessment(

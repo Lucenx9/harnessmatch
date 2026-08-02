@@ -62,19 +62,20 @@ describe("usage source coverage", () => {
       expect.objectContaining({ harnessId: "factory-droid", artifactId: "@factory/cli" }),
       expect.objectContaining({ harnessId: "crush", artifactId: "@charmland/crush" }),
       expect.objectContaining({ harnessId: "mimo-code", artifactId: "@mimo-ai/cli" }),
+      expect.objectContaining({ harnessId: "reasonix", artifactId: "reasonix" }),
     ]));
     expect(vsCodeExtensions.map(({ harnessId }) => harnessId)).toEqual(expect.arrayContaining([
-      "factory-droid", "qwen-code", "gemini-cli", "mistral-vibe", "zoo-code",
+      "factory-droid", "qwen-code", "gemini-cli", "mistral-vibe", "zoo-code", "reasonix",
     ]));
     expect(openVsxExtensions.map(({ harnessId }) => harnessId)).toEqual(expect.arrayContaining([
-      "qwen-code", "gemini-cli", "mistral-vibe", "zoo-code",
+      "qwen-code", "gemini-cli", "mistral-vibe", "zoo-code", "reasonix",
     ]));
     expect(jetBrainsPlugins.map(({ harnessId }) => harnessId)).toEqual(expect.arrayContaining([
       "claude-code", "factory-droid",
     ]));
     expect(githubReleaseArtifacts.map(({ harnessId }) => harnessId)).toEqual(expect.arrayContaining([
       "cline", "crush", "deepagents-code", "kilo-code", "kimi-code",
-      "mimo-code", "mistral-vibe", "opensquilla", "poolside-cli", "zoo-code", "ggcode", "ante",
+      "mimo-code", "mistral-vibe", "opensquilla", "poolside-cli", "zoo-code", "ggcode", "ante", "reasonix",
     ]));
   });
 });

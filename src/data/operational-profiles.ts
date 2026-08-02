@@ -599,6 +599,18 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
     "GGCode persists repository instructions and JSONL sessions, compacts live context, exports LLM and tool traces, and offers a governed worktree workflow with configured checks, delivery reports, review, approval, and promotion. The strongest verification gate applies to harness tasks rather than every interactive run. Normal execution remains on the host; bypass and autopilot weaken approvals, worktrees and path rules are not OS isolation, and file checkpoints cannot reverse shell or external side effects.",
     latestReleaseReviewAt,
   ),
+  reasonix: record(
+    { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "checkpoint" },
+    [
+      "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/docs/SESSION_MEMORY_RETRIEVAL.md",
+      "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/docs/GUIDE.md#permissions--sandbox",
+      "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/docs/CLI.md",
+      "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/docs/CHECKPOINTS.md",
+      "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/docs/RECOVERY.md",
+    ],
+    "Reasonix persists hierarchical instructions, durable memory, sessions, structured event streams, and edit checkpoints while exposing ordered permission policy and platform-specific shell isolation. Verification remains tool-assisted rather than an enforced completion gate. Windows shell execution is unconfined, headless auto mode removes interactive approval, MCP tools bypass per-tool approval, and checkpoints cannot reverse Bash, move, network, or other external side effects.",
+    "2026-08-02",
+  ),
 };
 
 const unknownRecord: OperationalProfileRecord = {

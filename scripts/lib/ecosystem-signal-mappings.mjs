@@ -43,6 +43,7 @@ export const npmPackages = [
   { harnessId: "amp", artifactId: "@ampcode/cli", identity: { kind: "homepage", value: "https://ampcode.com/" } },
   { harnessId: "factory-droid", artifactId: "@factory/cli", identity: { kind: "repository", value: "https://github.com/Factory-AI/factory" } },
   { harnessId: "crush", artifactId: "@charmland/crush", identity: { kind: "repository", value: "https://github.com/charmbracelet/crush" } },
+  { harnessId: "reasonix", artifactId: "reasonix", identity: { kind: "repository", value: "https://github.com/esengine/DeepSeek-Reasonix" } },
 ];
 
 export const vsCodeExtensions = [
@@ -55,6 +56,7 @@ export const vsCodeExtensions = [
   { harnessId: "gemini-cli", artifactId: "Google.gemini-cli-vscode-ide-companion" },
   { harnessId: "mistral-vibe", artifactId: "mistralai.mistral-vibe-code" },
   { harnessId: "zoo-code", artifactId: "ZooCodeOrganization.zoo-code" },
+  { harnessId: "reasonix", artifactId: "SivanLiu.reasonix-agent" },
 ];
 
 export const openVsxExtensions = [
@@ -67,6 +69,7 @@ export const openVsxExtensions = [
   { harnessId: "gemini-cli", artifactId: "Google/gemini-cli-vscode-ide-companion", displayName: "Gemini CLI Companion", repositoryUrl: "https://github.com/google-gemini/gemini-cli" },
   { harnessId: "mistral-vibe", artifactId: "mistralai/mistral-vibe-code", displayName: "Mistral Vibe VS Code", repositoryUrl: "https://github.com/mistralai/mistral-vibe" },
   { harnessId: "zoo-code", artifactId: "ZooCodeOrganization/zoo-code", displayName: "Zoo Code", repositoryUrl: "https://github.com/Zoo-Code-Org/Zoo-Code" },
+  { harnessId: "reasonix", artifactId: "SivanLiu/reasonix-agent", displayName: "Reasonix", repositoryUrl: "https://github.com/SivanCola/reasonix-vscode" },
 ];
 
 export const jetBrainsPlugins = [
@@ -238,5 +241,14 @@ export const githubReleaseArtifacts = [
     includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`],
     includePatterns: [String.raw`^ggcode_(?:darwin|linux|windows)_(?:arm64|x86_64)\.(?:tar\.gz|zip)$`],
     artifactScope: "Stable GGCode CLI platform archives",
+  },
+  {
+    harnessId: "reasonix",
+    includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`],
+    includePatterns: [
+      String.raw`^reasonix-(?:darwin|linux)-(?:amd64|arm64)\.tar\.gz$`,
+      String.raw`^reasonix-windows-(?:amd64|arm64)\.zip$`,
+    ],
+    artifactScope: "Stable Reasonix CLI platform archives",
   },
 ];

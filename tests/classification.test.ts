@@ -78,6 +78,7 @@ describe("harness classification", () => {
       "kern",
       "ggcode",
       "ante",
+      "reasonix",
     ]);
   });
 

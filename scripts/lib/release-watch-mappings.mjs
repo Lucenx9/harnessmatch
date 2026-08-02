@@ -47,6 +47,7 @@ export const githubReleaseWatches = [
   { harnessId: "pi", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },
   { harnessId: "poolside-cli", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },
   { harnessId: "qwen-code", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },
+  { harnessId: "reasonix", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },
   { harnessId: "stagewise", includeTagPatterns: [String.raw`^stagewise@\d+\.\d+\.\d+$`] },
   { harnessId: "zoo-code", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },
 ];

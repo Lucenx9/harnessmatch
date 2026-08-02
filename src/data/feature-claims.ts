@@ -571,6 +571,30 @@ const featureClaimSeedsByHarness = {
       "File checkpoints do not reverse shell, Git, browser, messaging, or external-service side effects.",
     ),
   },
+  reasonix: {
+    mcp: documented("MCP integration and trust boundary"),
+    skills: documented("Skills and plugin packages"),
+    localModels: configuredClaim(
+      "documented",
+      ["Provider and model routes"],
+      "Self-hosted OpenAI-compatible or Anthropic-compatible endpoints",
+      "Reasonix does not bundle a local model runtime; endpoint availability, model capability, and isolation remain external.",
+    ),
+    subagents: documented("Subagent profiles"),
+    headless: documented("Headless CLI and structured events"),
+    sandbox: configuredClaim(
+      "surface-specific",
+      ["Permissions and sandbox", "Security policy"],
+      "Default OS shell sandbox on macOS and supported Linux installations, plus workspace-confined file tools across supported platforms",
+      "Windows shell execution is unconfined, network access is allowed by default, the OS sandbox can be disabled, and trusted extensions retain separate boundaries.",
+    ),
+    checkpoints: configuredClaim(
+      "documented",
+      ["Checkpoints and rewind"],
+      "Persistent file and conversation snapshots for previewable Reasonix edit tools",
+      "Checkpoints exclude Bash, move operations, remote services, and other external side effects; rewind can overwrite later external edits.",
+    ),
+  },
 } satisfies Record<string, Partial<Record<FeatureKey, FeatureClaimSeed>>>;
 
 export const featureClaimHarnessIds = Object.keys(featureClaimSeedsByHarness);

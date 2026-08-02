@@ -66,6 +66,7 @@ describe("feature claim ledger", () => {
     expect(featureClaimFor(byId.get("claude-code")!, "sandbox").state).toBe("optional");
     expect(featureClaimFor(byId.get("codex")!, "sandbox").state).toBe("default");
     expect(featureClaimFor(byId.get("amp")!, "sandbox").state).toBe("surface-specific");
+    expect(featureClaimFor(byId.get("reasonix")!, "sandbox").state).toBe("surface-specific");
   });
 
   it("keeps Ante browser support build-dependent and does not invent isolation or rollback", () => {

@@ -8,13 +8,13 @@ export const unmappedHarnessIdsByUsageSource = {
     "amp", "antigravity-cli", "coder-agents", "copilot-cli",
     "factory-droid", "forgecode", "gemini-cli", "grok-build",
     "kimi-code", "kiro-cli", "letta-code", "mini-swe-agent", "mistral-vibe",
-    "mux", "opencode", "stagewise", "zcode", "zoo-code",
+    "mux", "opencode", "reasonix", "stagewise", "zcode", "zoo-code",
   ],
   homebrew: [
     "amp", "ante", "codebuff", "coder-agents", "command-code", "crush",
     "deepagents-code", "ggcode", "junie-cli", "kern", "kilo-code", "mini-swe-agent", "mux",
     "omp", "openhands", "opensquilla", "poolside-cli", "postqode", "stagewise",
-    "wakil", "zcode", "zoo-code",
+    "reasonix", "wakil", "zcode", "zoo-code",
   ],
   npm: [
     "aider", "ante", "antigravity-cli", "coder-agents", "command-code", "cursor-cli",
@@ -45,7 +45,7 @@ export const unmappedHarnessIdsByUsageSource = {
     "forgecode", "gemini-cli", "ggcode", "goose", "grok-build", "hermes-agent", "kern",
     "kimi-code", "kiro-cli", "letta-code", "mimo-code", "mini-swe-agent", "mistral-vibe",
     "mux", "omp", "openclaw", "opencode", "openhands", "opensquilla", "pi",
-    "poolside-cli", "postqode", "qwen-code", "stagewise", "wakil", "zcode",
+    "poolside-cli", "postqode", "qwen-code", "reasonix", "stagewise", "wakil", "zcode",
     "zoo-code",
   ],
   "github-releases": [

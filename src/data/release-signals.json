@@ -372,6 +372,18 @@
     "sourceUrl": "https://api.github.com/repos/QwenLM/qwen-code/releases"
   },
   {
+    "harnessId": "reasonix",
+    "repository": "esengine/DeepSeek-Reasonix",
+    "repositoryScope": "full-source",
+    "latestVersion": "v1.19.2",
+    "latestReleaseAt": "2026-08-02",
+    "latestReleaseUrl": "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.19.2",
+    "recentReleaseCount": 68,
+    "recentReleaseWindowDays": 90,
+    "observedAt": "2026-08-02",
+    "sourceUrl": "https://api.github.com/repos/esengine/DeepSeek-Reasonix/releases"
+  },
+  {
     "harnessId": "stagewise",
     "repository": "stagewise-io/stagewise",
     "repositoryScope": "full-source",

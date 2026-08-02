@@ -52,6 +52,7 @@ const firstPartyHosts: Record<string, string[]> = {
   kern: ["github.com"],
   ggcode: ["github.com"],
   ante: ["docs.antigma.ai", "github.com"],
+  reasonix: ["reasonix.io", "github.com"],
 };
 
 const firstPartyLogoHosts: Record<string, string> = {
@@ -101,6 +102,7 @@ const firstPartyLogoHosts: Record<string, string> = {
   kern: "github.com",
   ggcode: "github.com",
   ante: "github.com",
+  reasonix: "github.com",
 };
 
 describe("harness evidence ledger", () => {
@@ -312,6 +314,23 @@ describe("harness evidence ledger", () => {
       isolation: [],
       state: "persistent-memory",
     });
+    expect(featureSupportFor(byId.get("reasonix"))).toEqual({
+      mcp: true,
+      skills: true,
+      localModels: true,
+      subagents: true,
+      headless: true,
+      browser: false,
+      sandbox: true,
+      checkpoints: true,
+    });
+    expect(byId.get("reasonix")?.classification).toEqual({
+      role: "coding-agent",
+      orchestration: "delegated-subagents",
+      runtime: "sandbox-first",
+      isolation: ["os-sandbox"],
+      state: "persistent-memory",
+    });
   });
 
   it("admits the OpenRouter-discovered wave only through first-party membership evidence", () => {
@@ -408,6 +427,32 @@ describe("harness evidence ledger", () => {
     expect(urls.some((url) => url.includes("openrouter.ai"))).toBe(false);
     expect(caveats).toContain("core harness remains private");
     expect(caveats).toContain("Headless runs always imply yolo");
+  });
+
+  it("adds Reasonix from a pinned stable source audit without importing marketing performance claims", () => {
+    const reasonix = harnesses.find((harness) => harness.id === "reasonix")!;
+    const urls = reasonix.evidence.map((source) => source.url);
+    const caveats = reasonix.tradeoffs.join(" ");
+
+    expect(reasonix.status).toBe("active");
+    expect(reasonix.verifiedAt).toBe("2026-08-02");
+    expect(reasonix.license).toBe("MIT");
+    expect(reasonix.supportsSubscription).toBe(true);
+    expect(reasonix.evidence).toHaveLength(17);
+    expect(reasonix.evidence.every((source) => source.verifiedAt === reasonix.verifiedAt)).toBe(true);
+    expect(new Set(urls).size).toBe(urls.length);
+    expect(urls).toEqual(expect.arrayContaining([
+      "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.19.2",
+      "https://github.com/esengine/DeepSeek-Reasonix/tree/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2",
+      "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/docs/SPEC.md",
+      "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/docs/TOOL_CONTRACT.md",
+      "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/docs/CHECKPOINTS.md",
+      "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/SECURITY.md",
+    ]));
+    expect(reasonix.discovery).toBeUndefined();
+    expect(caveats).toContain("Windows shell commands run without that isolation");
+    expect(caveats).toContain("marketing figures are not admitted");
+    expect(caveats).toContain("retrieves page content rather than controlling an interactive browser");
   });
 
   it("separates Gemini CLI enterprise continuity from the Antigravity consumer successor", () => {
