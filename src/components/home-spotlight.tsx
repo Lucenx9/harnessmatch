@@ -32,9 +32,9 @@ export function HomeSpotlight({ period, records }: HomeSpotlightProps) {
         {records.map((record) => (
           <li key={record.id}>
             <div className="home-spotlight-product">
-              <HarnessLogo logo={record.logo} name={record.name} size="small" />
+              <span>{record.angle}</span>
               <div>
-                <span>{record.angle}</span>
+                <HarnessLogo logo={record.logo} name={record.name} size="small" />
                 <h3><Link href={`/harnesses/${record.slug}`}>{record.name}</Link></h3>
               </div>
             </div>

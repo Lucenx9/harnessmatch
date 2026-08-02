@@ -68,9 +68,9 @@
 .home-spotlight-list { margin: 0; padding: 0; list-style: none; }
 .home-spotlight-list li { display: grid; grid-template-columns: minmax(170px, .7fr) minmax(0, 1.3fr); gap: 18px 28px; padding: 26px 0 24px 32px; }
 .home-spotlight-list li:not(:last-child) { border-bottom: 1px solid var(--line); }
-.home-spotlight-product { min-width: 0; display: flex; align-items: flex-start; gap: 12px; }
-.home-spotlight-product > div { min-width: 0; }
-.home-spotlight-product span { display: block; margin-bottom: 7px; color: var(--muted); font: 520 .59rem/1.3 var(--font-mono); }
+.home-spotlight-product { min-width: 0; }
+.home-spotlight-product > span { display: block; margin-bottom: 7px; padding-left: 44px; color: var(--muted); font: 520 .59rem/1.3 var(--font-mono); }
+.home-spotlight-product > div { min-width: 0; display: flex; align-items: center; gap: 12px; }
 .home-spotlight-product h3 { margin: 0; font-size: 1.05rem; line-height: 1.25; letter-spacing: -.02em; }
 .home-spotlight-product h3 a:hover { color: var(--accent-strong); }
 .home-spotlight-notes { min-width: 0; display: grid; grid-template-columns: .78fr 1.22fr; gap: 24px; margin: 0; }
