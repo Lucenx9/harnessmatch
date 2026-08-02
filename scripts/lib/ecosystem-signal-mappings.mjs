@@ -6,6 +6,7 @@ export const homebrewArtifacts = [
   { harnessId: "gemini-cli", artifactId: "gemini-cli", artifactKind: "formula" },
   { harnessId: "hermes-agent", artifactId: "hermes-agent", artifactKind: "formula" },
   { harnessId: "kimi-code", artifactId: "kimi-code", artifactKind: "formula" },
+  { harnessId: "mimo-code", artifactId: "mimo-code", artifactKind: "formula" },
   { harnessId: "letta-code", artifactId: "letta-code", artifactKind: "formula" },
   { harnessId: "mistral-vibe", artifactId: "mistral-vibe", artifactKind: "formula" },
   { harnessId: "openclaw", artifactId: "openclaw-cli", artifactKind: "formula" },
@@ -31,6 +32,7 @@ export const npmPackages = [
   { harnessId: "letta-code", artifactId: "@letta-ai/letta-code", identity: { kind: "repository", value: "https://github.com/letta-ai/letta-code" } },
   { harnessId: "kilo-code", artifactId: "@kilocode/cli", identity: { kind: "repository", value: "https://github.com/Kilo-Org/kilocode" } },
   { harnessId: "kimi-code", artifactId: "@moonshot-ai/kimi-code", identity: { kind: "repository", value: "https://github.com/MoonshotAI/kimi-code" } },
+  { harnessId: "mimo-code", artifactId: "@mimo-ai/cli", identity: { kind: "repository", value: "https://github.com/XiaomiMiMo/MiMo-Code" } },
   { harnessId: "opencode", artifactId: "opencode-ai", identity: { kind: "install-page", value: "https://opencode.ai/docs/", contains: "npm install -g opencode-ai" } },
   { harnessId: "openclaw", artifactId: "openclaw", identity: { kind: "repository", value: "https://github.com/openclaw/openclaw" } },
   { harnessId: "cline", artifactId: "cline", identity: { kind: "repository", value: "https://github.com/cline/cline" } },
@@ -41,6 +43,7 @@ export const npmPackages = [
   { harnessId: "amp", artifactId: "@ampcode/cli", identity: { kind: "homepage", value: "https://ampcode.com/" } },
   { harnessId: "factory-droid", artifactId: "@factory/cli", identity: { kind: "repository", value: "https://github.com/Factory-AI/factory" } },
   { harnessId: "crush", artifactId: "@charmland/crush", identity: { kind: "repository", value: "https://github.com/charmbracelet/crush" } },
+  { harnessId: "reasonix", artifactId: "reasonix", identity: { kind: "repository", value: "https://github.com/esengine/DeepSeek-Reasonix" } },
 ];
 
 export const vsCodeExtensions = [
@@ -53,6 +56,7 @@ export const vsCodeExtensions = [
   { harnessId: "gemini-cli", artifactId: "Google.gemini-cli-vscode-ide-companion" },
   { harnessId: "mistral-vibe", artifactId: "mistralai.mistral-vibe-code" },
   { harnessId: "zoo-code", artifactId: "ZooCodeOrganization.zoo-code" },
+  { harnessId: "reasonix", artifactId: "SivanLiu.reasonix-agent" },
 ];
 
 export const openVsxExtensions = [
@@ -65,6 +69,7 @@ export const openVsxExtensions = [
   { harnessId: "gemini-cli", artifactId: "Google/gemini-cli-vscode-ide-companion", displayName: "Gemini CLI Companion", repositoryUrl: "https://github.com/google-gemini/gemini-cli" },
   { harnessId: "mistral-vibe", artifactId: "mistralai/mistral-vibe-code", displayName: "Mistral Vibe VS Code", repositoryUrl: "https://github.com/mistralai/mistral-vibe" },
   { harnessId: "zoo-code", artifactId: "ZooCodeOrganization/zoo-code", displayName: "Zoo Code", repositoryUrl: "https://github.com/Zoo-Code-Org/Zoo-Code" },
+  { harnessId: "reasonix", artifactId: "SivanLiu/reasonix-agent", displayName: "Reasonix", repositoryUrl: "https://github.com/SivanCola/reasonix-vscode" },
 ];
 
 export const jetBrainsPlugins = [
@@ -195,6 +200,19 @@ export const githubReleaseArtifacts = [
     artifactScope: "Stable Kimi Code CLI platform archives",
   },
   {
+    harnessId: "mimo-code",
+    includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`],
+    includePatterns: [String.raw`^mimocode-(?:darwin|linux|windows)-.+\.(?:zip|tar\.gz)$`],
+    artifactScope: "Stable MiMo Code platform archives",
+  },
+  {
+    harnessId: "ante",
+    includeTagPatterns: [String.raw`^v0\.preview\.\d+$`],
+    includeNamePatterns: [String.raw`^v0\.preview\.\d+$`],
+    includePatterns: [String.raw`^ante-v0\.preview\.\d+-(?:darwin-(?:arm64|x86_64)|linux-(?:arm64|x86_64)-musl)\.tar\.gz$`],
+    artifactScope: "Ante alpha-preview macOS and Linux platform archives",
+  },
+  {
     harnessId: "mistral-vibe",
     includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`],
     includePatterns: [String.raw`^vibe-(?:acp-)?(?:darwin|linux|windows)-.+\.(?:zip|tar\.gz)$`],
@@ -223,5 +241,14 @@ export const githubReleaseArtifacts = [
     includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`],
     includePatterns: [String.raw`^ggcode_(?:darwin|linux|windows)_(?:arm64|x86_64)\.(?:tar\.gz|zip)$`],
     artifactScope: "Stable GGCode CLI platform archives",
+  },
+  {
+    harnessId: "reasonix",
+    includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`],
+    includePatterns: [
+      String.raw`^reasonix-(?:darwin|linux)-(?:amd64|arm64)\.tar\.gz$`,
+      String.raw`^reasonix-windows-(?:amd64|arm64)\.zip$`,
+    ],
+    artifactScope: "Stable Reasonix CLI platform archives",
   },
 ];

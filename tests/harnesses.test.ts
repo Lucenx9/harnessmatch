@@ -27,6 +27,7 @@ const firstPartyHosts: Record<string, string[]> = {
   "continue-cli": ["docs.continue.dev", "github.com"],
   "mistral-vibe": ["docs.mistral.ai", "github.com", "mistral.ai"],
   "kimi-code": ["moonshotai.github.io", "github.com"],
+  "mimo-code": ["mimo.xiaomi.com", "github.com"],
   "letta-code": ["docs.letta.com", "github.com", "arxiv.org"],
   "kilo-code": ["github.com", "kilo.ai", "blog.kilo.ai"],
   "command-code": ["commandcode.ai", "github.com"],
@@ -50,6 +51,8 @@ const firstPartyHosts: Record<string, string[]> = {
   postqode: ["postqode.ai", "www.postqode.ai", "www.npmjs.com"],
   kern: ["github.com"],
   ggcode: ["github.com"],
+  ante: ["docs.antigma.ai", "github.com"],
+  reasonix: ["reasonix.io", "github.com"],
 };
 
 const firstPartyLogoHosts: Record<string, string> = {
@@ -74,6 +77,7 @@ const firstPartyLogoHosts: Record<string, string> = {
   "continue-cli": "github.com",
   "mistral-vibe": "github.com",
   "kimi-code": "github.com",
+  "mimo-code": "github.com",
   "letta-code": "github.com",
   "kilo-code": "github.com",
   "command-code": "commandcode.ai",
@@ -97,6 +101,8 @@ const firstPartyLogoHosts: Record<string, string> = {
   postqode: "postqode.ai",
   kern: "github.com",
   ggcode: "github.com",
+  ante: "github.com",
+  reasonix: "github.com",
 };
 
 describe("harness evidence ledger", () => {
@@ -204,6 +210,23 @@ describe("harness evidence ledger", () => {
     expect(featureSupportFor(byId.get("mistral-vibe")).checkpoints).toBe(true);
     expect(featureSupportFor(byId.get("kimi-code")).subagents).toBe(true);
     expect(featureSupportFor(byId.get("kimi-code")).sandbox).toBe(false);
+    expect(featureSupportFor(byId.get("mimo-code"))).toMatchObject({
+      mcp: true,
+      skills: true,
+      localModels: true,
+      subagents: true,
+      headless: true,
+      browser: false,
+      sandbox: false,
+      checkpoints: true,
+    });
+    expect(byId.get("mimo-code")?.classification).toEqual({
+      role: "coding-agent",
+      orchestration: "multi-agent-runtime",
+      runtime: "host-first",
+      isolation: ["worktree"],
+      state: "persistent-memory",
+    });
     expect(featureSupportFor(byId.get("letta-code")).sandbox).toBe(true);
     expect(byId.get("letta-code")?.classification.runtime).toBe("host-first");
     expect(byId.get("letta-code")?.classification.isolation).toContain("managed-sandbox");
@@ -274,11 +297,45 @@ describe("harness evidence ledger", () => {
       sandbox: false,
       checkpoints: true,
     });
+    expect(featureSupportFor(byId.get("ante"))).toEqual({
+      mcp: true,
+      skills: true,
+      localModels: true,
+      subagents: true,
+      headless: true,
+      browser: true,
+      sandbox: false,
+      checkpoints: false,
+    });
+    expect(byId.get("ante")?.classification).toEqual({
+      role: "coding-agent",
+      orchestration: "delegated-subagents",
+      runtime: "host-first",
+      isolation: [],
+      state: "persistent-memory",
+    });
+    expect(featureSupportFor(byId.get("reasonix"))).toEqual({
+      mcp: true,
+      skills: true,
+      localModels: true,
+      subagents: true,
+      headless: true,
+      browser: false,
+      sandbox: true,
+      checkpoints: true,
+    });
+    expect(byId.get("reasonix")?.classification).toEqual({
+      role: "coding-agent",
+      orchestration: "delegated-subagents",
+      runtime: "sandbox-first",
+      isolation: ["os-sandbox"],
+      state: "persistent-memory",
+    });
   });
 
   it("admits the OpenRouter-discovered wave only through first-party membership evidence", () => {
     const byId = new Map(harnesses.map((harness) => [harness.id, harness]));
-    for (const id of ["wakil", "deepagents-code", "opensquilla", "postqode", "kern", "ggcode"]) {
+    for (const id of ["wakil", "deepagents-code", "opensquilla", "postqode", "kern", "ggcode", "mimo-code", "ante"]) {
       const harness = byId.get(id);
       expect(harness, id).toBeDefined();
       expect(harness?.status).toBe("active");
@@ -293,6 +350,109 @@ describe("harness evidence ledger", () => {
     expect(featureSupportFor(byId.get("postqode")).subagents).toBe(false);
     expect(featureSupportFor(byId.get("kern")).localModels).toBe(true);
     expect(featureSupportFor(byId.get("ggcode")).sandbox).toBe(false);
+    expect(featureSupportFor(byId.get("mimo-code")).sandbox).toBe(false);
+    expect(featureSupportFor(byId.get("ante")).sandbox).toBe(false);
+
+    const wakil = byId.get("wakil")!;
+    expect(wakil.verifiedAt).toBe("2026-08-02");
+    expect(wakil.evidence.map((source) => source.url)).toEqual(expect.arrayContaining([
+      "https://github.com/treeol/wakil/blob/25ff56085007d8e8bdbc4d2f8c74ee4f994a0ed9/internal/agent/mashura_command.go",
+      "https://github.com/treeol/wakil/blob/25ff56085007d8e8bdbc4d2f8c74ee4f994a0ed9/internal/counsel/oracle.go",
+    ]));
+    expect(wakil.tradeoffs.join(" ")).toContain("shares successful first-round responses across providers");
+
+    const ggcode = byId.get("ggcode")!;
+    expect(ggcode.verifiedAt).toBe("2026-08-02");
+    expect(ggcode.evidence.map((source) => source.url)).toEqual(expect.arrayContaining([
+      "https://github.com/topcheer/ggcode/releases/tag/v1.3.189",
+      "https://github.com/topcheer/ggcode/tree/b878385bfd4d0edab137e8d48c18fad512d49f21",
+    ]));
+    expect(ggcode.evidence.find((source) => source.title === "GGCode v1.3.189 release")?.covers)
+      .toContain("agent verification gates");
+  });
+
+  it("adds MiMo Code from first-party evidence while keeping discovery and capability evidence separate", () => {
+    const mimo = harnesses.find((harness) => harness.id === "mimo-code")!;
+    const urls = mimo.evidence.map((source) => source.url);
+    const caveats = mimo.tradeoffs.join(" ");
+
+    expect(mimo.status).toBe("active");
+    expect(mimo.verifiedAt).toBe("2026-08-02");
+    expect(mimo.license).toBe("MIT with use restrictions");
+    expect(mimo.evidence).toHaveLength(14);
+    expect(mimo.evidence.every((source) => source.verifiedAt === mimo.verifiedAt)).toBe(true);
+    expect(new Set(urls).size).toBe(urls.length);
+    expect(urls).toEqual(expect.arrayContaining([
+      "https://github.com/XiaomiMiMo/MiMo-Code/tree/c045a9891069000b112079bb10bdc8828d75eb6e",
+      "https://mimo.xiaomi.com/mimocode/tools",
+      "https://mimo.xiaomi.com/mimocode/permissions",
+      "https://mimo.xiaomi.com/mimocode/sessions",
+      "https://mimo.xiaomi.com/mimocode/agents",
+      "https://github.com/XiaomiMiMo/MiMo-Code/blob/c045a9891069000b112079bb10bdc8828d75eb6e/SECURITY.md",
+    ]));
+    expect(mimo.discovery).toEqual([
+      expect.objectContaining({
+        url: "https://openrouter.ai/apps/url/https%3A%2F%2Fmimo.xiaomi.com%2Fcoder",
+      }),
+    ]);
+    expect(urls.some((url) => url.includes("openrouter.ai"))).toBe(false);
+    expect(caveats).toContain("no built-in process sandbox");
+    expect(caveats).toContain("untracked files larger than 2 MiB");
+  });
+
+  it("adds Ante from first-party evidence while preserving its alpha and private-core limits", () => {
+    const ante = harnesses.find((harness) => harness.id === "ante")!;
+    const urls = ante.evidence.map((source) => source.url);
+    const caveats = ante.tradeoffs.join(" ");
+
+    expect(ante.status).toBe("active");
+    expect(ante.verifiedAt).toBe("2026-08-02");
+    expect(ante.license).toBe("Apache-2.0 components; preview binary terms");
+    expect(ante.evidence).toHaveLength(17);
+    expect(ante.evidence.every((source) => source.verifiedAt === ante.verifiedAt)).toBe(true);
+    expect(new Set(urls).size).toBe(urls.length);
+    expect(urls).toEqual(expect.arrayContaining([
+      "https://github.com/AntigmaLabs/ante-preview/tree/8ce59518ed8a2ddda46c07cbb0b6fb1f528438a3",
+      "https://docs.antigma.ai/reference/tools-reference",
+      "https://docs.antigma.ai/reference/core-concepts",
+      "https://docs.antigma.ai/configuration/permission",
+      "https://docs.antigma.ai/usage/goal-sessions",
+      "https://docs.antigma.ai/extend/memory",
+    ]));
+    expect(ante.discovery).toEqual([
+      expect.objectContaining({
+        url: "https://openrouter.ai/apps/url/https%3A%2F%2Fdocs.antigma.ai%2F",
+      }),
+    ]);
+    expect(urls.some((url) => url.includes("openrouter.ai"))).toBe(false);
+    expect(caveats).toContain("core harness remains private");
+    expect(caveats).toContain("Headless runs always imply yolo");
+  });
+
+  it("adds Reasonix from a pinned stable source audit without importing marketing performance claims", () => {
+    const reasonix = harnesses.find((harness) => harness.id === "reasonix")!;
+    const urls = reasonix.evidence.map((source) => source.url);
+    const caveats = reasonix.tradeoffs.join(" ");
+
+    expect(reasonix.status).toBe("active");
+    expect(reasonix.verifiedAt).toBe("2026-08-02");
+    expect(reasonix.license).toBe("MIT");
+    expect(reasonix.supportsSubscription).toBe(true);
+    expect(reasonix.evidence).toHaveLength(17);
+    expect(reasonix.evidence.every((source) => source.verifiedAt === reasonix.verifiedAt)).toBe(true);
+    expect(new Set(urls).size).toBe(urls.length);
+    expect(urls).toEqual(expect.arrayContaining([
+      "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.19.2",
+      "https://github.com/esengine/DeepSeek-Reasonix/tree/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2",
+      "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/docs/SPEC.md",
+      "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/docs/TOOL_CONTRACT.md",
+      "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/docs/CHECKPOINTS.md",
+      "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/SECURITY.md",
+    ]));
+    expect(reasonix.discovery).toBeUndefined();
+    expect(caveats).toContain("Windows shell commands run without that isolation");
+    expect(caveats).toContain("marketing figures are not admitted");
+    expect(caveats).toContain("retrieves page content rather than controlling an interactive browser");
   });
 
   it("separates Gemini CLI enterprise continuity from the Antigravity consumer successor", () => {
@@ -496,9 +656,10 @@ describe("harness evidence ledger", () => {
     const urls = openCode.evidence.map((source) => source.url);
     const caveats = openCode.tradeoffs.join(" ");
 
-    expect(openCode.verifiedAt).toBe("2026-07-30");
-    expect(openCode.evidence).toHaveLength(25);
-    expect(openCode.evidence.every((source) => source.verifiedAt === openCode.verifiedAt)).toBe(true);
+    expect(openCode.verifiedAt).toBe("2026-08-02");
+    expect(openCode.evidence).toHaveLength(26);
+    expect(openCode.evidence.find((source) => source.url.endsWith("/v1.18.11"))?.verifiedAt).toBe("2026-08-02");
+    expect(openCode.evidence.find((source) => source.url.includes("/tree/e5cc278"))?.verifiedAt).toBe("2026-07-30");
     expect(openCode.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(openCode.classification).toMatchObject({ runtime: "host-first", isolation: [], state: "session-based" });
@@ -508,6 +669,7 @@ describe("harness evidence ledger", () => {
       "https://opencode.ai/docs/server",
       "https://opencode.ai/docs/github",
       "https://github.com/anomalyco/opencode/releases/tag/v1.18.9",
+      "https://github.com/anomalyco/opencode/releases/tag/v1.18.11",
       "https://github.com/anomalyco/opencode/blob/e5cc278dec9294a627a7b05f47ce6a564408c1a2/packages/opencode/src/snapshot/index.ts",
       "https://github.com/anomalyco/opencode/tree/e5cc278dec9294a627a7b05f47ce6a564408c1a2",
       "https://github.com/anomalyco/opencode/blob/e5cc278dec9294a627a7b05f47ce6a564408c1a2/SECURITY.md",
@@ -556,9 +718,10 @@ describe("harness evidence ledger", () => {
     const urls = omp.evidence.map((source) => source.url);
     const caveats = omp.tradeoffs.join(" ");
 
-    expect(omp.verifiedAt).toBe("2026-07-31");
+    expect(omp.verifiedAt).toBe("2026-08-02");
     expect(omp.evidence.length).toBeGreaterThanOrEqual(14);
     expect(omp.evidence.find((source) => source.url.endsWith("/v17.2.1"))?.verifiedAt).toBe("2026-07-31");
+    expect(omp.evidence.find((source) => source.url.endsWith("/v17.2.4"))?.verifiedAt).toBe("2026-08-02");
     expect(omp.evidence.find((source) => source.url.includes("/tree/d16c6168"))?.verifiedAt).toBe("2026-07-28");
     expect(featureSupportFor(omp)).toMatchObject({ mcp: true, subagents: true, browser: true, sandbox: false, checkpoints: false });
     expect(urls).toEqual(expect.arrayContaining([
@@ -570,6 +733,7 @@ describe("harness evidence ledger", () => {
       "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/extensions.md",
       "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/secrets.md",
       "https://github.com/can1357/oh-my-pi/releases/tag/v17.2.1",
+      "https://github.com/can1357/oh-my-pi/releases/tag/v17.2.4",
     ]));
     expect(caveats).toContain("subagents also run yolo");
     expect(caveats).toContain("prune conversation context only");
@@ -584,9 +748,10 @@ describe("harness evidence ledger", () => {
     const urls = grokBuild.evidence.map((source) => source.url);
     const caveats = grokBuild.tradeoffs.join(" ");
 
-    expect(grokBuild.verifiedAt).toBe("2026-07-30");
+    expect(grokBuild.verifiedAt).toBe("2026-08-02");
     expect(grokBuild.evidence).toHaveLength(24);
-    expect(grokBuild.evidence.every((source) => source.verifiedAt === grokBuild.verifiedAt)).toBe(true);
+    expect(grokBuild.evidence.find((source) => source.title === "Grok Build changelog")?.verifiedAt).toBe("2026-08-02");
+    expect(grokBuild.evidence.find((source) => source.url.includes("/tree/b41c75a"))?.verifiedAt).toBe("2026-07-30");
     expect(grokBuild.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([
@@ -599,7 +764,7 @@ describe("harness evidence ledger", () => {
       "https://docs.x.ai/build/enterprise",
       "https://github.com/xai-org/grok-build/tree/b41c75a578f98bddbd326ab02cd53618451d97ee",
     ]));
-    expect(grokBuild.evidence.find((source) => source.title === "Grok Build changelog")?.covers).toContain("0.2.112");
+    expect(grokBuild.evidence.find((source) => source.title === "Grok Build changelog")?.covers).toContain("0.2.117");
     expect(caveats).toContain("OS sandbox is off by default");
     expect(caveats).toContain("Browser review is supplied through plugins or MCP");
     expect(caveats).toContain("model branding, not evidence of harness quality");
@@ -653,9 +818,10 @@ describe("harness evidence ledger", () => {
     const urls = factory.evidence.map((source) => source.url);
     const caveats = factory.tradeoffs.join(" ");
 
-    expect(factory.verifiedAt).toBe("2026-07-30");
+    expect(factory.verifiedAt).toBe("2026-08-02");
     expect(factory.evidence).toHaveLength(17);
-    expect(factory.evidence.every((source) => source.verifiedAt === factory.verifiedAt)).toBe(true);
+    expect(factory.evidence.find((source) => source.title === "Factory v0.185.0 release notes")?.verifiedAt).toBe("2026-08-02");
+    expect(factory.evidence.find((source) => source.url.includes("/tree/7ea5f9c"))?.verifiedAt).toBe("2026-07-30");
     expect(factory.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([
@@ -689,9 +855,10 @@ describe("harness evidence ledger", () => {
 
     expect(letta.name).toBe("Letta Harness");
     expect(letta.summary).toContain("formerly called Letta Code");
-    expect(letta.verifiedAt).toBe("2026-07-28");
-    expect(letta.evidence).toHaveLength(24);
-    expect(letta.evidence.every((source) => source.verifiedAt === letta.verifiedAt)).toBe(true);
+    expect(letta.verifiedAt).toBe("2026-08-02");
+    expect(letta.evidence).toHaveLength(25);
+    expect(letta.evidence.find((source) => source.url.endsWith("/v0.30.1"))?.verifiedAt).toBe("2026-08-02");
+    expect(letta.evidence.find((source) => source.url.endsWith("/v0.29.9"))?.verifiedAt).toBe("2026-07-28");
     expect(letta.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([
@@ -705,6 +872,7 @@ describe("harness evidence ledger", () => {
       "https://docs.letta.com/reference/changelog",
       "https://docs.letta.com/platform/cli/reference",
       "https://github.com/letta-ai/letta-code/releases/tag/v0.29.9",
+      "https://github.com/letta-ai/letta-code/releases/tag/v0.30.1",
     ]));
     expect(caveats).toContain("starts in unrestricted mode");
     expect(caveats).toContain("recommends skills instead of MCP");
@@ -725,9 +893,10 @@ describe("harness evidence ledger", () => {
     const zcode = harnesses.find((harness) => harness.id === "zcode")!;
     const urls = zcode.evidence.map((source) => source.url);
 
-    expect(zcode.verifiedAt).toBe("2026-07-27");
+    expect(zcode.verifiedAt).toBe("2026-08-02");
     expect(zcode.evidence.length).toBeGreaterThanOrEqual(15);
-    expect(zcode.evidence.every((source) => source.verifiedAt === zcode.verifiedAt)).toBe(true);
+    expect(zcode.evidence.find((source) => source.url.endsWith("/changelog"))?.verifiedAt).toBe("2026-08-02");
+    expect(zcode.evidence.find((source) => source.url.endsWith("/agents"))?.verifiedAt).toBe("2026-07-27");
     expect(urls).toEqual(expect.arrayContaining([
       "https://zcode.z.ai/en/docs/goal",
       "https://zcode.z.ai/en/docs/subagents",
@@ -838,9 +1007,10 @@ describe("harness evidence ledger", () => {
     const urls = amp.evidence.map((source) => source.url);
     const caveats = amp.tradeoffs.join(" ");
 
-    expect(amp.verifiedAt).toBe("2026-07-27");
-    expect(amp.evidence.length).toBeGreaterThanOrEqual(18);
-    expect(amp.evidence.every((source) => source.verifiedAt === amp.verifiedAt)).toBe(true);
+    expect(amp.verifiedAt).toBe("2026-08-02");
+    expect(amp.evidence.length).toBeGreaterThanOrEqual(21);
+    expect(amp.evidence.find((source) => source.url.endsWith("/event-driven-orbs"))?.verifiedAt).toBe("2026-08-02");
+    expect(amp.evidence.find((source) => source.url.endsWith("/manual"))?.verifiedAt).toBe("2026-07-27");
     expect(amp.classification).toMatchObject({ runtime: "host-first", isolation: ["managed-sandbox"], state: "session-based" });
     expect(featureSupportFor(amp)).toMatchObject({ sandbox: true, checkpoints: false, headless: true, subagents: true, browser: true });
     expect(amp.capabilities).toMatchObject({ security: 3, largeRepo: 4, humanControl: 3 });
@@ -852,11 +1022,15 @@ describe("harness evidence ledger", () => {
       "https://ampcode.com/manual/sdk/typescript",
       "https://ampcode.com/security",
       "https://ampcode.com/news/agents-anywhere",
+      "https://ampcode.com/news/event-driven-orbs",
+      "https://ampcode.com/news/multiplayer",
     ]));
     expect(caveats).toContain("without approval by default");
     expect(caveats).toContain("paid managed cloud sandboxes");
     expect(caveats).toContain("No harness checkpoint or file rollback");
     expect(caveats).toContain("not self-hostable");
+    expect(caveats).toContain("webhook URLs are credentials");
+    expect(caveats).toContain("shared terminal");
   });
 
   it("keeps Kiro 2.x stable capabilities separate from the opt-in v3 harness", () => {
@@ -864,15 +1038,16 @@ describe("harness evidence ledger", () => {
     const urls = kiro.evidence.map((source) => source.url);
     const caveats = kiro.tradeoffs.join(" ");
 
-    expect(kiro.verifiedAt).toBe("2026-07-27");
+    expect(kiro.verifiedAt).toBe("2026-08-02");
     expect(kiro.evidence).toHaveLength(21);
-    expect(kiro.evidence.every((source) => source.verifiedAt === kiro.verifiedAt)).toBe(true);
+    expect(kiro.evidence.find((source) => source.url.endsWith("/2-15/"))?.verifiedAt).toBe("2026-08-02");
+    expect(kiro.evidence.find((source) => source.url.endsWith("/headless/"))?.verifiedAt).toBe("2026-07-27");
     expect(kiro.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(featureSupportFor(kiro)).toMatchObject({ headless: true, subagents: true, mcp: true, checkpoints: true, sandbox: false });
     expect(kiro.capabilities.automation).toBe(4);
     expect(urls).toEqual(expect.arrayContaining([
-      "https://kiro.dev/changelog/cli/2-14/",
+      "https://kiro.dev/changelog/cli/2-15/",
       "https://kiro.dev/docs/cli/headless/",
       "https://kiro.dev/docs/cli/chat/goal/",
       "https://kiro.dev/docs/cli/experimental/checkpointing/",
@@ -1092,14 +1267,14 @@ describe("harness evidence ledger", () => {
     });
   });
 
-  it("records Qwen Code's daemon and extension surfaces while keeping alpha limits visible", () => {
+  it("records Qwen Code's constrained background workflows and daemon limits", () => {
     const qwen = harnesses.find((harness) => harness.id === "qwen-code")!;
     const urls = qwen.evidence.map((source) => source.url);
     const caveats = qwen.tradeoffs.join(" ");
 
-    expect(qwen.verifiedAt).toBe("2026-07-27");
-    expect(qwen.evidence).toHaveLength(17);
-    expect(qwen.evidence.every((source) => source.verifiedAt === qwen.verifiedAt)).toBe(true);
+    expect(qwen.verifiedAt).toBe("2026-08-02");
+    expect(qwen.evidence).toHaveLength(20);
+    expect(qwen.evidence.filter((source) => source.verifiedAt === qwen.verifiedAt)).toHaveLength(3);
     expect(qwen.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([
@@ -1109,7 +1284,14 @@ describe("harness evidence ledger", () => {
       "https://qwenlm.github.io/qwen-code-docs/en/users/qwen-serve/",
       "https://qwenlm.github.io/qwen-code-docs/en/users/integration-jetbrains/",
       "https://qwenlm.github.io/qwen-code-docs/en/blog/updates/weekly-update-2026-07-09/",
+      "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.3",
+      "https://github.com/QwenLM/qwen-code/pull/8303",
+      "https://github.com/QwenLM/qwen-code/pull/8056",
     ]));
+    expect(caveats).toContain("exact-workspace isolation is opt-in");
+    expect(caveats).toContain("remain blocked on parent approval");
+    expect(caveats).toContain("cancelled when the owning process exits");
+    expect(caveats).toContain("do not yet support pause, resume, restart recovery");
     expect(caveats).toContain("loopback starts without authentication");
     expect(caveats).toContain("fails closed without a bearer token");
     expect(caveats).toContain("production-grade multi-client");
@@ -1498,7 +1680,11 @@ describe("harness evidence ledger", () => {
       "https://docs.cline.bot/enterprise-solutions/configuration/infrastructure-configuration/control-other-cline-features/mcp-server-controls",
       "https://docs.cline.bot/enterprise-solutions/configuration/infrastructure-configuration/control-other-cline-features/yolo-mode",
       "https://github.com/cline/cline/releases/tag/v4.1.0",
+      "https://github.com/cline/cline/releases/tag/v4.1.3",
     ]));
+    expect(byId.get("cline")!.verifiedAt).toBe("2026-08-02");
+    expect(byId.get("cline")!.evidence.find((source) => source.url.endsWith("/v4.1.3"))?.verifiedAt)
+      .toBe("2026-08-02");
     expect(byId.get("cline")!.tradeoffs.join(" ")).toContain("staged remote rollout");
     expect(urlsFor("kimi-code")).toEqual(expect.arrayContaining([
       "https://github.com/MoonshotAI/kimi-code/tree/8a45f10eddbb35c317047e82e567cdb59a220b4f",

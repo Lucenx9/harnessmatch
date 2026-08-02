@@ -1,6 +1,7 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-30";
+const latestReleaseVerifiedAt = "2026-08-02";
 
 export const opencode = {
     id: "opencode",
@@ -49,7 +50,7 @@ export const opencode = {
       "Provider breadth improves choice but adds model, credential, routing, and privacy decisions; optional public sharing uploads the full conversation and remains accessible until unshared",
     ],
     setup: "Install OpenCode, connect one or more providers, choose a model, and tune permissions in `opencode.json`.",
-    verifiedAt: verifiedAt,
+    verifiedAt: latestReleaseVerifiedAt,
     evidence: [
       {
         title: "OpenCode introduction",
@@ -234,6 +235,14 @@ export const opencode = {
         covers: "Current stable distribution release and legacy MCP SDK compatibility fix; the code audit remains pinned separately to 1.18.5",
         kind: "official-announcement",
         verifiedAt: verifiedAt,
+      },
+      {
+        title: "OpenCode 1.18.11 release",
+        topic: "releases-code-audit",
+        url: "https://github.com/anomalyco/opencode/releases/tag/v1.18.11",
+        covers: "Current stable distribution plus MCP SSE reconnect, interleaved-reasoning provider configuration, and desktop session-state fixes; the code audit remains pinned separately to 1.18.5",
+        kind: "official-announcement",
+        verifiedAt: latestReleaseVerifiedAt,
       },
       {
         title: "OpenCode source tree",

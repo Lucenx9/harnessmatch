@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-08-01T11:49:51Z",
+  "updatedAt": "2026-08-02T11:42:04Z",
   "generatedBy": {
     "provider": "OpenRouter",
     "model": "openai/gpt-oss-20b",
@@ -19,7 +19,15 @@
       "releaseNotesSha256": "53ecad4a8af272cc28d1630b7e63039aff8b1c0ee6fa448a8df68424b7cd585c",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-01T06:46:06.618Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-02",
+        "outcome": "no-catalog-change",
+        "rationale": "The official v1.3.188 notes were reopened. They add a validated git_checkout tool and multi-VCS dispatch, while the current record and pinned built-in-tool audit already establish Git mutation, protected-path policy, and worktree-based delivery. The metrics and cron fixes improve existing behavior without changing a feature claim, membership criterion, operational posture, measured configuration, or public decision output; no catalog change is required.",
+        "evidenceUrls": [
+          "https://github.com/topcheer/ggcode/releases/tag/v1.3.188"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 1118,
@@ -138,7 +146,17 @@
       "releaseNotesSha256": "85e032be07115f5ab67fe28ccc7ed5dd571190087c87cc3499b8673dfb132bdc",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-01T06:46:06.618Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-02",
+        "outcome": "no-catalog-change",
+        "rationale": "The official v3.74.0 notes and merged PRs #1031 and #1014 were reopened. PR #1031 ships the scheduler at maxConcurrency=1 and explicitly preserves serial behavior; PR #1014 is an adapter migration with identical external behavior. Provider, build, and reliability changes do not alter Zoo Code's published single-active-child limitation, feature claims, membership, operational posture, or GUI classification; no catalog change is required.",
+        "evidenceUrls": [
+          "https://github.com/Zoo-Code-Org/Zoo-Code/releases/tag/v3.74.0",
+          "https://github.com/Zoo-Code-Org/Zoo-Code/pull/1031",
+          "https://github.com/Zoo-Code-Org/Zoo-Code/pull/1014"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 1322,

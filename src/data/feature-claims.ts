@@ -274,7 +274,7 @@ const featureClaimSeedsByHarness = {
       "Extension support does not establish compatibility or safety for every third-party package.",
     ),
     localModels: documented("Model providers"),
-    subagents: documented("OpenTelemetry observability", "Nested subagent release"),
+    subagents: documented("OpenTelemetry observability", "Nested subagent release", "Qwen Code 0.21.3 release"),
     headless: documented("Headless safety and budgets"),
     browser: documented("Built-in Computer Use release"),
     sandbox: configuredClaim(
@@ -303,6 +303,33 @@ const featureClaimSeedsByHarness = {
     localModels: documented("Providers and models"),
     subagents: documented("Kimi Code documentation", "Configuration defaults"),
     headless: documented("Command reference"),
+  },
+  "mimo-code": {
+    mcp: documented("MCP servers"),
+    skills: documented("Agent skills"),
+    localModels: documented("Model providers"),
+    subagents: documented("MiMo Code 0.1.9 source snapshot", "Agents"),
+    headless: documented("CLI options"),
+    sandbox: configuredClaim(
+      "explicitly-absent",
+      ["Pinned security policy"],
+      "Host execution; permission rules and workflow scripting are not process isolation",
+      "The official security policy explicitly states that MiMo Code has no sandbox and recommends a container or virtual machine for isolation.",
+    ),
+    checkpoints: documented("Slash commands", "Pinned Git snapshot implementation"),
+  },
+  ante: {
+    mcp: documented("MCP servers"),
+    skills: documented("Agent skills"),
+    localModels: documented("Offline mode", "Providers"),
+    subagents: documented("Sub-agents"),
+    headless: documented("Headless mode", "Server mode"),
+    browser: configuredClaim(
+      "optional",
+      ["Tool reference"],
+      "Optional Chromium control in Ante builds compiled with the browser feature",
+      "Browser availability depends on the distributed build and still follows the host execution and approval boundary.",
+    ),
   },
   "letta-code": {
     mcp: documented("MCP tool execution model", "Pinned CLI MCP implementation"),
@@ -542,6 +569,30 @@ const featureClaimSeedsByHarness = {
       ["File checkpoints and undo"],
       "In-process checkpoints for file edits made through GGCode tools",
       "File checkpoints do not reverse shell, Git, browser, messaging, or external-service side effects.",
+    ),
+  },
+  reasonix: {
+    mcp: documented("MCP integration and trust boundary"),
+    skills: documented("Skills and plugin packages"),
+    localModels: configuredClaim(
+      "documented",
+      ["Provider and model routes"],
+      "Self-hosted OpenAI-compatible or Anthropic-compatible endpoints",
+      "Reasonix does not bundle a local model runtime; endpoint availability, model capability, and isolation remain external.",
+    ),
+    subagents: documented("Subagent profiles"),
+    headless: documented("Headless CLI and structured events"),
+    sandbox: configuredClaim(
+      "surface-specific",
+      ["Permissions and sandbox", "Security policy"],
+      "Default OS shell sandbox on macOS and supported Linux installations, plus workspace-confined file tools across supported platforms",
+      "Windows shell execution is unconfined, network access is allowed by default, the OS sandbox can be disabled, and trusted extensions retain separate boundaries.",
+    ),
+    checkpoints: configuredClaim(
+      "documented",
+      ["Checkpoints and rewind"],
+      "Persistent file and conversation snapshots for previewable Reasonix edit tools",
+      "Checkpoints exclude Bash, move operations, remote services, and other external side effects; rewind can overwrite later external edits.",
     ),
   },
 } satisfies Record<string, Partial<Record<FeatureKey, FeatureClaimSeed>>>;

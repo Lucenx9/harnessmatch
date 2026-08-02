@@ -1,6 +1,7 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-28";
+const latestReleaseVerifiedAt = "2026-08-02";
 
 export const lettaCode = {
     id: "letta-code",
@@ -49,7 +50,7 @@ export const lettaCode = {
       "Mods execute as fully trusted code inside the harness process and can add tools, commands, hooks, permission policies, UI, and model providers, so they are not a sandboxed extension mechanism",
     ],
     setup: "Install `@letta-ai/letta-code`, connect a model or coding plan, then choose a local, remote, or cloud environment before creating a persistent agent.",
-    verifiedAt: verifiedAt,
+    verifiedAt: latestReleaseVerifiedAt,
     evidence: [
       {
         title: "Letta Code 0.29.4 source snapshot",
@@ -74,6 +75,14 @@ export const lettaCode = {
         covers: "Version-pinned strict permission mode that forces every tool through approval; the inspected client source remains pinned to 0.29.4 and the current stable version comes from the generated release feed",
         kind: "official-announcement",
         verifiedAt: verifiedAt,
+      },
+      {
+        title: "Letta Code 0.30.1 maintenance release",
+        topic: "releases-code-audit",
+        url: "https://github.com/letta-ai/letta-code/releases/tag/v0.30.1",
+        covers: "Current stable distribution, shared scheduled-task prompt-contract export, and AI-contribution disclosure enforcement; no new capability classification is inferred",
+        kind: "official-announcement",
+        verifiedAt: latestReleaseVerifiedAt,
       },
       {
         title: "Letta Code quickstart",

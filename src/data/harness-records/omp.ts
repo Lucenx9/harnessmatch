@@ -2,6 +2,7 @@ import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-28";
 const releaseVerifiedAt = "2026-07-31";
+const latestReleaseVerifiedAt = "2026-08-02";
 
 export const omp = {
     id: "omp",
@@ -51,7 +52,7 @@ export const omp = {
       "Project-owned compaction and local-model evaluations plus README performance claims are not independent harness benchmarks, so no score is imported",
     ],
     setup: "Install `omp`, connect a provider, and change `tools.approvalMode` from the default `yolo` before using it on sensitive repositories.",
-    verifiedAt: releaseVerifiedAt,
+    verifiedAt: latestReleaseVerifiedAt,
     evidence: [
       {
         title: "Oh My Pi repository",
@@ -66,6 +67,13 @@ export const omp = {
         covers: "Stable package release, Claude and Codex session imports, opt-in native security-analysis workflow, exact-account cloud scan operations, and remote local-model discovery fixes; the code audit remains pinned separately to 17.1.7",
         kind: "official-announcement",
         verifiedAt: releaseVerifiedAt,
+      },
+      {
+        title: "Oh My Pi 17.2.4 release",
+        url: "https://github.com/can1357/oh-my-pi/releases/tag/v17.2.4",
+        covers: "Current stable package release, configurable MCP request-ID format, structured steering interruption state, and runtime, provider, credential-store, and session reliability fixes",
+        kind: "official-announcement",
+        verifiedAt: latestReleaseVerifiedAt,
       },
       {
         title: "Product overview",

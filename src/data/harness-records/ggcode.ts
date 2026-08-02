@@ -1,7 +1,8 @@
 import type { HarnessRecord } from "./types";
 
-const verifiedAt = "2026-08-01";
-const inspectedRef = "f99a960149c6d93b8b64e4e08abfc341fbaf7ca2";
+const verifiedAt = "2026-08-02";
+const discoveredAt = "2026-08-01";
+const inspectedRef = "b878385bfd4d0edab137e8d48c18fad512d49f21";
 const repositoryBase = `https://github.com/topcheer/ggcode/blob/${inspectedRef}`;
 
 export const ggcode = {
@@ -56,10 +57,10 @@ export const ggcode = {
   verifiedAt,
   evidence: [
     {
-      title: "GGCode v1.3.187 release",
+      title: "GGCode v1.3.189 release",
       topic: "releases-code-audit",
-      url: "https://github.com/topcheer/ggcode/releases/tag/v1.3.187",
-      covers: "Latest stable version, release date, platform packages, checksums, SBOM sidecars, and distribution artifacts",
+      url: "https://github.com/topcheer/ggcode/releases/tag/v1.3.189",
+      covers: "Latest stable version, write-time integrity guards, agent verification gates, Git workflow controls, streaming tools, MCP refresh and elicitation, session search, and network-egress warnings",
       kind: "official-repository",
       verifiedAt,
     },
@@ -195,7 +196,7 @@ export const ggcode = {
       title: "GGCode inspected source tree",
       topic: "releases-code-audit",
       url: `https://github.com/topcheer/ggcode/tree/${inspectedRef}`,
-      covers: "Exact tagged source snapshot, MIT license, core runtime, clients, five CI workflows, 607 test-like paths, and project-owned evaluation scripts",
+      covers: "Exact tagged source snapshot, MIT license, core runtime, clients, five CI workflows, 805 test-like paths, and ten project-owned evaluation-like paths",
       kind: "official-repository",
       verifiedAt,
     },
@@ -205,7 +206,7 @@ export const ggcode = {
       title: "OpenRouter coding app directory",
       url: "https://openrouter.ai/apps/category/coding",
       note: "Used to discover GGCode; no OpenRouter rank, traffic value, or category label establishes capability or catalog membership.",
-      observedAt: verifiedAt,
+      observedAt: discoveredAt,
     },
   ],
 } satisfies HarnessRecord;
