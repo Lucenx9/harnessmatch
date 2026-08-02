@@ -14,7 +14,11 @@ const verificationDateFormatter = new Intl.DateTimeFormat("en-US", {
   timeZone: "UTC",
 });
 
+const recordCountLabels = ["No", "One", "Two", "Three"] as const;
+
 export function HomeSpotlight({ period, records }: HomeSpotlightProps) {
+  const recordCount = records.length;
+  const recordCountLabel = recordCountLabels[recordCount] ?? String(recordCount);
   const compareHref = `/compare?ids=${records.map(({ id }) => id).join(",")}`;
 
   return (
@@ -22,10 +26,16 @@ export function HomeSpotlight({ period, records }: HomeSpotlightProps) {
       <div className="home-spotlight-intro">
         <h2 id="home-spotlight-heading">Under the lens: {period}.</h2>
         <p>
-          Three contrasting harnesses selected by HarnessMatch from the catalog. Not a ranking, an overall
+          {recordCountLabel} contrasting {recordCount === 1 ? "harness" : "harnesses"} selected by HarnessMatch from the catalog. Not a ranking, an overall
           recommendation, or the result of comparative product trials.
         </p>
-        <Link className="text-link" href={compareHref}>Compare these three</Link>
+        {recordCount > 0 ? (
+          <Link className="text-link" href={compareHref}>
+            {recordCount === 1
+              ? "Compare this harness"
+              : `Compare these ${recordCountLabel.toLowerCase()}`}
+          </Link>
+        ) : null}
       </div>
 
       <ul className="home-spotlight-list">

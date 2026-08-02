@@ -3,7 +3,11 @@ import { ecosystemSignalSnapshots } from "@/data/ecosystem-signals";
 import { featureSupportFor } from "@/data/feature-claims";
 import { requireHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnesses } from "@/data/harnesses";
-import { buildHomeSpotlightRecords, homeSpotlight } from "@/data/home-spotlight";
+import {
+  buildHomeSpotlightRecords,
+  formatHomeSpotlightPeriod,
+  homeSpotlight,
+} from "@/data/home-spotlight";
 import { openRouterAttributionSnapshots } from "@/data/openrouter-attribution";
 import { harnessReleaseSnapshots } from "@/data/release-signals";
 import { researchSources } from "@/data/research";
@@ -82,7 +86,10 @@ export default function HomePage() {
 
       <section className="home-spotlight-section" aria-labelledby="home-spotlight-heading">
         <div className="shell">
-          <HomeSpotlight period={homeSpotlight.period} records={spotlightRecords} />
+          <HomeSpotlight
+            period={formatHomeSpotlightPeriod(homeSpotlight.period)}
+            records={spotlightRecords}
+          />
         </div>
       </section>
 

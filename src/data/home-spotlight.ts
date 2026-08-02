@@ -1,9 +1,14 @@
 import type { Harness, HarnessLogo } from "@/lib/types";
 
-type HomeSpotlightSelection = {
+export type HomeSpotlightPeriod = {
+  year: number;
+  month: number;
+};
+
+export type HomeSpotlightSelection = {
   harnessId: string;
   angle: string;
-  tradeoffIndex: number;
+  limitation: string;
 };
 
 export type HomeSpotlightRecord = {
@@ -18,20 +23,63 @@ export type HomeSpotlightRecord = {
 };
 
 export const homeSpotlight = {
-  period: "August 2026",
+  period: { year: 2026, month: 8 },
   selections: [
-    { harnessId: "claude-code", angle: "Integrated product", tradeoffIndex: 4 },
-    { harnessId: "deepagents-code", angle: "Extensible harness", tradeoffIndex: 0 },
-    { harnessId: "mini-swe-agent", angle: "Minimal harness", tradeoffIndex: 0 },
+    {
+      harnessId: "claude-code",
+      angle: "Integrated product",
+      limitation:
+        "Hosted model access is Claude-only, local open-weight models are unsupported, and Chrome integration requires a direct Anthropic plan",
+    },
+    {
+      harnessId: "deepagents-code",
+      angle: "Extensible harness",
+      limitation:
+        "Local execution is host-first and trusts the working directory; project artifacts can influence the agent before the first approval prompt",
+    },
+    {
+      harnessId: "mini-swe-agent",
+      angle: "Minimal harness",
+      limitation:
+        "The default local environment executes directly with the user's host privileges; isolation is opt-in",
+    },
   ],
 } as const satisfies {
-  period: string;
+  period: HomeSpotlightPeriod;
   selections: readonly HomeSpotlightSelection[];
 };
 
-export function buildHomeSpotlightRecords(catalog: readonly Harness[]): HomeSpotlightRecord[] {
-  const records = homeSpotlight.selections.map((selection) => {
-    const harness = catalog.find(({ id }) => id === selection.harnessId);
+const periodFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
+export function formatHomeSpotlightPeriod(period: HomeSpotlightPeriod): string {
+  if (!Number.isInteger(period.year) || !Number.isInteger(period.month) || period.month < 1 || period.month > 12) {
+    throw new Error("Monthly spotlight period must contain a valid year and month");
+  }
+
+  return periodFormatter.format(new Date(Date.UTC(period.year, period.month - 1, 1)));
+}
+
+export function buildHomeSpotlightRecords(
+  catalog: readonly Harness[],
+  selections: readonly HomeSpotlightSelection[] = homeSpotlight.selections,
+): HomeSpotlightRecord[] {
+  if (selections.length === 0 || selections.length > 3) {
+    throw new Error("Monthly spotlight requires between one and three harnesses");
+  }
+
+  const catalogById = new Map(catalog.map((harness) => [harness.id, harness] as const));
+  const seenHarnessIds = new Set<string>();
+  const records = selections.map((selection) => {
+    if (seenHarnessIds.has(selection.harnessId)) {
+      throw new Error(`Monthly spotlight references a duplicate harness: ${selection.harnessId}`);
+    }
+    seenHarnessIds.add(selection.harnessId);
+
+    const harness = catalogById.get(selection.harnessId);
     if (!harness) {
       throw new Error(`Monthly spotlight references unknown harness: ${selection.harnessId}`);
     }
@@ -39,9 +87,9 @@ export function buildHomeSpotlightRecords(catalog: readonly Harness[]): HomeSpot
       throw new Error(`Monthly spotlight requires an active harness: ${selection.harnessId}`);
     }
 
-    const limitation = harness.tradeoffs[selection.tradeoffIndex];
-    if (!limitation) {
-      throw new Error(`Monthly spotlight references a missing trade-off: ${selection.harnessId}`);
+    const documentedTradeoffs = new Set(harness.tradeoffs);
+    if (!documentedTradeoffs.has(selection.limitation)) {
+      throw new Error(`Monthly spotlight references a changed trade-off: ${selection.harnessId}`);
     }
 
     return {
@@ -51,7 +99,7 @@ export function buildHomeSpotlightRecords(catalog: readonly Harness[]): HomeSpot
       logo: harness.logo,
       angle: selection.angle,
       tagline: harness.tagline,
-      limitation,
+      limitation: selection.limitation,
       verifiedAt: harness.verifiedAt,
     };
   });

@@ -123,7 +123,7 @@ export default function MethodologyPage() {
           <p>Model intelligence is never treated as harness capability. Product mechanisms, public activity, documentation breadth, source-code access, and benchmark configurations remain separate throughout the data model and interface.</p>
           <h3>Monthly editorial spotlight</h3>
           <p>The homepage may feature up to three active harnesses chosen by HarnessMatch to expose contrasting product approaches worth investigating. The selection is editorial, alphabetical, and independent of popularity, source count, capability levels, or benchmark results. It is not a ranking, an overall recommendation, or evidence from comparative HarnessMatch product trials.</p>
-          <p>The month identifies the publication period, not a source-verification date. Names, descriptions, limitations, and check dates come from the current catalog records, while each linked profile retains the supporting first-party evidence and its scope.</p>
+          <p>The month identifies the publication period, not a source-verification date. The quality gate rejects a build once the edition no longer matches the current UTC month. Names, descriptions, limitations, and check dates come from the current catalog records, while each linked profile retains the supporting first-party evidence and its scope.</p>
         </section>
 
         <section className="prose-section" id="eligibility">
