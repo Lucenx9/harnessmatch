@@ -1092,14 +1092,14 @@ describe("harness evidence ledger", () => {
     });
   });
 
-  it("records Qwen Code's daemon and extension surfaces while keeping alpha limits visible", () => {
+  it("records Qwen Code's constrained background workflows and daemon limits", () => {
     const qwen = harnesses.find((harness) => harness.id === "qwen-code")!;
     const urls = qwen.evidence.map((source) => source.url);
     const caveats = qwen.tradeoffs.join(" ");
 
-    expect(qwen.verifiedAt).toBe("2026-07-27");
-    expect(qwen.evidence).toHaveLength(17);
-    expect(qwen.evidence.every((source) => source.verifiedAt === qwen.verifiedAt)).toBe(true);
+    expect(qwen.verifiedAt).toBe("2026-08-02");
+    expect(qwen.evidence).toHaveLength(20);
+    expect(qwen.evidence.filter((source) => source.verifiedAt === qwen.verifiedAt)).toHaveLength(3);
     expect(qwen.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([
@@ -1109,7 +1109,14 @@ describe("harness evidence ledger", () => {
       "https://qwenlm.github.io/qwen-code-docs/en/users/qwen-serve/",
       "https://qwenlm.github.io/qwen-code-docs/en/users/integration-jetbrains/",
       "https://qwenlm.github.io/qwen-code-docs/en/blog/updates/weekly-update-2026-07-09/",
+      "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.3",
+      "https://github.com/QwenLM/qwen-code/pull/8303",
+      "https://github.com/QwenLM/qwen-code/pull/8056",
     ]));
+    expect(caveats).toContain("exact-workspace isolation is opt-in");
+    expect(caveats).toContain("remain blocked on parent approval");
+    expect(caveats).toContain("cancelled when the owning process exits");
+    expect(caveats).toContain("do not yet support pause, resume, restart recovery");
     expect(caveats).toContain("loopback starts without authentication");
     expect(caveats).toContain("fails closed without a bearer token");
     expect(caveats).toContain("production-grade multi-client");

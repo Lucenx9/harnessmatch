@@ -5,6 +5,7 @@ const refreshedAt = "2026-07-28";
 const sourceAuditAt = "2026-07-30";
 const releaseReviewAt = "2026-07-31";
 const currentReleaseReviewAt = "2026-08-01";
+const latestReleaseReviewAt = "2026-08-02";
 const defaultLimitation =
   "Documentation-derived posture. It describes exposed harness mechanisms, not task success or model capability.";
 
@@ -239,8 +240,12 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://qwenlm.github.io/qwen-code-docs/en/users/features/checkpointing/",
       "https://qwenlm.github.io/qwen-code-docs/en/developers/development/telemetry/",
       "https://qwenlm.github.io/qwen-code-docs/en/users/qwen-serve/",
+      "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.3",
+      "https://github.com/QwenLM/qwen-code/pull/8303",
+      "https://github.com/QwenLM/qwen-code/pull/8056",
     ],
-    "Default-on auto-memory persists reviewed user and project knowledge, while optional OpenTelemetry exposes logs, metrics, and spans. Approval policy is granular, but the OS/container sandbox and shadow-Git checkpoints are both disabled by default; yolo does not enable isolation, and rollback cannot undo external side effects. The alpha daemon is unauthenticated on loopback, requires a bearer token for non-loopback binds, and does not claim production-grade multi-client guarantees.",
+    "Default-on auto-memory persists reviewed user and project knowledge; qwen serve keeps managed project memory Git-root-scoped unless exact-workspace storage is explicitly enabled. Approval policy is granular and named fork profiles can constrain delegated tools. Opt-in background workflows remain TUI-only, approval-gated, process-scoped, and lack pause, resume, restart recovery, remote execution, and tracing. The OS/container sandbox and shadow-Git checkpoints are both disabled by default; yolo does not enable isolation, and rollback cannot undo external side effects. The alpha daemon is unauthenticated on loopback, requires a bearer token for non-loopback binds, and does not claim production-grade multi-client guarantees.",
+    latestReleaseReviewAt,
   ),
   "continue-cli": record(
     { context: "managed", permissions: "approval", verification: "tool-assisted", observability: "logs", recovery: "session-resume" },

@@ -274,7 +274,7 @@ const featureClaimSeedsByHarness = {
       "Extension support does not establish compatibility or safety for every third-party package.",
     ),
     localModels: documented("Model providers"),
-    subagents: documented("OpenTelemetry observability", "Nested subagent release"),
+    subagents: documented("OpenTelemetry observability", "Nested subagent release", "Qwen Code 0.21.3 release"),
     headless: documented("Headless safety and budgets"),
     browser: documented("Built-in Computer Use release"),
     sandbox: configuredClaim(
