@@ -17,15 +17,18 @@ Use `design-system/harnessmatch/MASTER.md` as the base. This page is a technical
 2. Source tabs with horizontal overflow on narrow screens.
 3. Optional OpenRouter window selector.
 4. Ranked horizontal-bar list with exact values and direct profile links.
-5. Source-specific limitation and a unified CSV export.
+5. Source-specific limitation, a current-view CSV, and the unified CSV export.
 6. Compact methodology and primary-source links.
 
 ## Interaction and accessibility
 
 - Tabs use semantic `tablist`/`tab` roles, arrow-key navigation, visible focus, and at least 44px hit targets.
 - Bars communicate relative magnitude only; exact values remain visible text and screen-reader labels.
+- Bars use a linear zero-based scale anchored to the largest mapped value in the full selected source, including in focused comparisons. Preserve the calculated width and use a documented 1 px origin marker for positive subpixel values rather than a misleading minimum bar length.
 - Avoid entrance animation and width transitions. Respect reduced motion globally.
 - Show at most 12 rows initially, then offer an explicit show-all control.
+- Allow a deep-linked comparison of up to four harnesses only within the same source, metric, and window. Never normalize across sources.
+- Make the harness picker and comparison list searchable, and keep a copied view URL sufficient to restore the selection.
 - On mobile, keep the page itself free of horizontal overflow; only the source-tab strip may scroll horizontally.
 
 ## Copy constraints

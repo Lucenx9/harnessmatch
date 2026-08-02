@@ -7,7 +7,7 @@ import {
   waitFor,
   within,
 } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { HomeUsageSummary } from "../src/components/home-usage-summary";
 import { UsageSignalsExplorer } from "../src/components/usage-signals-explorer";
 import { ecosystemSignalSnapshots } from "../src/data/ecosystem-signals";
@@ -20,9 +20,15 @@ const usageRecords = buildUsageViewRecords({
   openRouterSnapshots: openRouterAttributionSnapshots,
   ecosystemSignals: ecosystemSignalSnapshots,
 });
+const clipboardWriteText = vi.fn(async (_value: string) => {});
 
 beforeEach(() => {
   window.history.replaceState(null, "", "/usage");
+  clipboardWriteText.mockClear();
+  Object.defineProperty(navigator, "clipboard", {
+    configurable: true,
+    value: { writeText: clipboardWriteText },
+  });
 });
 
 afterEach(cleanup);
@@ -73,7 +79,9 @@ describe("usage component interactions", () => {
     }
     const view = within(explorer);
 
+    fireEvent.click(view.getByRole("tab", { name: "Latest day" }));
     fireEvent.click(view.getByRole("button", { name: "Trending" }));
+    expect(view.getByRole("tab", { name: "7 days" }).getAttribute("aria-selected")).toBe("true");
     fireEvent.click(view.getByRole("tab", { name: "30 days" }));
     expect(view.getByRole("heading", { name: "Trending on OpenRouter" })).toBeDefined();
 
@@ -108,6 +116,33 @@ describe("usage component interactions", () => {
     }
   });
 
+  it("distinguishes true zero values from positive origin markers", async () => {
+    const zeroRecord = usageRecords.ecosystemRecords.find(
+      (record) => record.signal.source === "github" && record.signal.value === 0,
+    );
+    const positiveRecord = usageRecords.ecosystemRecords.find(
+      (record) => record.signal.source === "github" && record.signal.value > 0,
+    );
+    if (!zeroRecord || !positiveRecord) throw new Error("Expected zero and positive GitHub usage records.");
+    window.history.replaceState(null, "", "/usage?source=github");
+
+    const { container } = render(
+      <UsageSignalsExplorer
+        {...usageRecords}
+        ecosystemRecords={[positiveRecord, zeroRecord]}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(container.querySelector(`a[href="/harnesses/${zeroRecord.slug}"]`)).not.toBeNull();
+    });
+    const zeroTrack = container.querySelector(`a[href="/harnesses/${zeroRecord.slug}"] .usage-bar-track`);
+    const positiveTrack = container.querySelector(`a[href="/harnesses/${positiveRecord.slug}"] .usage-bar-track`);
+    expect(zeroTrack).not.toBeNull();
+    expect(zeroTrack?.classList.contains("usage-bar-track-positive")).toBe(false);
+    expect(positiveTrack?.classList.contains("usage-bar-track-positive")).toBe(true);
+  });
+
   it("switches to a deep-linkable per-harness source ledger", async () => {
     const ompRecord = usageRecords.openRouterRecords.find(({ id }) => id === "omp");
     if (!ompRecord) throw new Error("Expected an OpenRouter record for Oh My Pi.");
@@ -140,11 +175,20 @@ describe("usage component interactions", () => {
     const view = within(explorer);
 
     fireEvent.click(view.getByRole("button", { name: "By harness" }));
+    expect(view.getByRole("tabpanel", { name: "7 days" }).getAttribute("id")).toBe("usage-harness-panel");
+    fireEvent.change(view.getByRole("searchbox", { name: "Find harness" }), {
+      target: { value: "Oh My" },
+    });
+    expect(view.getByRole("option", { name: "Oh My Pi" })).toBeDefined();
     fireEvent.change(view.getByRole("combobox", { name: "Harness" }), {
       target: { value: "omp" },
     });
     expect(view.getByText("Mapped but unlisted")).toBeDefined();
 
+    fireEvent.change(view.getByRole("searchbox", { name: "Find harness" }), {
+      target: { value: "Codex" },
+    });
+    expect(view.getByRole("option", { name: "Codex" })).toBeDefined();
     fireEvent.change(view.getByRole("combobox", { name: "Harness" }), {
       target: { value: "codex" },
     });
@@ -185,6 +229,81 @@ describe("usage component interactions", () => {
       expect(view.getByRole("heading", { name: "Aider usage signals" })).toBeDefined();
     });
     expect(view.getByRole("combobox", { name: "Harness" })).toHaveProperty("value", "aider");
+  });
+
+  it("compares at most four harnesses within one deep-linked source view", async () => {
+    const { container } = render(
+      <UsageSignalsExplorer {...usageRecords} />,
+    );
+    const explorer = container.querySelector(".usage-explorer");
+    if (!(explorer instanceof HTMLElement)) {
+      throw new Error("Expected the usage signals explorer.");
+    }
+    const view = within(explorer);
+
+    fireEvent.click(view.getByRole("button", { name: "Compare" }));
+    expect(view.getByText("2 selected")).toBeDefined();
+
+    const initiallyUnselected = view.getAllByRole("checkbox").filter((checkbox) => (
+      checkbox instanceof HTMLInputElement && !checkbox.checked
+    ));
+    const third = initiallyUnselected[0];
+    const fourth = initiallyUnselected[1];
+    if (!third || !fourth) throw new Error("Expected at least four active harnesses.");
+    fireEvent.click(third);
+    fireEvent.click(fourth);
+
+    expect(view.getByText("4 selected")).toBeDefined();
+    expect(view.getAllByRole("checkbox").filter((checkbox) => (
+      checkbox instanceof HTMLInputElement && !checkbox.checked
+    )).every((checkbox) => checkbox.hasAttribute("disabled"))).toBe(true);
+    expect(view.getByText(/Linear bars use the largest mapped value in this source as 100%/)).toBeDefined();
+
+    fireEvent.change(view.getByRole("searchbox", { name: "Find harness" }), {
+      target: { value: "Aider" },
+    });
+    expect(view.getAllByRole("checkbox", { checked: true })).toHaveLength(4);
+    expect(view.getAllByRole("checkbox")).toHaveLength(4);
+    expect(explorer.querySelectorAll(".usage-ranking-row")).toHaveLength(4);
+
+    await waitFor(() => {
+      expect(window.location.search).toContain("mode=compare");
+      expect(window.location.search).toContain("ids=");
+    });
+
+    const currentViewCsv = view.getByRole("link", { name: "Download current view (CSV)" });
+    const csvHref = currentViewCsv.getAttribute("href");
+    if (!csvHref) throw new Error("Expected a current-view CSV data URL.");
+    const csv = decodeURIComponent(csvHref.replace("data:text/csv;charset=utf-8,", ""));
+    expect(csv).toContain("rank_scope");
+    expect(csv).toContain("harness_id");
+
+    fireEvent.click(view.getByRole("button", { name: "Copy view link" }));
+    await waitFor(() => {
+      expect(clipboardWriteText).toHaveBeenCalledWith(window.location.href);
+      expect(view.getByRole("button", { name: "Link copied" })).toBeDefined();
+    });
+  });
+
+  it("restores and validates a focused comparison URL", async () => {
+    window.history.replaceState(null, "", "/usage?mode=compare&source=github&ids=codex,aider,unknown");
+
+    const { container } = render(
+      <UsageSignalsExplorer {...usageRecords} />,
+    );
+    const explorer = container.querySelector(".usage-explorer");
+    if (!(explorer instanceof HTMLElement)) {
+      throw new Error("Expected the usage signals explorer.");
+    }
+    const view = within(explorer);
+
+    await waitFor(() => {
+      expect(view.getByRole("heading", { name: "GitHub repository interest comparison" })).toBeDefined();
+      expect(view.getByText("2 selected")).toBeDefined();
+      expect(window.location.search).toBe("?mode=compare&ids=codex%2Caider&source=github");
+    });
+    expect(view.getByText("Forks / scope")).toBeDefined();
+    expect(view.getAllByText(/repository/).length).toBeGreaterThan(0);
   });
 
   it("does not substitute another harness when the requested id is unavailable", async () => {
