@@ -70,7 +70,9 @@ describe("multi-axis evidence evaluation", () => {
 
   it("keeps the new source-audit wave pinned and does not invent a public PostQode repository", () => {
     const audits = new Map(repositoryAudits.map((audit) => [audit.harnessId, audit]));
-    expect(audits.get("wakil")?.inspectedRef).toBe("4d2e4f9d38860905fb41593beca87dc40f28fe51");
+    expect(audits.get("wakil")?.inspectedRef).toBe("25ff56085007d8e8bdbc4d2f8c74ee4f994a0ed9");
+    expect(audits.get("wakil")?.signals.evaluationAssets).toBe(false);
+    expect(audits.get("ggcode")?.inspectedRef).toBe("b878385bfd4d0edab137e8d48c18fad512d49f21");
     expect(audits.get("deepagents-code")?.inspectedRef).toBe("43eb196cf7faa993f2fa372dcc1fa65572d8a301");
     expect(audits.get("opensquilla")?.inspectedRef).toBe("f569e05de52dcc1e3954bbcbebe1b10106cdba6e");
     expect(audits.get("kern")?.repositoryUrl).toBe("https://github.com/oguzbilgic/kern-ai");

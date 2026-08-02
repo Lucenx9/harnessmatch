@@ -425,7 +425,8 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://zcode.z.ai/en/docs/remote-development",
       "https://zcode.z.ai/en/changelog",
     ],
-    "Vendor-documented posture for ZCode 3.5.2. Goal Mode records model trajectories and applies an independent failed-closed completion check, but no independent validation establishes its accuracy. Docker isolation requires an existing user-provided container; ordinary local and SSH workspaces execute with the target account, file undo does not reverse external side effects, and no headless CLI or CI API was found.",
+    "Vendor-documented posture for ZCode 3.5.3, with the operative mechanisms introduced and reviewed in 3.5.2. Goal Mode records model trajectories and applies an independent failed-closed completion check, but no independent validation establishes its accuracy. Docker isolation requires an existing user-provided container; ordinary local and SSH workspaces execute with the target account, file undo does not reverse external side effects, and no headless CLI or CI API was found.",
+    latestReleaseReviewAt,
   ),
   stagewise: record(
     { context: "managed", permissions: "approval", verification: "tool-assisted", observability: "logs", recovery: "checkpoint" },
@@ -487,8 +488,11 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://ampcode.com/manual/sdk/typescript",
       "https://ampcode.com/security",
       "https://ampcode.com/news/agents-everywhere",
+      "https://ampcode.com/news/event-driven-orbs",
+      "https://ampcode.com/news/multiplayer",
     ],
-    "Amp preserves thread context and tool-call history and now uses durable execution, schedules, and sleeping orbs. This is vendor-documented recovery, not independent task-success evidence. Local tools still run with host privileges and no approval by default; policy plugins are optional, and orb SDK calls ignore local-only policy options in favor of project configuration.",
+    "Amp preserves thread context and tool-call history and now uses durable execution, schedules, sleeping orbs, event webhooks, and temporary multiplayer access. This is vendor-documented recovery and collaboration, not independent task-success evidence. Local tools still run with host privileges and no approval by default; policy plugins are optional, orb SDK calls ignore local-only policy options in favor of project configuration, webhook payloads remain untrusted input, and joined members can access the shared thread, portal, files, and terminal until multiplayer expires.",
+    latestReleaseReviewAt,
   ),
   "kiro-cli": record(
     { context: "managed", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "checkpoint" },
@@ -530,12 +534,13 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
   wakil: record(
     { context: "persistent", permissions: "approval", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },
     [
-      "https://github.com/treeol/wakil/blob/4d2e4f9d38860905fb41593beca87dc40f28fe51/README.md",
-      "https://github.com/treeol/wakil/blob/4d2e4f9d38860905fb41593beca87dc40f28fe51/docs/memory.md",
-      "https://github.com/treeol/wakil/blob/4d2e4f9d38860905fb41593beca87dc40f28fe51/config.example.json",
+      "https://github.com/treeol/wakil/blob/25ff56085007d8e8bdbc4d2f8c74ee4f994a0ed9/README.md",
+      "https://github.com/treeol/wakil/blob/25ff56085007d8e8bdbc4d2f8c74ee4f994a0ed9/docs/memory.md",
+      "https://github.com/treeol/wakil/blob/25ff56085007d8e8bdbc4d2f8c74ee4f994a0ed9/config.example.json",
+      "https://github.com/treeol/wakil/blob/25ff56085007d8e8bdbc4d2f8c74ee4f994a0ed9/internal/counsel/oracle.go",
     ],
     "Wakil combines resumable sessions, optional JSONL traces, a confirmation gate, a default hardened container, and a provenance-aware durable store. Direct execution, host browser opening, Docker-socket access, and ungated memory proposals remain outside a simple fail-closed interpretation; verification is tool-assisted rather than a required test gate.",
-    refreshedAt,
+    latestReleaseReviewAt,
   ),
   "deepagents-code": record(
     { context: "persistent", permissions: "approval", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },
@@ -584,15 +589,15 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
   ggcode: record(
     { context: "persistent", permissions: "policy", verification: "workflow-gated", observability: "traces", recovery: "checkpoint" },
     [
-      "https://github.com/topcheer/ggcode/blob/f99a960149c6d93b8b64e4e08abfc341fbaf7ca2/internal/context/manager.go",
-      "https://github.com/topcheer/ggcode/blob/f99a960149c6d93b8b64e4e08abfc341fbaf7ca2/docs/guide/project-memory.md",
-      "https://github.com/topcheer/ggcode/blob/f99a960149c6d93b8b64e4e08abfc341fbaf7ca2/docs/guide/modes.md",
-      "https://github.com/topcheer/ggcode/blob/f99a960149c6d93b8b64e4e08abfc341fbaf7ca2/docs/guide/harness.md",
-      "https://github.com/topcheer/ggcode/blob/f99a960149c6d93b8b64e4e08abfc341fbaf7ca2/internal/metrics/trace_export.go",
-      "https://github.com/topcheer/ggcode/blob/f99a960149c6d93b8b64e4e08abfc341fbaf7ca2/internal/checkpoint/checkpoint.go",
+      "https://github.com/topcheer/ggcode/blob/b878385bfd4d0edab137e8d48c18fad512d49f21/internal/context/manager.go",
+      "https://github.com/topcheer/ggcode/blob/b878385bfd4d0edab137e8d48c18fad512d49f21/docs/guide/project-memory.md",
+      "https://github.com/topcheer/ggcode/blob/b878385bfd4d0edab137e8d48c18fad512d49f21/docs/guide/modes.md",
+      "https://github.com/topcheer/ggcode/blob/b878385bfd4d0edab137e8d48c18fad512d49f21/docs/guide/harness.md",
+      "https://github.com/topcheer/ggcode/blob/b878385bfd4d0edab137e8d48c18fad512d49f21/internal/metrics/trace_export.go",
+      "https://github.com/topcheer/ggcode/blob/b878385bfd4d0edab137e8d48c18fad512d49f21/internal/checkpoint/checkpoint.go",
     ],
     "GGCode persists repository instructions and JSONL sessions, compacts live context, exports LLM and tool traces, and offers a governed worktree workflow with configured checks, delivery reports, review, approval, and promotion. The strongest verification gate applies to harness tasks rather than every interactive run. Normal execution remains on the host; bypass and autopilot weaken approvals, worktrees and path rules are not OS isolation, and file checkpoints cannot reverse shell or external side effects.",
-    "2026-08-01",
+    latestReleaseReviewAt,
   ),
 };
 

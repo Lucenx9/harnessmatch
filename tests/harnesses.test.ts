@@ -333,6 +333,23 @@ describe("harness evidence ledger", () => {
     expect(featureSupportFor(byId.get("ggcode")).sandbox).toBe(false);
     expect(featureSupportFor(byId.get("mimo-code")).sandbox).toBe(false);
     expect(featureSupportFor(byId.get("ante")).sandbox).toBe(false);
+
+    const wakil = byId.get("wakil")!;
+    expect(wakil.verifiedAt).toBe("2026-08-02");
+    expect(wakil.evidence.map((source) => source.url)).toEqual(expect.arrayContaining([
+      "https://github.com/treeol/wakil/blob/25ff56085007d8e8bdbc4d2f8c74ee4f994a0ed9/internal/agent/mashura_command.go",
+      "https://github.com/treeol/wakil/blob/25ff56085007d8e8bdbc4d2f8c74ee4f994a0ed9/internal/counsel/oracle.go",
+    ]));
+    expect(wakil.tradeoffs.join(" ")).toContain("shares successful first-round responses across providers");
+
+    const ggcode = byId.get("ggcode")!;
+    expect(ggcode.verifiedAt).toBe("2026-08-02");
+    expect(ggcode.evidence.map((source) => source.url)).toEqual(expect.arrayContaining([
+      "https://github.com/topcheer/ggcode/releases/tag/v1.3.189",
+      "https://github.com/topcheer/ggcode/tree/b878385bfd4d0edab137e8d48c18fad512d49f21",
+    ]));
+    expect(ggcode.evidence.find((source) => source.title === "GGCode v1.3.189 release")?.covers)
+      .toContain("agent verification gates");
   });
 
   it("adds MiMo Code from first-party evidence while keeping discovery and capability evidence separate", () => {
@@ -594,9 +611,10 @@ describe("harness evidence ledger", () => {
     const urls = openCode.evidence.map((source) => source.url);
     const caveats = openCode.tradeoffs.join(" ");
 
-    expect(openCode.verifiedAt).toBe("2026-07-30");
-    expect(openCode.evidence).toHaveLength(25);
-    expect(openCode.evidence.every((source) => source.verifiedAt === openCode.verifiedAt)).toBe(true);
+    expect(openCode.verifiedAt).toBe("2026-08-02");
+    expect(openCode.evidence).toHaveLength(26);
+    expect(openCode.evidence.find((source) => source.url.endsWith("/v1.18.11"))?.verifiedAt).toBe("2026-08-02");
+    expect(openCode.evidence.find((source) => source.url.includes("/tree/e5cc278"))?.verifiedAt).toBe("2026-07-30");
     expect(openCode.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(openCode.classification).toMatchObject({ runtime: "host-first", isolation: [], state: "session-based" });
@@ -606,6 +624,7 @@ describe("harness evidence ledger", () => {
       "https://opencode.ai/docs/server",
       "https://opencode.ai/docs/github",
       "https://github.com/anomalyco/opencode/releases/tag/v1.18.9",
+      "https://github.com/anomalyco/opencode/releases/tag/v1.18.11",
       "https://github.com/anomalyco/opencode/blob/e5cc278dec9294a627a7b05f47ce6a564408c1a2/packages/opencode/src/snapshot/index.ts",
       "https://github.com/anomalyco/opencode/tree/e5cc278dec9294a627a7b05f47ce6a564408c1a2",
       "https://github.com/anomalyco/opencode/blob/e5cc278dec9294a627a7b05f47ce6a564408c1a2/SECURITY.md",
@@ -654,9 +673,10 @@ describe("harness evidence ledger", () => {
     const urls = omp.evidence.map((source) => source.url);
     const caveats = omp.tradeoffs.join(" ");
 
-    expect(omp.verifiedAt).toBe("2026-07-31");
+    expect(omp.verifiedAt).toBe("2026-08-02");
     expect(omp.evidence.length).toBeGreaterThanOrEqual(14);
     expect(omp.evidence.find((source) => source.url.endsWith("/v17.2.1"))?.verifiedAt).toBe("2026-07-31");
+    expect(omp.evidence.find((source) => source.url.endsWith("/v17.2.4"))?.verifiedAt).toBe("2026-08-02");
     expect(omp.evidence.find((source) => source.url.includes("/tree/d16c6168"))?.verifiedAt).toBe("2026-07-28");
     expect(featureSupportFor(omp)).toMatchObject({ mcp: true, subagents: true, browser: true, sandbox: false, checkpoints: false });
     expect(urls).toEqual(expect.arrayContaining([
@@ -668,6 +688,7 @@ describe("harness evidence ledger", () => {
       "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/extensions.md",
       "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/secrets.md",
       "https://github.com/can1357/oh-my-pi/releases/tag/v17.2.1",
+      "https://github.com/can1357/oh-my-pi/releases/tag/v17.2.4",
     ]));
     expect(caveats).toContain("subagents also run yolo");
     expect(caveats).toContain("prune conversation context only");
@@ -682,9 +703,10 @@ describe("harness evidence ledger", () => {
     const urls = grokBuild.evidence.map((source) => source.url);
     const caveats = grokBuild.tradeoffs.join(" ");
 
-    expect(grokBuild.verifiedAt).toBe("2026-07-30");
+    expect(grokBuild.verifiedAt).toBe("2026-08-02");
     expect(grokBuild.evidence).toHaveLength(24);
-    expect(grokBuild.evidence.every((source) => source.verifiedAt === grokBuild.verifiedAt)).toBe(true);
+    expect(grokBuild.evidence.find((source) => source.title === "Grok Build changelog")?.verifiedAt).toBe("2026-08-02");
+    expect(grokBuild.evidence.find((source) => source.url.includes("/tree/b41c75a"))?.verifiedAt).toBe("2026-07-30");
     expect(grokBuild.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([
@@ -697,7 +719,7 @@ describe("harness evidence ledger", () => {
       "https://docs.x.ai/build/enterprise",
       "https://github.com/xai-org/grok-build/tree/b41c75a578f98bddbd326ab02cd53618451d97ee",
     ]));
-    expect(grokBuild.evidence.find((source) => source.title === "Grok Build changelog")?.covers).toContain("0.2.112");
+    expect(grokBuild.evidence.find((source) => source.title === "Grok Build changelog")?.covers).toContain("0.2.117");
     expect(caveats).toContain("OS sandbox is off by default");
     expect(caveats).toContain("Browser review is supplied through plugins or MCP");
     expect(caveats).toContain("model branding, not evidence of harness quality");
@@ -751,9 +773,10 @@ describe("harness evidence ledger", () => {
     const urls = factory.evidence.map((source) => source.url);
     const caveats = factory.tradeoffs.join(" ");
 
-    expect(factory.verifiedAt).toBe("2026-07-30");
+    expect(factory.verifiedAt).toBe("2026-08-02");
     expect(factory.evidence).toHaveLength(17);
-    expect(factory.evidence.every((source) => source.verifiedAt === factory.verifiedAt)).toBe(true);
+    expect(factory.evidence.find((source) => source.title === "Factory v0.185.0 release notes")?.verifiedAt).toBe("2026-08-02");
+    expect(factory.evidence.find((source) => source.url.includes("/tree/7ea5f9c"))?.verifiedAt).toBe("2026-07-30");
     expect(factory.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([
@@ -787,9 +810,10 @@ describe("harness evidence ledger", () => {
 
     expect(letta.name).toBe("Letta Harness");
     expect(letta.summary).toContain("formerly called Letta Code");
-    expect(letta.verifiedAt).toBe("2026-07-28");
-    expect(letta.evidence).toHaveLength(24);
-    expect(letta.evidence.every((source) => source.verifiedAt === letta.verifiedAt)).toBe(true);
+    expect(letta.verifiedAt).toBe("2026-08-02");
+    expect(letta.evidence).toHaveLength(25);
+    expect(letta.evidence.find((source) => source.url.endsWith("/v0.30.1"))?.verifiedAt).toBe("2026-08-02");
+    expect(letta.evidence.find((source) => source.url.endsWith("/v0.29.9"))?.verifiedAt).toBe("2026-07-28");
     expect(letta.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([
@@ -803,6 +827,7 @@ describe("harness evidence ledger", () => {
       "https://docs.letta.com/reference/changelog",
       "https://docs.letta.com/platform/cli/reference",
       "https://github.com/letta-ai/letta-code/releases/tag/v0.29.9",
+      "https://github.com/letta-ai/letta-code/releases/tag/v0.30.1",
     ]));
     expect(caveats).toContain("starts in unrestricted mode");
     expect(caveats).toContain("recommends skills instead of MCP");
@@ -823,9 +848,10 @@ describe("harness evidence ledger", () => {
     const zcode = harnesses.find((harness) => harness.id === "zcode")!;
     const urls = zcode.evidence.map((source) => source.url);
 
-    expect(zcode.verifiedAt).toBe("2026-07-27");
+    expect(zcode.verifiedAt).toBe("2026-08-02");
     expect(zcode.evidence.length).toBeGreaterThanOrEqual(15);
-    expect(zcode.evidence.every((source) => source.verifiedAt === zcode.verifiedAt)).toBe(true);
+    expect(zcode.evidence.find((source) => source.url.endsWith("/changelog"))?.verifiedAt).toBe("2026-08-02");
+    expect(zcode.evidence.find((source) => source.url.endsWith("/agents"))?.verifiedAt).toBe("2026-07-27");
     expect(urls).toEqual(expect.arrayContaining([
       "https://zcode.z.ai/en/docs/goal",
       "https://zcode.z.ai/en/docs/subagents",
@@ -936,9 +962,10 @@ describe("harness evidence ledger", () => {
     const urls = amp.evidence.map((source) => source.url);
     const caveats = amp.tradeoffs.join(" ");
 
-    expect(amp.verifiedAt).toBe("2026-07-27");
-    expect(amp.evidence.length).toBeGreaterThanOrEqual(18);
-    expect(amp.evidence.every((source) => source.verifiedAt === amp.verifiedAt)).toBe(true);
+    expect(amp.verifiedAt).toBe("2026-08-02");
+    expect(amp.evidence.length).toBeGreaterThanOrEqual(21);
+    expect(amp.evidence.find((source) => source.url.endsWith("/event-driven-orbs"))?.verifiedAt).toBe("2026-08-02");
+    expect(amp.evidence.find((source) => source.url.endsWith("/manual"))?.verifiedAt).toBe("2026-07-27");
     expect(amp.classification).toMatchObject({ runtime: "host-first", isolation: ["managed-sandbox"], state: "session-based" });
     expect(featureSupportFor(amp)).toMatchObject({ sandbox: true, checkpoints: false, headless: true, subagents: true, browser: true });
     expect(amp.capabilities).toMatchObject({ security: 3, largeRepo: 4, humanControl: 3 });
@@ -950,11 +977,15 @@ describe("harness evidence ledger", () => {
       "https://ampcode.com/manual/sdk/typescript",
       "https://ampcode.com/security",
       "https://ampcode.com/news/agents-anywhere",
+      "https://ampcode.com/news/event-driven-orbs",
+      "https://ampcode.com/news/multiplayer",
     ]));
     expect(caveats).toContain("without approval by default");
     expect(caveats).toContain("paid managed cloud sandboxes");
     expect(caveats).toContain("No harness checkpoint or file rollback");
     expect(caveats).toContain("not self-hostable");
+    expect(caveats).toContain("webhook URLs are credentials");
+    expect(caveats).toContain("shared terminal");
   });
 
   it("keeps Kiro 2.x stable capabilities separate from the opt-in v3 harness", () => {
@@ -962,15 +993,16 @@ describe("harness evidence ledger", () => {
     const urls = kiro.evidence.map((source) => source.url);
     const caveats = kiro.tradeoffs.join(" ");
 
-    expect(kiro.verifiedAt).toBe("2026-07-27");
+    expect(kiro.verifiedAt).toBe("2026-08-02");
     expect(kiro.evidence).toHaveLength(21);
-    expect(kiro.evidence.every((source) => source.verifiedAt === kiro.verifiedAt)).toBe(true);
+    expect(kiro.evidence.find((source) => source.url.endsWith("/2-15/"))?.verifiedAt).toBe("2026-08-02");
+    expect(kiro.evidence.find((source) => source.url.endsWith("/headless/"))?.verifiedAt).toBe("2026-07-27");
     expect(kiro.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(featureSupportFor(kiro)).toMatchObject({ headless: true, subagents: true, mcp: true, checkpoints: true, sandbox: false });
     expect(kiro.capabilities.automation).toBe(4);
     expect(urls).toEqual(expect.arrayContaining([
-      "https://kiro.dev/changelog/cli/2-14/",
+      "https://kiro.dev/changelog/cli/2-15/",
       "https://kiro.dev/docs/cli/headless/",
       "https://kiro.dev/docs/cli/chat/goal/",
       "https://kiro.dev/docs/cli/experimental/checkpointing/",
@@ -1603,7 +1635,11 @@ describe("harness evidence ledger", () => {
       "https://docs.cline.bot/enterprise-solutions/configuration/infrastructure-configuration/control-other-cline-features/mcp-server-controls",
       "https://docs.cline.bot/enterprise-solutions/configuration/infrastructure-configuration/control-other-cline-features/yolo-mode",
       "https://github.com/cline/cline/releases/tag/v4.1.0",
+      "https://github.com/cline/cline/releases/tag/v4.1.3",
     ]));
+    expect(byId.get("cline")!.verifiedAt).toBe("2026-08-02");
+    expect(byId.get("cline")!.evidence.find((source) => source.url.endsWith("/v4.1.3"))?.verifiedAt)
+      .toBe("2026-08-02");
     expect(byId.get("cline")!.tradeoffs.join(" ")).toContain("staged remote rollout");
     expect(urlsFor("kimi-code")).toEqual(expect.arrayContaining([
       "https://github.com/MoonshotAI/kimi-code/tree/8a45f10eddbb35c317047e82e567cdb59a220b4f",

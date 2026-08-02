@@ -1,6 +1,7 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-30";
+const releaseVerifiedAt = "2026-08-02";
 
 export const grokBuild = {
     id: "grok-build",
@@ -49,7 +50,7 @@ export const grokBuild = {
       "The statement that Grok 4.5 powers the product is model branding, not evidence of harness quality; no complete independent product benchmark is imported",
     ],
     setup: "Install `grok`, sign in with a supported subscription or API key, then choose a permission mode and enable an appropriate sandbox profile.",
-    verifiedAt: verifiedAt,
+    verifiedAt: releaseVerifiedAt,
     evidence: [
       {
         title: "Grok Build overview",
@@ -183,9 +184,9 @@ export const grokBuild = {
         title: "Grok Build changelog",
         topic: "releases-code-audit",
         url: "https://x.ai/build/changelog",
-        covers: "Beta status and current 0.2.112 product release verification",
+        covers: "Beta status and current 0.2.117 release, including background-subagent termination, ACP task fixes, and custom TLS-root support",
         kind: "official-announcement",
-        verifiedAt: verifiedAt,
+        verifiedAt: releaseVerifiedAt,
       },
       {
         title: "Grok Build repository",
