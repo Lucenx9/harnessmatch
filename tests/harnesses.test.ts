@@ -51,6 +51,7 @@ const firstPartyHosts: Record<string, string[]> = {
   postqode: ["postqode.ai", "www.postqode.ai", "www.npmjs.com"],
   kern: ["github.com"],
   ggcode: ["github.com"],
+  ante: ["docs.antigma.ai", "github.com"],
 };
 
 const firstPartyLogoHosts: Record<string, string> = {
@@ -99,6 +100,7 @@ const firstPartyLogoHosts: Record<string, string> = {
   postqode: "postqode.ai",
   kern: "github.com",
   ggcode: "github.com",
+  ante: "github.com",
 };
 
 describe("harness evidence ledger", () => {
@@ -293,11 +295,28 @@ describe("harness evidence ledger", () => {
       sandbox: false,
       checkpoints: true,
     });
+    expect(featureSupportFor(byId.get("ante"))).toEqual({
+      mcp: true,
+      skills: true,
+      localModels: true,
+      subagents: true,
+      headless: true,
+      browser: true,
+      sandbox: false,
+      checkpoints: false,
+    });
+    expect(byId.get("ante")?.classification).toEqual({
+      role: "coding-agent",
+      orchestration: "delegated-subagents",
+      runtime: "host-first",
+      isolation: [],
+      state: "persistent-memory",
+    });
   });
 
   it("admits the OpenRouter-discovered wave only through first-party membership evidence", () => {
     const byId = new Map(harnesses.map((harness) => [harness.id, harness]));
-    for (const id of ["wakil", "deepagents-code", "opensquilla", "postqode", "kern", "ggcode", "mimo-code"]) {
+    for (const id of ["wakil", "deepagents-code", "opensquilla", "postqode", "kern", "ggcode", "mimo-code", "ante"]) {
       const harness = byId.get(id);
       expect(harness, id).toBeDefined();
       expect(harness?.status).toBe("active");
@@ -313,6 +332,7 @@ describe("harness evidence ledger", () => {
     expect(featureSupportFor(byId.get("kern")).localModels).toBe(true);
     expect(featureSupportFor(byId.get("ggcode")).sandbox).toBe(false);
     expect(featureSupportFor(byId.get("mimo-code")).sandbox).toBe(false);
+    expect(featureSupportFor(byId.get("ante")).sandbox).toBe(false);
   });
 
   it("adds MiMo Code from first-party evidence while keeping discovery and capability evidence separate", () => {
@@ -342,6 +362,35 @@ describe("harness evidence ledger", () => {
     expect(urls.some((url) => url.includes("openrouter.ai"))).toBe(false);
     expect(caveats).toContain("no built-in process sandbox");
     expect(caveats).toContain("untracked files larger than 2 MiB");
+  });
+
+  it("adds Ante from first-party evidence while preserving its alpha and private-core limits", () => {
+    const ante = harnesses.find((harness) => harness.id === "ante")!;
+    const urls = ante.evidence.map((source) => source.url);
+    const caveats = ante.tradeoffs.join(" ");
+
+    expect(ante.status).toBe("active");
+    expect(ante.verifiedAt).toBe("2026-08-02");
+    expect(ante.license).toBe("Apache-2.0 components; preview binary terms");
+    expect(ante.evidence).toHaveLength(17);
+    expect(ante.evidence.every((source) => source.verifiedAt === ante.verifiedAt)).toBe(true);
+    expect(new Set(urls).size).toBe(urls.length);
+    expect(urls).toEqual(expect.arrayContaining([
+      "https://github.com/AntigmaLabs/ante-preview/tree/8ce59518ed8a2ddda46c07cbb0b6fb1f528438a3",
+      "https://docs.antigma.ai/reference/tools-reference",
+      "https://docs.antigma.ai/reference/core-concepts",
+      "https://docs.antigma.ai/configuration/permission",
+      "https://docs.antigma.ai/usage/goal-sessions",
+      "https://docs.antigma.ai/extend/memory",
+    ]));
+    expect(ante.discovery).toEqual([
+      expect.objectContaining({
+        url: "https://openrouter.ai/apps/url/https%3A%2F%2Fdocs.antigma.ai%2F",
+      }),
+    ]);
+    expect(urls.some((url) => url.includes("openrouter.ai"))).toBe(false);
+    expect(caveats).toContain("core harness remains private");
+    expect(caveats).toContain("Headless runs always imply yolo");
   });
 
   it("separates Gemini CLI enterprise continuity from the Antigravity consumer successor", () => {

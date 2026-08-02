@@ -36,13 +36,6 @@ export const discoveryWatchlist: WatchlistCandidate[] = [
     observedAt: "2026-07-26",
   },
   {
-    name: "Ante",
-    status: "needs-more-evidence",
-    reason: "Discovered in ecosystem catalogs, but current first-party technical documentation is insufficient for source-backed capability classification.",
-    sourceUrl: "https://openrouter.ai/apps",
-    observedAt: "2026-07-26",
-  },
-  {
     name: "Portkey and model gateways",
     status: "adjacent-tool",
     reason: "Provider gateways can be important harness dependencies, but they do not independently implement the coding-agent loop compared by HarnessMatch.",

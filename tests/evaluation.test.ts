@@ -161,6 +161,26 @@ describe("multi-axis evidence evaluation", () => {
     expect(benchmarkRuns.some((run) => run.harnessId === "mimo-code")).toBe(false);
   });
 
+  it("keeps Ante's private core out of code-verifiable and benchmark evidence", () => {
+    const audit = repositoryAudits.find((item) => item.harnessId === "ante")!;
+    const evidence = evidenceStateFor("ante");
+
+    expect(audit.inspectedRef).toBe("8ce59518ed8a2ddda46c07cbb0b6fb1f528438a3");
+    expect(audit.sourceScope).toBe("support-repository");
+    expect(audit.signals).toEqual({
+      securityPolicy: false,
+      continuousIntegration: true,
+      automatedTests: true,
+      evaluationAssets: true,
+      contributorDocumentation: false,
+    });
+    expect(repositoryArtifactCount(audit)).toBeNull();
+    expect(audit.limitation).toContain("core harness remains private");
+    expect(audit.limitation).toContain("no product score is imported");
+    expect(evidence.states).toEqual(["documented"]);
+    expect(benchmarkRuns.some((run) => run.harnessId === "ante")).toBe(false);
+  });
+
   it("treats Crush engineering tests as auditable artifacts, not benchmark evidence", () => {
     const audit = repositoryAudits.find((item) => item.harnessId === "crush")!;
 

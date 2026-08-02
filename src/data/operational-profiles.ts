@@ -294,6 +294,20 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
     "Persistent project memory, session compaction, structured event output, logs, per-agent policy, and Git-backed undo support inspection and recovery. Most permissions default to allow, headless execution can bypass checks, and the official security policy states that no process sandbox exists. Workflow QuickJS contains control code only; host tools and external effects remain outside that boundary. Git recovery requires a repository and excludes ignored files, untracked files over 2 MiB, and non-file side effects.",
     "2026-08-02",
   ),
+  ante: record(
+    { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },
+    [
+      "https://docs.antigma.ai/reference/core-concepts",
+      "https://docs.antigma.ai/configuration/permission",
+      "https://docs.antigma.ai/usage/goal-sessions",
+      "https://docs.antigma.ai/usage/headless",
+      "https://docs.antigma.ai/extend/memory",
+      "https://docs.antigma.ai/extend/mcp",
+      "https://docs.antigma.ai/usage/serve",
+    ],
+    "Ante persists project memory and resumable sessions, emits structured protocol and headless events, and exposes ordered permission policy plus tool filters. Goal evaluation and the optional verification pass are model-driven aids rather than independent workflow gates. Local tools remain host-privileged, headless mode always implies yolo, and MCP tools require no approval by default. Session resume restores agent state rather than project files or external side effects; the core implementation is private during the alpha preview.",
+    "2026-08-02",
+  ),
   "letta-code": record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "managed-recovery" },
     [

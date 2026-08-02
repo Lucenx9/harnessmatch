@@ -171,6 +171,12 @@ const membershipDefinitions: Record<string, MembershipDefinition> = {
     activeContextManagement: ["MiMo Code 0.1.9 source snapshot", "Sessions and context"],
     runtimeControl: "Permission policy",
   }),
+  ante: documentedCodingHarness({
+    adaptiveLoop: "Goal-driven sessions",
+    environmentMutation: "Tool reference",
+    activeContextManagement: "Core concepts and protocol",
+    runtimeControl: "Permission configuration",
+  }),
   "letta-code": documentedCodingHarness({
     adaptiveLoop: "Letta Code quickstart",
     environmentMutation: "Client tool execution model",

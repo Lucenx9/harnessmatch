@@ -43,6 +43,7 @@ import { opensquilla } from "./opensquilla";
 import { postqode } from "./postqode";
 import { kern } from "./kern";
 import { ggcode } from "./ggcode";
+import { ante } from "./ante";
 import type { HarnessRecord } from "./types";
 
 export const harnessRecords: HarnessRecord[] = [
@@ -91,4 +92,5 @@ export const harnessRecords: HarnessRecord[] = [
   postqode,
   kern,
   ggcode,
+  ante,
 ];

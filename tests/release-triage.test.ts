@@ -68,11 +68,11 @@ describe("GPT-OSS release triage", () => {
       .map((match) => match[1]));
     const watchedIds = githubReleaseWatches.map(({ harnessId }) => harnessId);
     expect(new Set(watchedIds).size).toBe(watchedIds.length);
-    expect(watchedIds).toHaveLength(32);
+    expect(watchedIds).toHaveLength(33);
     expect(watchedIds.every((id) => auditedIds.has(id))).toBe(true);
     expect(watchedIds).toEqual(expect.arrayContaining([
       "aider", "cline", "crush", "deepagents-code", "hermes-agent", "kern", "kilo-code", "kimi-code",
-      "letta-code", "mimo-code", "mini-swe-agent", "mistral-vibe", "mux", "openclaw", "openhands", "opensquilla",
+      "ante", "letta-code", "mimo-code", "mini-swe-agent", "mistral-vibe", "mux", "openclaw", "openhands", "opensquilla",
       "poolside-cli", "stagewise", "zoo-code", "ggcode",
     ]));
     const openHandsWatch = githubReleaseWatches.find(({ harnessId }) => harnessId === "openhands");
@@ -96,6 +96,11 @@ describe("GPT-OSS release triage", () => {
     expect(patternsFor("kilo-code").some((pattern) => pattern.test("jetbrains/v7.0.11"))).toBe(false);
     expect(patternsFor("ggcode").some((pattern) => pattern.test("v1.3.187"))).toBe(true);
     expect(patternsFor("mimo-code").some((pattern) => pattern.test("v0.1.9"))).toBe(true);
+    expect(patternsFor("ante").some((pattern) => pattern.test("v0.preview.68"))).toBe(true);
+    const anteWatch = githubReleaseWatches.find(({ harnessId }) => harnessId === "ante");
+    const anteNamePatterns = anteWatch?.includeNamePatterns?.map((pattern) => new RegExp(pattern)) ?? [];
+    expect(anteNamePatterns.some((pattern) => pattern.test("v0.preview.68"))).toBe(true);
+    expect(anteNamePatterns.some((pattern) => pattern.test("Ante Nightly v0.preview.69"))).toBe(false);
   });
 
   it("triages new releases and re-triages existing releases only when their notes change", () => {

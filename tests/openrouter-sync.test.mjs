@@ -67,6 +67,24 @@ describe("OpenRouter attribution sync", () => {
       originUrl: "https://mimo.xiaomi.com/coder",
       slug: null,
     });
+    expect(openRouterApps.find(({ harnessId }) => harnessId === "cursor-cli")).toMatchObject({
+      appId: 2_237_546,
+      appName: "Cursor",
+      originUrl: "https://cursor.com/",
+      slug: null,
+    });
+    expect(openRouterApps.find(({ harnessId }) => harnessId === "deepagents-code")).toMatchObject({
+      appId: 3_687_500,
+      appName: "Deep Agents Code",
+      originUrl: "https://pypi.org/project/deepagents-code",
+      slug: null,
+    });
+    expect(openRouterApps.find(({ harnessId }) => harnessId === "ante")).toMatchObject({
+      appId: 3_067_206,
+      appName: "Ante",
+      originUrl: "https://docs.antigma.ai/",
+      slug: null,
+    });
   });
 
   it("joins ranking rows by stable app id instead of duplicate names", () => {

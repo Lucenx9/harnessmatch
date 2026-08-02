@@ -68,6 +68,19 @@ describe("feature claim ledger", () => {
     expect(featureClaimFor(byId.get("amp")!, "sandbox").state).toBe("surface-specific");
   });
 
+  it("keeps Ante browser support build-dependent and does not invent isolation or rollback", () => {
+    const byId = new Map(harnesses.map((harness) => [harness.id, harness]));
+    const ante = byId.get("ante")!;
+    const browser = featureClaimFor(ante, "browser");
+
+    expect(browser).toMatchObject({
+      state: "optional",
+      sourceUrls: ["https://docs.antigma.ai/reference/tools-reference"],
+    });
+    expect(featureClaimFor(ante, "sandbox").state).toBe("not-documented");
+    expect(featureClaimFor(ante, "checkpoints").state).toBe("not-documented");
+  });
+
   it("records reusable skills without inferring them from generic extensibility", () => {
     const byId = new Map(harnesses.map((harness) => [harness.id, harness]));
 

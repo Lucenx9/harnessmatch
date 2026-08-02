@@ -318,6 +318,19 @@ const featureClaimSeedsByHarness = {
     ),
     checkpoints: documented("Slash commands", "Pinned Git snapshot implementation"),
   },
+  ante: {
+    mcp: documented("MCP servers"),
+    skills: documented("Agent skills"),
+    localModels: documented("Offline mode", "Providers"),
+    subagents: documented("Sub-agents"),
+    headless: documented("Headless mode", "Server mode"),
+    browser: configuredClaim(
+      "optional",
+      ["Tool reference"],
+      "Optional Chromium control in Ante builds compiled with the browser feature",
+      "Browser availability depends on the distributed build and still follows the host execution and approval boundary.",
+    ),
+  },
   "letta-code": {
     mcp: documented("MCP tool execution model", "Pinned CLI MCP implementation"),
     skills: documented("Agent skills"),

@@ -12,6 +12,18 @@
     "sourceUrl": "https://api.github.com/repos/Aider-AI/aider/releases"
   },
   {
+    "harnessId": "ante",
+    "repository": "AntigmaLabs/ante-preview",
+    "repositoryScope": "support-repository",
+    "latestVersion": "v0.preview.68",
+    "latestReleaseAt": "2026-08-01",
+    "latestReleaseUrl": "https://github.com/AntigmaLabs/ante-preview/releases/tag/v0.preview.68",
+    "recentReleaseCount": 43,
+    "recentReleaseWindowDays": 90,
+    "observedAt": "2026-08-02",
+    "sourceUrl": "https://api.github.com/repos/AntigmaLabs/ante-preview/releases"
+  },
+  {
     "harnessId": "antigravity-cli",
     "repository": "google-antigravity/antigravity-cli",
     "repositoryScope": "support-repository",

@@ -77,6 +77,7 @@ describe("harness classification", () => {
       "postqode",
       "kern",
       "ggcode",
+      "ante",
     ]);
   });
 
