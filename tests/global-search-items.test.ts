@@ -19,7 +19,11 @@ describe("global search GUI items", () => {
   });
 
   it("keeps dormant and archived GUI products out of the search index", () => {
-    const active = catalogFixture();
+    const active: GuiProduct = {
+      ...catalogFixture(),
+      id: "active-fixture",
+      status: "active",
+    };
     const dormant: GuiProduct = { ...active, id: "dormant-fixture", status: "dormant" };
     const archived: GuiProduct = { ...active, id: "archived-fixture", status: "archived" };
 
