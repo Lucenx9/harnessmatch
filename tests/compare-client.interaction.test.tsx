@@ -58,4 +58,36 @@ describe("compare client interactions", () => {
       name: "Remove Claude Code from comparison",
     })).toBeDefined();
   });
+
+  it("closes the picker on backdrop click without applying the draft", async () => {
+    const { container } = render(
+      <CompareClient
+        harnesses={[
+          compareRecord({ id: "codex", name: "Codex" }),
+          compareRecord({ id: "claude-code", name: "Claude Code" }),
+        ]}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByRole("button", {
+        name: "Remove Codex from comparison",
+      })).toBeDefined();
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: /Change harnesses/ }));
+    const dialog = container.querySelector("dialog");
+    if (!dialog) throw new Error("Picker dialog not rendered");
+    expect(dialog.open).toBe(true);
+
+    fireEvent.click(screen.getByRole("checkbox", { name: /Claude Code/ }));
+    const shell = dialog.querySelector(".compare-picker-dialog-shell");
+    if (!shell) throw new Error("Picker dialog shell not rendered");
+    fireEvent.click(shell);
+    expect(dialog.open).toBe(true);
+
+    fireEvent.click(dialog);
+    expect(dialog.open).toBe(false);
+    expect(window.location.search).toBe("?ids=codex");
+  });
 });
