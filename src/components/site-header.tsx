@@ -10,6 +10,7 @@ import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnesses } from "@/data/harnesses";
 import { searchablePageItems } from "@/lib/navigation";
 import { serializeGlobalSearchItem, type GlobalSearchItem } from "@/lib/search";
+import type { GuiProduct } from "@/lib/gui-types";
 import type { FeatureKey, InterfaceType, ProductLayer } from "@/lib/types";
 
 const supportedFeatureStates = new Set(["default", "documented", "optional", "surface-specific"]);
@@ -97,25 +98,36 @@ const harnessSearchItems: GlobalSearchItem[] = harnesses.map((harness) => {
   };
 });
 
-const guiSearchItems: GlobalSearchItem[] = guiProducts.map((product) => ({
-  id: `gui-${product.id}`,
-  kind: "gui",
-  title: product.name,
-  description: product.summary,
-  href: `/guis/${product.id}`,
-  keywords: dedupeKeywords([
-    "gui",
-    "coding agent interface",
-    product.layer,
-    product.sourceAccess,
-    product.license,
-    ...product.platforms,
-    ...product.supportedHarnesses,
-    ...(product.acceptsArbitraryCli ? ["any cli", "multiple harnesses"] : []),
-  ]),
-  imageSrc: product.logo.src,
-  meta: product.layer === "harness-native" ? "Native GUI" : "Agent workspace",
-}));
+/**
+ * Only active GUI products have a generated `/guis/[slug]` route; a dormant or
+ * archived product in the search index would rank normally and then resolve to
+ * a 404. Harness profiles render for every status, so they stay searchable.
+ */
+export function guiSearchItemsFor(products: readonly GuiProduct[]): GlobalSearchItem[] {
+  return products
+    .filter((product) => product.status === "active")
+    .map((product) => ({
+      id: `gui-${product.id}`,
+      kind: "gui",
+      title: product.name,
+      description: product.summary,
+      href: `/guis/${product.id}`,
+      keywords: dedupeKeywords([
+        "gui",
+        "coding agent interface",
+        product.layer,
+        product.sourceAccess,
+        product.license,
+        ...product.platforms,
+        ...product.supportedHarnesses,
+        ...(product.acceptsArbitraryCli ? ["any cli", "multiple harnesses"] : []),
+      ]),
+      imageSrc: product.logo.src,
+      meta: product.layer === "harness-native" ? "Native GUI" : "Agent workspace",
+    }));
+}
+
+const guiSearchItems = guiSearchItemsFor(guiProducts);
 
 const pageSearchItems: GlobalSearchItem[] = searchablePageItems.map((page) => ({
   id: `page-${page.href === "/" ? "home" : page.href.slice(1)}`,
@@ -142,7 +154,7 @@ export function SiteHeader() {
           <NavLinks />
           <SecondaryNavigation />
         </nav>
-        <GlobalSearch recordCount={harnesses.length + guiProducts.length} items={serializedGlobalSearchItems} />
+        <GlobalSearch recordCount={harnessSearchItems.length + guiSearchItems.length} items={serializedGlobalSearchItems} />
         <MobileNavigation />
         <ThemeToggle />
       </div>
