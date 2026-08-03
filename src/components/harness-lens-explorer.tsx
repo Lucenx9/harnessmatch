@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useDeferredValue, useMemo, useState } from "react";
+import { useDeferredValue, useMemo, useRef, useState } from "react";
 import { HarnessLogo } from "@/components/harness-logo";
 import { VisualIcon } from "@/components/visual-icon";
 import type { VisualIconName } from "@/components/visual-icon";
@@ -79,6 +79,7 @@ export function HarnessLensExplorer({
   cardHeadingLevel?: 2 | 3;
 }) {
   const CardHeading = `h${cardHeadingLevel}` as const;
+  const rootRef = useRef<HTMLDivElement | null>(null);
   const [query, setQuery] = useState("");
   const [lens, setLens] = useState<LensKey>("all");
   const [catalogLayer, setCatalogLayer] = useState<ProductLayer | "all">("all");
@@ -115,7 +116,7 @@ export function HarnessLensExplorer({
   const visibleHarnesses = showAll ? filtered : filtered.slice(0, initialVisibleCount);
 
   return (
-    <div className="lens-explorer">
+    <div className="lens-explorer" ref={rootRef}>
       <div className="lens-search-row">
         <label>
           Search profiles
@@ -273,7 +274,14 @@ export function HarnessLensExplorer({
 
       {filtered.length > initialVisibleCount && (
         <div className="lens-show-more">
-          <button className="button secondary" type="button" onClick={() => setShowAll((current) => !current)}>
+          <button
+            className="button secondary"
+            type="button"
+            onClick={() => {
+              if (showAll) rootRef.current?.scrollIntoView({ block: "start" });
+              setShowAll(!showAll);
+            }}
+          >
             {showAll ? "Show fewer profiles" : `Show all ${filtered.length} profiles`}
           </button>
         </div>
