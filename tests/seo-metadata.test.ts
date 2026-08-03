@@ -1,9 +1,9 @@
-import { readFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
+import { metadata as dataMetadata } from "../src/app/data/page";
+import { generateMetadata as generateHarnessMetadata } from "../src/app/harnesses/[slug]/page";
+import { metadata as methodologyMetadata } from "../src/app/methodology/page";
+import { harnesses } from "../src/data/harnesses";
 import { harnessProfileTitle, siteName } from "../src/lib/site";
-
-const repositoryRoot = fileURLToPath(new URL("../", import.meta.url));
 
 describe("search-result metadata", () => {
   it("builds concise, intent-specific titles for the first profile opportunities", () => {
@@ -18,15 +18,53 @@ describe("search-result metadata", () => {
     expect(() => harnessProfileTitle("A".repeat(80))).toThrow(
       "Unable to build a search-result title",
     );
+
+    const titles = harnesses.map((harness) => harnessProfileTitle(harness.name));
+
+    expect(new Set(titles).size).toBe(titles.length);
+    for (const title of titles) {
+      expect(`${title} | ${siteName}`.length).toBeLessThanOrEqual(60);
+    }
   });
 
-  it("wires intent-specific titles into the priority pages", () => {
-    const dataPageSource = readFileSync(`${repositoryRoot}/src/app/data/page.tsx`, "utf8");
-    const methodologyPageSource = readFileSync(`${repositoryRoot}/src/app/methodology/page.tsx`, "utf8");
-    const harnessPageSource = readFileSync(`${repositoryRoot}/src/app/harnesses/[slug]/page.tsx`, "utf8");
+  it("emits intent-specific metadata for the priority pages", async () => {
+    expect(dataMetadata).toEqual(expect.objectContaining({
+      title: "AI coding harness data and primary sources",
+      alternates: { canonical: "/data" },
+      openGraph: expect.objectContaining({
+        title: "AI coding harness data and primary sources | HarnessMatch",
+        url: "/data",
+      }),
+      twitter: expect.objectContaining({
+        title: "AI coding harness data and primary sources | HarnessMatch",
+      }),
+    }));
+    expect(methodologyMetadata).toEqual(expect.objectContaining({
+      title: "AI coding harness research methodology",
+      alternates: { canonical: "/methodology" },
+      openGraph: expect.objectContaining({
+        title: "AI coding harness research methodology | HarnessMatch",
+        url: "/methodology",
+      }),
+      twitter: expect.objectContaining({
+        title: "AI coding harness research methodology | HarnessMatch",
+      }),
+    }));
 
-    expect(dataPageSource).toContain('title: "AI coding harness data and primary sources"');
-    expect(methodologyPageSource).toContain('title: "AI coding harness research methodology"');
-    expect(harnessPageSource).toContain("title: harnessProfileTitle(harness.name)");
+    const harnessMetadata = await generateHarnessMetadata({
+      params: Promise.resolve({ slug: "claude-code" }),
+    });
+
+    expect(harnessMetadata).toEqual(expect.objectContaining({
+      title: "Claude Code coding harness capabilities",
+      alternates: { canonical: "/harnesses/claude-code" },
+      openGraph: expect.objectContaining({
+        title: "Claude Code coding harness capabilities | HarnessMatch",
+        url: "/harnesses/claude-code",
+      }),
+      twitter: expect.objectContaining({
+        title: "Claude Code coding harness capabilities | HarnessMatch",
+      }),
+    }));
   });
 });
