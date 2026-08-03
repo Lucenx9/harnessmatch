@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { guiSearchItemsFor } from "../src/components/site-header";
 import { guiProducts } from "../src/data/gui-products";
+import { guiSearchItemsFor } from "../src/lib/global-search-items";
 import type { GuiProduct } from "../src/lib/gui-types";
 
 function catalogFixture(): GuiProduct {
