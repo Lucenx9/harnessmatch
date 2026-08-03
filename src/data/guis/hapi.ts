@@ -14,7 +14,7 @@ export const hapi: GuiProduct = {
   name: "HAPI",
   logo: {
     src: "/guis/hapi.svg",
-    sourceUrl: `${repositoryBase}/web/public/mask-icon.svg`,
+    sourceUrl: `${repositoryBase}/web/public/pwa-64x64.png`,
     verifiedAt,
   },
   url: "https://hapi.run/",

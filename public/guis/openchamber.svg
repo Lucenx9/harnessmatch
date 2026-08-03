@@ -1,4 +1,5 @@
 <svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" rx="96" fill="#111827" />
   <g transform="translate(256, 256) scale(4)">
     <path d="M0 0 L-41.568 -24 L-41.568 24 L0 48 Z" fill="white" fill-opacity="0.2" stroke="white" stroke-width="3" stroke-linejoin="round" />
     <path d="M0 0 L41.568 -24 L41.568 24 L0 48 Z" fill="white" fill-opacity="0.35" stroke="white" stroke-width="3" stroke-linejoin="round" />
