@@ -2,7 +2,13 @@ import { describe, expect, it } from "vitest";
 import { guiProducts } from "../src/data/gui-products";
 import { harnesses } from "../src/data/harnesses";
 import { primaryNavigationItems, secondaryNavigationItems } from "../src/lib/navigation";
-import { createSearchIndex, highlightSearchMatch, rankSearchItems } from "../src/lib/search";
+import {
+  createSearchIndex,
+  deserializeGlobalSearchItem,
+  highlightSearchMatch,
+  rankSearchItems,
+  serializeGlobalSearchItem,
+} from "../src/lib/search";
 import type { GlobalSearchItem } from "../src/lib/search";
 
 const items: GlobalSearchItem[] = [
@@ -64,6 +70,15 @@ const items: GlobalSearchItem[] = [
 
 const index = createSearchIndex(items);
 const titlesFor = (query: string) => rankSearchItems(index, query).map((item) => item.title);
+
+describe("global search serialization", () => {
+  it("round-trips optional images without changing searchable records", () => {
+    expect(items.map(serializeGlobalSearchItem).map(deserializeGlobalSearchItem)).toEqual(items);
+    const first = items[0];
+    if (!first) throw new Error("Expected a search fixture.");
+    expect(serializeGlobalSearchItem(first)).toHaveLength(8);
+  });
+});
 
 describe("rankSearchItems", () => {
   it("returns no result before the user starts typing", () => {

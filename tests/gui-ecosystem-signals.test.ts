@@ -31,8 +31,14 @@ describe("GUI ecosystem signals", () => {
   it("admits stable installer downloads only for reviewed GUI mappings", () => {
     const releaseSignals = guiEcosystemSignalSnapshots.filter((signal) => signal.source === "github-releases");
     expect(releaseSignals.map((signal) => signal.guiId).toSorted()).toEqual([
+      "agetor",
+      "aionui",
+      "blackcrab",
+      "codeg",
       "emdash",
       "nimbalyst",
+      "openchamber",
+      "openhands-agent-canvas",
       "superset",
       "t3-code",
     ]);
@@ -46,9 +52,9 @@ describe("GUI ecosystem signals", () => {
 
   it("sorts each source independently and never fabricates missing records", () => {
     const records = buildGuiEcosystemViewRecords(guiProducts, guiEcosystemSignalSnapshots);
-    expect(records.homebrew).toHaveLength(5);
+    expect(records.homebrew).toHaveLength(7);
     expect(records.github).toHaveLength(guiRepositoryAudits.length);
-    expect(records.githubReleases).toHaveLength(4);
+    expect(records.githubReleases).toHaveLength(10);
     for (const group of [records.homebrew, records.githubReleases, records.github]) {
       expect(group.map((record) => record.signal.value)).toEqual(
         group.map((record) => record.signal.value).toSorted((left, right) => right - left),

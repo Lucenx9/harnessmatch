@@ -6,6 +6,22 @@ export function documented(summary: string, ...sourceUrls: string[]): GuiCapabil
   return { state: "documented", summary, sourceUrls, verifiedAt: guiVerifiedAt };
 }
 
+export function documentedAt(
+  summary: string,
+  verifiedAt: string,
+  ...sourceUrls: string[]
+): GuiCapabilityClaim {
+  return { state: "documented", summary, sourceUrls, verifiedAt };
+}
+
+export function contradicted(
+  summary: string,
+  verifiedAt: string,
+  ...sourceUrls: string[]
+): GuiCapabilityClaim {
+  return { state: "contradicted", summary, sourceUrls, verifiedAt };
+}
+
 export function unknown(
   summary: string,
   verifiedAt = guiVerifiedAt,

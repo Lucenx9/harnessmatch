@@ -9,7 +9,7 @@ import { guiProducts } from "@/data/gui-products";
 import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnesses } from "@/data/harnesses";
 import { searchablePageItems } from "@/lib/navigation";
-import type { GlobalSearchItem } from "@/lib/search";
+import { serializeGlobalSearchItem, type GlobalSearchItem } from "@/lib/search";
 import type { FeatureKey, InterfaceType, ProductLayer } from "@/lib/types";
 
 const supportedFeatureStates = new Set(["default", "documented", "optional", "surface-specific"]);
@@ -128,6 +128,7 @@ const pageSearchItems: GlobalSearchItem[] = searchablePageItems.map((page) => ({
 }));
 
 const globalSearchItems = [...harnessSearchItems, ...guiSearchItems, ...pageSearchItems];
+const serializedGlobalSearchItems = globalSearchItems.map(serializeGlobalSearchItem);
 
 export function SiteHeader() {
   return (
@@ -141,7 +142,7 @@ export function SiteHeader() {
           <NavLinks />
           <SecondaryNavigation />
         </nav>
-        <GlobalSearch recordCount={harnesses.length + guiProducts.length} items={globalSearchItems} />
+        <GlobalSearch recordCount={harnesses.length + guiProducts.length} items={serializedGlobalSearchItems} />
         <MobileNavigation />
         <ThemeToggle />
       </div>

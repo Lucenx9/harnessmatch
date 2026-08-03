@@ -10,6 +10,48 @@ export type GlobalSearchItem = {
 };
 
 /**
+ * Tuple form used only at the Server-to-Client boundary. Repeated object keys
+ * add up because the global search payload is present on every static page.
+ */
+export type SerializedGlobalSearchItem = readonly [
+  id: string,
+  kind: GlobalSearchItem["kind"],
+  title: string,
+  description: string,
+  href: string,
+  keywords: string[],
+  imageSrc: string | null,
+  meta: string,
+];
+
+export function serializeGlobalSearchItem(item: GlobalSearchItem): SerializedGlobalSearchItem {
+  return [
+    item.id,
+    item.kind,
+    item.title,
+    item.description,
+    item.href,
+    item.keywords,
+    item.imageSrc ?? null,
+    item.meta,
+  ];
+}
+
+export function deserializeGlobalSearchItem([
+  id,
+  kind,
+  title,
+  description,
+  href,
+  keywords,
+  imageSrc,
+  meta,
+]: SerializedGlobalSearchItem): GlobalSearchItem {
+  const item = { id, kind, title, description, href, keywords, meta };
+  return imageSrc === null ? item : { ...item, imageSrc };
+}
+
+/**
  * A query token is scored against one field at a time. Lower is better, and
  * every tier is a documented place the token was found, so the resulting order
  * stays inspectable rather than tuned. Catalog keywords are curated terms, so

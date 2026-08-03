@@ -1,4 +1,5 @@
 import { harnesses } from "@/data/harnesses";
+import { guiProducts } from "@/data/gui-products";
 import { latestVerifiedAt } from "@/lib/evidence-freshness";
 import { siteUrl } from "@/lib/site";
 
@@ -21,6 +22,11 @@ export function GET() {
     .map((harness) => (
       `- [${harness.name}](${siteUrl}/harnesses/${harness.slug}): ${harness.tagline}`
     ));
+  const activeGuiProfiles = guiProducts.flatMap((product) => (
+    product.status === "active"
+      ? [`- [${product.name}](${siteUrl}/guis/${product.id}): ${product.summary}`]
+      : []
+  ));
   const lines = [
     "# HarnessMatch",
     "",
@@ -43,6 +49,12 @@ export function GET() {
     "## Active harness profiles",
     "",
     ...activeProfiles,
+    "",
+    "## Active GUI profiles",
+    "",
+    "GUI profiles describe interface and workspace fit. They do not transfer capabilities from supported harnesses or models.",
+    "",
+    ...activeGuiProfiles,
     "",
     "## Optional",
     "",
