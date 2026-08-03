@@ -640,7 +640,7 @@ type FeatureClaimHarnessRecord = {
   evidence: EvidenceSource[];
 };
 
-function sourceUrlsForTitles(harness: FeatureClaimHarnessRecord, sourceTitles: string[]) {
+function sourcesForTitles(harness: FeatureClaimHarnessRecord, sourceTitles: string[]) {
   return sourceTitles.map((title) => {
     const matchingSources = harness.evidence.filter((source) => source.title === title);
     const matchingSource = matchingSources.at(0);
@@ -649,8 +649,18 @@ function sourceUrlsForTitles(harness: FeatureClaimHarnessRecord, sourceTitles: s
         `${harness.id}: capability source title ${JSON.stringify(title)} matched ${matchingSources.length} evidence records`,
       );
     }
-    return matchingSource.url;
+    return matchingSource;
   });
+}
+
+function oldestVerifiedAt(sources: readonly EvidenceSource[], subject: string): string {
+  const firstSource = sources.at(0);
+  if (!firstSource) throw new Error(`${subject}: missing evidence for verification date`);
+
+  return sources.reduce(
+    (oldest, source) => source.verifiedAt < oldest ? source.verifiedAt : oldest,
+    firstSource.verifiedAt,
+  );
 }
 
 export function featureClaimsForHarness(
@@ -658,6 +668,7 @@ export function featureClaimsForHarness(
 ): Record<FeatureKey, FeatureClaim> {
   const seeds = featureClaimSeedsByHarness[harness.id as keyof typeof featureClaimSeedsByHarness];
   if (!seeds) throw new Error(`${harness.id}: missing native capability ledger`);
+  const oldestLedgerVerifiedAt = oldestVerifiedAt(harness.evidence, harness.id);
 
   return Object.fromEntries(featureKeys.map((feature) => {
     const seed = (seeds as Partial<Record<FeatureKey, FeatureClaimSeed>>)[feature];
@@ -666,16 +677,19 @@ export function featureClaimsForHarness(
         state: "not-documented",
         scope: undocumentedScope,
         sourceUrls: [],
-        verifiedAt: harness.verifiedAt,
+        verifiedAt: oldestLedgerVerifiedAt,
         limitation: undocumentedLimitation,
       } satisfies FeatureClaim];
     }
 
+    const sources = sourcesForTitles(harness, seed.sourceTitles);
+    const oldestSourceVerifiedAt = oldestVerifiedAt(sources, `${harness.id}.${feature}`);
+
     return [feature, {
       state: seed.state,
       scope: seed.scope ?? featureScopes[feature],
-      sourceUrls: sourceUrlsForTitles(harness, seed.sourceTitles),
-      verifiedAt: seed.verifiedAt ?? harness.verifiedAt,
+      sourceUrls: sources.map((source) => source.url),
+      verifiedAt: seed.verifiedAt ?? oldestSourceVerifiedAt,
       limitation: seed.limitation
         ?? (feature === "skills" ? documentedSkillsLimitation : documentedLimitation),
     } satisfies FeatureClaim];

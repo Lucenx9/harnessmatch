@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   featureClaimFor,
+  featureClaimsForHarness,
   featureClaimHarnessIds,
   featureClaimSupportsRequirement,
   featureKeys,
@@ -30,6 +31,64 @@ describe("feature claim ledger", () => {
       }
     }
     expect(missingSources).toEqual([]);
+  });
+
+  it("does not refresh existing claims when only skills evidence is refreshed", () => {
+    const skillsRefreshIds = new Set(["claude-code", "cursor-cli", "gemini-cli"]);
+    const previousVerifiedAt = "2026-07-27";
+    const refreshedVerifiedAt = "2026-08-01";
+
+    for (const harness of harnesses.filter(({ id }) => skillsRefreshIds.has(id))) {
+      const skillsSourceUrls = new Set(featureClaimFor(harness, "skills").sourceUrls);
+      const baselineEvidence = harness.evidence.map((source) => skillsSourceUrls.has(source.url)
+        ? { ...source, verifiedAt: previousVerifiedAt }
+        : source);
+      const refreshedEvidence = baselineEvidence.map((source) => skillsSourceUrls.has(source.url)
+        ? { ...source, verifiedAt: refreshedVerifiedAt }
+        : source);
+      const baselineClaims = featureClaimsForHarness({
+        id: harness.id,
+        verifiedAt: previousVerifiedAt,
+        evidence: baselineEvidence,
+      });
+      const refreshedClaims = featureClaimsForHarness({
+        id: harness.id,
+        verifiedAt: refreshedVerifiedAt,
+        evidence: refreshedEvidence,
+      });
+      const nonSkillsFeatures = featureKeys.filter((feature) => feature !== "skills");
+      const sourceLessFeatures = nonSkillsFeatures.filter(
+        (feature) => baselineClaims[feature].sourceUrls.length === 0,
+      );
+
+      expect(sourceLessFeatures.length, harness.id).toBeGreaterThan(0);
+      for (const feature of nonSkillsFeatures) {
+        expect(refreshedClaims[feature].sourceUrls, `${harness.id}.${feature} sources`)
+          .toEqual(baselineClaims[feature].sourceUrls);
+        expect(refreshedClaims[feature].verifiedAt, `${harness.id}.${feature} date`)
+          .toBe(baselineClaims[feature].verifiedAt);
+      }
+    }
+  });
+
+  it("derives an implicit claim date from its cited sources only", () => {
+    const harness = harnesses.find(({ id }) => id === "claude-code");
+    expect(harness).toBeDefined();
+    if (!harness) return;
+
+    const claims = featureClaimsForHarness({
+      id: harness.id,
+      verifiedAt: "2000-01-01",
+      evidence: harness.evidence,
+    });
+    const claim = claims.mcp;
+    const citedDates = harness.evidence
+      .filter((source) => claim.sourceUrls.includes(source.url))
+      .map((source) => source.verifiedAt)
+      .sort();
+
+    expect(citedDates.length).toBeGreaterThan(0);
+    expect(claim.verifiedAt).toBe(citedDates.at(0));
   });
 
   it("stores one complete native claim record without legacy boolean mirrors", () => {
