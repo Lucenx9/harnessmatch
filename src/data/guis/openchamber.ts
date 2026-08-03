@@ -28,7 +28,7 @@ export const openChamber: GuiProduct = {
   summary:
     "An OpenCode-native workspace across desktop, web, editor, and mobile with multi-run worktrees, diff review, previews, GitHub flows, and remote access.",
   bestFor:
-    "OpenCode users who want a polished cross-device workspace for parallel experiments, visual review, Git operations, scheduling, and private remote access.",
+    "OpenCode users who want a cross-device workspace for parallel experiments, visual review, Git operations, scheduling, and private remote access.",
   limitation:
     "It remains an OpenCode-only control surface, and current sources describe cross-device access for a user but not multiple teammates sharing one live workspace.",
   capabilities: {

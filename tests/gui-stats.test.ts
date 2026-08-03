@@ -33,6 +33,14 @@ describe("GUI catalog statistics", () => {
     expect(stats.capabilityCoverage.find((item) => item.key === "visualReview")?.documented).toBe(17);
   });
 
+  it("includes every supported platform in coverage", () => {
+    expect(stats.platformCoverage.find((item) => item.platform === "Android")).toEqual({
+      platform: "Android",
+      products: 1,
+      total: 18,
+    });
+  });
+
   it("summarizes workflow bands without creating an overall score", () => {
     expect(stats.workflowCoverage.find((item) => item.id === "parallel-local")?.counts).toEqual({
       strong: 15,

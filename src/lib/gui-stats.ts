@@ -16,7 +16,7 @@ const capabilityOrder: GuiCapabilityKey[] = [
   "teamCollaboration",
 ];
 
-const platformOrder: GuiPlatform[] = ["macOS", "Windows", "Linux", "Browser", "iOS"];
+const platformOrder: GuiPlatform[] = ["macOS", "Windows", "Linux", "Browser", "iOS", "Android"];
 
 const fitBands: GuiFitBand[] = ["strong", "good", "conditional", "not-eligible"];
 
