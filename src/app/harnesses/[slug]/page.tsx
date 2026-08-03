@@ -33,7 +33,7 @@ import {
   architectureProfileFor,
   evidenceStateFor,
 } from "@/lib/evaluation";
-import { harnessProfileDescription, pageMetadata } from "@/lib/site";
+import { harnessProfileDescription, harnessProfileTitle, pageMetadata } from "@/lib/site";
 import type { FeatureKey } from "@/lib/types";
 
 export const dynamicParams = false;
@@ -115,7 +115,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const harness = harnessBySlug.get(slug);
   if (!harness) return {};
   return pageMetadata({
-    title: harness.name,
+    title: harnessProfileTitle(harness.name),
     description: harnessProfileDescription(harness.name, harness.tagline),
     path: `/harnesses/${harness.slug}`,
   });

@@ -25,7 +25,7 @@ import { pageMetadata } from "@/lib/site";
 import { buildRecentReleaseActivity } from "@/lib/usage-view";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Data and sources",
+  title: "AI coding harness data and primary sources",
   description:
     "Inspect current stable releases and first-party evidence for AI coding harness capabilities, classifications, trade-offs, and verification dates.",
   path: "/data",
