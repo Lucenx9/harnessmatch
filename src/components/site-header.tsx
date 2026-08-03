@@ -8,6 +8,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { guiProducts } from "@/data/gui-products";
 import { getHarnessMembershipAssessment } from "@/data/harness-membership";
 import { harnesses } from "@/data/harnesses";
+import { dedupeKeywords, guiSearchItemsFor } from "@/lib/global-search-items";
 import { searchablePageItems } from "@/lib/navigation";
 import { serializeGlobalSearchItem, type GlobalSearchItem } from "@/lib/search";
 import type { FeatureKey, InterfaceType, ProductLayer } from "@/lib/types";
@@ -25,21 +26,6 @@ const interfaceSearchTerms: Record<InterfaceType, string[]> = {
   web: ["web"],
   automation: ["automation"],
 };
-
-/**
- * Identifiers, slugs, and taxonomy values overlap often (`claude-code` is both
- * id and slug). Ranking folds case anyway, so the duplicates would only add
- * weight to the payload serialized into every page.
- */
-function dedupeKeywords(values: readonly string[]) {
-  const seen = new Set<string>();
-  return values.filter((value) => {
-    const key = value.toLowerCase();
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-}
 
 const featureSearchTerms: Record<FeatureKey, string[]> = {
   mcp: ["mcp", "external tools", "integrations"],
@@ -97,25 +83,7 @@ const harnessSearchItems: GlobalSearchItem[] = harnesses.map((harness) => {
   };
 });
 
-const guiSearchItems: GlobalSearchItem[] = guiProducts.map((product) => ({
-  id: `gui-${product.id}`,
-  kind: "gui",
-  title: product.name,
-  description: product.summary,
-  href: `/guis/${product.id}`,
-  keywords: dedupeKeywords([
-    "gui",
-    "coding agent interface",
-    product.layer,
-    product.sourceAccess,
-    product.license,
-    ...product.platforms,
-    ...product.supportedHarnesses,
-    ...(product.acceptsArbitraryCli ? ["any cli", "multiple harnesses"] : []),
-  ]),
-  imageSrc: product.logo.src,
-  meta: product.layer === "harness-native" ? "Native GUI" : "Agent workspace",
-}));
+const guiSearchItems = guiSearchItemsFor(guiProducts);
 
 const pageSearchItems: GlobalSearchItem[] = searchablePageItems.map((page) => ({
   id: `page-${page.href === "/" ? "home" : page.href.slice(1)}`,
@@ -142,7 +110,7 @@ export function SiteHeader() {
           <NavLinks />
           <SecondaryNavigation />
         </nav>
-        <GlobalSearch recordCount={harnesses.length + guiProducts.length} items={serializedGlobalSearchItems} />
+        <GlobalSearch recordCount={harnessSearchItems.length + guiSearchItems.length} items={serializedGlobalSearchItems} />
         <MobileNavigation />
         <ThemeToggle />
       </div>
