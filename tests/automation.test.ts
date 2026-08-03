@@ -85,6 +85,34 @@ describe("daily usage automation", () => {
     expect(refreshJobHeader).not.toContain("GH_TOKEN:");
     expect(refreshJobHeader).not.toContain("GITHUB_TOKEN:");
     expect(refreshJobHeader).not.toContain("OPENROUTER_API_KEY:");
+
+    const reactDoctorWorkflow = workflows.find(({ name }) => name === "react-doctor.yml")?.source;
+    if (reactDoctorWorkflow === undefined) {
+      throw new Error("react-doctor.yml should exist");
+    }
+    const workflowLines = reactDoctorWorkflow.split(/\r?\n/);
+    const permissionDeclarations = workflowLines.filter((line) =>
+      /^\s*permissions\s*:/.test(line),
+    );
+    expect(permissionDeclarations).toEqual(["permissions:"]);
+    const permissionsStart = workflowLines.indexOf("permissions:");
+
+    const workflowPermissions: string[] = [];
+    for (const line of workflowLines.slice(permissionsStart + 1)) {
+      const trimmed = line.trim();
+      if (trimmed === "" || trimmed.startsWith("#")) {
+        continue;
+      }
+      if (!/^[ \t]/.test(line)) {
+        break;
+      }
+      workflowPermissions.push(trimmed.replace(/\s+#.*$/, ""));
+    }
+
+    expect(workflowPermissions).toEqual(["contents: read"]);
+    expect(reactDoctorWorkflow).toMatch(/^\s+comment: false\s+#/m);
+    expect(reactDoctorWorkflow).toMatch(/^\s+review-comments: false$/m);
+    expect(reactDoctorWorkflow).toMatch(/^\s+commit-status: false$/m);
   });
 
   it("keeps dependency updates scheduled for packages and workflow actions", () => {
