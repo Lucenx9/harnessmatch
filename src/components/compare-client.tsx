@@ -1,6 +1,6 @@
 "use client";
 
-import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
+import { type MouseEvent, useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { FeatureClaimValue } from "@/components/feature-claim-value";
 import { HarnessLogo } from "@/components/harness-logo";
 import {
@@ -96,6 +96,10 @@ export function CompareClient({ harnesses, initialSelected = [] }: CompareClient
 
   function closePicker() {
     pickerDialogRef.current?.close();
+  }
+
+  function handleDialogClick(event: MouseEvent<HTMLDialogElement>) {
+    if (event.target === pickerDialogRef.current) closePicker();
   }
 
   function applyPicker() {
@@ -357,7 +361,13 @@ export function CompareClient({ harnesses, initialSelected = [] }: CompareClient
         )}
       </div>
 
-      <dialog className="dialog-surface compare-picker-dialog" ref={pickerDialogRef} aria-labelledby="compare-picker-dialog-title">
+      {/* biome-ignore lint/a11y/useKeyWithClickEvents: keyboard dismissal is native dialog behavior (Escape); the click handler only adds backdrop dismissal */}
+      <dialog
+        className="dialog-surface compare-picker-dialog"
+        ref={pickerDialogRef}
+        aria-labelledby="compare-picker-dialog-title"
+        onClick={handleDialogClick}
+      >
         <div className="compare-picker-dialog-shell">
           <div className="compare-picker-dialog-head">
             <div>

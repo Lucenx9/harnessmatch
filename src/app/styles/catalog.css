@@ -261,7 +261,7 @@
 .comparison-table thead th { position: sticky; top: 0; z-index: var(--z-table); background: var(--surface-strong); }
 .comparison-table thead th:first-child { left: 0; z-index: calc(var(--z-table) + 1); }
 .comparison-table tbody th { width: 180px; color: var(--muted); font-weight: 620; }
-.comparison-table tbody tr:not(.comparison-group-row) > th { position: sticky; left: 0; z-index: 1; background: var(--surface); box-shadow: 1px 0 var(--line); }
+.comparison-table tbody tr:not(.comparison-group-row) > th { position: sticky; left: 0; z-index: 1; background: var(--surface-strong); box-shadow: 1px 0 var(--line); }
 .comparison-table td { min-width: 180px; color: var(--muted); }
 .comparison-group-row th { padding-block: 12px; background: var(--bg-soft); color: var(--text); font: 620 .68rem/1.35 var(--font-mono); text-transform: uppercase; letter-spacing: .045em; }
 .comparison-brand { display: flex; align-items: center; gap: 11px; min-width: 150px; color: var(--text); }
