@@ -22,11 +22,11 @@ export function GET() {
     .map((harness) => (
       `- [${harness.name}](${siteUrl}/harnesses/${harness.slug}): ${harness.tagline}`
     ));
-  const activeGuiProfiles = guiProducts
-    .filter((product) => product.status === "active")
-    .map((product) => (
-      `- [${product.name}](${siteUrl}/guis/${product.id}): ${product.summary}`
-    ));
+  const activeGuiProfiles = guiProducts.flatMap((product) => (
+    product.status === "active"
+      ? [`- [${product.name}](${siteUrl}/guis/${product.id}): ${product.summary}`]
+      : []
+  ));
   const lines = [
     "# HarnessMatch",
     "",
