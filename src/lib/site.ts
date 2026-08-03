@@ -11,6 +11,9 @@ const metaDescriptionLength = {
   max: 170,
 } as const;
 
+const searchResultTitleMaxLength = 60;
+const brandedTitleSuffix = ` | ${siteName}`;
+
 const socialImage = {
   url: "/og.jpg",
   width: 1200,
@@ -65,6 +68,30 @@ export function pageMetadata({
     description,
     ...socialMetadata(`${title} | ${siteName}`, description, path),
   };
+}
+
+export function harnessProfileTitle(name: string): string {
+  const candidates = name.toLowerCase().includes("harness")
+    ? [
+        `${name} capabilities and controls`,
+        `${name} capabilities`,
+        `${name} profile`,
+      ]
+    : [
+        `${name} coding harness capabilities`,
+        `${name} harness capabilities`,
+        `${name} capabilities`,
+        `${name} profile`,
+      ];
+  const title = candidates.find((candidate) => (
+    `${candidate}${brandedTitleSuffix}`.length <= searchResultTitleMaxLength
+  ));
+
+  if (!title) {
+    throw new Error(`Unable to build a search-result title for ${name}.`);
+  }
+
+  return title;
 }
 
 export function harnessProfileDescription(name: string, tagline: string): string {

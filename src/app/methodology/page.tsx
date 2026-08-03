@@ -46,7 +46,7 @@ import { guiCapabilityLabels } from "@/lib/gui-labels";
 import { pageMetadata } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Methodology",
+  title: "AI coding harness research methodology",
   description:
     "See how HarnessMatch defines catalog scope, classifies mechanisms, separates evidence from usage, and limits measured comparisons.",
   path: "/methodology",
