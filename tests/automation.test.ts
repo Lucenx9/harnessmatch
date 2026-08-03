@@ -87,9 +87,29 @@ describe("daily usage automation", () => {
     expect(refreshJobHeader).not.toContain("OPENROUTER_API_KEY:");
 
     const reactDoctorWorkflow = workflows.find(({ name }) => name === "react-doctor.yml")?.source;
-    expect(reactDoctorWorkflow).toBeDefined();
-    expect(reactDoctorWorkflow).toContain("permissions:\n  contents: read");
-    expect(reactDoctorWorkflow).not.toMatch(/^\s+(?:pull-requests|issues|statuses): write$/m);
+    if (reactDoctorWorkflow === undefined) {
+      throw new Error("react-doctor.yml should exist");
+    }
+    const workflowLines = reactDoctorWorkflow.split(/\r?\n/);
+    const workflowLevelPermissionDeclarations = workflowLines.filter((line) =>
+      /^permissions\s*:/.test(line),
+    );
+    expect(workflowLevelPermissionDeclarations).toEqual(["permissions:"]);
+    const permissionsStart = workflowLines.indexOf("permissions:");
+
+    const workflowPermissions: string[] = [];
+    for (const line of workflowLines.slice(permissionsStart + 1)) {
+      const trimmed = line.trim();
+      if (trimmed === "" || trimmed.startsWith("#")) {
+        continue;
+      }
+      if (!/^[ \t]/.test(line)) {
+        break;
+      }
+      workflowPermissions.push(trimmed.replace(/\s+#.*$/, ""));
+    }
+
+    expect(workflowPermissions).toEqual(["contents: read"]);
     expect(reactDoctorWorkflow).toMatch(/^\s+comment: false\s+#/m);
     expect(reactDoctorWorkflow).toMatch(/^\s+review-comments: false$/m);
     expect(reactDoctorWorkflow).toMatch(/^\s+commit-status: false$/m);
