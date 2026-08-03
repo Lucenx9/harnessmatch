@@ -91,10 +91,10 @@ describe("daily usage automation", () => {
       throw new Error("react-doctor.yml should exist");
     }
     const workflowLines = reactDoctorWorkflow.split(/\r?\n/);
-    const workflowLevelPermissionDeclarations = workflowLines.filter((line) =>
-      /^permissions\s*:/.test(line),
+    const permissionDeclarations = workflowLines.filter((line) =>
+      /^\s*permissions\s*:/.test(line),
     );
-    expect(workflowLevelPermissionDeclarations).toEqual(["permissions:"]);
+    expect(permissionDeclarations).toEqual(["permissions:"]);
     const permissionsStart = workflowLines.indexOf("permissions:");
 
     const workflowPermissions: string[] = [];
