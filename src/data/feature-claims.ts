@@ -554,7 +554,7 @@ type FeatureClaimHarnessRecord = {
   evidence: EvidenceSource[];
 };
 
-function sourceUrlsForTitles(harness: FeatureClaimHarnessRecord, sourceTitles: string[]) {
+function sourcesForTitles(harness: FeatureClaimHarnessRecord, sourceTitles: string[]) {
   return sourceTitles.map((title) => {
     const matchingSources = harness.evidence.filter((source) => source.title === title);
     const matchingSource = matchingSources.at(0);
@@ -563,7 +563,7 @@ function sourceUrlsForTitles(harness: FeatureClaimHarnessRecord, sourceTitles: s
         `${harness.id}: capability source title ${JSON.stringify(title)} matched ${matchingSources.length} evidence records`,
       );
     }
-    return matchingSource.url;
+    return matchingSource;
   });
 }
 
@@ -585,11 +585,17 @@ export function featureClaimsForHarness(
       } satisfies FeatureClaim];
     }
 
+    const sources = sourcesForTitles(harness, seed.sourceTitles);
+    const oldestSourceVerifiedAt = sources.reduce(
+      (oldest, source) => source.verifiedAt < oldest ? source.verifiedAt : oldest,
+      harness.verifiedAt,
+    );
+
     return [feature, {
       state: seed.state,
       scope: seed.scope ?? featureScopes[feature],
-      sourceUrls: sourceUrlsForTitles(harness, seed.sourceTitles),
-      verifiedAt: seed.verifiedAt ?? harness.verifiedAt,
+      sourceUrls: sources.map((source) => source.url),
+      verifiedAt: seed.verifiedAt ?? oldestSourceVerifiedAt,
       limitation: seed.limitation
         ?? (feature === "skills" ? documentedSkillsLimitation : documentedLimitation),
     } satisfies FeatureClaim];

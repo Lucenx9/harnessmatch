@@ -32,6 +32,26 @@ describe("feature claim ledger", () => {
     expect(missingSources).toEqual([]);
   });
 
+  it("does not refresh existing claims when only skills evidence is refreshed", () => {
+    const skillsRefreshIds = new Set(["claude-code", "cursor-cli", "gemini-cli"]);
+
+    for (const harness of harnesses.filter(({ id }) => skillsRefreshIds.has(id))) {
+      for (const feature of featureKeys.filter((key) => key !== "skills")) {
+        const claim = featureClaimFor(harness, feature);
+        for (const url of claim.sourceUrls) {
+          const source = harness.evidence.find((evidence) => evidence.url === url);
+          expect(source, `${harness.id}.${feature}`).toBeDefined();
+          if (source) {
+            expect(
+              claim.verifiedAt <= source.verifiedAt,
+              `${harness.id}.${feature}: claim checked ${claim.verifiedAt}, source checked ${source.verifiedAt}`,
+            ).toBe(true);
+          }
+        }
+      }
+    }
+  });
+
   it("stores one complete native claim record without legacy boolean mirrors", () => {
     expect([...featureClaimHarnessIds].sort()).toEqual(harnesses.map((harness) => harness.id).sort());
     for (const harness of harnesses) {
