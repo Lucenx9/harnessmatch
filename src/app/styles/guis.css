@@ -240,18 +240,3 @@
 .gui-profile-code-record details ul { display: grid; gap: 7px; padding: 0 0 16px 17px; }
 .gui-profile-code-record.gui-profile-code-record--full { margin: 0; padding: 0; border: 0; }
 .gui-profile-secondary-records .profile-disclosure-body { gap: 38px; }
-
-.site-footer { margin-top: 72px; border-top: 1px solid var(--line); }
-.footer-inner { min-height: 178px; display: flex; justify-content: space-between; align-items: center; gap: 30px; }
-.footer-brand { width: fit-content; }
-.footer-inner p { margin: 9px 0 0; }
-.footer-links { max-width: 470px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px 22px; color: var(--muted); font-size: .82rem; }
-.footer-link-with-icon { gap: 6px; }
-.footer-link-with-icon svg { flex: 0 0 auto; }
-.footer-meta { min-height: 56px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; border-top: 1px solid var(--line); color: var(--muted); font: 500 .7rem/1.4 var(--font-mono); }
-.footer-meta a { color: var(--muted-strong); transition: color .16s ease; }
-.footer-meta a:hover { color: var(--text); }
-.footer-license-links { display: inline-flex; align-items: center; gap: 12px; }
-.footer-license-links a { min-height: 44px; display: inline-flex; align-items: center; }
-.footer-license-links a + a { position: relative; padding-left: 13px; }
-.footer-license-links a + a::before { content: ""; position: absolute; left: 0; width: 1px; height: 12px; background: var(--line-strong); }

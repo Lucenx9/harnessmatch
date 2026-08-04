@@ -12,7 +12,7 @@ export const claudeCode = {
     summary:
       "A Claude-centric coding agent with interactive and non-interactive workflows, explicit permissions, native sandboxing, MCP, skills, hooks, plugins, delegated agents, background sessions, and subscription or API authentication.",
     logo: {
-      src: "/harnesses/claude-code.png",
+      src: "/harnesses/claude-code.webp",
       sourceUrl: "https://code.claude.com/docs/_mintlify/favicons/claude-code/pLsy-mRpNksna2sx/_generated/favicon/android-chrome-192x192.png",
       verifiedAt: verifiedAt,
     },

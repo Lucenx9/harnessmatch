@@ -10,7 +10,7 @@ export const miniSweAgent = {
     summary:
       "A deliberately small open-source software-engineering agent with one linear bash-only loop, confirm, yolo, and human control modes, versioned trajectories, local-model routing, optional isolated environments, and batch evaluation runners.",
     logo: {
-      src: "/harnesses/mini-swe-agent.png",
+      src: "/harnesses/mini-swe-agent.webp",
       sourceUrl: "https://github.com/SWE-agent/mini-swe-agent",
       verifiedAt: verifiedAt,
     },

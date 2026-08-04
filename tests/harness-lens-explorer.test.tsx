@@ -99,6 +99,14 @@ describe("harness lens explorer", () => {
     expect(defaulted).not.toContain("<h2>");
   });
 
+  it("gives repeated profile links product-specific accessible names", () => {
+    const html = renderToStaticMarkup(
+      <HarnessLensExplorer harnesses={[lensHarness({ id: "only", name: "Only Harness" })]} />,
+    );
+
+    expect(html).toContain('aria-label="View Only Harness profile"');
+  });
+
   it("shows a recovery affordance instead of an empty grid", () => {
     const html = renderToStaticMarkup(<HarnessLensExplorer harnesses={[]} />);
 

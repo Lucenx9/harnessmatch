@@ -27,7 +27,11 @@ export function HarnessCard({ harness, compact = false }: { harness: Harness; co
       )}
       <div className="card-footer-row">
         <span>{harness.evidence.length} primary sources<br />Product record checked {harness.verifiedAt}</span>
-        <Link className="text-link" href={`/harnesses/${harness.slug}`}>
+        <Link
+          aria-label={`View ${harness.name} profile`}
+          className="text-link"
+          href={`/harnesses/${harness.slug}`}
+        >
           View profile
         </Link>
       </div>

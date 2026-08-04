@@ -10,7 +10,7 @@ export const claudeCodeDesktop: GuiProduct = {
   id: "claude-code-desktop",
   name: "Claude Code Desktop",
   logo: {
-    src: "/harnesses/claude-code.png",
+    src: "/harnesses/claude-code.webp",
     sourceUrl: "https://code.claude.com/docs/_mintlify/favicons/claude-code/pLsy-mRpNksna2sx/_generated/favicon/android-chrome-192x192.png",
     verifiedAt: guiVerifiedAt,
   },

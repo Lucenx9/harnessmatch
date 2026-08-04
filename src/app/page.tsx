@@ -1,3 +1,4 @@
+import "./styles/responsive.css";
 import Link from "next/link";
 import { ecosystemSignalSnapshots } from "@/data/ecosystem-signals";
 import { featureSupportFor } from "@/data/feature-claims";

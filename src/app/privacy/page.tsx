@@ -1,3 +1,5 @@
+import "../styles/profiles.css";
+import "../styles/responsive.css";
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/site";
 
