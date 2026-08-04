@@ -244,7 +244,13 @@ export function HarnessLensExplorer({
             </dl>
             <div className="lens-card-foot">
               <span>Checked {harness.verifiedAt}</span>
-              <Link className="text-link" href={`/harnesses/${harness.slug}`}>View profile</Link>
+              <Link
+                aria-label={`View ${harness.name} profile`}
+                className="text-link"
+                href={`/harnesses/${harness.slug}`}
+              >
+                View profile
+              </Link>
             </div>
           </article>
         ))}

@@ -43,6 +43,7 @@ describe("home presentation components", () => {
 
     expect(full).toContain(harness.summary);
     expect(full).toContain("primary sources");
+    expect(full).toContain(`aria-label="View ${harness.name} profile"`);
     expect(compact).not.toContain(harness.summary);
     expect(compact).toContain(`href="/harnesses/${harness.slug}"`);
   });

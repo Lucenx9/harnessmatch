@@ -1,6 +1,4 @@
 @import "tailwindcss";
 @import "./styles/foundation.css";
 @import "./styles/catalog.css";
-@import "./styles/profiles.css";
-@import "./styles/guis.css";
 @import "./styles/responsive.css";

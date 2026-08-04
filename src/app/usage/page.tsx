@@ -1,3 +1,4 @@
+import "../styles/profiles.css";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { UsageSignalsExplorer } from "@/components/usage-signals-explorer";
