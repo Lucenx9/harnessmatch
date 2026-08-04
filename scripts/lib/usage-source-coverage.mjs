@@ -49,7 +49,7 @@ export const unmappedHarnessIdsByUsageSource = {
     "zoo-code",
   ],
   "github-releases": [
-    "aider", "amp", "codebuff", "coder-agents", "command-code", "cursor-cli",
+    "aider", "amp", "ante", "codebuff", "coder-agents", "command-code", "cursor-cli",
     "factory-droid", "grok-build", "hermes-agent", "kern", "kiro-cli",
     "letta-code", "mini-swe-agent", "mux", "openclaw", "openhands", "postqode",
     "stagewise", "wakil", "zcode",

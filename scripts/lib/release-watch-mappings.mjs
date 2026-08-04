@@ -31,11 +31,6 @@ export const githubReleaseWatches = [
   { harnessId: "kilo-code", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },
   { harnessId: "kimi-code", includeTagPatterns: [String.raw`^@moonshot-ai/kimi-code@\d+\.\d+\.\d+$`] },
   { harnessId: "mimo-code", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },
-  {
-    harnessId: "ante",
-    includeTagPatterns: [String.raw`^v0\.preview\.\d+$`],
-    includeNamePatterns: [String.raw`^v0\.preview\.\d+$`],
-  },
   { harnessId: "letta-code", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },
   { harnessId: "mini-swe-agent", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },
   { harnessId: "mistral-vibe", includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`] },

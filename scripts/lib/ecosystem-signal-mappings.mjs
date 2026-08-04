@@ -207,13 +207,6 @@ export const githubReleaseArtifacts = [
     artifactScope: "Stable MiMo Code platform archives",
   },
   {
-    harnessId: "ante",
-    includeTagPatterns: [String.raw`^v0\.preview\.\d+$`],
-    includeNamePatterns: [String.raw`^v0\.preview\.\d+$`],
-    includePatterns: [String.raw`^ante-v0\.preview\.\d+-(?:darwin-(?:arm64|x86_64)|linux-(?:arm64|x86_64)-musl)\.tar\.gz$`],
-    artifactScope: "Ante alpha-preview macOS and Linux platform archives",
-  },
-  {
     harnessId: "mistral-vibe",
     includeTagPatterns: [String.raw`^v\d+\.\d+\.\d+$`],
     includePatterns: [String.raw`^vibe-(?:acp-)?(?:darwin|linux|windows)-.+\.(?:zip|tar\.gz)$`],

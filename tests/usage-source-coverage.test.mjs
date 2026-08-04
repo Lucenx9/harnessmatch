@@ -76,8 +76,9 @@ describe("usage source coverage", () => {
     ]));
     expect(githubReleaseArtifacts.map(({ harnessId }) => harnessId)).toEqual(expect.arrayContaining([
       "cline", "crush", "deepagents-code", "kilo-code", "kimi-code",
-      "mimo-code", "mistral-vibe", "opensquilla", "poolside-cli", "zoo-code", "ggcode", "ante", "reasonix",
+      "mimo-code", "mistral-vibe", "opensquilla", "poolside-cli", "zoo-code", "ggcode", "reasonix",
       "codewhale", "openharness",
     ]));
+    expect(githubReleaseArtifacts.map(({ harnessId }) => harnessId)).not.toContain("ante");
   });
 });

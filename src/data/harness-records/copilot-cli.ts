@@ -1,7 +1,8 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
-const releaseReviewAt = "2026-08-01";
+const previousReleaseReviewAt = "2026-08-01";
+const releaseReviewAt = "2026-08-04";
 const recordVerifiedAt = releaseReviewAt;
 
 export const copilotCli = {
@@ -46,7 +47,8 @@ export const copilotCli = {
       "A Copilot plan or compatible custom provider configuration is required",
       "Local and cloud sandbox features are in public preview, opt-in, and have documented platform and lifecycle limits",
       "As of 1.0.77, unconditional approval in autopilot disables the sandbox for the current session when bypass is allowed; administrators can separately enforce sandbox use through native MDM policy",
-      "Git-based rewind can restore the entire workspace and delete later files or manual edits; tools-based restoration is experimental and cannot reverse external side effects",
+      "Since 1.0.78, `/rewind` restores only Copilot-written files whose contents still match its last write, so later manual edits are skipped; shell, Git, and external side effects remain outside recovery",
+      "Server-managed settings fall back to a persistent cache on fetch failure and start without the unconfirmed restriction when no usable cache exists, unless `forceRemoteSettingsRefresh` is enabled",
       "Copilot Memory is a hosted public-preview feature with a 28-day unused-item retention policy rather than local durable project state",
       "Fleet increases GitHub AI Credit use because each subagent calls a model independently",
       "The public repository is a support and binary-distribution surface, not the proprietary agent implementation or product evaluation suite",
@@ -164,6 +166,14 @@ export const copilotCli = {
         topic: "execution-control",
         url: "https://github.com/github/copilot-cli/releases/tag/v1.0.77",
         covers: "Autopilot approval disabling the current-session sandbox when bypass is allowed, native MDM sandbox enforcement, browser OAuth defaults, and reasoning controls",
+        kind: "official-announcement",
+        verifiedAt: previousReleaseReviewAt,
+      },
+      {
+        title: "Copilot CLI 1.0.78 release",
+        topic: "execution-control",
+        url: "https://github.com/github/copilot-cli/releases/tag/v1.0.78",
+        covers: "Non-Git file-selective rewind, conflict-safe preservation of later edits, managed-settings cache and fail-open behavior, worktree creation, sandbox cache access, and ACP usage events",
         kind: "official-announcement",
         verifiedAt: releaseReviewAt,
       },

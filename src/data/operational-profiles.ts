@@ -4,8 +4,10 @@ const verifiedAt = "2026-07-27";
 const refreshedAt = "2026-07-28";
 const sourceAuditAt = "2026-07-30";
 const releaseReviewAt = "2026-07-31";
-const currentReleaseReviewAt = "2026-08-01";
+const copilotReleaseReviewAt = "2026-08-04";
 const latestReleaseReviewAt = "2026-08-02";
+const ggcodeReleaseReviewAt = "2026-08-04";
+const reasonixReleaseReviewAt = "2026-08-04";
 const defaultLimitation =
   "Documentation-derived posture. It describes exposed harness mechanisms, not task success or model capability.";
 
@@ -204,9 +206,9 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
   ),
   "copilot-cli": record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "checkpoint" },
-    ["https://docs.github.com/en/copilot/concepts/agents/copilot-memory", "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-programmatic-reference", "https://docs.github.com/en/copilot/concepts/about-cloud-and-local-sandboxes", "https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/roll-back-changes", "https://docs.github.com/en/copilot/concepts/agents/copilot-cli/autopilot", "https://docs.github.com/en/copilot/concepts/agents/hooks", "https://github.com/github/copilot-cli/releases/tag/v1.0.77"],
-    "Copilot Memory provides hosted, preview repository facts and user preferences with retention rules. Granular policy, pre-tool hooks, optional preview sandboxes, usage/session logs, bounded autopilot continuation, and Git or tools-based rewind are documented. In 1.0.77, unconditional autopilot approval disables the sandbox for the current session when bypass is allowed, while native MDM policy can separately enforce sandbox use; the closed product exposes no independent product eval suite.",
-    currentReleaseReviewAt,
+    ["https://docs.github.com/en/copilot/concepts/agents/copilot-memory", "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-programmatic-reference", "https://docs.github.com/en/copilot/concepts/about-cloud-and-local-sandboxes", "https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/roll-back-changes", "https://docs.github.com/en/copilot/concepts/agents/copilot-cli/autopilot", "https://docs.github.com/en/copilot/concepts/agents/hooks", "https://github.com/github/copilot-cli/releases/tag/v1.0.77", "https://github.com/github/copilot-cli/releases/tag/v1.0.78"],
+    "Copilot Memory provides hosted preview repository facts and user preferences with retention rules. Granular policy, pre-tool hooks, optional preview sandboxes, usage/session logs, bounded autopilot continuation, and file-selective rewind are documented. In 1.0.77, unconditional autopilot approval disables the sandbox for the current session when bypass is allowed. In 1.0.78, managed settings use a persistent cache and start without an unconfirmed restriction after an uncached fetch failure unless forceRemoteSettingsRefresh is enabled; rewind skips files changed since Copilot's last write and still cannot reverse external effects.",
+    copilotReleaseReviewAt,
   ),
   "cursor-cli": record(
     { context: "managed", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "checkpoint" },
@@ -620,9 +622,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://github.com/topcheer/ggcode/blob/b878385bfd4d0edab137e8d48c18fad512d49f21/docs/guide/harness.md",
       "https://github.com/topcheer/ggcode/blob/b878385bfd4d0edab137e8d48c18fad512d49f21/internal/metrics/trace_export.go",
       "https://github.com/topcheer/ggcode/blob/b878385bfd4d0edab137e8d48c18fad512d49f21/internal/checkpoint/checkpoint.go",
+      "https://github.com/topcheer/ggcode/releases/tag/v1.3.190",
     ],
-    "GGCode persists repository instructions and JSONL sessions, compacts live context, exports LLM and tool traces, and offers a governed worktree workflow with configured checks, delivery reports, review, approval, and promotion. The strongest verification gate applies to harness tasks rather than every interactive run. Normal execution remains on the host; bypass and autopilot weaken approvals, worktrees and path rules are not OS isolation, and file checkpoints cannot reverse shell or external side effects.",
-    latestReleaseReviewAt,
+    "GGCode persists repository instructions and JSONL sessions, compacts live context, exports LLM and tool traces, and offers a governed worktree workflow with configured checks, delivery reports, review, approval, and promotion. The strongest verification gate applies to harness tasks rather than every interactive run. Normal execution remains on the host; bypass and autopilot weaken approvals, and 1.3.190 also auto-approves later supervised calls after three matching tool-and-path approvals in one session. Worktrees and path rules are not OS isolation, and file checkpoints cannot reverse shell or external side effects.",
+    ggcodeReleaseReviewAt,
   ),
   reasonix: record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "checkpoint" },
@@ -632,9 +635,11 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/docs/CLI.md",
       "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/docs/CHECKPOINTS.md",
       "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/docs/RECOVERY.md",
+      "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.19.3",
+      "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.19.5",
     ],
-    "Reasonix persists hierarchical instructions, durable memory, sessions, structured event streams, and edit checkpoints while exposing ordered permission policy and platform-specific shell isolation. Verification remains tool-assisted rather than an enforced completion gate. Windows shell execution is unconfined, headless auto mode removes interactive approval, MCP tools bypass per-tool approval, and checkpoints cannot reverse Bash, move, network, or other external side effects.",
-    "2026-08-02",
+    "Reasonix persists hierarchical instructions, durable memory, sessions, structured event streams, and edit checkpoints while exposing ordered permission policy and platform-specific shell isolation. Verification remains tool-assisted rather than an enforced completion gate. Version 1.19.3 removed Guard and Safe Mode, while 1.19.5 bounded event-log replay and confined project prompt paths to the workspace. Windows shell execution is unconfined, headless auto mode removes interactive approval, MCP tools bypass per-tool approval, and checkpoints cannot reverse Bash, move, network, or other external side effects.",
+    reasonixReleaseReviewAt,
   ),
 };
 

@@ -35,13 +35,13 @@ const rawReleaseTriageOutputSchema = z.strictObject({
   reportedChanges: z.array(z.strictObject({
     category: z.string().min(1).max(100),
     description: z.string().min(1).max(4_000),
-  })).max(20).optional().default([]),
+  })).optional().default([]),
   verificationQuestions: z.union([
-    z.array(z.string().min(1).max(4_000)).max(20),
+    z.array(z.string().min(1).max(4_000)),
     z.string().min(1).max(4_000),
   ]).optional().default([]),
   limitations: z.union([
-    z.array(z.string().min(1).max(4_000)).max(20),
+    z.array(z.string().min(1).max(4_000)),
     z.string().min(1).max(4_000),
   ]).optional().default([]),
 });

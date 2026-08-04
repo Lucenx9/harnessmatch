@@ -1,13 +1,14 @@
 import type { GuiProduct } from "@/lib/gui-types";
 import { documentedAt, source, unknown } from "./helpers";
 
-const verifiedAt = "2026-08-02";
+const verifiedAt = "2026-08-04";
 const repository = "https://github.com/iOfficeAI/AionUi";
-const commit = "2bca547018428aeef08cedbe8da613e17d5e9d93";
+const commit = "0f7635b2f8a62e0a757eff60aea210e502726f92";
 const repositoryBase = `${repository}/blob/${commit}`;
 const readme = `${repositoryBase}/readme.md`;
 const webUiGuide = `${repositoryBase}/docs/guides/webui.md`;
 const diffViewer = `${repositoryBase}/packages/desktop/src/renderer/pages/conversation/Preview/components/viewers/DiffViewer.tsx`;
+const antigravityRelease = `${repository}/releases/tag/v2.1.46`;
 
 export const aionUi: GuiProduct = {
   id: "aionui",
@@ -25,6 +26,7 @@ export const aionUi: GuiProduct = {
   platforms: ["macOS", "Windows", "Linux", "Browser"],
   supportedHarnesses: [
     "Aion CLI",
+    "Antigravity",
     "Augment Code",
     "Claude Code",
     "CodeBuddy",
@@ -45,7 +47,7 @@ export const aionUi: GuiProduct = {
   ],
   acceptsArbitraryCli: false,
   harnessSupportNote:
-    "The pinned product record names 18 external CLI integrations and also ships a built-in agent. Additional backends must speak its supported ACP path; that is not evidence that an arbitrary CLI can be launched.",
+    "The pinned product record and 2.1.46 release establish 19 external CLI integrations plus a built-in agent. Additional backends must speak its supported ACP path; that is not evidence that an arbitrary CLI can be launched.",
   summary:
     "A cross-platform Cowork app for many named coding agents, parallel sessions, visual file changes, automation, and browser access.",
   bestFor:
@@ -79,11 +81,19 @@ export const aionUi: GuiProduct = {
   },
   evidence: [
     source(
+      "AionUi 2.1.46 release",
+      antigravityRelease,
+      "official-announcement",
+      "harness-integrations",
+      "Antigravity as a working built-in direct-CLI integration through the ACP chat surface; no capability of the underlying harness is transferred to AionUi.",
+      verifiedAt,
+    ),
+    source(
       "AionUi pinned product record",
       readme,
       "official-repository",
       "product-workflow",
-      "Named CLI integrations, parallel sessions, agent Team Mode, platforms, distribution, and license.",
+      "Named CLI integrations other than the separately released Antigravity addition, parallel sessions, agent Team Mode, platforms, distribution, and license.",
       verifiedAt,
     ),
     source(

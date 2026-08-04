@@ -1,6 +1,8 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-08-02";
+const releaseReviewAt = "2026-08-04";
+const recordVerifiedAt = releaseReviewAt;
 const inspectedRef = "c46e3af1c2732fe2b3dedb0bd47eb39a629357d2";
 const repositoryBase = `https://github.com/esengine/DeepSeek-Reasonix/blob/${inspectedRef}`;
 
@@ -51,11 +53,12 @@ export const reasonix = {
     "Headless writes require an explicit automatic permission mode; deny rules still apply, but unattended use removes interactive approval and needs independent time, spend, credential, and network limits",
     "Self-hosted model support means connecting an OpenAI-compatible or Anthropic-compatible endpoint; Reasonix does not bundle a local model runtime",
     "The local web server binds to loopback without authentication by default; remote exposure requires an explicit token or password and an appropriate network boundary",
+    "Reasonix 1.19.3 removed the desktop Guard and Safe Mode startup behaviors; recovery now relies on atomic versioned updates, explicit workspace-conflict actions, logs, and updater recovery paths rather than a Safe Mode boundary",
     "The built-in web tool retrieves page content rather than controlling an interactive browser; browser automation would require a separately trusted extension such as an MCP server",
   ],
   setup:
     "Install the stable Reasonix CLI, configure a supported provider or compatible endpoint, review workspace permissions and platform-specific sandbox coverage, then enable headless auto mode, MCP servers, plugins, hooks, or remote web access only inside an independently bounded environment.",
-  verifiedAt,
+  verifiedAt: recordVerifiedAt,
   evidence: [
     {
       title: "Reasonix v1.19.2 release",
@@ -65,6 +68,24 @@ export const reasonix = {
         "Stable version boundary, release date, source tag, platform-specific CLI and desktop archives, checksums, and package metadata",
       kind: "official-announcement",
       verifiedAt,
+    },
+    {
+      title: "Reasonix v1.19.3 release",
+      topic: "enterprise-operations",
+      url: "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.19.3",
+      covers:
+        "Removal of Guard and Safe Mode, atomic versioned desktop updates, workspace-writer conflict recovery actions, and consolidation onto one stable release channel",
+      kind: "official-announcement",
+      verifiedAt: releaseReviewAt,
+    },
+    {
+      title: "Reasonix v1.19.5 release",
+      topic: "enterprise-operations",
+      url: "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.19.5",
+      covers:
+        "Bounded event-log replay, preserved load failures, workspace-confined project prompt paths, updater recovery routes, usage records, and configurable context-compaction thresholds",
+      kind: "official-announcement",
+      verifiedAt: releaseReviewAt,
     },
     {
       title: "Reasonix product overview",
@@ -202,11 +223,11 @@ export const reasonix = {
       verifiedAt,
     },
     {
-      title: "Recovery and Safe Mode",
+      title: "Recovery in the inspected v1.19.2 source snapshot",
       topic: "enterprise-operations",
       url: `${repositoryBase}/docs/RECOVERY.md`,
       covers:
-        "Crash recovery, safe-mode startup, configuration reset, update rollback, session repair, logs, and recovery limitations",
+        "Historical v1.19.2 crash recovery, Safe Mode startup, configuration reset, update rollback, session repair, logs, and recovery limitations before the 1.19.3 removal",
       kind: "official-repository",
       verifiedAt,
     },

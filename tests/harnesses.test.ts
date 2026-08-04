@@ -366,13 +366,15 @@ describe("harness evidence ledger", () => {
     expect(wakil.tradeoffs.join(" ")).toContain("shares successful first-round responses across providers");
 
     const ggcode = byId.get("ggcode")!;
-    expect(ggcode.verifiedAt).toBe("2026-08-02");
+    expect(ggcode.verifiedAt).toBe("2026-08-04");
     expect(ggcode.evidence.map((source) => source.url)).toEqual(expect.arrayContaining([
       "https://github.com/topcheer/ggcode/releases/tag/v1.3.189",
+      "https://github.com/topcheer/ggcode/releases/tag/v1.3.190",
       "https://github.com/topcheer/ggcode/tree/b878385bfd4d0edab137e8d48c18fad512d49f21",
     ]));
     expect(ggcode.evidence.find((source) => source.title === "GGCode v1.3.189 release")?.covers)
       .toContain("agent verification gates");
+    expect(ggcode.tradeoffs.join(" ")).toContain("three consecutive approvals");
   });
 
   it("adds MiMo Code from first-party evidence while keeping discovery and capability evidence separate", () => {
@@ -439,14 +441,15 @@ describe("harness evidence ledger", () => {
     const caveats = reasonix.tradeoffs.join(" ");
 
     expect(reasonix.status).toBe("active");
-    expect(reasonix.verifiedAt).toBe("2026-08-02");
+    expect(reasonix.verifiedAt).toBe("2026-08-04");
     expect(reasonix.license).toBe("MIT");
     expect(reasonix.supportsSubscription).toBe(true);
-    expect(reasonix.evidence).toHaveLength(17);
-    expect(reasonix.evidence.every((source) => source.verifiedAt === reasonix.verifiedAt)).toBe(true);
+    expect(reasonix.evidence).toHaveLength(19);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([
       "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.19.2",
+      "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.19.3",
+      "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.19.5",
       "https://github.com/esengine/DeepSeek-Reasonix/tree/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2",
       "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/docs/SPEC.md",
       "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/docs/TOOL_CONTRACT.md",
@@ -457,6 +460,7 @@ describe("harness evidence ledger", () => {
     expect(caveats).toContain("Windows shell commands run without that isolation");
     expect(caveats).toContain("marketing figures are not admitted");
     expect(caveats).toContain("retrieves page content rather than controlling an interactive browser");
+    expect(caveats).toContain("removed the desktop Guard and Safe Mode");
   });
 
   it("separates Gemini CLI enterprise continuity from the Antigravity consumer successor", () => {
@@ -1662,8 +1666,10 @@ describe("harness evidence ledger", () => {
       "https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-custom-agents",
       "https://docs.github.com/en/copilot/reference/hooks-reference",
       "https://github.com/github/copilot-cli/releases/tag/v1.0.77",
+      "https://github.com/github/copilot-cli/releases/tag/v1.0.78",
     ]));
-    expect(byId.get("copilot-cli")!.tradeoffs.join(" ")).toContain("unconditional approval in autopilot disables the sandbox");
+    expect(byId.get("copilot-cli")!.tradeoffs.join(" ")).toContain("whose contents still match its last write");
+    expect(byId.get("copilot-cli")!.tradeoffs.join(" ")).toContain("forceRemoteSettingsRefresh");
     expect(urlsFor("cursor-cli")).toContain(
       "https://github.com/cursor/cursor/tree/654b1b4775ca67aef473bd31a14c8c04a1abde2d",
     );

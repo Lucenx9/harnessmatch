@@ -68,11 +68,11 @@ describe("GPT-OSS release triage", () => {
       .map((match) => match[1]));
     const watchedIds = githubReleaseWatches.map(({ harnessId }) => harnessId);
     expect(new Set(watchedIds).size).toBe(watchedIds.length);
-    expect(watchedIds).toHaveLength(36);
+    expect(watchedIds).toHaveLength(35);
     expect(watchedIds.every((id) => auditedIds.has(id))).toBe(true);
     expect(watchedIds).toEqual(expect.arrayContaining([
       "aider", "cline", "crush", "deepagents-code", "hermes-agent", "kern", "kilo-code", "kimi-code",
-      "ante", "letta-code", "mimo-code", "mini-swe-agent", "mistral-vibe", "mux", "openclaw", "openhands", "opensquilla",
+      "letta-code", "mimo-code", "mini-swe-agent", "mistral-vibe", "mux", "openclaw", "openhands", "opensquilla",
       "poolside-cli", "reasonix", "stagewise", "zoo-code", "ggcode", "codewhale", "openharness",
     ]));
     const openHandsWatch = githubReleaseWatches.find(({ harnessId }) => harnessId === "openhands");
@@ -96,13 +96,9 @@ describe("GPT-OSS release triage", () => {
     expect(patternsFor("kilo-code").some((pattern) => pattern.test("jetbrains/v7.0.11"))).toBe(false);
     expect(patternsFor("ggcode").some((pattern) => pattern.test("v1.3.187"))).toBe(true);
     expect(patternsFor("mimo-code").some((pattern) => pattern.test("v0.1.9"))).toBe(true);
-    expect(patternsFor("ante").some((pattern) => pattern.test("v0.preview.68"))).toBe(true);
+    expect(watchedIds).not.toContain("ante");
     expect(patternsFor("reasonix").some((pattern) => pattern.test("v1.19.2"))).toBe(true);
     expect(patternsFor("reasonix").some((pattern) => pattern.test("desktop-v1.19.2"))).toBe(false);
-    const anteWatch = githubReleaseWatches.find(({ harnessId }) => harnessId === "ante");
-    const anteNamePatterns = anteWatch?.includeNamePatterns?.map((pattern) => new RegExp(pattern)) ?? [];
-    expect(anteNamePatterns.some((pattern) => pattern.test("v0.preview.68"))).toBe(true);
-    expect(anteNamePatterns.some((pattern) => pattern.test("Ante Nightly v0.preview.69"))).toBe(false);
   });
 
   it("triages new releases and re-triages existing releases only when their notes change", () => {
@@ -151,6 +147,33 @@ describe("GPT-OSS release triage", () => {
     const normalized = validateReleaseTriageOutput({ ...valid, summary: longSummary }) as { summary: string };
     expect(normalized.summary).toMatch(/\S…$/);
     expect(normalized.summary.length).toBeLessThanOrEqual(360);
+  });
+
+  it("bounds oversized tool arrays after validating every model-supplied item", () => {
+    const oversized = {
+      summary: "The notes report many small implementation changes.",
+      reviewPriority: "review",
+      capabilityReviewRecommended: true,
+      reportedChanges: Array.from({ length: 21 }, (_, index) => ({
+        category: "compatibility",
+        description: `Reported change ${index + 1}.`,
+      })),
+      verificationQuestions: Array.from({ length: 21 }, (_, index) => `Question ${index + 1}?`),
+      limitations: Array.from({ length: 21 }, (_, index) => `Limitation ${index + 1}.`),
+    };
+
+    expect(validateReleaseTriageOutput(oversized)).toMatchObject({
+      reportedChanges: oversized.reportedChanges.slice(0, 5),
+      verificationQuestions: oversized.verificationQuestions.slice(0, 5),
+      limitations: oversized.limitations.slice(0, 3),
+    });
+    expect(() => validateReleaseTriageOutput({
+      ...oversized,
+      reportedChanges: [
+        ...oversized.reportedChanges,
+        { category: "safety", description: "See https://example.com for details." },
+      ],
+    })).toThrow(/must not introduce URLs/);
   });
 
   it("forces one strict, non-executing triage tool", () => {

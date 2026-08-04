@@ -1,6 +1,8 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-08-02";
+const releaseReviewAt = "2026-08-04";
+const recordVerifiedAt = releaseReviewAt;
 const discoveredAt = "2026-08-01";
 const inspectedRef = "b878385bfd4d0edab137e8d48c18fad512d49f21";
 const repositoryBase = `https://github.com/topcheer/ggcode/blob/${inspectedRef}`;
@@ -47,6 +49,7 @@ export const ggcode = {
     "Normal execution is host-first: path policy, protected-file rules, and Git worktrees constrain access and change organization but are not an OS or container security boundary",
     "The sandboxed JavaScript VM is limited to programmatic calls to read-only tools; it does not isolate file writes, shell commands, MCP servers, plugins, hooks, browser actions, or external side effects",
     "Bypass and autopilot modes deliberately weaken interactive approval, while harness workers launch independent GGCode processes in bypass mode inside an allowed worktree path",
+    "Since 1.3.190, supervised mode remembers three consecutive approvals of the same tool and path pattern and auto-approves later matches for that session, so repeated prompts are not a permanent per-call gate",
     "Subagents and swarm teammates share the main process and workspace; only harness workers receive a separate process and worktree, and even that process is not an OS sandbox",
     "File checkpoints cover edits made through GGCode tools and cannot reverse shell commands, Git operations, browser actions, messages, or external-service effects",
     "Hooks and plugins execute trusted user-supplied code, MCP servers retain their own trust boundary, and the broad desktop, web, mobile, messaging, and automation surface increases configuration responsibility",
@@ -54,7 +57,7 @@ export const ggcode = {
   ],
   setup:
     "Install a stable GGCode build, use the onboarding wizard to select a provider, review the supervised default and protected-path rules, then enable bypass, autopilot, hooks, plugins, MCP, or harness workers only for workspaces whose trust boundary you understand.",
-  verifiedAt,
+  verifiedAt: recordVerifiedAt,
   evidence: [
     {
       title: "GGCode v1.3.189 release",
@@ -63,6 +66,14 @@ export const ggcode = {
       covers: "Latest stable version, write-time integrity guards, agent verification gates, Git workflow controls, streaming tools, MCP refresh and elicitation, session search, and network-egress warnings",
       kind: "official-repository",
       verifiedAt,
+    },
+    {
+      title: "GGCode v1.3.190 release",
+      topic: "execution-control",
+      url: "https://github.com/topcheer/ggcode/releases/tag/v1.3.190",
+      covers: "Session-level approval memory after three matching approvals, ten-hour autopilot timeout, visible timeout events, failure-strategy resets, and session-scoped subagent todo files",
+      kind: "official-announcement",
+      verifiedAt: releaseReviewAt,
     },
     {
       title: "GGCode repository overview",

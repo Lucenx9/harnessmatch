@@ -145,7 +145,8 @@ describe("GUI workflow classification", () => {
     expect(agetor.harnessSupportNote).toContain("public site still labels Codex as coming soon");
     expect(agetor.capabilities.remoteExecution.state).toBe("contradicted");
 
-    expect(aionUi.supportedHarnesses).toHaveLength(18);
+    expect(aionUi.supportedHarnesses).toHaveLength(19);
+    expect(aionUi.supportedHarnesses).toContain("Antigravity");
     expect(aionUi.acceptsArbitraryCli).toBe(false);
     expect(aionUi.capabilities.workspaceIsolation.state).toBe("unknown");
     expect(aionUi.capabilities.teamCollaboration.state).toBe("unknown");
