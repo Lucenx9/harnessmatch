@@ -39,4 +39,33 @@ describe("GUI workflow matcher interactions", () => {
 
     expect(screen.getByRole("link", { name: "webmux profile" })).toBeDefined();
   });
+
+  it("restores the whole catalog from the empty state without lowering evidence gates", () => {
+    render(<GuiWorkflowMatcher viewModel={viewModel} />);
+
+    const filterLabels = ["Workflow", "Harness", "Platform", "Source access"] as const;
+    const [workflowSelect, harnessSelect, platformSelect, sourceSelect] = filterLabels
+      .map((label) => screen.getByLabelText(label) as HTMLSelectElement);
+    if (!workflowSelect || !harnessSelect || !platformSelect || !sourceSelect) {
+      throw new Error("Expected every matcher filter to be rendered.");
+    }
+
+    // Amp is documented only by desktop interfaces, so pairing it with Browser
+    // leaves no product and exposes the empty state.
+    fireEvent.change(workflowSelect, { target: { value: "team-workspace" } });
+    fireEvent.change(harnessSelect, { target: { value: "Amp" } });
+    fireEvent.change(platformSelect, { target: { value: "Browser" } });
+    fireEvent.change(sourceSelect, { target: { value: "proprietary" } });
+
+    expect(screen.getByText("No GUI matches every selected filter.")).toBeDefined();
+
+    fireEvent.click(screen.getByRole("button", { name: "Clear filters" }));
+
+    for (const select of [workflowSelect, harnessSelect, platformSelect, sourceSelect]) {
+      expect(select.value).toBe("any");
+    }
+    expect(screen.queryByText("No GUI matches every selected filter.")).toBeNull();
+    expect(screen.getByText("All documented interfaces")).toBeDefined();
+    expect(screen.getByRole("link", { name: "webmux profile" })).toBeDefined();
+  });
 });

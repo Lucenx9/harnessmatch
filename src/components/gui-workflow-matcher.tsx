@@ -54,6 +54,12 @@ export function GuiWorkflowMatcher({
   const [harnessFilter, setHarnessFilter] = useState<HarnessFilter>("any");
   const [platformFilter, setPlatformFilter] = useState<PlatformFilter>("any");
   const [sourceFilter, setSourceFilter] = useState<SourceFilter>("any");
+  const clearFilters = () => {
+    setWorkflowId("any");
+    setHarnessFilter("any");
+    setPlatformFilter("any");
+    setSourceFilter("any");
+  };
   const workflow = workflowId === "any"
     ? null
     : viewModel.workflows.find((candidate) => candidate.id === workflowId) ?? null;
@@ -170,6 +176,7 @@ export function GuiWorkflowMatcher({
           <div className="gui-empty">
             <strong>No GUI matches every selected filter.</strong>
             <p>Broaden the platform, harness, or source-access filter. Filters remove products; they do not lower evidence gates.</p>
+            <button className="button secondary" type="button" onClick={clearFilters}>Clear filters</button>
           </div>
         )}
 
