@@ -5,12 +5,30 @@ import { afterEach, describe, expect, it } from "vitest";
 import { GuiLiveSignals } from "../src/components/gui-live-signals";
 import { guiEcosystemSignalSnapshots } from "../src/data/gui-ecosystem-signals";
 import { guiProducts } from "../src/data/gui-products";
+import type { GuiLiveSignalsViewModel } from "../src/lib/gui-view-models";
 import { buildGuiLiveSignalsViewModel } from "../src/lib/gui-view-models";
 
 const viewModel = buildGuiLiveSignalsViewModel(
   guiProducts,
   guiEcosystemSignalSnapshots,
 );
+
+const unmappedSourceViewModel: GuiLiveSignalsViewModel = {
+  observedAt: "2026-08-04",
+  sources: [
+    {
+      id: "homebrew",
+      tab: "Homebrew · 30d",
+      title: "macOS install activity",
+      coverage: "0/18 mapped",
+      columns: ["Rank", "Interface", "30-day events", "Window"],
+      note: "Install events are not unique users.",
+      href: "https://formulae.brew.sh/docs/api/",
+      link: "Homebrew source",
+      rows: [],
+    },
+  ],
+};
 
 afterEach(cleanup);
 
@@ -59,5 +77,19 @@ describe("GUI live signals interactions", () => {
 
     fireEvent.keyDown(last, { key: "ArrowRight" });
     expect(first.getAttribute("aria-selected")).toBe("true");
+  });
+
+  it("reads an unmapped source as missing instead of rendering an empty ranking", () => {
+    const { container } = render(<GuiLiveSignals viewModel={unmappedSourceViewModel} />);
+
+    expect(screen.getByText(
+      "No active interface is currently mapped to this source. Missing is not zero.",
+    )).toBeDefined();
+    expect(container.querySelector(".gui-live-columns")).toBeNull();
+    expect(container.querySelector(".gui-live-ranking")).toBeNull();
+
+    // The source caveat and its first-party link stay visible without any row.
+    expect(screen.getByText("Install events are not unique users.")).toBeDefined();
+    expect(screen.getByRole("link", { name: "Homebrew source" })).toBeDefined();
   });
 });
