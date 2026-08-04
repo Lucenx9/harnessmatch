@@ -1,4 +1,5 @@
 import "../styles/guis.css";
+import "../styles/responsive.css";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { GuiLiveSignals } from "@/components/gui-live-signals";

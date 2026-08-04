@@ -1,3 +1,4 @@
+import "../styles/responsive.css";
 import type { Metadata } from "next";
 import { HarnessLensExplorer } from "@/components/harness-lens-explorer";
 import { featureSupportFor } from "@/data/feature-claims";
