@@ -39,4 +39,21 @@ describe("GUI workflow matcher interactions", () => {
 
     expect(screen.getByRole("link", { name: "webmux profile" })).toBeDefined();
   });
+
+  it("restores the whole catalog from the empty state without lowering evidence gates", () => {
+    render(<GuiWorkflowMatcher viewModel={viewModel} />);
+
+    // Amp is documented only by desktop interfaces, so pairing it with Browser
+    // leaves no product and exposes the empty state.
+    fireEvent.change(screen.getByLabelText("Harness"), { target: { value: "Amp" } });
+    fireEvent.change(screen.getByLabelText("Platform"), { target: { value: "Browser" } });
+
+    expect(screen.getByText("No GUI matches every selected filter.")).toBeDefined();
+
+    fireEvent.click(screen.getByRole("button", { name: "Clear filters" }));
+
+    expect(screen.queryByText("No GUI matches every selected filter.")).toBeNull();
+    expect(screen.getByText("All documented interfaces")).toBeDefined();
+    expect(screen.getByRole("link", { name: "webmux profile" })).toBeDefined();
+  });
 });

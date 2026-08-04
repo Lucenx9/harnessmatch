@@ -36,6 +36,7 @@
 .gui-live-value i { height: 8px; display: block; border-radius: 2px; background: var(--accent); }
 .gui-live-value strong { overflow: hidden; color: var(--text); font: 620 .61rem/1.2 var(--font-mono); text-overflow: ellipsis; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .gui-live-secondary { overflow: hidden; color: var(--muted); font: 540 .55rem/1.2 var(--font-mono); text-align: right; text-overflow: ellipsis; white-space: nowrap; }
+.gui-live-empty { margin: 0; padding: 34px 22px; border-top: 1px solid var(--line); color: var(--muted); font-size: .72rem; text-align: center; }
 .gui-live-panel > footer { min-height: 70px; display: flex; align-items: center; justify-content: space-between; gap: 22px; padding: 13px 22px; }
 .gui-live-panel > footer p { max-width: 760px; margin: 0; font-size: .62rem; line-height: 1.5; }
 .gui-live-panel > footer a { flex: none; min-height: 44px; display: inline-flex; align-items: center; color: var(--text); font-size: .64rem; font-weight: 660; }
@@ -78,6 +79,7 @@
 .gui-empty { margin-bottom: 28px; padding: 36px 20px; border-block: 1px solid var(--line); text-align: center; }
 .gui-empty strong { font-size: .9rem; }
 .gui-empty p { max-width: 600px; margin: 6px auto 0; font-size: .75rem; }
+.gui-empty .button { margin-top: 18px; }
 
 .gui-fit-groups { border-top: 1px solid var(--line-strong); }
 .gui-fit-group > header { min-height: 56px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border-bottom: 1px solid var(--line); }
@@ -106,7 +108,10 @@
 .gui-result-readout dd { margin: 0; color: var(--muted-strong); font-size: .72rem; line-height: 1.5; }
 .gui-result-readout dd small { display: block; margin-top: 5px; color: var(--muted); font: inherit; }
 .gui-result-details { margin-top: 13px; }
-.gui-result-details > summary { min-height: 48px; display: flex; align-items: center; color: var(--muted); font-size: .72rem; font-weight: 640; cursor: pointer; }
+.gui-result-details > summary { min-height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 18px; color: var(--muted); font-size: .72rem; font-weight: 640; cursor: pointer; list-style: none; }
+.gui-result-details > summary::-webkit-details-marker { display: none; }
+.gui-result-details > summary::after { content: "+"; color: var(--muted); font: 500 1rem/1 var(--font-mono); }
+.gui-result-details[open] > summary::after { content: "−"; }
 .gui-result-details > summary:hover { color: var(--text); }
 .gui-result-details[open] > summary { color: var(--text); border-bottom: 1px solid var(--line); }
 .gui-result-expanded { padding-top: 0; }
@@ -117,6 +122,7 @@
 .gui-evidence-body li { color: var(--muted); font-size: .68rem; line-height: 1.45; }
 .gui-evidence-body > section:first-child > ul > li { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 10px; padding: 8px 0; border-top: 1px solid var(--line); }
 .gui-evidence-body li strong { display: block; margin-bottom: 3px; color: var(--muted-strong); font-size: .68rem; }
+.gui-evidence-body li strong::first-letter { text-transform: uppercase; }
 .gui-evidence-body li p, .gui-evidence-body > section > p { margin: 0; font-size: .68rem; }
 .gui-claim-state { width: fit-content; height: fit-content; padding: 4px 6px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font: 530 .54rem/1 var(--font-mono); text-transform: capitalize; }
 .gui-claim-state--documented { border-color: color-mix(in srgb, var(--success) 35%, var(--line)); color: var(--success); }
@@ -127,15 +133,25 @@
 .gui-code-audit > ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 13px 0; }
 .gui-code-audit > ul > li { padding-left: 10px; border-left: 2px solid var(--accent); }
 .gui-code-audit details { margin: 12px 0; }
-.gui-code-audit details > summary { min-height: 36px; display: flex; align-items: center; color: var(--muted); font-size: .65rem; cursor: pointer; }
+.gui-code-audit details > summary { min-height: 36px; display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: .65rem; cursor: pointer; list-style: none; }
+.gui-code-audit details > summary::-webkit-details-marker { display: none; }
+.gui-code-audit details > summary::after { content: "+"; font: 500 .85rem/1 var(--font-mono); }
+.gui-code-audit details[open] > summary::after { content: "−"; }
+.gui-code-audit details > summary:hover { color: var(--text); }
 .gui-code-audit details li { padding: 4px 0; overflow-wrap: anywhere; }
 .gui-code-audit code { color: var(--muted-strong); font: 500 .62rem/1.45 var(--font-mono); }
 .gui-audit-limitation { max-width: 840px; }
 
 .gui-exclusions { margin-top: 18px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
-.gui-exclusions > summary { min-height: 54px; display: flex; align-items: center; padding: 0 18px; color: var(--muted); font-size: .74rem; font-weight: 640; cursor: pointer; }
-.gui-exclusions > div { padding: 0 18px 16px; }
-.gui-exclusions p { margin: 0; font-size: .73rem; }
+.gui-exclusions > summary { min-height: 54px; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 0 18px; color: var(--muted); font-size: .74rem; font-weight: 640; cursor: pointer; list-style: none; }
+.gui-exclusions > summary::-webkit-details-marker { display: none; }
+.gui-exclusions > summary::after { content: "+"; font: 500 1rem/1 var(--font-mono); }
+.gui-exclusions[open] > summary::after { content: "−"; }
+.gui-exclusions > summary:hover { color: var(--text); }
+.gui-exclusions[open] > summary { color: var(--text); border-bottom: 1px solid var(--line); }
+.gui-exclusions > div { padding: 4px 18px 16px; }
+.gui-exclusions p { margin: 0; padding: 12px 0; font-size: .73rem; }
+.gui-exclusions p + p { border-top: 1px solid var(--line); }
 .gui-method-note { display: flex; align-items: center; justify-content: space-between; gap: 42px; margin-top: 18px; padding: 22px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
 .gui-method-note p { max-width: 800px; margin: 5px 0 0; font-size: .75rem; }
 .gui-method-note p + p { color: var(--muted); font-size: .7rem; }
