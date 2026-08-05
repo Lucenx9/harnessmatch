@@ -1356,9 +1356,9 @@ describe("harness evidence ledger", () => {
       "https://www.codebuff.com/docs/tips/what-makes-codebuff-unique",
       "https://www.codebuff.com/docs/advanced/sdk",
       "https://www.codebuff.com/docs/help/faq",
-      "https://github.com/CodebuffAI/codebuff/blob/672b784b42112d0eaf236e63b1005588e3c36711/agents/browser-use/browser-use.ts",
-      "https://github.com/CodebuffAI/codebuff/blob/672b784b42112d0eaf236e63b1005588e3c36711/docs/agents-and-tools.md",
-      "https://github.com/CodebuffAI/codebuff/blob/672b784b42112d0eaf236e63b1005588e3c36711/evals/buffbench/README.md",
+      "https://github.com/CodebuffAI/freebuff/blob/672b784b42112d0eaf236e63b1005588e3c36711/agents/browser-use/browser-use.ts",
+      "https://github.com/CodebuffAI/freebuff/blob/672b784b42112d0eaf236e63b1005588e3c36711/docs/agents-and-tools.md",
+      "https://github.com/CodebuffAI/freebuff/blob/672b784b42112d0eaf236e63b1005588e3c36711/evals/buffbench/README.md",
     ]));
     expect(codebuff.tradeoffs.join(" ")).toContain("without per-command permission prompts");
     expect(codebuff.tradeoffs.join(" ")).toContain("no built-in sandbox");

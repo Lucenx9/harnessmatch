@@ -38,6 +38,7 @@ export const npmPackages = [
   { harnessId: "cline", artifactId: "cline", identity: { kind: "repository", value: "https://github.com/cline/cline" } },
   { harnessId: "postqode", artifactId: "@postqode/agent-tui", identity: { kind: "repository", value: "https://github.com/postqode/postqode-extension" } },
   { harnessId: "copilot-cli", artifactId: "@github/copilot", identity: { kind: "repository", value: "https://github.com/github/copilot-cli" } },
+  // npm still publishes the pre-rename URL, which GitHub permanently redirects to the canonical Freebuff repository.
   { harnessId: "codebuff", artifactId: "codebuff", identity: { kind: "repository", value: "https://github.com/CodebuffAI/codebuff" } },
   { harnessId: "omp", artifactId: "@oh-my-pi/pi-coding-agent", identity: { kind: "repository", value: "https://github.com/can1357/oh-my-pi" } },
   { harnessId: "amp", artifactId: "@ampcode/cli", identity: { kind: "homepage", value: "https://ampcode.com/" } },
