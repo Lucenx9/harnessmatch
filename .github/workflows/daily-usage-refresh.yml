@@ -128,6 +128,8 @@ jobs:
 
       - name: Verify sources, contracts, and static export
         if: steps.diff.outputs.changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run verify:maintenance
 
       - name: Re-review publish scope

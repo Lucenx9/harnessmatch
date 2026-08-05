@@ -38,6 +38,7 @@ describe("daily usage automation", () => {
     expect(workflow).toContain("continue-on-error: true");
     expect(workflow).toContain("research/release-review-queue.json");
     expect(workflow).toContain("npm run verify:maintenance");
+    expect(workflow).toMatch(/name: Verify sources, contracts, and static export[\s\S]*?GITHUB_TOKEN: \$\{\{ secrets\.GITHUB_TOKEN \}\}[\s\S]*?run: npm run verify:maintenance/);
     expect(workflow).toContain("npm audit --audit-level=high");
     expect(workflow).toContain("node scripts/validate-usage-refresh-diff.mjs");
     expect(workflow).toContain("git push origin HEAD:main");
@@ -54,6 +55,15 @@ describe("daily usage automation", () => {
     expect(qualityWorkflow).toContain("actions/dependency-review-action@");
     expect(qualityWorkflow).toContain("fail-on-severity: high");
     expect(qualityWorkflow).toContain("node-version: 24");
+    expect(qualityWorkflow).not.toContain("npm run check:spotlight");
+    expect(workflow).not.toContain("npm run check:spotlight");
+
+    const spotlightWorkflow = readFileSync(
+      new URL("../.github/workflows/monthly-spotlight-freshness.yml", import.meta.url),
+      "utf8",
+    );
+    expect(spotlightWorkflow).toContain('cron: "17 5 1 * *"');
+    expect(spotlightWorkflow).toContain("npm run check:spotlight");
   });
 
   it("pins workflow actions and limits credential exposure", () => {
@@ -128,7 +138,7 @@ describe("local TypeScript toolchain", () => {
     const packageJson = JSON.parse(
       readFileSync(new URL("../package.json", import.meta.url), "utf8"),
     ) as {
-      scripts: { doctor: string; typecheck: string };
+      scripts: { "check:spotlight": string; doctor: string; typecheck: string };
       devDependencies: { "@types/node": string };
     };
     const gitignore = readFileSync(
@@ -138,6 +148,9 @@ describe("local TypeScript toolchain", () => {
 
     expect(packageJson.scripts.typecheck).toBe("next typegen && tsc --noEmit");
     expect(packageJson.scripts.doctor).toBe("npx --yes react-doctor@0.9.3");
+    expect(packageJson.scripts["check:spotlight"]).toBe(
+      "vitest run --config vitest.spotlight.config.ts",
+    );
     expect(packageJson.devDependencies["@types/node"]).toMatch(/^\^20\./);
     expect(gitignore).toContain("next-env.d.ts");
   });

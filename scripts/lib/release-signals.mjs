@@ -1,6 +1,15 @@
 import { z } from "zod";
 
 export const recentReleaseWindowDays = 90;
+export const githubReleasePageSize = 100;
+
+export function releaseHistoryPageNeedsNextPage(releases) {
+  if (!Array.isArray(releases)) throw new Error("GitHub release page must be an array");
+  if (releases.length > githubReleasePageSize) {
+    throw new Error(`GitHub release page exceeded ${githubReleasePageSize} records`);
+  }
+  return releases.length === githubReleasePageSize;
+}
 
 const repositoryScopeSchema = z.enum(["full-source", "client-source", "support-repository"]);
 

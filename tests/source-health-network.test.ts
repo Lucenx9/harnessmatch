@@ -110,9 +110,58 @@ describe("source health network safety", () => {
     expect(resolve).toHaveBeenCalledTimes(1);
     expect(httpsRequest).toHaveBeenCalledWith(
       new URL("https://example.com/source"),
-      expect.objectContaining({ agent: false, lookup: expect.any(Function) }),
+      expect.objectContaining({ lookup: expect.any(Function) }),
       expect.any(Function),
     );
+    expect(httpsRequest.mock.calls[0]?.[1]).not.toHaveProperty("agent", false);
+  });
+
+  it("drains successful HEAD responses so the validated connection can be reused", async () => {
+    const destroy = vi.fn();
+    const resume = vi.fn();
+    const httpsRequest = vi.fn((_url, options, callback) => {
+      const request = {
+        on: vi.fn(() => request),
+        end: vi.fn(() => callback({
+          statusCode: 200,
+          rawHeaders: [],
+          socket: { remoteAddress: "93.184.216.34" },
+          destroy,
+          resume,
+        })),
+      };
+      expect(options.agent).not.toBe(false);
+      return request;
+    });
+
+    const { response: headResponse } = await safeFetch("https://example.com/source", {
+      method: "HEAD",
+    }, {
+      httpsRequest,
+      lookup: vi.fn().mockResolvedValue([{ address: "93.184.216.34", family: 4 }]),
+    });
+    await headResponse.body.cancel();
+
+    expect(resume).toHaveBeenCalledOnce();
+    expect(destroy).not.toHaveBeenCalled();
+  });
+
+  it("prefers IPv4 while retaining a validated IPv6 fallback", async () => {
+    const request = vi.fn(async (_url, _options, addresses) => {
+      expect(addresses).toEqual([
+        { address: "93.184.216.34", family: 4 },
+        { address: "2606:2800:220:1:248:1893:25c8:1946", family: 6 },
+      ]);
+      return response();
+    });
+
+    await safeFetch("https://example.com/source", {}, {
+      request,
+      lookup: vi.fn().mockResolvedValue([
+        { address: "2606:2800:220:1:248:1893:25c8:1946", family: 6 },
+        { address: "93.184.216.34", family: 4 },
+      ]),
+    });
   });
 
   it.each([
@@ -151,6 +200,33 @@ describe("source health network safety", () => {
     })).rejects.toThrow("non-public");
     expect(request).toHaveBeenCalledTimes(1);
     expect(firstResponse.body.cancel).toHaveBeenCalledOnce();
+  });
+
+  it("strips credentials before following a cross-origin redirect", async () => {
+    const request = vi.fn()
+      .mockResolvedValueOnce(response(
+        302,
+        "93.184.216.34",
+        new Headers({ location: "https://downloads.example.net/source" }),
+      ))
+      .mockResolvedValueOnce(response());
+
+    await safeFetch("https://api.github.com/repos/example/project", {
+      headers: {
+        authorization: "Bearer secret-token",
+        cookie: "session=secret",
+        accept: "application/json",
+      },
+    }, {
+      request,
+      lookup: vi.fn().mockResolvedValue([{ address: "93.184.216.34", family: 4 }]),
+    });
+
+    expect(request).toHaveBeenCalledTimes(2);
+    const redirectedOptions = request.mock.calls[1]?.[1];
+    expect(new Headers(redirectedOptions?.headers).get("authorization")).toBeNull();
+    expect(new Headers(redirectedOptions?.headers).get("cookie")).toBeNull();
+    expect(new Headers(redirectedOptions?.headers).get("accept")).toBe("application/json");
   });
 });
 

@@ -1215,7 +1215,9 @@ function UsageSignalsExplorer({
         <fieldset className="usage-compare-picker" id="usage-compare-mode">
           <legend>Harnesses to compare</legend>
           <div className="usage-compare-picker-header">
-            <p>Select up to {maxComparedHarnesses}. Every value keeps the source’s native unit and global source rank.</p>
+            <p>
+              Select up to {maxComparedHarnesses}. Every value keeps the source’s native unit. Rank scope: {rankScopeLabel}.
+            </p>
             <strong aria-live="polite">{comparedHarnessIds.length} selected</strong>
           </div>
           <label className="usage-compare-search" htmlFor="usage-compare-search">

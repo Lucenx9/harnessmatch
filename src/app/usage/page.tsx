@@ -1,5 +1,4 @@
 import "../styles/profiles.css";
-import "../styles/responsive.css";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { UsageSignalsExplorer } from "@/components/usage-signals-explorer";

@@ -57,7 +57,7 @@ function normalizeAddresses(records) {
     const family = isIP(address);
     if (family === 0) throw new Error(`DNS returned an invalid address: ${address}`);
     return { address, family };
-  });
+  }).toSorted((left, right) => left.family - right.family);
 }
 
 function addressIsAllowed(address, allowedAddresses) {
@@ -119,7 +119,6 @@ function requestWithPinnedAddresses(url, options, addresses, dependencies = {}) 
       headers: normalizeRequestHeaders(options.headers),
       signal: options.signal,
       lookup: createPinnedLookup(addresses),
-      agent: false,
     }, (message) => {
       const peerAddress = message.socket.remoteAddress ?? "";
       if (!addressIsAllowed(peerAddress, addresses)) {
@@ -136,7 +135,8 @@ function requestWithPinnedAddresses(url, options, addresses, dependencies = {}) 
         peerAddress,
         body: {
           async cancel() {
-            message.destroy();
+            if (options.method === "HEAD") message.resume();
+            else message.destroy();
           },
         },
       });
@@ -193,11 +193,12 @@ export async function safeFetch(input, options = {}, dependencies = {}) {
   const request = dependencies.request
     ?? ((url, requestOptions, addresses) => requestWithPinnedAddresses(url, requestOptions, addresses, dependencies));
   let url = new URL(input);
+  let requestOptions = options;
   let redirected = false;
 
   for (let redirects = 0; redirects <= 5; redirects += 1) {
     const validated = await resolvePublicHttpUrl(url, resolve);
-    const response = await request(validated.url, options, validated.addresses);
+    const response = await request(validated.url, requestOptions, validated.addresses);
 
     if (!addressIsAllowed(response.peerAddress ?? "", validated.addresses)) {
       await response.body?.cancel();
@@ -211,7 +212,15 @@ export async function safeFetch(input, options = {}, dependencies = {}) {
     await response.body?.cancel();
     if (!location) return { response, finalUrl: url.href, redirected };
     if (redirects === 5) throw new Error("Source URL exceeded the redirect limit.");
-    url = new URL(location, url);
+    const nextUrl = new URL(location, url);
+    if (nextUrl.origin !== url.origin) {
+      const headers = new Headers(requestOptions.headers);
+      headers.delete("authorization");
+      headers.delete("cookie");
+      headers.delete("proxy-authorization");
+      requestOptions = { ...requestOptions, headers };
+    }
+    url = nextUrl;
     redirected = true;
   }
   throw new Error("Source URL exceeded the redirect limit.");

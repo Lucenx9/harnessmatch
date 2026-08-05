@@ -12,6 +12,7 @@
     "test": "vitest run",
     "coverage": "vitest run --coverage",
     "check:output": "node scripts/check-static-output.mjs",
+    "check:spotlight": "vitest run --config vitest.spotlight.config.ts",
     "check:sources": "node scripts/check-source-health.mjs",
     "sync:openrouter": "node scripts/sync-openrouter-attribution.mjs",
     "sync:ecosystem": "node scripts/sync-ecosystem-signals.mjs",
