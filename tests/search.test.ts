@@ -3,6 +3,7 @@ import { guiProducts } from "../src/data/gui-products";
 import { harnesses } from "../src/data/harnesses";
 import { primaryNavigationItems, secondaryNavigationItems } from "../src/lib/navigation";
 import {
+  compactSearchTerms,
   createSearchIndex,
   deserializeGlobalSearchItem,
   highlightSearchMatch,
@@ -70,6 +71,15 @@ const items: GlobalSearchItem[] = [
 
 const index = createSearchIndex(items);
 const titlesFor = (query: string) => rankSearchItems(index, query).map((item) => item.title);
+
+describe("compactSearchTerms", () => {
+  it("preserves searchable evidence words while removing duplicates", () => {
+    expect(compactSearchTerms([
+      "Cloudflare tunnel for remote access",
+      "Remote access authentication and delivery",
+    ])).toBe("cloudflare tunnel remote access authentication delivery");
+  });
+});
 
 describe("global search serialization", () => {
   it("round-trips optional images without changing searchable records", () => {

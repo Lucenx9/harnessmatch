@@ -102,6 +102,41 @@ function tokenize(value: string) {
     .filter(Boolean);
 }
 
+const compactSearchStopWords = new Set([
+  "a",
+  "an",
+  "and",
+  "as",
+  "at",
+  "by",
+  "for",
+  "from",
+  "in",
+  "into",
+  "of",
+  "on",
+  "or",
+  "the",
+  "to",
+  "with",
+]);
+
+/**
+ * Keeps every searchable word while removing repeated prose from payloads sent
+ * across a Server-to-Client boundary.
+ */
+export function compactSearchTerms(values: readonly string[]) {
+  const seen = new Set<string>();
+  return values
+    .flatMap(tokenize)
+    .filter((term) => {
+      if (compactSearchStopWords.has(term) || seen.has(term)) return false;
+      seen.add(term);
+      return true;
+    })
+    .join(" ");
+}
+
 type IndexedField = {
   values: readonly string[];
   words: readonly string[];

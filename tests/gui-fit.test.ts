@@ -196,6 +196,12 @@ describe("GUI workflow classification", () => {
     const traycer = requiredGuiProduct("traycer");
 
     expect(maestro.supportedHarnesses).toHaveLength(9);
+    expect(maestro.supportedHarnesses).toEqual(expect.arrayContaining([
+      "Factory Droid",
+      "GitHub Copilot CLI",
+    ]));
+    expect(maestro.supportedHarnesses).not.toContain("Droid");
+    expect(maestro.supportedHarnesses).not.toContain("GitHub Copilot");
     expect(maestro.supportedHarnesses).not.toContain("Gemini CLI");
     expect(maestro.harnessSupportNote).toContain("Gemini CLI is planned");
     expect(maestro.acceptsArbitraryCli).toBe(false);
@@ -209,10 +215,14 @@ describe("GUI workflow classification", () => {
       "Claude Code",
       "Codex",
       "Devin",
+      "Factory Droid",
+      "GitHub Copilot CLI",
       "OpenCode",
       "OpenRouter",
       "Traycer",
     ]));
+    expect(traycer.supportedHarnesses).not.toContain("Droid");
+    expect(traycer.supportedHarnesses).not.toContain("GitHub Copilot");
     expect(traycer.acceptsArbitraryCli).toBe(false);
     expect(traycer.harnessSupportNote).toContain("terminal interface");
     expect(Object.values(traycer.capabilities).every((claim) => claim.state === "documented")).toBe(true);
