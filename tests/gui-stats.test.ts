@@ -9,15 +9,15 @@ describe("GUI catalog statistics", () => {
 
   it("derives catalog totals from evidence-backed records", () => {
     expect(stats).toEqual(expect.objectContaining({
-      activeProducts: 18,
-      documentedClaims: 71,
-      totalClaims: 90,
-      codeAudits: 14,
+      activeProducts: 20,
+      documentedClaims: 80,
+      totalClaims: 100,
+      codeAudits: 16,
       previews: 5,
-      publicCodeProducts: 14,
+      publicCodeProducts: 16,
       proprietaryProducts: 4,
       nativeProducts: 5,
-      multiHarnessProducts: 13,
+      multiHarnessProducts: 15,
     }));
     expect(stats.evidenceSources).toBeGreaterThanOrEqual(guiProducts.length);
   });
@@ -25,32 +25,32 @@ describe("GUI catalog statistics", () => {
   it("keeps evidence gaps visible in capability coverage", () => {
     expect(stats.capabilityCoverage.find((item) => item.key === "teamCollaboration")).toEqual({
       key: "teamCollaboration",
-      documented: 5,
-      unknown: 13,
+      documented: 6,
+      unknown: 14,
       contradicted: 0,
-      total: 18,
+      total: 20,
     });
-    expect(stats.capabilityCoverage.find((item) => item.key === "visualReview")?.documented).toBe(17);
+    expect(stats.capabilityCoverage.find((item) => item.key === "visualReview")?.documented).toBe(19);
   });
 
   it("includes every supported platform in coverage", () => {
     expect(stats.platformCoverage.find((item) => item.platform === "Android")).toEqual({
       platform: "Android",
       products: 1,
-      total: 18,
+      total: 20,
     });
   });
 
   it("summarizes workflow bands without creating an overall score", () => {
     expect(stats.workflowCoverage.find((item) => item.id === "parallel-local")?.counts).toEqual({
-      strong: 15,
+      strong: 17,
       good: 1,
       conditional: 2,
       "not-eligible": 0,
     });
     expect(stats.workflowCoverage.find((item) => item.id === "remote-control")?.counts).toEqual({
-      strong: 5,
-      good: 10,
+      strong: 6,
+      good: 11,
       conditional: 1,
       "not-eligible": 2,
     });

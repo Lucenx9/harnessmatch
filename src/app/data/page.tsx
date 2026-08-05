@@ -23,6 +23,7 @@ import {
   benchmarkParetoFrontier,
   benchmarkTopIntervalGroup,
 } from "@/lib/evaluation";
+import { compactSearchTerms } from "@/lib/search";
 import { pageMetadata } from "@/lib/site";
 import { buildRecentReleaseActivity } from "@/lib/usage-view";
 
@@ -76,7 +77,10 @@ export default function DataPage() {
         ...product.platforms,
         ...product.supportedHarnesses,
         product.acceptsArbitraryCli ? "arbitrary CLI" : "named integrations",
-        ...product.evidence.flatMap((source) => [source.title, source.covers]),
+        compactSearchTerms(product.evidence.flatMap((source) => [
+          source.title,
+          source.covers,
+        ])),
         ...(product.preview ? [product.preview.caption, product.preview.provenance] : []),
       ].join(" "),
     };

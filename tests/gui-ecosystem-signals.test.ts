@@ -36,11 +36,13 @@ describe("GUI ecosystem signals", () => {
       "blackcrab",
       "codeg",
       "emdash",
+      "maestro",
       "nimbalyst",
       "openchamber",
       "openhands-agent-canvas",
       "superset",
       "t3-code",
+      "traycer",
     ]);
     for (const signal of releaseSignals) {
       expect(signal.value).toBeGreaterThan(0);
@@ -52,9 +54,9 @@ describe("GUI ecosystem signals", () => {
 
   it("sorts each source independently and never fabricates missing records", () => {
     const records = buildGuiEcosystemViewRecords(guiProducts, guiEcosystemSignalSnapshots);
-    expect(records.homebrew).toHaveLength(7);
+    expect(records.homebrew).toHaveLength(8);
     expect(records.github).toHaveLength(guiRepositoryAudits.length);
-    expect(records.githubReleases).toHaveLength(10);
+    expect(records.githubReleases).toHaveLength(12);
     for (const group of [records.homebrew, records.githubReleases, records.github]) {
       expect(group.map((record) => record.signal.value)).toEqual(
         group.map((record) => record.signal.value).toSorted((left, right) => right - left),

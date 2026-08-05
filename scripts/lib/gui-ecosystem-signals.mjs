@@ -59,6 +59,8 @@ export function parseGuiGitHubReleaseDownloads(releases, artifact, audit, observ
   const parsed = parseGitHubReleaseDownloads(releases, {
     harnessId: artifact.guiId,
     includePatterns: artifact.includePatterns,
+    includeTagPatterns: artifact.includeTagPatterns,
+    includeNamePatterns: artifact.includeNamePatterns,
     artifactScope: artifact.artifactScope,
   }, {
     harnessId: audit.guiId,
