@@ -836,10 +836,10 @@ describe("harness evidence ledger", () => {
     const urls = grokBuild.evidence.map((source) => source.url);
     const caveats = grokBuild.tradeoffs.join(" ");
 
-    expect(grokBuild.verifiedAt).toBe("2026-08-02");
+    expect(grokBuild.verifiedAt).toBe("2026-08-05");
     expect(grokBuild.evidence).toHaveLength(24);
-    expect(grokBuild.evidence.find((source) => source.title === "Grok Build changelog")?.verifiedAt).toBe("2026-08-02");
-    expect(grokBuild.evidence.find((source) => source.url.includes("/tree/b41c75a"))?.verifiedAt).toBe("2026-07-30");
+    expect(grokBuild.evidence.find((source) => source.title === "Grok Build changelog")?.verifiedAt).toBe("2026-08-05");
+    expect(grokBuild.evidence.find((source) => source.url.includes("/tree/a5589e"))?.verifiedAt).toBe("2026-08-05");
     expect(grokBuild.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([
@@ -850,9 +850,9 @@ describe("harness evidence ledger", () => {
       "https://docs.x.ai/build/settings",
       "https://docs.x.ai/build/cli/reference",
       "https://docs.x.ai/build/enterprise",
-      "https://github.com/xai-org/grok-build/tree/b41c75a578f98bddbd326ab02cd53618451d97ee",
+      "https://github.com/xai-org/grok-build/tree/a5589e958437d79e13db026eedcb1720bffd4063",
     ]));
-    expect(grokBuild.evidence.find((source) => source.title === "Grok Build changelog")?.covers).toContain("0.2.117");
+    expect(grokBuild.evidence.find((source) => source.title === "Grok Build changelog")?.covers).toContain("0.2.120");
     expect(caveats).toContain("OS sandbox is off by default");
     expect(caveats).toContain("Browser review is supplied through plugins or MCP");
     expect(caveats).toContain("model branding, not evidence of harness quality");

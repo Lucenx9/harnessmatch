@@ -1,7 +1,8 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-30";
-const releaseVerifiedAt = "2026-08-02";
+const releaseVerifiedAt = "2026-08-05";
+const sourceAuditVerifiedAt = "2026-08-05";
 
 export const grokBuild = {
     id: "grok-build",
@@ -184,41 +185,41 @@ export const grokBuild = {
         title: "Grok Build changelog",
         topic: "releases-code-audit",
         url: "https://x.ai/build/changelog",
-        covers: "Beta status and current 0.2.117 release, including background-subagent termination, ACP task fixes, and custom TLS-root support",
+        covers: "Beta status and current 0.2.120 release, including initial-session model-picker feedback and lower ACP background-task memory use",
         kind: "official-announcement",
         verifiedAt: releaseVerifiedAt,
       },
       {
         title: "Grok Build repository",
         topic: "releases-code-audit",
-        url: "https://github.com/xai-org/grok-build/tree/b41c75a578f98bddbd326ab02cd53618451d97ee",
+        url: "https://github.com/xai-org/grok-build/tree/a5589e958437d79e13db026eedcb1720bffd4063",
         covers: "Pinned public source sync, runtime, tests, session architecture, sync policy, and license",
         kind: "official-repository",
-        verifiedAt: verifiedAt,
+        verifiedAt: sourceAuditVerifiedAt,
       },
       {
         title: "Session and rewind guide",
         topic: "orchestration-state",
-        url: "https://github.com/xai-org/grok-build/blob/b41c75a578f98bddbd326ab02cd53618451d97ee/crates/codegen/xai-grok-pager/docs/user-guide/17-sessions.md",
+        url: "https://github.com/xai-org/grok-build/blob/a5589e958437d79e13db026eedcb1720bffd4063/crates/codegen/xai-grok-pager/docs/user-guide/17-sessions.md",
         covers: "Local session storage, resume, fork, rewind, compaction checkpoints, and recovery boundaries",
         kind: "official-repository",
-        verifiedAt: verifiedAt,
+        verifiedAt: sourceAuditVerifiedAt,
       },
       {
         title: "Memory guide",
         topic: "orchestration-state",
-        url: "https://github.com/xai-org/grok-build/blob/b41c75a578f98bddbd326ab02cd53618451d97ee/crates/codegen/xai-grok-pager/docs/user-guide/13-memory.md",
+        url: "https://github.com/xai-org/grok-build/blob/a5589e958437d79e13db026eedcb1720bffd4063/crates/codegen/xai-grok-pager/docs/user-guide/13-memory.md",
         covers: "Optional cross-session memory, default state, storage, retrieval, and lifecycle",
         kind: "official-repository",
-        verifiedAt: verifiedAt,
+        verifiedAt: sourceAuditVerifiedAt,
       },
       {
         title: "Monitoring and OpenTelemetry guide",
         topic: "enterprise-operations",
-        url: "https://github.com/xai-org/grok-build/blob/b41c75a578f98bddbd326ab02cd53618451d97ee/crates/codegen/xai-grok-pager/docs/user-guide/24-monitoring-usage.md",
+        url: "https://github.com/xai-org/grok-build/blob/a5589e958437d79e13db026eedcb1720bffd4063/crates/codegen/xai-grok-pager/docs/user-guide/24-monitoring-usage.md",
         covers: "Pinned session telemetry, OpenTelemetry configuration, local defaults, exported signals, and operational privacy boundaries",
         kind: "official-repository",
-        verifiedAt: verifiedAt,
+        verifiedAt: sourceAuditVerifiedAt,
       },
       {
         title: "MCP servers",
