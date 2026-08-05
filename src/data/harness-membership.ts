@@ -87,6 +87,12 @@ const membershipDefinitions: Record<string, MembershipDefinition> = {
     activeContextManagement: "Modes and commands",
     runtimeControl: "Permissions",
   }),
+  "muse-code": documentedCodingHarness({
+    adaptiveLoop: "Working with the agent",
+    environmentMutation: "Muse Code overview",
+    activeContextManagement: ["Working with the agent", "Configuration and context"],
+    runtimeControl: "Permissions and safety",
+  }),
   aider: documentedCodingHarness({
     adaptiveLoop: "Aider documentation",
     environmentMutation: "Options reference",

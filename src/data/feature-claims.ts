@@ -184,6 +184,18 @@ const featureClaimSeedsByHarness = {
     ),
     checkpoints: documented("Modes and commands", "Session and rewind guide"),
   },
+  "muse-code": {
+    mcp: documented("Extending and automating"),
+    skills: documented("Extending and automating"),
+    subagents: documented("Extending and automating"),
+    headless: documented("Muse Code overview", "Extending and automating"),
+    sandbox: configuredClaim(
+      "default",
+      ["Permissions and safety"],
+      "Default OS-enforced shell sandbox with workspace-confined file tools and configurable network access",
+      "MCP tools are outside the OS sandbox, hooks bypass both sandbox and approval, and explicit flags can disable the guardrails.",
+    ),
+  },
   aider: {
     localModels: documented("Model connections", "Local models with Ollama"),
     headless: documented("Options reference", "Scripting Aider"),

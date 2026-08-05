@@ -124,6 +124,7 @@ describe("feature claim ledger", () => {
     const byId = new Map(harnesses.map((harness) => [harness.id, harness]));
     expect(featureClaimFor(byId.get("claude-code")!, "sandbox").state).toBe("optional");
     expect(featureClaimFor(byId.get("codex")!, "sandbox").state).toBe("default");
+    expect(featureClaimFor(byId.get("muse-code")!, "sandbox").state).toBe("default");
     expect(featureClaimFor(byId.get("amp")!, "sandbox").state).toBe("surface-specific");
     expect(featureClaimFor(byId.get("reasonix")!, "sandbox").state).toBe("surface-specific");
     expect(featureClaimFor(byId.get("codewhale")!, "sandbox").state).toBe("optional");

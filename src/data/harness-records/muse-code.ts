@@ -1,0 +1,113 @@
+import type { HarnessRecord } from "./types";
+
+const verifiedAt = "2026-08-05";
+
+export const museCode = {
+  id: "muse-code",
+  slug: "muse-code",
+  name: "Muse Code",
+  tagline: "Meta's sandbox-first terminal agent with goals, memory, and multi-agent workflows.",
+  summary:
+    "Meta's terminal and CI coding agent with repository tools, default-on approvals and OS sandboxing, persistent memory, compaction, resumable sessions, goals, subagents, skills, hooks, and MCP.",
+  logo: {
+    src: "/harnesses/muse-code.ico",
+    sourceUrl: "https://static.xx.fbcdn.net/rsrc.php/y5/r/m4nf26cLQxS.ico",
+    verifiedAt,
+  },
+  status: "active",
+  license: "Proprietary native binary",
+  classification: {
+    role: "coding-agent",
+    orchestration: "multi-agent-runtime",
+    runtime: "sandbox-first",
+    isolation: ["os-sandbox", "worktree"],
+    state: "persistent-memory",
+  },
+  interfaces: ["terminal", "automation"],
+  providerStyle: "single-vendor",
+  supportsSubscription: false,
+  supportsEnterpriseAccess: true,
+  capabilities: {
+    simplicity: 5,
+    flexibility: 3,
+    security: 5,
+    autonomy: 5,
+    automation: 5,
+    largeRepo: 4,
+    humanControl: 4,
+  },
+  bestFor: [
+    "Meta Model API users who want a Muse Spark agent for terminal and CI work",
+    "Long tasks using goals, compaction, persistent memory, and resumable sessions",
+    "Parallel workflows with subagents, observer agents, worktrees, skills, hooks, and MCP",
+  ],
+  tradeoffs: [
+    "The beta ships as a proprietary binary, so evidence is documentation-verifiable without a public implementation audit",
+    "The Meta and Muse Spark path uses usage-based billing; model performance and benchmark results do not establish harness quality, and no built-in browser or non-Meta provider is documented",
+    "Default on-request approval passes commands outside a small dangerous set and relies on the sandbox; --yolo disables both controls and trusts repository instructions",
+    "MCP tools run outside the filesystem and network sandbox, while hooks bypass both sandbox and approval",
+    "Worktree isolation is opt-in and falls back to a shared workspace outside Git; it does not contain processes or external effects",
+    "Resume does not de-duplicate interrupted effects and no file checkpoint or rollback mechanism is documented; committed memory is injected before workspace trust",
+  ],
+  setup:
+    "Install `muse`, authenticate with Meta, review workspace trust and approvals, and keep the sandbox enabled outside an isolated environment.",
+  verifiedAt,
+  evidence: [
+    {
+      title: "Muse Code product page",
+      topic: "product-surfaces",
+      url: "https://developer.meta.com/ai/products/muse-code/",
+      covers: "Beta identity, terminal install, coding-agent scope, and coordinated agents",
+      kind: "official-announcement",
+      verifiedAt,
+    },
+    {
+      title: "Muse Code overview",
+      topic: "product-surfaces",
+      url: "https://dev.meta.ai/docs/muse-code",
+      covers: "Install, planning, edits, commands, terminal and headless modes, and model boundary",
+      kind: "official-docs",
+      verifiedAt,
+    },
+    {
+      title: "Permissions and safety",
+      topic: "execution-control",
+      url: "https://dev.meta.ai/docs/muse-code/permissions",
+      covers: "Approval policy, OS sandbox, shell review, trust, network, and bypass controls",
+      kind: "official-docs",
+      verifiedAt,
+    },
+    {
+      title: "Working with the agent",
+      topic: "orchestration-state",
+      url: "https://dev.meta.ai/docs/muse-code/interactive",
+      covers: "Agent loop, steering, sessions, compaction, goals, tasks, event logs, and resume",
+      kind: "official-docs",
+      verifiedAt,
+    },
+    {
+      title: "Configuration and context",
+      topic: "orchestration-state",
+      url: "https://dev.meta.ai/docs/muse-code/configuration",
+      covers: "Settings, repository instructions, model controls, limits, and persistent memory",
+      kind: "official-docs",
+      verifiedAt,
+    },
+    {
+      title: "Extending and automating",
+      topic: "automation-extensions",
+      url: "https://dev.meta.ai/docs/muse-code/extending",
+      covers: "Subagents, worktrees, observers, skills, hooks, MCP, CI, limits, and export",
+      kind: "official-docs",
+      verifiedAt,
+    },
+    {
+      title: "Authentication and billing",
+      topic: "enterprise-operations",
+      url: "https://dev.meta.ai/docs/muse-code/auth",
+      covers: "Browser and API-key login, managed accounts, CI credentials, and billing",
+      kind: "official-docs",
+      verifiedAt,
+    },
+  ],
+} satisfies HarnessRecord;

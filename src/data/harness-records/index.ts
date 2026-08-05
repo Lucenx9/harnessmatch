@@ -4,6 +4,7 @@ import { opencode } from "./opencode";
 import { pi } from "./pi";
 import { omp } from "./omp";
 import { grokBuild } from "./grok-build";
+import { museCode } from "./muse-code";
 import { aider } from "./aider";
 import { openhands } from "./openhands";
 import { goose } from "./goose";
@@ -56,6 +57,7 @@ export const harnessRecords: HarnessRecord[] = [
   pi,
   omp,
   grokBuild,
+  museCode,
   aider,
   openhands,
   goose,

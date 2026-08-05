@@ -60,6 +60,7 @@ describe("harness classification", () => {
       "codex",
       "omp",
       "grok-build",
+      "muse-code",
       "openhands",
       "gemini-cli",
       "copilot-cli",

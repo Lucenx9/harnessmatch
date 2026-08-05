@@ -12,6 +12,7 @@ const firstPartyHosts: Record<string, string[]> = {
   pi: ["github.com", "pi.dev"],
   omp: ["github.com", "omp.sh"],
   "grok-build": ["docs.x.ai", "github.com", "x.ai"],
+  "muse-code": ["dev.meta.ai", "developer.meta.com"],
   aider: ["aider.chat", "github.com"],
   openhands: ["docs.openhands.dev", "github.com"],
   goose: ["goose-docs.ai", "github.com"],
@@ -64,6 +65,7 @@ const firstPartyLogoHosts: Record<string, string> = {
   pi: "pi.dev",
   omp: "omp.sh",
   "grok-build": "media.x.ai",
+  "muse-code": "static.xx.fbcdn.net",
   aider: "aider.chat",
   openhands: "github.com",
   goose: "github.com",
@@ -153,6 +155,23 @@ describe("harness evidence ledger", () => {
     expect(featureSupportFor(byId.get("grok-build")).checkpoints).toBe(true);
     expect(byId.get("grok-build")?.classification).toMatchObject({
       isolation: expect.arrayContaining(["os-sandbox", "worktree"]),
+      state: "persistent-memory",
+    });
+    expect(featureSupportFor(byId.get("muse-code"))).toMatchObject({
+      mcp: true,
+      skills: true,
+      localModels: false,
+      subagents: true,
+      headless: true,
+      browser: false,
+      sandbox: true,
+      checkpoints: false,
+    });
+    expect(byId.get("muse-code")?.classification).toEqual({
+      role: "coding-agent",
+      orchestration: "multi-agent-runtime",
+      runtime: "sandbox-first",
+      isolation: ["os-sandbox", "worktree"],
       state: "persistent-memory",
     });
     expect(byId.get("aider")?.supportsSubscription).toBe(true);
@@ -404,6 +423,42 @@ describe("harness evidence ledger", () => {
     expect(urls.some((url) => url.includes("openrouter.ai"))).toBe(false);
     expect(caveats).toContain("no built-in process sandbox");
     expect(caveats).toContain("untracked files larger than 2 MiB");
+  });
+
+  it("adds Muse Code from first-party Meta evidence without transferring Muse Spark model claims", () => {
+    const muse = harnesses.find((harness) => harness.id === "muse-code")!;
+    const urls = muse.evidence.map((source) => source.url);
+    const caveats = muse.tradeoffs.join(" ");
+
+    expect(muse.status).toBe("active");
+    expect(muse.verifiedAt).toBe("2026-08-05");
+    expect(muse.license).toBe("Proprietary native binary");
+    expect(muse.evidence).toHaveLength(7);
+    expect(muse.evidence.every((source) => source.verifiedAt === muse.verifiedAt)).toBe(true);
+    expect(new Set(urls).size).toBe(urls.length);
+    expect(urls).toEqual(expect.arrayContaining([
+      "https://developer.meta.com/ai/products/muse-code/",
+      "https://dev.meta.ai/docs/muse-code",
+      "https://dev.meta.ai/docs/muse-code/permissions",
+      "https://dev.meta.ai/docs/muse-code/interactive",
+      "https://dev.meta.ai/docs/muse-code/configuration",
+      "https://dev.meta.ai/docs/muse-code/extending",
+    ]));
+    expect(muse.providerStyle).toBe("single-vendor");
+    expect(muse.supportsSubscription).toBe(false);
+    expect(muse.supportsEnterpriseAccess).toBe(true);
+    expect(caveats).toContain("model performance and benchmark results do not establish harness quality");
+    expect(caveats).toContain("MCP tools run outside the filesystem and network sandbox");
+    expect(caveats).toContain("no file checkpoint or rollback mechanism is documented");
+    expect(muse.capabilities).toEqual({
+      simplicity: 5,
+      flexibility: 3,
+      security: 5,
+      autonomy: 5,
+      automation: 5,
+      largeRepo: 4,
+      humanControl: 4,
+    });
   });
 
   it("adds Ante from first-party evidence while preserving its alpha and private-core limits", () => {

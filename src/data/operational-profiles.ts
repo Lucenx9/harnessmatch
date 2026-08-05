@@ -136,6 +136,17 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
     "Optional cross-session memory and rewind checkpoints are available; external OpenTelemetry is opt-in and session artifacts remain local by default. The OS sandbox is off by default and macOS child-network enforcement is incomplete, while recovery cannot undo external side effects.",
     sourceAuditAt,
   ),
+  "muse-code": record(
+    { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },
+    [
+      "https://dev.meta.ai/docs/muse-code/permissions",
+      "https://dev.meta.ai/docs/muse-code/interactive",
+      "https://dev.meta.ai/docs/muse-code/configuration",
+      "https://dev.meta.ai/docs/muse-code/extending",
+    ],
+    "Muse Code persists scoped memory, compacts context, records append-only model, tool, result, and approval events, and can resume or export sessions. Default-on policy and OS sandbox controls are strong for shell execution, but hooks bypass both layers, MCP remains outside containment, and explicit flags can disable the guardrails. Verification observers and tool-driven checks aid review without independently proving task success; session replay does not restore files or de-duplicate interrupted external effects.",
+    "2026-08-05",
+  ),
   aider: record(
     { context: "managed", permissions: "approval", verification: "tool-assisted", observability: "session", recovery: "checkpoint" },
     [

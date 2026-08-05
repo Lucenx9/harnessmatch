@@ -7,6 +7,7 @@ import {
   harnessRoleLabels,
   productLayerLabels,
 } from "@/lib/harness-labels";
+import { matchesCompactSearchTerms } from "@/lib/search";
 import type {
   Harness,
   HarnessLogo as HarnessLogoData,
@@ -64,7 +65,12 @@ export function EvidenceLedger({ records }: { records: EvidenceLedgerRecord[] })
       harnessRoleLabels[record.role],
       record.searchText,
     ];
-    return matchesStatus && (!deferredQuery || searchable.some((value) => value.toLowerCase().includes(deferredQuery)));
+    const matchesRawQuery = searchable.some((value) => value.toLowerCase().includes(deferredQuery));
+    return matchesStatus && (
+      !deferredQuery
+      || matchesRawQuery
+      || matchesCompactSearchTerms(searchable, deferredQuery)
+    );
   }), [deferredQuery, records, status]);
 
   useEffect(() => {

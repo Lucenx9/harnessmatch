@@ -50,14 +50,14 @@ export default function DataPage() {
     verifiedAt: harness.verifiedAt,
     primarySourceCount: harness.evidence.length,
     discoverySourceCount: harness.discovery?.length ?? 0,
-    searchText: [
+    searchText: compactSearchTerms([
       harness.classification.orchestration,
       harness.classification.runtime,
       ...harness.classification.isolation,
       harness.classification.state,
       ...harness.evidence.flatMap((source) => [source.title, source.covers]),
       ...(harness.discovery?.flatMap((source) => [source.title, source.note]) ?? []),
-    ].join(" "),
+    ]),
   }));
   const guiLedgerRecords: GuiEvidenceLedgerRecord[] = guiProducts.map((product) => {
     const audit = guiAuditById.get(product.id);
