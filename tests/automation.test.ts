@@ -64,6 +64,10 @@ describe("daily usage automation", () => {
     );
     expect(spotlightWorkflow).toContain('cron: "17 5 1 * *"');
     expect(spotlightWorkflow).toContain("npm run check:spotlight");
+    expect(spotlightWorkflow).toContain("issues: write");
+    expect(spotlightWorkflow).toMatch(
+      /if: failure\(\) && steps\.spotlight\.conclusion == 'failure'[\s\S]*?run: node scripts\/report-stale-spotlight\.mjs/,
+    );
   });
 
   it("pins workflow actions and limits credential exposure", () => {
