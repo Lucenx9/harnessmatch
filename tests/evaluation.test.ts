@@ -68,6 +68,17 @@ describe("multi-axis evidence evaluation", () => {
     }
   });
 
+  it("keeps Pi's comparative eval package separate from benchmark evidence", () => {
+    const audit = repositoryAudits.find((item) => item.harnessId === "pi")!;
+
+    expect(audit.inspectedRef).toBe("588915ec71714688cee8b7153339e8bdebb3e82e");
+    expect(audit.verifiedAt).toBe("2026-08-05");
+    expect(audit.signals.evaluationAssets).toBe(true);
+    expect(audit.limitation).toContain("465 test-like paths");
+    expect(audit.limitation).toContain("behavioral and comparative eval package");
+    expect(benchmarkRuns.some((run) => run.harnessId === "pi")).toBe(false);
+  });
+
   it("keeps the new source-audit wave pinned and does not invent a public PostQode repository", () => {
     const audits = new Map(repositoryAudits.map((audit) => [audit.harnessId, audit]));
     expect(audits.get("wakil")?.inspectedRef).toBe("25ff56085007d8e8bdbc4d2f8c74ee4f994a0ed9");

@@ -1,6 +1,6 @@
 import type { HarnessRecord } from "./types";
 
-const verifiedAt = "2026-07-27";
+const verifiedAt = "2026-08-05";
 
 export const pi = {
     id: "pi",
@@ -45,22 +45,22 @@ export const pi = {
       "Subagents, MCP, browser automation, file checkpoints, plan mode, and sandboxing are extension or external-container patterns rather than core capabilities",
       "Session JSONL, resume, tree branching, and compaction recover conversation state but do not roll back files, processes, or external side effects",
       "The minimal core shifts safety, orchestration, and integration work to the user; third-party extensions execute code and must be audited separately",
-      "Project-owned behavioral eval assets are useful for development but are not an independent product benchmark and no score is imported",
+      "Project-owned behavioral and comparative eval assets are useful for development but are not an independent product benchmark and no score is imported",
     ],
     setup: "Install `@earendil-works/pi-coding-agent`, connect a provider or local endpoint, then add only the extensions your workflow needs.",
     verifiedAt: verifiedAt,
     evidence: [
       {
         title: "Pi Agent Harness repository",
-        url: "https://github.com/earendil-works/pi/tree/b4f293684bba718d59cc1157679bcf6157b3a7f5",
-        covers: "Pinned 0.82.1 source, minimal core, package layout, test assets, license, and security posture",
+        url: "https://github.com/earendil-works/pi/tree/845d6ff1f6643aba440341cce877ce1c43ebbc39",
+        covers: "Pinned 0.83.0 source, minimal core, package layout, test and eval assets, license, and security posture",
         kind: "official-repository",
         verifiedAt: verifiedAt,
       },
       {
-        title: "Pi 0.82.1 release",
-        url: "https://github.com/earendil-works/pi/releases/tag/v0.82.1",
-        covers: "Verified 0.82.1 package and distribution artifacts; current stable version is sourced from the generated release feed",
+        title: "Pi 0.83.0 release",
+        url: "https://github.com/earendil-works/pi/releases/tag/v0.83.0",
+        covers: "Verified 0.83.0 package and distribution artifacts; current stable version is sourced from the generated release feed",
         kind: "official-announcement",
         verifiedAt: verifiedAt,
       },
@@ -178,8 +178,8 @@ export const pi = {
       },
       {
         title: "Pi evaluation package",
-        url: "https://github.com/earendil-works/pi/tree/b4f293684bba718d59cc1157679bcf6157b3a7f5/packages/evals",
-        covers: "Project-owned behavioral evaluation harness, provider selection, and non-independent scope",
+        url: "https://github.com/earendil-works/pi/tree/588915ec71714688cee8b7153339e8bdebb3e82e/packages/evals",
+        covers: "Current project-owned behavioral and comparative evaluation harness, provider and model selection, local run artifacts, and non-independent scope",
         kind: "official-repository",
         verifiedAt: verifiedAt,
       },

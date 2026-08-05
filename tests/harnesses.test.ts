@@ -703,7 +703,7 @@ describe("harness evidence ledger", () => {
     const urls = pi.evidence.map((source) => source.url);
     const caveats = pi.tradeoffs.join(" ");
 
-    expect(pi.verifiedAt).toBe("2026-07-27");
+    expect(pi.verifiedAt).toBe("2026-08-05");
     expect(pi.evidence.length).toBeGreaterThanOrEqual(18);
     expect(pi.evidence.every((source) => source.verifiedAt === pi.verifiedAt)).toBe(true);
     expect(featureSupportFor(pi)).toMatchObject({ mcp: false, subagents: false, browser: false, sandbox: false, checkpoints: false });
@@ -712,12 +712,13 @@ describe("harness evidence ledger", () => {
       "https://pi.dev/docs/latest/sessions",
       "https://pi.dev/docs/latest/rpc",
       "https://pi.dev/docs/latest/sdk",
-      "https://github.com/earendil-works/pi/tree/b4f293684bba718d59cc1157679bcf6157b3a7f5/packages/evals",
+      "https://github.com/earendil-works/pi/tree/588915ec71714688cee8b7153339e8bdebb3e82e/packages/evals",
     ]));
-    expect(pi.evidence.find((source) => source.title === "Pi 0.82.1 release")?.covers)
+    expect(pi.evidence.find((source) => source.title === "Pi 0.83.0 release")?.covers)
       .toContain("current stable version is sourced from the generated release feed");
     expect(caveats).toContain("project trust only gates project extensions");
     expect(caveats).toContain("do not roll back files");
+    expect(caveats).toContain("behavioral and comparative eval assets");
     expect(caveats).toContain("not an independent product benchmark");
   });
 

@@ -8,6 +8,7 @@ const copilotReleaseReviewAt = "2026-08-04";
 const latestReleaseReviewAt = "2026-08-02";
 const ggcodeReleaseReviewAt = "2026-08-04";
 const reasonixReleaseReviewAt = "2026-08-04";
+const piSourceReviewAt = "2026-08-05";
 const defaultLimitation =
   "Documentation-derived posture. It describes exposed harness mechanisms, not task success or model capability.";
 
@@ -83,6 +84,7 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
     { context: "managed", permissions: "host", verification: "manual", observability: "session", recovery: "session-resume" },
     ["https://pi.dev/docs/latest/security", "https://pi.dev/docs/latest/sessions", "https://pi.dev/docs/latest/compaction", "https://pi.dev/docs/latest/json"],
     "Pi manages conversation trees and compaction but intentionally provides no permission gate or sandbox. JSON events and session files support inspection, while recovery resumes or branches transcript state rather than restoring files or external side effects.",
+    piSourceReviewAt,
   ),
   omp: record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "session-resume" },
