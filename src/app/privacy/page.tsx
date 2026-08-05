@@ -1,4 +1,3 @@
-import "../styles/profiles.css";
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/site";
 

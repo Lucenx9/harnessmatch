@@ -1,4 +1,3 @@
-import "../styles/profiles.css";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { EvidenceRankingExplorer } from "@/components/evidence-ranking-explorer";
