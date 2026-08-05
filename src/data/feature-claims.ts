@@ -186,12 +186,12 @@ const featureClaimSeedsByHarness = {
   },
   "muse-code": {
     mcp: documented("Extending and automating"),
-    skills: documented("Extending and automating"),
-    subagents: documented("Extending and automating"),
+    skills: documented("Extending and automating", "Bundled skills"),
+    subagents: documented("Extending and automating", "Subagent fanout"),
     headless: documented("Muse Code overview", "Extending and automating"),
     sandbox: configuredClaim(
       "default",
-      ["Permissions and safety"],
+      ["Permissions and safety", "Staged approvals", "Contained execution", "Immutable guardrails"],
       "Default OS-enforced shell sandbox with workspace-confined file tools and configurable network access",
       "MCP tools are outside the OS sandbox, hooks bypass both sandbox and approval, and explicit flags can disable the guardrails.",
     ),

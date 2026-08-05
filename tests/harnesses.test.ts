@@ -433,7 +433,7 @@ describe("harness evidence ledger", () => {
     expect(muse.status).toBe("active");
     expect(muse.verifiedAt).toBe("2026-08-05");
     expect(muse.license).toBe("Proprietary native binary");
-    expect(muse.evidence).toHaveLength(7);
+    expect(muse.evidence).toHaveLength(17);
     expect(muse.evidence.every((source) => source.verifiedAt === muse.verifiedAt)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([
@@ -443,6 +443,16 @@ describe("harness evidence ledger", () => {
       "https://dev.meta.ai/docs/muse-code/interactive",
       "https://dev.meta.ai/docs/muse-code/configuration",
       "https://dev.meta.ai/docs/muse-code/extending",
+      "https://dev.meta.ai/docs/cookbook/audit-agent-sessions",
+      "https://dev.meta.ai/docs/cookbook/deterministic-replay",
+      "https://dev.meta.ai/docs/cookbook/staged-approvals",
+      "https://dev.meta.ai/docs/cookbook/contained-execution",
+      "https://dev.meta.ai/docs/cookbook/immutable-guardrails",
+      "https://dev.meta.ai/docs/cookbook/subagent-fanout",
+      "https://dev.meta.ai/docs/cookbook/goal-tracking",
+      "https://dev.meta.ai/docs/cookbook/bundled-skills",
+      "https://dev.meta.ai/docs/cookbook/loop-and-cron",
+      "https://dev.meta.ai/docs/cookbook/side-chats",
     ]));
     expect(muse.providerStyle).toBe("single-vendor");
     expect(muse.supportsSubscription).toBe(false);
