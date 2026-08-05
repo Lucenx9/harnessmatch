@@ -1,4 +1,4 @@
-import { readdir, stat } from "node:fs/promises";
+import { readFile, readdir, stat } from "node:fs/promises";
 import { extname, join } from "node:path";
 
 const pageBudgets = [
@@ -27,6 +27,25 @@ async function largestAsset({ directory, extension }) {
   return candidates.sort((left, right) => right.bytes - left.bytes).at(0);
 }
 
+async function assertNotFoundResponsiveStyles(pagePath) {
+  const html = await readFile(pagePath, "utf8");
+  const stylesheetPaths = [...html.matchAll(/href="([^"?]+\.css)(?:\?[^"]*)?"/g)]
+    .map((match) => match[1])
+    .filter(Boolean)
+    .map((href) => join("out", href.replace(/^\//, "")));
+  if (stylesheetPaths.length === 0) throw new Error(`${pagePath} does not load a stylesheet.`);
+
+  const css = (await Promise.all(stylesheetPaths.map((path) => readFile(path, "utf8")))).join("\n")
+    .replace(/\s+/g, "");
+  const hasMobileHeaderContract = css.includes("@media(max-width:900px)")
+    && /\.desktop-nav\{[^}]*display:none/.test(css)
+    && /\.mobile-menu\{[^}]*display:block/.test(css);
+  if (!hasMobileHeaderContract) {
+    throw new Error(`${pagePath} is missing the responsive header contract.`);
+  }
+  console.log(`PASS ${pagePath}: responsive header styles are loaded`);
+}
+
 const measurements = await Promise.all(pageBudgets.map(async (budget) => ({
   ...budget,
   bytes: (await stat(budget.path)).size,
@@ -44,6 +63,11 @@ for (const measurement of measurements) {
   exceeded ||= !passes;
   console.log(`${passes ? "PASS" : "FAIL"} ${measurement.path}: ${formatBytes(measurement.bytes)} / ${formatBytes(measurement.maximumBytes)}`);
 }
+
+await Promise.all([
+  assertNotFoundResponsiveStyles("out/404.html"),
+  assertNotFoundResponsiveStyles("out/_not-found.html"),
+]);
 
 if (exceeded) {
   throw new Error("Static output exceeded its review budget. Inspect serialization or client bundling before raising a limit.");

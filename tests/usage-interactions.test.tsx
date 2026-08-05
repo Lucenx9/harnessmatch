@@ -307,6 +307,8 @@ describe("usage component interactions", () => {
       expect(window.location.search).toBe("?mode=compare&ids=codex%2Caider&source=github");
     });
     expect(view.getByText("Forks / scope")).toBeDefined();
+    expect(view.getByText(/Rank scope: Rank among mapped HarnessMatch products\./)).toBeDefined();
+    expect(view.queryByText(/global source rank/i)).toBeNull();
     expect(view.getAllByText(/repository/).length).toBeGreaterThan(0);
   });
 

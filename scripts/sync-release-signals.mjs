@@ -7,7 +7,8 @@ import { fetchJsonWithRetry as fetchJsonResponseWithRetry } from "./lib/fetch-wi
 import { githubReleaseWatches } from "./lib/release-watch-mappings.mjs";
 import {
   buildHarnessReleaseSnapshot,
-  recentReleaseWindowDays,
+  githubReleasePageSize,
+  releaseHistoryPageNeedsNextPage,
   renderHarnessReleaseSnapshots,
 } from "./lib/release-signals.mjs";
 
@@ -16,9 +17,6 @@ const projectRoot = process.cwd();
 const outputPath = resolve(projectRoot, "src/data/release-signals.json");
 const repositoryAuditPath = resolve(projectRoot, "src/data/repository-audits.ts");
 const observedAt = new Date().toISOString().slice(0, 10);
-const releaseWindowStart = new Date(
-  Date.parse(`${observedAt}T00:00:00Z`) - ((recentReleaseWindowDays - 1) * 86_400_000),
-).toISOString().slice(0, 10);
 const maximumPages = 20;
 
 async function fetchJsonWithRetry(url, init, label) {
@@ -68,16 +66,13 @@ async function fetchReleaseHistory(watch, audit, headers) {
   const releases = [];
   for (let page = 1; page <= maximumPages; page += 1) {
     const payload = await fetchJsonWithRetry(
-      `https://api.github.com/repos/${repository}/releases?per_page=100&page=${page}`,
+      `https://api.github.com/repos/${repository}/releases?per_page=${githubReleasePageSize}&page=${page}`,
       { headers },
       `GitHub release feed ${watch.harnessId} page ${page}`,
     );
     if (!Array.isArray(payload)) throw new Error(`GitHub release schema changed for ${watch.harnessId}`);
     releases.push(...payload);
-    const pageIsBeforeWindow = payload.length > 0 && payload.every((release) => (
-      typeof release?.created_at === "string" && release.created_at.slice(0, 10) < releaseWindowStart
-    ));
-    if (payload.length < 100 || pageIsBeforeWindow) return releases;
+    if (!releaseHistoryPageNeedsNextPage(payload)) return releases;
   }
   throw new Error(`GitHub release feed exceeded ${maximumPages} pages for ${watch.harnessId}`);
 }

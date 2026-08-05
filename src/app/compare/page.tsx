@@ -1,4 +1,3 @@
-import "../styles/responsive.css";
 import type { Metadata } from "next";
 import { CompareClient } from "@/components/compare-client";
 import { compareHarnessRecords } from "@/lib/compare-records";

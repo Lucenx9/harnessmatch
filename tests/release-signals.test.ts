@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { harnesses } from "../src/data/harnesses";
 import { harnessReleaseSnapshots } from "../src/data/release-signals";
 import { repositoryAudits } from "../src/data/repository-audits";
+import { releaseHistoryPageNeedsNextPage } from "../scripts/lib/release-signals.mjs";
 import { githubReleaseWatches } from "../scripts/lib/release-watch-mappings.mjs";
 
 describe("public stable release snapshots", () => {
@@ -34,5 +35,15 @@ describe("public stable release snapshots", () => {
   it("keeps OpenHands on the harness release train", () => {
     expect(harnessReleaseSnapshots.find(({ harnessId }) => harnessId === "openhands")?.latestVersion)
       .toMatch(/^\d+\.\d+\.\d+$/);
+  });
+
+  it("does not stop pagination from created-at dates when a full page may hide recent publications", () => {
+    const fullPage = Array.from({ length: 100 }, (_, index) => ({
+      created_at: `2025-01-${String((index % 28) + 1).padStart(2, "0")}T00:00:00Z`,
+      published_at: "2026-08-05T00:00:00Z",
+    }));
+
+    expect(releaseHistoryPageNeedsNextPage(fullPage)).toBe(true);
+    expect(releaseHistoryPageNeedsNextPage(fullPage.slice(0, 99))).toBe(false);
   });
 });

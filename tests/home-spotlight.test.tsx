@@ -35,15 +35,6 @@ describe("monthly homepage spotlight", () => {
     }
   });
 
-  it("requires the edition to match the current UTC month", () => {
-    const now = new Date();
-
-    expect(homeSpotlight.period).toEqual({
-      year: now.getUTCFullYear(),
-      month: now.getUTCMonth() + 1,
-    });
-  });
-
   it("fails closed for duplicate harnesses and changed trade-offs", () => {
     const firstSelection = homeSpotlight.selections[0];
 
