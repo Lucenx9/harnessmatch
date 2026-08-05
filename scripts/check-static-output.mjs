@@ -1,5 +1,6 @@
 import { readFile, readdir, stat } from "node:fs/promises";
 import { extname, join } from "node:path";
+import { hasMobileHeaderContract } from "./lib/responsive-contract.mjs";
 
 const pageBudgets = [
   { path: "out/data.html", maximumBytes: 550_000 },
@@ -35,12 +36,8 @@ async function assertNotFoundResponsiveStyles(pagePath) {
     .map((href) => join("out", href.replace(/^\//, "")));
   if (stylesheetPaths.length === 0) throw new Error(`${pagePath} does not load a stylesheet.`);
 
-  const css = (await Promise.all(stylesheetPaths.map((path) => readFile(path, "utf8")))).join("\n")
-    .replace(/\s+/g, "");
-  const hasMobileHeaderContract = css.includes("@media(max-width:900px)")
-    && /\.desktop-nav\{[^}]*display:none/.test(css)
-    && /\.mobile-menu\{[^}]*display:block/.test(css);
-  if (!hasMobileHeaderContract) {
+  const css = (await Promise.all(stylesheetPaths.map((path) => readFile(path, "utf8")))).join("\n");
+  if (!hasMobileHeaderContract(css)) {
     throw new Error(`${pagePath} is missing the responsive header contract.`);
   }
   console.log(`PASS ${pagePath}: responsive header styles are loaded`);
