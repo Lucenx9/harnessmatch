@@ -1,15 +1,21 @@
 import { appendWorkflowSummary, githubApi, requiredEnvironment } from "./lib/github-automation.mjs";
 import {
-  existingSpotlightIssue,
+  findExistingSpotlightIssue,
+  parseGitHubIssueSummary,
   spotlightAlertBody,
   spotlightIssueTitle,
+  spotlightIssuePageSize,
+  validatedGitHubRepository,
 } from "./lib/spotlight-alert.mjs";
 
-const repository = requiredEnvironment("GITHUB_REPOSITORY");
+const repository = validatedGitHubRepository(requiredEnvironment("GITHUB_REPOSITORY"));
 const message = spotlightAlertBody(requiredEnvironment("SPOTLIGHT_RUN_URL"));
 
-const openIssues = await githubApi(`/repos/${repository}/issues?state=open&per_page=100`);
-const existing = existingSpotlightIssue(openIssues);
+const existing = await findExistingSpotlightIssue((page) =>
+  githubApi(
+    `/repos/${repository}/issues?state=open&per_page=${spotlightIssuePageSize}&page=${page}`,
+  ),
+);
 
 if (existing) {
   await githubApi(`/repos/${repository}/issues/${existing.number}/comments`, {
@@ -22,5 +28,6 @@ if (existing) {
     method: "POST",
     body: { title: spotlightIssueTitle, body: message },
   });
-  appendWorkflowSummary(`Opened spotlight alert #${created.number}.`);
+  const createdIssue = parseGitHubIssueSummary(created);
+  appendWorkflowSummary(`Opened spotlight alert #${createdIssue.number}.`);
 }
