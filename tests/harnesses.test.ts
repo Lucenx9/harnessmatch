@@ -112,6 +112,20 @@ const firstPartyLogoHosts: Record<string, string> = {
 };
 
 describe("harness evidence ledger", () => {
+  it("keeps CodeWhale's TUI-only hook limitation tied to its pinned source", () => {
+    const codeWhale = harnesses.find((harness) => harness.id === "codewhale");
+    expect(codeWhale).toBeDefined();
+    if (!codeWhale) return;
+
+    const hooks = codeWhale.evidence.find((source) => source.title === "TUI lifecycle hooks");
+    expect(hooks).toMatchObject({
+      url: "https://github.com/Hmbown/CodeWhale/blob/4f2c97b0d75c039a9b6069ebcf210cc499583376/docs/HOOKS.md",
+      verifiedAt: "2026-08-05",
+    });
+    expect(hooks?.covers).toContain("codewhale exec");
+    expect(codeWhale.tradeoffs.join(" ")).toContain("TUI hooks do not fire for codewhale exec");
+  });
+
   it("keeps every capability profile backed by multiple current sources", () => {
     for (const harness of harnesses) {
       expect(harness.evidence.length).toBeGreaterThanOrEqual(2);

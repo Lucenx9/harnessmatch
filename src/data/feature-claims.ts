@@ -590,6 +590,7 @@ const featureClaimSeedsByHarness = {
     ),
   },
   kern: {
+    skills: documentedAt("2026-08-05", "Kern skills"),
     mcp: documented("Kern MCP", "Kern configuration"),
     localModels: documented("Kern overview", "Kern configuration"),
     subagents: documented("Kern tools", "Kern subagents"),

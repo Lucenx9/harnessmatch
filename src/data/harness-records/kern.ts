@@ -1,5 +1,6 @@
 import type { HarnessRecord } from "./types";
 
+const recordVerifiedAt = "2026-08-05";
 const verifiedAt = "2026-07-28";
 
 export const kern = {
@@ -48,7 +49,7 @@ export const kern = {
       "The project is young, has no repository security policy or contributor guide, and its engineering tests are not independent product evaluation",
     ],
     setup: "Install Kern from source or its documented distribution, start with read or write tool scope, configure a provider or Ollama, and use the Docker deployment when host separation is needed.",
-    verifiedAt: verifiedAt,
+    verifiedAt: recordVerifiedAt,
     evidence: [
       {
         title: "Kern overview",
@@ -98,6 +99,13 @@ export const kern = {
         covers: "Provider and Ollama routes, token budgets, tool scopes, recall, subagent model, MCP, storage, and environment variables",
         kind: "official-repository",
         verifiedAt: verifiedAt,
+      },
+      {
+        title: "Kern skills",
+        url: "https://github.com/oguzbilgic/kern-ai/blob/8f82a046833128b2bf5f67fdf85a76b35b0fe847/docs/skills.md",
+        covers: "Reusable SKILL.md packages, local and installed discovery, catalog injection, session activation, and prompt-context persistence",
+        kind: "official-repository",
+        verifiedAt: recordVerifiedAt,
       },
       {
         title: "Kern Docker deployment",

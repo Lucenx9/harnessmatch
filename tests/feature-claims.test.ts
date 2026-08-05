@@ -166,6 +166,13 @@ describe("feature claim ledger", () => {
     });
     expect(featureClaimFor(byId.get("qwen-code")!, "skills").state).toBe("optional");
     expect(featureClaimFor(byId.get("mimo-code")!, "skills").state).toBe("documented");
+    expect(featureClaimFor(byId.get("kern")!, "skills")).toMatchObject({
+      state: "documented",
+      verifiedAt: "2026-08-05",
+      sourceUrls: [
+        "https://github.com/oguzbilgic/kern-ai/blob/8f82a046833128b2bf5f67fdf85a76b35b0fe847/docs/skills.md",
+      ],
+    });
     expect(featureClaimFor(byId.get("aider")!, "skills").state).toBe("not-documented");
     expect(featureClaimFor(byId.get("factory-droid")!, "skills").state).toBe("not-documented");
   });

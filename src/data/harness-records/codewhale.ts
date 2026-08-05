@@ -1,5 +1,6 @@
 import type { HarnessRecord } from "./types";
 
+const recordVerifiedAt = "2026-08-05";
 const verifiedAt = "2026-08-02";
 const commit = "4f2c97b0d75c039a9b6069ebcf210cc499583376";
 const repositoryBase = `https://github.com/Hmbown/CodeWhale/blob/${commit}`;
@@ -51,7 +52,7 @@ export const codewhale = {
   ],
   setup:
     "Install CodeWhale 0.9.3 from npm, Cargo, or a platform archive; select a provider and model; then choose permission, sandbox, memory, hook, and fleet settings for the workflow.",
-  verifiedAt,
+  verifiedAt: recordVerifiedAt,
   evidence: [
     {
       title: "CodeWhale 0.9.3 source snapshot",
@@ -76,6 +77,14 @@ export const codewhale = {
       covers: "Mode, hook, permission, safety-floor, constitution, approval, and sandbox ordering across execution",
       kind: "official-repository",
       verifiedAt,
+    },
+    {
+      title: "TUI lifecycle hooks",
+      topic: "execution-control",
+      url: `${repositoryBase}/docs/HOOKS.md`,
+      covers: "TUI-only hook scope, lifecycle events, approval and steering behavior, trusted project hooks, and explicit exclusion for codewhale exec and other CLI subcommands",
+      kind: "official-repository",
+      verifiedAt: recordVerifiedAt,
     },
     {
       title: "Sandbox threat model",
