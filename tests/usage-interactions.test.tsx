@@ -117,13 +117,17 @@ describe("usage component interactions", () => {
   });
 
   it("distinguishes true zero values from positive origin markers", async () => {
-    const zeroRecord = usageRecords.ecosystemRecords.find(
-      (record) => record.signal.source === "github" && record.signal.value === 0,
-    );
-    const positiveRecord = usageRecords.ecosystemRecords.find(
+    const [positiveRecord, zeroBaseRecord] = usageRecords.ecosystemRecords.filter(
       (record) => record.signal.source === "github" && record.signal.value > 0,
     );
-    if (!zeroRecord || !positiveRecord) throw new Error("Expected zero and positive GitHub usage records.");
+    if (!positiveRecord || !zeroBaseRecord) throw new Error("Expected two positive GitHub usage records.");
+    const zeroRecord = {
+      ...zeroBaseRecord,
+      signal: {
+        ...zeroBaseRecord.signal,
+        value: 0,
+      },
+    };
     window.history.replaceState(null, "", "/usage?source=github");
 
     const { container } = render(
