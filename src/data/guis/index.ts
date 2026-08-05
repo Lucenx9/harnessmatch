@@ -9,6 +9,7 @@ import { codexDesktop } from "./codex-desktop";
 import { conductor } from "./conductor";
 import { emdash } from "./emdash";
 import { hapi } from "./hapi";
+import { maestro } from "./maestro";
 import { nimbalyst } from "./nimbalyst";
 import { openChamber } from "./openchamber";
 import { openHandsAgentCanvas } from "./openhands-agent-canvas";
@@ -16,6 +17,7 @@ import { qm } from "./qm";
 import { qwenCodeDesktop } from "./qwen-code-desktop";
 import { superset } from "./superset";
 import { t3Code } from "./t3-code";
+import { traycer } from "./traycer";
 import { webmux } from "./webmux";
 
 export { guiExclusions } from "./exclusions";
@@ -31,6 +33,7 @@ export const guiProducts: GuiProduct[] = [
   conductor,
   emdash,
   hapi,
+  maestro,
   nimbalyst,
   openChamber,
   openHandsAgentCanvas,
@@ -38,6 +41,7 @@ export const guiProducts: GuiProduct[] = [
   qwenCodeDesktop,
   superset,
   t3Code,
+  traycer,
   webmux,
 ];
 

@@ -33,6 +33,7 @@ const firstPartyGuiHosts: Record<string, string[]> = {
   conductor: ["www.conductor.build"],
   emdash: ["emdash.ai", "github.com"],
   hapi: ["github.com"],
+  maestro: ["docs.runmaestro.ai", "github.com"],
   nimbalyst: ["docs.nimbalyst.com", "github.com", "nimbalyst.com"],
   openchamber: ["github.com", "openchamber.dev"],
   "openhands-agent-canvas": ["docs.openhands.dev", "github.com", "www.openhands.dev"],
@@ -40,6 +41,7 @@ const firstPartyGuiHosts: Record<string, string[]> = {
   "qwen-code-desktop": ["docs.qwencloud.com", "github.com"],
   superset: ["docs.superset.sh", "github.com"],
   "t3-code": ["github.com", "t3.codes"],
+  traycer: ["docs.traycer.ai", "github.com"],
   webmux: ["github.com"],
 };
 
@@ -187,6 +189,37 @@ describe("GUI workflow classification", () => {
     for (const product of [agetor, aionUi, blackcrab, codeg, hapi, openChamber, openHands, qwenDesktop]) {
       expect(product.acceptsArbitraryCli, product.name).toBe(false);
     }
+  });
+
+  it("keeps Maestro and Traycer integration depth and collaboration boundaries explicit", () => {
+    const maestro = requiredGuiProduct("maestro");
+    const traycer = requiredGuiProduct("traycer");
+
+    expect(maestro.supportedHarnesses).toHaveLength(9);
+    expect(maestro.supportedHarnesses).not.toContain("Gemini CLI");
+    expect(maestro.harnessSupportNote).toContain("Gemini CLI is planned");
+    expect(maestro.acceptsArbitraryCli).toBe(false);
+    expect(maestro.capabilities.teamCollaboration.state).toBe("unknown");
+    expect(classifyGuiFit(maestro, guiWorkflowById("parallel-local")).fitBand).toBe("strong");
+    expect(classifyGuiFit(maestro, guiWorkflowById("remote-control")).fitBand).toBe("good");
+    expect(classifyGuiFit(maestro, guiWorkflowById("team-workspace")).fitBand).toBe("conditional");
+
+    expect(traycer.supportedHarnesses).toHaveLength(16);
+    expect(traycer.supportedHarnesses).toEqual(expect.arrayContaining([
+      "Claude Code",
+      "Codex",
+      "Devin",
+      "OpenCode",
+      "OpenRouter",
+      "Traycer",
+    ]));
+    expect(traycer.acceptsArbitraryCli).toBe(false);
+    expect(traycer.harnessSupportNote).toContain("terminal interface");
+    expect(Object.values(traycer.capabilities).every((claim) => claim.state === "documented")).toBe(true);
+    expect(classifyGuiFit(traycer, guiWorkflowById("team-workspace")).fitBand).toBe("strong");
+
+    expect(guiRepositoryAudits.find((audit) => audit.guiId === "maestro")?.sourceScope).toBe("full-source");
+    expect(guiRepositoryAudits.find((audit) => audit.guiId === "traycer")?.sourceScope).toBe("client-source");
   });
 
   it("keeps QM remote collaboration separate from unresolved visual review", () => {

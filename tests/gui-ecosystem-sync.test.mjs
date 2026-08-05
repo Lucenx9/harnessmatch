@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { guiGitHubReleaseArtifacts } from "../scripts/lib/gui-ecosystem-signal-mappings.mjs";
 import {
   parseGuiGitHubRepository,
   parseGuiGitHubReleaseDownloads,
@@ -109,6 +110,82 @@ describe("GUI ecosystem signal sync", () => {
       assetCount: 1,
       releaseCount: 1,
       latestVersion: "v1.0.0",
+    });
+  });
+
+  it("rejects Maestro release-candidate tags even when GitHub does not mark them prerelease", () => {
+    const mapping = guiGitHubReleaseArtifacts.find((candidate) => candidate.guiId === "maestro");
+    const audit = {
+      guiId: "maestro",
+      repositoryUrl: "https://github.com/RunMaestro/Maestro",
+      sourceScope: "full-source",
+    };
+    const signal = parseGuiGitHubReleaseDownloads([
+      {
+        tag_name: "v0.17.3",
+        published_at: "2026-08-02T10:00:00Z",
+        html_url: "https://github.com/RunMaestro/Maestro/releases/tag/v0.17.3",
+        draft: false,
+        prerelease: false,
+        assets: [
+          { id: 1, name: "maestro-0.17.3-arm64-mac.dmg", download_count: 100 },
+          { id: 2, name: "maestro-0.17.3-arm64-mac.zip", download_count: 1_000 },
+        ],
+      },
+      {
+        tag_name: "v0.15.4-RC",
+        published_at: "2026-07-25T10:00:00Z",
+        html_url: "https://github.com/RunMaestro/Maestro/releases/tag/v0.15.4-RC",
+        draft: false,
+        prerelease: false,
+        assets: [{ id: 3, name: "Maestro-0.15.4-arm64.dmg", download_count: 500 }],
+      },
+    ], mapping, audit, observedAt);
+
+    expect(signal).toMatchObject({
+      guiId: "maestro",
+      value: 100,
+      assetCount: 1,
+      releaseCount: 1,
+      latestVersion: "v0.17.3",
+    });
+  });
+
+  it("isolates Traycer desktop releases from host, CLI, and portable assets", () => {
+    const mapping = guiGitHubReleaseArtifacts.find((candidate) => candidate.guiId === "traycer");
+    const audit = {
+      guiId: "traycer",
+      repositoryUrl: "https://github.com/traycerai/traycer",
+      sourceScope: "client-source",
+    };
+    const signal = parseGuiGitHubReleaseDownloads([
+      {
+        tag_name: "desktop-v1.2.3",
+        published_at: "2026-08-03T10:00:00Z",
+        html_url: "https://github.com/traycerai/traycer/releases/tag/desktop-v1.2.3",
+        draft: false,
+        prerelease: false,
+        assets: [
+          { id: 1, name: "traycer-desktop-linux-amd64.deb", download_count: 100 },
+          { id: 2, name: "traycer-desktop-linux-x64.zip", download_count: 1_000 },
+        ],
+      },
+      {
+        tag_name: "host-v1.2.3",
+        published_at: "2026-08-04T10:00:00Z",
+        html_url: "https://github.com/traycerai/traycer/releases/tag/host-v1.2.3",
+        draft: false,
+        prerelease: false,
+        assets: [{ id: 3, name: "traycer-desktop-linux-amd64.deb", download_count: 500 }],
+      },
+    ], mapping, audit, observedAt);
+
+    expect(signal).toMatchObject({
+      guiId: "traycer",
+      value: 100,
+      assetCount: 1,
+      releaseCount: 1,
+      latestVersion: "desktop-v1.2.3",
     });
   });
 

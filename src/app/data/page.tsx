@@ -76,7 +76,7 @@ export default function DataPage() {
         ...product.platforms,
         ...product.supportedHarnesses,
         product.acceptsArbitraryCli ? "arbitrary CLI" : "named integrations",
-        ...product.evidence.flatMap((source) => [source.title, source.covers]),
+        ...product.evidence.flatMap((source) => [source.title, source.topic]),
         ...(product.preview ? [product.preview.caption, product.preview.provenance] : []),
       ].join(" "),
     };

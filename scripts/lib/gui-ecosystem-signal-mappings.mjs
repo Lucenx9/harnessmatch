@@ -2,6 +2,7 @@ export const guiHomebrewArtifacts = [
   { guiId: "aionui", artifactId: "aionui", name: "AionUi", homepage: "https://github.com/iOfficeAI/AionUi" },
   { guiId: "conductor", artifactId: "conductor", name: "Conductor", homepage: "https://conductor.build/" },
   { guiId: "emdash", artifactId: "emdash", name: "Emdash", homepage: "https://www.emdash.sh/" },
+  { guiId: "maestro", artifactId: "maestro", name: "Maestro", homepage: "https://runmaestro.ai/" },
   { guiId: "nimbalyst", artifactId: "nimbalyst", name: "Nimbalyst", homepage: "https://nimbalyst.com/" },
   { guiId: "openchamber", artifactId: "openchamber", name: "OpenChamber", homepage: "https://openchamber.dev/" },
   { guiId: "superset", artifactId: "superset", name: "Superset", homepage: "https://superset.sh/" },
@@ -46,6 +47,20 @@ export const guiGitHubReleaseArtifacts = [
     artifactScope: "Stable Emdash desktop installers",
   },
   {
+    guiId: "maestro",
+    includeTagPatterns: [String.raw`^v(?:\d+\.){2}\d+$`],
+    includePatterns: [
+      String.raw`^[Mm]aestro-(?:\d+\.){2}\d+-(?:arm64|x64)-mac\.dmg$`,
+      String.raw`^Maestro-(?:\d+\.){2}\d+(?:-arm64)?\.dmg$`,
+      String.raw`^[Mm]aestro-(?:\d+\.){2}\d+-(?:arm64|x86_64)\.AppImage$`,
+      String.raw`^Maestro-(?:\d+\.){2}\d+(?:-arm64)?\.AppImage$`,
+      String.raw`^maestro[-_](?:\d+\.){2}\d+[-_](?:amd64|arm64)\.deb$`,
+      String.raw`^maestro-(?:\d+\.){2}\d+(?:-|\.)(?:aarch64|x86_64)\.rpm$`,
+      String.raw`^Maestro-Setup-(?:\d+\.){2}\d+(?:-x64)?\.exe$`,
+    ],
+    artifactScope: "Stable Maestro desktop installers",
+  },
+  {
     guiId: "nimbalyst",
     includePatterns: [String.raw`^Nimbalyst-(?:Linux\.AppImage|macOS(?:-(?:arm64|x64))?\.dmg|Windows(?:-(?:arm64|x64))?\.exe)$`],
     artifactScope: "Stable Nimbalyst desktop installers",
@@ -76,5 +91,13 @@ export const guiGitHubReleaseArtifacts = [
     guiId: "t3-code",
     includePatterns: [String.raw`^T3-Code-(?:\d+\.){2}\d+-(?:arm64|x64)\.(?:dmg|exe)$|^T3-Code-(?:\d+\.){2}\d+-x86_64\.AppImage$`],
     artifactScope: "Stable T3 Code desktop installers",
+  },
+  {
+    guiId: "traycer",
+    includeTagPatterns: [String.raw`^desktop-v(?:\d+\.){2}\d+$`],
+    includePatterns: [
+      String.raw`^traycer-desktop-(?:linux-(?:amd64\.deb|x86_64\.(?:AppImage|rpm))|macos-(?:arm64|x64)\.dmg|windows-x64\.(?:exe|msi))$`,
+    ],
+    artifactScope: "Stable Traycer desktop installers",
   },
 ];
