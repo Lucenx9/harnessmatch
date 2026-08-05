@@ -123,7 +123,7 @@ describe("GUI ecosystem signal sync", () => {
     const signal = parseGuiGitHubReleaseDownloads([
       {
         tag_name: "v0.17.3",
-        published_at: "2026-08-02T10:00:00Z",
+        published_at: "2026-07-28T10:00:00Z",
         html_url: "https://github.com/RunMaestro/Maestro/releases/tag/v0.17.3",
         draft: false,
         prerelease: false,
@@ -161,7 +161,7 @@ describe("GUI ecosystem signal sync", () => {
     const signal = parseGuiGitHubReleaseDownloads([
       {
         tag_name: "desktop-v1.2.3",
-        published_at: "2026-08-03T10:00:00Z",
+        published_at: "2026-07-28T10:00:00Z",
         html_url: "https://github.com/traycerai/traycer/releases/tag/desktop-v1.2.3",
         draft: false,
         prerelease: false,
@@ -172,7 +172,7 @@ describe("GUI ecosystem signal sync", () => {
       },
       {
         tag_name: "host-v1.2.3",
-        published_at: "2026-08-04T10:00:00Z",
+        published_at: "2026-07-27T10:00:00Z",
         html_url: "https://github.com/traycerai/traycer/releases/tag/host-v1.2.3",
         draft: false,
         prerelease: false,

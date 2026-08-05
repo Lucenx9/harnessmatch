@@ -102,7 +102,7 @@ function tokenize(value: string) {
     .filter(Boolean);
 }
 
-const compactSearchStopWords = new Set([
+const compactSearchStopWords: ReadonlySet<string> = new Set([
   "a",
   "an",
   "and",
@@ -135,6 +135,17 @@ export function compactSearchTerms(values: readonly string[]) {
       return true;
     })
     .join(" ");
+}
+
+/**
+ * Matches normalized query words independently so punctuation and discarded
+ * stop words cannot make compacted Server-to-Client search text unreachable.
+ */
+export function matchesCompactSearchTerms(values: readonly string[], query: string) {
+  const queryTerms = compactSearchTerms([query]).split(" ").filter(Boolean);
+  if (queryTerms.length === 0) return false;
+  const searchableTerms = new Set(compactSearchTerms(values).split(" "));
+  return queryTerms.every((term) => searchableTerms.has(term));
 }
 
 type IndexedField = {

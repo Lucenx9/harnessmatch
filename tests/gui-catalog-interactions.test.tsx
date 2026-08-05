@@ -13,6 +13,7 @@ import {
 } from "../src/components/gui-evidence-ledger";
 import { GuiProductPreview } from "../src/components/gui-product-preview";
 import type { GuiPreview } from "../src/lib/gui-types";
+import { compactSearchTerms } from "../src/lib/search";
 
 const logo = {
   src: "/guis/fixture.svg",
@@ -98,6 +99,29 @@ describe("GUI catalog interactions", () => {
     fireEvent.click(screen.getByRole("button", { name: "Clear filters" }));
     expect(screen.getByText("Native Fixture")).toBeDefined();
     expect(screen.getByText("Workspace Fixture")).toBeDefined();
+  });
+
+  it("matches compacted evidence across stop words and punctuation", () => {
+    const baseRecord = records[0];
+    if (!baseRecord) throw new Error("Expected GUI ledger fixture");
+    const compactedRecord = {
+      ...baseRecord,
+      searchText: compactSearchTerms([
+        "Remote access authentication and delivery",
+        "Agent-to-agent communication",
+      ]),
+    };
+    render(<GuiEvidenceLedger records={[compactedRecord]} />);
+
+    fireEvent.change(screen.getByLabelText("Search GUI evidence"), {
+      target: { value: "remote access and delivery" },
+    });
+    expect(screen.getByText("Native Fixture")).toBeDefined();
+
+    fireEvent.change(screen.getByLabelText("Search GUI evidence"), {
+      target: { value: "agent-to-agent" },
+    });
+    expect(screen.getByText("Native Fixture")).toBeDefined();
   });
 
   it("opens and closes an image preview dialog", () => {

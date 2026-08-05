@@ -8,6 +8,7 @@ import type {
   GuiLogo as GuiLogoData,
   GuiSourceAccess,
 } from "@/lib/gui-types";
+import { matchesCompactSearchTerms } from "@/lib/search";
 
 export type GuiEvidenceLedgerRecord = {
   id: string;
@@ -50,7 +51,12 @@ export function GuiEvidenceLedger({ records }: { records: GuiEvidenceLedgerRecor
       record.license,
       record.searchText,
     ];
-    return matchesLayer && (!deferredQuery || searchable.some((value) => value.toLowerCase().includes(deferredQuery)));
+    const matchesRawQuery = searchable.some((value) => value.toLowerCase().includes(deferredQuery));
+    return matchesLayer && (
+      !deferredQuery
+      || matchesRawQuery
+      || matchesCompactSearchTerms(searchable, deferredQuery)
+    );
   }), [deferredQuery, layer, records]);
 
   return (
