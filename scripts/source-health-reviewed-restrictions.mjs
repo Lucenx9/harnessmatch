@@ -26,6 +26,12 @@ export const reviewedSourceHealthRestrictions = [
     reason: "The OpenAI article rejected both automated HEAD and GET probes; this records the access limitation only.",
   },
   {
+    url: "https://www.reddit.com/r/ClaudeAI/comments/1p5pn25/claude_code_is_now_available_in_our_desktop_app/",
+    status: 403,
+    reviewedAt: "2026-08-06",
+    reason: "The verified ClaudeOfficial post remained browser-accessible while rejecting GitHub-hosted automated probes; this records the access limitation only.",
+  },
+  {
     url: "https://www.oecd.org/en/publications/handbook-on-constructing-composite-indicators-methodology-and-user-guide_9789264043466-en.html",
     status: 403,
     reviewedAt: "2026-08-05",
