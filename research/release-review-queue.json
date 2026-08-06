@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-08-05T20:55:59.915Z",
+  "updatedAt": "2026-08-06T12:21:39.752Z",
   "generatedBy": {
     "provider": "OpenRouter",
     "model": "openai/gpt-oss-20b",
@@ -8,6 +8,491 @@
     "purpose": "AI-assisted release-note triage for editorial review; never product evidence."
   },
   "items": [
+    {
+      "key": "claude-code:v2.1.223",
+      "harnessId": "claude-code",
+      "version": "v2.1.223",
+      "releasedAt": "2026-08-06",
+      "releaseUrl": "https://github.com/anthropics/claude-code/releases/tag/v2.1.223",
+      "sourceApiUrl": "https://api.github.com/repos/anthropics/claude-code/releases/tags/v2.1.223",
+      "releaseTitle": "v2.1.223",
+      "releaseNotesSha256": "5b44cd56116d2a45f4d97a62ab42f3bc56062eff2f1216347ab20b88e5e51e85",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-06T12:21:39.752Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1014,
+        "completionTokens": 316,
+        "totalTokens": 1330
+      },
+      "triage": {
+        "summary": "This release adds marketplace wildcard entries, warnings for restricted subagent models, a teleport hint, and numerous permission and sandbox fixes. It also updates context window handling and command aliases.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Added owner wildcard entries to marketplace settings."
+          },
+          {
+            "category": "safety",
+            "description": "Added warning for restricted subagent model usage."
+          },
+          {
+            "category": "performance",
+            "description": "Changed context window handling for 1M models."
+          },
+          {
+            "category": "documentation",
+            "description": "Added /teleport hint."
+          },
+          {
+            "category": "compatibility",
+            "description": "Fixed permission and sandbox issues."
+          }
+        ],
+        "verificationQuestions": [
+          "Are the permission fixes sufficient to prevent all bypass scenarios?",
+          "Does the context window change affect existing user workflows?",
+          "Is the /teleport hint fully functional across all session types?"
+        ],
+        "limitations": [
+          "No explicit mention of runtime control or isolation changes beyond permission fixes."
+        ]
+      }
+    },
+    {
+      "key": "cline:v4.1.6",
+      "harnessId": "cline",
+      "version": "v4.1.6",
+      "releasedAt": "2026-08-06",
+      "releaseUrl": "https://github.com/cline/cline/releases/tag/v4.1.6",
+      "sourceApiUrl": "https://api.github.com/repos/cline/cline/releases/tags/v4.1.6",
+      "releaseTitle": "v4.1.6",
+      "releaseNotesSha256": "cfe5e63850cfbfdafe918f6f02621001fcfaf5d9eba8d89b04c24f0362730366",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-06T12:21:39.752Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 509,
+        "completionTokens": 166,
+        "totalTokens": 675
+      },
+      "triage": {
+        "summary": "Added a new model offer and refreshed catalog; fixed telemetry attribution bug.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Introduced offer `meta/muse-spark-1.2-contributor` on the Cline provider and updated the model catalog."
+          },
+          {
+            "category": "performance",
+            "description": "Fixed telemetry to attribute attribute errors to the correct model, preventing misreporting."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "The notes do not detail any changes to runtime control, permissions, isolation, or orchestration."
+        ]
+      }
+    },
+    {
+      "key": "deepagents-code:deepagents-code==0.1.53",
+      "harnessId": "deepagents-code",
+      "version": "deepagents-code==0.1.53",
+      "releasedAt": "2026-08-06",
+      "releaseUrl": "https://github.com/langchain-ai/deepagents/releases/tag/deepagents-code%3D%3D0.1.53",
+      "sourceApiUrl": "https://api.github.com/repos/langchain-ai/deepagents/releases/tags/deepagents-code%3D%3D0.1.53",
+      "releaseTitle": "deepagents-code==0.1.53",
+      "releaseNotesSha256": "bff66931be7b713920e30f2725edb44224c7f47b82abd7d43dedee4e247aa76d",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-06T12:21:39.752Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1765,
+        "completionTokens": 339,
+        "totalTokens": 2104
+      },
+      "triage": {
+        "summary": "Added pricing overrides, thread compaction, trace metadata; bug fixes for routing, auto‑update restart, coroutine leaks, shutdown tracebacks, model selector, failure routing, prompt copy.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "performance",
+            "description": "Added pricing coverage with Baseten built‑in overrides and local fallback overrides when genai‑prices is missing data."
+          },
+          {
+            "category": "performance",
+            "description": "Suggest compacting large resumed threads."
+          },
+          {
+            "category": "documentation",
+            "description": "Added terminal program trace metadata."
+          },
+          {
+            "category": "unknown",
+            "description": "Preserved runtime offload archive routing."
+          },
+          {
+            "category": "unknown",
+            "description": "Always restart after a successful startup auto‑update."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the pricing override affect runtime cost calculations?",
+          "Is the thread compaction feature exposed to users or internal?",
+          "Do the trace metadata changes alter any public API?",
+          "Are the bug fixes related to runtime isolation or permissions?"
+        ],
+        "limitations": [
+          "Unclear if pricing overrides change runtime behavior beyond cost; no explicit mention of new permissions or isolation changes."
+        ]
+      }
+    },
+    {
+      "key": "gemini-cli:v0.54.0",
+      "harnessId": "gemini-cli",
+      "version": "v0.54.0",
+      "releasedAt": "2026-08-06",
+      "releaseUrl": "https://github.com/google-gemini/gemini-cli/releases/tag/v0.54.0",
+      "sourceApiUrl": "https://api.github.com/repos/google-gemini/gemini-cli/releases/tags/v0.54.0",
+      "releaseTitle": "Release v0.54.0",
+      "releaseNotesSha256": "88372a4b5bf820b8d2f04023d3b0d40008a7b469abec4d9158e759d3519a41cd",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-06T12:21:39.752Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1164,
+        "completionTokens": 329,
+        "totalTokens": 1493
+      },
+      "triage": {
+        "summary": "Minor bug fixes and tooling updates, including session ID rotation, HTTPS enforcement, context sanitization, and Firestore concurrency. No major feature changes reported.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "performance",
+            "description": "Updated vitest to v3.2.4 and added package-lock.json files."
+          },
+          {
+            "category": "compatibility",
+            "description": "Normalized CRLF line endings to LF in getProposedContent."
+          },
+          {
+            "category": "safety",
+            "description": "Enforced HTTPS for GoogleCredentialsAuthProvider to prevent cleartext leakage."
+          },
+          {
+            "category": "compatibility",
+            "description": "Enforced explicit tag length and validation in file keychain."
+          },
+          {
+            "category": "compatibility",
+            "description": "Filtered out thought parts from getHistoryTurns when context management disabled."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "The notes do not indicate any changes to runtime control, isolation, or orchestration that would require a capability review."
+        ]
+      }
+    },
+    {
+      "key": "ggcode:v1.3.194",
+      "harnessId": "ggcode",
+      "version": "v1.3.194",
+      "releasedAt": "2026-08-06",
+      "releaseUrl": "https://github.com/topcheer/ggcode/releases/tag/v1.3.194",
+      "sourceApiUrl": "https://api.github.com/repos/topcheer/ggcode/releases/tags/v1.3.194",
+      "releaseTitle": "v1.3.194",
+      "releaseNotesSha256": "c65ecd676c7fbedddebacc272bbc531b17ffee59bfb90a50bc364efa06cdf2fc",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-06T12:21:39.752Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 914,
+        "completionTokens": 216,
+        "totalTokens": 1130
+      },
+      "triage": {
+        "summary": "New runtime intelligence for tool output claim verification and effectiveness tracking; 15 new write‑time checks covering security, concurrency, and code quality; minor refactoring to reduce complexity.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Adds runtime checks for tool output claim verification and tool effectiveness tracking."
+          },
+          {
+            "category": "compatibility",
+            "description": "Introduces 15 new static checks that may flag existing code."
+          },
+          {
+            "category": "performance",
+            "description": "Minor refactoring to reduce cyclomatic complexity in three check functions."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the new tool output claim verification affect existing tool usage or require changes to tool definitions?",
+          "Will the 15 new checks trigger on code that previously passed without errors?",
+          "Are there any changes to the runtime environment or dependencies?"
+        ],
+        "limitations": [
+          "The notes do not specify whether the new checks are enabled by default or require configuration."
+        ]
+      }
+    },
+    {
+      "key": "junie-cli:2698.3",
+      "harnessId": "junie-cli",
+      "version": "2698.3",
+      "releasedAt": "2026-08-06",
+      "releaseUrl": "https://github.com/JetBrains/junie/releases/tag/2698.3",
+      "sourceApiUrl": "https://api.github.com/repos/JetBrains/junie/releases/tags/2698.3",
+      "releaseTitle": "Junie Release 26.08.1 (2698.3)",
+      "releaseNotesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-06T12:21:39.752Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 421,
+        "completionTokens": 71,
+        "totalTokens": 492
+      },
+      "triage": {
+        "summary": "No release notes provided.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [],
+        "verificationQuestions": [
+          "Is there any change that should be documented?"
+        ],
+        "limitations": [
+          "Release notes are empty."
+        ]
+      }
+    },
+    {
+      "key": "letta-code:v0.30.8",
+      "harnessId": "letta-code",
+      "version": "v0.30.8",
+      "releasedAt": "2026-08-06",
+      "releaseUrl": "https://github.com/letta-ai/letta-code/releases/tag/v0.30.8",
+      "sourceApiUrl": "https://api.github.com/repos/letta-ai/letta-code/releases/tags/v0.30.8",
+      "releaseTitle": "Release v0.30.8",
+      "releaseNotesSha256": "1bb70e4c38e959731e152ac8ce17662dec51964ff5488120ddb85a6f6fc85769",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-06T12:21:39.752Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1176,
+        "completionTokens": 290,
+        "totalTokens": 1466
+      },
+      "triage": {
+        "summary": "This release contains a series of bug‑fixes and refactors across CI, channel handling, headless streaming, and tool configuration. No new features or breaking changes are reported.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "performance",
+            "description": "Stabilize live reflection scenario in CI."
+          },
+          {
+            "category": "compatibility",
+            "description": "Make MessageChannel gateway‑owned."
+          },
+          {
+            "category": "performance",
+            "description": "Batch gateway runtime tool registration."
+          },
+          {
+            "category": "performance",
+            "description": "Retry dropped streams on active run in headless mode."
+          },
+          {
+            "category": "compatibility",
+            "description": "Wait for final turn lifecycle event in channels."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": []
+      }
+    },
+    {
+      "key": "pi:v0.84.0",
+      "harnessId": "pi",
+      "version": "v0.84.0",
+      "releasedAt": "2026-08-06",
+      "releaseUrl": "https://github.com/earendil-works/pi/releases/tag/v0.84.0",
+      "sourceApiUrl": "https://api.github.com/repos/earendil-works/pi/releases/tags/v0.84.0",
+      "releaseTitle": "v0.84.0",
+      "releaseNotesSha256": "dbdbf3d245d06a032b153535d47721986122b66edfd378481a6acced9113b4df",
+      "releaseNotesTruncated": true,
+      "analyzedAt": "2026-08-06T12:21:39.752Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3328,
+        "completionTokens": 367,
+        "totalTokens": 3695
+      },
+      "triage": {
+        "summary": "Release v0.84.0 introduces new UI features, rendering, context overrides, advanced sampling, Baseten provider, breaking changes to interfaces, events, provider APIs, session APIs, and many added capabilities. It includes significant changes to provider refresh logic, session storage, and remote session APIs.",
+        "reviewPriority": "review",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "New fullscreen TUI mode, Mermaid/LaTeX rendering, per-directory context overrides, advanced custom model sampling, Baseten provider support, session API overhaul, remote-session client APIs, telemetry, diagnostics, etc."
+          },
+          {
+            "category": "compatibility",
+            "description": "Renamed interfaces, changed event payloads, altered provider API signatures, updated session storage APIs, removed legacy APIs."
+          },
+          {
+            "category": "deprecation",
+            "description": "Removed experimental subpaths, legacy JSONL and in-memory repository APIs."
+          },
+          {
+            "category": "performance",
+            "description": "Changed message_update events to emit only deltas to reduce output growth."
+          },
+          {
+            "category": "safety",
+            "description": "Updated provider refresh logic to use read-only snapshots and generation-checked publish to avoid race conditions."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the new fullscreen TUI mode affect existing UI configurations?",
+          "Are there any breaking changes to provider authentication flows?",
+          "How do the new session APIs impact existing session persistence code?",
+          "What are the implications of the new event payload changes for clients?",
+          "Do the new sampling parameters require changes to model configuration files?"
+        ],
+        "limitations": [
+          "Unclear if all breaking changes are fully documented for downstream consumers.",
+          "No explicit mention of backward compatibility for existing extensions using old provider APIs.",
+          "Limited detail on how to migrate legacy session storage implementations."
+        ]
+      }
+    },
+    {
+      "key": "zoo-code:v3.76.0",
+      "harnessId": "zoo-code",
+      "version": "v3.76.0",
+      "releasedAt": "2026-08-06",
+      "releaseUrl": "https://github.com/Zoo-Code-Org/Zoo-Code/releases/tag/v3.76.0",
+      "sourceApiUrl": "https://api.github.com/repos/Zoo-Code-Org/Zoo-Code/releases/tags/v3.76.0",
+      "releaseTitle": "Zoo Code v3.76.0",
+      "releaseNotesSha256": "af9674c900eb2436cd0a3c4084670277234a3da74b76a8eb5fc3d84d330a2ae9",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-06T12:21:39.752Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1248,
+        "completionTokens": 580,
+        "totalTokens": 1828
+      },
+      "triage": {
+        "summary": "Zoo Code v3.76.0 introduces a new opt‑in Destructive Command Guard safety layer, improves its approval flow, hardens binary installation, and strengthens shared binary handling. It also fixes a race where a step started before a terminal command finished, adds an OpenAI Codex response‑speed selector, updates DeepSeek defaults, isolates provider…",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "safety",
+            "description": "Add Destructive Command Guard opt‑in safety layer that blocks dangerous terminal commands while allowing longer tasks to continue without repeated approvals."
+          },
+          {
+            "category": "performance",
+            "description": "Fix Zoo starting the next step before a terminal command finishes."
+          },
+          {
+            "category": "compatibility",
+            "description": "Update DeepSeek model configurations and defaults."
+          },
+          {
+            "category": "safety",
+            "description": "Isolate each task's provider configuration from changes to the currently focused provider state."
+          },
+          {
+            "category": "safety",
+            "description": "Isolate provider-profile mutations from running tasks to prevent mid‑task configuration changes."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the Destructive Command Guard affect the ability to run arbitrary terminal commands in non‑interactive contexts?",
+          "Are there any changes to the default provider configuration that could alter runtime behavior?",
+          "Does the telemetry circuit breaking alter the visibility of task completion events?",
+          "Is the OpenAI Codex response‑speed selector a new feature that could impact user experience?"
+        ],
+        "limitations": [
+          "The notes do not specify whether the Destructive Command Guard is enabled by default or only opt‑in; unclear if it changes default safety posture."
+        ]
+      }
+    },
+    {
+      "key": "opencode:v1.18.14",
+      "harnessId": "opencode",
+      "version": "v1.18.14",
+      "releasedAt": "2026-08-05",
+      "releaseUrl": "https://github.com/anomalyco/opencode/releases/tag/v1.18.14",
+      "sourceApiUrl": "https://api.github.com/repos/anomalyco/opencode/releases/tags/v1.18.14",
+      "releaseTitle": "v1.18.14",
+      "releaseNotesSha256": "d5633fb450d494838cbea894d28f69271e2bf34297842ff7d0c17c9054e1b043",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-06T12:21:39.752Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 628,
+        "completionTokens": 239,
+        "totalTokens": 867
+      },
+      "triage": {
+        "summary": "Simplified xAI login, improved error handling, retry logic, cache accounting, logging, remote workspace path handling, session update timing.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "performance",
+            "description": "Simplified xAI login to single device-code flow for headless/remote use."
+          },
+          {
+            "category": "unknown",
+            "description": "Preserved structured mid-stream provider errors for retry."
+          },
+          {
+            "category": "unknown",
+            "description": "Retried more transient provider and network errors."
+          },
+          {
+            "category": "unknown",
+            "description": "Counted cache writes in ACP usage totals."
+          },
+          {
+            "category": "unknown",
+            "description": "Logged remote workspace 5xx response bodies."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "No explicit mention of changes to runtime control, context, state, permissions, isolation, verification, recovery, or orchestration."
+        ]
+      }
+    },
     {
       "key": "codex:rust-v0.146.1",
       "harnessId": "codex",
@@ -24,7 +509,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official Codex 0.146.1 notes were reopened. They describe safer automatic-review defaults for cyber-capable models and clearer terminal permission messaging, but do not identify a new user-selectable control or change the documented approval, sandbox, membership, or operational posture; no catalog change is supported.",
-        "evidenceUrls": ["https://github.com/openai/codex/releases/tag/rust-v0.146.1"]
+        "evidenceUrls": [
+          "https://github.com/openai/codex/releases/tag/rust-v0.146.1"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -69,7 +556,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official GGCode v1.3.192 notes were reopened. The skill lifecycle, worktree, dependency, tracing, diagnostic, and safety additions refine mechanisms already represented by the current record and repository audit without changing a published feature flag, membership criterion, operational posture, or decision output.",
-        "evidenceUrls": ["https://github.com/topcheer/ggcode/releases/tag/v1.3.192"]
+        "evidenceUrls": [
+          "https://github.com/topcheer/ggcode/releases/tag/v1.3.192"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -130,7 +619,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official Junie 2698.2 release page was reopened, but it contains no release notes. The stable tag belongs in the factual release feed; the empty notes establish no capability, permission, isolation, state, or classification change and cannot re-verify an existing claim.",
-        "evidenceUrls": ["https://github.com/JetBrains/junie/releases/tag/2698.2"]
+        "evidenceUrls": [
+          "https://github.com/JetBrains/junie/releases/tag/2698.2"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -167,7 +658,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official Mistral Vibe v2.24.0 notes were reopened. Layered configuration, worktree-aware sessions, retry visibility, subagent skill loading, and resume fixes strengthen capabilities already represented by the current config, worktree, skill, subagent, and recovery records; no published classification changes.",
-        "evidenceUrls": ["https://github.com/mistralai/mistral-vibe/releases/tag/v2.24.0"]
+        "evidenceUrls": [
+          "https://github.com/mistralai/mistral-vibe/releases/tag/v2.24.0"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -224,7 +717,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official Qwen Code v0.21.6 notes were reopened. The managed external tool guard, Goal lifecycle documentation, background-subagent UX, and recovery fixes refine already documented permission, headless, subagent, and state mechanisms; experimental voice is outside the published comparison dimensions.",
-        "evidenceUrls": ["https://github.com/QwenLM/qwen-code/releases/tag/v0.21.6"]
+        "evidenceUrls": [
+          "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.6"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -284,7 +779,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official Reasonix v1.20.0 notes and linked product guides were reopened. Extension Protocol v1, task monitoring, bounded subagent progress, goal completion, receipts, and SSH recovery deepen already documented extensibility, subagent, observability, recovery, and remote surfaces without changing membership or feature support.",
-        "evidenceUrls": ["https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.20.0"]
+        "evidenceUrls": [
+          "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.20.0"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -345,7 +842,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official Cline v4.1.4 notes were reopened. Provider support, slash-command disambiguation, stricter plan-mode editing blocks, and recovery fixes refine the existing provider, permission-mode, and recovery records without adding a new comparison capability or changing membership or operational posture.",
-        "evidenceUrls": ["https://github.com/cline/cline/releases/tag/v4.1.4"]
+        "evidenceUrls": [
+          "https://github.com/cline/cline/releases/tag/v4.1.4"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -405,7 +904,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official Kimi Code 0.33.0 notes were reopened. Engine defaults, session UX, marketplace entries, and MCP OAuth fixes refine already documented model, session, and MCP behavior without changing a published feature flag, membership criterion, or operational mechanism.",
-        "evidenceUrls": ["https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai/kimi-code%400.33.0"]
+        "evidenceUrls": [
+          "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai/kimi-code%400.33.0"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -461,7 +962,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official Letta Code v0.30.7 notes were reopened. Preserving real message IDs corrects tool lifecycle event identity but does not change a capability claim, permission boundary, persistent-memory posture, membership criterion, or public decision output.",
-        "evidenceUrls": ["https://github.com/letta-ai/letta-code/releases/tag/v0.30.7"]
+        "evidenceUrls": [
+          "https://github.com/letta-ai/letta-code/releases/tag/v0.30.7"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -499,7 +1002,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official MiMo Code v0.1.10 notes were reopened. Orchestrator reliability, multi-session behavior, checkpoint handling, provider resilience, visual modes, and bundled skills strengthen mechanisms already represented by the current multi-agent, state, checkpoint, and skill records.",
-        "evidenceUrls": ["https://github.com/XiaomiMiMo/MiMo-Code/releases/tag/v0.1.10"]
+        "evidenceUrls": [
+          "https://github.com/XiaomiMiMo/MiMo-Code/releases/tag/v0.1.10"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -559,7 +1064,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official Oh My Pi v17.2.9 notes were reopened. Package fixes, the coding-agent rename, and Chromium detection do not change the existing browser, tool, provider, state, isolation, or membership records; the breaking rename is internal package vocabulary rather than a catalog identity change.",
-        "evidenceUrls": ["https://github.com/can1357/oh-my-pi/releases/tag/v17.2.9"]
+        "evidenceUrls": [
+          "https://github.com/can1357/oh-my-pi/releases/tag/v17.2.9"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -615,7 +1122,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official Reasonix v1.19.7 notes were reopened. Server-side web-search control, subagent result handling, and desktop stability refine already documented browser, subagent, permission, and recovery mechanisms without changing membership, feature support, or operational classification.",
-        "evidenceUrls": ["https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.19.7"]
+        "evidenceUrls": [
+          "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.19.7"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -671,7 +1180,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official Claude Code v2.1.222 notes were reopened. Isolation, tool-restriction, connector-auth, remote-control, accessibility, and recovery fixes correct existing behavior without establishing a new published capability or changing the current permission, isolation, state, or membership records.",
-        "evidenceUrls": ["https://github.com/anthropics/claude-code/releases/tag/v2.1.222"]
+        "evidenceUrls": [
+          "https://github.com/anthropics/claude-code/releases/tag/v2.1.222"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -727,7 +1238,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official Deep Agents Code 0.1.52 notes were reopened. Hooks v2, approval-classifier configuration, HITL UI, pricing metadata, and lifecycle fixes refine already represented extension, approval, and headless mechanisms without changing feature support, membership, or isolation posture.",
-        "evidenceUrls": ["https://github.com/langchain-ai/deepagents/releases/tag/deepagents-code%3D%3D0.1.52"]
+        "evidenceUrls": [
+          "https://github.com/langchain-ai/deepagents/releases/tag/deepagents-code%3D%3D0.1.52"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -787,7 +1300,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official GGCode v1.3.191 notes were reopened. CI status, review, dependency, crash, impact, quality, project-profile, and desktop additions extend tools within the already documented harness and GUI surfaces without changing a published feature flag, membership criterion, or operational posture.",
-        "evidenceUrls": ["https://github.com/topcheer/ggcode/releases/tag/v1.3.191"]
+        "evidenceUrls": [
+          "https://github.com/topcheer/ggcode/releases/tag/v1.3.191"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -847,7 +1362,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official Kilo Code v7.4.20 notes were reopened. Speech-to-text discovery, earlier prompt display, and patch-view persistence are UX refinements outside the published feature dimensions and do not change the existing permission, state, isolation, or membership records.",
-        "evidenceUrls": ["https://github.com/Kilo-Org/kilocode/releases/tag/v7.4.20"]
+        "evidenceUrls": [
+          "https://github.com/Kilo-Org/kilocode/releases/tag/v7.4.20"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -893,7 +1410,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official OpenCode v1.18.13 notes were reopened. PR context, session naming, markdown, localization, RTL, and desktop/TUI fixes improve presentation and reliability without changing a capability claim, membership criterion, runtime control, state, or isolation posture.",
-        "evidenceUrls": ["https://github.com/anomalyco/opencode/releases/tag/v1.18.13"]
+        "evidenceUrls": [
+          "https://github.com/anomalyco/opencode/releases/tag/v1.18.13"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -947,7 +1466,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official Poolside CLI v1.0.15 notes were reopened. Mode selection, encrypted tokens, ACP session behavior, concurrent permission requests, cache metadata, and UI fixes refine mechanisms already represented by the current provider, permission, state, and ACP records.",
-        "evidenceUrls": ["https://github.com/poolsideai/pool/releases/tag/v1.0.15"]
+        "evidenceUrls": [
+          "https://github.com/poolsideai/pool/releases/tag/v1.0.15"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -1003,7 +1524,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official Qwen Code v0.21.5 notes were reopened. MCP replay checks, bounded Goal retries, tool outcomes, review UI, migration, and recovery fixes refine already documented MCP, goal, permission, and state mechanisms without changing published feature support.",
-        "evidenceUrls": ["https://github.com/QwenLM/qwen-code/releases/tag/v0.21.5"]
+        "evidenceUrls": [
+          "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.5"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -1063,7 +1586,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official Antigravity CLI 1.1.10 notes were reopened. Enterprise sign-in, sandbox hardening, hook ordering, schedule parsing, subagent, and cleanup fixes refine capabilities already represented by the authentication, sandbox, hook, automation, and subagent records.",
-        "evidenceUrls": ["https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.10"]
+        "evidenceUrls": [
+          "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.10"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -1124,7 +1649,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official Copilot CLI v1.0.78 notes were reopened. The worktree command, sandbox-session isolation fix, plugin updates, login flow, concurrent permissions, hooks, settings, and UI changes refine already represented worktree, sandbox, permission, plugin, and automation mechanisms.",
-        "evidenceUrls": ["https://github.com/github/copilot-cli/releases/tag/v1.0.78"]
+        "evidenceUrls": [
+          "https://github.com/github/copilot-cli/releases/tag/v1.0.78"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -1186,7 +1713,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official Hermes Agent v2026.8.3 notes were reopened. Voice, A2A, signed webhooks, citations, tool recovery, artifacts, and plugin SDK expand surfaces outside the current comparison dimensions or deepen already documented channel, tool, recovery, and extension mechanisms; classification is unchanged.",
-        "evidenceUrls": ["https://github.com/NousResearch/hermes-agent/releases/tag/v2026.8.3"]
+        "evidenceUrls": [
+          "https://github.com/NousResearch/hermes-agent/releases/tag/v2026.8.3"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -1248,7 +1777,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official Junie CLI 2548.5 notes were reopened. Project-trust verification before MCP loading strengthens the already documented permission and MCP posture, while theme detection is presentational; no new feature flag, membership criterion, or operational classification is established.",
-        "evidenceUrls": ["https://github.com/JetBrains/junie/releases/tag/2548.5"]
+        "evidenceUrls": [
+          "https://github.com/JetBrains/junie/releases/tag/2548.5"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -1290,7 +1821,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official Mistral Vibe v2.23.3 notes were reopened. Retry, rewind, configuration display, status, and chat-mode cleanup refine already documented recovery, config, and state behavior without changing feature support, membership, or isolation posture.",
-        "evidenceUrls": ["https://github.com/mistralai/mistral-vibe/releases/tag/v2.23.3"]
+        "evidenceUrls": [
+          "https://github.com/mistralai/mistral-vibe/releases/tag/v2.23.3"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -1537,7 +2070,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official CodeWhale v0.9.3 notes were reopened. Provider support, per-turn tool limits, credential and file-provider hardening, alias removal, binaries, and installation changes refine already represented provider, tool-governance, and runtime mechanisms without changing membership or feature support.",
-        "evidenceUrls": ["https://github.com/Hmbown/CodeWhale/releases/tag/v0.9.3"]
+        "evidenceUrls": [
+          "https://github.com/Hmbown/CodeWhale/releases/tag/v0.9.3"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
@@ -4526,7 +5061,9 @@
         "reviewedAt": "2026-08-05",
         "outcome": "no-catalog-change",
         "rationale": "The official OpenHarness v0.1.9 notes were reopened. The bundled skill creator and slash-command invocation deepen the reusable-skill capability already documented by the current record, while provider API-key fixes do not change permission, membership, or operational posture.",
-        "evidenceUrls": ["https://github.com/HKUDS/OpenHarness/releases/tag/v0.1.9"]
+        "evidenceUrls": [
+          "https://github.com/HKUDS/OpenHarness/releases/tag/v0.1.9"
+        ]
       },
       "model": "openai/gpt-oss-20b",
       "usage": {
