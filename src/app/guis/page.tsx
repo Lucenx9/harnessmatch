@@ -1,4 +1,3 @@
-import "../styles/guis.css";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { GuiLiveSignals } from "@/components/gui-live-signals";
