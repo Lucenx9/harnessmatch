@@ -1,8 +1,8 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-30";
-const releaseVerifiedAt = "2026-08-05";
-const sourceAuditVerifiedAt = "2026-08-05";
+const releaseVerifiedAt = "2026-08-07";
+const sourceAuditVerifiedAt = "2026-08-07";
 
 export const grokBuild = {
     id: "grok-build",
@@ -10,7 +10,7 @@ export const grokBuild = {
     name: "Grok Build",
     tagline: "Extensible Rust coding agent with plan review, sandbox profiles, and ACP.",
     summary:
-      "SpaceXAI's open-source terminal coding agent with TUI, headless and ACP surfaces, custom models, MCP, plugins, default-on subagents, plan review, rewind, permissions, and optional OS-level sandbox profiles.",
+      "SpaceXAI's open-source terminal coding agent with TUI, headless and ACP surfaces, custom models, MCP, plugins, default-on subagents, plan review, conversation rewind, permissions, and optional OS-level sandbox profiles.",
     logo: {
       src: "/harnesses/grok-build.png",
       sourceUrl: "https://media.x.ai/v1/website/spacexai-symbol-black-transparent-6435cf42.png",
@@ -45,9 +45,9 @@ export const grokBuild = {
     tradeoffs: [
       "The OS sandbox is off by default; strict/read-only child-network blocking is Linux-only, in-process model and web traffic remains outside that rule, and sensitive paths such as ~/.ssh require explicit deny configuration",
       "Worktrees isolate checkouts rather than processes, while always-approve can skip tool prompts unless enterprise requirements explicitly disable bypass mode",
-      "Cross-session memory is optional and off by default; rewind restores recorded session/file state but does not undo remote services, browser actions, already-started processes, or other external side effects",
+      "Cross-session memory is optional and off by default; /rewind now truncates conversation without restoring files, while snapshot-code restoration for a remote resume is opt-in and requires --worktree --restore-code; neither path can undo external side effects",
       "Browser review is supplied through plugins or MCP rather than a core browser tool, and web fetch is separately gated",
-      "The product remains beta with a rapid 0.2.x cadence; the public repository is a periodic monorepo sync, has no public CI workflow, and does not accept external contributions",
+      "The public repository is a periodic monorepo sync, has no public CI workflow, does not accept external contributions, and may not identify the exact source revision used for a shipped binary",
       "The statement that Grok 4.5 powers the product is model branding, not evidence of harness quality; no complete independent product benchmark is imported",
     ],
     setup: "Install `grok`, sign in with a supported subscription or API key, then choose a permission mode and enable an appropriate sandbox profile.",
@@ -185,30 +185,46 @@ export const grokBuild = {
         title: "Grok Build changelog",
         topic: "releases-code-audit",
         url: "https://x.ai/build/changelog",
-        covers: "Beta status and current 0.2.120 release, including initial-session model-picker feedback and lower ACP background-task memory use",
+        covers: "Current 1.0.0 release and its permission, cancellation, sandbox, MCP-image, queue, remote-resume, large-repository, and session-memory reliability changes",
         kind: "official-announcement",
         verifiedAt: releaseVerifiedAt,
       },
       {
+        title: "Grok Build 1.0 source sync",
+        topic: "releases-code-audit",
+        url: "https://github.com/xai-org/grok-build/commit/393430ee4934bc791b0d538f304a21691c517433",
+        covers: "Removal of the beta label, conversation-only rewind, bounded subagent concurrency, disk-usage inspection, and Auto decision telemetry",
+        kind: "official-repository",
+        verifiedAt: sourceAuditVerifiedAt,
+      },
+      {
         title: "Grok Build repository",
         topic: "releases-code-audit",
-        url: "https://github.com/xai-org/grok-build/tree/a5589e958437d79e13db026eedcb1720bffd4063",
-        covers: "Pinned public source sync, runtime, tests, session architecture, sync policy, and license",
+        url: "https://github.com/xai-org/grok-build/tree/afbc0fb710320c7add294c2106d447ecc3e3af2e",
+        covers: "Pinned 1.0.0 public source sync, runtime, tests, session architecture, sync policy, and license",
         kind: "official-repository",
         verifiedAt: sourceAuditVerifiedAt,
       },
       {
         title: "Session and rewind guide",
         topic: "orchestration-state",
-        url: "https://github.com/xai-org/grok-build/blob/a5589e958437d79e13db026eedcb1720bffd4063/crates/codegen/xai-grok-pager/docs/user-guide/17-sessions.md",
-        covers: "Local session storage, resume, fork, rewind, compaction checkpoints, and recovery boundaries",
+        url: "https://github.com/xai-org/grok-build/blob/afbc0fb710320c7add294c2106d447ecc3e3af2e/crates/codegen/xai-grok-pager/docs/user-guide/17-sessions.md",
+        covers: "Local session storage, resume, fork, conversation-only rewind, compaction checkpoints, disk usage, and recovery boundaries",
+        kind: "official-repository",
+        verifiedAt: sourceAuditVerifiedAt,
+      },
+      {
+        title: "Remote code restore implementation",
+        topic: "orchestration-state",
+        url: "https://github.com/xai-org/grok-build/blob/afbc0fb710320c7add294c2106d447ecc3e3af2e/crates/codegen/xai-grok-pager/src/app/session_startup.rs",
+        covers: "Conversation-only remote resume by default and opt-in snapshot-code restoration requiring --worktree --restore-code",
         kind: "official-repository",
         verifiedAt: sourceAuditVerifiedAt,
       },
       {
         title: "Memory guide",
         topic: "orchestration-state",
-        url: "https://github.com/xai-org/grok-build/blob/a5589e958437d79e13db026eedcb1720bffd4063/crates/codegen/xai-grok-pager/docs/user-guide/13-memory.md",
+        url: "https://github.com/xai-org/grok-build/blob/afbc0fb710320c7add294c2106d447ecc3e3af2e/crates/codegen/xai-grok-pager/docs/user-guide/13-memory.md",
         covers: "Optional cross-session memory, default state, storage, retrieval, and lifecycle",
         kind: "official-repository",
         verifiedAt: sourceAuditVerifiedAt,
@@ -216,8 +232,8 @@ export const grokBuild = {
       {
         title: "Monitoring and OpenTelemetry guide",
         topic: "enterprise-operations",
-        url: "https://github.com/xai-org/grok-build/blob/a5589e958437d79e13db026eedcb1720bffd4063/crates/codegen/xai-grok-pager/docs/user-guide/24-monitoring-usage.md",
-        covers: "Pinned session telemetry, OpenTelemetry configuration, local defaults, exported signals, and operational privacy boundaries",
+        url: "https://github.com/xai-org/grok-build/blob/afbc0fb710320c7add294c2106d447ecc3e3af2e/crates/codegen/xai-grok-pager/docs/user-guide/24-monitoring-usage.md",
+        covers: "Pinned session telemetry, OpenTelemetry configuration, permission-decision signals, local defaults, exported signals, and operational privacy boundaries",
         kind: "official-repository",
         verifiedAt: sourceAuditVerifiedAt,
       },

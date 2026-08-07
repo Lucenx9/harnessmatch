@@ -831,15 +831,15 @@ describe("harness evidence ledger", () => {
     expect(caveats).toContain("no score is imported");
   });
 
-  it("pins Grok Build's optional isolation and beta source boundary", () => {
+  it("pins Grok Build 1.0's optional isolation and surface-specific code recovery", () => {
     const grokBuild = harnesses.find((harness) => harness.id === "grok-build")!;
     const urls = grokBuild.evidence.map((source) => source.url);
     const caveats = grokBuild.tradeoffs.join(" ");
 
-    expect(grokBuild.verifiedAt).toBe("2026-08-05");
-    expect(grokBuild.evidence).toHaveLength(24);
-    expect(grokBuild.evidence.find((source) => source.title === "Grok Build changelog")?.verifiedAt).toBe("2026-08-05");
-    expect(grokBuild.evidence.find((source) => source.url.includes("/tree/a5589e"))?.verifiedAt).toBe("2026-08-05");
+    expect(grokBuild.verifiedAt).toBe("2026-08-07");
+    expect(grokBuild.evidence).toHaveLength(26);
+    expect(grokBuild.evidence.find((source) => source.title === "Grok Build changelog")?.verifiedAt).toBe("2026-08-07");
+    expect(grokBuild.evidence.find((source) => source.url.includes("/tree/afbc0fb"))?.verifiedAt).toBe("2026-08-07");
     expect(grokBuild.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([
@@ -850,10 +850,15 @@ describe("harness evidence ledger", () => {
       "https://docs.x.ai/build/settings",
       "https://docs.x.ai/build/cli/reference",
       "https://docs.x.ai/build/enterprise",
-      "https://github.com/xai-org/grok-build/tree/a5589e958437d79e13db026eedcb1720bffd4063",
+      "https://github.com/xai-org/grok-build/commit/393430ee4934bc791b0d538f304a21691c517433",
+      "https://github.com/xai-org/grok-build/tree/afbc0fb710320c7add294c2106d447ecc3e3af2e",
+      "https://github.com/xai-org/grok-build/blob/afbc0fb710320c7add294c2106d447ecc3e3af2e/crates/codegen/xai-grok-pager/src/app/session_startup.rs",
     ]));
-    expect(grokBuild.evidence.find((source) => source.title === "Grok Build changelog")?.covers).toContain("0.2.120");
+    expect(grokBuild.evidence.find((source) => source.title === "Grok Build changelog")?.covers).toContain("1.0.0");
     expect(caveats).toContain("OS sandbox is off by default");
+    expect(caveats).toContain("/rewind now truncates conversation without restoring files");
+    expect(caveats).toContain("--worktree --restore-code");
+    expect(caveats).not.toContain("remains beta");
     expect(caveats).toContain("Browser review is supplied through plugins or MCP");
     expect(caveats).toContain("model branding, not evidence of harness quality");
     expect(grokBuild.capabilities).toEqual({

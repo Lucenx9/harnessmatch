@@ -182,7 +182,12 @@ const featureClaimSeedsByHarness = {
       "Optional OS sandbox profiles; disabled by default",
       "Network and filesystem coverage varies by platform and selected profile.",
     ),
-    checkpoints: documented("Modes and commands", "Session and rewind guide"),
+    checkpoints: configuredClaim(
+      "surface-specific",
+      ["Grok Build changelog", "Session and rewind guide", "Remote code restore implementation"],
+      "Snapshot-code restoration for remote resumes using --worktree --restore-code",
+      "/rewind truncates conversation history without restoring files; snapshot-code restoration is opt-in and cannot reverse external side effects.",
+    ),
   },
   "muse-code": {
     mcp: documented("Extending and automating"),

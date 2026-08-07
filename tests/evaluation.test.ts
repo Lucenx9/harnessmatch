@@ -83,12 +83,13 @@ describe("multi-axis evidence evaluation", () => {
     const audit = repositoryAudits.find((item) => item.harnessId === "grok-build");
 
     expect(audit).toMatchObject({
-      inspectedRef: "a5589e958437d79e13db026eedcb1720bffd4063",
-      verifiedAt: "2026-08-05",
+      inspectedRef: "afbc0fb710320c7add294c2106d447ecc3e3af2e",
+      verifiedAt: "2026-08-07",
       sourceScope: "full-source",
       signals: { securityPolicy: true, continuousIntegration: false, automatedTests: true, evaluationAssets: false, contributorDocumentation: true },
     });
-    expect(audit?.limitation).toContain("547 test-like files");
+    expect(audit?.limitation).toContain("1.0.0 periodic public monorepo sync");
+    expect(audit?.limitation).toContain("560 test-like files");
     expect(audit?.limitation).toContain("no public CI workflow or complete coding-task evaluation suite");
     expect(benchmarkRuns.some((run) => run.harnessId === "grok-build")).toBe(false);
   });

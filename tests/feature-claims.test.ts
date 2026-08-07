@@ -131,6 +131,23 @@ describe("feature claim ledger", () => {
     expect(featureClaimFor(byId.get("openharness")!, "sandbox").state).toBe("optional");
   });
 
+  it("limits Grok Build file recovery to explicit remote worktree restoration", () => {
+    const grokBuild = harnesses.find(({ id }) => id === "grok-build")!;
+    const checkpoints = featureClaimFor(grokBuild, "checkpoints");
+
+    expect(checkpoints).toMatchObject({
+      state: "surface-specific",
+      verifiedAt: "2026-08-07",
+      scope: "Snapshot-code restoration for remote resumes using --worktree --restore-code",
+    });
+    expect(checkpoints.limitation).toContain("/rewind truncates conversation history");
+    expect(checkpoints.sourceUrls).toEqual([
+      "https://x.ai/build/changelog",
+      "https://github.com/xai-org/grok-build/blob/afbc0fb710320c7add294c2106d447ecc3e3af2e/crates/codegen/xai-grok-pager/docs/user-guide/17-sessions.md",
+      "https://github.com/xai-org/grok-build/blob/afbc0fb710320c7add294c2106d447ecc3e3af2e/crates/codegen/xai-grok-pager/src/app/session_startup.rs",
+    ]);
+  });
+
   it("keeps local control surfaces separate from browser automation and rollback", () => {
     const byId = new Map(harnesses.map((harness) => [harness.id, harness]));
     expect(featureClaimFor(byId.get("codewhale")!, "browser").state).toBe("not-documented");

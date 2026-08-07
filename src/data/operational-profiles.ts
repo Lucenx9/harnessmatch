@@ -3,7 +3,7 @@ import type { OperationalProfile, OperationalProfileRecord } from "../lib/types"
 const verifiedAt = "2026-07-27";
 const refreshedAt = "2026-07-28";
 const sourceAuditAt = "2026-07-30";
-const grokBuildSourceAuditAt = "2026-08-05";
+const grokBuildSourceAuditAt = "2026-08-07";
 const releaseReviewAt = "2026-07-31";
 const copilotReleaseReviewAt = "2026-08-04";
 const latestReleaseReviewAt = "2026-08-02";
@@ -132,10 +132,12 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://docs.x.ai/build/modes-and-commands",
       "https://docs.x.ai/build/enterprise",
       "https://docs.x.ai/build/settings",
-      "https://github.com/xai-org/grok-build/blob/a5589e958437d79e13db026eedcb1720bffd4063/crates/codegen/xai-grok-pager/docs/user-guide/13-memory.md",
-      "https://github.com/xai-org/grok-build/blob/a5589e958437d79e13db026eedcb1720bffd4063/crates/codegen/xai-grok-pager/docs/user-guide/24-monitoring-usage.md",
+      "https://github.com/xai-org/grok-build/blob/afbc0fb710320c7add294c2106d447ecc3e3af2e/crates/codegen/xai-grok-pager/docs/user-guide/13-memory.md",
+      "https://github.com/xai-org/grok-build/blob/afbc0fb710320c7add294c2106d447ecc3e3af2e/crates/codegen/xai-grok-pager/docs/user-guide/17-sessions.md",
+      "https://github.com/xai-org/grok-build/blob/afbc0fb710320c7add294c2106d447ecc3e3af2e/crates/codegen/xai-grok-pager/docs/user-guide/24-monitoring-usage.md",
+      "https://github.com/xai-org/grok-build/blob/afbc0fb710320c7add294c2106d447ecc3e3af2e/crates/codegen/xai-grok-pager/src/app/session_startup.rs",
     ],
-    "Optional cross-session memory and rewind checkpoints are available; external OpenTelemetry is opt-in and session artifacts remain local by default. The OS sandbox is off by default and macOS child-network enforcement is incomplete, while recovery cannot undo external side effects.",
+    "Optional cross-session memory is available, while /rewind only truncates conversation history. Snapshot-code recovery is limited to opt-in remote resumes using --worktree --restore-code and cannot undo external side effects. External OpenTelemetry remains opt-in and session artifacts remain local by default; the OS sandbox is off by default and macOS child-network enforcement is incomplete.",
     grokBuildSourceAuditAt,
   ),
   "muse-code": record(
