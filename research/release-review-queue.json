@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-08-06T12:21:39.752Z",
+  "updatedAt": "2026-08-07T05:56:21.900Z",
   "generatedBy": {
     "provider": "OpenRouter",
     "model": "openai/gpt-oss-20b",
@@ -8,6 +8,464 @@
     "purpose": "AI-assisted release-note triage for editorial review; never product evidence."
   },
   "items": [
+    {
+      "key": "antigravity-cli:1.1.11",
+      "harnessId": "antigravity-cli",
+      "version": "1.1.11",
+      "releasedAt": "2026-08-07",
+      "releaseUrl": "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.11",
+      "sourceApiUrl": "https://api.github.com/repos/google-antigravity/antigravity-cli/releases/tags/1.1.11",
+      "releaseTitle": "1.1.11",
+      "releaseNotesSha256": "f6ce391764680c81b5be43cf82555e90305d09c6213986739fc999cd767b8e4a",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-07T05:56:21.900Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1477,
+        "completionTokens": 318,
+        "totalTokens": 1795
+      },
+      "triage": {
+        "summary": "Added Vim editing mode and related features, non‑interactive slash command outputs, improved plugin enablement, artifact view, model retry handling, error display, and numerous bug fixes around command approval, admin controls, MCP callbacks, history, and settings. No major capability changes beyond Vim mode.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Vim editing mode with modal editing, motions, operators, text objects, and Vim‑aware submission."
+          },
+          {
+            "category": "compatibility",
+            "description": "Non‑interactive slash commands now return structured output and refuse interactive‑only commands in print mode."
+          },
+          {
+            "category": "performance",
+            "description": "Model retries now honor server‑supplied delay."
+          },
+          {
+            "category": "documentation",
+            "description": "Added Vim tab in /help and status line badge."
+          },
+          {
+            "category": "installation",
+            "description": "Plugin enablement now only in config.json."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the Vim mode affect any other runtime behavior beyond the editor?",
+          "Are there any changes to permission checks or isolation due to the new command approval fixes?",
+          "Is the server‑supplied retry delay fully respected in all client contexts?"
+        ],
+        "limitations": [
+          "The notes do not specify if the Vim mode changes any underlying command execution or security model."
+        ]
+      }
+    },
+    {
+      "key": "claude-code:v2.1.224",
+      "harnessId": "claude-code",
+      "version": "v2.1.224",
+      "releasedAt": "2026-08-07",
+      "releaseUrl": "https://github.com/anthropics/claude-code/releases/tag/v2.1.224",
+      "sourceApiUrl": "https://api.github.com/repos/anthropics/claude-code/releases/tags/v2.1.224",
+      "releaseTitle": "v2.1.224",
+      "releaseNotesSha256": "24b88d1175d361dc91ae4841b99ef8b573e5b7be575fcba0875ce124d487b249",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-07T05:56:21.900Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1381,
+        "completionTokens": 397,
+        "totalTokens": 1778
+      },
+      "triage": {
+        "summary": "v2.1.224 adds self‑hosted runners, new archive plugin source, several cross‑session and sandbox features, fixes many bugs, and improves Remote Control and VSCode integration.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "self‑hosted environments allow Claude Code to run on user machines or containers (Team/Enterprise plans)."
+          },
+          {
+            "category": "capability",
+            "description": "archive plugin source enables installing plugins from HTTPS zips with optional SHA‑256 pinning."
+          },
+          {
+            "category": "capability",
+            "description": "crossSessionInbound, dialogExpiry, and SendMessage allow cross‑session messaging and approval of inbound messages."
+          },
+          {
+            "category": "capability",
+            "description": "sandbox credential‑masking options (extract, onExtractNoMatch, decode: \"jwt\", maskClaims, awsPairs, sigv4) add structured masking and AWS SigV4 re‑signing."
+          },
+          {
+            "category": "compatibility",
+            "description": "Fixed path resolution, sandbox deny entries, and other bugs that could affect session isolation and file access."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the self‑hosted runner support all current Claude Code features?",
+          "Are the new sandbox masking options fully enforced for all tool types?",
+          "Is the archive plugin source compatible with existing plugin registries?"
+        ],
+        "limitations": [
+          "The notes do not detail whether the new cross‑session messaging respects all permission models or if any new security boundaries are introduced."
+        ]
+      }
+    },
+    {
+      "key": "codex:rust-v0.147.0",
+      "harnessId": "codex",
+      "version": "rust-v0.147.0",
+      "releasedAt": "2026-08-07",
+      "releaseUrl": "https://github.com/openai/codex/releases/tag/rust-v0.147.0",
+      "sourceApiUrl": "https://api.github.com/repos/openai/codex/releases/tags/rust-v0.147.0",
+      "releaseTitle": "0.147.0",
+      "releaseNotesSha256": "694a00e39c80cfb27d387863469fb3b3277195685cd374d5de17475d3de91ac9",
+      "releaseNotesTruncated": true,
+      "analyzedAt": "2026-08-07T05:56:21.900Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3257,
+        "completionTokens": 307,
+        "totalTokens": 3564
+      },
+      "triage": {
+        "summary": "New features include portable agent plugin installation, persistent thread sections, auto‑review approvals, Cursor skill sync, MCP 2026‑07‑28 support, cached web search for Bedrock. Bug fixes address secret redaction, terminal input, rendering, Windows process handling, project trust, plugin isolation. Documentation improved for OpenAI skill.…",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Portable agent plugin installation and MCP protocol support may alter runtime behavior and network access."
+          },
+          {
+            "category": "compatibility",
+            "description": "Windows path handling and process termination changes could affect existing workflows."
+          },
+          {
+            "category": "unknown",
+            "description": "Redaction of secrets and hardened plugin isolation enhance security."
+          },
+          {
+            "category": "performance",
+            "description": "Cached web search and remote conversation compaction may improve performance."
+          },
+          {
+            "category": "documentation",
+            "description": "OpenAI docs skill guidance updated."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the new MCP 2026‑07‑28 protocol require changes to existing agent configurations?",
+          "Are there any breaking changes to the CLI flags or command syntax?",
+          "Does the removal of the `--full-auto` flag affect any automation scripts?",
+          "What are the implications of hardened plugin isolation on third‑party plugins?"
+        ],
+        "limitations": [
+          "Release notes truncated; full changelog not fully visible."
+        ]
+      }
+    },
+    {
+      "key": "gemini-cli:v0.54.4",
+      "harnessId": "gemini-cli",
+      "version": "v0.54.4",
+      "releasedAt": "2026-08-07",
+      "releaseUrl": "https://github.com/google-gemini/gemini-cli/releases/tag/v0.54.4",
+      "sourceApiUrl": "https://api.github.com/repos/google-gemini/gemini-cli/releases/tags/v0.54.4",
+      "releaseTitle": "Release v0.54.4",
+      "releaseNotesSha256": "ce1f82dac6f1b8877f7d125f0f3978f0b87e07f31a2cedd7bb893a72306129ec",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-07T05:56:21.900Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 592,
+        "completionTokens": 145,
+        "totalTokens": 737
+      },
+      "triage": {
+        "summary": "Minor patch release with version bump corrections and a revert of an earlier bump.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Patch applied to version 0.54.0 and subsequent minor version adjustments."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": []
+      }
+    },
+    {
+      "key": "reasonix:v1.21.0",
+      "harnessId": "reasonix",
+      "version": "v1.21.0",
+      "releasedAt": "2026-08-07",
+      "releaseUrl": "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.21.0",
+      "sourceApiUrl": "https://api.github.com/repos/esengine/DeepSeek-Reasonix/releases/tags/v1.21.0",
+      "releaseTitle": "Reasonix CLI v1.21.0",
+      "releaseNotesSha256": "390e501faeb2b608f4f8f9a3f1c55f0bb0f1b1d8af94b9182eb4307eb849fc64",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-07T05:56:21.900Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3026,
+        "completionTokens": 305,
+        "totalTokens": 3331
+      },
+      "triage": {
+        "summary": "Reasonix v1.21.0 introduces structured shell execution contracts, staged error reporting, improved cache hit rate and cost accuracy, stream interruption recovery, session-level Bash temp file persistence, CLI refinements, removal of goal token limits, SWE‑bench verified mode, and UI updates.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Structured shell execution metadata and staged error reporting for CLI, desktop, and ACP."
+          },
+          {
+            "category": "performance",
+            "description": "Enhanced cache TTL and cost accounting accuracy."
+          },
+          {
+            "category": "compatibility",
+            "description": "Stream interruption recovery with atomic replay up to five times."
+          },
+          {
+            "category": "compatibility",
+            "description": "Session-level Bash temp file persistence across commands."
+          },
+          {
+            "category": "compatibility",
+            "description": "Removal of goal token hard limit."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the structured shell execution contract alter the observable behavior of tools or providers?",
+          "Is the removal of the goal token hard limit likely to affect user workflows or system limits?",
+          "Are there any changes to runtime isolation or permissions implied by the session-level temp file persistence?"
+        ],
+        "limitations": [
+          "The notes do not specify whether the new metadata is exposed to external systems or affects provider schemas."
+        ]
+      }
+    },
+    {
+      "key": "kimi-code:@moonshot-ai/kimi-code@0.34.0",
+      "harnessId": "kimi-code",
+      "version": "@moonshot-ai/kimi-code@0.34.0",
+      "releasedAt": "2026-08-06",
+      "releaseUrl": "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai/kimi-code%400.34.0",
+      "sourceApiUrl": "https://api.github.com/repos/MoonshotAI/kimi-code/releases/tags/%40moonshot-ai%2Fkimi-code%400.34.0",
+      "releaseTitle": "@moonshot-ai/kimi-code@0.34.0",
+      "releaseNotesSha256": "4d6b4e062707b2839bc5aad3f43b8dd60260d4bad7aef4a476919c8e5470a2eb",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-07T05:56:21.900Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3222,
+        "completionTokens": 329,
+        "totalTokens": 3551
+      },
+      "triage": {
+        "summary": "Minor UI and session state fixes, Windows support for Kimi Computer Use, improved error handling and persistence across restarts.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "documentation",
+            "description": "Added cache‑expiry reminder when resuming long‑idle sessions."
+          },
+          {
+            "category": "compatibility",
+            "description": "Added Windows x64 support for built‑in Kimi Computer Use capability and error display when setup fails."
+          },
+          {
+            "category": "performance",
+            "description": "Persisted last turn status across server restarts for session listings."
+          },
+          {
+            "category": "compatibility",
+            "description": "Fixed model picker overflow and various UI layout issues."
+          },
+          {
+            "category": "compatibility",
+            "description": "Fixed attachment handling, text selection, and session renaming during IME composition."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "No changes to core capabilities, runtime control, or permissions reported."
+        ]
+      }
+    },
+    {
+      "key": "omp:v17.2.10",
+      "harnessId": "omp",
+      "version": "v17.2.10",
+      "releasedAt": "2026-08-06",
+      "releaseUrl": "https://github.com/can1357/oh-my-pi/releases/tag/v17.2.10",
+      "sourceApiUrl": "https://api.github.com/repos/can1357/oh-my-pi/releases/tags/v17.2.10",
+      "releaseTitle": "v17.2.10",
+      "releaseNotesSha256": "92ae8c26ebccab4e8ae6faf67045b6db91e578571aada64c16d10890f480d5aa",
+      "releaseNotesTruncated": true,
+      "analyzedAt": "2026-08-07T05:56:21.900Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3414,
+        "completionTokens": 265,
+        "totalTokens": 3679
+      },
+      "triage": {
+        "summary": "Multiple packages updated; major removal of zod dependency and replacement with omptype; added CLI flag, session resume, UI changes; many bug fixes across packages.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "deprecation",
+            "description": "Removed zod dependency and re-exports; replaced with omptype schemas."
+          },
+          {
+            "category": "compatibility",
+            "description": "Replaced zod API with omptype facade; plugins retain Zod-style builder but real Zod APIs removed."
+          },
+          {
+            "category": "performance",
+            "description": "Replaced arktype with omptype for faster startup; optimized dependencies."
+          },
+          {
+            "category": "documentation",
+            "description": "Added zero-dependency modules in pi-utils; updated Markdown parser."
+          },
+          {
+            "category": "unknown",
+            "description": "Various bug fixes across packages."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the removal of zod affect existing extensions that import zod directly?",
+          "Are the new CLI flag and session resume features fully documented?",
+          "Is the omptype compatibility facade sufficient for all previous Zod usage?",
+          "Do the UI changes impact user workflows?"
+        ],
+        "limitations": [
+          "Many fixes are internal; no explicit new features or breaking changes beyond zod removal."
+        ]
+      }
+    },
+    {
+      "key": "qwen-code:v0.21.7",
+      "harnessId": "qwen-code",
+      "version": "v0.21.7",
+      "releasedAt": "2026-08-06",
+      "releaseUrl": "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.7",
+      "sourceApiUrl": "https://api.github.com/repos/QwenLM/qwen-code/releases/tags/v0.21.7",
+      "releaseTitle": "Release v0.21.7",
+      "releaseNotesSha256": "24be1c82537e357fbd463347d25115f2bcca0e39529be3fc4822799135815341",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-07T05:56:21.900Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1817,
+        "completionTokens": 547,
+        "totalTokens": 2364
+      },
+      "triage": {
+        "summary": "This release removes a 50‑turn limit on Goals, adds inline terminal image rendering, introduces a declarative review‑context manifest, adds a setting to route voice transcription through custom ASR gateways, normalizes certificate names for Live Host signing, caps streaming response lifetime to avoid hangs, and improves sandbox runtime selection…",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Removed 50‑turn limit for Goals, allowing longer task continuations."
+          },
+          {
+            "category": "capability",
+            "description": "Enabled inline terminal image rendering in CLI for Kitty, Ghostty, and chafa."
+          },
+          {
+            "category": "capability",
+            "description": "Added declarative .qwen/review-context.json manifest and review repo-context command for repository‑specific review plans."
+          },
+          {
+            "category": "capability",
+            "description": "Introduced security.allowedInsecureVoiceBaseUrls setting to route voice transcription through custom ASR gateways."
+          },
+          {
+            "category": "compatibility",
+            "description": "Fixed Live Host release signing by normalizing certificate names to match Electron Builder expectations."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the removal of the 50‑turn limit affect any existing user workflows or integrations?",
+          "Is the new security.allowedInsecureVoiceBaseUrls setting documented for users who need to configure custom ASR gateways?",
+          "Are there any edge cases where the capped streaming response lifetime might truncate useful data?",
+          "Does the inline terminal image rendering work consistently across all supported terminals?",
+          "Has the certificate name normalization been validated against all Electron Builder configurations?"
+        ],
+        "limitations": [
+          "The release notes do not specify whether the 50‑turn limit removal introduces any new resource usage or performance implications."
+        ]
+      }
+    },
+    {
+      "key": "stagewise:stagewise@1.28.0",
+      "harnessId": "stagewise",
+      "version": "stagewise@1.28.0",
+      "releasedAt": "2026-08-06",
+      "releaseUrl": "https://github.com/stagewise-io/stagewise/releases/tag/stagewise%401.28.0",
+      "sourceApiUrl": "https://api.github.com/repos/stagewise-io/stagewise/releases/tags/stagewise%401.28.0",
+      "releaseTitle": "Stagewise 1.28.0",
+      "releaseNotesSha256": "236bcfb6e7966280c38e4b910421af4eebb7fe633dadd6f74aad064c862e76cd",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-07T05:56:21.900Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 735,
+        "completionTokens": 396,
+        "totalTokens": 1131
+      },
+      "triage": {
+        "summary": "Stagewise 1.28.0 adds features such as expanding long user messages, persistent unread marks, background watcher sessions, and file edit summaries. Bug fixes address message interaction, UI status dots, navigation, onboarding overlap, streaming, file opening, and watcher behavior. One change removes pending edits review flow.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "unknown",
+            "description": "allow expanding long user messages"
+          },
+          {
+            "category": "unknown",
+            "description": "add persistent mark as unread for chats"
+          },
+          {
+            "category": "unknown",
+            "description": "add background watcher sessions"
+          },
+          {
+            "category": "unknown",
+            "description": "summarize file edits after agent turns"
+          },
+          {
+            "category": "unknown",
+            "description": "address long message interaction issues"
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": []
+      }
+    },
     {
       "key": "claude-code:v2.1.223",
       "harnessId": "claude-code",
