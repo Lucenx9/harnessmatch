@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-08-07T05:56:21.900Z",
+  "updatedAt": "2026-08-07T10:01:34.921Z",
   "generatedBy": {
     "provider": "OpenRouter",
     "model": "openai/gpt-oss-20b",
@@ -8,6 +8,244 @@
     "purpose": "AI-assisted release-note triage for editorial review; never product evidence."
   },
   "items": [
+    {
+      "key": "ggcode:v1.3.196",
+      "harnessId": "ggcode",
+      "version": "v1.3.196",
+      "releasedAt": "2026-08-07",
+      "releaseUrl": "https://github.com/topcheer/ggcode/releases/tag/v1.3.196",
+      "sourceApiUrl": "https://api.github.com/repos/topcheer/ggcode/releases/tags/v1.3.196",
+      "releaseTitle": "v1.3.196",
+      "releaseNotesSha256": "548ace9d35dd9feab4a04a874b39d44961d4017282997ba849925a2f1ed1c6c0",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-07T10:01:34.921Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 733,
+        "completionTokens": 183,
+        "totalTokens": 916
+      },
+      "triage": {
+        "summary": "Bug fix for env parsing panic, CI auto-sync, and five new metacognitive detectors.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "unknown",
+            "description": "Fixed panic when environment variable contains single quote; added guard and warning."
+          },
+          {
+            "category": "compatibility",
+            "description": "CI pipeline now syncs winget-pkgs fork before PRs."
+          },
+          {
+            "category": "capability",
+            "description": "Introduced five new deterministic metacognitive detectors for agent behavior."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the new detectors affect runtime behavior or tool usage?",
+          "Are there any changes to permissions or isolation?",
+          "Is the CI sync change relevant to end users?"
+        ],
+        "limitations": [
+          "No explicit mention of changes to tool interfaces or runtime control."
+        ]
+      }
+    },
+    {
+      "key": "letta-code:v0.30.9",
+      "harnessId": "letta-code",
+      "version": "v0.30.9",
+      "releasedAt": "2026-08-07",
+      "releaseUrl": "https://github.com/letta-ai/letta-code/releases/tag/v0.30.9",
+      "sourceApiUrl": "https://api.github.com/repos/letta-ai/letta-code/releases/tags/v0.30.9",
+      "releaseTitle": "Release v0.30.9",
+      "releaseNotesSha256": "e79aed7400f754fc5af76da8bc48d814707d8e73576c95ec740f064a8642a708",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-07T10:01:34.921Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 826,
+        "completionTokens": 289,
+        "totalTokens": 1115
+      },
+      "triage": {
+        "summary": "Minor bug fixes and feature updates, including listener refresh, state isolation, WebSocket flag removal, channel tag replacement, telemetry tracking, retry display, process kill, socket keep‑alive, direct turns, HTTP read abort, and version bump.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "performance",
+            "description": "Force‑kill timed‑out process trees and abort wedged HTTP reads."
+          },
+          {
+            "category": "compatibility",
+            "description": "Fix listener refresh after turn‑start mods and keep split stream sockets alive."
+          },
+          {
+            "category": "documentation",
+            "description": "Remove Responses WebSocket experiment flag."
+          },
+          {
+            "category": "capability",
+            "description": "Replace source prefixes with conversation tags in channels."
+          },
+          {
+            "category": "performance",
+            "description": "Show first provider retry and keep direct turns on process transport."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the forced kill of timed‑out process trees affect any external processes or permissions?",
+          "Are the changes to channel tags backward compatible with existing integrations?",
+          "Does the removal of the WebSocket experiment flag alter any runtime behavior?"
+        ],
+        "limitations": [
+          "The notes do not specify any changes to permissions, isolation, or orchestration."
+        ]
+      }
+    },
+    {
+      "key": "opencode:v1.18.15",
+      "harnessId": "opencode",
+      "version": "v1.18.15",
+      "releasedAt": "2026-08-07",
+      "releaseUrl": "https://github.com/anomalyco/opencode/releases/tag/v1.18.15",
+      "sourceApiUrl": "https://api.github.com/repos/anomalyco/opencode/releases/tags/v1.18.15",
+      "releaseTitle": "v1.18.15",
+      "releaseNotesSha256": "b2b18b12d0c9227d344d22319ef730d4559c52d85ee0761b0fefda8d32589baa",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-07T10:01:34.921Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 707,
+        "completionTokens": 173,
+        "totalTokens": 880
+      },
+      "triage": {
+        "summary": "Bug fixes and improvements to core message ordering, attachment handling, compaction, and UI features; desktop app locale support, export, and ordering fixes.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "unknown",
+            "description": "Corrected chronological ordering for messages, reverts/forks, truncation cleanup, compaction history, and blob attachment loading."
+          },
+          {
+            "category": "unknown",
+            "description": "Expanded locale coverage, added JSON export of session transcripts, and improved ordering of session timelines, stored messages, and session lists."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "No explicit mention of changes to runtime control, permissions, or isolation. Must confirm not mandatory for capability review."
+        ]
+      }
+    },
+    {
+      "key": "pi:v0.84.1",
+      "harnessId": "pi",
+      "version": "v0.84.1",
+      "releasedAt": "2026-08-07",
+      "releaseUrl": "https://github.com/earendil-works/pi/releases/tag/v0.84.1",
+      "sourceApiUrl": "https://api.github.com/repos/earendil-works/pi/releases/tags/v0.84.1",
+      "releaseTitle": "v0.84.1",
+      "releaseNotesSha256": "26d122aca43b557cacec791d89d2786c6373a1fb9f59ed85ef462d924ad78e6a",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-07T10:01:34.921Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1390,
+        "completionTokens": 286,
+        "totalTokens": 1676
+      },
+      "triage": {
+        "summary": "v0.84.1 adds Qwen Token Plan Individual provider, auth check command, fullscreen interaction improvements, tool call termination support, and various bug fixes. Minor performance tweaks and environment guideline softening.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Introduces Qwen Token Plan Individual provider and auth check command, adds terminate support for tool_call events, and improves fullscreen interaction."
+          },
+          {
+            "category": "performance",
+            "description": "Reduces terminal theme detection delay from 200 ms to 100 ms."
+          },
+          {
+            "category": "compatibility",
+            "description": "Softens bash tool environment guidelines and fixes Bun binary crash with bunfig.toml."
+          },
+          {
+            "category": "documentation",
+            "description": "Adds documentation references for new features."
+          },
+          {
+            "category": "unknown",
+            "description": "Fixes various bugs including TUI recursion, clipboard paste, agent reset behavior, LaTeX rendering, and mouse event volume."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the new Qwen Token Plan Individual provider affect runtime permissions or isolation?",
+          "Are the auth check command and terminate support for tool_call events considered material changes to tool orchestration?",
+          "Is the reduction in theme detection delay significant for performance?"
+        ],
+        "limitations": [
+          "The notes do not specify changes to security or isolation."
+        ]
+      }
+    },
+    {
+      "key": "reasonix:v1.21.1",
+      "harnessId": "reasonix",
+      "version": "v1.21.1",
+      "releasedAt": "2026-08-07",
+      "releaseUrl": "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.21.1",
+      "sourceApiUrl": "https://api.github.com/repos/esengine/DeepSeek-Reasonix/releases/tags/v1.21.1",
+      "releaseTitle": "Reasonix CLI v1.21.1",
+      "releaseNotesSha256": "599502e42a0f2e0379037407ca20ad49de4ea8327332fdf398987084b24cb690",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-07T10:01:34.921Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1240,
+        "completionTokens": 218,
+        "totalTokens": 1458
+      },
+      "triage": {
+        "summary": "Fixes permanent updater deadlock on Windows/macOS and TUI watchdog mis‑kill, with internal refactor for maintainability. No user‑visible changes.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "performance",
+            "description": "Resolved updater deadlock and TUI watchdog mis‑kill on Windows/macOS, improving update reliability."
+          },
+          {
+            "category": "compatibility",
+            "description": "Automatic isolation of stale pending updates removes manual intervention for subsequent updates."
+          },
+          {
+            "category": "documentation",
+            "description": "No user‑visible behavior changes; internal refactor only."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the updater deadlock fix affect any runtime control or state isolation?",
+          "Are there any changes to permissions or isolation that could impact security?",
+          "Is the TUI watchdog modification likely to alter user experience or recovery behavior?"
+        ],
+        "limitations": [
+          "The notes describe internal refactoring without explicit impact on external APIs or user‑facing features."
+        ]
+      }
+    },
     {
       "key": "antigravity-cli:1.1.11",
       "harnessId": "antigravity-cli",
