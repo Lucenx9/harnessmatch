@@ -2,17 +2,17 @@ import type { GuiProduct } from "@/lib/gui-types";
 import { documented, guiVerifiedAt, source, unknown } from "./helpers";
 
 const repository = "https://github.com/generalaction/emdash";
-const providerDocs = "https://emdash.ai/docs/providers";
+const providerDocs = "https://emdash.com/docs/providers";
 
 export const emdash: GuiProduct = {
   id: "emdash",
   name: "Emdash",
   logo: {
     src: "/guis/emdash.svg",
-    sourceUrl: "https://emdash.ai/icon.svg?icon.ccc521cf.svg",
+    sourceUrl: "https://emdash.com/icon.svg?icon.ccc521cf.svg",
     verifiedAt: guiVerifiedAt,
   },
-  url: "https://emdash.ai/",
+  url: "https://emdash.com/",
   status: "active",
   layer: "multi-harness-workspace",
   sourceAccess: "open-source",

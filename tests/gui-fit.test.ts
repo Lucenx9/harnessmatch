@@ -31,7 +31,7 @@ const firstPartyGuiHosts: Record<string, string[]> = {
   codeg: ["github.com"],
   "codex-desktop": ["learn.chatgpt.com"],
   conductor: ["www.conductor.build"],
-  emdash: ["emdash.ai", "github.com"],
+  emdash: ["emdash.com", "github.com"],
   hapi: ["github.com"],
   maestro: ["docs.runmaestro.ai", "github.com"],
   nimbalyst: ["docs.nimbalyst.com", "github.com", "nimbalyst.com"],

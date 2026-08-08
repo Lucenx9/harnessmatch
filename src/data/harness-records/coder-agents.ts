@@ -116,7 +116,7 @@ export const coderAgents = {
       },
       {
         title: "Spend management",
-        url: "https://coder.com/docs/ai-coder/agents/platform-controls/usage-insights",
+        url: "https://coder.com/docs/@main/ai-coder/agents/platform-controls/spend-management",
         covers: "Per-user and per-model cost, token, message, chat, and rolling spend-limit records",
         kind: "official-docs",
         verifiedAt: verifiedAt,

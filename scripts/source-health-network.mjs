@@ -159,10 +159,11 @@ export function isAccessRestrictedLanding(input) {
   const pathSegments = url.pathname.split("/").filter(Boolean);
   const finalSegment = pathSegments.at(-1)?.toLowerCase();
   const isLoginPath = finalSegment === "login" || finalSegment === "signin" || finalSegment === "sign-in";
+  const isOpenReviewChallenge = url.hostname === "openreview.net" && finalSegment === "challenge";
   const hasReturnTarget = ["redirect", "return", "return_to", "returnTo", "next"].some((key) =>
     url.searchParams.has(key)
   );
-  return isLoginPath && hasReturnTarget;
+  return (isLoginPath || isOpenReviewChallenge) && hasReturnTarget;
 }
 
 export async function resolvePublicHttpUrl(input, resolve = lookup) {

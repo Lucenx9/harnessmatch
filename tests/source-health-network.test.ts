@@ -43,6 +43,7 @@ describe("source health network safety", () => {
     "https://docs.example.com/login?redirect=%2Fprivate-doc",
     "https://docs.example.com/auth/signin?return_to=%2Fprivate-doc",
     "https://docs.example.com/sign-in?next=%2Fprivate-doc",
+    "https://openreview.net/challenge?redirect=%2Fforum%3Fid%3DXMXWk83dah",
   ])("recognizes an access-controlled redirect landing at %s", (url) => {
     expect(isAccessRestrictedLanding(url)).toBe(true);
   });
