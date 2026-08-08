@@ -22,11 +22,11 @@ export const discoveryWatchlist: WatchlistCandidate[] = [
     observedAt: "2026-07-26",
   },
   {
-    name: "Slate Agent",
+    name: "Favur",
     status: "needs-more-evidence",
-    reason: "Discovered in ecosystem catalogs, but current first-party technical documentation is insufficient for source-backed capability classification.",
-    sourceUrl: "https://openrouter.ai/apps",
-    observedAt: "2026-07-26",
+    reason: "First-party pages describe a specialized-agent software lifecycle and open worked-run outputs, but Favur is closed-source and invite-only, and its technical documentation is explicitly still being written. Installation, runtime controls, context boundaries, and permission behavior remain too underspecified for a reproducible catalog record.",
+    sourceUrl: "https://favur.dev/how-it-works",
+    observedAt: "2026-08-08",
   },
   {
     name: "Ottili",

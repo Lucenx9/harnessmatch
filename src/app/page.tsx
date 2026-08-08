@@ -37,6 +37,18 @@ export default function HomePage() {
     openRouterSnapshots: openRouterAttributionSnapshots,
     ecosystemSignals: ecosystemSignalSnapshots,
   });
+  const homeOpenRouterRecords = usageRecords.openRouterRecords.map((record) => ({
+    id: record.id,
+    slug: record.slug,
+    name: record.name,
+    tagline: record.tagline,
+    logo: record.logo,
+    windows: {
+      week: record.windows.week,
+      month: record.windows.month,
+    },
+    trendingWindows: record.trendingWindows,
+  }));
   const homeEcosystemRecords = usageRecords.ecosystemRecords.filter(({ signal }) => (
     signal.source === "homebrew"
     || signal.source === "npm"
@@ -77,7 +89,7 @@ export default function HomePage() {
       <section className="home-usage-section" aria-label="Observed usage signals">
         <div className="shell">
           <HomeUsageSummary
-            openRouterRecords={usageRecords.openRouterRecords}
+            openRouterRecords={homeOpenRouterRecords}
             ecosystemRecords={homeEcosystemRecords}
             activeHarnessCount={usageRecords.activeHarnessCount}
           />

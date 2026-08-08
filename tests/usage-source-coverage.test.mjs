@@ -50,6 +50,7 @@ describe("usage source coverage", () => {
       "command-code", "codebuff", "opensquilla", "poolside-cli", "crush",
       "postqode", "kern", "junie-cli", "wakil",
       "ggcode", "mimo-code", "cursor-cli", "deepagents-code", "ante",
+      "slate",
     ]));
     expect(homebrewArtifacts).toEqual(expect.arrayContaining([
       expect.objectContaining({ harnessId: "antigravity-cli", artifactId: "antigravity-cli" }),
@@ -64,6 +65,8 @@ describe("usage source coverage", () => {
       expect.objectContaining({ harnessId: "mimo-code", artifactId: "@mimo-ai/cli" }),
       expect.objectContaining({ harnessId: "reasonix", artifactId: "reasonix" }),
       expect.objectContaining({ harnessId: "codewhale", artifactId: "codewhale" }),
+      expect.objectContaining({ harnessId: "slate", artifactId: "@randomlabs/slate" }),
+      expect.objectContaining({ harnessId: "spectral-agent", artifactId: "@aexol/spectral" }),
     ]));
     expect(vsCodeExtensions.map(({ harnessId }) => harnessId)).toEqual(expect.arrayContaining([
       "factory-droid", "qwen-code", "gemini-cli", "mistral-vibe", "zoo-code", "reasonix",

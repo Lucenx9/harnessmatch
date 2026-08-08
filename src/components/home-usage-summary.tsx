@@ -3,15 +3,19 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { HarnessLogo } from "@/components/harness-logo";
-import type { OpenRouterTrendingWindowKey } from "@/lib/types";
+import type { OpenRouterTrendingWindowKey, OpenRouterUsageWindow } from "@/lib/types";
 import type {
   EcosystemUsageRecord,
-  OpenRouterUsageRecord,
   UsageProduct,
 } from "@/lib/usage-view";
 
 type UsageSource = "openrouter" | "homebrew" | "npm" | "github-releases" | "vscode";
 type OpenRouterView = "popular" | "trending";
+
+type HomeOpenRouterUsageRecord = UsageProduct & {
+  windows: Record<OpenRouterTrendingWindowKey, OpenRouterUsageWindow>;
+  trendingWindows: Record<OpenRouterTrendingWindowKey, OpenRouterUsageWindow>;
+};
 
 type SummaryRow = UsageProduct & {
   rank: number;
@@ -109,7 +113,7 @@ export function HomeUsageSummary({
   ecosystemRecords,
   activeHarnessCount,
 }: {
-  openRouterRecords: OpenRouterUsageRecord[];
+  openRouterRecords: HomeOpenRouterUsageRecord[];
   ecosystemRecords: EcosystemUsageRecord[];
   activeHarnessCount: number;
 }) {

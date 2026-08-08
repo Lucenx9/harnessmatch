@@ -85,6 +85,13 @@ describe("OpenRouter attribution sync", () => {
       originUrl: "https://docs.antigma.ai/",
       slug: null,
     });
+    expect(openRouterApps.find(({ harnessId }) => harnessId === "slate")).toMatchObject({
+      appId: 2_567_728,
+      appName: "Slate Agent",
+      originUrl: "https://randomlabs.ai/",
+      slug: null,
+    });
+    expect(openRouterApps.some(({ harnessId }) => harnessId === "spectral-agent")).toBe(false);
   });
 
   it("joins ranking rows by stable app id instead of duplicate names", () => {

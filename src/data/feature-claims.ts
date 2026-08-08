@@ -648,6 +648,16 @@ const featureClaimSeedsByHarness = {
       "Checkpoints exclude Bash, move operations, remote services, and other external side effects; rewind can overwrite later external edits.",
     ),
   },
+  slate: {
+    mcp: documented("Slate configuration"),
+    skills: documented("Slate skills"),
+    subagents: documented("Slate configuration", "Slate orchestration and tracing"),
+    headless: documented("Slate configuration"),
+  },
+  "spectral-agent": {
+    mcp: documented("Spectral MCP servers"),
+    subagents: documented("Spectral subagents"),
+  },
 } satisfies Record<string, Partial<Record<FeatureKey, FeatureClaimSeed>>>;
 
 export const featureClaimHarnessIds = Object.keys(featureClaimSeedsByHarness);

@@ -665,6 +665,30 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
     "Reasonix persists hierarchical instructions, durable memory, sessions, structured event streams, and edit checkpoints while exposing ordered permission policy and platform-specific shell isolation. Verification remains tool-assisted rather than an enforced completion gate. Version 1.19.3 removed Guard and Safe Mode, while 1.19.5 bounded event-log replay and confined project prompt paths to the workspace. Windows shell execution is unconfined, headless auto mode removes interactive approval, MCP tools bypass per-tool approval, and checkpoints cannot reverse Bash, move, network, or other external side effects.",
     reasonixReleaseReviewAt,
   ),
+  slate: record(
+    { context: "managed", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },
+    [
+      "https://randomlabs.ai/",
+      "https://docs.randomlabs.ai/en/using-slate",
+      "https://docs.randomlabs.ai/en/using-slate/configuration",
+      "https://docs.randomlabs.ai/en/using-slate/orchestration",
+      "https://docs.randomlabs.ai/en/using-slate/workspace_setup",
+    ],
+    "Slate manages repository context, project instructions, sessions, queues, and subagent traces while exposing allow, ask, and deny tool policy, structured headless output, and tool-assisted test workflows. Execution remains host-first with no documented OS sandbox; --yolo bypasses safeguards, server mode needs external network controls, and session resume does not restore files or external side effects.",
+    "2026-08-08",
+  ),
+  "spectral-agent": record(
+    { context: "managed", permissions: "host", verification: "tool-assisted", observability: "logs", recovery: "session-resume" },
+    [
+      "https://aexol.ai/docs/agent/",
+      "https://aexol.ai/docs/agent/projects-and-sessions/",
+      "https://aexol.ai/docs/agent/memory/",
+      "https://aexol.ai/docs/agent/loop-and-goal/",
+      "https://aexol.ai/docs/agent/subagents/",
+    ],
+    "Spectral manages long-session context through observations, reflections, compaction, and recall; local SQLite records messages and tool activity, and reconnect resumes current work. Repository files, shell, Git, subagents, and MCP remain host-first with no documented general tool policy or OS sandbox. Goal evaluation and tool checks are product-internal, and resume does not roll back files or external effects.",
+    "2026-08-08",
+  ),
 };
 
 const unknownRecord: OperationalProfileRecord = {

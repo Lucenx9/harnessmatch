@@ -56,6 +56,8 @@ const firstPartyHosts: Record<string, string[]> = {
   reasonix: ["reasonix.io", "github.com"],
   codewhale: ["github.com"],
   openharness: ["github.com"],
+  slate: ["docs.randomlabs.ai", "randomlabs.ai", "registry.npmjs.org"],
+  "spectral-agent": ["aexol.ai", "registry.npmjs.org"],
 };
 
 const firstPartyLogoHosts: Record<string, string> = {
@@ -109,6 +111,8 @@ const firstPartyLogoHosts: Record<string, string> = {
   reasonix: "github.com",
   codewhale: "github.com",
   openharness: "github.com",
+  slate: "randomlabs.ai",
+  "spectral-agent": "aexol.ai",
 };
 
 describe("harness evidence ledger", () => {
@@ -372,7 +376,7 @@ describe("harness evidence ledger", () => {
 
   it("admits the OpenRouter-discovered wave only through first-party membership evidence", () => {
     const byId = new Map(harnesses.map((harness) => [harness.id, harness]));
-    for (const id of ["wakil", "deepagents-code", "opensquilla", "postqode", "kern", "ggcode", "mimo-code", "ante"]) {
+    for (const id of ["wakil", "deepagents-code", "opensquilla", "postqode", "kern", "ggcode", "mimo-code", "ante", "slate", "spectral-agent"]) {
       const harness = byId.get(id);
       expect(harness, id).toBeDefined();
       expect(harness?.status).toBe("active");
@@ -389,6 +393,22 @@ describe("harness evidence ledger", () => {
     expect(featureSupportFor(byId.get("ggcode")).sandbox).toBe(false);
     expect(featureSupportFor(byId.get("mimo-code")).sandbox).toBe(false);
     expect(featureSupportFor(byId.get("ante")).sandbox).toBe(false);
+    expect(featureSupportFor(byId.get("slate"))).toMatchObject({
+      mcp: true,
+      skills: true,
+      subagents: true,
+      headless: true,
+      sandbox: false,
+      checkpoints: false,
+    });
+    expect(featureSupportFor(byId.get("spectral-agent"))).toMatchObject({
+      mcp: true,
+      skills: false,
+      subagents: true,
+      headless: false,
+      sandbox: false,
+      checkpoints: false,
+    });
 
     const wakil = byId.get("wakil")!;
     expect(wakil.verifiedAt).toBe("2026-08-02");
@@ -408,6 +428,42 @@ describe("harness evidence ledger", () => {
     expect(ggcode.evidence.find((source) => source.title === "GGCode v1.3.189 release")?.covers)
       .toContain("agent verification gates");
     expect(ggcode.tradeoffs.join(" ")).toContain("three consecutive approvals");
+  });
+
+  it("adds Slate and Spectral only from reviewed first-party runtime evidence", () => {
+    const slate = harnesses.find((harness) => harness.id === "slate")!;
+    const spectral = harnesses.find((harness) => harness.id === "spectral-agent")!;
+
+    expect(slate).toMatchObject({
+      status: "active",
+      license: "Proprietary",
+      supportsSubscription: true,
+      classification: { runtime: "host-first", isolation: [], state: "session-based" },
+    });
+    expect(slate.evidence).toHaveLength(8);
+    expect(slate.evidence.map((source) => source.url)).toEqual(expect.arrayContaining([
+      "https://registry.npmjs.org/@randomlabs%2fslate/1.0.44",
+      "https://docs.randomlabs.ai/en/using-slate/configuration",
+      "https://docs.randomlabs.ai/en/using-slate/orchestration",
+    ]));
+    expect(slate.tradeoffs.join(" ")).toContain("no operating-system sandbox");
+    expect(slate.tradeoffs.join(" ")).toContain("0.0.0.0");
+
+    expect(spectral).toMatchObject({
+      status: "active",
+      license: "MIT (published npm package)",
+      supportsSubscription: false,
+      classification: { runtime: "host-first", isolation: [], state: "session-based" },
+    });
+    expect(spectral.evidence).toHaveLength(7);
+    expect(spectral.evidence.map((source) => source.url)).toEqual(expect.arrayContaining([
+      "https://registry.npmjs.org/@aexol%2fspectral/0.9.152",
+      "https://aexol.ai/docs/agent/loop-and-goal/",
+      "https://aexol.ai/docs/agent/memory/",
+      "https://aexol.ai/docs/agent/subagents/",
+    ]));
+    expect(spectral.tradeoffs.join(" ")).toContain("requires sign-in");
+    expect(spectral.tradeoffs.join(" ")).toContain("no operating-system sandbox");
   });
 
   it("adds MiMo Code from first-party evidence while keeping discovery and capability evidence separate", () => {

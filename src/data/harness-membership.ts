@@ -339,6 +339,18 @@ const membershipDefinitions: Record<string, MembershipDefinition> = {
     activeContextManagement: ["Reasonix engineering specification", "Context Engine v2"],
     runtimeControl: ["Permissions and sandbox", "Provider and model routes"],
   }),
+  slate: documentedCodingHarness({
+    adaptiveLoop: ["Slate product overview", "Slate orchestration and tracing"],
+    environmentMutation: ["Slate quickstart", "Slate workspace setup"],
+    activeContextManagement: ["Slate product overview", "Slate basics"],
+    runtimeControl: "Slate configuration",
+  }),
+  "spectral-agent": documentedCodingHarness({
+    adaptiveLoop: "Loop and goal mode",
+    environmentMutation: ["Spectral Agent overview", "Projects and sessions"],
+    activeContextManagement: "Observational memory",
+    runtimeControl: ["Loop and goal mode", "Spectral subagents"],
+  }),
 };
 
 export function getHarnessMembershipAssessment(

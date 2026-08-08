@@ -48,6 +48,8 @@ import { ante } from "./ante";
 import { reasonix } from "./reasonix";
 import { codewhale } from "./codewhale";
 import { openHarness } from "./openharness";
+import { slate } from "./slate";
+import { spectralAgent } from "./spectral-agent";
 import type { HarnessRecord } from "./types";
 
 export const harnessRecords: HarnessRecord[] = [
@@ -101,4 +103,6 @@ export const harnessRecords: HarnessRecord[] = [
   reasonix,
   codewhale,
   openHarness,
+  slate,
+  spectralAgent,
 ];

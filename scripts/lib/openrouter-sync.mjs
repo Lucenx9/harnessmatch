@@ -27,6 +27,7 @@ export const openRouterApps = [
   { harnessId: "junie-cli", appId: 3_053_821, appName: "Junie", originUrl: "https://www.jetbrains.com/junie", slug: "junie" },
   { harnessId: "wakil", appId: 4_397_443, appName: "wakil", originUrl: "https://github.com/treeol/wakil", slug: null },
   { harnessId: "ggcode", appId: 4_434_691, appName: "GGCode", originUrl: "https://ggcode.dev/", slug: null },
+  { harnessId: "slate", appId: 2_567_728, appName: "Slate Agent", originUrl: "https://randomlabs.ai/", slug: null },
 ];
 
 export const rankingDatasetSourceUrl = "https://openrouter.ai/docs/agent-sdk/typescript/api-reference/datasets";
