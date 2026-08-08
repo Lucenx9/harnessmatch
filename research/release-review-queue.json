@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-08-07T10:01:34.921Z",
+  "updatedAt": "2026-08-08T13:15:40.933Z",
   "generatedBy": {
     "provider": "OpenRouter",
     "model": "openai/gpt-oss-20b",
@@ -8,6 +8,456 @@
     "purpose": "AI-assisted release-note triage for editorial review; never product evidence."
   },
   "items": [
+    {
+      "key": "claude-code:v2.1.226",
+      "harnessId": "claude-code",
+      "version": "v2.1.226",
+      "releasedAt": "2026-08-08",
+      "releaseUrl": "https://github.com/anthropics/claude-code/releases/tag/v2.1.226",
+      "sourceApiUrl": "https://api.github.com/repos/anthropics/claude-code/releases/tags/v2.1.226",
+      "releaseTitle": "v2.1.226",
+      "releaseNotesSha256": "dd490d3f4e93c8165c0322324024d1202fe097b1be5a232b6035fd40bfee97cc",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-08T13:15:40.933Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 427,
+        "completionTokens": 104,
+        "totalTokens": 531
+      },
+      "triage": {
+        "summary": "Bug fixes and reliability improvements.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "performance",
+            "description": "Bug fixes and reliability improvements."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "No detailed description of specific fixes; unclear if any impact on functionality or security."
+        ]
+      }
+    },
+    {
+      "key": "codewhale:v0.9.4",
+      "harnessId": "codewhale",
+      "version": "v0.9.4",
+      "releasedAt": "2026-08-08",
+      "releaseUrl": "https://github.com/Hmbown/CodeWhale/releases/tag/v0.9.4",
+      "sourceApiUrl": "https://api.github.com/repos/Hmbown/CodeWhale/releases/tags/v0.9.4",
+      "releaseTitle": "v0.9.4",
+      "releaseNotesSha256": "9bad826fdfd9570d5d1683767a39c87a77669699fb3f15b57c883753044eed40",
+      "releaseNotesTruncated": true,
+      "analyzedAt": "2026-08-08T13:15:40.933Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3551,
+        "completionTokens": 415,
+        "totalTokens": 3966
+      },
+      "triage": {
+        "summary": "v0.9.4 of Codewhale introduces rebranding, deprecation of legacy package, new installation methods, telemetry opt‑in, memory management changes, audit trail, agent checkpoint resume, registry discovery, fresh‑context disclosure, fleet store v2, scout replacement, model‑picker updates, GLM‑5.3 registration, account commands, automation controls, workflow…",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Legacy npm package deepseek-tui deprecated; migration guidance provided."
+          },
+          {
+            "category": "performance",
+            "description": "Progressive fresh‑context disclosure reduces context budget by ~40%."
+          },
+          {
+            "category": "safety",
+            "description": "Telemetry opt‑in with strict data limits; no IP or location data collected."
+          },
+          {
+            "category": "documentation",
+            "description": "Rebranding docs and migration guide added."
+          },
+          {
+            "category": "installation",
+            "description": "New Docker, Cargo, and manual download options; Windows installer unsigned."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the release include any changes to runtime isolation or permissions that could affect existing workflows?",
+          "Are there any new runtime binaries that require updated security or signing verification?",
+          "Is the telemetry opt‑in behavior fully documented and does it align with privacy requirements?",
+          "Do the new memory management features alter how durable state is persisted or recovered?",
+          "Are the new installation methods compatible with existing CI/CD pipelines?"
+        ],
+        "limitations": [
+          "Unclear if Windows installer signing will be added in future releases; current unsigned installer may trigger SmartScreen."
+        ]
+      }
+    },
+    {
+      "key": "ggcode:v1.3.198",
+      "harnessId": "ggcode",
+      "version": "v1.3.198",
+      "releasedAt": "2026-08-08",
+      "releaseUrl": "https://github.com/topcheer/ggcode/releases/tag/v1.3.198",
+      "sourceApiUrl": "https://api.github.com/repos/topcheer/ggcode/releases/tags/v1.3.198",
+      "releaseTitle": "v1.3.198",
+      "releaseNotesSha256": "b5e8a66d3d116d71e66b115aef36b30536745af790a0c39c53bc837a37d052cf",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-08T13:15:40.933Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 931,
+        "completionTokens": 336,
+        "totalTokens": 1267
+      },
+      "triage": {
+        "summary": "Release adds numerous new detectors and a few fixes, enhancing failure awareness and safety checks.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Add False Premise Detector, CUSUM Statistical Drift Detector, Subgoal Completion Integrity Detector, Guidance Coalescer, Sequential Read Serialization Detector, Unverified Self-Diagnosis Detector, Cross-File Edit…"
+          },
+          {
+            "category": "unknown",
+            "description": "Update ambiguity test expectations for refined quickTaskPhrases."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the addition of these detectors affect runtime control or isolation?",
+          "Are any new permissions or context changes required for the detectors to function?",
+          "Will the performance change impact CI execution time significantly?"
+        ],
+        "limitations": [
+          "Release notes list many feature additions but do not detail implementation specifics or potential side effects."
+        ]
+      }
+    },
+    {
+      "key": "letta-code:v0.30.11",
+      "harnessId": "letta-code",
+      "version": "v0.30.11",
+      "releasedAt": "2026-08-08",
+      "releaseUrl": "https://github.com/letta-ai/letta-code/releases/tag/v0.30.11",
+      "sourceApiUrl": "https://api.github.com/repos/letta-ai/letta-code/releases/tags/v0.30.11",
+      "releaseTitle": "Release v0.30.11",
+      "releaseNotesSha256": "993632326499796a6bd68a50dab13c3e306faf389643360d5ad09f37d0cd5a76",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-08T13:15:40.933Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 708,
+        "completionTokens": 378,
+        "totalTokens": 1086
+      },
+      "triage": {
+        "summary": "This release adds several channel‑related features and fixes, including exporting error formatting and slash‑command surface for external hosts, tagging scheduled conversations, and pinning the agent’s current model on channel‑created conversations. It also registers environment skills in the agent context and removes duplicate outbound actions.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Export lifecycle‑error formatting for external channel hosts."
+          },
+          {
+            "category": "capability",
+            "description": "Export slash‑command surface for external channel hosts."
+          },
+          {
+            "category": "capability",
+            "description": "Tag scheduled conversations instead of prefixing titles."
+          },
+          {
+            "category": "capability",
+            "description": "Pin the agent’s current model on channel‑created conversations."
+          },
+          {
+            "category": "capability",
+            "description": "Register environment skills in agent context."
+          }
+        ],
+        "verificationQuestions": [
+          "Does exporting lifecycle‑error formatting alter the error handling behavior for external channel hosts?",
+          "Does the slash‑command surface change affect how external hosts invoke commands?",
+          "Will tagging scheduled conversations change the conversation title format for users?",
+          "Does pinning the agent’s current model affect model selection for new channel conversations?",
+          "Is the registration of environment skills in the agent context required for any new permissions or capabilities?"
+        ],
+        "limitations": [
+          "The notes do not specify whether these changes introduce new permissions, isolation boundaries, or affect runtime control."
+        ]
+      }
+    },
+    {
+      "key": "openclaw:v2026.6.34",
+      "harnessId": "openclaw",
+      "version": "v2026.6.34",
+      "releasedAt": "2026-08-08",
+      "releaseUrl": "https://github.com/openclaw/openclaw/releases/tag/v2026.6.34",
+      "sourceApiUrl": "https://api.github.com/repos/openclaw/openclaw/releases/tags/v2026.6.34",
+      "releaseTitle": "openclaw 2026.6.34",
+      "releaseNotesSha256": "623f3abe11abe9d9108f82b62bbde0bd949d940467ff944f7164fe4ec6b5a6e2",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-08T13:15:40.933Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 2464,
+        "completionTokens": 338,
+        "totalTokens": 2802
+      },
+      "triage": {
+        "summary": "OpenClaw v2026.6.34 focuses on security hardening, resilience, and stability improvements across browser, agent, provider, channel, diagnostics, and runtime state. It includes targeted fixes for unsafe inputs, stream failures, and transient host conditions, updates dependencies, and schedules deprecation of legacy plugin SDK hooks.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "unknown",
+            "description": "Sandboxed browser routes, trusted DNS targets, custom origins, and loopback provider endpoints now reject unsafe access paths."
+          },
+          {
+            "category": "performance",
+            "description": "Agent and provider runs retain session writes, provider fallbacks, stream progress handling, and stdio failures recover without silently ending active work."
+          },
+          {
+            "category": "compatibility",
+            "description": "Channel recovery resumes after recovery, acknowledgements idempotent, Discord gateway bursts bounded."
+          },
+          {
+            "category": "documentation",
+            "description": "Deprecation of legacy plugin SDK hooks scheduled after July 24."
+          },
+          {
+            "category": "unknown",
+            "description": "Updated production dependencies for patched brace-expansion, PostCSS, fast-uri, ip-address, and Undici."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the release introduce any new runtime control or permission changes beyond the listed security hardening?",
+          "Are there any changes to the public API or configuration that could affect existing integrations?",
+          "Is the deprecation of plugin SDK hooks fully documented and backward‑compatible for the current release channel?"
+        ],
+        "limitations": [
+          "The notes do not specify whether any new features or breaking changes are added beyond the listed fixes and deprecations."
+        ]
+      }
+    },
+    {
+      "key": "reasonix:v1.21.3",
+      "harnessId": "reasonix",
+      "version": "v1.21.3",
+      "releasedAt": "2026-08-08",
+      "releaseUrl": "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.21.3",
+      "sourceApiUrl": "https://api.github.com/repos/esengine/DeepSeek-Reasonix/releases/tags/v1.21.3",
+      "releaseTitle": "Reasonix CLI v1.21.3",
+      "releaseNotesSha256": "b71771563096c5437456e52e1593d6731e4e48198ee93a605b85af93b2aa6560",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-08T13:15:40.933Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 2155,
+        "completionTokens": 377,
+        "totalTokens": 2532
+      },
+      "triage": {
+        "summary": "Reasonix CLI v1.21.3 adds Markdown rendering for reasoning panels, makes runtime storage paths visible, adds explicit Kimi K3 protocol support for custom OpenAI‑compatible gateways, preserves Windows install location, fixes taskbar icon grouping, prevents premature compression on retries, introduces adaptive no‑progress protection, and enables stream…",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Adds explicit Kimi K3 protocol support for custom gateways, potentially affecting gateway configuration and runtime behavior."
+          },
+          {
+            "category": "performance",
+            "description": "Enables stream merging on the hot path to reduce UI jitter and event volume."
+          },
+          {
+            "category": "documentation",
+            "description": "Introduces Markdown rendering for reasoning panels and updates UI elements."
+          },
+          {
+            "category": "installation",
+            "description": "Preserves Windows install location and updates taskbar icon grouping."
+          },
+          {
+            "category": "unknown",
+            "description": "Fixes premature compression on retries and other UI bugs."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the explicit Kimi K3 protocol support require changes to existing gateway configurations?",
+          "Is the stream merging implementation fully backward compatible with previous stream handling?",
+          "Are there any side effects on billing or token usage due to the new compression logic?"
+        ],
+        "limitations": [
+          "The notes do not detail whether the new protocol support changes any security or permission model."
+        ]
+      }
+    },
+    {
+      "key": "crush:v0.88.1",
+      "harnessId": "crush",
+      "version": "v0.88.1",
+      "releasedAt": "2026-08-07",
+      "releaseUrl": "https://github.com/charmbracelet/crush/releases/tag/v0.88.1",
+      "sourceApiUrl": "https://api.github.com/repos/charmbracelet/crush/releases/tags/v0.88.1",
+      "releaseTitle": "v0.88.1",
+      "releaseNotesSha256": "3b0131858a0a1cd8dd2b619b442289ac4aff79fe06b3d130c1097d83757efa89",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-08T13:15:40.933Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 2203,
+        "completionTokens": 353,
+        "totalTokens": 2556
+      },
+      "triage": {
+        "summary": "Bug‑fix release focused on stability and UX improvements for MCP, server‑client, LSP, and hyper components. No new features or breaking changes reported.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Reduced default MCP timeout to prevent blocking of messages."
+          },
+          {
+            "category": "compatibility",
+            "description": "Fixed MCP OAuth in server‑client mode."
+          },
+          {
+            "category": "compatibility",
+            "description": "Prevented clients in the same workspace from killing each other."
+          },
+          {
+            "category": "compatibility",
+            "description": "Resolved keystroke lag over TCP in client/server mode."
+          },
+          {
+            "category": "compatibility",
+            "description": "Fixed LSP crash on window/workDoneProgress/create."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "No explicit mention of changes to runtime control, permissions, isolation, or orchestration."
+        ]
+      }
+    },
+    {
+      "key": "deepagents-code:deepagents-code==0.1.54",
+      "harnessId": "deepagents-code",
+      "version": "deepagents-code==0.1.54",
+      "releasedAt": "2026-08-07",
+      "releaseUrl": "https://github.com/langchain-ai/deepagents/releases/tag/deepagents-code%3D%3D0.1.54",
+      "sourceApiUrl": "https://api.github.com/repos/langchain-ai/deepagents/releases/tags/deepagents-code%3D%3D0.1.54",
+      "releaseTitle": "deepagents-code==0.1.54",
+      "releaseNotesSha256": "fc26925c31fdf76cc4935925fad662047a8980280e1eab7a6a189348cef04cff",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-08T13:15:40.933Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1630,
+        "completionTokens": 244,
+        "totalTokens": 1874
+      },
+      "triage": {
+        "summary": "Added a new model to the switcher, improved diff display, hid startup tips, prevented tool hook replay, stored logs in cache, and bumped dependencies.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Added Meta muse-spark-1.2 to model switcher."
+          },
+          {
+            "category": "performance",
+            "description": "Improved diff readability with quieter hunks and word-level highlights."
+          },
+          {
+            "category": "unknown",
+            "description": "Hid startup tips when resuming threads."
+          },
+          {
+            "category": "unknown",
+            "description": "Prevented post-tool hook replay."
+          },
+          {
+            "category": "unknown",
+            "description": "Stored update logs under OS cache directory."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the addition of the new model affect runtime control or permissions?",
+          "Is the prevention of post-tool hook replay a change to tool execution isolation?",
+          "Are the dependency bumps relevant to compatibility with other components?"
+        ],
+        "limitations": [
+          "Unclear if model addition changes tool behavior or state management."
+        ]
+      }
+    },
+    {
+      "key": "omp:v17.2.11",
+      "harnessId": "omp",
+      "version": "v17.2.11",
+      "releasedAt": "2026-08-07",
+      "releaseUrl": "https://github.com/can1357/oh-my-pi/releases/tag/v17.2.11",
+      "sourceApiUrl": "https://api.github.com/repos/can1357/oh-my-pi/releases/tags/v17.2.11",
+      "releaseTitle": "v17.2.11",
+      "releaseNotesSha256": "bd81047b1fc0d314d67140247adb469fde69224bb644d9b46cac4635d17fcb0e",
+      "releaseNotesTruncated": true,
+      "analyzedAt": "2026-08-08T13:15:40.933Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3198,
+        "completionTokens": 608,
+        "totalTokens": 3806
+      },
+      "triage": {
+        "summary": "v17.2.11 includes many bug fixes, added features, and configuration changes across multiple components. Notable changes: handling of GitHub Copilot error, ANTHROPIC_BASE_URL routing, model timeout handling, quota classification, new Cursor quota reporting, Agent Plugins 1.0.0 support, new share command, AGENT env var, various bug fixes in coding-agent…",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Fixed handling of GitHub Copilot model_not_available_for_integrator error to prevent unnecessary retries."
+          },
+          {
+            "category": "compatibility",
+            "description": "Fixed ANTHROPIC_BASE_URL ignored for Anthropic chat requests, ensuring routing to configured host."
+          },
+          {
+            "category": "compatibility",
+            "description": "Fixed legacy pre-organization login credential persistence causing errors."
+          },
+          {
+            "category": "compatibility",
+            "description": "Fixed lazy provider streams ignoring model-specific idle timeouts."
+          },
+          {
+            "category": "compatibility",
+            "description": "Improved error classification for Simplified Chinese quota-exhaustion and rate-limit messages."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "Unclear if any changes affect runtime control, state, or permissions beyond configuration and bug fixes."
+        ]
+      }
+    },
     {
       "key": "ggcode:v1.3.196",
       "harnessId": "ggcode",
