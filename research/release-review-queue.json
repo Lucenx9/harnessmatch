@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-08-08T13:15:40.933Z",
+  "updatedAt": "2026-08-09T10:21:22.055Z",
   "generatedBy": {
     "provider": "OpenRouter",
     "model": "openai/gpt-oss-20b",
@@ -8,6 +8,267 @@
     "purpose": "AI-assisted release-note triage for editorial review; never product evidence."
   },
   "items": [
+    {
+      "key": "cline:v4.1.7",
+      "harnessId": "cline",
+      "version": "v4.1.7",
+      "releasedAt": "2026-08-09",
+      "releaseUrl": "https://github.com/cline/cline/releases/tag/v4.1.7",
+      "sourceApiUrl": "https://api.github.com/repos/cline/cline/releases/tags/v4.1.7",
+      "releaseTitle": "v4.1.7",
+      "releaseNotesSha256": "b80fbf341c37f1ae9ef6e5532b2b7d9b895e1608bf939be1eb58f876182dce0f",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-09T10:21:22.055Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 885,
+        "completionTokens": 279,
+        "totalTokens": 1164
+      },
+      "triage": {
+        "summary": "v4.1.7 adds UI and OAuth features, centralizes plugin settings, improves context handling, and fixes many bugs including session durability, abort handling, and network retries.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "documentation",
+            "description": "Added UI elements: View Changes button, copy button, OAuth support for remote MCP servers."
+          },
+          {
+            "category": "compatibility",
+            "description": "Centralized plugin settings, host-aware snapshots, atomic toggles."
+          },
+          {
+            "category": "performance",
+            "description": "Carry execution context in scheduled run reports."
+          },
+          {
+            "category": "safety",
+            "description": "Preserve prompts during turn interruption, keep session context durable, settle turn phase on mode switch abort, report queued-turn failures, prevent hung MCP server from taking down session creation, give stdio…"
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "Unclear if any changes affect runtime control or isolation beyond the listed fixes."
+        ]
+      }
+    },
+    {
+      "key": "letta-code:v0.30.14",
+      "harnessId": "letta-code",
+      "version": "v0.30.14",
+      "releasedAt": "2026-08-09",
+      "releaseUrl": "https://github.com/letta-ai/letta-code/releases/tag/v0.30.14",
+      "sourceApiUrl": "https://api.github.com/repos/letta-ai/letta-code/releases/tags/v0.30.14",
+      "releaseTitle": "Release v0.30.14",
+      "releaseNotesSha256": "79facc2452ac6573a03b6d0e0c2466a226e7a1318e582fcde0931ef7e572b70a",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-09T10:21:22.055Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 740,
+        "completionTokens": 298,
+        "totalTokens": 1038
+      },
+      "triage": {
+        "summary": "Release v0.30.14 introduces new tool ExitWorktree for worktree cleanup, CLI output formatting for ExitWorktree, event monitors, Slack reaction policy, and message channel result classification. It also includes CI test selection and minor test adjustments.",
+        "reviewPriority": "review",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Added ExitWorktree tool to leave or clean up a worktree."
+          },
+          {
+            "category": "capability",
+            "description": "Added event monitors to tools."
+          },
+          {
+            "category": "capability",
+            "description": "Added Slack reaction ingress policy."
+          },
+          {
+            "category": "capability",
+            "description": "Added MessageChannel result classification."
+          },
+          {
+            "category": "performance",
+            "description": "CI test selection by changed files."
+          }
+        ],
+        "verificationQuestions": [
+          "Does ExitWorktree affect runtime control or isolation?",
+          "Are event monitors exposing new permissions or state changes?",
+          "Does Slack reaction policy alter message handling or context?",
+          "Is MessageChannel result classification impacting downstream processing?"
+        ],
+        "limitations": [
+          "Release notes do not detail implementation specifics or potential side effects."
+        ]
+      }
+    },
+    {
+      "key": "omp:v17.2.12",
+      "harnessId": "omp",
+      "version": "v17.2.12",
+      "releasedAt": "2026-08-09",
+      "releaseUrl": "https://github.com/can1357/oh-my-pi/releases/tag/v17.2.12",
+      "sourceApiUrl": "https://api.github.com/repos/can1357/oh-my-pi/releases/tags/v17.2.12",
+      "releaseTitle": "v17.2.12",
+      "releaseNotesSha256": "2437340291376fa072f99bafaad1aebdcfc7f8d18129fcddb0092db8bb00706d",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-09T10:21:22.055Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 2485,
+        "completionTokens": 238,
+        "totalTokens": 2723
+      },
+      "triage": {
+        "summary": "v17.2.12 includes numerous bug fixes across several components, a breaking change in hashline paste behavior, and several new features in hashline editing. No major new capabilities or deprecations beyond the hashline change.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Breaking change: hashline PUT over span now throws when @name never captured, altering previous silent behavior."
+          },
+          {
+            "category": "performance",
+            "description": "Various fixes improving memory usage, CPU usage, and response handling across components."
+          },
+          {
+            "category": "documentation",
+            "description": "Added detailed behavior for hashline applyEdits and warnings."
+          },
+          {
+            "category": "unknown",
+            "description": "Multiple component-specific bug fixes."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the hashline breaking change affect existing user workflows that rely on silent pasting?",
+          "Are the memory leak fixes in coding-agent and hashline fully validated across all subagent types?"
+        ],
+        "limitations": [
+          "The notes list many fixes but do not detail any new runtime control or permission changes."
+        ]
+      }
+    },
+    {
+      "key": "codewhale:v0.9.5",
+      "harnessId": "codewhale",
+      "version": "v0.9.5",
+      "releasedAt": "2026-08-08",
+      "releaseUrl": "https://github.com/Hmbown/CodeWhale/releases/tag/v0.9.5",
+      "sourceApiUrl": "https://api.github.com/repos/Hmbown/CodeWhale/releases/tags/v0.9.5",
+      "releaseTitle": "v0.9.5",
+      "releaseNotesSha256": "065c938b3465f94f2139e5358f33b5860da7baa8095c3013d4dde25e46be08d4",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-09T10:21:22.055Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 2567,
+        "completionTokens": 424,
+        "totalTokens": 2991
+      },
+      "triage": {
+        "summary": "v0.9.5 consolidates the Codewhale terminal into a single runtime, deprecates the legacy deepseek‑tui npm package, adds runtime API controls, session‑tree commands, and auto‑model selection, and removes a hidden 20‑step backstop.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Single compiled runtime replaces separate TUI executable; new runtime API controls for persistent goals, memory inspection, MCP server, skill lifecycle, and durable Fleet evidence."
+          },
+          {
+            "category": "compatibility",
+            "description": "Legacy deepseek‑tui npm package deprecated; migration guidance via docs/REBRAND.md."
+          },
+          {
+            "category": "compatibility",
+            "description": "Command names codewhale and codew remain; new binary names codewhale-tui-* retained as byte‑identical compatibility copies."
+          },
+          {
+            "category": "performance",
+            "description": "Incremental MCP registry refreshes and removal of hidden 20‑step backstop improve responsiveness."
+          },
+          {
+            "category": "documentation",
+            "description": "Installation instructions updated for npm, Docker, Cargo, and platform archives; migration notes added."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the single runtime maintain the same functionality as the previous separate TUI executable?",
+          "Are the new runtime API controls fully documented and backward compatible with existing scripts?",
+          "Is the deprecation of deepseek‑tui npm package communicated to all users and does it affect any downstream dependencies?",
+          "Does the removal of the hidden 20‑step backstop alter any user‑experience edge cases?"
+        ],
+        "limitations": [
+          "The release notes do not detail whether any existing user scripts or integrations rely on the separate TUI binary; potential compatibility issues may exist."
+        ]
+      }
+    },
+    {
+      "key": "qwen-code:v0.21.8",
+      "harnessId": "qwen-code",
+      "version": "v0.21.8",
+      "releasedAt": "2026-08-08",
+      "releaseUrl": "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.8",
+      "sourceApiUrl": "https://api.github.com/repos/QwenLM/qwen-code/releases/tags/v0.21.8",
+      "releaseTitle": "Release v0.21.8",
+      "releaseNotesSha256": "a6d3958a0c17eea4743afc1f96b7cb40904f086e50175df83a2f734f5075dddc",
+      "releaseNotesTruncated": true,
+      "analyzedAt": "2026-08-09T10:21:22.055Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3401,
+        "completionTokens": 428,
+        "totalTokens": 3829
+      },
+      "triage": {
+        "summary": "Release v0.21.8 includes several feature additions, bug fixes, and security improvements. Highlights include restoring real‑time autofix for fork PRs, enabling compression cache sharing for multiple AI providers, adding repository context manifests for /review, fixing a trust inheritance security issue, improving /review performance, and allowing…",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Restored real‑time autofix support for pull requests opened from forks by bridging review events to credentialed workflows."
+          },
+          {
+            "category": "compatibility",
+            "description": "Enabled compression cache sharing for OpenAI, Gemini, and Vertex AI to reuse conversation prefixes and reduce redundant input processing."
+          },
+          {
+            "category": "compatibility",
+            "description": "Added repository context manifests to guide the /review command with bounded domains, related paths, and recommended tests."
+          },
+          {
+            "category": "unknown",
+            "description": "Fixed a security issue where explicitly distrusted workspaces were incorrectly inheriting trust from parent directories."
+          },
+          {
+            "category": "performance",
+            "description": "Improved /review performance by moving remote matching to a deterministic CLI subcommand, achieving up to 93.3% prompt cache hit rates."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the restoration of real‑time autofix for fork PRs affect any existing workflow permissions or credential handling?",
+          "Are there any new runtime or isolation changes introduced by the compression cache sharing feature?",
+          "What impact does the repository context manifest have on the /review command’s execution context and permissions?",
+          "Does the trust inheritance fix alter any existing trust propagation logic that could affect workspace security?",
+          "How does the concurrent ACP agent tool call change affect resource usage or potential race conditions?"
+        ],
+        "limitations": [
+          "Release notes indicate no breaking changes, but the impact on existing configurations is not fully detailed."
+        ]
+      }
+    },
     {
       "key": "claude-code:v2.1.226",
       "harnessId": "claude-code",
