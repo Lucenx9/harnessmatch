@@ -37,4 +37,18 @@ describe("reviewed source health restrictions", () => {
         .toBeLessThanOrEqual(evidenceFreshnessPolicy.maxAgeDays);
     }
   });
+
+  it("records both observed OpenReview challenge outcomes without widening status matching", () => {
+    const openReviewStatuses = reviewedSourceHealthRestrictions
+      .filter(({ url }) => url.startsWith("https://openreview.net/"))
+      .reduce<Map<string, number[]>>((statusesByUrl, { status, url }) => {
+        statusesByUrl.set(url, [...(statusesByUrl.get(url) ?? []), status]);
+        return statusesByUrl;
+      }, new Map());
+
+    expect([...openReviewStatuses.values()]).toHaveLength(5);
+    for (const statuses of openReviewStatuses.values()) {
+      expect(statuses.toSorted()).toEqual([200, 403]);
+    }
+  });
 });

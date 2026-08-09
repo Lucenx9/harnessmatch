@@ -68,6 +68,18 @@ export const reviewedSourceHealthRestrictions = [
     reason: "OpenReview redirected automated probes to its browser-verification challenge; this records the access limitation only.",
   })),
   ...[
+    "https://openreview.net/forum?id=XMXWk83dah",
+    "https://openreview.net/forum?id=kXHgEYFyf3",
+    "https://openreview.net/forum?id=lJpXXwhRRF",
+    "https://openreview.net/forum?id=vUaY1t64ZZ",
+    "https://openreview.net/pdf?id=eONq7FdiHa",
+  ].map((url) => ({
+    url,
+    status: 403,
+    reviewedAt: "2026-08-09",
+    reason: "OpenReview rejected GitHub-hosted automated probes after previously serving its browser-verification challenge; this records the access limitation only.",
+  })),
+  ...[
     "https://www.npmjs.com/package/@ampcode/cli",
     "https://www.npmjs.com/package/@anthropic-ai/claude-code",
     "https://www.npmjs.com/package/@charmland/crush",
