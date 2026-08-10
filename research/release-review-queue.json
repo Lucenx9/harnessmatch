@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-08-09T10:21:22.055Z",
+  "updatedAt": "2026-08-10T05:51:53.418Z",
   "generatedBy": {
     "provider": "OpenRouter",
     "model": "openai/gpt-oss-20b",
@@ -8,6 +8,155 @@
     "purpose": "AI-assisted release-note triage for editorial review; never product evidence."
   },
   "items": [
+    {
+      "key": "reasonix:v1.22.0",
+      "harnessId": "reasonix",
+      "version": "v1.22.0",
+      "releasedAt": "2026-08-10",
+      "releaseUrl": "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.22.0",
+      "sourceApiUrl": "https://api.github.com/repos/esengine/DeepSeek-Reasonix/releases/tags/v1.22.0",
+      "releaseTitle": "Reasonix CLI v1.22.0",
+      "releaseNotesSha256": "98fa63fe8b1b558e4054e7d52440e8000f67886e01c59808f94838f4d669fbf1",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-10T05:51:53.418Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 2645,
+        "completionTokens": 353,
+        "totalTokens": 2998
+      },
+      "triage": {
+        "summary": "Reasonix v1.22.0 adds desktop session persistence, context maintenance, workspace improvements, CLI‑Web session hand‑off, and fixes provider output budget overflows. It also introduces explicit resource declaration for native v2 plugins, strengthens core data safety, and updates Wails tooling. Several UI and stability fixes are included.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "CLI Web session hand‑off via `reasonix web` and `/web` commands, enabling browser interaction."
+          },
+          {
+            "category": "compatibility",
+            "description": "Native v2 plugins now require explicit resource declaration in `reasonix-plugin.json`."
+          },
+          {
+            "category": "performance",
+            "description": "Session sidecar files are persisted with fsync and cross‑process locks; context cleanup is idempotent; TPS updates after each provider request."
+          },
+          {
+            "category": "safety",
+            "description": "Core data safety tightened: shell output limited, corrupted sessions remain visible, metadata back‑fill is race‑safe."
+          },
+          {
+            "category": "documentation",
+            "description": "New guides for CLI Web hand‑off and plugin package specification."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the CLI Web hand‑off affect any existing provider integrations?",
+          "Are there any changes to the plugin API that could break existing v2 plugins?",
+          "What is the impact of the new sidecar persistence on disk usage?",
+          "How does the updated context cleanup affect tool result ordering?"
+        ],
+        "limitations": [
+          "The notes do not detail any changes to runtime permissions or isolation."
+        ]
+      }
+    },
+    {
+      "key": "ggcode:v1.3.199",
+      "harnessId": "ggcode",
+      "version": "v1.3.199",
+      "releasedAt": "2026-08-09",
+      "releaseUrl": "https://github.com/topcheer/ggcode/releases/tag/v1.3.199",
+      "sourceApiUrl": "https://api.github.com/repos/topcheer/ggcode/releases/tags/v1.3.199",
+      "releaseTitle": "v1.3.199",
+      "releaseNotesSha256": "ab53d80930d760c507580ce280bfd93821bf9653d99b1fd855681e6cce1c1b34",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-10T05:51:53.418Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1008,
+        "completionTokens": 223,
+        "totalTokens": 1231
+      },
+      "triage": {
+        "summary": "Release v1.3.199 adds 16 deterministic AI agent intelligence detectors, enhances panic safety, and improves nil‑safety and type‑assertion handling.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Adds 16 new AI agent intelligence detectors that identify various agentic failure patterns."
+          },
+          {
+            "category": "safety",
+            "description": "Hardens panic safety by verifying nil‑safety of 53 new detector fields and guarding type assertions."
+          },
+          {
+            "category": "performance",
+            "description": "Detectors are deterministic and zero‑LLM‑cost, non‑blocking."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the addition of these detectors affect runtime control or isolation?",
+          "Are there any changes to permissions or state management beyond nil‑safety?",
+          "Is the safety hardening sufficient to prevent panics in all contexts?"
+        ],
+        "limitations": [
+          "The notes do not specify changes to orchestration, recovery, or external permissions."
+        ]
+      }
+    },
+    {
+      "key": "letta-code:v0.30.15",
+      "harnessId": "letta-code",
+      "version": "v0.30.15",
+      "releasedAt": "2026-08-09",
+      "releaseUrl": "https://github.com/letta-ai/letta-code/releases/tag/v0.30.15",
+      "sourceApiUrl": "https://api.github.com/repos/letta-ai/letta-code/releases/tags/v0.30.15",
+      "releaseTitle": "Release v0.30.15",
+      "releaseNotesSha256": "30dfb51ec14c1678962727437ea1f65439d3b673a7d039c3802b9836b53e11ea",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-08-10T05:51:53.418Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 710,
+        "completionTokens": 236,
+        "totalTokens": 946
+      },
+      "triage": {
+        "summary": "Release v0.30.15 includes several bug fixes and a new hot‑reload feature for agent records. No changes to core capabilities, runtime control, or security. Routine triage.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "unknown",
+            "description": "Listener now includes sender on live user echoes."
+          },
+          {
+            "category": "unknown",
+            "description": "Tools accept empty Monitor source placeholders."
+          },
+          {
+            "category": "unknown",
+            "description": "Connect validates API keys against supplied base URL."
+          },
+          {
+            "category": "unknown",
+            "description": "Worktree prevents automatic git fetch prompts."
+          },
+          {
+            "category": "unknown",
+            "description": "Local hot‑reload of agent records from disk."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": []
+      }
+    },
     {
       "key": "cline:v4.1.7",
       "harnessId": "cline",
