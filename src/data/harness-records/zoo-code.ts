@@ -1,6 +1,7 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
+const latestReleaseVerifiedAt = "2026-08-10";
 
 export const zooCode = {
     id: "zoo-code",
@@ -43,6 +44,7 @@ export const zooCode = {
     tradeoffs: [
       "Commands and file tools run with the local user's host permissions; worktrees and .rooignore scope work but are not an OS or container sandbox",
       "Extension actions ask by default, but auto-approval can be enabled and sending a queued message implicitly approves the next pending tool, file, or command action even when auto-approval is disabled",
+      "The 3.76 Destructive Command Guard is an opt-in command filter rather than process isolation; it can reduce repeated prompts for recognized safe commands but does not turn host execution into a sandbox",
       "Shadow-Git checkpoints restore task-scoped file state and are enabled by default, but they are not created before commands and cannot reverse external command side effects",
       "The new_task tool suspends the parent and opens one child as the sole active task; simultaneous work instead uses separate user-managed VS Code windows and Git worktrees, not an automatically parallel delegated swarm",
       "The public website says Zoo works headless, but the inspected CLI package is private, still uses Roo names and upstream Roo install URLs, and has no Zoo-owned CLI release asset; it is not counted as a dependable public CI interface",
@@ -50,7 +52,7 @@ export const zooCode = {
       "The repository has extensive engineering and end-to-end tests but no coding-harness evaluation suite, independent benchmark, or direct scientific paper; inherited release-note model scores are not Zoo Code harness evidence",
     ],
     setup: "Install the Zoo Code VS Code extension, migrate or configure provider profiles, choose a mode, and review approvals, .rooignore, checkpoint, index, MCP, and worktree settings before granting broader tool access.",
-    verifiedAt: verifiedAt,
+    verifiedAt: latestReleaseVerifiedAt,
     evidence: [
       {
         title: "Zoo Code product page",
@@ -160,9 +162,18 @@ export const zooCode = {
       {
         title: "Zoo Code 3.72.0 release",
         url: "https://github.com/Zoo-Code-Org/Zoo-Code/releases/tag/v3.72.0",
-        covers: "Latest stable extension version, publication date, VSIX artifact, provider changes, and subtask fixes",
+        covers: "Version-pinned extension release, publication date, VSIX artifact, provider changes, and subtask fixes",
         kind: "official-announcement",
         verifiedAt: verifiedAt,
+      },
+      {
+        title: "Zoo Code 3.76.0 Destructive Command Guard release",
+        topic: "execution-control",
+        url: "https://github.com/Zoo-Code-Org/Zoo-Code/releases/tag/v3.76.0",
+        covers:
+          "Opt-in dangerous-command blocking, streamlined approval handling, hardened managed-binary installation, grouped related approvals, and task-scoped provider configuration",
+        kind: "official-announcement",
+        verifiedAt: latestReleaseVerifiedAt,
       },
       {
         title: "Repository overview at inspected commit",

@@ -143,8 +143,14 @@ describe("GUI workflow classification", () => {
     const openHands = requiredGuiProduct("openhands-agent-canvas");
     const qwenDesktop = requiredGuiProduct("qwen-code-desktop");
 
-    expect(agetor.supportedHarnesses).toEqual(["Claude Code", "Codex"]);
-    expect(agetor.harnessSupportNote).toContain("public site still labels Codex as coming soon");
+    expect(agetor.supportedHarnesses).toEqual(["Claude Code", "Codex", "Cursor Agent"]);
+    expect(agetor.harnessSupportNote).toContain("experimental and disabled by default");
+    expect(agetor.evidence).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        url: "https://github.com/alamops/agetor/releases/tag/v0.0.18",
+        verifiedAt: "2026-08-10",
+      }),
+    ]));
     expect(agetor.capabilities.remoteExecution.state).toBe("contradicted");
 
     expect(aionUi.supportedHarnesses).toHaveLength(19);

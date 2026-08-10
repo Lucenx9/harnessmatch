@@ -355,6 +355,13 @@ const featureClaimSeedsByHarness = {
     localModels: documented("Providers and models"),
     subagents: documented("Kimi Code documentation", "Configuration defaults"),
     headless: documented("Command reference"),
+    browser: configuredClaim(
+      "optional",
+      ["Kimi Code 0.34.0 recovery and Computer Use release"],
+      "Installable first-party Kimi Computer Use capability with WebBridge browser integration",
+      "Availability depends on installing the official capability and browser bridge; the release does not turn ordinary host tools into a sandboxed browser boundary.",
+      "2026-08-10",
+    ),
   },
   "mimo-code": {
     mcp: documented("MCP servers"),

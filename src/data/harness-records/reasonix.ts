@@ -2,7 +2,8 @@ import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-08-02";
 const releaseReviewAt = "2026-08-04";
-const recordVerifiedAt = releaseReviewAt;
+const latestReleaseReviewAt = "2026-08-10";
+const recordVerifiedAt = latestReleaseReviewAt;
 const inspectedRef = "c46e3af1c2732fe2b3dedb0bd47eb39a629357d2";
 const repositoryBase = `https://github.com/esengine/DeepSeek-Reasonix/blob/${inspectedRef}`;
 
@@ -13,7 +14,7 @@ export const reasonix = {
   tagline:
     "Multi-provider coding harness with durable context, delegated agents, and policy controls.",
   summary:
-    "An MIT-licensed coding harness whose Rust runtime implements an adaptive model-and-tool loop, repository and shell mutation, automatic context compaction, durable project memory, delegated agents, MCP, skills, policy rules, OS shell sandboxing on supported platforms, persistent checkpoints, and structured headless execution. The same core is exposed through terminal, desktop, local web, editor, and automation surfaces.",
+    "An MIT-licensed coding harness whose Rust runtime implements an adaptive model-and-tool loop, repository and shell mutation, automatic and transaction-safe context maintenance, durable project memory, delegated agents, MCP, skills, policy rules, OS shell sandboxing on supported platforms, persistent checkpoints, and structured headless execution. The same core is exposed through terminal, desktop, local web, editor, and automation surfaces.",
   logo: {
     src: "/harnesses/reasonix.svg",
     sourceUrl: `${repositoryBase}/site/public/favicon.svg`,
@@ -86,6 +87,33 @@ export const reasonix = {
         "Bounded event-log replay, preserved load failures, workspace-confined project prompt paths, updater recovery routes, usage records, and configurable context-compaction thresholds",
       kind: "official-announcement",
       verifiedAt: releaseReviewAt,
+    },
+    {
+      title: "Reasonix v1.21.0 release",
+      topic: "enterprise-operations",
+      url: "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.21.0",
+      covers:
+        "Structured shell outcomes, atomic provider-stream replay, session-scoped Bash temporary files, machine-session resume, and removal of the Goal token hard stop",
+      kind: "official-announcement",
+      verifiedAt: latestReleaseReviewAt,
+    },
+    {
+      title: "Reasonix v1.21.3 release",
+      topic: "orchestration-state",
+      url: "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.21.3",
+      covers:
+        "Adaptive no-progress detection, retry-aware compaction decisions, visible storage paths, and explicit Kimi K3 reasoning through custom gateways",
+      kind: "official-announcement",
+      verifiedAt: latestReleaseReviewAt,
+    },
+    {
+      title: "Reasonix v1.22.0 release",
+      topic: "orchestration-state",
+      url: "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.22.0",
+      covers:
+        "Atomic fsync-backed session sidecars, cross-process locking, idempotent context cleanup, atomic summary transactions, CLI-to-web handoff, and bounded shell output",
+      kind: "official-announcement",
+      verifiedAt: latestReleaseReviewAt,
     },
     {
       title: "Reasonix product overview",

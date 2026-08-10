@@ -1,7 +1,9 @@
 import type { HarnessRecord } from "./types";
 
-const recordVerifiedAt = "2026-08-05";
 const verifiedAt = "2026-08-02";
+const hooksVerifiedAt = "2026-08-05";
+const latestReleaseVerifiedAt = "2026-08-10";
+const recordVerifiedAt = latestReleaseVerifiedAt;
 const commit = "4f2c97b0d75c039a9b6069ebcf210cc499583376";
 const repositoryBase = `https://github.com/Hmbown/CodeWhale/blob/${commit}`;
 
@@ -11,7 +13,7 @@ export const codewhale = {
   name: "CodeWhale",
   tagline: "Model-portable Rust coding agent with governed execution and resumable fleets.",
   summary:
-    "An MIT-licensed terminal coding harness with an adaptive tool loop, interactive and headless modes, persistent memory, turn restore, MCP and skills, local-model routes, optional OS or external sandboxes, and ledger-backed multi-worker fleets.",
+    "An MIT-licensed terminal coding harness with an adaptive tool loop, interactive and headless modes, persistent memory, branchable and resumable session trees, MCP and skills, local-model routes, optional OS or external sandboxes, and ledger-backed multi-worker fleets.",
   logo: {
     src: "/harnesses/codewhale.svg",
     sourceUrl: `${repositoryBase}/web/app/icon.svg`,
@@ -48,10 +50,11 @@ export const codewhale = {
     "The strongest approval and lifecycle-hook controls are configurable; Full Access weakens prompts, and TUI hooks do not fire for codewhale exec or other CLI subcommands",
     "The loopback web client is a local control surface rather than remote managed execution, and its one-time token does not turn it into a multi-user service",
     "Fleet workers reuse headless CodeWhale and an append-only ledger; this establishes coordination and resume, not independent quality or task-success evidence",
+    "CodeWhale 0.9.5 removes the default 100-step ceiling from headless runs and makes automatic goal continuation unlimited unless configured, so unattended workloads still require explicit turn, time, spend, credential, and network bounds",
     "Repository eval and acceptance assets are project-owned development evidence, so no product benchmark score is imported",
   ],
   setup:
-    "Install CodeWhale 0.9.3 from npm, Cargo, or a platform archive; select a provider and model; then choose permission, sandbox, memory, hook, and fleet settings for the workflow.",
+    "Install CodeWhale 0.9.5 from npm, Cargo, or a platform archive; select a provider and model; then choose permission, sandbox, memory, hook, and fleet settings for the workflow.",
   verifiedAt: recordVerifiedAt,
   evidence: [
     {
@@ -84,7 +87,7 @@ export const codewhale = {
       url: `${repositoryBase}/docs/HOOKS.md`,
       covers: "TUI-only hook scope, lifecycle events, approval and steering behavior, trusted project hooks, and explicit exclusion for codewhale exec and other CLI subcommands",
       kind: "official-repository",
-      verifiedAt: recordVerifiedAt,
+      verifiedAt: hooksVerifiedAt,
     },
     {
       title: "Sandbox threat model",
@@ -149,6 +152,15 @@ export const codewhale = {
       covers: "Current stable version, publication date, platform artifacts, and release scope",
       kind: "official-repository",
       verifiedAt,
+    },
+    {
+      title: "CodeWhale 0.9.5 release",
+      topic: "orchestration-state",
+      url: "https://github.com/Hmbown/CodeWhale/releases/tag/v0.9.5",
+      covers:
+        "Single-runtime distribution, Runtime API controls, append-only session-tree history, branch, fork and resume commands, durable Fleet receipts, and explicit opt-in execution ceilings",
+      kind: "official-announcement",
+      verifiedAt: latestReleaseVerifiedAt,
     },
   ],
 } satisfies HarnessRecord;

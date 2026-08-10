@@ -2,7 +2,8 @@ import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
 const skillsVerifiedAt = "2026-08-01";
-const recordVerifiedAt = skillsVerifiedAt;
+const latestReleaseVerifiedAt = "2026-08-10";
+const recordVerifiedAt = latestReleaseVerifiedAt;
 
 export const claudeCode = {
     id: "claude-code",
@@ -55,10 +56,29 @@ export const claudeCode = {
       "Auto mode is classifier-backed rather than a sandbox: Anthropic's published evaluation reports a 17% false-negative rate on 52 real overeager actions and says it is not a replacement for careful review in high-stakes workflows",
       "Zero Data Retention is a separately enabled option for qualifying Enterprise API organizations and excludes web and Cloud sessions, Remote Control, feedback, third-party tools, and MCP integrations",
       "The public GitHub repository exposes releases, plugins, examples, and issue automation rather than the proprietary core implementation or product test suite",
+      "Self-hosted runners execute web, mobile, or desktop sessions on user-managed machines or containers rather than adding a managed isolation boundary; cross-session messaging and held approvals still depend on the configured account, organization, and host controls",
     ],
     setup: "Install Claude Code, authenticate with Claude or an enterprise platform, then run `claude` in a repository.",
     verifiedAt: recordVerifiedAt,
     evidence: [
+      {
+        title: "Claude Code 2.1.223 security release",
+        topic: "execution-control",
+        url: "https://github.com/anthropics/claude-code/releases/tag/v2.1.223",
+        covers:
+          "Command-display and permission-bypass fixes, workflow dynamic-import confinement, managed bypass-policy enforcement, resumed-session recovery, and context-window enforcement",
+        kind: "official-announcement",
+        verifiedAt: latestReleaseVerifiedAt,
+      },
+      {
+        title: "Claude Code 2.1.224 self-hosted and messaging release",
+        topic: "enterprise-operations",
+        url: "https://github.com/anthropics/claude-code/releases/tag/v2.1.224",
+        covers:
+          "Self-hosted runners, cross-session messaging and approval holds, structured credential masking, sandbox deny-path fixes, remote-control recovery, and removal of the lifetime subagent spawn cap",
+        kind: "official-announcement",
+        verifiedAt: latestReleaseVerifiedAt,
+      },
       {
         title: "Claude Code overview",
         topic: "product-surfaces",

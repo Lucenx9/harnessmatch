@@ -4,12 +4,10 @@ const verifiedAt = "2026-07-27";
 const refreshedAt = "2026-07-28";
 const sourceAuditAt = "2026-07-30";
 const grokBuildSourceAuditAt = "2026-08-07";
-const releaseReviewAt = "2026-07-31";
 const copilotReleaseReviewAt = "2026-08-04";
 const latestReleaseReviewAt = "2026-08-02";
 const ggcodeReleaseReviewAt = "2026-08-04";
-const reasonixReleaseReviewAt = "2026-08-04";
-const piSourceReviewAt = "2026-08-05";
+const currentReleaseReviewAt = "2026-08-10";
 const defaultLimitation =
   "Documentation-derived posture. It describes exposed harness mechanisms, not task success or model capability.";
 
@@ -47,8 +45,11 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://code.claude.com/docs/en/code-review",
       "https://code.claude.com/docs/en/errors",
       "https://code.claude.com/docs/en/zero-data-retention",
+      "https://github.com/anthropics/claude-code/releases/tag/v2.1.223",
+      "https://github.com/anthropics/claude-code/releases/tag/v2.1.224",
     ],
-    "Auto memory persists local project knowledge, JSONL transcripts and optional OpenTelemetry improve traceability, and policy plus permission modes and hooks can gate tools. Agent view adds local research-preview background sessions, while managed Code Review reports a neutral check rather than an enforced workflow gate. Auto mode is classifier-backed, not isolation: Anthropic reports a 17% false-negative rate on 52 real overeager actions and excludes high-stakes replacement claims. The local Bash sandbox remains opt-in and fail-open by default and does not isolate file tools, MCP, or hooks unless a broader runtime, container, or web VM is used; checkpoint recovery excludes Bash-created changes and remote side effects, and unattended retries still need external time and spend limits. Zero Data Retention is separately enabled for qualifying Enterprise API organizations and excludes several Claude Code surfaces and third-party integrations.",
+    "Auto memory persists local project knowledge, JSONL transcripts and optional OpenTelemetry improve traceability, and policy plus permission modes and hooks can gate tools. Agent view adds local research-preview background sessions, while self-hosted runners execute web, mobile, and desktop sessions on user-managed machines or containers rather than adding managed isolation. Cross-session messaging holds inbound messages for approval when the receiving session bypasses permissions. Auto mode is classifier-backed, not isolation: Anthropic reports a 17% false-negative rate on 52 real overeager actions and excludes high-stakes replacement claims. The local Bash sandbox remains opt-in and fail-open by default; checkpoint recovery excludes Bash-created changes and remote side effects, and unattended retries still need external time and spend limits.",
+    currentReleaseReviewAt,
   ),
   codex: record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },
@@ -64,9 +65,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://learn.chatgpt.com/docs/code-review",
       "https://learn.chatgpt.com/docs/config-file/config-advanced",
       "https://github.com/openai/codex/tree/25af12f7e61572b0bc18ddb1008be543b91519b0/codex-rs/rollout-trace",
+      "https://github.com/openai/codex/releases/tag/rust-v0.147.0",
     ],
-    "Local memories and AGENTS.md persist project context; JSONL rollouts, lifecycle hooks, and optional OpenTelemetry expose trace-level evidence. Sandbox and permission modes provide technical and policy boundaries, but optional Auto-review is a non-deterministic reviewer for requested escalations rather than a security guarantee. Code review remains tool-assisted, and recovery is session resume plus Git review/revert rather than a harness checkpoint, so shell and external side effects remain outside rollback.",
-    sourceAuditAt,
+    "Local memories and AGENTS.md persist project context; JSONL rollouts, lifecycle hooks, and optional OpenTelemetry expose trace-level evidence. Sandbox and permission modes provide technical and policy boundaries, but optional Auto-review, including --approve-for-me, is a non-deterministic reviewer for requested escalations rather than a security guarantee. Version 0.147.0 also adds explicit local-project trust and hardens plugin isolation. Recovery is session resume plus Git review/revert rather than a harness checkpoint, so shell and external side effects remain outside rollback.",
+    currentReleaseReviewAt,
   ),
   opencode: record(
     { context: "managed", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "checkpoint" },
@@ -83,9 +85,9 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
   ),
   pi: record(
     { context: "managed", permissions: "host", verification: "manual", observability: "session", recovery: "session-resume" },
-    ["https://pi.dev/docs/latest/security", "https://pi.dev/docs/latest/sessions", "https://pi.dev/docs/latest/compaction", "https://pi.dev/docs/latest/json"],
-    "Pi manages conversation trees and compaction but intentionally provides no permission gate or sandbox. JSON events and session files support inspection, while recovery resumes or branches transcript state rather than restoring files or external side effects.",
-    piSourceReviewAt,
+    ["https://pi.dev/docs/latest/security", "https://pi.dev/docs/latest/sessions", "https://pi.dev/docs/latest/compaction", "https://pi.dev/docs/latest/json", "https://github.com/earendil-works/pi/releases/tag/v0.84.0"],
+    "Pi manages conversation trees and compaction but intentionally provides no permission gate or sandbox. Version 0.84.0 makes JSONL forks and torn-tail repair atomic and preserves queued messages through compaction, improving session integrity without restoring files or external side effects.",
+    currentReleaseReviewAt,
   ),
   omp: record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "session-resume" },
@@ -107,9 +109,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://github.com/Hmbown/CodeWhale/blob/4f2c97b0d75c039a9b6069ebcf210cc499583376/docs/SANDBOX.md",
       "https://github.com/Hmbown/CodeWhale/blob/4f2c97b0d75c039a9b6069ebcf210cc499583376/docs/FLEET.md",
       "https://github.com/Hmbown/CodeWhale/blob/4f2c97b0d75c039a9b6069ebcf210cc499583376/README.md",
+      "https://github.com/Hmbown/CodeWhale/releases/tag/v0.9.5",
     ],
-    "CodeWhale persists memory and fleet events, exposes detailed turn and worker records, gates execution through ordered policy layers, checks work through tools, and supports turn restore. Local execution remains host-first when no wrapper is active; Linux sandboxing is opt-in, Windows has no advertised local OS wrapper, Full Access weakens approvals, TUI hooks do not cover headless commands, and rollback cannot reverse external side effects.",
-    latestReleaseReviewAt,
+    "CodeWhale persists memory, append-only session trees, and Fleet receipts, exposes detailed turn and worker records, gates execution through ordered policy layers, and supports branch, fork, resume, and turn restore. Version 0.9.5 removes the default headless step ceiling and leaves automatic continuation unlimited unless configured. Local execution remains host-first when no wrapper is active; Full Access weakens approvals, TUI hooks do not cover headless commands, and rollback cannot reverse external side effects.",
+    currentReleaseReviewAt,
   ),
   openharness: record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "session-resume" },
@@ -205,8 +208,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://docs.cline.bot/enterprise-solutions/configuration/infrastructure-configuration/control-other-cline-features/mcp-server-controls",
       "https://docs.cline.bot/enterprise-solutions/configuration/infrastructure-configuration/control-other-cline-features/yolo-mode",
       "https://docs.cline.bot/enterprise-solutions/monitoring/opentelemetry",
+      "https://github.com/cline/cline/releases/tag/v4.1.7",
     ],
-    "Rules, command policy, fail-open or fail-closed pre-tool hooks, enterprise YOLO and MCP restrictions, manual Memory Bank context, session/team state, shadow-Git checkpoints, and OTLP logs support control and inspection. The CLI prompt path defaults to auto-approve, so this is policy-governed rather than approval-first overall; executable plugins remain a separate trust boundary.",
+    "Rules, command policy, fail-open or fail-closed pre-tool hooks, enterprise YOLO and MCP restrictions, session/team state, shadow-Git checkpoints, and OTLP logs support control and inspection. Version 4.1.7 preserves queued prompts and session context across aborts or hub restarts and includes initially untracked files in checkpoint diffs. The CLI prompt path defaults to auto-approve, so this is policy-governed rather than approval-first overall; executable plugins remain a separate trust boundary and rollback still excludes external effects.",
+    currentReleaseReviewAt,
   ),
   "gemini-cli": record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "checkpoint" },
@@ -224,9 +229,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://antigravity.google/docs/cli/reference",
       "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.8",
       "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.9",
+      "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.11",
     ],
-    "Workspace-scoped history, an opt-in typed NDJSON stream with tool and child-agent trajectory fields, artifact review, and policy rules support inspection and session resume. Native sandboxing is off by default, workspace file access is auto-allowed by default, and a pattern approved at a prompt persists for the rest of the conversation as of 1.1.9. Stop hooks are bounded after repeated continuations, while rewind or fork changes conversation state rather than restoring the filesystem.",
-    releaseReviewAt,
+    "Workspace-scoped history, typed NDJSON trajectories, artifact review, and policy rules support inspection and session resume. Native sandboxing is off by default, workspace file access is auto-allowed by default, and a prompted pattern persists for the rest of the conversation as of 1.1.9. Version 1.1.11 fixes zero-word allowlists matching every command, auto-approval in strict or request-review modes, and startup MCP admin-control caching. Rewind or fork still changes conversation state rather than restoring the filesystem.",
+    currentReleaseReviewAt,
   ),
   "copilot-cli": record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "checkpoint" },
@@ -294,9 +300,11 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.3",
       "https://github.com/QwenLM/qwen-code/pull/8303",
       "https://github.com/QwenLM/qwen-code/pull/8056",
+      "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.7",
+      "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.8",
     ],
-    "Default-on auto-memory persists reviewed user and project knowledge; qwen serve keeps managed project memory Git-root-scoped unless exact-workspace storage is explicitly enabled. Approval policy is granular and named fork profiles can constrain delegated tools. Opt-in background workflows remain TUI-only, approval-gated, process-scoped, and lack pause, resume, restart recovery, remote execution, and tracing. The OS/container sandbox and shadow-Git checkpoints are both disabled by default; yolo does not enable isolation, and rollback cannot undo external side effects. The alpha daemon is unauthenticated on loopback, requires a bearer token for non-loopback binds, and does not claim production-grade multi-client guarantees.",
-    latestReleaseReviewAt,
+    "Default-on auto-memory persists reviewed user and project knowledge; qwen serve keeps managed project memory Git-root-scoped unless exact-workspace storage is explicitly enabled. Approval policy is granular and named fork profiles can constrain delegated tools. Releases 0.21.7 and 0.21.8 remove the fixed Goal continuation limit, add durable Goal evidence checkpoints, and allow cooperative workflow pause and resume. Background workflows remain TUI-only, approval-gated, process-scoped, and lack restart recovery, remote execution, and tracing. The OS/container sandbox and shadow-Git checkpoints are disabled by default; yolo does not enable isolation, and rollback cannot undo external side effects.",
+    currentReleaseReviewAt,
   ),
   "continue-cli": record(
     { context: "managed", permissions: "approval", verification: "tool-assisted", observability: "logs", recovery: "session-resume" },
@@ -326,9 +334,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://moonshotai.github.io/kimi-code/en/customization/hooks",
       "https://moonshotai.github.io/kimi-code/en/customization/agents",
       "https://moonshotai.github.io/kimi-code/en/customization/mcp",
+      "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai%2Fkimi-code%400.34.0",
     ],
-    "Interactive sessions default to manual approval and persist structured Wire event streams with subagent histories and a session visualizer, but this is resumable state rather than learned memory or file rollback. Print mode uses unattended auto permission, can leave background work effectively unbounded, anonymous telemetry defaults on, hooks fail open, and all local tools remain host-privileged. Plugins can inject system prompts, custom agents, skills, hooks, and MCP servers across user-global installs, expanding the trust boundary. The web service is loopback and bearer-authenticated by default; its explicit bypass removes that boundary.",
-    releaseReviewAt,
+    "Interactive sessions default to manual approval and persist structured Wire event streams with subagent histories and a session visualizer. Version 0.34.0 preserves completed, cancelled, or failed turn state across server restarts and keeps print mode alive for background tasks and subagents, but this remains session resume rather than file rollback. Print mode uses unattended auto permission, hooks fail open, and local tools remain host-privileged. The optional first-party Computer Use and WebBridge integration extends host/browser reach rather than adding isolation.",
+    currentReleaseReviewAt,
   ),
   "mimo-code": record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "checkpoint" },
@@ -462,8 +471,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://docs.zoocode.dev/features/rooignore",
       "https://docs.zoocode.dev/features/message-queueing",
       "https://docs.zoocode.dev/reporting-errors",
+      "https://github.com/Zoo-Code-Org/Zoo-Code/releases/tag/v3.76.0",
     ],
-    "The extension normally asks before tools and exports task/action diagnostics, but execution remains on the host. .rooignore does not fully mediate commands, queued messages implicitly approve the next pending action, and checkpoints restore recorded files rather than external command side effects.",
+    "The extension normally asks before tools and exports task/action diagnostics, but execution remains on the host. Version 3.76.0 adds an opt-in Destructive Command Guard and groups related approvals; the guard is command filtering rather than process isolation. .rooignore does not fully mediate commands, queued messages implicitly approve the next pending action, and checkpoints restore recorded files rather than external command side effects.",
+    currentReleaseReviewAt,
   ),
   zcode: record(
     { context: "managed", permissions: "policy", verification: "workflow-gated", observability: "traces", recovery: "managed-recovery" },
@@ -514,9 +525,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://docs.openclaw.ai/gateway/restart-recovery",
       "https://docs.openclaw.ai/gateway/opentelemetry",
       "https://docs.openclaw.ai/automation/tasks",
+      "https://github.com/openclaw/openclaw/releases/tag/v2026.6.34",
     ],
-    "Code-verifiable at commit 4ce534aec2e3ab0fefe7eb6b131cc7be5023500d. OpenClaw persists workspace memory and compacts session context, composes tool policy and approvals, exports optional OpenTelemetry traces, and reconciles durable tasks after restarts. Sandboxing is off by default, enterprise policy conformance checks configuration rather than enforcing every tool call, observability is opt-in, and managed restart or task recovery does not roll back repository files or external side effects.",
-    refreshedAt,
+    "Code-verifiable at commit 4ce534aec2e3ab0fefe7eb6b131cc7be5023500d, with later first-party extended-stable hardening from 2026.6.34. OpenClaw persists workspace memory, compacts context, composes tool policy and approvals, exports optional traces, and reconciles durable tasks after restarts. The maintenance release hardens browser and network boundaries, retained session writes, channel recovery, bounded queues, and SQLite checkpoint handling. Sandboxing remains off by default, and recovery does not roll back repository files or external side effects.",
+    currentReleaseReviewAt,
   ),
   "mini-swe-agent": record(
     { context: "basic", permissions: "approval", verification: "manual", observability: "traces", recovery: "manual" },
@@ -661,9 +673,12 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/docs/RECOVERY.md",
       "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.19.3",
       "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.19.5",
+      "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.21.0",
+      "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.21.3",
+      "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.22.0",
     ],
-    "Reasonix persists hierarchical instructions, durable memory, sessions, structured event streams, and edit checkpoints while exposing ordered permission policy and platform-specific shell isolation. Verification remains tool-assisted rather than an enforced completion gate. Version 1.19.3 removed Guard and Safe Mode, while 1.19.5 bounded event-log replay and confined project prompt paths to the workspace. Windows shell execution is unconfined, headless auto mode removes interactive approval, MCP tools bypass per-tool approval, and checkpoints cannot reverse Bash, move, network, or other external side effects.",
-    reasonixReleaseReviewAt,
+    "Reasonix persists hierarchical instructions, durable memory, sessions, structured event streams, and edit checkpoints while exposing ordered permission policy and platform-specific shell isolation. Releases 1.21.0 through 1.22.0 add atomic provider-stream replay, adaptive no-progress detection, fsync-backed sidecars, cross-process locks, and idempotent atomic context maintenance. Verification remains tool-assisted rather than an enforced completion gate. Windows shell execution is unconfined, headless auto mode removes interactive approval, MCP tools bypass per-tool approval, and checkpoints cannot reverse Bash, move, network, or other external side effects.",
+    currentReleaseReviewAt,
   ),
   slate: record(
     { context: "managed", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },

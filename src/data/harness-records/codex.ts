@@ -1,6 +1,7 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-30";
+const latestReleaseVerifiedAt = "2026-08-10";
 
 export const codex = {
     id: "codex",
@@ -42,7 +43,7 @@ export const codex = {
     ],
     tradeoffs: [
       "The standard local workspace sandbox limits writes and disables network access, but legacy modes can still read beyond the project; least-privilege permission profiles are beta and do not compose with legacy sandbox settings",
-      "Auto-review can replace a human at eligible sandbox-boundary prompts, but it only reviews requested escalations, can make mistakes, and is not a deterministic security guarantee",
+      "Auto-review can replace a human at eligible sandbox-boundary prompts, including through the --approve-for-me CLI flag, but it only reviews requested escalations, can make mistakes, and is not a deterministic security guarantee",
       "Worktrees isolate Git checkouts rather than processes and are a desktop-app workflow; local chats can still operate directly in the user's checkout",
       "There is no product-level file checkpoint: review-pane Git revert and session resume do not reverse arbitrary shell, browser, MCP, or remote-system side effects",
       "Browser and Computer Use can act outside the repository; the browser uses a separate profile, while Computer Use requires OS-level screen and accessibility access plus attended approval",
@@ -52,7 +53,7 @@ export const codex = {
       "The Apache-2.0 repository exposes the CLI, SDK, app server, sandbox, tests, and rollout tooling, but not the proprietary IDE extension or Codex cloud service",
     ],
     setup: "Install the Codex CLI or extension, authenticate, then run `codex` interactively or `codex exec` for automation.",
-    verifiedAt: verifiedAt,
+    verifiedAt: latestReleaseVerifiedAt,
     evidence: [
       {
         title: "Codex CLI",
@@ -402,9 +403,18 @@ export const codex = {
         title: "Codex CLI 0.146.0 release",
         topic: "releases-code-audit",
         url: "https://github.com/openai/codex/releases/tag/rust-v0.146.0",
-        covers: "Current stable CLI distribution release used for product-version verification",
+        covers: "Historical stable CLI distribution release used for product-version verification",
         kind: "official-announcement",
         verifiedAt: verifiedAt,
+      },
+      {
+        title: "Codex CLI 0.147.0 release",
+        topic: "execution-control",
+        url: "https://github.com/openai/codex/releases/tag/rust-v0.147.0",
+        covers:
+          "Portable agent plugins, automatically reviewed approvals, persistent conversation sections, MCP 2026-07-28 support, explicit project trust, plugin-isolation hardening, and removal of the legacy full-auto flag",
+        kind: "official-announcement",
+        verifiedAt: latestReleaseVerifiedAt,
       },
       {
         title: "Codex repository",

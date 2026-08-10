@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-08-10T05:51:53.418Z",
+  "updatedAt": "2026-08-10T10:44:20.433Z",
   "generatedBy": {
     "provider": "OpenRouter",
     "model": "openai/gpt-oss-20b",
@@ -19,7 +19,15 @@
       "releaseNotesSha256": "98fa63fe8b1b558e4054e7d52440e8000f67886e01c59808f94838f4d669fbf1",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-10T05:51:53.418Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-catalog-updated",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "catalog-updated",
+        "rationale": "The official notes establish fsync-backed atomic session sidecars, cross-process locks, idempotent context cleanup, atomic summary transactions, CLI-to-web handoff, and bounded shell output. The Reasonix record and operational profile now carry that source without changing classification.",
+        "evidenceUrls": [
+          "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.22.0"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 2645,
@@ -74,7 +82,15 @@
       "releaseNotesSha256": "ab53d80930d760c507580ce280bfd93821bf9653d99b1fd855681e6cce1c1b34",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-10T05:51:53.418Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/topcheer/ggcode/releases/tag/v1.3.199"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 1008,
@@ -120,7 +136,15 @@
       "releaseNotesSha256": "30dfb51ec14c1678962727437ea1f65439d3b673a7d039c3802b9836b53e11ea",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-10T05:51:53.418Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/letta-ai/letta-code/releases/tag/v0.30.15"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 710,
@@ -168,7 +192,15 @@
       "releaseNotesSha256": "b80fbf341c37f1ae9ef6e5532b2b7d9b895e1608bf939be1eb58f876182dce0f",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-09T10:21:22.055Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-catalog-updated",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "catalog-updated",
+        "rationale": "The official notes establish durable queued prompts and session context across aborts or hub restarts, checkpoint diffs for initially untracked files, scheduled-run lifecycle reporting, and bounded MCP initialization. The Cline record and operational profile were updated.",
+        "evidenceUrls": [
+          "https://github.com/cline/cline/releases/tag/v4.1.7"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 885,
@@ -214,7 +246,15 @@
       "releaseNotesSha256": "79facc2452ac6573a03b6d0e0c2466a226e7a1318e582fcde0931ef7e572b70a",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-09T10:21:22.055Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/letta-ai/letta-code/releases/tag/v0.30.14"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 740,
@@ -269,7 +309,15 @@
       "releaseNotesSha256": "2437340291376fa072f99bafaad1aebdcfc7f8d18129fcddb0092db8bb00706d",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-09T10:21:22.055Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/can1357/oh-my-pi/releases/tag/v17.2.12"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 2485,
@@ -318,7 +366,15 @@
       "releaseNotesSha256": "065c938b3465f94f2139e5358f33b5860da7baa8095c3013d4dde25e46be08d4",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-09T10:21:22.055Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-catalog-updated",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "catalog-updated",
+        "rationale": "The official notes establish append-only session trees, branch/fork/resume commands, durable Fleet receipts, Runtime API controls, and opt-in rather than default headless ceilings. The CodeWhale record and operational profile were updated without importing model-routing claims as harness quality.",
+        "evidenceUrls": [
+          "https://github.com/Hmbown/CodeWhale/releases/tag/v0.9.5"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 2567,
@@ -373,7 +429,15 @@
       "releaseNotesSha256": "a6d3958a0c17eea4743afc1f96b7cb40904f086e50175df83a2f734f5075dddc",
       "releaseNotesTruncated": true,
       "analyzedAt": "2026-08-09T10:21:22.055Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-catalog-updated",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "catalog-updated",
+        "rationale": "The official notes establish durable Goal evidence checkpoints, cooperative workflow pause/resume, concurrent ACP tool calls, fail-closed review admission, and corrected workspace trust inheritance. The record and operational profile now reflect those mechanisms.",
+        "evidenceUrls": [
+          "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.8"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 3401,
@@ -429,7 +493,15 @@
       "releaseNotesSha256": "dd490d3f4e93c8165c0322324024d1202fe097b1be5a232b6035fd40bfee97cc",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-08T13:15:40.933Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/anthropics/claude-code/releases/tag/v2.1.226"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 427,
@@ -463,7 +535,15 @@
       "releaseNotesSha256": "9bad826fdfd9570d5d1683767a39c87a77669699fb3f15b57c883753044eed40",
       "releaseNotesTruncated": true,
       "analyzedAt": "2026-08-08T13:15:40.933Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/Hmbown/CodeWhale/releases/tag/v0.9.4"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 3551,
@@ -519,7 +599,15 @@
       "releaseNotesSha256": "b5e8a66d3d116d71e66b115aef36b30536745af790a0c39c53bc837a37d052cf",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-08T13:15:40.933Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/topcheer/ggcode/releases/tag/v1.3.198"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 931,
@@ -561,7 +649,15 @@
       "releaseNotesSha256": "993632326499796a6bd68a50dab13c3e306faf389643360d5ad09f37d0cd5a76",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-08T13:15:40.933Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/letta-ai/letta-code/releases/tag/v0.30.11"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 708,
@@ -617,7 +713,15 @@
       "releaseNotesSha256": "623f3abe11abe9d9108f82b62bbde0bd949d940467ff944f7164fe4ec6b5a6e2",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-08T13:15:40.933Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-catalog-updated",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "catalog-updated",
+        "rationale": "The official extended-stable notes establish browser and network boundary fixes, retained session writes, restart-safe channel work, bounded queues, SQLite checkpoint reliability, dependency patches, and signed provenance. The historical release label and operational profile were updated.",
+        "evidenceUrls": [
+          "https://github.com/openclaw/openclaw/releases/tag/v2026.6.34"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 2464,
@@ -671,7 +775,15 @@
       "releaseNotesSha256": "b71771563096c5437456e52e1593d6731e4e48198ee93a605b85af93b2aa6560",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-08T13:15:40.933Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-catalog-updated",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "catalog-updated",
+        "rationale": "The official notes establish adaptive no-progress detection, retry-aware compaction decisions, visible storage paths, and explicit Kimi K3 reasoning for custom gateways. The Reasonix record and operational profile were updated without transferring model capability.",
+        "evidenceUrls": [
+          "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.21.3"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 2155,
@@ -725,7 +837,15 @@
       "releaseNotesSha256": "3b0131858a0a1cd8dd2b619b442289ac4aff79fe06b3d130c1097d83757efa89",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-08T13:15:40.933Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/charmbracelet/crush/releases/tag/v0.88.1"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 2203,
@@ -775,7 +895,15 @@
       "releaseNotesSha256": "fc26925c31fdf76cc4935925fad662047a8980280e1eab7a6a189348cef04cff",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-08T13:15:40.933Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/langchain-ai/deepagents/releases/tag/deepagents-code%3D%3D0.1.54"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 1630,
@@ -829,7 +957,15 @@
       "releaseNotesSha256": "bd81047b1fc0d314d67140247adb469fde69224bb644d9b46cac4635d17fcb0e",
       "releaseNotesTruncated": true,
       "analyzedAt": "2026-08-08T13:15:40.933Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/can1357/oh-my-pi/releases/tag/v17.2.11"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 3198,
@@ -879,7 +1015,15 @@
       "releaseNotesSha256": "548ace9d35dd9feab4a04a874b39d44961d4017282997ba849925a2f1ed1c6c0",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-07T10:01:34.921Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/topcheer/ggcode/releases/tag/v1.3.196"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 733,
@@ -925,7 +1069,15 @@
       "releaseNotesSha256": "e79aed7400f754fc5af76da8bc48d814707d8e73576c95ec740f064a8642a708",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-07T10:01:34.921Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/letta-ai/letta-code/releases/tag/v0.30.9"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 826,
@@ -979,7 +1131,15 @@
       "releaseNotesSha256": "b2b18b12d0c9227d344d22319ef730d4559c52d85ee0761b0fefda8d32589baa",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-07T10:01:34.921Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/anomalyco/opencode/releases/tag/v1.18.15"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 707,
@@ -1017,7 +1177,15 @@
       "releaseNotesSha256": "26d122aca43b557cacec791d89d2786c6373a1fb9f59ed85ef462d924ad78e6a",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-07T10:01:34.921Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/earendil-works/pi/releases/tag/v0.84.1"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 1390,
@@ -1071,7 +1239,15 @@
       "releaseNotesSha256": "599502e42a0f2e0379037407ca20ad49de4ea8327332fdf398987084b24cb690",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-07T10:01:34.921Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.21.1"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 1240,
@@ -1117,7 +1293,15 @@
       "releaseNotesSha256": "f6ce391764680c81b5be43cf82555e90305d09c6213986739fc999cd767b8e4a",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-07T05:56:21.900Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-catalog-updated",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "catalog-updated",
+        "rationale": "The official notes establish fixes for zero-word allowlists matching every command, auto-approval in strict/request-review modes, and startup MCP admin-control caching, plus structured print-mode commands. The record and operational profile were updated.",
+        "evidenceUrls": [
+          "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.11"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 1477,
@@ -1171,7 +1355,15 @@
       "releaseNotesSha256": "24b88d1175d361dc91ae4841b99ef8b573e5b7be575fcba0875ce124d487b249",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-07T05:56:21.900Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-catalog-updated",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "catalog-updated",
+        "rationale": "The official notes establish self-hosted runners, cross-session messaging with approval holds, structured credential masking, sandbox deny-path corrections, and Remote Control recovery. The Claude Code record and operational profile now state the user-managed host boundary.",
+        "evidenceUrls": [
+          "https://github.com/anthropics/claude-code/releases/tag/v2.1.224"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 1381,
@@ -1225,7 +1417,15 @@
       "releaseNotesSha256": "694a00e39c80cfb27d387863469fb3b3277195685cd374d5de17475d3de91ac9",
       "releaseNotesTruncated": true,
       "analyzedAt": "2026-08-07T05:56:21.900Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-catalog-updated",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "catalog-updated",
+        "rationale": "The official notes establish portable agent plugins, the --approve-for-me automatically reviewed approval path, explicit local-project trust, plugin-isolation hardening, MCP 2026-07-28 support, and removal of the legacy full-auto flag. The Codex record and operational profile were updated.",
+        "evidenceUrls": [
+          "https://github.com/openai/codex/releases/tag/rust-v0.147.0"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 3257,
@@ -1280,7 +1480,15 @@
       "releaseNotesSha256": "ce1f82dac6f1b8877f7d125f0f3978f0b87e07f31a2cedd7bb893a72306129ec",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-07T05:56:21.900Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/google-gemini/gemini-cli/releases/tag/v0.54.4"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 592,
@@ -1312,7 +1520,15 @@
       "releaseNotesSha256": "390e501faeb2b608f4f8f9a3f1c55f0bb0f1b1d8af94b9182eb4307eb849fc64",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-07T05:56:21.900Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-catalog-updated",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "catalog-updated",
+        "rationale": "The official notes establish structured shell outcomes, atomic provider-stream replay, session-scoped Bash temporary files, machine-session resume, and removal of the Goal token hard stop. The Reasonix record and operational profile were updated.",
+        "evidenceUrls": [
+          "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.21.0"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 3026,
@@ -1366,7 +1582,15 @@
       "releaseNotesSha256": "4d6b4e062707b2839bc5aad3f43b8dd60260d4bad7aef4a476919c8e5470a2eb",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-07T05:56:21.900Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-catalog-updated",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "catalog-updated",
+        "rationale": "The official notes establish persisted completed/cancelled/failed turn state across restarts, one-click web resume, print-mode waiting for background work, Windows Computer Use, and WebBridge activation. The record, optional browser claim, and operational profile were updated.",
+        "evidenceUrls": [
+          "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai/kimi-code%400.34.0"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 3222,
@@ -1416,7 +1640,15 @@
       "releaseNotesSha256": "92ae8c26ebccab4e8ae6faf67045b6db91e578571aada64c16d10890f480d5aa",
       "releaseNotesTruncated": true,
       "analyzedAt": "2026-08-07T05:56:21.900Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/can1357/oh-my-pi/releases/tag/v17.2.10"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 3414,
@@ -1471,7 +1703,15 @@
       "releaseNotesSha256": "24be1c82537e357fbd463347d25115f2bcca0e39529be3fc4822799135815341",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-07T05:56:21.900Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-catalog-updated",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "catalog-updated",
+        "rationale": "The official notes establish removal of the fixed Goal continuation limit, repository review manifests, sandbox-runtime probing, symlink-aware file boundaries, and bounded review streams. The record and operational profile were updated while keeping sandboxing opt-in.",
+        "evidenceUrls": [
+          "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.7"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 1817,
@@ -1527,7 +1767,15 @@
       "releaseNotesSha256": "236bcfb6e7966280c38e4b910421af4eebb7fe633dadd6f74aad064c862e76cd",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-07T05:56:21.900Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/stagewise-io/stagewise/releases/tag/stagewise%401.28.0"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 735,
@@ -1575,7 +1823,15 @@
       "releaseNotesSha256": "5b44cd56116d2a45f4d97a62ab42f3bc56062eff2f1216347ab20b88e5e51e85",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-06T12:21:39.752Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-catalog-updated",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "catalog-updated",
+        "rationale": "The official notes establish command and permission-bypass fixes, workflow dynamic-import confinement, managed bypass-policy enforcement, resumed-session recovery, and context-window enforcement. The Claude Code evidence and operational profile were updated.",
+        "evidenceUrls": [
+          "https://github.com/anthropics/claude-code/releases/tag/v2.1.223"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 1014,
@@ -1629,7 +1885,15 @@
       "releaseNotesSha256": "cfe5e63850cfbfdafe918f6f02621001fcfaf5d9eba8d89b04c24f0362730366",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-06T12:21:39.752Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/cline/cline/releases/tag/v4.1.6"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 509,
@@ -1667,7 +1931,15 @@
       "releaseNotesSha256": "bff66931be7b713920e30f2725edb44224c7f47b82abd7d43dedee4e247aa76d",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-06T12:21:39.752Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/langchain-ai/deepagents/releases/tag/deepagents-code%3D%3D0.1.53"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 1765,
@@ -1722,7 +1994,15 @@
       "releaseNotesSha256": "88372a4b5bf820b8d2f04023d3b0d40008a7b469abec4d9158e759d3519a41cd",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-06T12:21:39.752Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/google-gemini/gemini-cli/releases/tag/v0.54.0"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 1164,
@@ -1772,7 +2052,15 @@
       "releaseNotesSha256": "c65ecd676c7fbedddebacc272bbc531b17ffee59bfb90a50bc364efa06cdf2fc",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-06T12:21:39.752Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/topcheer/ggcode/releases/tag/v1.3.194"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 914,
@@ -1818,7 +2106,15 @@
       "releaseNotesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-06T12:21:39.752Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/JetBrains/junie/releases/tag/2698.3"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 421,
@@ -1849,7 +2145,15 @@
       "releaseNotesSha256": "1bb70e4c38e959731e152ac8ce17662dec51964ff5488120ddb85a6f6fc85769",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-06T12:21:39.752Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/letta-ai/letta-code/releases/tag/v0.30.8"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 1176,
@@ -1897,7 +2201,15 @@
       "releaseNotesSha256": "dbdbf3d245d06a032b153535d47721986122b66edfd378481a6acced9113b4df",
       "releaseNotesTruncated": true,
       "analyzedAt": "2026-08-06T12:21:39.752Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-catalog-updated",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "catalog-updated",
+        "rationale": "The official notes establish atomic JSONL forks and torn-tail repair, queued-message delivery after compaction, output-limit retry, and bounded branch-recovery queries. The Pi record and operational profile were updated without calling session repair file rollback.",
+        "evidenceUrls": [
+          "https://github.com/earendil-works/pi/releases/tag/v0.84.0"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 3328,
@@ -1955,7 +2267,15 @@
       "releaseNotesSha256": "af9674c900eb2436cd0a3c4084670277234a3da74b76a8eb5fc3d84d330a2ae9",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-06T12:21:39.752Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-catalog-updated",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "catalog-updated",
+        "rationale": "The official notes establish the opt-in Destructive Command Guard, grouped approval handling, managed-binary hardening, and task-scoped provider configuration. The Zoo Code record and operational profile now distinguish the guard from process isolation.",
+        "evidenceUrls": [
+          "https://github.com/Zoo-Code-Org/Zoo-Code/releases/tag/v3.76.0"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 1248,
@@ -2010,7 +2330,15 @@
       "releaseNotesSha256": "d5633fb450d494838cbea894d28f69271e2bf34297842ff7d0c17c9054e1b043",
       "releaseNotesTruncated": false,
       "analyzedAt": "2026-08-06T12:21:39.752Z",
-      "status": "needs-editorial-review",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-08-10",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-08-10. They report maintenance, UI, provider, compatibility, or refinements already represented by the catalog and do not establish a new membership criterion, classification, operational tier, benchmark, or GUI-fit input.",
+        "evidenceUrls": [
+          "https://github.com/anomalyco/opencode/releases/tag/v1.18.14"
+        ]
+      },
       "model": "openai/gpt-oss-20b",
       "usage": {
         "promptTokens": 628,

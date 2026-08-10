@@ -2,7 +2,8 @@ import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
 const releaseVerifiedAt = "2026-07-31";
-const latestReleaseVerifiedAt = "2026-08-02";
+const reliabilityReleaseVerifiedAt = "2026-08-02";
+const latestReleaseVerifiedAt = "2026-08-10";
 
 export const cline = {
     id: "cline",
@@ -48,7 +49,7 @@ export const cline = {
       "Agent teams, the SDK, and Kanban are powerful but fast-moving; teams do not yet apply to the VS Code or JetBrains extensions and Kanban is a research preview",
       "The 4.1.x stable VSIX contains legacy and SDK-based extension bundles behind a staged remote rollout; assignments apply on reload, and tasks created on the new extension are hidden while the legacy bundle is active",
       "Read-only subagents are experimental and intentionally cannot edit files or run arbitrary write workflows",
-      "Shadow-Git checkpoints restore files and conversation state but do not reverse external side effects; large repositories can incur storage and snapshot overhead",
+      "Shadow-Git checkpoints restore files and conversation state, including files that were untracked when the snapshot was taken, but do not reverse external side effects; large repositories can incur storage and snapshot overhead",
       "SDK, CLI, and Kanban plugins can install executable JavaScript or TypeScript plus npm or Git dependencies; they require source review and do not currently extend the VS Code or JetBrains products",
       "OpenTelemetry exports logs and metrics rather than proving task correctness, and the checked-in evaluation framework has disabled or unfinished CI layers with no immutable result record",
     ],
@@ -211,7 +212,16 @@ export const cline = {
         title: "Cline v4.1.3 reliability release",
         topic: "releases-code-audit",
         url: "https://github.com/cline/cline/releases/tag/v4.1.3",
-        covers: "Current stable release, reliable whole-workspace checkpoint restoration, terminal completion fixes, and combined-rollout authentication repairs",
+        covers: "Version-pinned whole-workspace checkpoint restoration, terminal completion fixes, and combined-rollout authentication repairs",
+        kind: "official-announcement",
+        verifiedAt: reliabilityReleaseVerifiedAt,
+      },
+      {
+        title: "Cline v4.1.7 interruption recovery release",
+        topic: "orchestration-state",
+        url: "https://github.com/cline/cline/releases/tag/v4.1.7",
+        covers:
+          "Durable queued prompts and session context across aborts or hub restarts, checkpoint diffs that include initially untracked files, scheduled-run lifecycle reporting, and bounded MCP initialization",
         kind: "official-announcement",
         verifiedAt: latestReleaseVerifiedAt,
       },

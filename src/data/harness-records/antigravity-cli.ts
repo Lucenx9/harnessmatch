@@ -2,6 +2,7 @@ import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-28";
 const releaseVerifiedAt = "2026-07-31";
+const latestReleaseVerifiedAt = "2026-08-10";
 
 export const antigravityCli = {
     id: "antigravity-cli",
@@ -50,9 +51,10 @@ export const antigravityCli = {
       "Conversation rewind and fork operate on session history, not the local Git checkout, so they do not provide file rollback or worktree isolation",
       "Telemetry is enabled by default and must be changed in settings when that collection is not desired",
       "The public GitHub repository distributes releases and support material but does not expose the core harness source, engineering tests, security policy, or evaluation suite",
+      "Antigravity CLI 1.1.11 fixes zero-word command allowlists matching every command, auto-approval in strict or request-review modes, and startup MCP admin-control caching; older binaries should not be treated as having those corrections",
     ],
     setup: "Install the native Antigravity CLI, run `agy`, sign in with an eligible Google account or Google Cloud project, then choose permission and sandbox settings before delegated work.",
-    verifiedAt: releaseVerifiedAt,
+    verifiedAt: latestReleaseVerifiedAt,
     evidence: [
       {
         title: "Antigravity CLI overview",
@@ -159,6 +161,15 @@ export const antigravityCli = {
         covers: "Conversation-scoped prompt grants, background interactive MCP startup, headless skill expansion, temporary-directory writes, and bounded stop-hook continuation",
         kind: "official-announcement",
         verifiedAt: releaseVerifiedAt,
+      },
+      {
+        title: "Antigravity CLI 1.1.11 permission hardening",
+        topic: "execution-control",
+        url: "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.11",
+        covers:
+          "Zero-word command allowlist correction, strict and request-review auto-approval correction, MCP startup admin-control enforcement, structured print-mode commands, and server-directed retry delays",
+        kind: "official-announcement",
+        verifiedAt: latestReleaseVerifiedAt,
       },
       {
         title: "Artifact review",

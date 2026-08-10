@@ -1,6 +1,7 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-28";
+const latestReleaseVerifiedAt = "2026-08-10";
 
 export const openclaw = {
     id: "openclaw",
@@ -51,15 +52,24 @@ export const openclaw = {
       "Claw-SWE-Bench evaluates OpenClaw through a repository adapter; HarnessMatch records that study as methodology evidence and imports no product score from it",
     ],
     setup: "Install OpenClaw, run onboarding to configure the gateway, workspace, model access, and channels, then deliberately select tool policy, approval, sandbox, memory, and automation settings before using it on a repository.",
-    verifiedAt: verifiedAt,
+    verifiedAt: latestReleaseVerifiedAt,
     evidence: [
       {
         title: "OpenClaw 2026.7.1 release",
         topic: "releases-code-audit",
         url: "https://github.com/openclaw/openclaw/releases/tag/v2026.7.1",
-        covers: "Latest stable GitHub release, published version, signed tag, release notes, and distribution evidence",
+        covers: "Version-pinned July 2026 release, signed tag, release notes, and distribution evidence",
         kind: "official-repository",
         verifiedAt: verifiedAt,
+      },
+      {
+        title: "OpenClaw 2026.6.34 extended-stable hardening",
+        topic: "enterprise-operations",
+        url: "https://github.com/openclaw/openclaw/releases/tag/v2026.6.34",
+        covers:
+          "Extended-stable browser and network boundary fixes, retained session writes, restart-safe channel work, bounded gateway queues, SQLite checkpoint reliability, dependency patches, and signed distribution provenance",
+        kind: "official-announcement",
+        verifiedAt: latestReleaseVerifiedAt,
       },
       {
         title: "Repository snapshot at inspected commit",

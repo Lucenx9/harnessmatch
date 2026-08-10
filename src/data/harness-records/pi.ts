@@ -1,6 +1,7 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-08-05";
+const latestReleaseVerifiedAt = "2026-08-10";
 
 export const pi = {
     id: "pi",
@@ -48,7 +49,7 @@ export const pi = {
       "Project-owned behavioral and comparative eval assets are useful for development but are not an independent product benchmark and no score is imported",
     ],
     setup: "Install `@earendil-works/pi-coding-agent`, connect a provider or local endpoint, then add only the extensions your workflow needs.",
-    verifiedAt: verifiedAt,
+    verifiedAt: latestReleaseVerifiedAt,
     evidence: [
       {
         title: "Pi Agent Harness repository",
@@ -182,6 +183,14 @@ export const pi = {
         covers: "Current project-owned behavioral and comparative evaluation harness, provider and model selection, local run artifacts, and non-independent scope",
         kind: "official-repository",
         verifiedAt: verifiedAt,
+      },
+      {
+        title: "Pi 0.84.0 session-integrity release",
+        url: "https://github.com/earendil-works/pi/releases/tag/v0.84.0",
+        covers:
+          "Atomic JSONL session forks and torn-tail repair, queued-message delivery after compaction, single retry after output-limit truncation, and bounded branch recovery queries without file rollback",
+        kind: "official-announcement",
+        verifiedAt: latestReleaseVerifiedAt,
       },
     ],
   } satisfies HarnessRecord;

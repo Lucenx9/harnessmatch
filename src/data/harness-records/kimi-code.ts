@@ -2,6 +2,7 @@ import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
 const recordVerifiedAt = "2026-07-31";
+const latestReleaseVerifiedAt = "2026-08-10";
 
 export const kimiCode = {
     id: "kimi-code",
@@ -9,7 +10,7 @@ export const kimiCode = {
     name: "Kimi Code",
     tagline: "Multi-provider CLI with parallel subagents and local web or IDE surfaces.",
     summary:
-      "Moonshot AI's MIT-licensed coding harness provides a terminal UI, structured print mode, multi-provider routing, MCP, skills, plugins, hooks, ACP editor integration, a local web service, trace inspection, and parallel foreground or background subagents.",
+      "Moonshot AI's MIT-licensed coding harness provides a terminal UI, structured print mode, multi-provider routing, MCP, skills, plugins, hooks, ACP editor integration, a local web service, installable Computer Use and WebBridge tooling, trace inspection, and parallel foreground or background subagents.",
     logo: {
       src: "/harnesses/kimi-code.svg",
       sourceUrl: "https://github.com/MoonshotAI/kimi-code/blob/main/apps/vscode/resources/kimi-icon.svg",
@@ -48,9 +49,10 @@ export const kimiCode = {
       "AgentSwarm can ramp without a configured concurrency cap, while delegated agents inherit the caller's allowed permission rules",
       "The local web service uses loopback and bearer authentication by default, but --dangerous-bypass-auth exposes sessions, files, and shell access to anyone who can reach the port",
       "Plugins may inject system-prompt instructions, custom agents, skills, hooks, and MCP servers; third-party and custom sources require explicit trust and user-global installs are not project-scoped",
+      "Kimi Code 0.34.0 preserves completed, cancelled, or failed turn state across server restarts and adds one-click web resume, but session recovery still does not restore repository files or reverse external effects",
     ],
     setup: "Install the Kimi Code binary, log in or configure providers, then use `kimi`, `kimi -p`, `kimi acp`, or `kimi web` for the required surface.",
-    verifiedAt: recordVerifiedAt,
+    verifiedAt: latestReleaseVerifiedAt,
     evidence: [
       {
         title: "Kimi Code 0.29.2 source snapshot",
@@ -159,6 +161,15 @@ export const kimiCode = {
         covers: "Data-root relocation, telemetry disablement, background-task lifetime and concurrency limits, model overrides, and diagnostic controls",
         kind: "official-docs",
         verifiedAt: verifiedAt,
+      },
+      {
+        title: "Kimi Code 0.34.0 recovery and Computer Use release",
+        topic: "orchestration-state",
+        url: "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai%2Fkimi-code%400.34.0",
+        covers:
+          "Persistent terminal turn status across server restarts, one-click web resume after failures, print-mode waiting for background agents, Windows Computer Use support, WebBridge activation guidance, and live-session MCP removal behavior",
+        kind: "official-announcement",
+        verifiedAt: latestReleaseVerifiedAt,
       },
     ],
   } satisfies HarnessRecord;

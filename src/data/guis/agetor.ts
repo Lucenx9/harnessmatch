@@ -2,6 +2,7 @@ import type { GuiProduct } from "@/lib/gui-types";
 import { contradicted, documentedAt, source, unknown } from "./helpers";
 
 const verifiedAt = "2026-08-02";
+const latestReleaseVerifiedAt = "2026-08-10";
 const repository = "https://github.com/alamops/agetor";
 const commit = "03b2328009b66563a4e164d82eaa14621bf3d247";
 const repositoryBase = `${repository}/blob/${commit}`;
@@ -23,12 +24,12 @@ export const agetor: GuiProduct = {
   sourceAccess: "open-source",
   license: "MIT",
   platforms: ["macOS"],
-  supportedHarnesses: ["Claude Code", "Codex"],
+  supportedHarnesses: ["Claude Code", "Codex", "Cursor Agent"],
   acceptsArbitraryCli: false,
   harnessSupportNote:
-    "The pinned source implements two built-in harness kinds, Claude Code and Codex, plus account or binary aliases of those same kinds. The public site still labels Codex as coming soon, so the current support record is tied to the inspected commit rather than that stale copy.",
+    "The pinned source implements Claude Code and Codex. Release 0.0.18 adds Cursor Agent as a third built-in kind, explicitly experimental and disabled by default; account or binary aliases do not establish additional harnesses.",
   summary:
-    "A local kanban control plane for parallel Claude Code and Codex tasks, isolated worktrees, structured approvals, and review.",
+    "A local kanban control plane for parallel Claude Code, Codex, and experimental Cursor Agent tasks, isolated worktrees, structured approvals, and review.",
   bestFor:
     "macOS developers coordinating several local tasks or accounts across repositories while keeping each task on its own branch and worktree.",
   limitation:
@@ -61,6 +62,14 @@ export const agetor: GuiProduct = {
   },
   evidence: [
     source(
+      "Agetor 0.0.18 Cursor Agent release",
+      "https://github.com/alamops/agetor/releases/tag/v0.0.18",
+      "official-announcement",
+      "harness-integrations",
+      "Experimental Cursor Agent integration through cursor-agent CLI, disabled by default, alongside worktree cleanup, PR workflow, diff-review, and background-agent lifecycle changes.",
+      latestReleaseVerifiedAt,
+    ),
+    source(
       "Agetor pinned product and architecture record",
       readme,
       "official-repository",
@@ -85,5 +94,5 @@ export const agetor: GuiProduct = {
       verifiedAt,
     ),
   ],
-  verifiedAt,
+  verifiedAt: latestReleaseVerifiedAt,
 };
