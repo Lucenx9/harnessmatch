@@ -556,7 +556,7 @@ describe("harness evidence ledger", () => {
     expect(ante.evidence.every((source) => source.verifiedAt === ante.verifiedAt)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([
-      "https://github.com/AntigmaLabs/ante-preview/tree/8ce59518ed8a2ddda46c07cbb0b6fb1f528438a3",
+      "https://github.com/AntigmaLabs/ante/tree/8ce59518ed8a2ddda46c07cbb0b6fb1f528438a3",
       "https://docs.antigma.ai/reference/tools-reference",
       "https://docs.antigma.ai/reference/core-concepts",
       "https://docs.antigma.ai/configuration/permission",

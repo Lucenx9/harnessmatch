@@ -12,7 +12,7 @@ export const ante = {
     "An alpha terminal coding harness distributed as a self-contained binary, with repository and shell tools, explicit goal loops, automatic context compaction, persistent project memory, delegated subagents, local GGUF inference, MCP, skills, headless runs, and a structured server protocol. Local execution is host-first: permissions and tool filters govern calls but do not establish an operating-system sandbox.",
   logo: {
     src: "/harnesses/ante.png",
-    sourceUrl: `https://github.com/AntigmaLabs/ante-preview/blob/${inspectedRef}/docs-site/static/assets/ante.png`,
+    sourceUrl: `https://github.com/AntigmaLabs/ante/blob/${inspectedRef}/docs-site/static/assets/ante.png`,
     verifiedAt,
   },
   status: "active",
@@ -56,7 +56,7 @@ export const ante = {
     {
       title: "Ante alpha source snapshot",
       topic: "releases-code-audit",
-      url: `https://github.com/AntigmaLabs/ante-preview/tree/${inspectedRef}`,
+      url: `https://github.com/AntigmaLabs/ante/tree/${inspectedRef}`,
       covers:
         "Immutable public alpha snapshot for documentation, protocol and SDK components, execution library, release history, CI, and project-owned evaluation assets; the core harness remains private",
       kind: "official-repository",
@@ -65,7 +65,7 @@ export const ante = {
     {
       title: "Ante v0.preview.68 release",
       topic: "releases-code-audit",
-      url: "https://github.com/AntigmaLabs/ante-preview/releases/tag/v0.preview.68",
+      url: "https://github.com/AntigmaLabs/ante/releases/tag/v0.preview.68",
       covers:
         "Current public alpha version boundary, macOS and Linux binary distributions, release date, and shipped preview channel",
       kind: "official-announcement",
@@ -74,7 +74,7 @@ export const ante = {
     {
       title: "Ante binary preview terms",
       topic: "releases-code-audit",
-      url: `https://github.com/AntigmaLabs/ante-preview/blob/${inspectedRef}/BINARY-TERMS.md`,
+      url: `https://github.com/AntigmaLabs/ante/blob/${inspectedRef}/BINARY-TERMS.md`,
       covers:
         "Preview binary license grant, redistribution terms, alpha status, discontinuation risk, third-party components, and separate Apache-2.0 source licensing",
       kind: "official-repository",

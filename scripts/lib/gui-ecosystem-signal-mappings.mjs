@@ -1,5 +1,5 @@
 export const guiHomebrewArtifacts = [
-  { guiId: "aionui", artifactId: "aionui", name: "AionUi", homepage: "https://github.com/iOfficeAI/AionUi" },
+  { guiId: "aionui", artifactId: "aionui", name: "AionUi", homepage: "https://www.aionui.com/" },
   { guiId: "conductor", artifactId: "conductor", name: "Conductor", homepage: "https://conductor.build/" },
   { guiId: "emdash", artifactId: "emdash", name: "Emdash", homepage: "https://www.emdash.sh/" },
   { guiId: "maestro", artifactId: "maestro", name: "Maestro", homepage: "https://runmaestro.ai/" },
