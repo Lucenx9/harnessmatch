@@ -2,6 +2,7 @@ import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-30";
 const releaseVerifiedAt = "2026-08-02";
+const repositoryVerifiedAt = "2026-08-12";
 
 export const factoryDroid = {
     id: "factory-droid",
@@ -52,7 +53,7 @@ export const factoryDroid = {
       "Factory publishes selected benchmark scorecards, but its public repository does not expose the closed agent implementation or a complete immutable evaluation corpus",
     ],
     setup: "Install `droid`, authenticate with Factory or configure BYOK, then begin in read-only mode and raise autonomy only inside a reviewed environment.",
-    verifiedAt: releaseVerifiedAt,
+    verifiedAt: repositoryVerifiedAt,
     evidence: [
       {
         title: "Droid CLI reference",
@@ -145,10 +146,10 @@ export const factoryDroid = {
       {
         title: "Factory public support repository",
         topic: "releases-code-audit",
-        url: "https://github.com/Factory-AI/factory/tree/7ea5f9c2fcde446e1628a33f922f421616761f79",
-        covers: "Pinned documentation and distribution support tree, workflows, benchmark pages, proprietary notice, and absent core source",
+        url: "https://github.com/Factory-AI/factory/tree/1fd9026d72f81668d88f37237cb5a2e89a17e6e2",
+        covers: "Pinned README.md, .github/workflows/, docs/benchmarks/, and docs/snippets/leaderboards/ support paths, proprietary notice, and absent core source",
         kind: "official-repository",
-        verifiedAt: verifiedAt,
+        verifiedAt: repositoryVerifiedAt,
       },
       {
         title: "Terminal-Bench methodology",

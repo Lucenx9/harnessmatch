@@ -982,10 +982,10 @@ describe("harness evidence ledger", () => {
     const urls = factory.evidence.map((source) => source.url);
     const caveats = factory.tradeoffs.join(" ");
 
-    expect(factory.verifiedAt).toBe("2026-08-02");
+    expect(factory.verifiedAt).toBe("2026-08-12");
     expect(factory.evidence).toHaveLength(17);
     expect(factory.evidence.find((source) => source.title === "Factory v0.185.0 release notes")?.verifiedAt).toBe("2026-08-02");
-    expect(factory.evidence.find((source) => source.url.includes("/tree/7ea5f9c"))?.verifiedAt).toBe("2026-07-30");
+    expect(factory.evidence.find((source) => source.url.includes("/tree/1fd9026"))?.verifiedAt).toBe("2026-08-12");
     expect(factory.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([

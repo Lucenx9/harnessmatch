@@ -120,6 +120,23 @@ describe("multi-axis evidence evaluation", () => {
     expect(evidence.states).not.toContain("code-verifiable");
   });
 
+  it("keeps Factory's rewritten support repository pinned and out of code-verifiable evidence", () => {
+    const audit = repositoryAudits.find((item) => item.harnessId === "factory-droid")!;
+
+    expect(audit.inspectedRef).toBe("1fd9026d72f81668d88f37237cb5a2e89a17e6e2");
+    expect(audit.verifiedAt).toBe("2026-08-12");
+    expect(audit.sourceScope).toBe("support-repository");
+    expect(audit.signals).toEqual({
+      securityPolicy: false,
+      continuousIntegration: true,
+      automatedTests: false,
+      evaluationAssets: true,
+      contributorDocumentation: false,
+    });
+    expect(audit.limitation).toContain("README.md, .github/workflows/, docs/benchmarks/");
+    expect(repositoryArtifactCount(audit)).toBeNull();
+  });
+
   it("keeps Antigravity's support-only repository out of code-verifiable and benchmark evidence", () => {
     const audit = repositoryAudits.find((item) => item.harnessId === "antigravity-cli")!;
     const evidence = evidenceStateFor("antigravity-cli");
