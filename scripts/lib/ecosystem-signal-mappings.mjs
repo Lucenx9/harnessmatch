@@ -24,6 +24,7 @@ export const homebrewArtifacts = [
 ];
 
 export const npmPackages = [
+  { harnessId: "deepseek-harness", artifactId: "@deepseek-ai/dsh", identity: { kind: "repository", value: "https://github.com/deepseek-ai/deepseek-harness" } },
   { harnessId: "claude-code", artifactId: "@anthropic-ai/claude-code", identity: { kind: "homepage", value: "https://github.com/anthropics/claude-code" } },
   { harnessId: "codex", artifactId: "@openai/codex", identity: { kind: "repository", value: "https://github.com/openai/codex" } },
   { harnessId: "gemini-cli", artifactId: "@google/gemini-cli", identity: { kind: "repository", value: "https://github.com/google-gemini/gemini-cli" } },

@@ -17,7 +17,8 @@ const projectRoot = process.cwd();
 const outputPath = resolve(projectRoot, "src/data/release-signals.json");
 const repositoryAuditPath = resolve(projectRoot, "src/data/repository-audits.ts");
 const observedAt = new Date().toISOString().slice(0, 10);
-const maximumPages = 20;
+// Keep high-volume repositories fully scannable while bounding API work.
+const maximumPages = 25;
 
 async function fetchJsonWithRetry(url, init, label) {
   return fetchJsonResponseWithRetry(url, init, {

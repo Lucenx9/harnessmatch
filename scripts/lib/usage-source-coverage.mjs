@@ -6,13 +6,13 @@
 export const unmappedHarnessIdsByUsageSource = {
   openrouter: [
     "amp", "antigravity-cli", "coder-agents", "copilot-cli",
-    "codewhale", "factory-droid", "forgecode", "gemini-cli", "grok-build",
+    "codewhale", "deepseek-harness", "factory-droid", "forgecode", "gemini-cli", "grok-build",
     "kimi-code", "kiro-cli", "letta-code", "mini-swe-agent", "mistral-vibe",
     "muse-code", "mux", "opencode", "openharness", "reasonix", "spectral-agent", "stagewise", "zcode", "zoo-code",
   ],
   homebrew: [
     "amp", "ante", "codebuff", "codewhale", "coder-agents", "command-code", "crush",
-    "deepagents-code", "ggcode", "junie-cli", "kern", "kilo-code", "mini-swe-agent", "muse-code", "mux",
+    "deepagents-code", "deepseek-harness", "ggcode", "junie-cli", "kern", "kilo-code", "mini-swe-agent", "muse-code", "mux",
     "omp", "openhands", "openharness", "opensquilla", "poolside-cli", "postqode", "stagewise",
     "reasonix", "slate", "spectral-agent", "wakil", "zcode", "zoo-code",
   ],
@@ -25,7 +25,7 @@ export const unmappedHarnessIdsByUsageSource = {
   ],
   vscode: [
     "aider", "amp", "ante", "antigravity-cli", "codebuff", "codewhale", "coder-agents", "command-code",
-    "copilot-cli", "crush", "cursor-cli", "deepagents-code", "forgecode", "goose",
+    "copilot-cli", "crush", "cursor-cli", "deepagents-code", "deepseek-harness", "forgecode", "goose",
     "ggcode", "grok-build", "hermes-agent", "junie-cli", "kern", "kimi-code", "kiro-cli", "mimo-code",
     "letta-code", "mini-swe-agent", "muse-code", "mux", "omp", "openclaw", "opencode",
     "openhands", "openharness", "opensquilla", "pi", "poolside-cli", "postqode", "stagewise",
@@ -33,7 +33,7 @@ export const unmappedHarnessIdsByUsageSource = {
   ],
   openvsx: [
     "aider", "amp", "ante", "antigravity-cli", "codebuff", "codewhale", "coder-agents", "command-code",
-    "copilot-cli", "crush", "cursor-cli", "deepagents-code", "factory-droid",
+    "copilot-cli", "crush", "cursor-cli", "deepagents-code", "deepseek-harness", "factory-droid",
     "forgecode", "ggcode", "goose", "grok-build", "hermes-agent", "junie-cli", "kern",
     "kimi-code", "kiro-cli", "letta-code", "mimo-code", "mini-swe-agent", "muse-code", "mux", "omp",
     "openclaw", "opencode", "openhands", "openharness", "opensquilla", "pi", "poolside-cli",
@@ -41,7 +41,7 @@ export const unmappedHarnessIdsByUsageSource = {
   ],
   jetbrains: [
     "aider", "amp", "ante", "antigravity-cli", "codebuff", "codewhale", "coder-agents", "codex",
-    "command-code", "copilot-cli", "crush", "cursor-cli", "deepagents-code",
+    "command-code", "copilot-cli", "crush", "cursor-cli", "deepagents-code", "deepseek-harness",
     "forgecode", "gemini-cli", "ggcode", "goose", "grok-build", "hermes-agent", "kern",
     "kimi-code", "kiro-cli", "letta-code", "mimo-code", "mini-swe-agent", "mistral-vibe",
     "muse-code", "mux", "omp", "openclaw", "opencode", "openhands", "openharness", "opensquilla", "pi",
@@ -50,7 +50,7 @@ export const unmappedHarnessIdsByUsageSource = {
   ],
   "github-releases": [
     "aider", "amp", "ante", "codebuff", "coder-agents", "command-code", "cursor-cli",
-    "factory-droid", "grok-build", "hermes-agent", "kern", "kiro-cli",
+    "deepseek-harness", "factory-droid", "grok-build", "hermes-agent", "kern", "kiro-cli",
     "letta-code", "mini-swe-agent", "muse-code", "mux", "openclaw", "openhands", "postqode",
     "slate", "spectral-agent", "stagewise", "wakil", "zcode",
   ],

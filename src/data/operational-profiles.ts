@@ -715,6 +715,18 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
     "Spectral manages long-session context through observations, reflections, compaction, and recall; local SQLite records messages and tool activity, and reconnect resumes current work. Repository files, shell, Git, subagents, and MCP remain host-first with no documented general tool policy or OS sandbox. Goal evaluation and tool checks are product-internal, and resume does not roll back files or external effects.",
     "2026-08-08",
   ),
+  "deepseek-harness": record(
+    { context: "managed", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },
+    [
+      "https://github.com/deepseek-ai/deepseek-harness/blob/47f943859bef60e4160492346772ded9b24f765a/packages/bundle/base/cordis.patch.yml",
+      "https://github.com/deepseek-ai/deepseek-harness/blob/47f943859bef60e4160492346772ded9b24f765a/docs/subsystems/sandbox.md",
+      "https://github.com/deepseek-ai/deepseek-harness/blob/47f943859bef60e4160492346772ded9b24f765a/docs/subsystems/compaction.md",
+      "https://github.com/deepseek-ai/deepseek-harness/blob/47f943859bef60e4160492346772ded9b24f765a/docs/subsystems/persistence.md",
+      "https://github.com/deepseek-ai/deepseek-harness/blob/47f943859bef60e4160492346772ded9b24f765a/docs/user/guide/python-sdk.md",
+    ],
+    "The shared CLI profile manages context through pruning and compaction, records approval and sandbox policy, persists reconstructable model requests and tool calls, and keeps telemetry disabled unless explicitly enabled. Workspace-write confines file effects but not network or process visibility, while danger-full-access and the Python SDK example bypass confinement. Session recovery restores durable conversation state rather than repository files or external side effects, and product-internal plans, todos, and workflows do not prove task success.",
+    "2026-08-13",
+  ),
 };
 
 const unknownRecord: OperationalProfileRecord = {

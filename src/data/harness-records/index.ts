@@ -50,6 +50,7 @@ import { codewhale } from "./codewhale";
 import { openHarness } from "./openharness";
 import { slate } from "./slate";
 import { spectralAgent } from "./spectral-agent";
+import { deepseekHarness } from "./deepseek-harness";
 import type { HarnessRecord } from "./types";
 
 export const harnessRecords: HarnessRecord[] = [
@@ -105,4 +106,5 @@ export const harnessRecords: HarnessRecord[] = [
   openHarness,
   slate,
   spectralAgent,
+  deepseekHarness,
 ];

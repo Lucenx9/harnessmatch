@@ -665,6 +665,39 @@ const featureClaimSeedsByHarness = {
     mcp: documented("Spectral MCP servers"),
     subagents: documented("Spectral subagents"),
   },
+  "deepseek-harness": {
+    mcp: configuredClaim(
+      "optional",
+      ["MCP client package"],
+      "Optional plugin bridge for MCP server tools over stdio or streamable HTTP",
+      "The bridge is not mounted in the default profile, covers tools only, and can activate without tools when startup discovery fails.",
+    ),
+    skills: configuredClaim(
+      "default",
+      ["Default profile composition"],
+      "Filesystem-backed reusable skills in the shared default profile",
+      "Skill support does not establish portability, package quality, safety, or adoption.",
+    ),
+    localModels: configuredClaim(
+      "documented",
+      ["Model provider configuration"],
+      "Custom OpenAI-compatible self-hosted endpoints",
+      "The harness does not bundle a local model runtime; endpoint availability and model capability remain external.",
+    ),
+    subagents: configuredClaim(
+      "default",
+      ["Default profile composition", "Subagent runtime", "Workflow engine"],
+      "One-shot, continuable, forked, parallel, and workflow-driven child agents",
+      "Provider choice, depth, concurrency, tool scope, and lifecycle configuration determine the effective delegation boundary.",
+    ),
+    headless: documented("CLI entry modes", "Python SDK guide"),
+    sandbox: configuredClaim(
+      "default",
+      ["Default profile composition", "Process sandbox"],
+      "Default file-effect sandbox for shipped CLI profiles on Linux, macOS, and Windows",
+      "The sandbox does not govern network or process visibility, enforcement may be partial, and danger-full-access plus custom SDK compositions can bypass it.",
+    ),
+  },
 } satisfies Record<string, Partial<Record<FeatureKey, FeatureClaimSeed>>>;
 
 export const featureClaimHarnessIds = Object.keys(featureClaimSeedsByHarness);

@@ -58,6 +58,7 @@ const firstPartyHosts: Record<string, string[]> = {
   openharness: ["github.com"],
   slate: ["docs.randomlabs.ai", "randomlabs.ai", "registry.npmjs.org"],
   "spectral-agent": ["aexol.ai", "registry.npmjs.org"],
+  "deepseek-harness": ["github.com", "registry.npmjs.org"],
 };
 
 const firstPartyLogoHosts: Record<string, string> = {
@@ -113,9 +114,56 @@ const firstPartyLogoHosts: Record<string, string> = {
   openharness: "github.com",
   slate: "randomlabs.ai",
   "spectral-agent": "aexol.ai",
+  "deepseek-harness": "github.com",
 };
 
 describe("harness evidence ledger", () => {
+  it("adds DeepSeek Harness from its own developer-preview runtime evidence", () => {
+    const harness = harnesses.find((candidate) => candidate.id === "deepseek-harness")!;
+    const support = featureSupportFor(harness);
+    const urls = harness.evidence.map((source) => source.url);
+    const caveats = harness.tradeoffs.join(" ");
+
+    expect(harness).toMatchObject({
+      status: "active",
+      license: "MIT",
+      providerStyle: "multi-provider",
+      supportsSubscription: false,
+      classification: {
+        role: "extensible-harness",
+        orchestration: "multi-agent-runtime",
+        runtime: "sandbox-first",
+        isolation: ["os-sandbox"],
+        state: "session-based",
+      },
+    });
+    expect(harness.verifiedAt).toBe("2026-08-13");
+    expect(harness.evidence).toHaveLength(15);
+    expect(new Set(urls).size).toBe(urls.length);
+    expect(urls).toEqual(expect.arrayContaining([
+      "https://github.com/deepseek-ai/deepseek-harness/blob/47f943859bef60e4160492346772ded9b24f765a/README.md",
+      "https://registry.npmjs.org/@deepseek-ai%2fdsh/0.1.0-rc.6",
+      "https://github.com/deepseek-ai/deepseek-harness/blob/47f943859bef60e4160492346772ded9b24f765a/packages/bundle/base/cordis.patch.yml",
+      "https://github.com/deepseek-ai/deepseek-harness/blob/47f943859bef60e4160492346772ded9b24f765a/docs/subsystems/sandbox.md",
+      "https://github.com/deepseek-ai/deepseek-harness/blob/47f943859bef60e4160492346772ded9b24f765a/docs/subsystems/subagent.md",
+      "https://github.com/deepseek-ai/deepseek-harness/blob/47f943859bef60e4160492346772ded9b24f765a/docs/user/guide/python-sdk.md",
+    ]));
+    expect(support).toEqual({
+      mcp: true,
+      skills: true,
+      localModels: true,
+      subagents: true,
+      headless: true,
+      browser: false,
+      sandbox: true,
+      checkpoints: false,
+    });
+    expect(caveats).toContain("developer preview");
+    expect(caveats).toContain("does not govern network or process visibility");
+    expect(caveats).toContain("no product-supported project-file rollback");
+    expect(caveats).toContain("supplies no admissible comparative result");
+  });
+
   it("keeps CodeWhale's TUI-only hook limitation tied to its pinned source", () => {
     const codeWhale = harnesses.find((harness) => harness.id === "codewhale");
     expect(codeWhale).toBeDefined();

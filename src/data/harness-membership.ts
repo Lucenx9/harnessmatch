@@ -351,6 +351,12 @@ const membershipDefinitions: Record<string, MembershipDefinition> = {
     activeContextManagement: "Observational memory",
     runtimeControl: ["Loop and goal mode", "Spectral subagents"],
   }),
+  "deepseek-harness": documentedCodingHarness({
+    adaptiveLoop: "Architecture and agent loop",
+    environmentMutation: ["Web UI user guide", "Default profile composition"],
+    activeContextManagement: ["Compaction subsystem", "Session persistence"],
+    runtimeControl: ["Default profile composition", "Process sandbox", "Model provider configuration"],
+  }),
 };
 
 export function getHarnessMembershipAssessment(
