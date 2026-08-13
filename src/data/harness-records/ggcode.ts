@@ -2,7 +2,8 @@ import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-08-02";
 const releaseReviewAt = "2026-08-04";
-const recordVerifiedAt = releaseReviewAt;
+const latestReleaseReviewAt = "2026-08-13";
+const recordVerifiedAt = latestReleaseReviewAt;
 const discoveredAt = "2026-08-01";
 const inspectedRef = "b878385bfd4d0edab137e8d48c18fad512d49f21";
 const repositoryBase = `https://github.com/topcheer/ggcode/blob/${inspectedRef}`;
@@ -74,6 +75,15 @@ export const ggcode = {
       covers: "Session-level approval memory after three matching approvals, ten-hour autopilot timeout, visible timeout events, failure-strategy resets, and session-scoped subagent todo files",
       kind: "official-announcement",
       verifiedAt: releaseReviewAt,
+    },
+    {
+      title: "GGCode v1.3.203 orchestration and transport release",
+      topic: "orchestration-state",
+      url: "https://github.com/topcheer/ggcode/releases/tag/v1.3.203",
+      covers:
+        "Targeted subagent cancellation, task lifecycle events, subagent temporary-file cleanup, mTLS certificate verification, auth-race fixes, and reduced false-positive execution gates",
+      kind: "official-announcement",
+      verifiedAt: latestReleaseReviewAt,
     },
     {
       title: "GGCode repository overview",

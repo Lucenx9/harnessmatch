@@ -3,6 +3,7 @@ import type { HarnessRecord } from "./types";
 const verifiedAt = "2026-07-27";
 const releaseVerifiedAt = "2026-08-02";
 const latestReleaseVerifiedAt = "2026-08-10";
+const currentReleaseVerifiedAt = "2026-08-13";
 
 export const qwenCode = {
     id: "qwen-code",
@@ -51,7 +52,7 @@ export const qwenCode = {
       "The qwen serve daemon is an alpha local API: loopback starts without authentication, non-loopback binding fails closed without a bearer token, and the docs do not yet claim production-grade multi-client or network-failure guarantees",
     ],
     setup: "Install `@qwen-code/qwen-code`, configure a provider, and enable Seatbelt, Docker, or Podman before running unattended tasks.",
-    verifiedAt: latestReleaseVerifiedAt,
+    verifiedAt: currentReleaseVerifiedAt,
     evidence: [
       {
         title: "Qwen Code 0.21.0 source snapshot",
@@ -230,6 +231,15 @@ export const qwenCode = {
           "Durable Goal evidence checkpoints, cooperative workflow pause and resume, concurrent ACP tool calls, fail-closed review admission, and correction of inherited trust for explicitly distrusted workspaces",
         kind: "official-announcement",
         verifiedAt: latestReleaseVerifiedAt,
+      },
+      {
+        title: "Qwen Code 0.21.10 ACP and session-recovery release",
+        topic: "orchestration-state",
+        url: "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.10",
+        covers:
+          "ACP reasoning-effort configuration, streamed headless AutoFix progress, transactional Web UI session switching, retryable session loading, restored MCP tools after resume, and enterprise LAN Local Control",
+        kind: "official-announcement",
+        verifiedAt: currentReleaseVerifiedAt,
       },
     ],
   } satisfies HarnessRecord;

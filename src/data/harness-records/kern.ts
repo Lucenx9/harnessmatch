@@ -1,6 +1,6 @@
 import type { HarnessRecord } from "./types";
 
-const recordVerifiedAt = "2026-08-05";
+const recordVerifiedAt = "2026-08-13";
 const verifiedAt = "2026-07-28";
 
 export const kern = {
@@ -120,6 +120,15 @@ export const kern = {
         covers: "Pinned source, CI, tests, desktop and web clients, documentation, license declaration, and absent security policy",
         kind: "official-repository",
         verifiedAt: verifiedAt,
+      },
+      {
+        title: "Kern 0.32.3 context-safety release",
+        topic: "orchestration-state",
+        url: "https://github.com/oguzbilgic/kern-ai/releases/tag/v0.32.3",
+        covers:
+          "Context trimming clamped to completed summarizer coverage and a forced final text step when a turn reaches its maximum tool-step limit",
+        kind: "official-announcement",
+        verifiedAt: recordVerifiedAt,
       },
     ],
     discovery: [

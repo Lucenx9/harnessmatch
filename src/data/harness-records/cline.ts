@@ -4,6 +4,7 @@ const verifiedAt = "2026-07-27";
 const releaseVerifiedAt = "2026-07-31";
 const reliabilityReleaseVerifiedAt = "2026-08-02";
 const latestReleaseVerifiedAt = "2026-08-10";
+const currentReleaseVerifiedAt = "2026-08-13";
 
 export const cline = {
     id: "cline",
@@ -45,7 +46,7 @@ export const cline = {
     ],
     tradeoffs: [
       "The normal IDE and CLI runtimes execute on the host without a documented OS or container sandbox; Kanban worktrees isolate file trees, not processes, credentials, or network access",
-      "IDE use begins approval-oriented, but the CLI prompt path defaults to auto-approve=true and YOLO can remove all prompts, so unattended use needs an explicit command policy",
+      "IDE use begins approval-oriented, but the CLI prompt path defaults to auto-approve=true. Version 4.1.8 removes the cosmetic YOLO toggle and makes auto-approve the sole unattended-control surface, so unattended use needs an explicit action policy",
       "Agent teams, the SDK, and Kanban are powerful but fast-moving; teams do not yet apply to the VS Code or JetBrains extensions and Kanban is a research preview",
       "The 4.1.x stable VSIX contains legacy and SDK-based extension bundles behind a staged remote rollout; assignments apply on reload, and tasks created on the new extension are hidden while the legacy bundle is active",
       "Read-only subagents are experimental and intentionally cannot edit files or run arbitrary write workflows",
@@ -54,7 +55,7 @@ export const cline = {
       "OpenTelemetry exports logs and metrics rather than proving task correctness, and the checked-in evaluation framework has disabled or unfinished CI layers with no immutable result record",
     ],
     setup: "Install the IDE extension or CLI, authenticate a provider, and review approval settings before enabling automation.",
-    verifiedAt: latestReleaseVerifiedAt,
+    verifiedAt: currentReleaseVerifiedAt,
     evidence: [
       {
         title: "Cline overview",
@@ -224,6 +225,15 @@ export const cline = {
           "Durable queued prompts and session context across aborts or hub restarts, checkpoint diffs that include initially untracked files, scheduled-run lifecycle reporting, and bounded MCP initialization",
         kind: "official-announcement",
         verifiedAt: latestReleaseVerifiedAt,
+      },
+      {
+        title: "Cline v4.1.8 unattended-policy release",
+        topic: "execution-control",
+        url: "https://github.com/cline/cline/releases/tag/v4.1.8",
+        covers:
+          "Auto-approve as the single effective unattended-run control, migration from the removed cosmetic YOLO toggle, Vertex model-ID entry, and compaction-summary output limits",
+        kind: "official-announcement",
+        verifiedAt: currentReleaseVerifiedAt,
       },
       {
         title: "Cline v4.0.11 source",

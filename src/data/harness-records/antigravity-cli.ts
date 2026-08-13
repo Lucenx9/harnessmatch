@@ -3,6 +3,7 @@ import type { HarnessRecord } from "./types";
 const verifiedAt = "2026-07-28";
 const releaseVerifiedAt = "2026-07-31";
 const latestReleaseVerifiedAt = "2026-08-10";
+const currentReleaseVerifiedAt = "2026-08-13";
 
 export const antigravityCli = {
     id: "antigravity-cli",
@@ -54,7 +55,7 @@ export const antigravityCli = {
       "Antigravity CLI 1.1.11 fixes zero-word command allowlists matching every command, auto-approval in strict or request-review modes, and startup MCP admin-control caching; older binaries should not be treated as having those corrections",
     ],
     setup: "Install the native Antigravity CLI, run `agy`, sign in with an eligible Google account or Google Cloud project, then choose permission and sandbox settings before delegated work.",
-    verifiedAt: latestReleaseVerifiedAt,
+    verifiedAt: currentReleaseVerifiedAt,
     evidence: [
       {
         title: "Antigravity CLI overview",
@@ -170,6 +171,15 @@ export const antigravityCli = {
           "Zero-word command allowlist correction, strict and request-review auto-approval correction, MCP startup admin-control enforcement, structured print-mode commands, and server-directed retry delays",
         kind: "official-announcement",
         verifiedAt: latestReleaseVerifiedAt,
+      },
+      {
+        title: "Antigravity CLI 1.1.12 automation and recovery release",
+        topic: "automation-extensions",
+        url: "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.12",
+        covers:
+          "Structured print-mode commands, machine-readable model and agent lists, corrected headless mode selection, atomic user-configuration writes, and non-empty subagent result delivery",
+        kind: "official-announcement",
+        verifiedAt: currentReleaseVerifiedAt,
       },
       {
         title: "Artifact review",

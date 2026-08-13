@@ -2,6 +2,7 @@ import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-28";
 const releaseVerifiedAt = "2026-07-31";
+const latestReleaseVerifiedAt = "2026-08-13";
 
 export const mistralVibe = {
     id: "mistral-vibe",
@@ -47,10 +48,11 @@ export const mistralVibe = {
       "The local CLI executes on the host: permissions and Git worktrees are controls, not an OS sandbox; Vibe Code Web's managed sandbox is a separate surface",
       "Anonymous telemetry, update checks, and auto-update are enabled by default; a fully offline setup requires disabling them and any networked tools",
       "The source audit remains pinned to v2.22.0; v2.23.x release notes document new MCP commands, a JSON-RPC app-server refactor, and a standalone app-server binary, but those newer implementation changes remain release-level evidence until a fresh source audit",
+      "Version 2.24.1 renames the default agent to `ask` but gives it an `accept-edits` default, so the name alone must not be interpreted as per-action approval",
       "There is no built-in browser automation; web search and fetch tools are not a browser agent",
     ],
-    setup: "Install `mistral-vibe`, use a Mistral plan or API key, or configure a local/OpenAI-compatible provider. Then run `vibe`; the default agent asks before tool execution.",
-    verifiedAt: releaseVerifiedAt,
+    setup: "Install `mistral-vibe`, use a Mistral plan or API key, or configure a local/OpenAI-compatible provider. Then review the default `ask` agent's accept-edits posture before running `vibe`.",
+    verifiedAt: latestReleaseVerifiedAt,
     evidence: [
       {
         title: "Pinned Mistral Vibe source tree",
@@ -88,6 +90,15 @@ export const mistralVibe = {
         covers: "Current stable distribution boundary, built-in skill creator, standalone app-server binary, provider cache statistics, and ACP fixes; the inspected implementation remains pinned to v2.22.0",
         kind: "official-announcement",
         verifiedAt: releaseVerifiedAt,
+      },
+      {
+        title: "Mistral Vibe v2.24.1 context and observability release",
+        topic: "orchestration-state",
+        url: "https://github.com/mistralai/mistral-vibe/releases/tag/v2.24.1",
+        covers:
+          "Preserved compacted conversation history, OpenTelemetry configuration, deferred subagent startup, incomplete-stream retries, sensitive-file grant scoping, and the default ask agent's accept-edits posture",
+        kind: "official-announcement",
+        verifiedAt: latestReleaseVerifiedAt,
       },
       {
         title: "Install and setup",

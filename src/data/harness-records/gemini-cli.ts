@@ -2,7 +2,8 @@ import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
 const skillsVerifiedAt = "2026-08-01";
-const recordVerifiedAt = skillsVerifiedAt;
+const latestReleaseVerifiedAt = "2026-08-13";
+const recordVerifiedAt = latestReleaseVerifiedAt;
 
 export const geminiCli = {
     id: "gemini-cli",
@@ -76,6 +77,15 @@ export const geminiCli = {
         covers: "Stable version, release date, installation channel, feature highlights, and upgrade guidance",
         kind: "official-announcement",
         verifiedAt: verifiedAt,
+      },
+      {
+        title: "Gemini CLI 0.55.1 security and recovery release",
+        topic: "execution-control",
+        url: "https://github.com/google-gemini/gemini-cli/releases/tag/v0.55.1",
+        covers:
+          "Case-insensitive sensitive-path enforcement, symlink-safe memory imports, deny-default macOS sandbox profiles, A2A workspace trust and task isolation, and repaired compression and fallback recovery",
+        kind: "official-announcement",
+        verifiedAt: latestReleaseVerifiedAt,
       },
       {
         title: "Sandboxing",

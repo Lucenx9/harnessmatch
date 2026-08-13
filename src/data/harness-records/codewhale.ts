@@ -3,7 +3,8 @@ import type { HarnessRecord } from "./types";
 const verifiedAt = "2026-08-02";
 const hooksVerifiedAt = "2026-08-05";
 const latestReleaseVerifiedAt = "2026-08-10";
-const recordVerifiedAt = latestReleaseVerifiedAt;
+const currentReleaseVerifiedAt = "2026-08-13";
+const recordVerifiedAt = currentReleaseVerifiedAt;
 const commit = "4f2c97b0d75c039a9b6069ebcf210cc499583376";
 const repositoryBase = `https://github.com/Hmbown/CodeWhale/blob/${commit}`;
 
@@ -51,10 +52,11 @@ export const codewhale = {
     "The loopback web client is a local control surface rather than remote managed execution, and its one-time token does not turn it into a multi-user service",
     "Fleet workers reuse headless CodeWhale and an append-only ledger; this establishes coordination and resume, not independent quality or task-success evidence",
     "CodeWhale 0.9.5 removes the default 100-step ceiling from headless runs and makes automatic goal continuation unlimited unless configured, so unattended workloads still require explicit turn, time, spend, credential, and network bounds",
+    "Fresh 0.9.6 installs enable anonymous aggregate usage counting after a first-run modal; prior opt-outs remain off and the release documents an immediate persistent opt-out",
     "Repository eval and acceptance assets are project-owned development evidence, so no product benchmark score is imported",
   ],
   setup:
-    "Install CodeWhale 0.9.5 from npm, Cargo, or a platform archive; select a provider and model; then choose permission, sandbox, memory, hook, and fleet settings for the workflow.",
+    "Install CodeWhale 0.9.6 from npm, Cargo, or a platform archive; select a provider and model; then choose permission, sandbox, memory, telemetry, hook, and fleet settings for the workflow.",
   verifiedAt: recordVerifiedAt,
   evidence: [
     {
@@ -161,6 +163,15 @@ export const codewhale = {
         "Single-runtime distribution, Runtime API controls, append-only session-tree history, branch, fork and resume commands, durable Fleet receipts, and explicit opt-in execution ceilings",
       kind: "official-announcement",
       verifiedAt: latestReleaseVerifiedAt,
+    },
+    {
+      title: "CodeWhale 0.9.6 runtime and control release",
+      topic: "orchestration-state",
+      url: "https://github.com/Hmbown/CodeWhale/releases/tag/v0.9.6",
+      covers:
+        "Mistral provider routing, explicit persistent headless services, hosted Work handoff boundaries, ACP tool turns, policy-filtered tool discovery, cache-stable compaction, immutable child route receipts, and first-run telemetry disclosure",
+      kind: "official-announcement",
+      verifiedAt: currentReleaseVerifiedAt,
     },
   ],
 } satisfies HarnessRecord;

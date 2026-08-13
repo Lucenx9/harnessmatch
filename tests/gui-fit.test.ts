@@ -126,6 +126,14 @@ describe("GUI workflow classification", () => {
     expect(conductor.supportedHarnesses).toContain("OpenCode");
     expect(nimbalyst.license).toBe("MIT");
     expect(nimbalyst.harnessSupportNote).toContain("alpha");
+    expect(nimbalyst.evidence).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        url: "https://github.com/nimbalyst/nimbalyst/releases/tag/v0.73.2",
+        verifiedAt: "2026-08-13",
+      }),
+    ]));
+    expect(nimbalyst.capabilities.teamCollaboration.state).toBe("unknown");
+    expect(nimbalyst.capabilities.teamCollaboration.summary).toContain("same live coding-agent session");
     expect(webmux.harnessSupportNote).toContain("terminal-first");
     expect(guiProducts.find((product) => product.id === "claude-code-desktop")?.platforms).toEqual([
       "macOS",
@@ -143,12 +151,16 @@ describe("GUI workflow classification", () => {
     const openHands = requiredGuiProduct("openhands-agent-canvas");
     const qwenDesktop = requiredGuiProduct("qwen-code-desktop");
 
-    expect(agetor.supportedHarnesses).toEqual(["Claude Code", "Codex", "Cursor Agent"]);
-    expect(agetor.harnessSupportNote).toContain("experimental and disabled by default");
+    expect(agetor.supportedHarnesses).toEqual(["Claude Code", "Codex", "Cursor Agent", "Gemini CLI"]);
+    expect(agetor.harnessSupportNote).toContain("experimental, disabled-by-default Cursor Agent");
     expect(agetor.evidence).toEqual(expect.arrayContaining([
       expect.objectContaining({
         url: "https://github.com/alamops/agetor/releases/tag/v0.0.18",
         verifiedAt: "2026-08-10",
+      }),
+      expect.objectContaining({
+        url: "https://github.com/alamops/agetor/releases/tag/v0.1.0",
+        verifiedAt: "2026-08-13",
       }),
     ]));
     expect(agetor.capabilities.remoteExecution.state).toBe("contradicted");

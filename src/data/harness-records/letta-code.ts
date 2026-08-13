@@ -2,6 +2,7 @@ import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-28";
 const latestReleaseVerifiedAt = "2026-08-02";
+const currentReleaseVerifiedAt = "2026-08-13";
 
 export const lettaCode = {
     id: "letta-code",
@@ -50,7 +51,7 @@ export const lettaCode = {
       "Mods execute as fully trusted code inside the harness process and can add tools, commands, hooks, permission policies, UI, and model providers, so they are not a sandboxed extension mechanism",
     ],
     setup: "Install `@letta-ai/letta-code`, connect a model or coding plan, then choose a local, remote, or cloud environment before creating a persistent agent.",
-    verifiedAt: latestReleaseVerifiedAt,
+    verifiedAt: currentReleaseVerifiedAt,
     evidence: [
       {
         title: "Letta Code 0.29.4 source snapshot",
@@ -83,6 +84,15 @@ export const lettaCode = {
         covers: "Current stable distribution, shared scheduled-task prompt-contract export, and AI-contribution disclosure enforcement; no new capability classification is inferred",
         kind: "official-announcement",
         verifiedAt: latestReleaseVerifiedAt,
+      },
+      {
+        title: "Letta Harness 0.30.19 sandbox transfer release",
+        topic: "execution-control",
+        url: "https://github.com/letta-ai/letta-code/releases/tag/v0.30.19",
+        covers:
+          "Explicit sandbox file-transfer commands, conversation-scoped cloud-sandbox targeting, and cloud-backed reflection completion state",
+        kind: "official-announcement",
+        verifiedAt: currentReleaseVerifiedAt,
       },
       {
         title: "Letta Code quickstart",

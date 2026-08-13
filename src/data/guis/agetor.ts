@@ -3,6 +3,7 @@ import { contradicted, documentedAt, source, unknown } from "./helpers";
 
 const verifiedAt = "2026-08-02";
 const latestReleaseVerifiedAt = "2026-08-10";
+const currentReleaseVerifiedAt = "2026-08-13";
 const repository = "https://github.com/alamops/agetor";
 const commit = "03b2328009b66563a4e164d82eaa14621bf3d247";
 const repositoryBase = `${repository}/blob/${commit}`;
@@ -24,12 +25,12 @@ export const agetor: GuiProduct = {
   sourceAccess: "open-source",
   license: "MIT",
   platforms: ["macOS"],
-  supportedHarnesses: ["Claude Code", "Codex", "Cursor Agent"],
+  supportedHarnesses: ["Claude Code", "Codex", "Cursor Agent", "Gemini CLI"],
   acceptsArbitraryCli: false,
   harnessSupportNote:
-    "The pinned source implements Claude Code and Codex. Release 0.0.18 adds Cursor Agent as a third built-in kind, explicitly experimental and disabled by default; account or binary aliases do not establish additional harnesses.",
+    "The pinned source implements Claude Code and Codex. Release 0.0.18 adds experimental, disabled-by-default Cursor Agent, while 0.1.0 adds Gemini CLI as a built-in harness; account or binary aliases do not establish additional integrations.",
   summary:
-    "A local kanban control plane for parallel Claude Code, Codex, and experimental Cursor Agent tasks, isolated worktrees, structured approvals, and review.",
+    "A local kanban control plane for parallel Claude Code, Codex, experimental Cursor Agent, and Gemini CLI tasks, isolated worktrees, structured approvals, and review.",
   bestFor:
     "macOS developers coordinating several local tasks or accounts across repositories while keeping each task on its own branch and worktree.",
   limitation:
@@ -61,6 +62,14 @@ export const agetor: GuiProduct = {
     ),
   },
   evidence: [
+    source(
+      "Agetor 0.1.0 Gemini CLI release",
+      "https://github.com/alamops/agetor/releases/tag/v0.1.0",
+      "official-announcement",
+      "harness-integrations",
+      "Built-in Gemini CLI harness support alongside saved prompts, message reuse, task-stream tool-call folding, and Cursor plan approval handling.",
+      currentReleaseVerifiedAt,
+    ),
     source(
       "Agetor 0.0.18 Cursor Agent release",
       "https://github.com/alamops/agetor/releases/tag/v0.0.18",
@@ -94,5 +103,5 @@ export const agetor: GuiProduct = {
       verifiedAt,
     ),
   ],
-  verifiedAt: latestReleaseVerifiedAt,
+  verifiedAt: currentReleaseVerifiedAt,
 };

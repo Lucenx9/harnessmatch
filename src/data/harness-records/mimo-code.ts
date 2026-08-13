@@ -1,6 +1,7 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-08-02";
+const latestReleaseVerifiedAt = "2026-08-13";
 const inspectedRef = "c045a9891069000b112079bb10bdc8828d75eb6e";
 
 export const mimoCode = {
@@ -46,11 +47,12 @@ export const mimoCode = {
     "Most tool permissions default to allow, and the headless CLI can skip permission checks entirely, so unattended use needs an independently constrained runtime",
     "The workflow control script runs in QuickJS, but Bash and other tools still act on the host; worktrees separate repository files without containing processes, credentials, network access, or external side effects",
     "Persistent memory and project instructions can influence later sessions, so durable context and generated workflow assets need review like other repository-controlled instructions",
+    "Version 0.1.11 can disable memory writes without deleting stored data, but existing memory is not automatically loaded while writing is disabled; retrieval remains available through the memory search tool",
     "Git-backed undo requires a Git repository, excludes ignored files and untracked files larger than 2 MiB, and cannot reverse shell, network, or other external side effects",
   ],
   setup:
     "Install `@mimo-ai/cli`, connect MiMo or another supported provider, review the permission rules, and use a container or virtual machine when execution isolation is required.",
-  verifiedAt,
+  verifiedAt: latestReleaseVerifiedAt,
   evidence: [
     {
       title: "MiMo Code 0.1.9 source snapshot",
@@ -69,6 +71,15 @@ export const mimoCode = {
         "Stable version boundary, platform distributions, provider changes, subagent fixes, and the distinction between the ended free trial and bring-your-own-key access",
       kind: "official-announcement",
       verifiedAt,
+    },
+    {
+      title: "MiMo Code 0.1.11 memory-control release",
+      topic: "orchestration-state",
+      url: "https://github.com/XiaomiMiMo/MiMo-Code/releases/tag/v0.1.11",
+      covers:
+        "Read-preserving memory-write disablement, a built-in SQLite trajectory search skill, process-wide MCP client structure, and correction of streamed multi-argument MCP tool calls",
+      kind: "official-announcement",
+      verifiedAt: latestReleaseVerifiedAt,
     },
     {
       title: "MiMo Code overview",

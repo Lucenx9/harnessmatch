@@ -3,7 +3,8 @@ import type { HarnessRecord } from "./types";
 const verifiedAt = "2026-07-27";
 const previousReleaseReviewAt = "2026-08-01";
 const releaseReviewAt = "2026-08-04";
-const recordVerifiedAt = releaseReviewAt;
+const latestReleaseReviewAt = "2026-08-13";
+const recordVerifiedAt = latestReleaseReviewAt;
 
 export const copilotCli = {
     id: "copilot-cli",
@@ -23,7 +24,7 @@ export const copilotCli = {
       role: "coding-agent",
       orchestration: "delegated-subagents",
       runtime: "host-first",
-      isolation: ["os-sandbox", "managed-sandbox"],
+      isolation: ["os-sandbox", "managed-sandbox", "worktree"],
       state: "persistent-memory",
     },
     interfaces: ["terminal", "automation"],
@@ -48,6 +49,7 @@ export const copilotCli = {
       "Local and cloud sandbox features are in public preview, opt-in, and have documented platform and lifecycle limits",
       "As of 1.0.77, unconditional approval in autopilot disables the sandbox for the current session when bypass is allowed; administrators can separately enforce sandbox use through native MDM policy",
       "Since 1.0.78, `/rewind` restores only Copilot-written files whose contents still match its last write, so later manual edits are skipped; shell, Git, and external side effects remain outside recovery",
+      "Git worktrees isolate repository files rather than processes, credentials, or network access; since 1.0.79, `/worktree`, `/worktree new`, and `--worktree` default to the current HEAD unless `worktreeBaseRef` selects the remote default branch",
       "Server-managed settings fall back to a persistent cache on fetch failure and start without the unconfirmed restriction when no usable cache exists, unless `forceRemoteSettingsRefresh` is enabled",
       "Copilot Memory is a hosted public-preview feature with a 28-day unused-item retention policy rather than local durable project state",
       "Fleet increases GitHub AI Credit use because each subagent calls a model independently",
@@ -176,6 +178,15 @@ export const copilotCli = {
         covers: "Non-Git file-selective rewind, conflict-safe preservation of later edits, managed-settings cache and fail-open behavior, worktree creation, sandbox cache access, and ACP usage events",
         kind: "official-announcement",
         verifiedAt: releaseReviewAt,
+      },
+      {
+        title: "Copilot CLI 1.0.79 worktree and sandbox release",
+        topic: "execution-control",
+        url: "https://github.com/github/copilot-cli/releases/tag/v1.0.79",
+        covers:
+          "HEAD-based configurable worktree creation, concurrent session management, effective sandbox-policy inspection, enterprise sandbox controls, nested macOS read-only enforcement, and queued local prompts",
+        kind: "official-announcement",
+        verifiedAt: latestReleaseReviewAt,
       },
       {
         title: "Copilot CLI v1.0.75 support repository",

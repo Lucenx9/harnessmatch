@@ -1,6 +1,7 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
+const latestReleaseVerifiedAt = "2026-08-13";
 
 export const junieCli = {
     id: "junie-cli",
@@ -51,7 +52,7 @@ export const junieCli = {
       "The public GitHub repository distributes installers, registries, templates, and a small test surface rather than the proprietary agent implementation or eval suite",
     ],
     setup: "Install Junie CLI, choose a JetBrains subscription, BYOK provider, or local runtime, then review its action allowlist and project-trust settings.",
-    verifiedAt: verifiedAt,
+    verifiedAt: latestReleaseVerifiedAt,
     evidence: [
       {
         title: "Junie CLI quick start",
@@ -164,6 +165,14 @@ export const junieCli = {
         covers: "Immutable proprietary nightly distribution release used as the repository audit boundary rather than a stable-channel claim",
         kind: "official-announcement",
         verifiedAt: verifiedAt,
+      },
+      {
+        title: "Junie 2651.3 Goal mode release",
+        topic: "orchestration-state",
+        url: "https://github.com/JetBrains/junie/releases/tag/2651.3",
+        covers: "Goal mode for orchestrated step-by-step work on very large projects",
+        kind: "official-announcement",
+        verifiedAt: latestReleaseVerifiedAt,
       },
     ],
   } satisfies HarnessRecord;

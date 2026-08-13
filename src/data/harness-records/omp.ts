@@ -3,6 +3,7 @@ import type { HarnessRecord } from "./types";
 const verifiedAt = "2026-07-28";
 const releaseVerifiedAt = "2026-07-31";
 const latestReleaseVerifiedAt = "2026-08-02";
+const currentReleaseVerifiedAt = "2026-08-13";
 
 export const omp = {
     id: "omp",
@@ -52,7 +53,7 @@ export const omp = {
       "Project-owned compaction and local-model evaluations plus README performance claims are not independent harness benchmarks, so no score is imported",
     ],
     setup: "Install `omp`, connect a provider, and change `tools.approvalMode` from the default `yolo` before using it on sensitive repositories.",
-    verifiedAt: latestReleaseVerifiedAt,
+    verifiedAt: currentReleaseVerifiedAt,
     evidence: [
       {
         title: "Oh My Pi repository",
@@ -74,6 +75,15 @@ export const omp = {
         covers: "Current stable package release, configurable MCP request-ID format, structured steering interruption state, and runtime, provider, credential-store, and session reliability fixes",
         kind: "official-announcement",
         verifiedAt: latestReleaseVerifiedAt,
+      },
+      {
+        title: "Oh My Pi 17.2.15 context and handoff release",
+        topic: "orchestration-state",
+        url: "https://github.com/can1357/oh-my-pi/releases/tag/v17.2.15",
+        covers:
+          "Isolated prompt-register compression, discovery-subagent-driven cleanse requests, preserved local artifacts across session handoff, hardened archive reads, and resumable MCP streaming without double tool execution",
+        kind: "official-announcement",
+        verifiedAt: currentReleaseVerifiedAt,
       },
       {
         title: "Product overview",

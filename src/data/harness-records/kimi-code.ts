@@ -3,6 +3,7 @@ import type { HarnessRecord } from "./types";
 const verifiedAt = "2026-07-27";
 const recordVerifiedAt = "2026-07-31";
 const latestReleaseVerifiedAt = "2026-08-10";
+const currentReleaseVerifiedAt = "2026-08-13";
 
 export const kimiCode = {
     id: "kimi-code",
@@ -50,9 +51,10 @@ export const kimiCode = {
       "The local web service uses loopback and bearer authentication by default, but --dangerous-bypass-auth exposes sessions, files, and shell access to anyone who can reach the port",
       "Plugins may inject system-prompt instructions, custom agents, skills, hooks, and MCP servers; third-party and custom sources require explicit trust and user-global installs are not project-scoped",
       "Kimi Code 0.34.0 preserves completed, cancelled, or failed turn state across server restarts and adds one-click web resume, but session recovery still does not restore repository files or reverse external effects",
+      "Since 0.35.0, the built-in coder subagent no longer delegates recursively by default; custom profiles can still opt in to Agent or AgentSwarm tools and their inherited authority",
     ],
     setup: "Install the Kimi Code binary, log in or configure providers, then use `kimi`, `kimi -p`, `kimi acp`, or `kimi web` for the required surface.",
-    verifiedAt: latestReleaseVerifiedAt,
+    verifiedAt: currentReleaseVerifiedAt,
     evidence: [
       {
         title: "Kimi Code 0.29.2 source snapshot",
@@ -170,6 +172,15 @@ export const kimiCode = {
           "Persistent terminal turn status across server restarts, one-click web resume after failures, print-mode waiting for background agents, Windows Computer Use support, WebBridge activation guidance, and live-session MCP removal behavior",
         kind: "official-announcement",
         verifiedAt: latestReleaseVerifiedAt,
+      },
+      {
+        title: "Kimi Code 0.35.0 subagent and workspace-trust release",
+        topic: "orchestration-state",
+        url: "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai%2Fkimi-code%400.35.0",
+        covers:
+          "Live background-subagent progress, default non-recursive coder delegation, automatic MCP OAuth detection, subagent-profile isolation across sessions, and Windows binary-planting fixes before workspace trust",
+        kind: "official-announcement",
+        verifiedAt: currentReleaseVerifiedAt,
       },
     ],
   } satisfies HarnessRecord;

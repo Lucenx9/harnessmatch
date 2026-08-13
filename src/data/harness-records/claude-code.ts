@@ -3,7 +3,8 @@ import type { HarnessRecord } from "./types";
 const verifiedAt = "2026-07-27";
 const skillsVerifiedAt = "2026-08-01";
 const latestReleaseVerifiedAt = "2026-08-10";
-const recordVerifiedAt = latestReleaseVerifiedAt;
+const currentReleaseVerifiedAt = "2026-08-13";
+const recordVerifiedAt = currentReleaseVerifiedAt;
 
 export const claudeCode = {
     id: "claude-code",
@@ -78,6 +79,15 @@ export const claudeCode = {
           "Self-hosted runners, cross-session messaging and approval holds, structured credential masking, sandbox deny-path fixes, remote-control recovery, and removal of the lifetime subagent spawn cap",
         kind: "official-announcement",
         verifiedAt: latestReleaseVerifiedAt,
+      },
+      {
+        title: "Claude Code 2.1.228 session and skill hardening release",
+        topic: "execution-control",
+        url: "https://github.com/anthropics/claude-code/releases/tag/v2.1.228",
+        covers:
+          "Remote Control resume privacy, self-hosted runner continuity, project-memory cleanup safety, whole-entry marketplace merging, and restrictions on synced skill shadowing and local expansion",
+        kind: "official-announcement",
+        verifiedAt: currentReleaseVerifiedAt,
       },
       {
         title: "Claude Code overview",

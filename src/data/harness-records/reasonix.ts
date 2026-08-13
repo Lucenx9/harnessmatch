@@ -3,7 +3,8 @@ import type { HarnessRecord } from "./types";
 const verifiedAt = "2026-08-02";
 const releaseReviewAt = "2026-08-04";
 const latestReleaseReviewAt = "2026-08-10";
-const recordVerifiedAt = latestReleaseReviewAt;
+const currentReleaseReviewAt = "2026-08-13";
+const recordVerifiedAt = currentReleaseReviewAt;
 const inspectedRef = "c46e3af1c2732fe2b3dedb0bd47eb39a629357d2";
 const repositoryBase = `https://github.com/esengine/DeepSeek-Reasonix/blob/${inspectedRef}`;
 
@@ -114,6 +115,15 @@ export const reasonix = {
         "Atomic fsync-backed session sidecars, cross-process locking, idempotent context cleanup, atomic summary transactions, CLI-to-web handoff, and bounded shell output",
       kind: "official-announcement",
       verifiedAt: latestReleaseReviewAt,
+    },
+    {
+      title: "Reasonix v1.24.1 constraint-preserving compaction release",
+      topic: "orchestration-state",
+      url: "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.24.1",
+      covers:
+        "Verbatim in-budget preservation of user constraints during compaction, explicit kept and dropped turn telemetry, recovery-copy catalog classification, and atomic cleanup of adopted recovery turns",
+      kind: "official-announcement",
+      verifiedAt: currentReleaseReviewAt,
     },
     {
       title: "Reasonix product overview",
