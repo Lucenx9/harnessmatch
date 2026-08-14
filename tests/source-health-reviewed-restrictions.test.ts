@@ -51,4 +51,13 @@ describe("reviewed source health restrictions", () => {
       expect(statuses.toSorted()).toEqual([200, 403]);
     }
   });
+
+  it("keeps the DeepSeek Harness npm restriction exact and registry-backed", () => {
+    expect(reviewedSourceHealthRestrictions).toContainEqual({
+      url: "https://www.npmjs.com/package/@deepseek-ai/dsh",
+      status: 403,
+      reviewedAt: "2026-08-14",
+      reason: "The npm package page rejected automated probes while the immutable registry record remained accessible and matched @deepseek-ai/dsh; this records the access limitation only.",
+    });
+  });
 });

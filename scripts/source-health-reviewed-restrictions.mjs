@@ -55,6 +55,12 @@ export const reviewedSourceHealthRestrictions = [
     reviewedAt: "2026-08-08",
     reason: "The npm package page intermittently rejected automated probes while the immutable registry record and official install page remained accessible and matched @randomlabs/slate; this records the access limitation only.",
   },
+  {
+    url: "https://www.npmjs.com/package/@deepseek-ai/dsh",
+    status: 403,
+    reviewedAt: "2026-08-14",
+    reason: "The npm package page rejected automated probes while the immutable registry record remained accessible and matched @deepseek-ai/dsh; this records the access limitation only.",
+  },
   ...[
     "https://openreview.net/forum?id=XMXWk83dah",
     "https://openreview.net/forum?id=kXHgEYFyf3",
