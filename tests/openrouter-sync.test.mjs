@@ -52,7 +52,7 @@ describe("OpenRouter attribution sync", () => {
     });
     expect(openRouterApps.find(({ harnessId }) => harnessId === "omp")).toMatchObject({
       appId: 3_682_314,
-      appName: "omp",
+      appName: "Oh-My-Pi",
       originUrl: "https://omp.sh/",
       slug: null,
     });

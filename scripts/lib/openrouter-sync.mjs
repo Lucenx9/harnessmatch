@@ -6,7 +6,7 @@ export const openRouterApps = [
   { harnessId: "openclaw", appId: 2_725_608, appName: "OpenClaw", originUrl: "https://openclaw.ai/", slug: "openclaw", integrationUrl: "https://openrouter.ai/docs/cookbook/coding-agents/openclaw-integration" },
   { harnessId: "claude-code", appId: 2_627_404, appName: "Claude Code", originUrl: "https://claude.ai/code", slug: "claude-code", integrationUrl: "https://openrouter.ai/docs/cookbook/coding-agents/claude-code-integration" },
   { harnessId: "openhands", appId: 189_563, appName: "OpenHands", originUrl: "https://docs.all-hands.dev/", slug: "openhands" },
-  { harnessId: "omp", appId: 3_682_314, appName: "omp", originUrl: "https://omp.sh/", slug: null },
+  { harnessId: "omp", appId: 3_682_314, appName: "Oh-My-Pi", originUrl: "https://omp.sh/", slug: null },
   { harnessId: "cline", appId: 190_604, appName: "Cline", originUrl: "https://cline.bot/", slug: "cline", integrationUrl: "https://docs.cline.bot/provider-config/openrouter" },
   { harnessId: "pi", appId: 2_853_275, appName: "pi", originUrl: "https://pi.dev/", slug: "pi" },
   { harnessId: "command-code", appId: 3_909_382, appName: "Command Code", originUrl: "https://commandcode.ai/", slug: null },

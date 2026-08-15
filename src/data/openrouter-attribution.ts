@@ -382,7 +382,7 @@ export const openRouterAttributionSnapshots: OpenRouterAttributionSnapshot[] = [
   },
   {
     harnessId: "omp",
-    artifactId: "omp",
+    artifactId: "Oh-My-Pi",
     appId: 3_682_314,
     sourceUrl: "https://openrouter.ai/apps/url/https%3A%2F%2Fomp.sh%2F",
     attributedTokens: 1_109_627_392_512,
