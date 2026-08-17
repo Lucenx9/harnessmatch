@@ -6,7 +6,7 @@ export const openRouterApps = [
   { harnessId: "openclaw", appId: 2_725_608, appName: "OpenClaw", originUrl: "https://openclaw.ai/", slug: "openclaw", integrationUrl: "https://openrouter.ai/docs/cookbook/coding-agents/openclaw-integration" },
   { harnessId: "claude-code", appId: 2_627_404, appName: "Claude Code", originUrl: "https://claude.ai/code", slug: "claude-code", integrationUrl: "https://openrouter.ai/docs/cookbook/coding-agents/claude-code-integration" },
   { harnessId: "openhands", appId: 189_563, appName: "OpenHands", originUrl: "https://docs.all-hands.dev/", slug: "openhands" },
-  { harnessId: "omp", appId: 3_682_314, appName: "Oh-My-Pi", originUrl: "https://omp.sh/", slug: null },
+  { harnessId: "omp", appId: 3_682_314, appName: "Oh-My-Pi", acceptedAppNames: ["Oh-My-Pi", "omp"], originUrl: "https://omp.sh/", slug: null },
   { harnessId: "cline", appId: 190_604, appName: "Cline", originUrl: "https://cline.bot/", slug: "cline", integrationUrl: "https://docs.cline.bot/provider-config/openrouter" },
   { harnessId: "pi", appId: 2_853_275, appName: "pi", originUrl: "https://pi.dev/", slug: "pi" },
   { harnessId: "command-code", appId: 3_909_382, appName: "Command Code", originUrl: "https://commandcode.ai/", slug: null },
@@ -46,6 +46,10 @@ export function openRouterAppUrl(app) {
     : `https://openrouter.ai/apps/${app.slug}`;
 }
 
+function isAcceptedAppName(app, appName) {
+  return (app.acceptedAppNames ?? [app.appName]).includes(appName);
+}
+
 function assertSafePositiveInteger(value, label) {
   if (!Number.isSafeInteger(value) || value <= 0) {
     throw new Error(`${label} must be a positive safe integer`);
@@ -82,9 +86,11 @@ export function parseOpenRouterAppPage(html, app) {
   const expectedIdentity = [
     `\\"origin_url\\":${escapedJsonString(app.originUrl)}`,
     `\\"slug\\":${app.slug === null ? "null" : escapedJsonString(app.slug)}`,
-    `\\"title\\":${escapedJsonString(app.appName)}`,
   ];
-  if (expectedIdentity.some((field) => !payload.includes(field))) {
+  const hasAcceptedTitle = (app.acceptedAppNames ?? [app.appName]).some((appName) => (
+    payload.includes(`\\"title\\":${escapedJsonString(appName)}`)
+  ));
+  if (expectedIdentity.some((field) => !payload.includes(field)) || !hasAcceptedTitle) {
     throw new Error(`${app.harnessId}: canonical app identity changed`);
   }
 
@@ -178,7 +184,7 @@ export function buildOpenRouterSnapshots(pageMetrics, rankings, trendingRankings
     const windows = Object.fromEntries(rankingWindows.map(({ key, days }) => {
       const ranking = rankings[key];
       const ranked = ranking.rowsByAppId.get(app.appId) ?? null;
-      if (ranked && ranked.appName !== app.appName) {
+      if (ranked && !isAcceptedAppName(app, ranked.appName)) {
         throw new Error(`${app.harnessId}: ranking name changed from ${app.appName} to ${ranked.appName}`);
       }
 
@@ -195,7 +201,7 @@ export function buildOpenRouterSnapshots(pageMetrics, rankings, trendingRankings
     const trendingWindows = Object.fromEntries(trendingRankingWindows.map(({ key, days }) => {
       const ranking = trendingRankings[key];
       const ranked = ranking.rowsByAppId.get(app.appId) ?? null;
-      if (ranked && ranked.appName !== app.appName) {
+      if (ranked && !isAcceptedAppName(app, ranked.appName)) {
         throw new Error(`${app.harnessId}: trending ranking name changed from ${app.appName} to ${ranked.appName}`);
       }
 

@@ -44,6 +44,17 @@ describe("OpenRouter attribution sync", () => {
     expect(openRouterAppUrl(sluglessApp)).toContain("/apps/url/");
   });
 
+  it("accepts only the reviewed canonical OMP title variants", () => {
+    const app = openRouterApps.find(({ harnessId }) => harnessId === "omp");
+    const htmlForTitle = (title) => `\\"id\\":${app.appId},\\"origin_url\\":\\"${app.originUrl}\\",\\"slug\\":null,\\"title\\":\\"${title}\\"},\\"totalTokens\\":10,\\"rank\\":null,\\"modelsUsed\\":2`;
+
+    expect(parseOpenRouterAppPage(htmlForTitle("Oh-My-Pi"), app)).toMatchObject({ appId: app.appId });
+    expect(parseOpenRouterAppPage(htmlForTitle("omp"), app)).toMatchObject({ appId: app.appId });
+    expect(() => parseOpenRouterAppPage(htmlForTitle("unreviewed title"), app)).toThrow(
+      "omp: canonical app identity changed",
+    );
+  });
+
   it("uses the current slugless app identities", () => {
     expect(openRouterApps.find(({ harnessId }) => harnessId === "goose")).toMatchObject({
       appId: 3_248_223,
@@ -53,6 +64,7 @@ describe("OpenRouter attribution sync", () => {
     expect(openRouterApps.find(({ harnessId }) => harnessId === "omp")).toMatchObject({
       appId: 3_682_314,
       appName: "Oh-My-Pi",
+      acceptedAppNames: ["Oh-My-Pi", "omp"],
       originUrl: "https://omp.sh/",
       slug: null,
     });
@@ -96,12 +108,12 @@ describe("OpenRouter attribution sync", () => {
   });
 
   it("joins ranking rows by stable app id instead of duplicate names", () => {
-    const app = openRouterApps[0];
+    const app = openRouterApps.find(({ harnessId }) => harnessId === "omp");
     function rankingFor(startDate, rank = 1) {
       return parseRankingResponses([{
         data: [{
           app_id: app.appId,
-          app_name: app.appName,
+          app_name: "omp",
           rank,
           total_tokens: "1000",
           total_requests: 20,
@@ -132,10 +144,17 @@ describe("OpenRouter attribution sync", () => {
     }]));
     const snapshots = buildOpenRouterSnapshots(pageMetrics, rankings, trendingRankings);
 
-    expect(snapshots[0].windows.month).toMatchObject({ days: 30, rank: 1, attributedTokens: 1_000, attributedRequests: 20 });
-    expect(snapshots[0].trendingWindows.week).toMatchObject({ days: 7, rank: 3, attributedTokens: 1_000, attributedRequests: 20 });
-    expect(snapshots[1].windows.day).toMatchObject({ days: 1, rank: null, attributedTokens: null, attributedRequests: null });
-    expect(snapshots[1].trendingWindows.month).toMatchObject({ days: 30, rank: null, attributedTokens: null, attributedRequests: null });
+    const ompSnapshot = snapshots.find(({ harnessId }) => harnessId === "omp");
+    const unrelatedSnapshot = snapshots.find(({ harnessId }) => harnessId === "kilo-code");
+    expect(ompSnapshot.windows.month).toMatchObject({ days: 30, rank: 1, attributedTokens: 1_000, attributedRequests: 20 });
+    expect(ompSnapshot.trendingWindows.week).toMatchObject({ days: 7, rank: 3, attributedTokens: 1_000, attributedRequests: 20 });
+    expect(unrelatedSnapshot.windows.day).toMatchObject({ days: 1, rank: null, attributedTokens: null, attributedRequests: null });
+    expect(unrelatedSnapshot.trendingWindows.month).toMatchObject({ days: 30, rank: null, attributedTokens: null, attributedRequests: null });
     expect(renderOpenRouterAttributionFile(snapshots)).toContain("authenticated popular plus trending");
+
+    rankings.day.rowsByAppId.get(app.appId).appName = "unreviewed title";
+    expect(() => buildOpenRouterSnapshots(pageMetrics, rankings, trendingRankings)).toThrow(
+      "omp: ranking name changed from Oh-My-Pi to unreviewed title",
+    );
   });
 });
