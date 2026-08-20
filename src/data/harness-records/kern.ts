@@ -1,6 +1,6 @@
 import type { HarnessRecord } from "./types";
 
-const recordVerifiedAt = "2026-08-13";
+const recordVerifiedAt = "2026-08-20";
 const verifiedAt = "2026-07-28";
 
 export const kern = {
@@ -51,6 +51,14 @@ export const kern = {
     setup: "Install Kern from source or its documented distribution, start with read or write tool scope, configure a provider or Ollama, and use the Docker deployment when host separation is needed.",
     verifiedAt: recordVerifiedAt,
     evidence: [
+      {
+        title: "Kern 0.32.5 context-recovery release",
+        topic: "orchestration-state",
+        url: "https://github.com/oguzbilgic/kern-ai/releases/tag/v0.32.5",
+        covers: "Bounded segmentation input plus degraded and retryable embedding failures so pathological long messages do not permanently freeze summarization or trimming",
+        kind: "official-announcement",
+        verifiedAt: recordVerifiedAt,
+      },
       {
         title: "Kern overview",
         url: "https://github.com/oguzbilgic/kern-ai/blob/8f82a046833128b2bf5f67fdf85a76b35b0fe847/README.md",

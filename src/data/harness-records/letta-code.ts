@@ -3,6 +3,7 @@ import type { HarnessRecord } from "./types";
 const verifiedAt = "2026-07-28";
 const latestReleaseVerifiedAt = "2026-08-02";
 const currentReleaseVerifiedAt = "2026-08-13";
+const radarVerifiedAt = "2026-08-20";
 
 export const lettaCode = {
     id: "letta-code",
@@ -51,8 +52,24 @@ export const lettaCode = {
       "Mods execute as fully trusted code inside the harness process and can add tools, commands, hooks, permission policies, UI, and model providers, so they are not a sandboxed extension mechanism",
     ],
     setup: "Install `@letta-ai/letta-code`, connect a model or coding plan, then choose a local, remote, or cloud environment before creating a persistent agent.",
-    verifiedAt: currentReleaseVerifiedAt,
+    verifiedAt: radarVerifiedAt,
     evidence: [
+      {
+        title: "Letta Harness 0.30.26 turn-recovery release",
+        topic: "orchestration-state",
+        url: "https://github.com/letta-ai/letta-code/releases/tag/v0.30.26",
+        covers: "Silent midstream turn recovery, desktop-local handoff, and parent-visible agent pull requests",
+        kind: "official-announcement",
+        verifiedAt: radarVerifiedAt,
+      },
+      {
+        title: "Letta Harness 0.30.27 follow-up release",
+        topic: "orchestration-state",
+        url: "https://github.com/letta-ai/letta-code/releases/tag/v0.30.27",
+        covers: "Follow-up turns after task notifications, subscription-plan rotation, and duplicate patch-path rejection",
+        kind: "official-announcement",
+        verifiedAt: radarVerifiedAt,
+      },
       {
         title: "Letta Code 0.29.4 source snapshot",
         topic: "releases-code-audit",

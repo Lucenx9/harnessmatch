@@ -4,7 +4,8 @@ const verifiedAt = "2026-08-02";
 const releaseReviewAt = "2026-08-04";
 const latestReleaseReviewAt = "2026-08-10";
 const currentReleaseReviewAt = "2026-08-13";
-const recordVerifiedAt = currentReleaseReviewAt;
+const radarVerifiedAt = "2026-08-20";
+const recordVerifiedAt = radarVerifiedAt;
 const inspectedRef = "c46e3af1c2732fe2b3dedb0bd47eb39a629357d2";
 const repositoryBase = `https://github.com/esengine/DeepSeek-Reasonix/blob/${inspectedRef}`;
 
@@ -62,6 +63,30 @@ export const reasonix = {
     "Install the stable Reasonix CLI, configure a supported provider or compatible endpoint, review workspace permissions and platform-specific sandbox coverage, then enable headless auto mode, MCP servers, plugins, hooks, or remote web access only inside an independently bounded environment.",
   verifiedAt: recordVerifiedAt,
   evidence: [
+    {
+      title: "Reasonix 1.28.0 delivery-gate release",
+      topic: "orchestration-state",
+      url: "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.28.0",
+      covers: "Restored internal completion and validation gates plus bounded background-task leases",
+      kind: "official-announcement",
+      verifiedAt: radarVerifiedAt,
+    },
+    {
+      title: "Reasonix 1.30.0 concurrent-write release",
+      topic: "execution-control",
+      url: "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.30.0",
+      covers: "Per-file write conflict control, concurrent writes to distinct files, same-file serialization, and DingTalk delivery",
+      kind: "official-announcement",
+      verifiedAt: radarVerifiedAt,
+    },
+    {
+      title: "Reasonix 1.31.0 automation-workspace release",
+      topic: "automation-extensions",
+      url: "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.31.0",
+      covers: "Automation workspaces, schedules and templates, disabled question drafts, and session-index repair",
+      kind: "official-announcement",
+      verifiedAt: radarVerifiedAt,
+    },
     {
       title: "Reasonix v1.19.2 release",
       topic: "releases-code-audit",

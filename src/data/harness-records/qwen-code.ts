@@ -4,6 +4,7 @@ const verifiedAt = "2026-07-27";
 const releaseVerifiedAt = "2026-08-02";
 const latestReleaseVerifiedAt = "2026-08-10";
 const currentReleaseVerifiedAt = "2026-08-13";
+const radarVerifiedAt = "2026-08-20";
 
 export const qwenCode = {
     id: "qwen-code",
@@ -52,8 +53,17 @@ export const qwenCode = {
       "The qwen serve daemon is an alpha local API: loopback starts without authentication, non-loopback binding fails closed without a bearer token, and the docs do not yet claim production-grade multi-client or network-failure guarantees",
     ],
     setup: "Install `@qwen-code/qwen-code`, configure a provider, and enable Seatbelt, Docker, or Podman before running unattended tasks.",
-    verifiedAt: currentReleaseVerifiedAt,
+    verifiedAt: radarVerifiedAt,
     evidence: [
+      {
+        title: "Qwen Code 0.21.14 session and workflow release",
+        topic: "orchestration-state",
+        url: "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.14",
+        covers:
+          "Live session-state inspection, read-only advisor and review agents, persistent media, working-directory-pinned workflow agents, local control routes, and session reliability; project-owned evaluations remain excluded",
+        kind: "official-announcement",
+        verifiedAt: radarVerifiedAt,
+      },
       {
         title: "Qwen Code 0.21.0 source snapshot",
         topic: "releases-code-audit",

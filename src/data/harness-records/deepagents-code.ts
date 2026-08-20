@@ -1,6 +1,7 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-28";
+const radarVerifiedAt = "2026-08-20";
 
 export const deepagentsCode = {
     id: "deepagents-code",
@@ -48,8 +49,24 @@ export const deepagentsCode = {
       "The repository includes project-owned eval packages, but they are not treated as independent comparative evidence or imported into product classification",
     ],
     setup: "Install with the official dcode bootstrap command or the deepagents-code package, configure a supported model provider, and select a remote sandbox backend before opening untrusted repositories.",
-    verifiedAt: verifiedAt,
+    verifiedAt: radarVerifiedAt,
     evidence: [
+      {
+        title: "Deep Agents Code 0.1.57 approval-surface release",
+        topic: "execution-control",
+        url: "https://github.com/langchain-ai/deepagents/releases/tag/deepagents-code%3D%3D0.1.57",
+        covers: "ACP approval modes, multi-select user questions, cold-cache warnings, and the Python 3.12 runtime requirement",
+        kind: "official-announcement",
+        verifiedAt: radarVerifiedAt,
+      },
+      {
+        title: "Deep Agents Code 0.1.58 recovery release",
+        topic: "orchestration-state",
+        url: "https://github.com/langchain-ai/deepagents/releases/tag/deepagents-code%3D%3D0.1.58",
+        covers: "MCP reauthentication, interruptible tool offloading, hook-pipe draining, and configuration recovery",
+        kind: "official-announcement",
+        verifiedAt: radarVerifiedAt,
+      },
       {
         title: "Deep Agents Code overview",
         url: "https://github.com/langchain-ai/deepagents/blob/43eb196cf7faa993f2fa372dcc1fa65572d8a301/libs/code/README.md",

@@ -2,11 +2,13 @@ import type { GuiProduct } from "@/lib/gui-types";
 import { documentedAt, source, unknown } from "./helpers";
 
 const verifiedAt = "2026-08-02";
+const latestReleaseVerifiedAt = "2026-08-20";
 const repository = "https://github.com/xintaofei/codeg";
 const commit = "d665f7b1f87e2e41611ea47f289224f0b11c010e";
 const repositoryBase = `${repository}/blob/${commit}`;
 const readme = `${repositoryBase}/README.md`;
 const registry = `${repositoryBase}/src-tauri/src/acp/registry.rs`;
+const latestRelease = `${repository}/releases/tag/v0.26.2`;
 
 export const codeg: GuiProduct = {
   id: "codeg",
@@ -28,6 +30,7 @@ export const codeg: GuiProduct = {
     "CodeBuddy Code",
     "Codex",
     "Cursor Agent",
+    "DeepSeek Harness",
     "Gemini CLI",
     "Grok Build",
     "Hermes Agent",
@@ -38,7 +41,7 @@ export const codeg: GuiProduct = {
   ],
   acceptsArbitraryCli: false,
   harnessSupportNote:
-    "Twelve built-in ACP integrations are pinned in the audited registry. Users can register other ACP-compatible agents, but protocol compatibility is distinct from launching an arbitrary CLI.",
+    "Twelve built-in ACP integrations are pinned in the audited registry, and the 0.26.2 release adds DeepSeek Harness as a thirteenth bundled agent. Users can register other ACP-compatible agents, but protocol compatibility is distinct from launching an arbitrary CLI.",
   summary:
     "A desktop, server, browser, and mobile workspace for many ACP coding agents, delegation, split views, worktrees, Git, and diffs.",
   bestFor:
@@ -88,6 +91,14 @@ export const codeg: GuiProduct = {
       "The exact twelve built-in agent identities and the separation between built-in and custom ACP agents.",
       verifiedAt,
     ),
+    source(
+      "Codeg 0.26.2 release",
+      latestRelease,
+      "official-announcement",
+      "harness-integrations",
+      "DeepSeek Harness as a bundled agent, current bundled-agent versions, session ownership checks, history retention, remote-workspace entry points, and multi-view turn recovery.",
+      latestReleaseVerifiedAt,
+    ),
   ],
-  verifiedAt,
+  verifiedAt: latestReleaseVerifiedAt,
 };

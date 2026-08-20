@@ -2,6 +2,7 @@ import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
 const latestReleaseVerifiedAt = "2026-08-13";
+const radarVerifiedAt = "2026-08-20";
 
 export const junieCli = {
     id: "junie-cli",
@@ -52,8 +53,16 @@ export const junieCli = {
       "The public GitHub repository distributes installers, registries, templates, and a small test surface rather than the proprietary agent implementation or eval suite",
     ],
     setup: "Install Junie CLI, choose a JetBrains subscription, BYOK provider, or local runtime, then review its action allowlist and project-trust settings.",
-    verifiedAt: latestReleaseVerifiedAt,
+    verifiedAt: radarVerifiedAt,
     evidence: [
+      {
+        title: "Junie CLI 2777.8 release",
+        topic: "product-surfaces",
+        url: "https://github.com/JetBrains/junie/releases/tag/2777.8",
+        covers: "Stable full-screen terminal UI, voice input, and session statistics; later Nightly artifacts were reviewed and remain outside the stable channel",
+        kind: "official-announcement",
+        verifiedAt: radarVerifiedAt,
+      },
       {
         title: "Junie CLI quick start",
         url: "https://junie.jetbrains.com/docs/junie-cli.html",

@@ -165,8 +165,8 @@ describe("GUI workflow classification", () => {
     ]));
     expect(agetor.capabilities.remoteExecution.state).toBe("contradicted");
 
-    expect(aionUi.supportedHarnesses).toHaveLength(19);
-    expect(aionUi.supportedHarnesses).toContain("Antigravity");
+    expect(aionUi.supportedHarnesses).toHaveLength(20);
+    expect(aionUi.supportedHarnesses).toEqual(expect.arrayContaining(["Antigravity", "OMP"]));
     expect(aionUi.acceptsArbitraryCli).toBe(false);
     expect(aionUi.capabilities.workspaceIsolation.state).toBe("unknown");
     expect(aionUi.capabilities.teamCollaboration.state).toBe("unknown");
@@ -175,7 +175,8 @@ describe("GUI workflow classification", () => {
     expect(blackcrab.supportedHarnesses).toEqual(["Claude Code"]);
     expect(blackcrab.capabilities.remoteExecution.state).toBe("unknown");
 
-    expect(codeg.supportedHarnesses).toHaveLength(12);
+    expect(codeg.supportedHarnesses).toHaveLength(13);
+    expect(codeg.supportedHarnesses).toContain("DeepSeek Harness");
     expect(codeg.platforms).toEqual(expect.arrayContaining(["iOS", "Android"]));
     expect(codeg.acceptsArbitraryCli).toBe(false);
     expect(codeg.harnessSupportNote).toContain("ACP-compatible");

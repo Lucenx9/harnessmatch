@@ -4,7 +4,8 @@ const verifiedAt = "2026-07-27";
 const skillsVerifiedAt = "2026-08-01";
 const latestReleaseVerifiedAt = "2026-08-10";
 const currentReleaseVerifiedAt = "2026-08-13";
-const recordVerifiedAt = currentReleaseVerifiedAt;
+const radarVerifiedAt = "2026-08-20";
+const recordVerifiedAt = radarVerifiedAt;
 
 export const claudeCode = {
     id: "claude-code",
@@ -62,6 +63,30 @@ export const claudeCode = {
     setup: "Install Claude Code, authenticate with Claude or an enterprise platform, then run `claude` in a repository.",
     verifiedAt: recordVerifiedAt,
     evidence: [
+      {
+        title: "Claude Code 2.1.235 sandbox hardening release",
+        topic: "execution-control",
+        url: "https://github.com/anthropics/claude-code/releases/tag/v2.1.235",
+        covers: "Wildcard read-deny precedence, rename-bypass correction, and honest reporting of untracked Git state",
+        kind: "official-announcement",
+        verifiedAt: radarVerifiedAt,
+      },
+      {
+        title: "Claude Code 2.1.236 permission and messaging release",
+        topic: "execution-control",
+        url: "https://github.com/anthropics/claude-code/releases/tag/v2.1.236",
+        covers: "Reviewed auto-mode monitor rules, aligned permission dialogs and grants, idle notifications, and bounded queued-message delivery",
+        kind: "official-announcement",
+        verifiedAt: radarVerifiedAt,
+      },
+      {
+        title: "Claude Code 2.1.237 cache recovery release",
+        topic: "enterprise-operations",
+        url: "https://github.com/anthropics/claude-code/releases/tag/v2.1.237",
+        covers: "Cache recovery for custom base URLs and the concise output-style option",
+        kind: "official-announcement",
+        verifiedAt: radarVerifiedAt,
+      },
       {
         title: "Claude Code 2.1.223 security release",
         topic: "execution-control",

@@ -3,6 +3,7 @@ import type { HarnessRecord } from "./types";
 const verifiedAt = "2026-07-28";
 const releaseVerifiedAt = "2026-07-31";
 const latestReleaseVerifiedAt = "2026-08-13";
+const radarVerifiedAt = "2026-08-20";
 
 export const mistralVibe = {
     id: "mistral-vibe",
@@ -52,8 +53,16 @@ export const mistralVibe = {
       "There is no built-in browser automation; web search and fetch tools are not a browser agent",
     ],
     setup: "Install `mistral-vibe`, use a Mistral plan or API key, or configure a local/OpenAI-compatible provider. Then review the default `ask` agent's accept-edits posture before running `vibe`.",
-    verifiedAt: latestReleaseVerifiedAt,
+    verifiedAt: radarVerifiedAt,
     evidence: [
+      {
+        title: "Mistral Vibe 2.24.2 release",
+        topic: "orchestration-state",
+        url: "https://github.com/mistralai/mistral-vibe/releases/tag/v2.24.2",
+        covers: "ACP session selection and retry, visible and cleanable worktrees, remote-default branch handling, live permission-mode propagation to child loops, and faster resume",
+        kind: "official-announcement",
+        verifiedAt: radarVerifiedAt,
+      },
       {
         title: "Pinned Mistral Vibe source tree",
         url: "https://github.com/mistralai/mistral-vibe/tree/89350a4064ca90e4732271dcc27688e5d684871d",

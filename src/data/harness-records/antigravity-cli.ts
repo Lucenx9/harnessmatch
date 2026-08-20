@@ -4,6 +4,7 @@ const verifiedAt = "2026-07-28";
 const releaseVerifiedAt = "2026-07-31";
 const latestReleaseVerifiedAt = "2026-08-10";
 const currentReleaseVerifiedAt = "2026-08-13";
+const radarVerifiedAt = "2026-08-20";
 
 export const antigravityCli = {
     id: "antigravity-cli",
@@ -55,8 +56,32 @@ export const antigravityCli = {
       "Antigravity CLI 1.1.11 fixes zero-word command allowlists matching every command, auto-approval in strict or request-review modes, and startup MCP admin-control caching; older binaries should not be treated as having those corrections",
     ],
     setup: "Install the native Antigravity CLI, run `agy`, sign in with an eligible Google account or Google Cloud project, then choose permission and sandbox settings before delegated work.",
-    verifiedAt: currentReleaseVerifiedAt,
+    verifiedAt: radarVerifiedAt,
     evidence: [
+      {
+        title: "Antigravity CLI 1.1.14 workspace-control release",
+        topic: "execution-control",
+        url: "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.14",
+        covers: "Read-only outside-workspace access, write-policy enforcement, and multi-turn stream-JSON input",
+        kind: "official-announcement",
+        verifiedAt: radarVerifiedAt,
+      },
+      {
+        title: "Antigravity CLI 1.1.15 agent-rules release",
+        topic: "orchestration-state",
+        url: "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.15",
+        covers: "Per-agent rules and corrected fallback behavior for inherited subagent configuration",
+        kind: "official-announcement",
+        verifiedAt: radarVerifiedAt,
+      },
+      {
+        title: "Antigravity CLI 1.1.16 MCP-control release",
+        topic: "automation-extensions",
+        url: "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.16",
+        covers: "User MCP add, remove, list, enable and disable controls, unknown-field preservation, and binary-resource offloading",
+        kind: "official-announcement",
+        verifiedAt: radarVerifiedAt,
+      },
       {
         title: "Antigravity CLI overview",
         url: "https://antigravity.google/docs/cli/overview",

@@ -2,6 +2,7 @@ import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-08-02";
 const latestReleaseVerifiedAt = "2026-08-13";
+const radarVerifiedAt = "2026-08-20";
 const inspectedRef = "c045a9891069000b112079bb10bdc8828d75eb6e";
 
 export const mimoCode = {
@@ -52,8 +53,17 @@ export const mimoCode = {
   ],
   setup:
     "Install `@mimo-ai/cli`, connect MiMo or another supported provider, review the permission rules, and use a container or virtual machine when execution isolation is required.",
-  verifiedAt: latestReleaseVerifiedAt,
+  verifiedAt: radarVerifiedAt,
   evidence: [
+    {
+      title: "MiMo Code 0.1.13 control and recovery release",
+      topic: "execution-control",
+      url: "https://github.com/XiaomiMiMo/MiMo-Code/releases/tag/v0.1.13",
+      covers:
+        "Instance-scoped delete permission, optional checkpoints, compaction rollback when no summary is produced, blocked nested subagents, request-authorized MCP tools, and child-process environment isolation without an OS sandbox",
+      kind: "official-announcement",
+      verifiedAt: radarVerifiedAt,
+    },
     {
       title: "MiMo Code 0.1.9 source snapshot",
       topic: "releases-code-audit",

@@ -1,6 +1,7 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
+const radarVerifiedAt = "2026-08-20";
 
 export const kiloCode = {
     id: "kilo-code",
@@ -47,8 +48,16 @@ export const kiloCode = {
       "Cloud Agent runs in a separate managed Cloudflare sandbox architecture with its own repository credentials, persistence, and observability boundaries; this does not make the local CLI sandbox-first",
     ],
     setup: "Install the Kilo extension or `@kilocode/cli`, choose Kilo Gateway, ChatGPT subscription, BYOK, or a local model, then explicitly enable sandboxing on macOS or Linux when the task is not fully trusted.",
-    verifiedAt: verifiedAt,
+    verifiedAt: radarVerifiedAt,
     evidence: [
+      {
+        title: "Kilo Code 7.4.23 release",
+        topic: "orchestration-state",
+        url: "https://github.com/Kilo-Org/kilocode/releases/tag/v7.4.23",
+        covers: "Structured pull-request review comments in Agent Manager, subagent inspection, terminal and session persistence, and worktree branch recovery",
+        kind: "official-announcement",
+        verifiedAt: radarVerifiedAt,
+      },
       {
         title: "Audited Kilo Code source tree",
         topic: "releases-code-audit",

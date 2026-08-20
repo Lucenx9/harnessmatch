@@ -5,9 +5,9 @@ const refreshedAt = "2026-07-28";
 const sourceAuditAt = "2026-07-30";
 const grokBuildSourceAuditAt = "2026-08-07";
 const latestReleaseReviewAt = "2026-08-02";
-const ggcodeReleaseReviewAt = "2026-08-04";
 const currentReleaseReviewAt = "2026-08-10";
 const radarReleaseReviewAt = "2026-08-13";
+const latestRadarReleaseReviewAt = "2026-08-20";
 const defaultLimitation =
   "Documentation-derived posture. It describes exposed harness mechanisms, not task success or model capability.";
 
@@ -48,9 +48,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://github.com/anthropics/claude-code/releases/tag/v2.1.223",
       "https://github.com/anthropics/claude-code/releases/tag/v2.1.224",
       "https://github.com/anthropics/claude-code/releases/tag/v2.1.228",
+      "https://github.com/anthropics/claude-code/releases/tag/v2.1.237",
     ],
     "Auto memory persists local project knowledge, JSONL transcripts and optional OpenTelemetry improve traceability, and policy plus permission modes and hooks can gate tools. Agent view adds local research-preview background sessions, while self-hosted runners execute web, mobile, and desktop sessions on user-managed machines or containers rather than adding managed isolation. Cross-session messaging holds inbound messages for approval when the receiving session bypasses permissions. Version 2.1.228 protects project-memory cleanup and restricts synced skills from shadowing local commands or expanding local files. Auto mode is classifier-backed, not isolation: Anthropic reports a 17% false-negative rate on 52 real overeager actions and excludes high-stakes replacement claims. The local Bash sandbox remains opt-in and fail-open by default; checkpoint recovery excludes Bash-created changes and remote side effects, and unattended retries still need external time and spend limits.",
-    radarReleaseReviewAt,
+    latestRadarReleaseReviewAt,
   ),
   codex: record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },
@@ -67,9 +68,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://learn.chatgpt.com/docs/config-file/config-advanced",
       "https://github.com/openai/codex/tree/25af12f7e61572b0bc18ddb1008be543b91519b0/codex-rs/rollout-trace",
       "https://github.com/openai/codex/releases/tag/rust-v0.147.0",
+      "https://github.com/openai/codex/releases/tag/rust-v0.148.0",
     ],
     "Local memories and AGENTS.md persist project context; JSONL rollouts, lifecycle hooks, and optional OpenTelemetry expose trace-level evidence. Sandbox and permission modes provide technical and policy boundaries, but optional Auto-review, including --approve-for-me, is a non-deterministic reviewer for requested escalations rather than a security guarantee. Version 0.147.0 also adds explicit local-project trust and hardens plugin isolation. Recovery is session resume plus Git review/revert rather than a harness checkpoint, so shell and external side effects remain outside rollback.",
-    currentReleaseReviewAt,
+    latestRadarReleaseReviewAt,
   ),
   opencode: record(
     { context: "managed", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "checkpoint" },
@@ -97,9 +99,11 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/memory.md",
       "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/rpc.md",
       "https://github.com/can1357/oh-my-pi/blob/d16c6168c86f40fc44f25118c2fd06fe160fcb93/docs/tools/rewind.md",
+      "https://github.com/can1357/oh-my-pi/releases/tag/v17.3.8",
+      "https://github.com/can1357/oh-my-pi/releases/tag/v17.4.0",
     ],
     "Optional memory persists project knowledge and per-tool policy is granular, but memory is off and approval defaults to yolo; subagents also run yolo. Logs, stats, and session JSONL aid inspection. Checkpoint/rewind only reshapes transcript context, so recovery remains session resume.",
-    refreshedAt,
+    latestRadarReleaseReviewAt,
   ),
   codewhale: record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "checkpoint" },
@@ -111,9 +115,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://github.com/Hmbown/CodeWhale/blob/4f2c97b0d75c039a9b6069ebcf210cc499583376/docs/FLEET.md",
       "https://github.com/Hmbown/CodeWhale/blob/4f2c97b0d75c039a9b6069ebcf210cc499583376/README.md",
       "https://github.com/Hmbown/CodeWhale/releases/tag/v0.9.5",
+      "https://github.com/Hmbown/CodeWhale/releases/tag/v0.9.10",
     ],
     "CodeWhale persists memory, append-only session trees, and Fleet receipts, exposes detailed turn and worker records, gates execution through ordered policy layers, and supports branch, fork, resume, and turn restore. Version 0.9.5 removes the default headless step ceiling and leaves automatic continuation unlimited unless configured. Local execution remains host-first when no wrapper is active; Full Access weakens approvals, TUI hooks do not cover headless commands, and rollback cannot reverse external side effects.",
-    currentReleaseReviewAt,
+    latestRadarReleaseReviewAt,
   ),
   openharness: record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "session-resume" },
@@ -217,9 +222,9 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
   ),
   "gemini-cli": record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "checkpoint" },
-    ["https://geminicli.com/docs/cli/auto-memory/", "https://geminicli.com/docs/cli/sandbox/", "https://geminicli.com/docs/cli/checkpointing/", "https://geminicli.com/docs/cli/telemetry/", "https://github.com/google-gemini/gemini-cli/releases/tag/v0.55.1"],
+    ["https://geminicli.com/docs/cli/auto-memory/", "https://geminicli.com/docs/cli/sandbox/", "https://geminicli.com/docs/cli/checkpointing/", "https://geminicli.com/docs/cli/telemetry/", "https://github.com/google-gemini/gemini-cli/releases/tag/v0.55.1", "https://github.com/google-gemini/gemini-cli/releases/tag/v0.56.0"],
     "Persistent memory and Auto Memory are reviewable but Auto Memory is experimental and off by default. Policy, optional OS/container isolation, project eval tools, OpenTelemetry, and shadow-Git checkpoints support inspection and recovery. Version 0.55.1 hardens sensitive paths, memory-import symlinks, macOS sandbox defaults, and A2A workspace trust; external side effects remain outside rewind.",
-    radarReleaseReviewAt,
+    latestRadarReleaseReviewAt,
   ),
   "antigravity-cli": record(
     { context: "managed", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },
@@ -234,9 +239,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.9",
       "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.11",
       "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.12",
+      "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.16",
     ],
     "Workspace-scoped history, typed NDJSON trajectories, artifact review, and policy rules support inspection and session resume. Native sandboxing is off by default, workspace file access is auto-allowed by default, and a prompted pattern persists for the rest of the conversation as of 1.1.9. Version 1.1.11 fixes zero-word allowlists matching every command, auto-approval in strict or request-review modes, and startup MCP admin-control caching. Version 1.1.12 adds atomic user-config writes and fixes empty subagent result delivery. Rewind or fork still changes conversation state rather than restoring the filesystem.",
-    radarReleaseReviewAt,
+    latestRadarReleaseReviewAt,
   ),
   "copilot-cli": record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "checkpoint" },
@@ -264,8 +270,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://junie.jetbrains.com/docs/junie-cli-worktrees.html",
       "https://junie.jetbrains.com/docs/action-allowlist-junie-cli.html",
       "https://junie.jetbrains.com/docs/junie-cli-remote-mode.html",
+      "https://github.com/JetBrains/junie/releases/tag/2777.8",
     ],
-    "Approval controls, worktree isolation, resumable session logs, headless execution, and a tethered remote web UI are documented. Brave On removes approvals; worktrees are not an OS boundary; Remote mode still depends on the local CLI process and does not expose the full terminal surface.",
+    "Approval controls, worktree isolation, resumable session logs, headless execution, a full-screen TUI with session statistics, and a tethered remote web UI are documented. Brave On removes approvals; worktrees are not an OS boundary; Remote mode still depends on the local CLI process and does not expose the full terminal surface.",
+    latestRadarReleaseReviewAt,
   ),
   "factory-droid": record(
     { context: "managed", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "checkpoint" },
@@ -307,9 +315,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.7",
       "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.8",
       "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.10",
+      "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.14",
     ],
     "Default-on auto-memory persists reviewed user and project knowledge; qwen serve keeps managed project memory Git-root-scoped unless exact-workspace storage is explicitly enabled. Approval policy is granular and named fork profiles can constrain delegated tools. Releases 0.21.7 and 0.21.8 remove the fixed Goal continuation limit, add durable Goal evidence checkpoints, and allow cooperative workflow pause and resume. Version 0.21.10 makes Web UI session switching transactional, restores deferred MCP tools on resume, and exposes ACP reasoning effort. Background workflows remain TUI-only, approval-gated, process-scoped, and lack restart recovery, remote execution, and tracing. The OS/container sandbox and shadow-Git checkpoints are disabled by default; yolo does not enable isolation, and rollback cannot undo external side effects.",
-    radarReleaseReviewAt,
+    latestRadarReleaseReviewAt,
   ),
   "continue-cli": record(
     { context: "managed", permissions: "approval", verification: "tool-assisted", observability: "logs", recovery: "session-resume" },
@@ -325,9 +334,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://github.com/mistralai/mistral-vibe/blob/89350a4064ca90e4732271dcc27688e5d684871d/vibe/core/rewind/manager.py",
       "https://github.com/mistralai/mistral-vibe/blob/89350a4064ca90e4732271dcc27688e5d684871d/docs/adr/0006-local-sessions.md",
       "https://github.com/mistralai/mistral-vibe/releases/tag/v2.24.1",
+      "https://github.com/mistralai/mistral-vibe/releases/tag/v2.24.2",
     ],
     "The profile records managed compaction, granular policies, optional OpenTelemetry, and message-level file rewind. Version 2.24.1 preserves compacted history and exposes tracing configuration, but also gives the newly named default ask agent an accept-edits posture. OTEL is off by default; the local CLI remains a host process, and these mechanisms do not establish task success.",
-    radarReleaseReviewAt,
+    latestRadarReleaseReviewAt,
   ),
   "kimi-code": record(
     { context: "managed", permissions: "approval", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },
@@ -343,9 +353,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://moonshotai.github.io/kimi-code/en/customization/mcp",
       "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai%2Fkimi-code%400.34.0",
       "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai%2Fkimi-code%400.35.0",
+      "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai%2Fkimi-code%400.38.0",
     ],
     "Interactive sessions default to manual approval and persist structured Wire event streams with subagent histories and a session visualizer. Version 0.34.0 preserves completed, cancelled, or failed turn state across server restarts and keeps print mode alive for background tasks and subagents, but this remains session resume rather than file rollback. Version 0.35.0 adds live background-subagent progress, prevents built-in coder subagents from nesting by default, and fixes pre-trust Windows binary planting. Print mode uses unattended auto permission, hooks fail open, and local tools remain host-privileged. The optional first-party Computer Use and WebBridge integration extends host/browser reach rather than adding isolation.",
-    radarReleaseReviewAt,
+    latestRadarReleaseReviewAt,
   ),
   "mimo-code": record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "checkpoint" },
@@ -359,9 +370,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://github.com/XiaomiMiMo/MiMo-Code/blob/c045a9891069000b112079bb10bdc8828d75eb6e/packages/opencode/src/snapshot/index.ts",
       "https://github.com/XiaomiMiMo/MiMo-Code/blob/c045a9891069000b112079bb10bdc8828d75eb6e/SECURITY.md",
       "https://github.com/XiaomiMiMo/MiMo-Code/releases/tag/v0.1.11",
+      "https://github.com/XiaomiMiMo/MiMo-Code/releases/tag/v0.1.13",
     ],
     "Persistent project memory, session compaction, structured event output, logs, per-agent policy, and Git-backed undo support inspection and recovery. Version 0.1.11 can disable memory writes while keeping explicit search available, but existing memory is not auto-loaded in that mode. Most permissions default to allow, headless execution can bypass checks, and the official security policy states that no process sandbox exists. Workflow QuickJS contains control code only; host tools and external effects remain outside that boundary. Git recovery requires a repository and excludes ignored files, untracked files over 2 MiB, and non-file side effects.",
-    radarReleaseReviewAt,
+    latestRadarReleaseReviewAt,
   ),
   ante: record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },
@@ -391,9 +403,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://docs.letta.com/configuration/mods",
       "https://docs.letta.com/reference/settings",
       "https://github.com/letta-ai/letta-code/releases/tag/v0.30.19",
+      "https://github.com/letta-ai/letta-code/releases/tag/v0.30.27",
     ],
     "Agent memory and conversations persist across clients and environments, with Git-tracked MemFS providing inspectable context history. Version 0.30.19 adds explicit sandbox file-transfer commands and cloud-backed reflection completion state. Fine-grained policy is available, but the interactive CLI currently starts unrestricted; local tools use the selected computer's shell, files, credentials, and installed software. Mods are fully trusted in-process code, while external MCP servers are separate execution boundaries and skills are the recommended app/CLI extension path. Managed recovery describes durable agent, schedule, and cloud-environment continuity, not project-file rollback or reversal of external effects.",
-    radarReleaseReviewAt,
+    latestRadarReleaseReviewAt,
   ),
   "kilo-code": record(
     { context: "managed", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "checkpoint" },
@@ -405,8 +418,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://kilo.ai/docs/contributing/architecture/cloud-security",
       "https://kilo.ai/docs/code-with-ai/features/checkpoints",
       "https://kilo.ai/docs/customize/context/codebase-indexing",
+      "https://github.com/Kilo-Org/kilocode/releases/tag/v7.4.23",
     ],
-    "The profile records the strongest documented mechanism: granular policies, optional OTLP traces, and Git snapshots. The local sandbox is still off by default, does not restrict reads, is unavailable on Windows, and is explicitly not a privacy boundary or complete firewall. Cloud Agent uses a separate managed Cloudflare sandbox architecture with its own repository-credential, persistence, and observability boundaries. Neither surface proves task success.",
+    "The profile records the strongest documented mechanism: granular policies, optional OTLP traces, and Git snapshots. Version 7.4.23 adds structured pull-request review comments plus terminal, session, subagent-inspection, and worktree recovery changes. The local sandbox is still off by default, does not restrict reads, is unavailable on Windows, and is explicitly not a privacy boundary or complete firewall. Cloud Agent uses a separate managed Cloudflare sandbox architecture with its own repository-credential, persistence, and observability boundaries. Neither surface proves task success.",
+    latestRadarReleaseReviewAt,
   ),
   "command-code": record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "checkpoint" },
@@ -622,9 +637,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://github.com/langchain-ai/deepagents/blob/43eb196cf7faa993f2fa372dcc1fa65572d8a301/libs/code/README.md",
       "https://github.com/langchain-ai/deepagents/blob/43eb196cf7faa993f2fa372dcc1fa65572d8a301/libs/code/THREAT_MODEL.md",
       "https://github.com/langchain-ai/deepagents/blob/43eb196cf7faa993f2fa372dcc1fa65572d8a301/libs/code/deepagents_code/client/non_interactive.py",
+      "https://github.com/langchain-ai/deepagents/releases/tag/deepagents-code%3D%3D0.1.58",
     ],
     "Deep Agents Code persists local sessions and memory, exposes interactive approvals and non-interactive limits, and can emit streamed execution events. The local mode trusts repository artifacts before approval and executes on the host; managed sandboxes are optional provider surfaces, while resume and SQLite checkpoints do not imply filesystem rollback.",
-    refreshedAt,
+    latestRadarReleaseReviewAt,
   ),
   opensquilla: record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },
@@ -656,9 +672,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://github.com/oguzbilgic/kern-ai/blob/8f82a046833128b2bf5f67fdf85a76b35b0fe847/docs/memory.md",
       "https://github.com/oguzbilgic/kern-ai/blob/8f82a046833128b2bf5f67fdf85a76b35b0fe847/docs/config.md",
       "https://github.com/oguzbilgic/kern-ai/blob/8f82a046833128b2bf5f67fdf85a76b35b0fe847/docs/subagents.md",
+      "https://github.com/oguzbilgic/kern-ai/releases/tag/v0.32.5",
     ],
     "Kern persists JSONL transcripts, local vector recall, notes, logs, and subagent records. Runtime control is a coarse read, write, or full tool scope rather than per-call approval; optional Docker wraps the service rather than each task, and running subagents do not recover across process restarts.",
-    refreshedAt,
+    latestRadarReleaseReviewAt,
   ),
   ggcode: record(
     { context: "persistent", permissions: "policy", verification: "workflow-gated", observability: "traces", recovery: "checkpoint" },
@@ -670,9 +687,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://github.com/topcheer/ggcode/blob/b878385bfd4d0edab137e8d48c18fad512d49f21/internal/metrics/trace_export.go",
       "https://github.com/topcheer/ggcode/blob/b878385bfd4d0edab137e8d48c18fad512d49f21/internal/checkpoint/checkpoint.go",
       "https://github.com/topcheer/ggcode/releases/tag/v1.3.190",
+      "https://github.com/topcheer/ggcode/releases/tag/v1.3.211",
     ],
     "GGCode persists repository instructions and JSONL sessions, compacts live context, exports LLM and tool traces, and offers a governed worktree workflow with configured checks, delivery reports, review, approval, and promotion. The strongest verification gate applies to harness tasks rather than every interactive run. Normal execution remains on the host; bypass and autopilot weaken approvals, and 1.3.190 also auto-approves later supervised calls after three matching tool-and-path approvals in one session. Worktrees and path rules are not OS isolation, and file checkpoints cannot reverse shell or external side effects.",
-    ggcodeReleaseReviewAt,
+    latestRadarReleaseReviewAt,
   ),
   reasonix: record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "checkpoint" },
@@ -687,9 +705,10 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
       "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.21.0",
       "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.21.3",
       "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.22.0",
+      "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.31.0",
     ],
     "Reasonix persists hierarchical instructions, durable memory, sessions, structured event streams, and edit checkpoints while exposing ordered permission policy and platform-specific shell isolation. Releases 1.21.0 through 1.22.0 add atomic provider-stream replay, adaptive no-progress detection, fsync-backed sidecars, cross-process locks, and idempotent atomic context maintenance. Verification remains tool-assisted rather than an enforced completion gate. Windows shell execution is unconfined, headless auto mode removes interactive approval, MCP tools bypass per-tool approval, and checkpoints cannot reverse Bash, move, network, or other external side effects.",
-    currentReleaseReviewAt,
+    latestRadarReleaseReviewAt,
   ),
   slate: record(
     { context: "managed", permissions: "policy", verification: "tool-assisted", observability: "traces", recovery: "session-resume" },

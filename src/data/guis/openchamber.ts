@@ -2,10 +2,12 @@ import type { GuiProduct } from "@/lib/gui-types";
 import { documentedAt, source, unknown } from "./helpers";
 
 const verifiedAt = "2026-08-02";
+const latestReleaseVerifiedAt = "2026-08-20";
 const repository = "https://github.com/openchamber/openchamber";
 const commit = "4de802a0a1a5c229ec25afb30d449a0b0e97b3e9";
 const readme = `${repository}/blob/${commit}/README.md`;
 const productSite = "https://openchamber.dev/";
+const latestRelease = `${repository}/releases/tag/v1.19.0`;
 
 export const openChamber: GuiProduct = {
   id: "openchamber",
@@ -24,7 +26,7 @@ export const openChamber: GuiProduct = {
   supportedHarnesses: ["OpenCode"],
   acceptsArbitraryCli: false,
   harnessSupportNote:
-    "OpenChamber uses the OpenCode SDK and bundles the matching OpenCode CLI in its desktop app. It does not establish support for another coding harness.",
+    "OpenChamber uses the OpenCode SDK and bundles the matching OpenCode CLI in its desktop app. The 1.19.0 Integrations page manages Claude Code, Command Code, and Cursor plugins; it does not establish that OpenChamber launches those coding harnesses.",
   summary:
     "An OpenCode-native workspace across desktop, web, editor, and mobile with multi-run worktrees, diff review, previews, GitHub flows, and remote access.",
   bestFor:
@@ -74,6 +76,14 @@ export const openChamber: GuiProduct = {
       "OpenCode boundary, multi-run sessions, optional per-run worktrees, change walkthroughs, remote mechanisms, distribution, and license.",
       verifiedAt,
     ),
+    source(
+      "OpenChamber 1.19.0 release",
+      latestRelease,
+      "official-announcement",
+      "product-workflow",
+      "Project knowledge, file uploads, OpenCode configuration preservation, worktree and session recovery, and the boundary between plugin management and harness support.",
+      latestReleaseVerifiedAt,
+    ),
   ],
-  verifiedAt,
+  verifiedAt: latestReleaseVerifiedAt,
 };

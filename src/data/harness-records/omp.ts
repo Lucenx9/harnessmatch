@@ -4,6 +4,7 @@ const verifiedAt = "2026-07-28";
 const releaseVerifiedAt = "2026-07-31";
 const latestReleaseVerifiedAt = "2026-08-02";
 const currentReleaseVerifiedAt = "2026-08-13";
+const radarVerifiedAt = "2026-08-20";
 
 export const omp = {
     id: "omp",
@@ -53,8 +54,24 @@ export const omp = {
       "Project-owned compaction and local-model evaluations plus README performance claims are not independent harness benchmarks, so no score is imported",
     ],
     setup: "Install `omp`, connect a provider, and change `tools.approvalMode` from the default `yolo` before using it on sensitive repositories.",
-    verifiedAt: currentReleaseVerifiedAt,
+    verifiedAt: radarVerifiedAt,
     evidence: [
+      {
+        title: "Oh My Pi 17.3.8 context-boundary release",
+        topic: "execution-control",
+        url: "https://github.com/can1357/oh-my-pi/releases/tag/v17.3.8",
+        covers: "Prompt-injection neutralization, context-bounded compaction, clear-state handling, and explicit eval-shell policy boundaries",
+        kind: "official-announcement",
+        verifiedAt: radarVerifiedAt,
+      },
+      {
+        title: "Oh My Pi 17.4.0 orchestration release",
+        topic: "orchestration-state",
+        url: "https://github.com/can1357/oh-my-pi/releases/tag/v17.4.0",
+        covers: "Conversation cleansing, process inspection, background Python, speculative compaction, in-place handoff, and corrected subagent yielding",
+        kind: "official-announcement",
+        verifiedAt: radarVerifiedAt,
+      },
       {
         title: "Oh My Pi repository",
         url: "https://github.com/can1357/oh-my-pi/tree/d16c6168c86f40fc44f25118c2fd06fe160fcb93",

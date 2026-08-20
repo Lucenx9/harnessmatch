@@ -2,6 +2,7 @@ import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-30";
 const latestReleaseVerifiedAt = "2026-08-10";
+const radarVerifiedAt = "2026-08-20";
 
 export const codex = {
     id: "codex",
@@ -53,8 +54,17 @@ export const codex = {
       "The Apache-2.0 repository exposes the CLI, SDK, app server, sandbox, tests, and rollout tooling, but not the proprietary IDE extension or Codex cloud service",
     ],
     setup: "Install the Codex CLI or extension, authenticate, then run `codex` interactively or `codex exec` for automation.",
-    verifiedAt: latestReleaseVerifiedAt,
+    verifiedAt: radarVerifiedAt,
     evidence: [
+      {
+        title: "Codex CLI 0.148.0 release",
+        topic: "orchestration-state",
+        url: "https://github.com/openai/codex/releases/tag/rust-v0.148.0",
+        covers:
+          "Session fork, archive, restore and export, asynchronous and MCP hooks, resume-policy preservation, OAuth and outage recovery, fail-closed sandbox path errors, and Amazon Bedrock provider support",
+        kind: "official-announcement",
+        verifiedAt: radarVerifiedAt,
+      },
       {
         title: "Codex CLI",
         topic: "product-surfaces",

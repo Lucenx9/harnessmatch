@@ -3,6 +3,7 @@ import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { featureSupportFor } from "../src/data/feature-claims";
 import { harnesses } from "../src/data/harnesses";
+import { operationalProfileRecords } from "../src/data/operational-profiles";
 import { isValidVerificationDate } from "../src/lib/evidence-freshness";
 
 const firstPartyHosts: Record<string, string[]> = {
@@ -176,10 +177,49 @@ describe("harness evidence ledger", () => {
     });
     expect(hooks?.covers).toContain("codewhale exec");
     expect(codeWhale.tradeoffs.join(" ")).toContain("TUI hooks do not fire for codewhale exec");
-    expect(codeWhale.verifiedAt).toBe("2026-08-13");
+    expect(codeWhale.verifiedAt).toBe("2026-08-20");
     expect(codeWhale.evidence.find((source) => source.url.endsWith("/v0.9.5"))?.verifiedAt).toBe("2026-08-10");
     expect(codeWhale.evidence.find((source) => source.url.endsWith("/v0.9.6"))?.verifiedAt).toBe("2026-08-13");
+    expect(codeWhale.evidence.find((source) => source.url.endsWith("/v0.9.10"))?.verifiedAt).toBe("2026-08-20");
     expect(codeWhale.tradeoffs.join(" ")).toContain("removes the default 100-step ceiling");
+  });
+
+  it("propagates the August 20 first-party release review without changing decision classes", () => {
+    const reviewedReleases = [
+      ["antigravity-cli", "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.16"],
+      ["claude-code", "https://github.com/anthropics/claude-code/releases/tag/v2.1.237"],
+      ["codewhale", "https://github.com/Hmbown/CodeWhale/releases/tag/v0.9.10"],
+      ["codex", "https://github.com/openai/codex/releases/tag/rust-v0.148.0"],
+      ["deepagents-code", "https://github.com/langchain-ai/deepagents/releases/tag/deepagents-code%3D%3D0.1.58"],
+      ["gemini-cli", "https://github.com/google-gemini/gemini-cli/releases/tag/v0.56.0"],
+      ["ggcode", "https://github.com/topcheer/ggcode/releases/tag/v1.3.211"],
+      ["junie-cli", "https://github.com/JetBrains/junie/releases/tag/2777.8"],
+      ["kern", "https://github.com/oguzbilgic/kern-ai/releases/tag/v0.32.5"],
+      ["kilo-code", "https://github.com/Kilo-Org/kilocode/releases/tag/v7.4.23"],
+      ["kimi-code", "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai%2Fkimi-code%400.38.0"],
+      ["letta-code", "https://github.com/letta-ai/letta-code/releases/tag/v0.30.27"],
+      ["mimo-code", "https://github.com/XiaomiMiMo/MiMo-Code/releases/tag/v0.1.13"],
+      ["mistral-vibe", "https://github.com/mistralai/mistral-vibe/releases/tag/v2.24.2"],
+      ["omp", "https://github.com/can1357/oh-my-pi/releases/tag/v17.4.0"],
+      ["qwen-code", "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.14"],
+      ["reasonix", "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.31.0"],
+    ] as const;
+
+    for (const [id, releaseUrl] of reviewedReleases) {
+      const harness = harnesses.find((candidate) => candidate.id === id);
+      const operational = operationalProfileRecords[id];
+
+      expect(harness?.verifiedAt).toBe("2026-08-20");
+      expect(harness?.evidence).toContainEqual(expect.objectContaining({ url: releaseUrl, verifiedAt: "2026-08-20" }));
+      expect(operational?.verifiedAt).toBe("2026-08-20");
+      expect(operational?.sourceUrls).toContain(releaseUrl);
+    }
+
+    expect(harnesses.find((candidate) => candidate.id === "reasonix")?.classification).toMatchObject({
+      runtime: "sandbox-first",
+      isolation: ["os-sandbox"],
+    });
+    expect(operationalProfileRecords.reasonix?.profile.verification).toBe("tool-assisted");
   });
 
   it("keeps every capability profile backed by multiple current sources", () => {
@@ -471,11 +511,12 @@ describe("harness evidence ledger", () => {
     expect(wakil.tradeoffs.join(" ")).toContain("shares successful first-round responses across providers");
 
     const ggcode = byId.get("ggcode")!;
-    expect(ggcode.verifiedAt).toBe("2026-08-13");
+    expect(ggcode.verifiedAt).toBe("2026-08-20");
     expect(ggcode.evidence.map((source) => source.url)).toEqual(expect.arrayContaining([
       "https://github.com/topcheer/ggcode/releases/tag/v1.3.189",
       "https://github.com/topcheer/ggcode/releases/tag/v1.3.190",
       "https://github.com/topcheer/ggcode/releases/tag/v1.3.203",
+      "https://github.com/topcheer/ggcode/releases/tag/v1.3.211",
       "https://github.com/topcheer/ggcode/tree/b878385bfd4d0edab137e8d48c18fad512d49f21",
     ]));
     expect(ggcode.evidence.find((source) => source.title === "GGCode v1.3.189 release")?.covers)
@@ -525,9 +566,9 @@ describe("harness evidence ledger", () => {
     const caveats = mimo.tradeoffs.join(" ");
 
     expect(mimo.status).toBe("active");
-    expect(mimo.verifiedAt).toBe("2026-08-13");
+    expect(mimo.verifiedAt).toBe("2026-08-20");
     expect(mimo.license).toBe("MIT with use restrictions");
-    expect(mimo.evidence).toHaveLength(15);
+    expect(mimo.evidence).toHaveLength(16);
     expect(mimo.evidence.filter((source) => source.verifiedAt === mimo.verifiedAt)).toHaveLength(1);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([
@@ -538,6 +579,7 @@ describe("harness evidence ledger", () => {
       "https://mimo.xiaomi.com/mimocode/agents",
       "https://github.com/XiaomiMiMo/MiMo-Code/blob/c045a9891069000b112079bb10bdc8828d75eb6e/SECURITY.md",
       "https://github.com/XiaomiMiMo/MiMo-Code/releases/tag/v0.1.11",
+      "https://github.com/XiaomiMiMo/MiMo-Code/releases/tag/v0.1.13",
     ]));
     expect(mimo.discovery).toEqual([
       expect.objectContaining({
@@ -630,10 +672,10 @@ describe("harness evidence ledger", () => {
     const caveats = reasonix.tradeoffs.join(" ");
 
     expect(reasonix.status).toBe("active");
-    expect(reasonix.verifiedAt).toBe("2026-08-13");
+    expect(reasonix.verifiedAt).toBe("2026-08-20");
     expect(reasonix.license).toBe("MIT");
     expect(reasonix.supportsSubscription).toBe(true);
-    expect(reasonix.evidence).toHaveLength(23);
+    expect(reasonix.evidence).toHaveLength(26);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([
       "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.19.2",
@@ -643,6 +685,9 @@ describe("harness evidence ledger", () => {
       "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.21.3",
       "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.22.0",
       "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.24.1",
+      "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.28.0",
+      "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.30.0",
+      "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.31.0",
       "https://github.com/esengine/DeepSeek-Reasonix/tree/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2",
       "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/docs/SPEC.md",
       "https://github.com/esengine/DeepSeek-Reasonix/blob/c46e3af1c2732fe2b3dedb0bd47eb39a629357d2/docs/TOOL_CONTRACT.md",
@@ -677,7 +722,7 @@ describe("harness evidence ledger", () => {
       "https://geminicli.com/docs/admin/enterprise-controls/",
     ]));
     expect(gemini.tradeoffs.join(" ")).toContain("Workspace tier is currently non-functional");
-    expect(antigravity.verifiedAt).toBe("2026-08-13");
+    expect(antigravity.verifiedAt).toBe("2026-08-20");
     expect(antigravity.evidence.length).toBeGreaterThanOrEqual(12);
     expect(antigravity.classification).toMatchObject({
       orchestration: "multi-agent-runtime",
@@ -697,6 +742,9 @@ describe("harness evidence ledger", () => {
       "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.9",
       "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.11",
       "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.12",
+      "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.14",
+      "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.15",
+      "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.16",
     ]));
     expect(caveats).toContain("sandboxing is available but off by default");
     expect(caveats).toContain("persists for the rest of the conversation");
@@ -711,8 +759,8 @@ describe("harness evidence ledger", () => {
     const urls = claude.evidence.map((source) => source.url);
     const caveats = claude.tradeoffs.join(" ");
 
-    expect(claude.verifiedAt).toBe("2026-08-13");
-    expect(claude.evidence).toHaveLength(60);
+    expect(claude.verifiedAt).toBe("2026-08-20");
+    expect(claude.evidence).toHaveLength(63);
     expect(claude.evidence.find((source) => source.title === "Agent Skills")?.verifiedAt).toBe("2026-08-01");
     expect(claude.evidence.find((source) => source.url.endsWith("/v2.1.224"))?.verifiedAt).toBe("2026-08-10");
     expect(claude.evidence.every((source) => source.topic !== undefined)).toBe(true);
@@ -744,6 +792,9 @@ describe("harness evidence ledger", () => {
       "https://github.com/anthropics/claude-code/releases/tag/v2.1.223",
       "https://github.com/anthropics/claude-code/releases/tag/v2.1.224",
       "https://github.com/anthropics/claude-code/releases/tag/v2.1.228",
+      "https://github.com/anthropics/claude-code/releases/tag/v2.1.235",
+      "https://github.com/anthropics/claude-code/releases/tag/v2.1.236",
+      "https://github.com/anthropics/claude-code/releases/tag/v2.1.237",
       "https://code.claude.com/docs/en/checkpointing",
       "https://code.claude.com/docs/en/sessions",
       "https://code.claude.com/docs/en/memory",
@@ -806,9 +857,10 @@ describe("harness evidence ledger", () => {
     const urls = codex.evidence.map((source) => source.url);
     const caveats = codex.tradeoffs.join(" ");
 
-    expect(codex.verifiedAt).toBe("2026-08-10");
-    expect(codex.evidence).toHaveLength(47);
-    expect(codex.evidence.find((source) => source.url.endsWith("/rust-v0.147.0"))?.verifiedAt).toBe(codex.verifiedAt);
+    expect(codex.verifiedAt).toBe("2026-08-20");
+    expect(codex.evidence).toHaveLength(48);
+    expect(codex.evidence.find((source) => source.url.endsWith("/rust-v0.147.0"))?.verifiedAt).toBe("2026-08-10");
+    expect(codex.evidence.find((source) => source.url.endsWith("/rust-v0.148.0"))?.verifiedAt).toBe(codex.verifiedAt);
     expect(codex.evidence.find((source) => source.url.includes("/tree/25af12f"))?.verifiedAt).toBe("2026-07-30");
     expect(codex.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
@@ -932,7 +984,7 @@ describe("harness evidence ledger", () => {
     const urls = omp.evidence.map((source) => source.url);
     const caveats = omp.tradeoffs.join(" ");
 
-    expect(omp.verifiedAt).toBe("2026-08-13");
+    expect(omp.verifiedAt).toBe("2026-08-20");
     expect(omp.evidence.length).toBeGreaterThanOrEqual(14);
     expect(omp.evidence.find((source) => source.url.endsWith("/v17.2.1"))?.verifiedAt).toBe("2026-07-31");
     expect(omp.evidence.find((source) => source.url.endsWith("/v17.2.4"))?.verifiedAt).toBe("2026-08-02");
@@ -949,6 +1001,8 @@ describe("harness evidence ledger", () => {
       "https://github.com/can1357/oh-my-pi/releases/tag/v17.2.1",
       "https://github.com/can1357/oh-my-pi/releases/tag/v17.2.4",
       "https://github.com/can1357/oh-my-pi/releases/tag/v17.2.15",
+      "https://github.com/can1357/oh-my-pi/releases/tag/v17.3.8",
+      "https://github.com/can1357/oh-my-pi/releases/tag/v17.4.0",
     ]));
     expect(caveats).toContain("subagents also run yolo");
     expect(caveats).toContain("prune conversation context only");
@@ -1075,8 +1129,8 @@ describe("harness evidence ledger", () => {
 
     expect(letta.name).toBe("Letta Harness");
     expect(letta.summary).toContain("formerly called Letta Code");
-    expect(letta.verifiedAt).toBe("2026-08-13");
-    expect(letta.evidence).toHaveLength(26);
+    expect(letta.verifiedAt).toBe("2026-08-20");
+    expect(letta.evidence).toHaveLength(28);
     expect(letta.evidence.find((source) => source.url.endsWith("/v0.30.1"))?.verifiedAt).toBe("2026-08-02");
     expect(letta.evidence.find((source) => source.url.endsWith("/v0.29.9"))?.verifiedAt).toBe("2026-07-28");
     expect(letta.evidence.every((source) => source.topic !== undefined)).toBe(true);
@@ -1088,6 +1142,8 @@ describe("harness evidence ledger", () => {
       "https://github.com/letta-ai/letta-code/blob/286a01d10602eab4a356f2b062e817310f992966/src/cli/commands/mcp.ts",
       "https://docs.letta.com/platform/github-action",
       "https://docs.letta.com/configuration/mods",
+      "https://github.com/letta-ai/letta-code/releases/tag/v0.30.26",
+      "https://github.com/letta-ai/letta-code/releases/tag/v0.30.27",
       "https://docs.letta.com/reference/settings",
       "https://docs.letta.com/reference/changelog",
       "https://docs.letta.com/platform/cli/reference",
@@ -1494,8 +1550,8 @@ describe("harness evidence ledger", () => {
     const urls = qwen.evidence.map((source) => source.url);
     const caveats = qwen.tradeoffs.join(" ");
 
-    expect(qwen.verifiedAt).toBe("2026-08-13");
-    expect(qwen.evidence).toHaveLength(23);
+    expect(qwen.verifiedAt).toBe("2026-08-20");
+    expect(qwen.evidence).toHaveLength(24);
     expect(qwen.evidence.filter((source) => source.verifiedAt === qwen.verifiedAt)).toHaveLength(1);
     expect(qwen.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
@@ -1508,6 +1564,7 @@ describe("harness evidence ledger", () => {
       "https://qwenlm.github.io/qwen-code-docs/en/blog/updates/weekly-update-2026-07-09/",
       "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.3",
       "https://github.com/QwenLM/qwen-code/pull/8303",
+      "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.14",
       "https://github.com/QwenLM/qwen-code/pull/8056",
       "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.7",
       "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.8",
@@ -1656,9 +1713,9 @@ describe("harness evidence ledger", () => {
     const urls = kilo.evidence.map((source) => source.url);
     const caveats = kilo.tradeoffs.join(" ");
 
-    expect(kilo.verifiedAt).toBe("2026-07-27");
-    expect(kilo.evidence).toHaveLength(27);
-    expect(kilo.evidence.every((source) => source.verifiedAt === kilo.verifiedAt)).toBe(true);
+    expect(kilo.verifiedAt).toBe("2026-08-20");
+    expect(kilo.evidence).toHaveLength(28);
+    expect(kilo.evidence.filter((source) => source.verifiedAt === kilo.verifiedAt)).toHaveLength(1);
     expect(kilo.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(kilo.classification.orchestration).toBe("delegated-subagents");
@@ -1671,6 +1728,7 @@ describe("harness evidence ledger", () => {
       "https://kilo.ai/docs/code-with-ai/platforms/cli",
       "https://kilo.ai/docs/ai-providers/openai-chatgpt-plus-pro",
       "https://github.com/Kilo-Org/kilocode/releases/tag/v7.4.16",
+      "https://github.com/Kilo-Org/kilocode/releases/tag/v7.4.23",
       "https://github.com/Kilo-Org/kilocode/blob/a19d44c3ef9fd71fb15291af9c7d87906c06f056/.github/workflows/smoke-test.yml",
       "https://github.com/Kilo-Org/kilocode/blob/a19d44c3ef9fd71fb15291af9c7d87906c06f056/packages/opencode/src/kilocode/sandbox/config.ts",
       "https://blog.kilo.ai/p/kilo-sandbox-run-auto-mode-without",
@@ -1703,7 +1761,7 @@ describe("harness evidence ledger", () => {
     const urls = vibe.evidence.map((source) => source.url);
     const caveats = vibe.tradeoffs.join(" ");
 
-    expect(vibe.verifiedAt).toBe("2026-08-13");
+    expect(vibe.verifiedAt).toBe("2026-08-20");
     expect(vibe.evidence.length).toBeGreaterThanOrEqual(24);
     expect(vibe.evidence.find((source) => source.url.endsWith("/v2.23.2"))?.verifiedAt).toBe("2026-07-31");
     expect(vibe.evidence.find((source) => source.url.includes("/tree/89350a4"))?.verifiedAt).toBe("2026-07-28");
@@ -1931,6 +1989,7 @@ describe("harness evidence ledger", () => {
       "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai%2Fkimi-code%400.29.2",
       "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai%2Fkimi-code%400.34.0",
       "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai%2Fkimi-code%400.35.0",
+      "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai%2Fkimi-code%400.38.0",
       "https://moonshotai.github.io/kimi-code/en/customization/skills",
       "https://moonshotai.github.io/kimi-code/en/customization/agents",
       "https://moonshotai.github.io/kimi-code/en/customization/mcp",
@@ -1939,7 +1998,7 @@ describe("harness evidence ledger", () => {
       "https://moonshotai.github.io/kimi-code/en/configuration/env-vars.html",
     ]));
     expect(byId.get("kimi-code")!.tradeoffs.join(" ")).toContain("system-prompt instructions");
-    expect(byId.get("kimi-code")!.verifiedAt).toBe("2026-08-13");
+    expect(byId.get("kimi-code")!.verifiedAt).toBe("2026-08-20");
     expect(featureSupportFor(byId.get("kimi-code"))).toMatchObject({ browser: true });
   });
 

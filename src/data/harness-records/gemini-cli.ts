@@ -3,7 +3,8 @@ import type { HarnessRecord } from "./types";
 const verifiedAt = "2026-07-27";
 const skillsVerifiedAt = "2026-08-01";
 const latestReleaseVerifiedAt = "2026-08-13";
-const recordVerifiedAt = latestReleaseVerifiedAt;
+const radarVerifiedAt = "2026-08-20";
+const recordVerifiedAt = radarVerifiedAt;
 
 export const geminiCli = {
     id: "gemini-cli",
@@ -57,6 +58,15 @@ export const geminiCli = {
     setup: "For supported enterprise or paid API access, install `@google/gemini-cli`, authenticate through Google Cloud or an eligible API key, then configure sandbox and checkpointing policy.",
     verifiedAt: recordVerifiedAt,
     evidence: [
+      {
+        title: "Gemini CLI 0.56.0 release",
+        topic: "orchestration-state",
+        url: "https://github.com/google-gemini/gemini-cli/releases/tag/v0.56.0",
+        covers:
+          "Context-aware retries, multi-turn rollback on cancellation, normalized Git and workspace state, TUI execution timeouts, and enforcement of agents-mode boundaries in the reviewed release changes",
+        kind: "official-announcement",
+        verifiedAt: radarVerifiedAt,
+      },
       {
         title: "Gemini CLI consumer transition",
         url: "https://developers.googleblog.com/an-important-update-transitioning-gemini-cli-to-antigravity-cli/",

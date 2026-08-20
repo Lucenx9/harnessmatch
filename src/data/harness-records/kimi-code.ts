@@ -4,6 +4,7 @@ const verifiedAt = "2026-07-27";
 const recordVerifiedAt = "2026-07-31";
 const latestReleaseVerifiedAt = "2026-08-10";
 const currentReleaseVerifiedAt = "2026-08-13";
+const radarVerifiedAt = "2026-08-20";
 
 export const kimiCode = {
     id: "kimi-code",
@@ -54,8 +55,17 @@ export const kimiCode = {
       "Since 0.35.0, the built-in coder subagent no longer delegates recursively by default; custom profiles can still opt in to Agent or AgentSwarm tools and their inherited authority",
     ],
     setup: "Install the Kimi Code binary, log in or configure providers, then use `kimi`, `kimi -p`, `kimi acp`, or `kimi web` for the required surface.",
-    verifiedAt: currentReleaseVerifiedAt,
+    verifiedAt: radarVerifiedAt,
     evidence: [
+      {
+        title: "Kimi Code 0.38.0 orchestration release",
+        topic: "orchestration-state",
+        url: "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai%2Fkimi-code%400.38.0",
+        covers:
+          "Remote MCP OAuth, steerable prompt queues, pinned sessions, background-agent cancellation and reliability, and nested delegation disabled by default",
+        kind: "official-announcement",
+        verifiedAt: radarVerifiedAt,
+      },
       {
         title: "Kimi Code 0.29.2 source snapshot",
         url: "https://github.com/MoonshotAI/kimi-code/tree/8a45f10eddbb35c317047e82e567cdb59a220b4f",

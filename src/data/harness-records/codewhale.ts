@@ -4,7 +4,8 @@ const verifiedAt = "2026-08-02";
 const hooksVerifiedAt = "2026-08-05";
 const latestReleaseVerifiedAt = "2026-08-10";
 const currentReleaseVerifiedAt = "2026-08-13";
-const recordVerifiedAt = currentReleaseVerifiedAt;
+const radarVerifiedAt = "2026-08-20";
+const recordVerifiedAt = radarVerifiedAt;
 const commit = "4f2c97b0d75c039a9b6069ebcf210cc499583376";
 const repositoryBase = `https://github.com/Hmbown/CodeWhale/blob/${commit}`;
 
@@ -56,9 +57,25 @@ export const codewhale = {
     "Repository eval and acceptance assets are project-owned development evidence, so no product benchmark score is imported",
   ],
   setup:
-    "Install CodeWhale 0.9.6 from npm, Cargo, or a platform archive; select a provider and model; then choose permission, sandbox, memory, telemetry, hook, and fleet settings for the workflow.",
+    "Install CodeWhale 0.9.10 from npm, Cargo, or a platform archive; select a provider and model; then choose permission, sandbox, memory, telemetry, hook, and fleet settings for the workflow.",
   verifiedAt: recordVerifiedAt,
   evidence: [
+    {
+      title: "CodeWhale 0.9.9 execution-boundary release",
+      topic: "execution-control",
+      url: "https://github.com/Hmbown/CodeWhale/releases/tag/v0.9.9",
+      covers: "Bounded shell failures, honest context and output reporting, and explicit plugin trust flows",
+      kind: "official-announcement",
+      verifiedAt: radarVerifiedAt,
+    },
+    {
+      title: "CodeWhale 0.9.10 session-ownership release",
+      topic: "orchestration-state",
+      url: "https://github.com/Hmbown/CodeWhale/releases/tag/v0.9.10",
+      covers: "A 120-second foreground-command timeout, durable fail-closed approval outcomes, session-owned background work, and bounded retained output",
+      kind: "official-announcement",
+      verifiedAt: radarVerifiedAt,
+    },
     {
       title: "CodeWhale 0.9.3 source snapshot",
       topic: "product-surfaces",
