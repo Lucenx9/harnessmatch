@@ -463,7 +463,7 @@ export const operationalProfileRecords: Partial<Record<string, OperationalProfil
   mux: record(
     { context: "persistent", permissions: "policy", verification: "tool-assisted", observability: "logs", recovery: "session-resume" },
     [
-      "https://github.com/coder/mux/tree/8ec0e299022677a22c53f994c8d8d5ee0fe4ef22",
+      "https://github.com/coder/xum/tree/8ec0e299022677a22c53f994c8d8d5ee0fe4ef22",
       "https://mux.coder.com/agents",
       "https://mux.coder.com/workspaces",
       "https://mux.coder.com/runtime",

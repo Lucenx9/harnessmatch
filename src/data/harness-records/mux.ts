@@ -54,7 +54,7 @@ export const mux = {
       {
         title: "Mux 0.28.1 source snapshot",
         topic: "releases-code-audit",
-        url: "https://github.com/coder/mux/tree/8ec0e299022677a22c53f994c8d8d5ee0fe4ef22",
+        url: "https://github.com/coder/xum/tree/8ec0e299022677a22c53f994c8d8d5ee0fe4ef22",
         covers: "Immutable AGPL-3.0 source snapshot with application code, 879 test-like files, thirteen workflows, persistent-memory implementation, and project-owned Terminal-Bench adapters",
         kind: "official-repository",
         verifiedAt: verifiedAt,
@@ -62,7 +62,7 @@ export const mux = {
       {
         title: "Mux 0.28.1 release",
         topic: "releases-code-audit",
-        url: "https://github.com/coder/mux/releases/tag/v0.28.1",
+        url: "https://github.com/coder/xum/releases/tag/v0.28.1",
         covers: "Stable release identity and dated version boundary used for the audit",
         kind: "official-announcement",
         verifiedAt: verifiedAt,
