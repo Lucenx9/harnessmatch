@@ -4,8 +4,10 @@ import { documented, documentedAt, guiVerifiedAt, source } from "./helpers";
 const repository = "https://github.com/superset-sh/superset";
 const agentDocs = "https://docs.superset.sh/agent-integration";
 const remoteDocs = "https://docs.superset.sh/remote-workspaces";
-const latestReleaseVerifiedAt = "2026-08-20";
-const latestRelease = `${repository}/releases/tag/desktop-v1.23.0`;
+const latestReleaseVerifiedAt = "2026-08-22";
+const cloudWorkspaceIntroductionRelease = `${repository}/releases/tag/desktop-v1.23.0`;
+const cloudWorkspaceRelease = `${repository}/releases/tag/desktop-v1.24.0`;
+const pullRequestReviewRelease = `${repository}/releases/tag/desktop-v1.24.1`;
 
 export const superset: GuiProduct = {
   id: "superset",
@@ -30,12 +32,18 @@ export const superset: GuiProduct = {
   capabilities: {
     parallelSessions: documented("The product documents ten or more simultaneous local coding agents.", repository),
     workspaceIsolation: documented("Every task is placed in an isolated Git worktree.", repository),
-    visualReview: documented("A built-in diff viewer, editor, terminal, and external-editor handoff are implemented.", repository),
+    visualReview: documentedAt(
+      "A built-in diff viewer, editor, terminal, external-editor handoff, and pull-request split view are implemented.",
+      latestReleaseVerifiedAt,
+      repository,
+      pullRequestReviewRelease,
+    ),
     remoteExecution: documentedAt(
-      "Remote hosts expose full workspaces, terminals, ports, agent runs, and diffs through Superset Relay; version 1.23.0 also documents cloud workspaces backed by Blaxel sandboxes.",
+      "Remote hosts expose full workspaces, terminals, ports, agent runs, and diffs through Superset Relay; version 1.24.0 also exposes cloud-workspace creation, terminals, and agent actions from mobile.",
       latestReleaseVerifiedAt,
       remoteDocs,
-      latestRelease,
+      cloudWorkspaceIntroductionRelease,
+      cloudWorkspaceRelease,
     ),
     teamCollaboration: documented("Host owners can grant organization teammates access to the same remote workspaces.", remoteDocs),
   },
@@ -45,10 +53,26 @@ export const superset: GuiProduct = {
     source("Superset official repository", repository, "official-repository", "public-code", "Parallel execution, worktrees, monitoring, review, agent catalog, platform scope, and ELv2 license."),
     source(
       "Superset Desktop 1.23.0 release",
-      latestRelease,
+      cloudWorkspaceIntroductionRelease,
       "official-announcement",
       "remote-collaboration",
       "Blaxel-backed cloud workspaces, relay controls, trigger-based automations, raw-CDP browser control, and idempotent session auto-resume.",
+      "2026-08-20",
+    ),
+    source(
+      "Superset Desktop 1.24.0 release",
+      cloudWorkspaceRelease,
+      "official-announcement",
+      "remote-collaboration",
+      "Mobile creation and operation of cloud workspaces, workspace terminals and agent actions, browser-control skills, account profiles, and large-diff reliability fixes.",
+      latestReleaseVerifiedAt,
+    ),
+    source(
+      "Superset Desktop 1.24.1 release",
+      pullRequestReviewRelease,
+      "official-announcement",
+      "sessions-isolation-review",
+      "Pull-request split-view review with merge, close, and reopen controls.",
       latestReleaseVerifiedAt,
     ),
   ],

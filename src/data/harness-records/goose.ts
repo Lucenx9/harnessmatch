@@ -2,7 +2,8 @@ import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
 const releaseReviewAt = "2026-08-01";
-const recordVerifiedAt = releaseReviewAt;
+const currentRadarVerifiedAt = "2026-08-22";
+const recordVerifiedAt = currentRadarVerifiedAt;
 
 export const goose = {
     id: "goose",
@@ -55,6 +56,15 @@ export const goose = {
     setup: "Install the desktop app or CLI, select a provider, configure approval or sandbox controls, and enable only the extensions needed for the workflow.",
     verifiedAt: recordVerifiedAt,
     evidence: [
+      {
+        title: "goose v1.47.0 runtime-safety release",
+        topic: "execution-control",
+        url: "https://github.com/aaif-goose/goose/releases/tag/v1.47.0",
+        covers:
+          "Secure OAuth token transport, bounded file and image reads, review-symlink avoidance, isolated concurrent subagent notifications, context-error handling, and an explicit agent-loop state machine",
+        kind: "official-announcement",
+        verifiedAt: currentRadarVerifiedAt,
+      },
       {
         title: "Supported LLM providers",
         topic: "product-surfaces",

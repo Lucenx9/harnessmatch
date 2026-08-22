@@ -4,7 +4,8 @@ const verifiedAt = "2026-08-02";
 const releaseReviewAt = "2026-08-04";
 const latestReleaseReviewAt = "2026-08-13";
 const radarVerifiedAt = "2026-08-20";
-const recordVerifiedAt = radarVerifiedAt;
+const currentRadarVerifiedAt = "2026-08-22";
+const recordVerifiedAt = currentRadarVerifiedAt;
 const discoveredAt = "2026-08-01";
 const inspectedRef = "b878385bfd4d0edab137e8d48c18fad512d49f21";
 const repositoryBase = `https://github.com/topcheer/ggcode/blob/${inspectedRef}`;
@@ -61,6 +62,15 @@ export const ggcode = {
     "Install a stable GGCode build, use the onboarding wizard to select a provider, review the supervised default and protected-path rules, then enable bypass, autopilot, hooks, plugins, MCP, or harness workers only for workspaces whose trust boundary you understand.",
   verifiedAt: recordVerifiedAt,
   evidence: [
+    {
+      title: "GGCode v1.3.213 integrity release",
+      topic: "execution-control",
+      url: "https://github.com/topcheer/ggcode/releases/tag/v1.3.213",
+      covers:
+        "Approval, memory, plugin, stream, runfile, restart, session, task-atomicity, cancellation, and security or data-loss corrections",
+      kind: "official-announcement",
+      verifiedAt: currentRadarVerifiedAt,
+    },
     {
       title: "GGCode v1.3.211 governance hardening release",
       topic: "execution-control",

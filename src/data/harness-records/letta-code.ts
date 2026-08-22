@@ -4,6 +4,7 @@ const verifiedAt = "2026-07-28";
 const latestReleaseVerifiedAt = "2026-08-02";
 const currentReleaseVerifiedAt = "2026-08-13";
 const radarVerifiedAt = "2026-08-20";
+const currentRadarVerifiedAt = "2026-08-22";
 
 export const lettaCode = {
     id: "letta-code",
@@ -52,8 +53,16 @@ export const lettaCode = {
       "Mods execute as fully trusted code inside the harness process and can add tools, commands, hooks, permission policies, UI, and model providers, so they are not a sandboxed extension mechanism",
     ],
     setup: "Install `@letta-ai/letta-code`, connect a model or coding plan, then choose a local, remote, or cloud environment before creating a persistent agent.",
-    verifiedAt: radarVerifiedAt,
+    verifiedAt: currentRadarVerifiedAt,
     evidence: [
+      {
+        title: "Letta Harness 0.30.28 handoff release",
+        topic: "orchestration-state",
+        url: "https://github.com/letta-ai/letta-code/releases/tag/v0.30.28",
+        covers: "Task resume after environment teleport, exact run-to-send correlation, turn-boundary runtime status, Grok subscription OAuth, and braced secret injection",
+        kind: "official-announcement",
+        verifiedAt: currentRadarVerifiedAt,
+      },
       {
         title: "Letta Harness 0.30.26 turn-recovery release",
         topic: "orchestration-state",

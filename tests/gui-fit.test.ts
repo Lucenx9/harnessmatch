@@ -128,8 +128,8 @@ describe("GUI workflow classification", () => {
     expect(nimbalyst.harnessSupportNote).toContain("alpha");
     expect(nimbalyst.evidence).toEqual(expect.arrayContaining([
       expect.objectContaining({
-        url: "https://github.com/nimbalyst/nimbalyst/releases/tag/v0.73.2",
-        verifiedAt: "2026-08-13",
+        url: "https://github.com/nimbalyst/nimbalyst/releases/tag/v0.74.3",
+        verifiedAt: "2026-08-22",
       }),
     ]));
     expect(nimbalyst.capabilities.teamCollaboration.state).toBe("unknown");
@@ -170,16 +170,24 @@ describe("GUI workflow classification", () => {
     expect(aionUi.acceptsArbitraryCli).toBe(false);
     expect(aionUi.capabilities.workspaceIsolation.state).toBe("unknown");
     expect(aionUi.capabilities.teamCollaboration.state).toBe("unknown");
+    expect(aionUi.evidence).toContainEqual(expect.objectContaining({
+      url: "https://github.com/iOfficeAI/AionUi/blob/b1dcdb8dbf59f58310ff720a79575745efd9dd12/CHANGELOG.md",
+      verifiedAt: "2026-08-22",
+    }));
 
     expect(blackcrab.layer).toBe("harness-native");
     expect(blackcrab.supportedHarnesses).toEqual(["Claude Code"]);
     expect(blackcrab.capabilities.remoteExecution.state).toBe("unknown");
 
-    expect(codeg.supportedHarnesses).toHaveLength(13);
-    expect(codeg.supportedHarnesses).toContain("DeepSeek Harness");
+    expect(codeg.supportedHarnesses).toHaveLength(14);
+    expect(codeg.supportedHarnesses).toEqual(expect.arrayContaining(["DeepSeek Harness", "Qoder"]));
     expect(codeg.platforms).toEqual(expect.arrayContaining(["iOS", "Android"]));
     expect(codeg.acceptsArbitraryCli).toBe(false);
     expect(codeg.harnessSupportNote).toContain("ACP-compatible");
+    expect(codeg.evidence).toContainEqual(expect.objectContaining({
+      url: "https://github.com/xintaofei/codeg/releases/tag/v0.27.0",
+      verifiedAt: "2026-08-22",
+    }));
 
     expect(hapi.supportedHarnesses).toEqual([
       "Claude Code",

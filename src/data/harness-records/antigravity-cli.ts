@@ -5,6 +5,7 @@ const releaseVerifiedAt = "2026-07-31";
 const latestReleaseVerifiedAt = "2026-08-10";
 const currentReleaseVerifiedAt = "2026-08-13";
 const radarVerifiedAt = "2026-08-20";
+const currentRadarVerifiedAt = "2026-08-22";
 
 export const antigravityCli = {
     id: "antigravity-cli",
@@ -56,8 +57,16 @@ export const antigravityCli = {
       "Antigravity CLI 1.1.11 fixes zero-word command allowlists matching every command, auto-approval in strict or request-review modes, and startup MCP admin-control caching; older binaries should not be treated as having those corrections",
     ],
     setup: "Install the native Antigravity CLI, run `agy`, sign in with an eligible Google account or Google Cloud project, then choose permission and sandbox settings before delegated work.",
-    verifiedAt: radarVerifiedAt,
+    verifiedAt: currentRadarVerifiedAt,
     evidence: [
+      {
+        title: "Antigravity CLI 1.1.17 execution-path release",
+        topic: "orchestration-state",
+        url: "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.17",
+        covers: "Consolidation of agent execution onto one path for consistent tool, hook, prompt, task, and subagent behavior",
+        kind: "official-announcement",
+        verifiedAt: currentRadarVerifiedAt,
+      },
       {
         title: "Antigravity CLI 1.1.14 workspace-control release",
         topic: "execution-control",

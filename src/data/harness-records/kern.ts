@@ -1,6 +1,6 @@
 import type { HarnessRecord } from "./types";
 
-const recordVerifiedAt = "2026-08-20";
+const recordVerifiedAt = "2026-08-22";
 const verifiedAt = "2026-07-28";
 
 export const kern = {
@@ -51,6 +51,14 @@ export const kern = {
     setup: "Install Kern from source or its documented distribution, start with read or write tool scope, configure a provider or Ollama, and use the Docker deployment when host separation is needed.",
     verifiedAt: recordVerifiedAt,
     evidence: [
+      {
+        title: "Kern 0.33.0 audio release",
+        topic: "product-surfaces",
+        url: "https://github.com/oguzbilgic/kern-ai/releases/tag/v0.33.0",
+        covers: "First-class audio ingestion and transcription, an audio-file tool available to subagents, and voice responses for supported messaging channels",
+        kind: "official-announcement",
+        verifiedAt: recordVerifiedAt,
+      },
       {
         title: "Kern 0.32.5 context-recovery release",
         topic: "orchestration-state",

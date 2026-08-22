@@ -5,6 +5,7 @@ const releaseVerifiedAt = "2026-07-31";
 const reliabilityReleaseVerifiedAt = "2026-08-02";
 const latestReleaseVerifiedAt = "2026-08-10";
 const currentReleaseVerifiedAt = "2026-08-13";
+const radarVerifiedAt = "2026-08-22";
 
 export const cline = {
     id: "cline",
@@ -55,8 +56,24 @@ export const cline = {
       "OpenTelemetry exports logs and metrics rather than proving task correctness, and the checked-in evaluation framework has disabled or unfinished CI layers with no immutable result record",
     ],
     setup: "Install the IDE extension or CLI, authenticate a provider, and review approval settings before enabling automation.",
-    verifiedAt: currentReleaseVerifiedAt,
+    verifiedAt: radarVerifiedAt,
     evidence: [
+      {
+        title: "Cline v4.1.11 task-continuity release",
+        topic: "orchestration-state",
+        url: "https://github.com/cline/cline/releases/tag/v4.1.11",
+        covers: "Surviving-session resume, task-scoped setting cleanup, awaited post-tool hooks, restored hook cancellation, and fail-fast PowerShell execution",
+        kind: "official-announcement",
+        verifiedAt: radarVerifiedAt,
+      },
+      {
+        title: "Cline v4.1.12 enterprise MCP release",
+        topic: "execution-control",
+        url: "https://github.com/cline/cline/releases/tag/v4.1.12",
+        covers: "Enterprise marketplace disablement and allowed-server filtering for MCP entries",
+        kind: "official-announcement",
+        verifiedAt: radarVerifiedAt,
+      },
       {
         title: "Cline overview",
         url: "https://docs.cline.bot/cline-overview",

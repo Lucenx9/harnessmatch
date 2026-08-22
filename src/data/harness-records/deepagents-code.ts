@@ -2,6 +2,7 @@ import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-28";
 const radarVerifiedAt = "2026-08-20";
+const currentRadarVerifiedAt = "2026-08-22";
 
 export const deepagentsCode = {
     id: "deepagents-code",
@@ -49,8 +50,16 @@ export const deepagentsCode = {
       "The repository includes project-owned eval packages, but they are not treated as independent comparative evidence or imported into product classification",
     ],
     setup: "Install with the official dcode bootstrap command or the deepagents-code package, configure a supported model provider, and select a remote sandbox backend before opening untrusted repositories.",
-    verifiedAt: radarVerifiedAt,
+    verifiedAt: currentRadarVerifiedAt,
     evidence: [
+      {
+        title: "Deep Agents Code 0.1.59 managed-policy release",
+        topic: "execution-control",
+        url: "https://github.com/langchain-ai/deepagents/releases/tag/deepagents-code%3D%3D0.1.59",
+        covers: "Managed TOML configuration, recoverable tool-argument validation, configurable teardown usage statistics, and durable-mask config resolution",
+        kind: "official-announcement",
+        verifiedAt: currentRadarVerifiedAt,
+      },
       {
         title: "Deep Agents Code 0.1.57 approval-surface release",
         topic: "execution-control",

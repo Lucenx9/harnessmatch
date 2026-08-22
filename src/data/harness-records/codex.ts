@@ -3,6 +3,7 @@ import type { HarnessRecord } from "./types";
 const verifiedAt = "2026-07-30";
 const latestReleaseVerifiedAt = "2026-08-10";
 const radarVerifiedAt = "2026-08-20";
+const currentRadarVerifiedAt = "2026-08-22";
 
 export const codex = {
     id: "codex",
@@ -54,8 +55,17 @@ export const codex = {
       "The Apache-2.0 repository exposes the CLI, SDK, app server, sandbox, tests, and rollout tooling, but not the proprietary IDE extension or Codex cloud service",
     ],
     setup: "Install the Codex CLI or extension, authenticate, then run `codex` interactively or `codex exec` for automation.",
-    verifiedAt: radarVerifiedAt,
+    verifiedAt: currentRadarVerifiedAt,
     evidence: [
+      {
+        title: "Codex CLI 0.149.0 task-control release",
+        topic: "orchestration-state",
+        url: "https://github.com/openai/codex/releases/tag/rust-v0.149.0",
+        covers:
+          "Interactive agent-task dashboard, cross-session message queueing, restored permission profiles on resume and fork, bounded inactive replay buffers, and hardened sandbox and credential paths",
+        kind: "official-announcement",
+        verifiedAt: currentRadarVerifiedAt,
+      },
       {
         title: "Codex CLI 0.148.0 release",
         topic: "orchestration-state",

@@ -2,7 +2,7 @@ import type { GuiProduct } from "@/lib/gui-types";
 import { documentedAt, source, unknown } from "./helpers";
 
 const verifiedAt = "2026-08-04";
-const latestReleaseVerifiedAt = "2026-08-20";
+const latestReleaseVerifiedAt = "2026-08-22";
 const repository = "https://github.com/iOfficeAI/AionUi";
 const commit = "0f7635b2f8a62e0a757eff60aea210e502726f92";
 const repositoryBase = `${repository}/blob/${commit}`;
@@ -10,7 +10,7 @@ const readme = `${repositoryBase}/readme.md`;
 const webUiGuide = `${repositoryBase}/docs/guides/webui.md`;
 const diffViewer = `${repositoryBase}/packages/desktop/src/renderer/pages/conversation/Preview/components/viewers/DiffViewer.tsx`;
 const antigravityRelease = `${repository}/releases/tag/v2.1.46`;
-const latestChangelog = `${repository}/blob/74512d3eda166574061498d24024102642c7e1a9/CHANGELOG.md`;
+const latestChangelog = `${repository}/blob/b1dcdb8dbf59f58310ff720a79575745efd9dd12/CHANGELOG.md`;
 
 export const aionUi: GuiProduct = {
   id: "aionui",
@@ -50,7 +50,7 @@ export const aionUi: GuiProduct = {
   ],
   acceptsArbitraryCli: false,
   harnessSupportNote:
-    "The pinned product record, 2.1.46 release, and 2.1.57 changelog establish 20 external CLI integrations plus a built-in agent. Additional backends must speak its supported ACP path; that is not evidence that an arbitrary CLI can be launched.",
+    "The pinned product record, 2.1.46 release, and 2.1.57–2.1.60 changelog establish 20 external CLI integrations plus a built-in agent. Additional backends must speak its supported ACP path; that is not evidence that an arbitrary CLI can be launched.",
   summary:
     "A cross-platform Cowork app for many named coding agents, parallel sessions, visual file changes, automation, and browser access.",
   bestFor:
@@ -92,11 +92,11 @@ export const aionUi: GuiProduct = {
       verifiedAt,
     ),
     source(
-      "AionUi 2.1.57–2.1.59 changelog",
+      "AionUi 2.1.57–2.1.60 changelog",
       latestChangelog,
       "official-repository",
       "harness-integrations",
-      "Direct local-CLI launch for OMP, mid-turn interjection, Team runtime restart controls, file transfer, and path-traversal hardening without transferring OMP capabilities to AionUi.",
+      "Direct local-CLI launch for OMP, mid-turn interjection, cross-conversation context delivery, archive and remount controls, bounded runtime locks, and path-traversal hardening without transferring harness capabilities to AionUi.",
       latestReleaseVerifiedAt,
     ),
     source(

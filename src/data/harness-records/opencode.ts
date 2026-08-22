@@ -2,6 +2,7 @@ import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-30";
 const latestReleaseVerifiedAt = "2026-08-02";
+const radarVerifiedAt = "2026-08-22";
 
 export const opencode = {
     id: "opencode",
@@ -50,8 +51,24 @@ export const opencode = {
       "Provider breadth improves choice but adds model, credential, routing, and privacy decisions; optional public sharing uploads the full conversation and remains accessible until unshared",
     ],
     setup: "Install OpenCode, connect one or more providers, choose a model, and tune permissions in `opencode.json`.",
-    verifiedAt: latestReleaseVerifiedAt,
+    verifiedAt: radarVerifiedAt,
     evidence: [
+      {
+        title: "OpenCode 1.18.20 subagent-recovery release",
+        topic: "orchestration-state",
+        url: "https://github.com/anomalyco/opencode/releases/tag/v1.18.20",
+        covers: "Resumable subagent failure IDs, visible failed tool calls, headless subagent permission requests, and network-response retries",
+        kind: "official-announcement",
+        verifiedAt: radarVerifiedAt,
+      },
+      {
+        title: "OpenCode 1.18.21 response-continuity release",
+        topic: "orchestration-state",
+        url: "https://github.com/anomalyco/opencode/releases/tag/v1.18.21",
+        covers: "Continuation after unknown model finish reasons and stable archive-session commands across desktop layouts",
+        kind: "official-announcement",
+        verifiedAt: radarVerifiedAt,
+      },
       {
         title: "OpenCode introduction",
         topic: "product-surfaces",

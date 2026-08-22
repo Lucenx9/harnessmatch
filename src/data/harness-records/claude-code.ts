@@ -5,7 +5,8 @@ const skillsVerifiedAt = "2026-08-01";
 const latestReleaseVerifiedAt = "2026-08-10";
 const currentReleaseVerifiedAt = "2026-08-13";
 const radarVerifiedAt = "2026-08-20";
-const recordVerifiedAt = radarVerifiedAt;
+const currentRadarVerifiedAt = "2026-08-22";
+const recordVerifiedAt = currentRadarVerifiedAt;
 
 export const claudeCode = {
     id: "claude-code",
@@ -63,6 +64,22 @@ export const claudeCode = {
     setup: "Install Claude Code, authenticate with Claude or an enterprise platform, then run `claude` in a repository.",
     verifiedAt: recordVerifiedAt,
     evidence: [
+      {
+        title: "Claude Code 2.1.238 runner and trust release",
+        topic: "enterprise-operations",
+        url: "https://github.com/anthropics/claude-code/releases/tag/v2.1.238",
+        covers: "Graceful self-hosted runner shutdown, fresh proxy authorization, recoverable Remote Control messaging, and project-trust requirements for local MCP helpers",
+        kind: "official-announcement",
+        verifiedAt: currentRadarVerifiedAt,
+      },
+      {
+        title: "Claude Code 2.1.239 session-continuity release",
+        topic: "orchestration-state",
+        url: "https://github.com/anthropics/claude-code/releases/tag/v2.1.239",
+        covers: "Goal restoration, cross-session teammate discovery, remote keep-alives, resumable deleted-worktree sessions, and Linux worktree-sandbox compatibility",
+        kind: "official-announcement",
+        verifiedAt: currentRadarVerifiedAt,
+      },
       {
         title: "Claude Code 2.1.235 sandbox hardening release",
         topic: "execution-control",

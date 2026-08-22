@@ -7,8 +7,9 @@ const sessions = "https://nimbalyst.com/features/session-management/";
 const gitTools = "https://nimbalyst.com/features/git/";
 const mobile = "https://nimbalyst.com/mobile-agent-management/";
 const officialPreview = "https://nimbalyst.com/videos/nimbalyst-demo-dark-20260429.mp4";
-const latestRelease = "https://github.com/nimbalyst/nimbalyst/releases/tag/v0.73.2";
-const latestReleaseVerifiedAt = "2026-08-13";
+const teamsRelease = "https://github.com/nimbalyst/nimbalyst/releases/tag/v0.73.2";
+const latestRelease = "https://github.com/nimbalyst/nimbalyst/releases/tag/v0.74.3";
+const latestReleaseVerifiedAt = "2026-08-22";
 
 export const nimbalyst: GuiProduct = {
   id: "nimbalyst",
@@ -48,17 +49,25 @@ export const nimbalyst: GuiProduct = {
     visualReview: documented("WYSIWYG editors and red/green change review cover code and visual artifacts.", repository, quickstart, gitTools),
     remoteExecution: documented("The mobile app can monitor and respond to Codex and Claude Code sessions running on the desktop host.", repository, mobile),
     teamCollaboration: unknown(
-      "Teams Beta documents invites, shared documents and trackers, live editing, presence, comments, and agent access to shared context, but not teammates sharing or steering the same live coding-agent session.",
+      "Teams Beta documents invites, shared documents, spreadsheets, mockups, diagrams, trackers, live editing, presence, structured feedback, and agent access to shared context, but not teammates sharing or steering the same live coding-agent session.",
       latestReleaseVerifiedAt,
     ),
   },
   evidence: [
     source(
       "Nimbalyst 0.73.2 Teams Beta release",
-      latestRelease,
+      teamsRelease,
       "official-announcement",
       "remote-collaboration",
       "Organization invites, collaborative documents and trackers, presence, comments, web-console editing, agent-visible shared context, and the unresolved same-session steering boundary.",
+      "2026-08-13",
+    ),
+    source(
+      "Nimbalyst 0.74.3 collaboration release",
+      latestRelease,
+      "official-announcement",
+      "remote-collaboration",
+      "Shared visual artifacts across browser and desktop, presence, structured teammate feedback, collaboration recovery, and the unresolved same-session steering boundary.",
       latestReleaseVerifiedAt,
     ),
     source("Nimbalyst official repository", repository, "official-repository", "public-code", "Visual editors, agent sessions, worktrees, mobile app, supported agents, collaboration client mechanisms, telemetry, and MIT licensing."),

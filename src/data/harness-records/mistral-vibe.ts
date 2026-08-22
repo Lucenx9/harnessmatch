@@ -4,6 +4,7 @@ const verifiedAt = "2026-07-28";
 const releaseVerifiedAt = "2026-07-31";
 const latestReleaseVerifiedAt = "2026-08-13";
 const radarVerifiedAt = "2026-08-20";
+const currentRadarVerifiedAt = "2026-08-22";
 
 export const mistralVibe = {
     id: "mistral-vibe",
@@ -53,8 +54,16 @@ export const mistralVibe = {
       "There is no built-in browser automation; web search and fetch tools are not a browser agent",
     ],
     setup: "Install `mistral-vibe`, use a Mistral plan or API key, or configure a local/OpenAI-compatible provider. Then review the default `ask` agent's accept-edits posture before running `vibe`.",
-    verifiedAt: radarVerifiedAt,
+    verifiedAt: currentRadarVerifiedAt,
     evidence: [
+      {
+        title: "Mistral Vibe 2.24.3 live-control release",
+        topic: "execution-control",
+        url: "https://github.com/mistralai/mistral-vibe/releases/tag/v2.24.3",
+        covers: "Slash commands and setting pickers during active turns, process identity visibility, connector bootstrap errors, and dependency security updates",
+        kind: "official-announcement",
+        verifiedAt: currentRadarVerifiedAt,
+      },
       {
         title: "Mistral Vibe 2.24.2 release",
         topic: "orchestration-state",

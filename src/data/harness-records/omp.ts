@@ -5,6 +5,7 @@ const releaseVerifiedAt = "2026-07-31";
 const latestReleaseVerifiedAt = "2026-08-02";
 const currentReleaseVerifiedAt = "2026-08-13";
 const radarVerifiedAt = "2026-08-20";
+const currentRadarVerifiedAt = "2026-08-22";
 
 export const omp = {
     id: "omp",
@@ -54,8 +55,26 @@ export const omp = {
       "Project-owned compaction and local-model evaluations plus README performance claims are not independent harness benchmarks, so no score is imported",
     ],
     setup: "Install `omp`, connect a provider, and change `tools.approvalMode` from the default `yolo` before using it on sensitive repositories.",
-    verifiedAt: radarVerifiedAt,
+    verifiedAt: currentRadarVerifiedAt,
     evidence: [
+      {
+        title: "Oh My Pi 17.4.1 runtime-boundary release",
+        topic: "execution-control",
+        url: "https://github.com/can1357/oh-my-pi/releases/tag/v17.4.1",
+        covers:
+          "Bounded isolation-baseline capture, retry-chain correction, task spawn-policy guidance, project-trust exposure, ACP elicitation, retry and handoff, and resume-loop bounds",
+        kind: "official-announcement",
+        verifiedAt: currentRadarVerifiedAt,
+      },
+      {
+        title: "Oh My Pi 17.4.2 interruption and outcome release",
+        topic: "orchestration-state",
+        url: "https://github.com/can1357/oh-my-pi/releases/tag/v17.4.2",
+        covers:
+          "Interruptible RPC compaction, corrected subagent token accounting and terminal outcomes, settled ACP residual prompts, worker fault containment, and explicit setup-check failures",
+        kind: "official-announcement",
+        verifiedAt: currentRadarVerifiedAt,
+      },
       {
         title: "Oh My Pi 17.3.8 context-boundary release",
         topic: "execution-control",

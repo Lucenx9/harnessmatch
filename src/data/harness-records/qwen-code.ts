@@ -5,6 +5,7 @@ const releaseVerifiedAt = "2026-08-02";
 const latestReleaseVerifiedAt = "2026-08-10";
 const currentReleaseVerifiedAt = "2026-08-13";
 const radarVerifiedAt = "2026-08-20";
+const currentRadarVerifiedAt = "2026-08-22";
 
 export const qwenCode = {
     id: "qwen-code",
@@ -53,8 +54,17 @@ export const qwenCode = {
       "The qwen serve daemon is an alpha local API: loopback starts without authentication, non-loopback binding fails closed without a bearer token, and the docs do not yet claim production-grade multi-client or network-failure guarantees",
     ],
     setup: "Install `@qwen-code/qwen-code`, configure a provider, and enable Seatbelt, Docker, or Podman before running unattended tasks.",
-    verifiedAt: radarVerifiedAt,
+    verifiedAt: currentRadarVerifiedAt,
     evidence: [
+      {
+        title: "Qwen Code 0.21.15 recovery and review release",
+        topic: "orchestration-state",
+        url: "https://github.com/QwenLM/qwen-code/releases/tag/v0.21.15",
+        covers:
+          "Resumable review and CI retries, corrected rewind history, standalone conversation-isolation primitives, durable prompt-outcome ledgers, private verification worktrees, and persisted replay errors",
+        kind: "official-announcement",
+        verifiedAt: currentRadarVerifiedAt,
+      },
       {
         title: "Qwen Code 0.21.14 session and workflow release",
         topic: "orchestration-state",
