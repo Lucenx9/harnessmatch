@@ -66,7 +66,18 @@ describe("daily usage automation", () => {
     expect(spotlightWorkflow).toContain("npm run check:spotlight");
     expect(spotlightWorkflow).toContain("issues: write");
     expect(spotlightWorkflow).toMatch(
-      /if: failure\(\) && steps\.spotlight\.conclusion == 'failure'[\s\S]*?run: node scripts\/report-stale-spotlight\.mjs/,
+      /report:\n {4}needs: verify\n {4}if: always\(\) && needs\.verify\.outputs\.spotlight-conclusion == 'failure'[\s\S]*?run: node scripts\/report-stale-spotlight\.mjs/,
+    );
+    const verifyJob = spotlightWorkflow.slice(
+      spotlightWorkflow.indexOf("  verify:"),
+      spotlightWorkflow.indexOf("  report:"),
+    );
+    const reportJob = spotlightWorkflow.slice(spotlightWorkflow.indexOf("  report:"));
+    expect(verifyJob).not.toContain("issues: write");
+    expect(reportJob).not.toContain("npm ci");
+    expect(reportJob).not.toContain("npm run check:spotlight");
+    expect(reportJob).toMatch(
+      /actions\/checkout@[0-9a-f]{40}[\s\S]*?run: node scripts\/report-stale-spotlight\.mjs/,
     );
 
     const spotlightReporter = readFileSync(

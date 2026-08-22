@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: read
-  issues: write
 
 concurrency:
   group: monthly-spotlight-freshness
@@ -17,6 +16,8 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    outputs:
+      spotlight-conclusion: ${{ steps.spotlight.conclusion }}
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -32,11 +33,26 @@ jobs:
       - name: Verify the monthly spotlight edition
         id: spotlight
         run: npm run check:spotlight
+  report:
+    needs: verify
+    if: always() && needs.verify.outputs.spotlight-conclusion == 'failure'
+    permissions:
+      contents: read
+      issues: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # Use a fresh workspace in the only job that receives issue-write access.
+      # Dependency lifecycle code and the freshness check run in `verify`, so
+      # neither can replace the reporter before it receives the token.
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       # A scheduled red run is easy to miss, and the homepage keeps publishing
       # the previous edition meanwhile. Raise the stale edition where it is
       # actually tracked, without putting the check back on the merge path.
       - name: Report a stale spotlight edition
-        if: failure() && steps.spotlight.conclusion == 'failure'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SPOTLIGHT_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
