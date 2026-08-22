@@ -226,8 +226,8 @@ const membershipDefinitions: Record<string, MembershipDefinition> = {
     runtimeControl: "Pinned permission manager",
   }),
   mux: documentedCodingHarness({
-    adaptiveLoop: "Mux agents",
-    environmentMutation: "Mux agents",
+    adaptiveLoop: "Xum agents",
+    environmentMutation: "Xum agents",
     activeContextManagement: "Instruction files",
     runtimeControl: "Administrative policy file",
   }),

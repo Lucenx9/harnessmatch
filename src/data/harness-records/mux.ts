@@ -1,18 +1,19 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
+const renameVerifiedAt = "2026-08-22";
 
 export const mux = {
     id: "mux",
     slug: "mux",
-    name: "Mux",
+    name: "Xum",
     tagline: "Parallel agent workspaces with persistent memory and selectable runtimes.",
     summary:
-      "An open-source agent workspace for parallel coding tasks with custom agents, nested subagents, persistent scoped memory, compaction, MCP, local or container runtimes, policy files, editor integrations, and budgeted CLI goal runs.",
+      "The open-source agent workspace formerly called Mux, for parallel coding tasks with custom agents, nested subagents, persistent scoped memory, compaction, MCP, local or container runtimes, policy files, editor integrations, and budgeted CLI goal runs.",
     logo: {
-      src: "/harnesses/mux.png",
-      sourceUrl: "https://mux.coder.com/",
-      verifiedAt: verifiedAt,
+      src: "/harnesses/xum.svg",
+      sourceUrl: "https://github.com/coder/xum/blob/f2160b194cc458a220103e288ea89f5d137b5367/src/browser/assets/icons/xum.svg",
+      verifiedAt: renameVerifiedAt,
     },
     status: "active",
     license: "AGPL-3.0",
@@ -48,8 +49,8 @@ export const mux = {
       "Browser and remote server access uses a bearer token by default, but --no-auth deliberately removes that boundary and must be limited to trusted networks",
       "Browser automation is only an MCP example, not a built-in browser-control capability; anonymous usage telemetry is enabled unless disabled",
     ],
-    setup: "Install Mux, connect a model route, then define repository agents and runtime policy under `.mux/` before starting parallel workspaces.",
-    verifiedAt: verifiedAt,
+    setup: "Install Xum, connect a model route, then define repository agents and runtime policy under `.xum/` before starting parallel workspaces. Legacy `.mux/` metadata remains a read fallback during the rename transition.",
+    verifiedAt: renameVerifiedAt,
     evidence: [
       {
         title: "Mux 0.28.1 source snapshot",
@@ -68,25 +69,33 @@ export const mux = {
         verifiedAt: verifiedAt,
       },
       {
-        title: "Mux agents",
-        topic: "orchestration-state",
-        url: "https://mux.coder.com/agents",
-        covers: "Agent definitions, nested delegation, tool policy, model defaults, internal desktop automation agent, and background memory-consolidation agent",
+        title: "Xum rename compatibility",
+        topic: "product-surfaces",
+        url: "https://xum.coder.com/reference/mux-compatibility",
+        covers: "Canonical Xum product, package, CLI, project-metadata, environment-variable, and local-data names plus the retained Mux compatibility aliases",
         kind: "official-docs",
-        verifiedAt: verifiedAt,
+        verifiedAt: renameVerifiedAt,
       },
       {
-        title: "Mux workspaces",
+        title: "Xum agents",
         topic: "orchestration-state",
-        url: "https://mux.coder.com/workspaces",
+        url: "https://xum.coder.com/agents",
+        covers: "Agent definitions, nested delegation, tool policy, model defaults, internal desktop automation agent, and background memory-consolidation agent",
+        kind: "official-docs",
+        verifiedAt: renameVerifiedAt,
+      },
+      {
+        title: "Xum workspaces",
+        topic: "orchestration-state",
+        url: "https://xum.coder.com/workspaces",
         covers: "Parallel workspaces, task separation, lifecycle, Git integration, and workspace state",
         kind: "official-docs",
         verifiedAt: verifiedAt,
       },
       {
-        title: "Mux runtimes",
+        title: "Xum runtimes",
         topic: "execution-control",
-        url: "https://mux.coder.com/runtime",
+        url: "https://xum.coder.com/runtime",
         covers: "Local, worktree, SSH, Docker, dev-container, and provisioned runtime boundaries, including the lack of isolation in local mode",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -94,15 +103,15 @@ export const mux = {
       {
         title: "Model providers",
         topic: "product-surfaces",
-        url: "https://mux.coder.com/config/providers",
+        url: "https://xum.coder.com/config/providers",
         covers: "Anthropic, OpenAI, Google, xAI, Moonshot, OpenRouter, Bedrock, GitHub Copilot subscription access, Ollama, and custom local OpenAI-compatible endpoints",
         kind: "official-docs",
         verifiedAt: verifiedAt,
       },
       {
-        title: "Mux MCP servers",
+        title: "Xum MCP servers",
         topic: "automation-extensions",
-        url: "https://mux.coder.com/config/mcp-servers",
+        url: "https://xum.coder.com/config/mcp-servers",
         covers: "MCP configuration and per-workspace processes; browser automation appears as an external Chrome MCP example rather than a native feature",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -110,15 +119,15 @@ export const mux = {
       {
         title: "Administrative policy file",
         topic: "enterprise-operations",
-        url: "https://mux.coder.com/config/policy-file",
+        url: "https://xum.coder.com/config/policy-file",
         covers: "Fail-closed startup, last-known-good refresh behavior, and restrictions over providers, models, MCP servers, and runtimes",
         kind: "official-docs",
-        verifiedAt: verifiedAt,
+        verifiedAt: renameVerifiedAt,
       },
       {
         title: "CLI and run budgets",
         topic: "automation-extensions",
-        url: "https://mux.coder.com/reference/cli",
+        url: "https://xum.coder.com/reference/cli",
         covers: "Headless goal runs, structured events, turn and spending limits, runtime selection, and automation exit conditions",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -126,7 +135,7 @@ export const mux = {
       {
         title: "Telemetry",
         topic: "enterprise-operations",
-        url: "https://mux.coder.com/reference/telemetry",
+        url: "https://xum.coder.com/reference/telemetry",
         covers: "Default anonymous product events, excluded data, transparent source payload, and opt-out environment variable",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -134,7 +143,7 @@ export const mux = {
       {
         title: "Terminal-Bench tooling",
         topic: "releases-code-audit",
-        url: "https://mux.coder.com/reference/benchmarking",
+        url: "https://xum.coder.com/reference/benchmarking",
         covers: "Project-owned benchmark adapter, runtime and provider inputs, run artifacts, and leaderboard-submission workflow; not independent comparative evidence",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -142,7 +151,7 @@ export const mux = {
       {
         title: "Local runtime",
         topic: "execution-control",
-        url: "https://mux.coder.com/runtime/local",
+        url: "https://xum.coder.com/runtime/local",
         covers: "Direct execution in the user's working copy, shared files, parallel conflict warning, and explicit absence of isolation",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -150,7 +159,7 @@ export const mux = {
       {
         title: "Docker runtime",
         topic: "execution-control",
-        url: "https://mux.coder.com/runtime/docker",
+        url: "https://xum.coder.com/runtime/docker",
         covers: "Per-workspace container isolation, Git-bundle synchronization, command execution, image configuration, and teardown",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -158,7 +167,7 @@ export const mux = {
       {
         title: "Dev Container runtime",
         topic: "execution-control",
-        url: "https://mux.coder.com/runtime/devcontainer",
+        url: "https://xum.coder.com/runtime/devcontainer",
         covers: "Project-defined container execution, host worktree creation, tool prerequisites, command boundary, and cleanup",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -166,7 +175,7 @@ export const mux = {
       {
         title: "Worktree runtime",
         topic: "execution-control",
-        url: "https://mux.coder.com/runtime/worktree",
+        url: "https://xum.coder.com/runtime/worktree",
         covers: "Parallel file isolation, shared Git metadata, branch visibility, host execution, layout, and instruction-based constraints",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -174,7 +183,7 @@ export const mux = {
       {
         title: "SSH runtime",
         topic: "execution-control",
-        url: "https://mux.coder.com/runtime/ssh",
+        url: "https://xum.coder.com/runtime/ssh",
         covers: "Remote tool execution, hostile-host threat model, default credential non-forwarding, explicit project secrets, and sync boundary",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -182,7 +191,7 @@ export const mux = {
       {
         title: "Coder runtime",
         topic: "execution-control",
-        url: "https://mux.coder.com/runtime/coder",
+        url: "https://xum.coder.com/runtime/coder",
         covers: "Coder workspace discovery and provisioning, SSH connection path, template requirements, and shared-host behavior",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -190,7 +199,7 @@ export const mux = {
       {
         title: "Tool hooks",
         topic: "automation-extensions",
-        url: "https://mux.coder.com/hooks/tools",
+        url: "https://xum.coder.com/hooks/tools",
         covers: "Experimental pre- and post-tool scripts for command blocking, linting, validation, environment setup, and policy decisions",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -198,7 +207,7 @@ export const mux = {
       {
         title: "Init hooks",
         topic: "automation-extensions",
-        url: "https://mux.coder.com/hooks/init",
+        url: "https://xum.coder.com/hooks/init",
         covers: "Repository setup script execution during workspace creation, executable requirements, environment, and failure behavior",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -206,15 +215,15 @@ export const mux = {
       {
         title: "GitHub Actions",
         topic: "automation-extensions",
-        url: "https://mux.coder.com/guides/github-actions",
-        covers: "CI use of mux run, provider and GitHub secrets, exit-code merge gating, runtime selection, and workflow examples",
+        url: "https://xum.coder.com/guides/github-actions",
+        covers: "CI use of xum run, provider and GitHub secrets, exit-code merge gating, runtime selection, and workflow examples",
         kind: "official-docs",
         verifiedAt: verifiedAt,
       },
       {
         title: "ACP editor integrations",
         topic: "product-surfaces",
-        url: "https://mux.coder.com/integrations/acp",
+        url: "https://xum.coder.com/integrations/acp",
         covers: "Stdio Agent Client Protocol bridge for Zed, Neovim, and JetBrains with sessions, tool delegation, and streaming",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -222,7 +231,7 @@ export const mux = {
       {
         title: "VS Code extension",
         topic: "product-surfaces",
-        url: "https://mux.coder.com/integrations/vscode-extension",
+        url: "https://xum.coder.com/integrations/vscode-extension",
         covers: "Preview editor pairing for VS Code and Cursor across local and SSH workspaces, commands, and chat surface",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -230,15 +239,15 @@ export const mux = {
       {
         title: "Instruction files",
         topic: "orchestration-state",
-        url: "https://mux.coder.com/agents/instruction-files",
-        covers: "Shared and Mux-specific AGENTS.md layering, model prompts, project and global scopes, precedence, and migration caveats",
+        url: "https://xum.coder.com/agents/instruction-files",
+        covers: "Shared and Xum-specific AGENTS.md layering, model prompts, project and global scopes, precedence, and migration caveats",
         kind: "official-docs",
-        verifiedAt: verifiedAt,
+        verifiedAt: renameVerifiedAt,
       },
       {
         title: "Plan mode",
         topic: "orchestration-state",
-        url: "https://mux.coder.com/agents/plan-mode",
+        url: "https://xum.coder.com/agents/plan-mode",
         covers: "Read-oriented planning, plan-file-only edits, explicit review, external edits, diff detection, and execution handoff",
         kind: "official-docs",
         verifiedAt: verifiedAt,
@@ -246,15 +255,15 @@ export const mux = {
       {
         title: "Installation",
         topic: "product-surfaces",
-        url: "https://mux.coder.com/install",
+        url: "https://xum.coder.com/install",
         covers: "Signed macOS, Linux, and alpha Windows packages, development builds, platform support, and update channels",
         kind: "official-docs",
-        verifiedAt: verifiedAt,
+        verifiedAt: renameVerifiedAt,
       },
       {
         title: "Server access",
         topic: "enterprise-operations",
-        url: "https://mux.coder.com/config/server-access",
+        url: "https://xum.coder.com/config/server-access",
         covers: "Default bearer-token authentication, token resolution, GitHub owner allowlist, sessions, network access, and no-auth warning",
         kind: "official-docs",
         verifiedAt: verifiedAt,

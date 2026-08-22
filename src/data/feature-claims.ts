@@ -436,13 +436,13 @@ const featureClaimSeedsByHarness = {
     headless: documented("Pinned non-interactive run command", "Pinned cross-platform CI workflow"),
   },
   mux: {
-    mcp: documented("Mux MCP servers", "Administrative policy file"),
+    mcp: documented("Xum MCP servers", "Administrative policy file"),
     localModels: documented("Model providers", "Local runtime"),
-    subagents: documented("Mux agents", "ACP editor integrations"),
-    headless: documented("Mux agents", "Mux MCP servers"),
+    subagents: documented("Xum agents", "ACP editor integrations"),
+    headless: documented("Xum agents", "Xum MCP servers"),
     sandbox: configuredClaim(
       "surface-specific",
-      ["Mux runtimes", "Local runtime"],
+      ["Xum runtimes", "Local runtime"],
       "Container or devcontainer modes; host execution remains available",
     ),
   },

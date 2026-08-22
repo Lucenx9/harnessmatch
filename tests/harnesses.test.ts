@@ -35,7 +35,7 @@ const firstPartyHosts: Record<string, string[]> = {
   "command-code": ["commandcode.ai", "github.com"],
   codebuff: ["www.codebuff.com", "github.com"],
   crush: ["github.com", "charm.land", "hyper.charm.land"],
-  mux: ["mux.coder.com", "github.com"],
+  mux: ["xum.coder.com", "github.com"],
   "coder-agents": ["coder.com", "github.com"],
   "zoo-code": ["github.com", "docs.zoocode.dev", "www.zoocode.dev"],
   zcode: ["zcode.z.ai"],
@@ -91,7 +91,7 @@ const firstPartyLogoHosts: Record<string, string> = {
   "command-code": "commandcode.ai",
   codebuff: "www.codebuff.com",
   crush: "github.com",
-  mux: "mux.coder.com",
+  mux: "github.com",
   "coder-agents": "coder.com",
   "zoo-code": "github.com",
   zcode: "zcode.z.ai",
@@ -1449,14 +1449,28 @@ describe("harness evidence ledger", () => {
     });
   });
 
-  it("separates Mux runtime availability from its default host execution", () => {
+  it("follows the Xum rename while separating runtime availability from default host execution", () => {
     const mux = harnesses.find((harness) => harness.id === "mux")!;
     const urls = mux.evidence.map((source) => source.url);
     const caveats = mux.tradeoffs.join(" ");
 
-    expect(mux.verifiedAt).toBe("2026-07-27");
-    expect(mux.evidence).toHaveLength(26);
-    expect(mux.evidence.every((source) => source.verifiedAt === mux.verifiedAt)).toBe(true);
+    expect(mux.name).toBe("Xum");
+    expect(mux.summary).toContain("formerly called Mux");
+    expect(mux.setup).toContain("`.xum/`");
+    expect(mux.verifiedAt).toBe("2026-08-22");
+    expect(mux.evidence).toHaveLength(27);
+    expect(mux.evidence.find((source) => source.title === "Xum rename compatibility")).toMatchObject({
+      url: "https://xum.coder.com/reference/mux-compatibility",
+      verifiedAt: "2026-08-22",
+    });
+    expect([
+      "Xum agents",
+      "Administrative policy file",
+      "Instruction files",
+      "Installation",
+    ].every((title) => (
+      mux.evidence.find((source) => source.title === title)?.verifiedAt === "2026-08-22"
+    ))).toBe(true);
     expect(mux.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(mux.classification).toMatchObject({
@@ -1465,21 +1479,21 @@ describe("harness evidence ledger", () => {
       state: "persistent-memory",
     });
     expect(urls).toEqual(expect.arrayContaining([
-      "https://mux.coder.com/runtime/local",
-      "https://mux.coder.com/runtime/docker",
-      "https://mux.coder.com/runtime/devcontainer",
-      "https://mux.coder.com/runtime/worktree",
-      "https://mux.coder.com/runtime/ssh",
-      "https://mux.coder.com/runtime/coder",
-      "https://mux.coder.com/hooks/tools",
-      "https://mux.coder.com/hooks/init",
-      "https://mux.coder.com/guides/github-actions",
-      "https://mux.coder.com/integrations/acp",
-      "https://mux.coder.com/integrations/vscode-extension",
-      "https://mux.coder.com/agents/instruction-files",
-      "https://mux.coder.com/agents/plan-mode",
-      "https://mux.coder.com/install",
-      "https://mux.coder.com/config/server-access",
+      "https://xum.coder.com/runtime/local",
+      "https://xum.coder.com/runtime/docker",
+      "https://xum.coder.com/runtime/devcontainer",
+      "https://xum.coder.com/runtime/worktree",
+      "https://xum.coder.com/runtime/ssh",
+      "https://xum.coder.com/runtime/coder",
+      "https://xum.coder.com/hooks/tools",
+      "https://xum.coder.com/hooks/init",
+      "https://xum.coder.com/guides/github-actions",
+      "https://xum.coder.com/integrations/acp",
+      "https://xum.coder.com/integrations/vscode-extension",
+      "https://xum.coder.com/agents/instruction-files",
+      "https://xum.coder.com/agents/plan-mode",
+      "https://xum.coder.com/install",
+      "https://xum.coder.com/config/server-access",
     ]));
     expect(caveats).toContain("default local runtime has no filesystem or process isolation");
     expect(caveats).toContain("Tool hooks");
