@@ -64,9 +64,25 @@ describe("daily usage automation", () => {
     );
     expect(spotlightWorkflow).toContain('cron: "17 5 1 * *"');
     expect(spotlightWorkflow).toContain("npm run check:spotlight");
-    expect(spotlightWorkflow).toContain("issues: write");
+    expect(spotlightWorkflow).toMatch(/\npermissions:\n {2}contents: read\n\nconcurrency:/);
     expect(spotlightWorkflow).toMatch(
-      /if: failure\(\) && steps\.spotlight\.conclusion == 'failure'[\s\S]*?run: node scripts\/report-stale-spotlight\.mjs/,
+      /report:\n {4}needs: verify\n {4}if: always\(\) && needs\.verify\.outputs\.spotlight-conclusion == 'failure'[\s\S]*?run: node scripts\/report-stale-spotlight\.mjs/,
+    );
+    const verifyJobStart = spotlightWorkflow.indexOf("  verify:");
+    const reportJobStart = spotlightWorkflow.indexOf("  report:");
+    expect(verifyJobStart).toBeGreaterThanOrEqual(0);
+    expect(reportJobStart).toBeGreaterThan(verifyJobStart);
+    const verifyJob = spotlightWorkflow.slice(
+      verifyJobStart,
+      reportJobStart,
+    );
+    const reportJob = spotlightWorkflow.slice(reportJobStart);
+    expect(verifyJob).not.toContain("issues: write");
+    expect(reportJob).toContain("issues: write");
+    expect(reportJob).not.toContain("npm ci");
+    expect(reportJob).not.toContain("npm run check:spotlight");
+    expect(reportJob).toMatch(
+      /actions\/checkout@[0-9a-f]{40}[\s\S]*?persist-credentials: false[\s\S]*?run: node scripts\/report-stale-spotlight\.mjs/,
     );
 
     const spotlightReporter = readFileSync(
