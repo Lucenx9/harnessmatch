@@ -8,19 +8,19 @@
     "latestReleaseUrl": "https://github.com/Aider-AI/aider/releases/tag/v0.86.0",
     "recentReleaseCount": 0,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/Aider-AI/aider/releases"
   },
   {
     "harnessId": "antigravity-cli",
     "repository": "google-antigravity/antigravity-cli",
     "repositoryScope": "support-repository",
-    "latestVersion": "1.1.19",
-    "latestReleaseAt": "2026-08-22",
-    "latestReleaseUrl": "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.19",
-    "recentReleaseCount": 33,
+    "latestVersion": "1.1.20",
+    "latestReleaseAt": "2026-08-25",
+    "latestReleaseUrl": "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.1.20",
+    "recentReleaseCount": 34,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/google-antigravity/antigravity-cli/releases"
   },
   {
@@ -30,9 +30,9 @@
     "latestVersion": "v2.1.241",
     "latestReleaseAt": "2026-08-23",
     "latestReleaseUrl": "https://github.com/anthropics/claude-code/releases/tag/v2.1.241",
-    "recentReleaseCount": 78,
+    "recentReleaseCount": 77,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/anthropics/claude-code/releases"
   },
   {
@@ -44,7 +44,7 @@
     "latestReleaseUrl": "https://github.com/cline/cline/releases/tag/v4.1.15",
     "recentReleaseCount": 38,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/cline/cline/releases"
   },
   {
@@ -54,9 +54,9 @@
     "latestVersion": "v0.9.11",
     "latestReleaseAt": "2026-08-23",
     "latestReleaseUrl": "https://github.com/Hmbown/CodeWhale/releases/tag/v0.9.11",
-    "recentReleaseCount": 33,
+    "recentReleaseCount": 32,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/Hmbown/CodeWhale/releases"
   },
   {
@@ -68,7 +68,7 @@
     "latestReleaseUrl": "https://github.com/openai/codex/releases/tag/rust-v0.149.1",
     "recentReleaseCount": 28,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/openai/codex/releases"
   },
   {
@@ -80,7 +80,7 @@
     "latestReleaseUrl": "https://github.com/github/copilot-cli/releases/tag/v1.0.80",
     "recentReleaseCount": 26,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/github/copilot-cli/releases"
   },
   {
@@ -92,19 +92,19 @@
     "latestReleaseUrl": "https://github.com/charmbracelet/crush/releases/tag/v0.91.0",
     "recentReleaseCount": 22,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/charmbracelet/crush/releases"
   },
   {
     "harnessId": "deepagents-code",
     "repository": "langchain-ai/deepagents",
     "repositoryScope": "full-source",
-    "latestVersion": "deepagents-code==0.1.60",
-    "latestReleaseAt": "2026-08-23",
-    "latestReleaseUrl": "https://github.com/langchain-ai/deepagents/releases/tag/deepagents-code%3D%3D0.1.60",
+    "latestVersion": "deepagents-code==0.1.61",
+    "latestReleaseAt": "2026-08-24",
+    "latestReleaseUrl": "https://github.com/langchain-ai/deepagents/releases/tag/deepagents-code%3D%3D0.1.61",
     "recentReleaseCount": 55,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/langchain-ai/deepagents/releases"
   },
   {
@@ -116,7 +116,7 @@
     "latestReleaseUrl": "https://github.com/tailcallhq/forgecode/releases/tag/v2.13.21",
     "recentReleaseCount": 21,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/tailcallhq/forgecode/releases"
   },
   {
@@ -126,9 +126,9 @@
     "latestVersion": "v0.56.0",
     "latestReleaseAt": "2026-08-19",
     "latestReleaseUrl": "https://github.com/google-gemini/gemini-cli/releases/tag/v0.56.0",
-    "recentReleaseCount": 18,
+    "recentReleaseCount": 17,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/google-gemini/gemini-cli/releases"
   },
   {
@@ -138,9 +138,9 @@
     "latestVersion": "v1.3.217",
     "latestReleaseAt": "2026-08-23",
     "latestReleaseUrl": "https://github.com/topcheer/ggcode/releases/tag/v1.3.217",
-    "recentReleaseCount": 171,
+    "recentReleaseCount": 168,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/topcheer/ggcode/releases"
   },
   {
@@ -150,9 +150,9 @@
     "latestVersion": "v1.47.0",
     "latestReleaseAt": "2026-08-21",
     "latestReleaseUrl": "https://github.com/aaif-goose/goose/releases/tag/v1.47.0",
-    "recentReleaseCount": 12,
+    "recentReleaseCount": 11,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/aaif-goose/goose/releases"
   },
   {
@@ -164,19 +164,19 @@
     "latestReleaseUrl": "https://github.com/NousResearch/hermes-agent/releases/tag/v2026.8.19",
     "recentReleaseCount": 13,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/NousResearch/hermes-agent/releases"
   },
   {
     "harnessId": "junie-cli",
     "repository": "JetBrains/junie",
     "repositoryScope": "support-repository",
-    "latestVersion": "2777.8",
-    "latestReleaseAt": "2026-08-19",
-    "latestReleaseUrl": "https://github.com/JetBrains/junie/releases/tag/2777.8",
-    "recentReleaseCount": 32,
+    "latestVersion": "2929.5",
+    "latestReleaseAt": "2026-08-24",
+    "latestReleaseUrl": "https://github.com/JetBrains/junie/releases/tag/2929.5",
+    "recentReleaseCount": 33,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/JetBrains/junie/releases"
   },
   {
@@ -188,7 +188,7 @@
     "latestReleaseUrl": "https://github.com/oguzbilgic/kern-ai/releases/tag/v0.33.0",
     "recentReleaseCount": 7,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/oguzbilgic/kern-ai/releases"
   },
   {
@@ -200,7 +200,7 @@
     "latestReleaseUrl": "https://github.com/Kilo-Org/kilocode/releases/tag/v7.4.23",
     "recentReleaseCount": 31,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/Kilo-Org/kilocode/releases"
   },
   {
@@ -210,21 +210,21 @@
     "latestVersion": "@moonshot-ai/kimi-code@0.38.0",
     "latestReleaseAt": "2026-08-20",
     "latestReleaseUrl": "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai/kimi-code%400.38.0",
-    "recentReleaseCount": 66,
+    "recentReleaseCount": 65,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/MoonshotAI/kimi-code/releases"
   },
   {
     "harnessId": "letta-code",
     "repository": "letta-ai/letta-code",
     "repositoryScope": "client-source",
-    "latestVersion": "v0.30.29",
-    "latestReleaseAt": "2026-08-22",
-    "latestReleaseUrl": "https://github.com/letta-ai/letta-code/releases/tag/v0.30.29",
-    "recentReleaseCount": 101,
+    "latestVersion": "v0.30.31",
+    "latestReleaseAt": "2026-08-25",
+    "latestReleaseUrl": "https://github.com/letta-ai/letta-code/releases/tag/v0.30.31",
+    "recentReleaseCount": 103,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/letta-ai/letta-code/releases"
   },
   {
@@ -236,7 +236,7 @@
     "latestReleaseUrl": "https://github.com/XiaomiMiMo/MiMo-Code/releases/tag/v0.1.13",
     "recentReleaseCount": 13,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/XiaomiMiMo/MiMo-Code/releases"
   },
   {
@@ -248,7 +248,7 @@
     "latestReleaseUrl": "https://github.com/SWE-agent/mini-swe-agent/releases/tag/v2.4.6",
     "recentReleaseCount": 8,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/SWE-agent/mini-swe-agent/releases"
   },
   {
@@ -258,9 +258,9 @@
     "latestVersion": "v2.24.3",
     "latestReleaseAt": "2026-08-20",
     "latestReleaseUrl": "https://github.com/mistralai/mistral-vibe/releases/tag/v2.24.3",
-    "recentReleaseCount": 28,
+    "recentReleaseCount": 26,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/mistralai/mistral-vibe/releases"
   },
   {
@@ -272,7 +272,7 @@
     "latestReleaseUrl": "https://github.com/coder/xum/releases/tag/v0.28.2",
     "recentReleaseCount": 7,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/coder/xum/releases"
   },
   {
@@ -282,9 +282,9 @@
     "latestVersion": "v18.0.4",
     "latestReleaseAt": "2026-08-24",
     "latestReleaseUrl": "https://github.com/can1357/oh-my-pi/releases/tag/v18.0.4",
-    "recentReleaseCount": 180,
+    "recentReleaseCount": 176,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/can1357/oh-my-pi/releases"
   },
   {
@@ -294,21 +294,21 @@
     "latestVersion": "v2026.6.34",
     "latestReleaseAt": "2026-08-08",
     "latestReleaseUrl": "https://github.com/openclaw/openclaw/releases/tag/v2026.6.34",
-    "recentReleaseCount": 13,
+    "recentReleaseCount": 12,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/openclaw/openclaw/releases"
   },
   {
     "harnessId": "opencode",
     "repository": "anomalyco/opencode",
     "repositoryScope": "full-source",
-    "latestVersion": "v1.18.21",
-    "latestReleaseAt": "2026-08-21",
-    "latestReleaseUrl": "https://github.com/anomalyco/opencode/releases/tag/v1.18.21",
+    "latestVersion": "v1.18.22",
+    "latestReleaseAt": "2026-08-24",
+    "latestReleaseUrl": "https://github.com/anomalyco/opencode/releases/tag/v1.18.22",
     "recentReleaseCount": 48,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/anomalyco/opencode/releases"
   },
   {
@@ -320,7 +320,7 @@
     "latestReleaseUrl": "https://github.com/OpenHands/OpenHands/releases/tag/1.11.0",
     "recentReleaseCount": 7,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/OpenHands/OpenHands/releases"
   },
   {
@@ -332,7 +332,7 @@
     "latestReleaseUrl": "https://github.com/HKUDS/OpenHarness/releases/tag/v0.1.9",
     "recentReleaseCount": 0,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/HKUDS/OpenHarness/releases"
   },
   {
@@ -344,19 +344,19 @@
     "latestReleaseUrl": "https://github.com/opensquilla/opensquilla/releases/tag/v0.5.3",
     "recentReleaseCount": 8,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/opensquilla/opensquilla/releases"
   },
   {
     "harnessId": "pi",
     "repository": "earendil-works/pi",
     "repositoryScope": "full-source",
-    "latestVersion": "v0.84.2",
-    "latestReleaseAt": "2026-08-14",
-    "latestReleaseUrl": "https://github.com/earendil-works/pi/releases/tag/v0.84.2",
+    "latestVersion": "v0.84.3",
+    "latestReleaseAt": "2026-08-24",
+    "latestReleaseUrl": "https://github.com/earendil-works/pi/releases/tag/v0.84.3",
     "recentReleaseCount": 33,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/earendil-works/pi/releases"
   },
   {
@@ -366,9 +366,9 @@
     "latestVersion": "v1.0.16",
     "latestReleaseAt": "2026-08-14",
     "latestReleaseUrl": "https://github.com/poolsideai/pool/releases/tag/v1.0.16",
-    "recentReleaseCount": 14,
+    "recentReleaseCount": 12,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/poolsideai/pool/releases"
   },
   {
@@ -378,21 +378,21 @@
     "latestVersion": "v0.22.0",
     "latestReleaseAt": "2026-08-22",
     "latestReleaseUrl": "https://github.com/QwenLM/qwen-code/releases/tag/v0.22.0",
-    "recentReleaseCount": 41,
+    "recentReleaseCount": 40,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/QwenLM/qwen-code/releases"
   },
   {
     "harnessId": "reasonix",
     "repository": "esengine/DeepSeek-Reasonix",
     "repositoryScope": "full-source",
-    "latestVersion": "v1.31.3",
-    "latestReleaseAt": "2026-08-22",
-    "latestReleaseUrl": "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.31.3",
-    "recentReleaseCount": 79,
+    "latestVersion": "v1.31.4",
+    "latestReleaseAt": "2026-08-25",
+    "latestReleaseUrl": "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.31.4",
+    "recentReleaseCount": 80,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/esengine/DeepSeek-Reasonix/releases"
   },
   {
@@ -402,9 +402,9 @@
     "latestVersion": "stagewise@1.29.0",
     "latestReleaseAt": "2026-08-15",
     "latestReleaseUrl": "https://github.com/stagewise-io/stagewise/releases/tag/stagewise%401.29.0",
-    "recentReleaseCount": 35,
+    "recentReleaseCount": 32,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/stagewise-io/stagewise/releases"
   },
   {
@@ -416,7 +416,7 @@
     "latestReleaseUrl": "https://github.com/Zoo-Code-Org/Zoo-Code/releases/tag/v3.80.0",
     "recentReleaseCount": 15,
     "recentReleaseWindowDays": 90,
-    "observedAt": "2026-08-24",
+    "observedAt": "2026-08-25",
     "sourceUrl": "https://api.github.com/repos/Zoo-Code-Org/Zoo-Code/releases"
   }
 ]
