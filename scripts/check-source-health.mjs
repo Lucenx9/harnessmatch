@@ -1,7 +1,7 @@
 import { execFile as execFileCallback } from "node:child_process";
 import { promisify } from "node:util";
 import {
-  isReviewedAccessRestriction,
+  isReviewedSourceRestriction,
   mapConcurrentByOrigin,
   shouldRetrySourceProbe,
   sourceHealthFailures,
@@ -119,11 +119,14 @@ const broken = results.filter((result) => result.state === "broken");
 const restricted = results.filter((result) => result.state === "access-restricted");
 const inconclusive = results.filter((result) => result.state === "inconclusive");
 const redirected = results.filter((result) => result.redirected);
-const reviewedRestricted = restricted.filter((result) => (
-  isReviewedAccessRestriction(result, reviewedSourceHealthRestrictions)
+const reviewedRestricted = [...restricted, ...inconclusive].filter((result) => (
+  isReviewedSourceRestriction(result, reviewedSourceHealthRestrictions)
 ));
 const unresolvedRestricted = restricted.filter((result) => (
-  !isReviewedAccessRestriction(result, reviewedSourceHealthRestrictions)
+  !isReviewedSourceRestriction(result, reviewedSourceHealthRestrictions)
+));
+const unresolvedInconclusive = inconclusive.filter((result) => (
+  !isReviewedSourceRestriction(result, reviewedSourceHealthRestrictions)
 ));
 const failures = sourceHealthFailures(results, reviewedSourceHealthRestrictions);
 
@@ -136,11 +139,11 @@ for (const result of unresolvedRestricted) {
 for (const result of reviewedRestricted) {
   console.warn(`REVIEWED RESTRICTION ${result.status} ${result.url}`);
 }
-for (const result of inconclusive) {
+for (const result of unresolvedInconclusive) {
   console.warn(`INCONCLUSIVE ${result.status ?? "network"} ${result.url}${result.error ? ` — ${result.error}` : ""}`);
 }
 
 console.log(`Checked ${results.length} unique published source URLs across ${moduleFiles.length} data modules.`);
-console.log(`${results.length - broken.length - restricted.length - inconclusive.length} healthy, ${reviewedRestricted.length} reviewed access-restricted, ${unresolvedRestricted.length} unreviewed access-restricted, ${inconclusive.length} inconclusive, ${redirected.length} redirected, ${broken.length} broken.`);
+console.log(`${results.length - broken.length - restricted.length - inconclusive.length} healthy, ${reviewedRestricted.length} reviewed restrictions, ${unresolvedRestricted.length} unreviewed access-restricted, ${unresolvedInconclusive.length} inconclusive, ${redirected.length} redirected, ${broken.length} broken.`);
 
 if (failures.length > 0) process.exitCode = 1;

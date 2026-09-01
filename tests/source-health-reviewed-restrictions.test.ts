@@ -60,4 +60,13 @@ describe("reviewed source health restrictions", () => {
       reason: "The npm package page rejected automated probes while the immutable registry record remained accessible and matched @deepseek-ai/dsh; this records the access limitation only.",
     });
   });
+
+  it("keeps the UMD maintenance restriction exact and dated", () => {
+    expect(reviewedSourceHealthRestrictions).toContainEqual({
+      url: "https://drum.lib.umd.edu/items/8119803a-362b-42ec-b6ce-2311713e7236",
+      status: 503,
+      reviewedAt: "2026-09-01",
+      reason: "The official UMD item page and repository API served the same maintenance response during manual review; this records the temporary availability limitation only.",
+    });
+  });
 });

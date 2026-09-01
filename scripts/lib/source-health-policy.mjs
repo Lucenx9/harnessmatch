@@ -93,8 +93,8 @@ export function sourceHealthRetryDelayMs(status, headers, attempt) {
   return attempt * 250;
 }
 
-export function isReviewedAccessRestriction(result, reviewedRestrictions) {
-  if (result.state !== "access-restricted") return false;
+export function isReviewedSourceRestriction(result, reviewedRestrictions) {
+  if (result.state === "healthy" || result.state === "broken") return false;
   return reviewedRestrictions.some((restriction) => (
     restriction.url === result.url && restriction.status === result.status
   ));
@@ -103,6 +103,6 @@ export function isReviewedAccessRestriction(result, reviewedRestrictions) {
 export function sourceHealthFailures(results, reviewedRestrictions) {
   return results.filter((result) => (
     result.state !== "healthy"
-    && !isReviewedAccessRestriction(result, reviewedRestrictions)
+    && !isReviewedSourceRestriction(result, reviewedRestrictions)
   ));
 }

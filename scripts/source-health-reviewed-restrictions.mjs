@@ -44,6 +44,12 @@ export const reviewedSourceHealthRestrictions = [
     reason: "Favur rate-limited automated probes, while the same first-party page remained accessible during a manual browser review; this records the access limitation only.",
   },
   {
+    url: "https://drum.lib.umd.edu/items/8119803a-362b-42ec-b6ce-2311713e7236",
+    status: 503,
+    reviewedAt: "2026-09-01",
+    reason: "The official UMD item page and repository API served the same maintenance response during manual review; this records the temporary availability limitation only.",
+  },
+  {
     url: "https://www.npmjs.com/package/@aexol/spectral",
     status: 403,
     reviewedAt: "2026-08-08",

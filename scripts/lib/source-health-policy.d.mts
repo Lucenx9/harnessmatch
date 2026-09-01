@@ -25,7 +25,7 @@ export function sourceHealthRequestHeaders(
 ): Record<string, string>;
 export function shouldRetrySourceProbe(attempt: number, status: number): boolean;
 export function sourceHealthRetryDelayMs(status: number, headers: Headers, attempt: number): number;
-export function isReviewedAccessRestriction(
+export function isReviewedSourceRestriction(
   result: SourceHealthResult,
   reviewedRestrictions: readonly ReviewedSourceHealthRestriction[],
 ): boolean;

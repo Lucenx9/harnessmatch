@@ -96,4 +96,22 @@ describe("source health policy", () => {
     expect(sourceHealthFailures([reviewed], [reviewedRestriction])).toEqual([]);
     expect(sourceHealthFailures([changedStatus], [reviewedRestriction])).toEqual([changedStatus]);
   });
+
+  it("accepts an exact reviewed server outage but never waives a broken source", () => {
+    const outageRestriction = {
+      url: "https://repository.example/item",
+      status: 503,
+      reviewedAt: "2026-09-01",
+      reason: "The official repository is temporarily under maintenance.",
+    };
+    const outage = {
+      url: outageRestriction.url,
+      status: outageRestriction.status,
+      state: "inconclusive",
+    } as const;
+    const broken = { ...outage, status: 404, state: "broken" } as const;
+
+    expect(sourceHealthFailures([outage], [outageRestriction])).toEqual([]);
+    expect(sourceHealthFailures([broken], [{ ...outageRestriction, status: 404 }])).toEqual([broken]);
+  });
 });
