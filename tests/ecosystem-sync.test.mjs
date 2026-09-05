@@ -101,7 +101,9 @@ describe("ecosystem signal sync", () => {
       forks_count: 20,
     }, audits.find((audit) => audit.harnessId === "codex"), observedAt);
     expect(signal).toMatchObject({ harnessId: "codex", value: 100, forks: 20, repositoryScope: "client-source" });
+    expect(audits.find((audit) => audit.harnessId === "codewhale")?.repositoryUrl).toBe("https://github.com/Hmbown/Codewhale");
     expect(audits.find((audit) => audit.harnessId === "mux")?.repositoryUrl).toBe("https://github.com/coder/xum");
+    expect(audits.find((audit) => audit.harnessId === "opensquilla")?.repositoryUrl).toBe("https://github.com/TokenRhythm/opensquilla");
   });
 
   it("sums only stable GitHub release assets admitted by the mapping", () => {

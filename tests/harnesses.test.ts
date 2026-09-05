@@ -172,7 +172,7 @@ describe("harness evidence ledger", () => {
 
     const hooks = codeWhale.evidence.find((source) => source.title === "TUI lifecycle hooks");
     expect(hooks).toMatchObject({
-      url: "https://github.com/Hmbown/CodeWhale/blob/4f2c97b0d75c039a9b6069ebcf210cc499583376/docs/HOOKS.md",
+      url: "https://github.com/Hmbown/Codewhale/blob/4f2c97b0d75c039a9b6069ebcf210cc499583376/docs/HOOKS.md",
       verifiedAt: "2026-08-05",
     });
     expect(hooks?.covers).toContain("codewhale exec");
@@ -186,7 +186,7 @@ describe("harness evidence ledger", () => {
 
   it("propagates the August 20 and 22 first-party release reviews without changing decision classes", () => {
     const august20Releases = [
-      ["codewhale", "https://github.com/Hmbown/CodeWhale/releases/tag/v0.9.10"],
+      ["codewhale", "https://github.com/Hmbown/Codewhale/releases/tag/v0.9.10"],
       ["gemini-cli", "https://github.com/google-gemini/gemini-cli/releases/tag/v0.56.0"],
       ["junie-cli", "https://github.com/JetBrains/junie/releases/tag/2777.8"],
       ["kilo-code", "https://github.com/Kilo-Org/kilocode/releases/tag/v7.4.23"],

@@ -46,7 +46,7 @@ export const npmPackages = [
   { harnessId: "factory-droid", artifactId: "@factory/cli", identity: { kind: "repository", value: "https://github.com/Factory-AI/factory" } },
   { harnessId: "crush", artifactId: "@charmland/crush", identity: { kind: "repository", value: "https://github.com/charmbracelet/crush" } },
   { harnessId: "reasonix", artifactId: "reasonix", identity: { kind: "repository", value: "https://github.com/esengine/DeepSeek-Reasonix" } },
-  { harnessId: "codewhale", artifactId: "codewhale", identity: { kind: "repository", value: "https://github.com/Hmbown/CodeWhale" } },
+  { harnessId: "codewhale", artifactId: "codewhale", identity: { kind: "repository", value: "https://github.com/Hmbown/Codewhale" } },
   { harnessId: "slate", artifactId: "@randomlabs/slate", identity: { kind: "install-page", value: "https://docs.randomlabs.ai/en/getting-started/quickstart", contains: "@randomlabs/slate" } },
   { harnessId: "spectral-agent", artifactId: "@aexol/spectral", identity: { kind: "install-page", value: "https://aexol.ai/docs/agent/", contains: "npm install -g @aexol/spectral" } },
 ];

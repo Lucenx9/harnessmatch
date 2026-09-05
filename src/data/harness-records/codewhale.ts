@@ -7,7 +7,7 @@ const currentReleaseVerifiedAt = "2026-08-13";
 const radarVerifiedAt = "2026-08-20";
 const recordVerifiedAt = radarVerifiedAt;
 const commit = "4f2c97b0d75c039a9b6069ebcf210cc499583376";
-const repositoryBase = `https://github.com/Hmbown/CodeWhale/blob/${commit}`;
+const repositoryBase = `https://github.com/Hmbown/Codewhale/blob/${commit}`;
 
 export const codewhale = {
   id: "codewhale",
@@ -63,7 +63,7 @@ export const codewhale = {
     {
       title: "CodeWhale 0.9.9 execution-boundary release",
       topic: "execution-control",
-      url: "https://github.com/Hmbown/CodeWhale/releases/tag/v0.9.9",
+      url: "https://github.com/Hmbown/Codewhale/releases/tag/v0.9.9",
       covers: "Bounded shell failures, honest context and output reporting, and explicit plugin trust flows",
       kind: "official-announcement",
       verifiedAt: radarVerifiedAt,
@@ -71,7 +71,7 @@ export const codewhale = {
     {
       title: "CodeWhale 0.9.10 session-ownership release",
       topic: "orchestration-state",
-      url: "https://github.com/Hmbown/CodeWhale/releases/tag/v0.9.10",
+      url: "https://github.com/Hmbown/Codewhale/releases/tag/v0.9.10",
       covers: "A 120-second foreground-command timeout, durable fail-closed approval outcomes, session-owned background work, and bounded retained output",
       kind: "official-announcement",
       verifiedAt: radarVerifiedAt,
@@ -167,7 +167,7 @@ export const codewhale = {
     {
       title: "CodeWhale 0.9.3 release",
       topic: "releases-code-audit",
-      url: "https://github.com/Hmbown/CodeWhale/releases/tag/v0.9.3",
+      url: "https://github.com/Hmbown/Codewhale/releases/tag/v0.9.3",
       covers: "Current stable version, publication date, platform artifacts, and release scope",
       kind: "official-repository",
       verifiedAt,
@@ -175,7 +175,7 @@ export const codewhale = {
     {
       title: "CodeWhale 0.9.5 release",
       topic: "orchestration-state",
-      url: "https://github.com/Hmbown/CodeWhale/releases/tag/v0.9.5",
+      url: "https://github.com/Hmbown/Codewhale/releases/tag/v0.9.5",
       covers:
         "Single-runtime distribution, Runtime API controls, append-only session-tree history, branch, fork and resume commands, durable Fleet receipts, and explicit opt-in execution ceilings",
       kind: "official-announcement",
@@ -184,7 +184,7 @@ export const codewhale = {
     {
       title: "CodeWhale 0.9.6 runtime and control release",
       topic: "orchestration-state",
-      url: "https://github.com/Hmbown/CodeWhale/releases/tag/v0.9.6",
+      url: "https://github.com/Hmbown/Codewhale/releases/tag/v0.9.6",
       covers:
         "Mistral provider routing, explicit persistent headless services, hosted Work handoff boundaries, ACP tool turns, policy-filtered tool discovery, cache-stable compaction, immutable child route receipts, and first-run telemetry disclosure",
       kind: "official-announcement",
