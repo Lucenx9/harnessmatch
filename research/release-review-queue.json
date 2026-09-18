@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-08-10T10:44:20.433Z",
+  "updatedAt": "2026-09-18T14:06:16.456Z",
   "generatedBy": {
     "provider": "OpenRouter",
     "model": "openai/gpt-oss-20b",
@@ -8,6 +8,1707 @@
     "purpose": "AI-assisted release-note triage for editorial review; never product evidence."
   },
   "items": [
+    {
+      "key": "antigravity-cli:1.2.6",
+      "harnessId": "antigravity-cli",
+      "version": "1.2.6",
+      "releasedAt": "2026-09-18",
+      "releaseUrl": "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.2.6",
+      "sourceApiUrl": "https://api.github.com/repos/google-antigravity/antigravity-cli/releases/tags/1.2.6",
+      "releaseTitle": "1.2.6",
+      "releaseNotesSha256": "32c83f8823420d29655a6d6d0d03e08db375acfc04875d5b19757658ede308b1",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Remote Control session sharing, headless timeout and error-reporting changes, plus editor and rewind fixes refine the admitted subagents, headless, and sandbox claims without establishing a new taxonomy claim.",
+        "evidenceUrls": [
+          "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.2.6"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1038,
+        "completionTokens": 420,
+        "totalTokens": 1458
+      },
+      "triage": {
+        "summary": "Release 1.2.6 adds remote‑control capability, changes headless timeout behavior, improves error reporting, editor navigation, and artifact handling, and fixes several bugs around remote sessions, model switching, large diffs, and rewind logic.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Introduces Remote Control feature allowing a session‑scoped remote connection via startup flag or slash command."
+          },
+          {
+            "category": "compatibility",
+            "description": "Changes default timeout for headless runs from 5 minutes to unlimited, affecting long‑running agent turns."
+          },
+          {
+            "category": "compatibility",
+            "description": "Enables daemon background commands in headless GEMINI_API_KEY sessions."
+          },
+          {
+            "category": "performance",
+            "description": "Improved headless error reporting with structured JSON and exit code 3."
+          },
+          {
+            "category": "compatibility",
+            "description": "Enhanced word‑wise cursor movement and deletion to stop at punctuation."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the new Remote Control feature alter any existing permission or isolation model?",
+          "Are there any changes to the CLI’s default timeout that could affect user scripts?",
+          "Does the error reporting change impact downstream error handling logic?",
+          "Are the editor navigation changes backward compatible with existing keybindings?",
+          "Do the bug fixes introduce any new edge cases?"
+        ],
+        "limitations": [
+          "The notes do not specify whether the Remote Control feature requires additional infrastructure or changes to the server side. The impact on long‑running agent turns is described but not quantified.…"
+        ]
+      }
+    },
+    {
+      "key": "claude-code:v2.1.276",
+      "harnessId": "claude-code",
+      "version": "v2.1.276",
+      "releasedAt": "2026-09-18",
+      "releaseUrl": "https://github.com/anthropics/claude-code/releases/tag/v2.1.276",
+      "sourceApiUrl": "https://api.github.com/repos/anthropics/claude-code/releases/tags/v2.1.276",
+      "releaseTitle": "v2.1.276",
+      "releaseNotesSha256": "0377b9a3036402f818f7aa48f97dd707cf91f482fca58c18393b36c6eb056c47",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Single regression fix for 400 errors behind a proxy or gateway base URL. No capability, classification, or operational change.",
+        "evidenceUrls": [
+          "https://github.com/anthropics/claude-code/releases/tag/v2.1.276"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 451,
+        "completionTokens": 150,
+        "totalTokens": 601
+      },
+      "triage": {
+        "summary": "Fixed a regression where requests failed with a 400 error when the base URL pointed to a proxy or gateway.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "unknown",
+            "description": "Resolved 400 error caused by input tag 'advisor_20260301' when using ANTHROPIC_BASE_URL with a proxy or gateway."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "The notes only mention a specific regression fix; no other changes are reported."
+        ]
+      }
+    },
+    {
+      "key": "deepagents-code:deepagents-code==0.1.71",
+      "harnessId": "deepagents-code",
+      "version": "deepagents-code==0.1.71",
+      "releasedAt": "2026-09-18",
+      "releaseUrl": "https://github.com/langchain-ai/deepagents/releases/tag/deepagents-code%3D%3D0.1.71",
+      "sourceApiUrl": "https://api.github.com/repos/langchain-ai/deepagents/releases/tags/deepagents-code%3D%3D0.1.71",
+      "releaseTitle": "deepagents-code==0.1.71",
+      "releaseNotesSha256": "90ed98a38e3910c926a24f28f5d44c4a6b7f9c71be1fdb55640c1612fac5eb04",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. MCP moved onto FastMCP plus status-bar, history, and input fixes. MCP is already documented; an implementation swap establishes no new claim.",
+        "evidenceUrls": [
+          "https://github.com/langchain-ai/deepagents/releases/tag/deepagents-code%3D%3D0.1.71"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1710,
+        "completionTokens": 208,
+        "totalTokens": 1918
+      },
+      "triage": {
+        "summary": "This release updates the MCP integration to use FastMCP and the langchain.mcp module, shortens the status bar path display, replaces the composer with prompt search, preserves absolute paths, pins resumed history, improves chat input scrolling, and cleans up debug logging.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "MCP support moved to FastMCP and langchain.mcp module."
+          },
+          {
+            "category": "performance",
+            "description": "Status bar path display condensed."
+          },
+          {
+            "category": "unknown",
+            "description": "Composer replaced with prompt search; absolute paths preserved; history pinned; chat input scrolling improved; debug logs wrapped."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "No explicit mention of changes to runtime control, permissions, or isolation."
+        ]
+      }
+    },
+    {
+      "key": "ggcode:v1.3.241",
+      "harnessId": "ggcode",
+      "version": "v1.3.241",
+      "releasedAt": "2026-09-18",
+      "releaseUrl": "https://github.com/topcheer/ggcode/releases/tag/v1.3.241",
+      "sourceApiUrl": "https://api.github.com/repos/topcheer/ggcode/releases/tags/v1.3.241",
+      "releaseTitle": "v1.3.241",
+      "releaseNotesSha256": "d6f6111d85c2228c12b668230b0869589373820f27e6ae7847cf7d41c94ed11a",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Provider internals, memory recall, session pinning, and protocol updates. No admitted feature claim exists for this product and the notes establish none.",
+        "evidenceUrls": [
+          "https://github.com/topcheer/ggcode/releases/tag/v1.3.241"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 2492,
+        "completionTokens": 501,
+        "totalTokens": 2993
+      },
+      "triage": {
+        "summary": "Release v1.3.241 introduces numerous feature additions, bug fixes, and security improvements across providers, memory, agent, sandbox, and MCP components. Key changes include new OpenAI and Anthropic server‑side tools, enhanced tool‑use policies, session pinning, audit ledger, sandbox backend, and various protocol updates.",
+        "reviewPriority": "review",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Added OpenAI Responses background mode, per‑model/per‑endpoint LLM call policy, service tier control, and server‑side tools (code_interpreter, file_search, web_search)."
+          },
+          {
+            "category": "capability",
+            "description": "Introduced Anthropic server‑side tools (web_search, web_fetch) and advanced tool use features."
+          },
+          {
+            "category": "capability",
+            "description": "Implemented session pinning and tags for long‑lived session management."
+          },
+          {
+            "category": "capability",
+            "description": "Added audit ledger for tamper‑evident agent actions."
+          },
+          {
+            "category": "capability",
+            "description": "Added sandbox backend (Linux sandbox, kernel sandbox) for agent shell commands."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the new OpenAI Responses background mode alter runtime behavior or require new permissions?",
+          "Are the added server‑side tools (code_interpreter, file_search, web_search) exposed to external users, and do they change the tool invocation interface?",
+          "Does the session pinning feature affect session persistence or isolation?",
+          "What are the implications of the audit ledger on storage and privacy?",
+          "Does the Linux sandbox backend introduce new system call restrictions or affect existing agent workflows?"
+        ],
+        "limitations": []
+      }
+    },
+    {
+      "key": "junie-cli:3294.5",
+      "harnessId": "junie-cli",
+      "version": "3294.5",
+      "releasedAt": "2026-09-18",
+      "releaseUrl": "https://github.com/JetBrains/junie/releases/tag/3294.5",
+      "sourceApiUrl": "https://api.github.com/repos/JetBrains/junie/releases/tags/3294.5",
+      "releaseTitle": "Junie Release 26.9.21 (3294.5)",
+      "releaseNotesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Release notes are empty, so no change is verifiable. Held as no-catalog-change with that limitation.",
+        "evidenceUrls": [
+          "https://github.com/JetBrains/junie/releases/tag/3294.5"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 409,
+        "completionTokens": 66,
+        "totalTokens": 475
+      },
+      "triage": {
+        "summary": "No release notes provided.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [],
+        "verificationQuestions": [],
+        "limitations": [
+          "Release notes are empty; no changes can be identified."
+        ]
+      }
+    },
+    {
+      "key": "kern:v0.39.0",
+      "harnessId": "kern",
+      "version": "v0.39.0",
+      "releasedAt": "2026-09-18",
+      "releaseUrl": "https://github.com/oguzbilgic/kern-ai/releases/tag/v0.39.0",
+      "sourceApiUrl": "https://api.github.com/repos/oguzbilgic/kern-ai/releases/tags/v0.39.0",
+      "releaseTitle": "v0.39.0",
+      "releaseNotesSha256": "6cade4e3eae0af20866f9ba69aa1ee4f287579305dfbeb158bca26f2732556a7",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Summary-tree dedup fixes and read-only segment-health plus segment-prune diagnostics refine existing context management. No new capability claim.",
+        "evidenceUrls": [
+          "https://github.com/oguzbilgic/kern-ai/releases/tag/v0.39.0"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 999,
+        "completionTokens": 375,
+        "totalTokens": 1374
+      },
+      "triage": {
+        "summary": "Fixes and improvements to the semantic summary tree handling in Kern. The update removes duplicate or overlapping conversation summaries, adds tools to analyze and prune summary trees, and exposes the history selection logic as a pure function. No new external capabilities are introduced.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Duplicate or overlapping conversation summaries are now deduplicated and rejected during embedding changes, preventing redundant tokens and context overflow."
+          },
+          {
+            "category": "performance",
+            "description": "New scripts `segment-health` and `segment-prune` provide analysis and deterministic cleanup of summary trees, improving efficiency and reducing wasted tokens."
+          },
+          {
+            "category": "documentation",
+            "description": "Added usage notes for the new scripts and exported function `selectHistorySegments()`."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "The notes do not specify whether these changes affect any external APIs or user-facing features beyond the internal summary handling.",
+          "It is unclear if the new scripts alter any runtime behavior that could impact existing deployments."
+        ]
+      }
+    },
+    {
+      "key": "kilo-code:v7.7.5",
+      "harnessId": "kilo-code",
+      "version": "v7.7.5",
+      "releasedAt": "2026-09-18",
+      "releaseUrl": "https://github.com/Kilo-Org/kilocode/releases/tag/v7.7.5",
+      "sourceApiUrl": "https://api.github.com/repos/Kilo-Org/kilocode/releases/tags/v7.7.5",
+      "releaseTitle": "v7.7.5 (release)",
+      "releaseNotesSha256": "f1804aa73e8d05d5f587b733bc1da4b812039386b5f0e163deb9b2811bc85d15",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Agent Manager mentions and worktree-prompt fixes. Maintenance only, no new claim.",
+        "evidenceUrls": [
+          "https://github.com/Kilo-Org/kilocode/releases/tag/v7.7.5"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1596,
+        "completionTokens": 247,
+        "totalTokens": 1843
+      },
+      "triage": {
+        "summary": "Minor UI and permission fixes for the VS Code Agent Manager and CLI, including improved worktree handling, dialog recovery, memory leak fix, and updated dependencies. No new features or major changes.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Updated dependencies to newer versions of @kilocode and @opencode-ai packages."
+          },
+          {
+            "category": "performance",
+            "description": "Fixed memory leak in Agent Manager session switching and improved tool card animation cleanup."
+          },
+          {
+            "category": "safety",
+            "description": "Recovered permission approval dialogs that were stalling and improved handling of read‑only bash commands in various modes."
+          },
+          {
+            "category": "documentation",
+            "description": "Added @model, @past-chats, and @worktrees mentions to the Agent Manager New Worktree prompt."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": []
+      }
+    },
+    {
+      "key": "kimi-code:@moonshot-ai/kimi-code@2.0.1",
+      "harnessId": "kimi-code",
+      "version": "@moonshot-ai/kimi-code@2.0.1",
+      "releasedAt": "2026-09-18",
+      "releaseUrl": "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai/kimi-code%402.0.1",
+      "sourceApiUrl": "https://api.github.com/repos/MoonshotAI/kimi-code/releases/tags/%40moonshot-ai%2Fkimi-code%402.0.1",
+      "releaseTitle": "@moonshot-ai/kimi-code@2.0.1",
+      "releaseNotesSha256": "f0f13f01af8d53820ee24d2f41dde4e142567d1d54ab0999ffc04468cda074e2",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Provider key environment config, session-index compaction, and menu fixes. Refinements only, no new claim.",
+        "evidenceUrls": [
+          "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai/kimi-code%402.0.1"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 2621,
+        "completionTokens": 289,
+        "totalTokens": 2910
+      },
+      "triage": {
+        "summary": "Patch release focuses on bug fixes, performance improvements, and minor feature tweaks such as faster CLI startup, improved session handling, updated tool selection hints, and permission mode adjustments. No new capabilities or breaking changes are reported.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "performance",
+            "description": "CLI startup faster by removing duplicate skills directory scan; session index compacted; session search indexed in background passes."
+          },
+          {
+            "category": "compatibility",
+            "description": "Providers can read API key from named env variable; renamed install-app subcommand to install-desktop with hidden alias."
+          },
+          {
+            "category": "documentation",
+            "description": "Removed literal decision clauses from system prompt and auto permission mode reminder."
+          },
+          {
+            "category": "safety",
+            "description": "Removed system-prompt rule forbidding file access outside working directory; stopped workspace file watchers from scanning unbounded project root."
+          },
+          {
+            "category": "unknown",
+            "description": "Various bug fixes around session deletion, follow-up message handling, and tool selection."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "Release notes list many small fixes; no explicit mention of new features or breaking changes."
+        ]
+      }
+    },
+    {
+      "key": "mistral-vibe:v2.25.5",
+      "harnessId": "mistral-vibe",
+      "version": "v2.25.5",
+      "releasedAt": "2026-09-18",
+      "releaseUrl": "https://github.com/mistralai/mistral-vibe/releases/tag/v2.25.5",
+      "sourceApiUrl": "https://api.github.com/repos/mistralai/mistral-vibe/releases/tags/v2.25.5",
+      "releaseTitle": "v2.25.5",
+      "releaseNotesSha256": "f55150bbeb15395c8128463696e2a1fe12d05db0fe2f8b3bee8692559cc4ec77",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Subagent history visibility, skill toggling, todos, and scratchpad refine the documented subagents and skills claims. The Unified Harness label change does not contradict the record. No state change.",
+        "evidenceUrls": [
+          "https://github.com/mistralai/mistral-vibe/releases/tag/v2.25.5"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 2510,
+        "completionTokens": 525,
+        "totalTokens": 3035
+      },
+      "triage": {
+        "summary": "Adds many new features, changes, and fixes across subagents, skills, MCP, telemetry, UI, security, and performance. No major breaking changes reported.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "New subagent conversation history, live status, read‑only transcript, todo tracking, scratchpad, skill toggling, explicit‑only skills, insecure HTTP opt‑in, telemetry approval_source, session persistence, pinning…"
+          },
+          {
+            "category": "compatibility",
+            "description": "Unified Harness no longer experimental; legacy escape hatch via --legacy-harness. OAuth MCP servers start faster. Model change during turn accepted at next boundary. Config key enforcement changes.…"
+          },
+          {
+            "category": "safety",
+            "description": "Tool telemetry now includes approval decision and type. MCP and connector tool calls respect permission system. Shell approvals tightened, no wider coverage. Smart approve behavior refined.…"
+          },
+          {
+            "category": "performance",
+            "description": "Audio engine switched to miniaudio. OAuth MCP servers faster. Parallelism restored for local harness builds. Session list loading faster. Worktree session improvements."
+          },
+          {
+            "category": "documentation",
+            "description": "Added vulnerability disclosure guidance in SECURITY.md."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the change to the Unified Harness labeling affect existing deployments?",
+          "Are there any backward‑compatibility implications for skill authors using explicit‑only skills?",
+          "What is the impact of the new approval_source field on existing telemetry consumers?",
+          "How does the new config key enforcement affect admin‑managed configs?",
+          "Are there any security implications of allowing insecure HTTP to non‑localhost MCP servers?"
+        ],
+        "limitations": [
+          "The notes list many changes but do not quantify impact or provide test coverage details. Some changes are described only in brief, making it unclear whether they introduce new runtime behavior or are purely UI/UX fixes."
+        ]
+      }
+    },
+    {
+      "key": "mux:v0.29.0",
+      "harnessId": "mux",
+      "version": "v0.29.0",
+      "releasedAt": "2026-09-18",
+      "releaseUrl": "https://github.com/coder/xum/releases/tag/v0.29.0",
+      "sourceApiUrl": "https://api.github.com/repos/coder/xum/releases/tags/v0.29.0",
+      "releaseTitle": "v0.29.0",
+      "releaseNotesSha256": "5aa10df57f1b3ee0fe4bf474a966bc41f0911d68cf352a12739fbaa9c454260c",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Performance work plus off-by-default experimental memory and budget features. Experimental mechanisms cannot establish a documented capability.",
+        "evidenceUrls": [
+          "https://github.com/coder/xum/releases/tag/v0.29.0"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 722,
+        "completionTokens": 323,
+        "totalTokens": 1045
+      },
+      "triage": {
+        "summary": "Release v0.29.0 introduces performance gains for large installations, faster workspace creation with live progress, configurable settings backups, and several experimental features such as shared agent memory, token budget handling, selective agent plugin imports, global MCP server enabling, and dynamic workflow fixes.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "performance",
+            "description": "Significantly improved startup time and memory usage for installations with many workspaces."
+          },
+          {
+            "category": "compatibility",
+            "description": "Workspace creation now shows live progress in transcript instead of full-page loading screen."
+          },
+          {
+            "category": "documentation",
+            "description": "Settings backups now allow selection of which components to include."
+          },
+          {
+            "category": "unknown",
+            "description": "Experimental features: shared agent memory, token budget handling, improved session history browsing, selective agent plugin imports, global MCP server enabling, dynamic workflow recovery fixes."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "Information limited to release notes; no details on impact scope or backward compatibility."
+        ]
+      }
+    },
+    {
+      "key": "openclaw:v2026.7.33",
+      "harnessId": "openclaw",
+      "version": "v2026.7.33",
+      "releasedAt": "2026-09-18",
+      "releaseUrl": "https://github.com/openclaw/openclaw/releases/tag/v2026.7.33",
+      "sourceApiUrl": "https://api.github.com/repos/openclaw/openclaw/releases/tags/v2026.7.33",
+      "releaseTitle": "openclaw 2026.7.33",
+      "releaseNotesSha256": "9ffb957cd70b679e83b7a19d683aee5303279d94e3a58b4619ad9fb8e825fb8b",
+      "releaseNotesTruncated": true,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Extended-stable security hardening and message, session, and delivery-integrity fixes to existing gateway and channel mechanisms. No new claim.",
+        "evidenceUrls": [
+          "https://github.com/openclaw/openclaw/releases/tag/v2026.7.33"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3613,
+        "completionTokens": 293,
+        "totalTokens": 3906
+      },
+      "triage": {
+        "summary": "Extended‑stable release with numerous security hardening, message/session integrity, and reliability fixes across Gateway, plugins, and channel delivery.",
+        "reviewPriority": "review",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Hardening of command parsing, origin checks, and plugin Git installs to improve credential safety."
+          },
+          {
+            "category": "compatibility",
+            "description": "Preservation of queued, imported, streamed, and tool‑result messages across retries and channel lifecycle transitions."
+          },
+          {
+            "category": "safety",
+            "description": "Bounded reads, history queries, and shutdown work to prevent resource exhaustion and silent failures."
+          },
+          {
+            "category": "documentation",
+            "description": "Updated plugin and channel handling notes for various messaging platforms."
+          },
+          {
+            "category": "unknown",
+            "description": "Extended‑stable tooling changes for Docker channel classifier and promotion."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the hardening of command parsing affect any existing plugin command syntax?",
+          "Are there any backward‑compatibility implications for message truncation boundaries in UTF‑16?",
+          "Does the new Docker channel classifier alter any runtime behavior for non‑extended‑stable releases?"
+        ],
+        "limitations": [
+          "Release notes are truncated; full details of all fixes are not visible."
+        ]
+      }
+    },
+    {
+      "key": "reasonix:v1.38.10",
+      "harnessId": "reasonix",
+      "version": "v1.38.10",
+      "releasedAt": "2026-09-18",
+      "releaseUrl": "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.38.10",
+      "sourceApiUrl": "https://api.github.com/repos/esengine/DeepSeek-Reasonix/releases/tags/v1.38.10",
+      "releaseTitle": "Reasonix CLI v1.38.10",
+      "releaseNotesSha256": "d9d84f1160c548cdb6d1f69615558bf3dafa48f6423489d7406ac31695fc51b2",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Session reliability, Windows agent execution, path handling, and transcript stability fixes plus documentation. Refinements only.",
+        "evidenceUrls": [
+          "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.38.10"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3956,
+        "completionTokens": 253,
+        "totalTokens": 4209
+      },
+      "triage": {
+        "summary": "Reasonix v1.38.10 focuses on improving session reliability, Windows upgrade and agent execution, file path handling, and transcript stability. Key changes include persistent session identity after restarts, faster local history loading, Windows path and upgrade fixes, unified credential recovery, background conversation notifications, and various UI and…",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Windows file URI handling and CLI diagnostics fixed, improving cross‑platform compatibility."
+          },
+          {
+            "category": "performance",
+            "description": "Local history loads instantly on tab switch, reducing wait times."
+          },
+          {
+            "category": "safety",
+            "description": "Background notifications and session archiving changes reduce risk of data loss."
+          },
+          {
+            "category": "documentation",
+            "description": "Added links to session ownership, independent sessions, and other docs."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "Release notes mention many internal pull requests but do not detail API or permission changes; unclear if any runtime control or isolation changes were made."
+        ]
+      }
+    },
+    {
+      "key": "cline:v4.1.19",
+      "harnessId": "cline",
+      "version": "v4.1.19",
+      "releasedAt": "2026-09-17",
+      "releaseUrl": "https://github.com/cline/cline/releases/tag/v4.1.19",
+      "sourceApiUrl": "https://api.github.com/repos/cline/cline/releases/tags/v4.1.19",
+      "releaseTitle": "v4.1.19",
+      "releaseNotesSha256": "9e9322b84cac64f0f2986384bcb3a0056e41709156c1b0af94d834f61e29d6ec",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Image-flagging UX, a provider rename in the model layer, and a compaction-trigger fix. No harness capability change.",
+        "evidenceUrls": [
+          "https://github.com/cline/cline/releases/tag/v4.1.19"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 2123,
+        "completionTokens": 900,
+        "totalTokens": 3023
+      },
+      "triage": {
+        "summary": "v4.1.19 adds image‑flagging for models that can’t read images, refreshes UI assets, renames the W&B provider to CoreWeave, improves long‑task compaction, hardens Windows exec handling, adds retry logic for transient provider errors, fixes silent terminal output, optimizes checkpoint hashing, resolves run_commands hang, prevents silent file overwrite in…",
+        "reviewPriority": "review",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Image handling now flags unsupported images instead of discarding them, affecting model input behavior."
+          },
+          {
+            "category": "compatibility",
+            "description": "Long‑task compaction logic updated to use provider token counts, improving context management."
+          },
+          {
+            "category": "safety",
+            "description": "Windows exec handling hardened to prevent accidental execution of workspace executables."
+          },
+          {
+            "category": "compatibility",
+            "description": "Retry logic added for transient provider errors, reducing task failures."
+          },
+          {
+            "category": "compatibility",
+            "description": "Checkpoint hashing optimization reduces latency in large workspaces."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the image‑flagging change affect all models that declare text‑only input, or only a subset?",
+          "What is the exact threshold for long‑task compaction after the change?",
+          "How does the retry logic determine the backoff schedule?",
+          "Which providers are affected by the catalog refresh and default model changes?",
+          "Are there any side effects of hiding cost for paid models on billing or usage reporting?"
+        ],
+        "limitations": [
+          "The notes do not specify the exact token‑count thresholds, backoff parameters, or the full list of providers impacted by the catalog refresh. The impact on billing visibility is also not detailed."
+        ]
+      }
+    },
+    {
+      "key": "codex:rust-v0.155.0",
+      "harnessId": "codex",
+      "version": "rust-v0.155.0",
+      "releasedAt": "2026-09-17",
+      "releaseUrl": "https://github.com/openai/codex/releases/tag/rust-v0.155.0",
+      "sourceApiUrl": "https://api.github.com/repos/openai/codex/releases/tags/rust-v0.155.0",
+      "releaseTitle": "0.155.0",
+      "releaseNotesSha256": "69603f1b9056fb8443dbb42a5860dceb142d6d7e5c003e864a482ae112016fd8",
+      "releaseNotesTruncated": true,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Experimental voice, TUI polish, Touch ID approval UX, daemon schedules, provider credential sourcing, and sandbox-escape fixes refine existing mechanisms. No new claim.",
+        "evidenceUrls": [
+          "https://github.com/openai/codex/releases/tag/rust-v0.155.0"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3064,
+        "completionTokens": 537,
+        "totalTokens": 3601
+      },
+      "triage": {
+        "summary": "New features include experimental voice conversations with live transcripts, TUI updates showing reasoning summaries and timestamps, agent overview task controls, Touch ID verification for local TUI sessions, configurable daemon update schedules, and Amazon Bedrock credential handling.…",
+        "reviewPriority": "review",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Experimental voice conversations with live transcripts and microphone controls, including TUI integration."
+          },
+          {
+            "category": "capability",
+            "description": "Touch ID verification for MCP requests in local TUI sessions on supported Macs."
+          },
+          {
+            "category": "capability",
+            "description": "Configurable daemon update schedules and recovery of saved threads after restarts."
+          },
+          {
+            "category": "capability",
+            "description": "Amazon Bedrock credential export commands with caching and refresh."
+          },
+          {
+            "category": "compatibility",
+            "description": "TUI updates for live reasoning summaries, timestamps, and voice controls."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the experimental voice feature require any new runtime permissions or external services?",
+          "Are the Touch ID verification flows limited to specific Mac models or OS versions?",
+          "What are the exact conditions under which daemon update schedules can be configured?",
+          "How does Amazon Bedrock credential export handle credential expiration and refresh?",
+          "Do the TUI updates affect existing user workflows or require UI changes?"
+        ],
+        "limitations": [
+          "Information is limited to the release notes; no details on internal implementation or potential side effects beyond what is listed."
+        ]
+      }
+    },
+    {
+      "key": "copilot-cli:v1.0.86",
+      "harnessId": "copilot-cli",
+      "version": "v1.0.86",
+      "releasedAt": "2026-09-17",
+      "releaseUrl": "https://github.com/github/copilot-cli/releases/tag/v1.0.86",
+      "sourceApiUrl": "https://api.github.com/repos/github/copilot-cli/releases/tags/v1.0.86",
+      "releaseTitle": "1.0.86",
+      "releaseNotesSha256": "1cb697f46d010b5affdc04769bf2631691b3bc88d08914c4df0e1dc464f12446",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Custom-agent instruction opt-in extends documented customization; sandbox wording, resume, and autopilot items are refinements. No new claim.",
+        "evidenceUrls": [
+          "https://github.com/github/copilot-cli/releases/tag/v1.0.86"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 600,
+        "completionTokens": 316,
+        "totalTokens": 916
+      },
+      "triage": {
+        "summary": "Release adds custom agent instruction file support, improves session resumption, updates sandbox policy reporting, status row wording, resilience to transcript corruption, readability of compact timeline, and autopilot behavior.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Custom agents can opt into repository instruction files via frontmatter flag."
+          },
+          {
+            "category": "compatibility",
+            "description": "Resuming sessions without certain overrides now preserves marketplace plugins and skills; failures no longer discard active plugins."
+          },
+          {
+            "category": "compatibility",
+            "description": "Sandbox policy now reports local-network access per configuration."
+          },
+          {
+            "category": "compatibility",
+            "description": "Status row wording changed to indicate waiting for background shells."
+          },
+          {
+            "category": "compatibility",
+            "description": "Sessions resume even with recoverable transcript corruption."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the custom instruction file support affect any existing agent configurations?",
+          "What are the exact conditions under which session resumption preserves plugins?",
+          "How is local-network access reported in the sandbox policy?",
+          "Does the status row change impact any user-facing scripts?",
+          "What corruption types are considered recoverable in transcripts?"
+        ],
+        "limitations": [
+          "Information limited to release notes; no details on implementation or edge cases."
+        ]
+      }
+    },
+    {
+      "key": "goose:v1.51.0",
+      "harnessId": "goose",
+      "version": "v1.51.0",
+      "releasedAt": "2026-09-17",
+      "releaseUrl": "https://github.com/aaif-goose/goose/releases/tag/v1.51.0",
+      "sourceApiUrl": "https://api.github.com/repos/aaif-goose/goose/releases/tags/v1.51.0",
+      "releaseTitle": "v1.51.0",
+      "releaseNotesSha256": "45732b4addbf5097cdbf7fbb73733de607aa6fb63ed89e86371d4438bd99b001",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Provider and routing additions are model-layer work; the gateway allowlist hardens existing remote pairing. No admitted claim changes.",
+        "evidenceUrls": [
+          "https://github.com/aaif-goose/goose/releases/tag/v1.51.0"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1653,
+        "completionTokens": 479,
+        "totalTokens": 2132
+      },
+      "triage": {
+        "summary": "Version 1.51.0 introduces several new features such as routing desktop to state‑machine loops, declarative EUrouter provider, external backend ACP socket support, GPT‑live API, operator allowlist, terminal bell, and better error reporting.…",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Added GPT‑live API support and operator allowlist for gateway pairing."
+          },
+          {
+            "category": "compatibility",
+            "description": "Introduced EUrouter as a declarative provider and routed desktop to state‑machine loop via ACP prompt meta."
+          },
+          {
+            "category": "performance",
+            "description": "Stream chat completions by default for LiteLLM and improved auto‑compact handling."
+          },
+          {
+            "category": "safety",
+            "description": "Restricted session storage permissions, protected gateway pairing codes, and added session ID header for OpenCode Go."
+          },
+          {
+            "category": "documentation",
+            "description": "Removed Inkeep search integration, clarified extension directory policy, added RISC‑V build support."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the addition of GPT‑live API change the runtime behavior of existing tools?",
+          "Are there any new permissions required for the operator allowlist feature?",
+          "Does routing desktop to state‑machine loop affect existing state‑machine configurations?",
+          "What impact does the removal of the create recipe command have on existing workflows?",
+          "Are the session storage permission restrictions compatible with all current user roles?"
+        ],
+        "limitations": [
+          "The notes list many bug fixes and improvements but do not detail the internal implementation or potential side effects. The impact on existing user workflows and permissions is inferred from the description but not…"
+        ]
+      }
+    },
+    {
+      "key": "letta-code:v0.32.13",
+      "harnessId": "letta-code",
+      "version": "v0.32.13",
+      "releasedAt": "2026-09-17",
+      "releaseUrl": "https://github.com/letta-ai/letta-code/releases/tag/v0.32.13",
+      "sourceApiUrl": "https://api.github.com/repos/letta-ai/letta-code/releases/tags/v0.32.13",
+      "releaseTitle": "Release v0.32.13",
+      "releaseNotesSha256": "9aff2e2f253b0cc5c05db8b2259356c50bd810c3da054befbca75db0ad96dea8",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Bug fixes, CI, documentation, and packaging changes. No capability change.",
+        "evidenceUrls": [
+          "https://github.com/letta-ai/letta-code/releases/tag/v0.32.13"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 871,
+        "completionTokens": 408,
+        "totalTokens": 1279
+      },
+      "triage": {
+        "summary": "This release includes a mix of bug fixes, tests, documentation updates, and a new feature adding self‑contained Python wheels. No major functional or security changes are reported.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "unknown",
+            "description": "Fix: discover agents as the current sender (LET-12546)."
+          },
+          {
+            "category": "unknown",
+            "description": "Test: retry unaccepted teleport fixture requests."
+          },
+          {
+            "category": "unknown",
+            "description": "Fix: terminate stopped agent process trees."
+          },
+          {
+            "category": "unknown",
+            "description": "Feature: add expert escalation after code review."
+          },
+          {
+            "category": "unknown",
+            "description": "Fix: skip attached sync on local backend."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "Only the changes listed in the release notes are considered; any additional modifications not documented here are not accounted for."
+        ]
+      }
+    },
+    {
+      "key": "omp:v18.2.5",
+      "harnessId": "omp",
+      "version": "v18.2.5",
+      "releasedAt": "2026-09-17",
+      "releaseUrl": "https://github.com/can1357/oh-my-pi/releases/tag/v18.2.5",
+      "sourceApiUrl": "https://api.github.com/repos/can1357/oh-my-pi/releases/tags/v18.2.5",
+      "releaseTitle": "v18.2.5",
+      "releaseNotesSha256": "78f3e908ad501b6fc4be7308e1078142d2592f69a66c8f50fd8a4f44b6a479d8",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. OAuth and auth-provider options, an internal TUI package split, and session livestreaming. No admitted claim is established.",
+        "evidenceUrls": [
+          "https://github.com/can1357/oh-my-pi/releases/tag/v18.2.5"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 2453,
+        "completionTokens": 328,
+        "totalTokens": 2781
+      },
+      "triage": {
+        "summary": "This release includes performance improvements, bug fixes, and new features across several packages, notably adding OAuth support, a new terminal UI package, and a streaming terminal session feature. No major API breaking changes except moving UI modules to a separate package. No obvious changes to runtime control, permissions, or isolation.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Moved terminal UI modules to @oh-my-pi/pi-tui; subpaths in @oh-my-pi/pi-coding-agent no longer exist."
+          },
+          {
+            "category": "performance",
+            "description": "Multiple performance optimizations across agent, catalog, utils, and stats."
+          },
+          {
+            "category": "documentation",
+            "description": "Added new features and updated documentation for OAuth, streaming, and UI components."
+          },
+          {
+            "category": "unknown",
+            "description": "Various bug fixes and minor enhancements."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the move of UI modules affect existing import paths in user code?",
+          "Are there any changes to authentication or authorization flows that could impact security?",
+          "Do the new streaming terminal session features introduce new network endpoints or permissions?",
+          "Is the new OAuth support for stencil.so fully documented and tested?"
+        ],
+        "limitations": [
+          "The notes list many fixes but do not detail any changes to runtime control, isolation, or permissions. The impact on user code depends on the moved UI modules and new streaming features, which are not fully described."
+        ]
+      }
+    },
+    {
+      "key": "crush:v0.95.0",
+      "harnessId": "crush",
+      "version": "v0.95.0",
+      "releasedAt": "2026-09-16",
+      "releaseUrl": "https://github.com/charmbracelet/crush/releases/tag/v0.95.0",
+      "sourceApiUrl": "https://api.github.com/repos/charmbracelet/crush/releases/tags/v0.95.0",
+      "releaseTitle": "v0.95.0",
+      "releaseNotesSha256": "3f04c01db4f40a36e69b659312d61794ec1e151252ff7b7d88c9b3af8ca3fcbb",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Plan Mode is an interactive planning UX inside the existing agent loop plus performance work. No taxonomy claim maps to it.",
+        "evidenceUrls": [
+          "https://github.com/charmbracelet/crush/releases/tag/v0.95.0"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1610,
+        "completionTokens": 256,
+        "totalTokens": 1866
+      },
+      "triage": {
+        "summary": "Release v0.95.0 adds a new \"Plan Mode\" feature that allows users to interactively plan before executing actions, and includes a number of performance improvements across the agent, UI, and database layers.",
+        "reviewPriority": "review",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Introduction of Plan Mode, enabling interactive planning via shift+tab."
+          },
+          {
+            "category": "performance",
+            "description": "Multiple performance optimizations: reduced session transcript reading, capped prompt history, indexed messages by role, streamlined message decoding, and UI prompt-history scan skipping."
+          },
+          {
+            "category": "compatibility",
+            "description": "No breaking changes reported; fixes and performance tweaks only."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "The notes do not detail how Plan Mode interacts with existing workflows or permissions, so its broader impact on tool behavior is unclear."
+        ]
+      }
+    },
+    {
+      "key": "qwen-code:v0.24.0",
+      "harnessId": "qwen-code",
+      "version": "v0.24.0",
+      "releasedAt": "2026-09-16",
+      "releaseUrl": "https://github.com/QwenLM/qwen-code/releases/tag/v0.24.0",
+      "sourceApiUrl": "https://api.github.com/repos/QwenLM/qwen-code/releases/tags/v0.24.0",
+      "releaseTitle": "Release v0.24.0",
+      "releaseNotesSha256": "978d1ac2a1ea5e23b7b9907503446014000dc15d71893e4b70f7f1718bf7c80b",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. The bwrap backend and budget admission refine the documented optional-sandbox claim; hooks, workflow, and telemetry items extend existing mechanisms. No state change.",
+        "evidenceUrls": [
+          "https://github.com/QwenLM/qwen-code/releases/tag/v0.24.0"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3515,
+        "completionTokens": 236,
+        "totalTokens": 3751
+      },
+      "triage": {
+        "summary": "Release v0.24.0 introduces a breaking change that allows bash to expand project directory variables in command hooks, along with numerous new features, bug fixes, documentation updates, and internal refactors.…",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Breaking change: bash now expands project directory variables in command hooks, which may affect existing hook scripts."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": []
+      }
+    },
+    {
+      "key": "gemini-cli:v0.60.0",
+      "harnessId": "gemini-cli",
+      "version": "v0.60.0",
+      "releasedAt": "2026-09-15",
+      "releaseUrl": "https://github.com/google-gemini/gemini-cli/releases/tag/v0.60.0",
+      "sourceApiUrl": "https://api.github.com/repos/google-gemini/gemini-cli/releases/tags/v0.60.0",
+      "releaseTitle": "Release v0.60.0",
+      "releaseNotesSha256": "20c2e57f5bbfc671fce8376a8208c2b406c22dc7bcd309994d71647e700ead0c",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Security hardening of fetch, MCP OAuth, sandbox temp isolation, and path checks. Fixes only, no new mechanism.",
+        "evidenceUrls": [
+          "https://github.com/google-gemini/gemini-cli/releases/tag/v0.60.0"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1067,
+        "completionTokens": 458,
+        "totalTokens": 1525
+      },
+      "triage": {
+        "summary": "This release focuses on security hardening: improved destination validation, RFC 9207 enforcement, sandbox isolation for temp and settings directories, stricter permission checks on config paths, path boundary checks, symlink resolution, environment variable sanitization, and metadata provenance enforcement.…",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "safety",
+            "description": "Enhanced destination validation and connection routing in web fetch utilities."
+          },
+          {
+            "category": "safety",
+            "description": "Enforced RFC 9207 issuer identification in MCP OAuth flow."
+          },
+          {
+            "category": "safety",
+            "description": "Isolated temporary directory for macOS Seatbelt sandbox."
+          },
+          {
+            "category": "safety",
+            "description": "Hardened path resolution and boundary validation in extension loader."
+          },
+          {
+            "category": "safety",
+            "description": "Sanitized and removed hardcoded Google CrUX API key."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the release include any changes to runtime control or orchestration that could affect tool behavior?",
+          "Are there any new permissions or isolation boundaries introduced that require verification?",
+          "Is the metadata provenance enforcement sufficient to prevent untrusted tool output manipulation?"
+        ],
+        "limitations": [
+          "The notes do not detail the exact implementation or scope of each fix, so the impact on overall system behavior cannot be fully assessed without further technical documentation."
+        ]
+      }
+    },
+    {
+      "key": "codewhale:v0.9.13",
+      "harnessId": "codewhale",
+      "version": "v0.9.13",
+      "releasedAt": "2026-09-14",
+      "releaseUrl": "https://github.com/Hmbown/Codewhale/releases/tag/v0.9.13",
+      "sourceApiUrl": "https://api.github.com/repos/Hmbown/Codewhale/releases/tags/v0.9.13",
+      "releaseTitle": "v0.9.13",
+      "releaseNotesSha256": "64eb1a9ad13409f67d409b0e095e7620206fe85ca8f9bb0e95ecd7ead38dcea0",
+      "releaseNotesTruncated": true,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Deprecation covers the legacy deepseek-tui npm name, not the mapped release-asset distribution. Compaction, permission, and sandbox items refine admitted claims.",
+        "evidenceUrls": [
+          "https://github.com/Hmbown/Codewhale/releases/tag/v0.9.13"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3350,
+        "completionTokens": 364,
+        "totalTokens": 3714
+      },
+      "triage": {
+        "summary": "Release v0.9.13 of Codewhale includes deprecation of legacy npm package deepseek-tui, migration guidance, new installation methods, and numerous bug fixes and feature additions such as /pet command, Computer Use plugin, workflow improvements, and various stability fixes.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "deprecation",
+            "description": "Legacy npm package deepseek-tui is deprecated and will not receive further releases."
+          },
+          {
+            "category": "compatibility",
+            "description": "Migration guidance provided for users from v0.8.x legacy deepseek/deepseek-tui names via docs/REBRAND.md."
+          },
+          {
+            "category": "installation",
+            "description": "New installation methods added: official GitHub release, npm, Cargo, Docker/GHCR, manual platform archives, and portable Windows archives."
+          },
+          {
+            "category": "compatibility",
+            "description": "Platform archives and binaries now include both codewhale and codew command names; legacy codewhale-tui binaries are retained for compatibility."
+          },
+          {
+            "category": "performance",
+            "description": "Fixes for integrity issues, concurrent instance handling, and improved checksum verification."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "Release notes are truncated; some details may be missing."
+        ]
+      }
+    },
+    {
+      "key": "hermes-agent:v2026.9.14",
+      "harnessId": "hermes-agent",
+      "version": "v2026.9.14",
+      "releasedAt": "2026-09-14",
+      "releaseUrl": "https://github.com/NousResearch/hermes-agent/releases/tag/v2026.9.14",
+      "sourceApiUrl": "https://api.github.com/repos/NousResearch/hermes-agent/releases/tags/v2026.9.14",
+      "releaseTitle": "Hermes Agent v0.21.3 (v2026.9.14)",
+      "releaseNotesSha256": "974d1747b33c17d8606a9cac50ba09d325691904c0485bff89af21118b74b445",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Dashboard session-token and state.db handle fixes in a rollup patch. No new claim.",
+        "evidenceUrls": [
+          "https://github.com/NousResearch/hermes-agent/releases/tag/v2026.9.14"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1166,
+        "completionTokens": 197,
+        "totalTokens": 1363
+      },
+      "triage": {
+        "summary": "Patch release v0.21.3 (v2026.9.14) includes fixes for remote dashboard session token handling and duplicate state.db writer handles, along with many other undocumented changes.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Remote dashboard sessions no longer expire on refresh bursts; token handling improved."
+          },
+          {
+            "category": "compatibility",
+            "description": "Long‑lived processes stop leaking duplicate state.db writer handles."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "Release notes mention many undocumented changes; only two explicitly described."
+        ]
+      }
+    },
+    {
+      "key": "opencode:v1.18.31",
+      "harnessId": "opencode",
+      "version": "v1.18.31",
+      "releasedAt": "2026-09-14",
+      "releaseUrl": "https://github.com/anomalyco/opencode/releases/tag/v1.18.31",
+      "sourceApiUrl": "https://api.github.com/repos/anomalyco/opencode/releases/tags/v1.18.31",
+      "releaseTitle": "v1.18.31",
+      "releaseNotesSha256": "f3147856314d4851990fe246243afaf82c130e8d4d2a7de22ad57b45f89d695a",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Session restore, auth-error display, and adaptive-thinking fixes. No new claim.",
+        "evidenceUrls": [
+          "https://github.com/anomalyco/opencode/releases/tag/v1.18.31"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 607,
+        "completionTokens": 223,
+        "totalTokens": 830
+      },
+      "triage": {
+        "summary": "Bug fixes and minor improvements across core, TUI, and extensions, including session model restoration, error display, adaptive thinking request, and various contributor updates.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "unknown",
+            "description": "Restored ACP session model, effort, mode, and reasoning chunk boundaries when loading, resuming, or forking sessions."
+          },
+          {
+            "category": "unknown",
+            "description": "Show remote config authentication errors during startup and exit with a failure status."
+          },
+          {
+            "category": "unknown",
+            "description": "Request summarized adaptive thinking for GitHub Copilot models."
+          },
+          {
+            "category": "documentation",
+            "description": "Contributor acknowledgements and minor feature additions."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "No explicit mention of changes to runtime control, permissions, or isolation."
+        ]
+      }
+    },
+    {
+      "key": "zoo-code:v3.82.1",
+      "harnessId": "zoo-code",
+      "version": "v3.82.1",
+      "releasedAt": "2026-09-12",
+      "releaseUrl": "https://github.com/Zoo-Code-Org/Zoo-Code/releases/tag/v3.82.1",
+      "sourceApiUrl": "https://api.github.com/repos/Zoo-Code-Org/Zoo-Code/releases/tags/v3.82.1",
+      "releaseTitle": "Zoo Code v3.82.1",
+      "releaseNotesSha256": "32959a57d807bcc513e84b9b9f8774de4d5ca8edbf6851838eb0a7fb9afb13ae",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Task-history, stall, provider-settings, and MCP OAuth fixes. No new claim.",
+        "evidenceUrls": [
+          "https://github.com/Zoo-Code-Org/Zoo-Code/releases/tag/v3.82.1"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1052,
+        "completionTokens": 253,
+        "totalTokens": 1305
+      },
+      "triage": {
+        "summary": "Patch release addressing various task history, stalling, provider settings, OAuth, mutation tests, context meter, tool parameters, webview suggestions, provider audit, test coverage, E2E guard, review labels, node runtime bump, review checks, approvals, and dependency updates.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Fixes for task history visibility, stalling, and provider settings ensuring tasks resume correctly."
+          },
+          {
+            "category": "compatibility",
+            "description": "Fixes for OAuth registration and mutation test commits to improve authentication and test reliability."
+          },
+          {
+            "category": "compatibility",
+            "description": "Fixes for context meter limits, optional tool parameters, and webview suggestion handling to maintain correct behavior."
+          },
+          {
+            "category": "compatibility",
+            "description": "Updates to review checks, approvals, and dependency versions for improved tooling and security."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "The notes do not indicate any new features or changes to runtime control, permissions, or isolation."
+        ]
+      }
+    },
+    {
+      "key": "pi:v0.85.1",
+      "harnessId": "pi",
+      "version": "v0.85.1",
+      "releasedAt": "2026-09-05",
+      "releaseUrl": "https://github.com/earendil-works/pi/releases/tag/v0.85.1",
+      "sourceApiUrl": "https://api.github.com/repos/earendil-works/pi/releases/tags/v0.85.1",
+      "releaseTitle": "v0.85.1",
+      "releaseNotesSha256": "49e0d7dd926e0c0ba553f1275bf9dafb0dfb226f0c80dfe8b75543a5a8887e9c",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. GPT-6 Astra is model support, which never establishes harness capability. The remainder is fixes.",
+        "evidenceUrls": [
+          "https://github.com/earendil-works/pi/releases/tag/v0.85.1"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 799,
+        "completionTokens": 255,
+        "totalTokens": 1054
+      },
+      "triage": {
+        "summary": "Release v0.85.1 adds GPT‑6 Astra support, improves mouse wheel scrolling, fixes keybindings, SDK import issues, UI selection bugs, and prompt‑cache TTL for GPT‑5.6+ models.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Introduces GPT‑6 Astra model support via OpenAI API keys and Codex subscriptions."
+          },
+          {
+            "category": "performance",
+            "description": "Enhances mouse wheel scrolling speed in fullscreen mode."
+          },
+          {
+            "category": "compatibility",
+            "description": "Fixes SDK import failures due to internal experimental code exposure."
+          },
+          {
+            "category": "documentation",
+            "description": "Adds notes on API keys and Codex usage."
+          },
+          {
+            "category": "safety",
+            "description": "Adjusts prompt‑cache TTL for GPT‑5.6+ models."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the addition of GPT‑6 Astra affect runtime control or permissions?",
+          "Are the SDK import changes impacting external integration?",
+          "Is the prompt‑cache TTL change relevant to performance or safety?"
+        ],
+        "limitations": [
+          "Unclear if GPT‑6 Astra changes runtime control or isolation."
+        ]
+      }
+    },
+    {
+      "key": "mimo-code:v0.1.14",
+      "harnessId": "mimo-code",
+      "version": "v0.1.14",
+      "releasedAt": "2026-09-02",
+      "releaseUrl": "https://github.com/XiaomiMiMo/MiMo-Code/releases/tag/v0.1.14",
+      "sourceApiUrl": "https://api.github.com/repos/XiaomiMiMo/MiMo-Code/releases/tags/v0.1.14",
+      "releaseTitle": "v0.1.14",
+      "releaseNotesSha256": "76c623fb2b4001e099fe5db8c81ed8b925aa8ea894a4b4e14ee3baa11794d1a2",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Append-only turn recovery and same-session permission inheritance refine the documented checkpoint and policy postures. No tier change.",
+        "evidenceUrls": [
+          "https://github.com/XiaomiMiMo/MiMo-Code/releases/tag/v0.1.14"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 2501,
+        "completionTokens": 719,
+        "totalTokens": 3220
+      },
+      "triage": {
+        "summary": "This release adds recoverable interrupted turns, a new title‑generation API with fallback, a tool‑based voice‑input protocol, and several session/actor/permission changes. It also updates compaction logic, removes unused actor arguments, limits subagent calls, and introduces a per‑session system‑prefix snapshot.…",
+        "reviewPriority": "review",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Introduces recoverable interrupted turns via /recover and keeps incomplete assistant messages as candidates."
+          },
+          {
+            "category": "capability",
+            "description": "Adds a dedicated title‑generation API (POST /experimental/title) with a lite‑model fallback."
+          },
+          {
+            "category": "capability",
+            "description": "Upgrades TUI voice input to a tool‑based voice_input protocol with caret/selection handling and validated schema."
+          },
+          {
+            "category": "capability",
+            "description": "Modifies session compaction: summary plus API rounds, flat 90% trigger, tail collapsed into activity log."
+          },
+          {
+            "category": "capability",
+            "description": "Removes unimplemented actor spawn/run resume arguments; limits subagent actor calls to send only."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the new /recover functionality alter how interrupted turns are stored in the conversation history?",
+          "Is the title‑generation API expected to be called by external clients, and does it expose any new permissions?",
+          "Does the voice_input protocol change affect existing TUI voice input workflows?",
+          "Are there any backward‑incompatible changes to actor spawn/run arguments or subagent call paths?",
+          "Does freezing the per‑session system prefix impact prompt‑cache behavior for long‑running sessions?"
+        ],
+        "limitations": []
+      }
+    },
+    {
+      "key": "opensquilla:v0.5.4",
+      "harnessId": "opensquilla",
+      "version": "v0.5.4",
+      "releasedAt": "2026-08-25",
+      "releaseUrl": "https://github.com/TokenRhythm/opensquilla/releases/tag/v0.5.4",
+      "sourceApiUrl": "https://api.github.com/repos/TokenRhythm/opensquilla/releases/tags/v0.5.4",
+      "releaseTitle": "OpenSquilla 0.5.4",
+      "releaseNotesSha256": "68ad500412d5351f76b7e1214f1858e800693e79a30605b2ff333191127e8e75",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Beta HTML editing plus installer and routing updates. Beta does not establish a documented capability.",
+        "evidenceUrls": [
+          "https://github.com/TokenRhythm/opensquilla/releases/tag/v0.5.4"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3137,
+        "completionTokens": 357,
+        "totalTokens": 3494
+      },
+      "triage": {
+        "summary": "OpenSquilla 0.5.4 adds a beta HTML editing feature, optional runtime packs, per-chat model routing, improved C3 fusion, and many reliability and UI fixes. It includes new installer options, runtime pack management, and updated routing strategies. No major breaking changes; existing data and chats remain intact.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Beta for single-file HTML editing in Electron Desktop with preview, source, and version views."
+          },
+          {
+            "category": "compatibility",
+            "description": "Optional Runtime Packs replace bundled runtimes; existing chats keep routing strategy but may need new runtime packs."
+          },
+          {
+            "category": "performance",
+            "description": "Resilient C3 fusion path, improved startup and recovery, faster recovery, better process lifecycle handling."
+          },
+          {
+            "category": "documentation",
+            "description": "Updated privacy, third-party notices, code signing policy references."
+          },
+          {
+            "category": "installation",
+            "description": "New installer sizes, optional runtime packs, unsigned Windows installer."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the HTML editing beta affect existing attachment handling or require new client capabilities?",
+          "Are there any changes to runtime permissions or sandbox isolation that could impact security?",
+          "Does the per-chat routing strategy alter default behavior for existing chats?",
+          "Are there any new environment variables or configuration flags that could affect deployment?",
+          "Is the Windows installer unsigned, and does that pose a risk?"
+        ],
+        "limitations": [
+          "Unclear if HTML editing beta requires specific Electron bridge version; older clients remain view-only."
+        ]
+      }
+    },
+    {
+      "key": "stagewise:stagewise@1.29.0",
+      "harnessId": "stagewise",
+      "version": "stagewise@1.29.0",
+      "releasedAt": "2026-08-15",
+      "releaseUrl": "https://github.com/stagewise-io/stagewise/releases/tag/stagewise%401.29.0",
+      "sourceApiUrl": "https://api.github.com/repos/stagewise-io/stagewise/releases/tags/stagewise%401.29.0",
+      "releaseTitle": "Stagewise 1.29.0",
+      "releaseNotesSha256": "faf7db098e144be2f670bd542f52cebf669088c110fb51eb0995bb30f9f8bbba",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. The product has no harness or GUI record; the factual release feed is already synced. No admitted claim to change.",
+        "evidenceUrls": [
+          "https://github.com/stagewise-io/stagewise/releases/tag/stagewise%401.29.0"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 912,
+        "completionTokens": 596,
+        "totalTokens": 1508
+      },
+      "triage": {
+        "summary": "Stagewise 1.29.0 introduces several new features such as provider subscription usage limits, external coding agent integrations, Codex worktree support, xAI Grok 4.5 model, chat archiving, external skills onboarding, zoomable media tabs, and isolated dev instances.…",
+        "reviewPriority": "review",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Add provider subscription usage limits display"
+          },
+          {
+            "category": "capability",
+            "description": "Integrate external coding agents"
+          },
+          {
+            "category": "capability",
+            "description": "Support Codex worktree setup and scripts"
+          },
+          {
+            "category": "capability",
+            "description": "Add xAI Grok 4.5 model support"
+          },
+          {
+            "category": "capability",
+            "description": "Implement chat archiving"
+          }
+        ],
+        "verificationQuestions": [
+          "Does the addition of external coding agent integrations affect runtime permissions or isolation?",
+          "What specific changes were made to ACP lifecycle cleanup and how might that impact tool behavior?",
+          "Are there any new data handling or encryption changes in isolated dev instances?",
+          "How does the chat archiving feature interact with existing data retention policies?",
+          "What are the implications of adding xAI Grok 4.5 model support for model source grouping?"
+        ],
+        "limitations": [
+          "The release notes do not detail the internal implementation of new features or the extent of changes to runtime control, permissions, or isolation."
+        ]
+      }
+    },
+    {
+      "key": "poolside-cli:v1.0.16",
+      "harnessId": "poolside-cli",
+      "version": "v1.0.16",
+      "releasedAt": "2026-08-14",
+      "releaseUrl": "https://github.com/poolsideai/pool/releases/tag/v1.0.16",
+      "sourceApiUrl": "https://api.github.com/repos/poolsideai/pool/releases/tags/v1.0.16",
+      "releaseTitle": "v1.0.16",
+      "releaseNotesSha256": "13c4434e2d4dcc6a932d3af077890d5621935d2bd2447d3a75ac62388c4801b1",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-18T13:58:28.126Z",
+      "status": "reviewed-no-catalog-change",
+      "editorialReview": {
+        "reviewedAt": "2026-09-18",
+        "outcome": "no-catalog-change",
+        "rationale": "The official release notes were reopened on 2026-09-18. Lifecycle hooks, auto-mode approval, and mid-turn steering refine the policy permissions posture. No tier change and no checkpoint is claimed.",
+        "evidenceUrls": [
+          "https://github.com/poolsideai/pool/releases/tag/v1.0.16"
+        ]
+      },
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 846,
+        "completionTokens": 694,
+        "totalTokens": 1540
+      },
+      "triage": {
+        "summary": "Adds lifecycle hooks, auto‑mode approval, mid‑turn steering, subagent config, session continuation, memory‑leak fix, login retry, and several UI improvements.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Introduces hooks that can block or rewrite tool calls and prompts, and an auto‑mode approval system that classifies permission requests."
+          },
+          {
+            "category": "capability",
+            "description": "Adds mid‑turn steering allowing new prompts to be folded into a running turn."
+          },
+          {
+            "category": "capability",
+            "description": "Subagents now reuse the running ACP server and can be configured via settings.yaml."
+          },
+          {
+            "category": "compatibility",
+            "description": "Sessions continue after a length‑truncated model response instead of terminating."
+          },
+          {
+            "category": "performance",
+            "description": "Fixed a memory leak that caused agent memory to grow in long‑running sessions."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the new hooks feature allow the agent to block or rewrite tool calls?",
+          "Is the auto‑mode approval system fully opt‑in and does it require a classifier in settings.yaml?",
+          "Does mid‑turn steering fold new prompts into a running turn or queue them?",
+          "Are subagents now reusing the running ACP server instead of spawning a new process?",
+          "Does the session continuation after a truncated response affect any existing workflows?"
+        ],
+        "limitations": []
+      }
+    },
     {
       "key": "reasonix:v1.22.0",
       "harnessId": "reasonix",
