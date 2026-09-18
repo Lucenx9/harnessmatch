@@ -2,7 +2,8 @@ import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
 const skillsVerifiedAt = "2026-08-01";
-const recordVerifiedAt = skillsVerifiedAt;
+const changelogVerifiedAt = "2026-09-18";
+const recordVerifiedAt = changelogVerifiedAt;
 
 export const cursorCli = {
     id: "cursor-cli",
@@ -97,9 +98,9 @@ export const cursorCli = {
         title: "CLI changelog",
         topic: "releases-code-audit",
         url: "https://cursor.com/docs/cli/changelog",
-        covers: "Dated sandbox, worktree, subagent, checkpoint, rewind, MCP, trust, and auto-review changes through July 2026",
+        covers: "Dated sandbox, worktree, subagent, checkpoint, rewind, MCP, trust, and auto-review changes through August 2026",
         kind: "official-announcement",
-        verifiedAt: verifiedAt,
+        verifiedAt: changelogVerifiedAt,
       },
       {
         title: "Agent Client Protocol",

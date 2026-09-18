@@ -1,12 +1,13 @@
 import type { HarnessRecord } from "./types";
 
 const verifiedAt = "2026-07-27";
+const chromeVerifiedAt = "2026-09-18";
 const skillsVerifiedAt = "2026-08-01";
 const latestReleaseVerifiedAt = "2026-08-10";
 const currentReleaseVerifiedAt = "2026-08-13";
 const radarVerifiedAt = "2026-08-20";
 const currentRadarVerifiedAt = "2026-08-22";
-const recordVerifiedAt = currentRadarVerifiedAt;
+const recordVerifiedAt = chromeVerifiedAt;
 
 export const claudeCode = {
     id: "claude-code",
@@ -375,9 +376,9 @@ export const claudeCode = {
         title: "Chrome integration",
         topic: "product-surfaces",
         url: "https://code.claude.com/docs/en/chrome",
-        covers: "Beta visible-browser automation, site permissions, authenticated state, and plan restrictions",
+        covers: "Visible-browser automation, site permissions, authenticated state, and plan restrictions",
         kind: "official-docs",
-        verifiedAt: verifiedAt,
+        verifiedAt: chromeVerifiedAt,
       },
       {
         title: "Computer use",

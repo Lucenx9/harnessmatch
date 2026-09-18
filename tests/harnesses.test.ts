@@ -221,11 +221,14 @@ describe("harness evidence ledger", () => {
       expect(operational?.sourceUrls).toContain(releaseUrl);
     }
 
+    // Record dates move with each verified touch; claude-code was re-verified on 2026-09-18.
+    const september18Records = new Set(["claude-code"]);
+
     for (const [id, releaseUrl] of august22Releases) {
       const harness = harnesses.find((candidate) => candidate.id === id);
       const operational = operationalProfileRecords[id];
 
-      expect(harness?.verifiedAt).toBe("2026-08-22");
+      expect(harness?.verifiedAt).toBe(september18Records.has(id) ? "2026-09-18" : "2026-08-22");
       expect(harness?.evidence).toContainEqual(expect.objectContaining({ url: releaseUrl, verifiedAt: "2026-08-22" }));
       expect(operational?.verifiedAt).toBe("2026-08-22");
       expect(operational?.sourceUrls).toContain(releaseUrl);
@@ -779,7 +782,7 @@ describe("harness evidence ledger", () => {
     const urls = claude.evidence.map((source) => source.url);
     const caveats = claude.tradeoffs.join(" ");
 
-    expect(claude.verifiedAt).toBe("2026-08-22");
+    expect(claude.verifiedAt).toBe("2026-09-18");
     expect(claude.evidence).toHaveLength(65);
     expect(claude.evidence.find((source) => source.title === "Agent Skills")?.verifiedAt).toBe("2026-08-01");
     expect(claude.evidence.find((source) => source.url.endsWith("/v2.1.224"))?.verifiedAt).toBe("2026-08-10");
@@ -1514,9 +1517,9 @@ describe("harness evidence ledger", () => {
     const urls = cursor.evidence.map((source) => source.url);
     const caveats = cursor.tradeoffs.join(" ");
 
-    expect(cursor.verifiedAt).toBe("2026-08-01");
+    expect(cursor.verifiedAt).toBe("2026-09-18");
     expect(cursor.evidence).toHaveLength(16);
-    expect(cursor.evidence.find((source) => source.title === "Agent Skills")?.verifiedAt).toBe(cursor.verifiedAt);
+    expect(cursor.evidence.find((source) => source.title === "Agent Skills")?.verifiedAt).toBe("2026-08-01");
     expect(cursor.evidence.every((source) => source.topic !== undefined)).toBe(true);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls).toEqual(expect.arrayContaining([
