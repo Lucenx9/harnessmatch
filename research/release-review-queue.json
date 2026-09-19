@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-09-18T14:06:16.456Z",
+  "updatedAt": "2026-09-19T08:53:49.578Z",
   "generatedBy": {
     "provider": "OpenRouter",
     "model": "openai/gpt-oss-20b",
@@ -8,6 +8,379 @@
     "purpose": "AI-assisted release-note triage for editorial review; never product evidence."
   },
   "items": [
+    {
+      "key": "antigravity-cli:1.2.7",
+      "harnessId": "antigravity-cli",
+      "version": "1.2.7",
+      "releasedAt": "2026-09-19",
+      "releaseUrl": "https://github.com/google-antigravity/antigravity-cli/releases/tag/1.2.7",
+      "sourceApiUrl": "https://api.github.com/repos/google-antigravity/antigravity-cli/releases/tags/1.2.7",
+      "releaseTitle": "1.2.7",
+      "releaseNotesSha256": "42530fa057d6566f79946bb29c801fdae7ef983902c369d2578b611adb4a7303",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-19T08:53:49.578Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 898,
+        "completionTokens": 224,
+        "totalTokens": 1122
+      },
+      "triage": {
+        "summary": "New features: inline graphics for LaTeX and Mermaid, improved interactive prompt, banner, retry, token budgeting, usage panel, toolset changes, bug fixes for plugin commands, upgrades, rendering, headless runs, CLI start behavior.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Adds inline rendering of LaTeX math and Mermaid diagrams in artifact viewer with fallback and navigation."
+          },
+          {
+            "category": "compatibility",
+            "description": "Improves interactive prompt navigation and preview."
+          },
+          {
+            "category": "performance",
+            "description": "Reduces retry backoff and memory usage in headless runs."
+          },
+          {
+            "category": "safety",
+            "description": "Hardens plugin ID validation on uninstall."
+          },
+          {
+            "category": "documentation",
+            "description": "Improves CLI startup banner."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "Based solely on release notes; no evidence of impact on runtime control, isolation, or permissions."
+        ]
+      }
+    },
+    {
+      "key": "claude-code:v2.1.278",
+      "harnessId": "claude-code",
+      "version": "v2.1.278",
+      "releasedAt": "2026-09-19",
+      "releaseUrl": "https://github.com/anthropics/claude-code/releases/tag/v2.1.278",
+      "sourceApiUrl": "https://api.github.com/repos/anthropics/claude-code/releases/tags/v2.1.278",
+      "releaseTitle": "v2.1.278",
+      "releaseNotesSha256": "99d2590af4a38f1005813b19ee4ebf8800c48f529ff24a0da1986809b5aba7e4",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-19T08:53:49.578Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 519,
+        "completionTokens": 260,
+        "totalTokens": 779
+      },
+      "triage": {
+        "summary": "Updated auto‑mode behavior for Claude API and Enterprise users, defaulting to a server‑side classifier that avoids classifier billing. Added a status row indicating whether the auto‑mode classifier runs on the server.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Default auto‑mode classifier switched to server‑side, affecting billing and behavior for Bedrock, Vertex, Foundry, and gateways."
+          },
+          {
+            "category": "documentation",
+            "description": "Added status row to /status endpoint to show server‑side classifier usage."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the new default classifier affect all user types equally?",
+          "Is the /status row correctly reflecting the server‑side classifier state?",
+          "Are there any edge cases where the fallback billing warning might not trigger?"
+        ],
+        "limitations": [
+          "The notes do not detail any impact on runtime control, isolation, or permissions. No explicit mention of compatibility or deprecation changes."
+        ]
+      }
+    },
+    {
+      "key": "ggcode:v1.3.242",
+      "harnessId": "ggcode",
+      "version": "v1.3.242",
+      "releasedAt": "2026-09-19",
+      "releaseUrl": "https://github.com/topcheer/ggcode/releases/tag/v1.3.242",
+      "sourceApiUrl": "https://api.github.com/repos/topcheer/ggcode/releases/tags/v1.3.242",
+      "releaseTitle": "v1.3.242",
+      "releaseNotesSha256": "4ba6d15aa279aad425bed4023a945ca0cb120570e168e9ff0c3ed36d57a26566",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-19T08:53:49.578Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 711,
+        "completionTokens": 246,
+        "totalTokens": 957
+      },
+      "triage": {
+        "summary": "This release contains numerous bug fixes and minor feature additions focused on the terminal UI, usage probing, and runtime behavior. No new major capabilities or breaking changes are reported.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Fixes to terminal UI message handling and startup behavior."
+          },
+          {
+            "category": "compatibility",
+            "description": "Corrections to usage probe matching and authority classification."
+          },
+          {
+            "category": "compatibility",
+            "description": "Improvements to code index build progress display."
+          },
+          {
+            "category": "compatibility",
+            "description": "Added offline trajectory evaluation feature."
+          },
+          {
+            "category": "performance",
+            "description": "Added slow-handler instrumentation and memory conflict arbitration."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "The notes do not specify any changes to core tool capabilities, runtime control, or permissions."
+        ]
+      }
+    },
+    {
+      "key": "openclaw:v2026.9.5",
+      "harnessId": "openclaw",
+      "version": "v2026.9.5",
+      "releasedAt": "2026-09-19",
+      "releaseUrl": "https://github.com/openclaw/openclaw/releases/tag/v2026.9.5",
+      "sourceApiUrl": "https://api.github.com/repos/openclaw/openclaw/releases/tags/v2026.9.5",
+      "releaseTitle": "openclaw 2026.9.5",
+      "releaseNotesSha256": "5bf840a70eb413884de40a12f62a904d3d9637d111f79df4565f24da6daac0e7",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-19T08:53:49.578Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3531,
+        "completionTokens": 144,
+        "totalTokens": 3675
+      },
+      "triage": {
+        "summary": "Release notes for OpenClaw v2026.9.5 list commit activity, documentation links, contributor thanks, and verification artifacts. No functional or API changes are described.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "documentation",
+            "description": "Updated release notes and changelog formatting."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "Release notes do not specify any code changes, new features, or deprecations; only metadata and verification references are provided."
+        ]
+      }
+    },
+    {
+      "key": "qwen-code:v0.24.1",
+      "harnessId": "qwen-code",
+      "version": "v0.24.1",
+      "releasedAt": "2026-09-19",
+      "releaseUrl": "https://github.com/QwenLM/qwen-code/releases/tag/v0.24.1",
+      "sourceApiUrl": "https://api.github.com/repos/QwenLM/qwen-code/releases/tags/v0.24.1",
+      "releaseTitle": "Release v0.24.1",
+      "releaseNotesSha256": "99c0ccc929b66762d060c7f5d5c806fdd1cbc22c57d7c2d6c1ebe8e690d4b1e4",
+      "releaseNotesTruncated": true,
+      "analyzedAt": "2026-09-19T08:53:49.578Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3951,
+        "completionTokens": 479,
+        "totalTokens": 4430
+      },
+      "triage": {
+        "summary": "Release v0.24.1 introduces numerous feature additions, bug fixes, performance improvements, and internal refactors. Key changes include a new tool allowlist for subagents, configurable Mem0 providers, Playwright browser SDK, container execution for subagents, and various UI enhancements in the web‑shell.…",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Removal of active_goal stream event may break consumers expecting that event."
+          },
+          {
+            "category": "capability",
+            "description": "New tool allowlist for subagents and container execution for subagents expand tool usage capabilities."
+          },
+          {
+            "category": "compatibility",
+            "description": "Configurable Mem0 providers and Playwright browser SDK introduce new external context and browser integration options."
+          },
+          {
+            "category": "performance",
+            "description": "Core hook refresh and manifest-only refresh improve performance."
+          },
+          {
+            "category": "documentation",
+            "description": "Documentation updates for new features and API changes."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the removal of the active_goal stream event affect existing integrations that rely on that event?",
+          "Are the new tool allowlist and container execution for subagents compatible with current runtime permissions and isolation models?",
+          "Do the added Playwright browser SDK and Chrome Native Messaging relay introduce new security or permission requirements?",
+          "Will the changes to goal handling and checkpoint logic impact workflow orchestration or recovery?",
+          "Are the Mem0 provider configuration changes compatible with existing external context setups?"
+        ],
+        "limitations": [
+          "Unclear if all breaking changes are fully documented; need to confirm impact on existing integrations."
+        ]
+      }
+    },
+    {
+      "key": "codex:rust-v0.155.1",
+      "harnessId": "codex",
+      "version": "rust-v0.155.1",
+      "releasedAt": "2026-09-18",
+      "releaseUrl": "https://github.com/openai/codex/releases/tag/rust-v0.155.1",
+      "sourceApiUrl": "https://api.github.com/repos/openai/codex/releases/tags/rust-v0.155.1",
+      "releaseTitle": "0.155.1",
+      "releaseNotesSha256": "f7decb7da95a761c488597a109c7eba22bd02f5d8462b52ae6f48f1bd13ccfd5",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-19T08:53:49.578Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 518,
+        "completionTokens": 140,
+        "totalTokens": 658
+      },
+      "triage": {
+        "summary": "Bug fix: default reasoning summary disabled for new local TUI sessions, preventing provider rejections. Explicit settings still honored.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "unknown",
+            "description": "Default reasoning summary disabled for new local TUI sessions to avoid provider rejections."
+          }
+        ],
+        "verificationQuestions": [
+          "Does disabling reasoning summaries affect any other tool behavior?",
+          "Are there any compatibility changes for existing TUI sessions?"
+        ],
+        "limitations": [
+          "No explicit mention of changes to runtime control, permissions, or isolation."
+        ]
+      }
+    },
+    {
+      "key": "omp:v18.2.6",
+      "harnessId": "omp",
+      "version": "v18.2.6",
+      "releasedAt": "2026-09-18",
+      "releaseUrl": "https://github.com/can1357/oh-my-pi/releases/tag/v18.2.6",
+      "sourceApiUrl": "https://api.github.com/repos/can1357/oh-my-pi/releases/tags/v18.2.6",
+      "releaseTitle": "v18.2.6",
+      "releaseNotesSha256": "6016a8b91360686a82c0d11664292165ee92bbfc49b166e1bda3d26adddef799",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-19T08:53:49.578Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 974,
+        "completionTokens": 360,
+        "totalTokens": 1334
+      },
+      "triage": {
+        "summary": "Minor bug fixes affecting prompt‑cache stability, auth‑broker file reading on Windows, clipboard paste handling, and memory‑recall timestamping.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "performance",
+            "description": "Prompt‑cache head now anchors on last stable segment, reducing re‑billing of tools+system head."
+          },
+          {
+            "category": "compatibility",
+            "description": "Auth‑broker token and config reads now use node:fs on Windows, fixing silent failures."
+          },
+          {
+            "category": "compatibility",
+            "description": "Clipboard paste now reads image and text concurrently, improving empty‑clipboard handling."
+          },
+          {
+            "category": "compatibility",
+            "description": "Memory recall rows no longer carry minute‑resolution Current time stamp, preventing cache dirtiness."
+          },
+          {
+            "category": "performance",
+            "description": "Pinning find‑msvc‑tools to 0.1.12 for Windows CC compatibility."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the prompt‑cache head change alter how tools are invoked or the content of system prompts?",
+          "Does the switch to node:fs for token/config reads on Windows affect authentication permissions or isolation?",
+          "Are there any changes to how clipboard data is accessed that could impact security or state?"
+        ],
+        "limitations": [
+          "No explicit changes to runtime control, permissions, or isolation reported."
+        ]
+      }
+    },
+    {
+      "key": "zoo-code:v3.82.2",
+      "harnessId": "zoo-code",
+      "version": "v3.82.2",
+      "releasedAt": "2026-09-18",
+      "releaseUrl": "https://github.com/Zoo-Code-Org/Zoo-Code/releases/tag/v3.82.2",
+      "sourceApiUrl": "https://api.github.com/repos/Zoo-Code-Org/Zoo-Code/releases/tags/v3.82.2",
+      "releaseTitle": "Zoo Code v3.82.2",
+      "releaseNotesSha256": "9bf306f00c46bf9a90eff0431b75ccaef2fc590581edf19e85023ce0cbeafa15",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-19T08:53:49.578Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1062,
+        "completionTokens": 606,
+        "totalTokens": 1668
+      },
+      "triage": {
+        "summary": "Patch release v3.82.2 includes fixes and improvements to tool visibility, image input handling, token tracking, reasoning effort consistency, model picker, delegated subtasks, file versioning, code-index registry, pull request routing, mutation testing behavior, coverage caching, and accessibility audit stability.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Prevent unavailable tools from appearing in system prompts."
+          },
+          {
+            "category": "compatibility",
+            "description": "Fix DeepSeek Flash image input by adding new model ID."
+          },
+          {
+            "category": "compatibility",
+            "description": "Fix token usage tracking for Grok and xAI-compatible endpoints."
+          },
+          {
+            "category": "compatibility",
+            "description": "Apply configured reasoning effort consistently across OpenAI-compatible requests."
+          },
+          {
+            "category": "compatibility",
+            "description": "Preserve configured LiteLLM model ID in model picker."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "Information limited to release notes; no explicit mention of changes to runtime control, permissions, isolation, or verification mechanisms."
+        ]
+      }
+    },
     {
       "key": "antigravity-cli:1.2.6",
       "harnessId": "antigravity-cli",
