@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-09-19T08:53:49.578Z",
+  "updatedAt": "2026-09-20T09:23:06.462Z",
   "generatedBy": {
     "provider": "OpenRouter",
     "model": "openai/gpt-oss-20b",
@@ -8,6 +8,265 @@
     "purpose": "AI-assisted release-note triage for editorial review; never product evidence."
   },
   "items": [
+    {
+      "key": "ggcode:v1.3.243",
+      "harnessId": "ggcode",
+      "version": "v1.3.243",
+      "releasedAt": "2026-09-20",
+      "releaseUrl": "https://github.com/topcheer/ggcode/releases/tag/v1.3.243",
+      "sourceApiUrl": "https://api.github.com/repos/topcheer/ggcode/releases/tags/v1.3.243",
+      "releaseTitle": "v1.3.243",
+      "releaseNotesSha256": "dd023c37c8c22749ee61c5c72051d7eb133987df91e00346ebe3cf033e409798",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-20T09:23:06.462Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1657,
+        "completionTokens": 672,
+        "totalTokens": 2329
+      },
+      "triage": {
+        "summary": "This release contains a large number of bug fixes and minor improvements across several subsystems, including provider policy handling, cloning behavior, stream draining, transient failure handling, caller echo, IPv6 loopback detection, pagination leaks, user interface usage tracking, agent detectors, swarm task coordination, MCP infrastructure, and…",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Fixed callPolicy handling in openai-responses and copilot branches, ensuring request_timeout and max_retries are respected."
+          },
+          {
+            "category": "compatibility",
+            "description": "Restored missing capabilities during provider cloning (toolSearchBeta, files, memoryTool, contextEditing)."
+          },
+          {
+            "category": "compatibility",
+            "description": "Implemented proper stream draining on fallback watcher cancellation to prevent goroutine leaks."
+          },
+          {
+            "category": "compatibility",
+            "description": "Adjusted transient failure caching for fileUploader to allow retry after TTL expiry."
+          },
+          {
+            "category": "compatibility",
+            "description": "Reintroduced CallerRaw in buildParams for code-execution container calls."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "The notes are in Chinese and contain many technical details; the summary focuses on the most evident changes. No explicit new capabilities or security changes are reported."
+        ]
+      }
+    },
+    {
+      "key": "kern:v0.40.0",
+      "harnessId": "kern",
+      "version": "v0.40.0",
+      "releasedAt": "2026-09-20",
+      "releaseUrl": "https://github.com/oguzbilgic/kern-ai/releases/tag/v0.40.0",
+      "sourceApiUrl": "https://api.github.com/repos/oguzbilgic/kern-ai/releases/tags/v0.40.0",
+      "releaseTitle": "v0.40.0",
+      "releaseNotesSha256": "9c3e59006b75a5b29d7a17a65e9e08290d62791181e428b9c78e2f947275cb14",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-20T09:23:06.462Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1588,
+        "completionTokens": 337,
+        "totalTokens": 1925
+      },
+      "triage": {
+        "summary": "New chat commands and scripts for activity narration, plugin inspection, recall and segment health diagnostics, plus formatting improvements for code blocks and ANSI colors. No major runtime or permission changes.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Introduces activity narration and /wyd chat command for real‑time progress reporting."
+          },
+          {
+            "category": "capability",
+            "description": "Adds unified chat commands with both ! and / prefixes and new /plugins command for plugin status."
+          },
+          {
+            "category": "capability",
+            "description": "Provides recall‑repair and recall‑health scripts/commands for database maintenance."
+          },
+          {
+            "category": "capability",
+            "description": "Adds segment‑health chat command for semantic summary tree inspection."
+          },
+          {
+            "category": "compatibility",
+            "description": "Improves code block syntax highlighting on Telegram and Slack, and ANSI color rendering across chat interfaces."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "Information limited to release notes; no details on internal implementation or potential side effects."
+        ]
+      }
+    },
+    {
+      "key": "letta-code:v0.32.14",
+      "harnessId": "letta-code",
+      "version": "v0.32.14",
+      "releasedAt": "2026-09-20",
+      "releaseUrl": "https://github.com/letta-ai/letta-code/releases/tag/v0.32.14",
+      "sourceApiUrl": "https://api.github.com/repos/letta-ai/letta-code/releases/tags/v0.32.14",
+      "releaseTitle": "Release v0.32.14",
+      "releaseNotesSha256": "2378e6c59416d9899d946f26579652a8f8c1d4c1537b7d4fba37eeb0772359bb",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-20T09:23:06.462Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1686,
+        "completionTokens": 436,
+        "totalTokens": 2122
+      },
+      "triage": {
+        "summary": "This release includes numerous bug fixes, refactors, and a few new features. Key changes are a default Cloud backend on startup, OAuth support for Grok and subscription tokens, removal of legacy toolsets (Gemini, codex_snake, server‑side memory), and several fixes to memory initialization, tool output alignment, and runtime monitoring.…",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Default to Cloud backend on startup and support for OAuth tokens for Grok and subscription providers."
+          },
+          {
+            "category": "compatibility",
+            "description": "Removal of legacy toolsets (Gemini, codex_snake, server‑side memory) and centralization of toolset presets."
+          },
+          {
+            "category": "performance",
+            "description": "Fixes to memory initialization and runtime monitor preservation."
+          },
+          {
+            "category": "safety",
+            "description": "Preservation of sandbox failure semantics and monitor state across interrupts."
+          },
+          {
+            "category": "documentation",
+            "description": "Various refactors and bug fixes; no new documentation changes reported."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the default Cloud backend change affect existing deployments that rely on local or other backends?",
+          "Are the OAuth token changes compatible with current authentication flows?",
+          "Will the removal of Gemini and codex_snake toolsets impact any existing workflows that use those tools?",
+          "Does the preservation of sandbox failure semantics alter error handling behavior?",
+          "Are there any side effects from the refactoring of toolset construction and catalog centralization?"
+        ],
+        "limitations": [
+          "Release notes do not detail the impact on external integrations or API contracts; the notes focus on internal refactors and bug fixes."
+        ]
+      }
+    },
+    {
+      "key": "kimi-code:@moonshot-ai/kimi-code@2.0.2",
+      "harnessId": "kimi-code",
+      "version": "@moonshot-ai/kimi-code@2.0.2",
+      "releasedAt": "2026-09-19",
+      "releaseUrl": "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai/kimi-code%402.0.2",
+      "sourceApiUrl": "https://api.github.com/repos/MoonshotAI/kimi-code/releases/tags/%40moonshot-ai%2Fkimi-code%402.0.2",
+      "releaseTitle": "@moonshot-ai/kimi-code@2.0.2",
+      "releaseNotesSha256": "cfc678443f12954be5e1611c938682dc493001bbb1a8fa3d6ae1a6c7ebc1297f",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-20T09:23:06.462Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 931,
+        "completionTokens": 241,
+        "totalTokens": 1172
+      },
+      "triage": {
+        "summary": "Patch release 2.0.2 includes several bug fixes: correct message placement after session resume, compaction after context window change, agent no longer assumes project root as working directory, removal of duplicate messages, and improved web interactions.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Fix message positioning after session resume."
+          },
+          {
+            "category": "compatibility",
+            "description": "Fix compaction failure when switching to smaller context window."
+          },
+          {
+            "category": "compatibility",
+            "description": "Agent no longer assumes current working directory is project root."
+          },
+          {
+            "category": "compatibility",
+            "description": "Remove duplicate message appearance during agent run."
+          },
+          {
+            "category": "compatibility",
+            "description": "Improve web interactions and fix known bugs."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": []
+      }
+    },
+    {
+      "key": "pi:v0.86.0",
+      "harnessId": "pi",
+      "version": "v0.86.0",
+      "releasedAt": "2026-09-19",
+      "releaseUrl": "https://github.com/earendil-works/pi/releases/tag/v0.86.0",
+      "sourceApiUrl": "https://api.github.com/repos/earendil-works/pi/releases/tags/v0.86.0",
+      "releaseTitle": "v0.86.0",
+      "releaseNotesSha256": "1dbc65e460c5556a52bd6ca590eb4ed4920400f430648360d4db30b244cc767a",
+      "releaseNotesTruncated": true,
+      "analyzedAt": "2026-09-20T09:23:06.462Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3272,
+        "completionTokens": 335,
+        "totalTokens": 3607
+      },
+      "triage": {
+        "summary": "New features include prompt cache warming, bug reporting, transcript-aware updates, offline Radius catalog, per-model compaction budgets. Breaking changes alter provider stream inputs, restrict tool args, change user_bash behavior. Added many extensions, config options, event handling.…",
+        "reviewPriority": "review",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Prompt cache warming and transcript-aware updates change runtime behavior and state handling."
+          },
+          {
+            "category": "compatibility",
+            "description": "Provider stream input type change requires custom providers to adjust."
+          },
+          {
+            "category": "compatibility",
+            "description": "Tool argument restrictions and JSON schema sampling changes affect tool invocation."
+          },
+          {
+            "category": "compatibility",
+            "description": "user_bash error handling change may affect command execution flow."
+          },
+          {
+            "category": "documentation",
+            "description": "New docs for cache warming, bug reporting, etc."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the change to provider stream inputs affect existing custom provider implementations?",
+          "Will the new JSON schema sampling default impact any safety checks in current tools?",
+          "Are there any hidden runtime state changes that could affect long-running sessions?",
+          "Does the user_bash error handling change alter the expected propagation of errors?"
+        ],
+        "limitations": [
+          "Release notes truncated; some details may be missing."
+        ]
+      }
+    },
     {
       "key": "antigravity-cli:1.2.7",
       "harnessId": "antigravity-cli",
