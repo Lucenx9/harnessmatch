@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-09-20T09:23:06.462Z",
+  "updatedAt": "2026-09-21T10:05:23.468Z",
   "generatedBy": {
     "provider": "OpenRouter",
     "model": "openai/gpt-oss-20b",
@@ -8,6 +8,399 @@
     "purpose": "AI-assisted release-note triage for editorial review; never product evidence."
   },
   "items": [
+    {
+      "key": "crush:v0.96.0",
+      "harnessId": "crush",
+      "version": "v0.96.0",
+      "releasedAt": "2026-09-21",
+      "releaseUrl": "https://github.com/charmbracelet/crush/releases/tag/v0.96.0",
+      "sourceApiUrl": "https://api.github.com/repos/charmbracelet/crush/releases/tags/v0.96.0",
+      "releaseTitle": "v0.96.0",
+      "releaseNotesSha256": "76644c702489e9c5f28e54c7492ca4c71fa1e16b6e8559c433675ef14c8c080f",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-21T10:05:23.468Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 2271,
+        "completionTokens": 296,
+        "totalTokens": 2567
+      },
+      "triage": {
+        "summary": "Release v0.96.0 introduces a new theme system with live preview and custom palette editing, adds real‑time hypercredit display, improves timeout handling, and includes numerous UI, syntax highlighting, and plan‑display fixes. Performance improvements target session handling, database indexing, and message decoding.…",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "None – UI theme support only."
+          },
+          {
+            "category": "compatibility",
+            "description": "None – no API changes noted."
+          },
+          {
+            "category": "deprecation",
+            "description": "None."
+          },
+          {
+            "category": "documentation",
+            "description": "New theme feature and QoL changes documented."
+          },
+          {
+            "category": "installation",
+            "description": "None – standard release."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "Information limited to release notes; no source code or test coverage details provided."
+        ]
+      }
+    },
+    {
+      "key": "deepagents-code:deepagents-code==0.1.72",
+      "harnessId": "deepagents-code",
+      "version": "deepagents-code==0.1.72",
+      "releasedAt": "2026-09-21",
+      "releaseUrl": "https://github.com/langchain-ai/deepagents/releases/tag/deepagents-code%3D%3D0.1.72",
+      "sourceApiUrl": "https://api.github.com/repos/langchain-ai/deepagents/releases/tags/deepagents-code%3D%3D0.1.72",
+      "releaseTitle": "deepagents-code==0.1.72",
+      "releaseNotesSha256": "97992ea9d990760b412ce398848904f2828559246f395236a153e8087f251a2e",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-21T10:05:23.468Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 987,
+        "completionTokens": 185,
+        "totalTokens": 1172
+      },
+      "triage": {
+        "summary": "Added visibility of read_file arguments, improved debug log formatting, suppressed unnecessary decoder traces, and optimized prompt submission by skipping transcript scans.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "documentation",
+            "description": "Expanded read_file calls now show their arguments."
+          },
+          {
+            "category": "performance",
+            "description": "Skipped transcript scans when submitting prompts for faster prompt submission."
+          },
+          {
+            "category": "compatibility",
+            "description": "Aligned debug log formatting between file and console output."
+          },
+          {
+            "category": "compatibility",
+            "description": "Silenced unnecessary decoder traces for non-media paths."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": [
+          "No explicit mention of changes to runtime control, permissions, or isolation."
+        ]
+      }
+    },
+    {
+      "key": "kern:v0.40.1",
+      "harnessId": "kern",
+      "version": "v0.40.1",
+      "releasedAt": "2026-09-21",
+      "releaseUrl": "https://github.com/oguzbilgic/kern-ai/releases/tag/v0.40.1",
+      "sourceApiUrl": "https://api.github.com/repos/oguzbilgic/kern-ai/releases/tags/v0.40.1",
+      "releaseTitle": "v0.40.1",
+      "releaseNotesSha256": "251ff70f447e7368eebab3ec51a39a006c9600e5a38dbed22c05444d942726bc",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-21T10:05:23.468Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 644,
+        "completionTokens": 190,
+        "totalTokens": 834
+      },
+      "triage": {
+        "summary": "The release addresses concurrency issues in recall session indexing, adds automated npm test and build workflows, and reorganizes code imports and segment tools.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "Fixes concurrency serialization for RecallIndex.indexSession() to prevent overlapping embedding jobs and reduce heap pressure."
+          },
+          {
+            "category": "performance",
+            "description": "Adds automated npm test and build workflows to catch regressions and broken builds."
+          },
+          {
+            "category": "documentation",
+            "description": "Reorganizes code imports and segment tools for better structure."
+          }
+        ],
+        "verificationQuestions": [],
+        "limitations": []
+      }
+    },
+    {
+      "key": "letta-code:v0.32.15",
+      "harnessId": "letta-code",
+      "version": "v0.32.15",
+      "releasedAt": "2026-09-21",
+      "releaseUrl": "https://github.com/letta-ai/letta-code/releases/tag/v0.32.15",
+      "sourceApiUrl": "https://api.github.com/repos/letta-ai/letta-code/releases/tags/v0.32.15",
+      "releaseTitle": "Release v0.32.15",
+      "releaseNotesSha256": "131e2830bbed3a5da6ef27035cc3c6ead2c8d87214c88fcbdf4ef814dfaee8de",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-21T10:05:23.468Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 550,
+        "completionTokens": 208,
+        "totalTokens": 758
+      },
+      "triage": {
+        "summary": "New workflow tool wrapper for Agent SDK query and forwarding of structured output schemas, with version bump.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Introduces a workflow tool that wraps Agent SDK query() and adds support for forwarding structured output schemas."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the new workflow tool alter runtime behavior or permissions?",
+          "Are there any changes to the Agent SDK query interface that could affect existing integrations?",
+          "Is the forwarding of structured output schemas compatible with current protocol expectations?"
+        ],
+        "limitations": [
+          "Information limited to release notes; no details on implementation or impact scope."
+        ]
+      }
+    },
+    {
+      "key": "omp:v18.2.7",
+      "harnessId": "omp",
+      "version": "v18.2.7",
+      "releasedAt": "2026-09-21",
+      "releaseUrl": "https://github.com/can1357/oh-my-pi/releases/tag/v18.2.7",
+      "sourceApiUrl": "https://api.github.com/repos/can1357/oh-my-pi/releases/tags/v18.2.7",
+      "releaseTitle": "v18.2.7",
+      "releaseNotesSha256": "adb8e6dd1a3f545eaa6d68d00f9726fe0f3ec86e3b2cef6947dfe2631d4bfd45",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-21T10:05:23.468Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 1883,
+        "completionTokens": 563,
+        "totalTokens": 2446
+      },
+      "triage": {
+        "summary": "Release v18.2.7 introduces numerous breaking changes, new features, and bug fixes across several @oh-my-pi packages, including updated import paths, new model metadata, added tools and CLI commands, rendering improvements, and various performance and stability fixes.",
+        "reviewPriority": "review",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Updated import paths for Anthropic streaming and provider helpers; added new model-kind and grounded-search metadata; added OpenRouter image-model discovery; added find tool and CLI for semantic workspace searching…"
+          },
+          {
+            "category": "compatibility",
+            "description": "Breaking changes in provider imports, removal of bash tool env parameter, changes to image-generation overrides, removal of specialized keyword modules; updated system prompts and tool syntax."
+          },
+          {
+            "category": "performance",
+            "description": "Improved startup performance by validating provider-qualified model selectors; reduced launch time for npm and compiled builds; improved Mermaid rendering; added caching for llama.cpp discovery."
+          },
+          {
+            "category": "unknown",
+            "description": "Fixed OAuth permission errors, token usage handling, error handling for provider responses, system prompt validation, browser-relay page listing, Codex compatibility, concurrent eval judge limits, image/speech fallback…"
+          },
+          {
+            "category": "documentation",
+            "description": "Added SYSTEM_TEMPLATE.md, new CLI commands, and updated documentation for new features."
+          }
+        ],
+        "verificationQuestions": [
+          "Are the new import paths for Anthropic streaming and provider helpers fully backward compatible with existing code?",
+          "Does the removal of the bash tool env parameter affect any existing scripts that rely on that parameter?",
+          "What impact does the change to image-generation overrides have on current image generation workflows?",
+          "Are the new system prompt templates and Handlebars overrides compatible with all existing agents?",
+          "Does the new Mermaid-to-ASCII renderer maintain visual fidelity for all diagram types?"
+        ],
+        "limitations": []
+      }
+    },
+    {
+      "key": "pi:v0.86.1",
+      "harnessId": "pi",
+      "version": "v0.86.1",
+      "releasedAt": "2026-09-20",
+      "releaseUrl": "https://github.com/earendil-works/pi/releases/tag/v0.86.1",
+      "sourceApiUrl": "https://api.github.com/repos/earendil-works/pi/releases/tags/v0.86.1",
+      "releaseTitle": "v0.86.1",
+      "releaseNotesSha256": "889172bc930e8a5bea63596d5780d5cefd426bd71e0f17de95ebf6b90098ef83",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-21T10:05:23.468Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 782,
+        "completionTokens": 351,
+        "totalTokens": 1133
+      },
+      "triage": {
+        "summary": "Release v0.86.1 adds Meta Muse provider login, improves compile caching, and fixes several bugs including clipboard, diagnostics, and error handling.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": true,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Introduces Meta Muse provider login via /login meta and META_API_KEY support, enabling access to Muse Spark models."
+          },
+          {
+            "category": "performance",
+            "description": "Enables Node's persistent compile cache before loading the CLI runtime, reducing repeat launch time."
+          },
+          {
+            "category": "compatibility",
+            "description": "Fixes clipboard copy in containers and WSL by restoring OSC 52 fallback and adding Windows clipboard backend for WSL."
+          },
+          {
+            "category": "compatibility",
+            "description": "Fixes /bug description formatting and hints for cancellations/retryable failures."
+          },
+          {
+            "category": "compatibility",
+            "description": "Fixes error recognition for inherited z.ai Prompt too long and Cerebras model strict tool schema mismatches."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the Meta Muse provider login affect any existing authentication flows?",
+          "Is the persistent compile cache enabled by default or configurable?",
+          "Are the clipboard fixes limited to specific environments?",
+          "Do the error handling fixes alter any user-facing error messages?"
+        ],
+        "limitations": [
+          "The notes do not detail configuration options or potential side effects of the new provider or compile cache. No explicit mention of runtime control changes beyond caching."
+        ]
+      }
+    },
+    {
+      "key": "qwen-code:v0.24.2",
+      "harnessId": "qwen-code",
+      "version": "v0.24.2",
+      "releasedAt": "2026-09-20",
+      "releaseUrl": "https://github.com/QwenLM/qwen-code/releases/tag/v0.24.2",
+      "sourceApiUrl": "https://api.github.com/repos/QwenLM/qwen-code/releases/tags/v0.24.2",
+      "releaseTitle": "Release v0.24.2",
+      "releaseNotesSha256": "cddf16a53e05be4bf8f1d2ffa6ba996538280063a03a0048ea8e9c98fa424832",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-21T10:05:23.468Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 2642,
+        "completionTokens": 352,
+        "totalTokens": 2994
+      },
+      "triage": {
+        "summary": "Release v0.24.2 adds several new features, bug fixes, documentation updates, and internal changes. New capabilities include a Linux sandbox foundation, enhanced web‑shell interactions, concurrent Chrome sessions, and improved workflow retry logic. Bug fixes address CI caching, permission rule handling, workspace trust, and UI consistency.…",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "capability",
+            "description": "Introduces a bwrap‑based Linux sandbox foundation for structured process launching and worker confinement."
+          },
+          {
+            "category": "compatibility",
+            "description": "Adds support for concurrent Chrome profile sessions and updates Chrome extension ID handling."
+          },
+          {
+            "category": "performance",
+            "description": "Adds retry and rerun workflow runs from persisted history and improves token usage accuracy in context breakdown."
+          },
+          {
+            "category": "documentation",
+            "description": "Adds documentation on remote webview daemon URL restrictions and ACP child heap calibration."
+          },
+          {
+            "category": "unknown",
+            "description": "Adds review‑scratch suite to CI and adjusts Windows test fixtures."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the new Linux sandbox affect existing tool execution permissions or isolation?",
+          "Are there any changes to the runtime budget or resource limits for workflows?",
+          "Does the concurrent Chrome session support alter any session‑sharing behavior?"
+        ],
+        "limitations": [
+          "The notes do not specify changes to runtime control, state, or permissions beyond the sandbox foundation. No explicit material changes to orchestration or recovery are reported."
+        ]
+      }
+    },
+    {
+      "key": "reasonix:v1.38.11",
+      "harnessId": "reasonix",
+      "version": "v1.38.11",
+      "releasedAt": "2026-09-20",
+      "releaseUrl": "https://github.com/esengine/DeepSeek-Reasonix/releases/tag/v1.38.11",
+      "sourceApiUrl": "https://api.github.com/repos/esengine/DeepSeek-Reasonix/releases/tags/v1.38.11",
+      "releaseTitle": "Reasonix CLI v1.38.11",
+      "releaseNotesSha256": "4a7fdb06473007a34d8ee6f24fb3d15c922f7555f5159ea212a37363c90be021",
+      "releaseNotesTruncated": false,
+      "analyzedAt": "2026-09-21T10:05:23.468Z",
+      "status": "needs-editorial-review",
+      "model": "openai/gpt-oss-20b",
+      "usage": {
+        "promptTokens": 3264,
+        "completionTokens": 391,
+        "totalTokens": 3655
+      },
+      "triage": {
+        "summary": "Reasonix CLI v1.38.11 focuses on improving session reliability—on-demand migration, cross‑platform takeover, and export consistency—while fixing Windows credential and shell issues and adding robust image attachment handling. It also introduces persistent local drafts, model‑level thinking, and various UI/UX refinements.",
+        "reviewPriority": "routine",
+        "capabilityReviewRecommended": false,
+        "reportedChanges": [
+          {
+            "category": "compatibility",
+            "description": "On‑demand migration of historical sessions and cross‑platform session takeover improve interoperability between desktop and CLI."
+          },
+          {
+            "category": "compatibility",
+            "description": "Windows credential handling and shell execution changes affect Windows runtime behavior."
+          },
+          {
+            "category": "compatibility",
+            "description": "Image attachment persistence and export enhancements modify data handling and export format."
+          },
+          {
+            "category": "compatibility",
+            "description": "Persistent local drafts and model‑level thinking affect session creation and AI behavior."
+          },
+          {
+            "category": "compatibility",
+            "description": "Various UI/UX fixes (session titles, draft pages, etc.) adjust user experience."
+          }
+        ],
+        "verificationQuestions": [
+          "Does the on‑demand migration of historical sessions alter any API or data format that clients rely on?",
+          "Are the Windows credential and shell changes backward compatible with existing Windows deployments?",
+          "Do the image attachment changes affect the export file schema or size?",
+          "Is the persistent local draft feature compatible with existing session import/export workflows?",
+          "Do the UI/UX changes introduce any new required permissions or state changes?"
+        ],
+        "limitations": [
+          "The notes do not specify any new permissions, isolation boundaries, or runtime control changes beyond Windows credential handling. No explicit mention of new security or verification mechanisms."
+        ]
+      }
+    },
     {
       "key": "ggcode:v1.3.243",
       "harnessId": "ggcode",
